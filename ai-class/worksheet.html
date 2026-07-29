@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>학습지로 이동합니다 — 인공지능의 이해와 활용</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" crossorigin href="./assets/app-BXwmtZnC.css">
+</head>
+<body>
+
+<!-- =========================================================
+     이 페이지는 '옮겨졌다는 안내'만 한다.
+
+     2026-07-29 사용자 지시로 **학습지 화면이 index.html(첫 화면)로 옮겨졌다.**
+     예전 주소(worksheet.html?n=4)를 눌러도 끊기지 않도록 여기서 index.html 로 보내 준다.
+     ?n=4 같은 차시 번호도 그대로 넘긴다.
+
+     ⚠ 새로 링크를 만들 때는 index.html?n=4 를 쓸 것. 이 파일은 옛 주소용 통로다.
+     ========================================================= -->
+
+<header class="top">
+  <h1>🤖 인공지능의 이해와 활용</h1>
+  <span class="badge">주소가 바뀌었습니다</span>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h2>학습지가 첫 화면으로 옮겨졌습니다</h2>
+    <p class="lead">잠시 뒤 자동으로 이동합니다. 바뀌지 않으면 아래 단추를 눌러 주세요.</p>
+    <div class="btnrow">
+      <a class="btn primary big" id="go" href="index.html"
+         style="text-decoration:none;display:inline-flex;align-items:center">학습지로 이동 →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ?n=4 처럼 붙은 차시 번호를 그대로 이어서 넘긴다 */
+(function () {
+  var m = /[?&]n=(\d+)/.exec(location.search);
+  var to = "index.html" + (m ? "?n=" + m[1] : "");
+  document.getElementById("go").href = to;
+  location.replace(to);          // 뒤로 가기 기록을 남기지 않는다
+})();
+</script>
+</body>
+</html>

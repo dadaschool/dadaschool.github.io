@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인공지능의 이해와 활용 — 수업 자료</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+<style>
+  /* 이 페이지에서만 쓰는 스타일 */
+  .picker { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .picker .btn { min-height: 52px; font-size: 19px; padding: 10px 18px; }
+
+  .item { border-top: 1px dashed var(--line); padding: 18px 0 4px; }
+  .item:first-child { border-top: 0; padding-top: 4px; }
+  .item .q { font-size: 21px; font-weight: bold; margin: 0 0 10px; }
+  .item .q .num { color: var(--brand); margin-right: 8px; }
+  .item .sub { font-size: 18px; color: var(--sub); margin: -4px 0 10px; }
+
+  .fills { display: flex; gap: 12px; flex-wrap: wrap; }
+  .fills label { display: flex; align-items: center; gap: 8px; font-weight: bold; }
+  .fills input { width: 190px; }
+
+  .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .opt {
+    font: inherit; font-size: 19px; min-height: 54px; padding: 10px 20px;
+    border: 2px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer;
+    text-align: left;
+  }
+  .opt.on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: bold; }
+  .opt.wide { display: block; width: 100%; }
+
+  .clsrow {
+    display: grid; grid-template-columns: 1fr auto; gap: 12px;
+    align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line);
+  }
+  .clsrow .name { font-size: 21px; font-weight: bold; }
+  .clsrow .why { grid-column: 1 / -1; }
+
+  .checks { display: grid; gap: 10px; }
+  .checks label {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: #fff; border: 2px solid var(--line); border-radius: 10px; padding: 12px 14px;
+    cursor: pointer; font-size: 19px;
+  }
+  .checks input { width: 26px; height: 26px; flex: 0 0 auto; margin-top: 2px; }
+  .checks label.on { border-color: var(--brand); background: var(--band); }
+
+  .step-score { font-size: 19px; color: var(--sub); margin-left: auto; }
+
+  /* 새 창으로 열리는 링크 — 아이콘과 안내를 붙여 눌렀을 때 놀라지 않게 한다 */
+  a.newwin { font-weight: bold; }
+  a.newwin::after { content: " ↗"; }
+  .winnote { display: inline-block; font-size: 16px; color: var(--faint); }
+
+  /* 고른 차시에만 해당하는 안내 — 다른 차시 이야기는 보여 주지 않는다 */
+  .nowbox {
+    margin-top: 18px; border: 2px solid var(--brand); border-radius: 12px;
+    background: var(--band); padding: 18px 20px;
+  }
+  .nowbox .nowhead { font-size: 23px; font-weight: bold; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .nowbox .nowstd { font-size: 17px; color: var(--sub); margin: 8px 0 0; }
+  .nowbox .nowtools { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
+  .nowbox .nowtools a.tool {
+    font-size: 20px; font-weight: bold; text-decoration: none;
+    background: var(--brand); color: #fff; border: 2px solid var(--brand);
+    border-radius: 12px; padding: 13px 22px; min-height: 56px;
+    display: inline-flex; align-items: center;
+  }
+  .nowbox .nowtools a.tool:hover { background: var(--brand-dark); }
+  .nowbox .nowtools .here {
+    font-size: 19px; font-weight: bold; color: var(--brand);
+    background: #fff; border: 2px dashed var(--brand); border-radius: 12px; padding: 12px 20px;
+  }
+  .nowbox .nowext { font-size: 17px; color: var(--sub); margin: 12px 0 0; }
+  .nowbox .nowext b { color: var(--ink); }
+
+  /* 제출(PDF 저장) 뒤에 뜨는 안내 막대 — 왜 못 고치는지 같은 화면에서 보이게 한다 */
+  .lockbar {
+    position: sticky; top: 0; z-index: 40;
+    background: var(--ok-bg); border: 2px solid var(--ok); border-left-width: 8px;
+    border-radius: 10px; padding: 14px 18px; margin: 0 0 20px; font-size: 20px;
+  }
+  .lockbar b { color: var(--ok); }
+  .lockbar .sc { font-weight: bold; font-size: 23px; }
+
+  /* 잠긴 입력은 회색으로 */
+  .item.locked input, .item.locked textarea, .item.locked select { background: #f3f4f6; color: var(--sub); }
+  .item.locked .opt, .item.locked .checks label { opacity: .75; }
+  .save-bar {
+    position: sticky; bottom: 0; background: #fff; border-top: 2px solid var(--line);
+    padding: 14px 18px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+    box-shadow: 0 -3px 12px rgba(0,0,0,.06); z-index: 50;
+  }
+  .save-bar .note { font-size: 17px; color: var(--sub); flex: 1 1 260px; }
+  td input { border-width: 1px; padding: 8px 10px; font-size: 18px; }
+</style>
+  <link rel="stylesheet" crossorigin href="./assets/app-BXwmtZnC.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🤖 인공지능의 이해와 활용</h1>
+  <span class="badge">중학교 1학년 정보 · 1~10차시</span>
+  <span class="spacer"></span>
+  <a class="home" href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>몇 차시 수업인가요?</h2>
+    <p class="lead">차시를 고르면 그 시간에 쓸 <b>학습지와 실험실</b>이 함께 나옵니다.</p>
+    <div class="picker" id="picker"></div>
+    <div id="lessonNow" hidden></div>
+  </div>
+
+  <div class="lockbar" id="lockBar" hidden></div>
+
+  <div id="sheet"></div>
+
+  <!-- 개인정보 안내는 맨 아래에 둔다. 학생이 먼저 보는 것은 차시 고르기여야 한다. -->
+  <div class="card" id="aboutCard">
+    <h2>알아 두세요</h2>
+    <div class="hint">
+      <b>개인정보 안내</b> — 학번·이름은 <b>PDF를 만들 때 한 번만</b> 입력하며 <b>PDF 안에만</b> 들어갑니다.
+      태블릿·컴퓨터에는 저장되지 않습니다. 쓰던 답안은 <b>탭을 닫으면 사라집니다.</b>
+    </div>
+    <div class="warnbox">
+      <b>제출은 한 번뿐입니다.</b> PDF로 저장하면 답을 고칠 수 없고, 그때 정답과 해설이 열립니다.
+    </div>
+  </div>
+
+</div>
+
+<div class="save-bar" id="saveBar" hidden>
+  <span class="note" id="saveNote"></span>
+  <button type="button" class="btn" id="btnAnswers" hidden>정답·해설 모두 보기</button>
+  <button type="button" class="btn" id="btnRedown" hidden>PDF 다시 받기</button>
+  <button type="button" class="btn" id="btnClear">쓴 내용 지우기</button>
+  <button type="button" class="btn primary big" id="btnPdf">PDF로 저장하기</button>
+</div>
+
+<script src="js/pdf.js"></script>
+<script>
+"use strict";
+
+/* =========================================================
+   학습지 내용 (2~10차시)
+   ---------------------------------------------------------
+   과정안의 '학습지 구성 안내표'가 있는 차시(2·6·7·10)는 그 내용을 그대로 옮겼고,
+   구성표가 없는 차시(3·4·5·8·9)는 과정안의 학습활동 내용에서 뽑아 만들었다.
+
+   문항 종류(k)
+     fill    빈칸 채우기      (자동 채점)
+     ox      O / X            (자동 채점)
+     choice  여러 개 중 하나  (answer 가 null 이면 '의견'이라 채점하지 않는다)
+     classify 두 갈래로 분류 + 근거 (자동 채점)
+     text    서술
+     check   체크리스트       (채점하지 않음)
+     tbl     표 채우기        (채점하지 않음)
+     draw    손으로 그리기
+   ========================================================= */
+var SHEETS = {
+
+  2: {
+    label: "2차시 · 학습지 ③",
+    title: "지도학습과 나만의 AI 모델",
+    standard: "[9정04-02] 인공지능 학습에서 데이터의 중요성을 이해하고, 학습에 필요한 데이터를 수집하여 분류한다.",
+    ext: "엔트리 이미지 분류 모델(playentry.org)로 실습하면서 작성합니다.",
+    steps: [
+      { title: "1단계 · 지도학습 과정 이해하기", items: [
+        { k: "fill", q: "지도학습의 5가지 과정을 순서대로 채워 봅시다.",
+          sub: "① 무엇을 모으고 → ② 무엇을 붙이고 → ③ 무엇을 시키고 → ④ 무엇이 완성되고 → ⑤ 무엇을 하나요?",
+          blanks: [
+            { label: "①", answer: ["데이터 수집", "데이터수집", "수집"] },
+            { label: "②", answer: ["라벨링", "레이블링", "라벨 붙이기", "분류"] },
+            { label: "③", answer: ["학습", "모델 학습", "학습하기"] },
+            { label: "④", answer: ["모델 완성", "모델완성", "완성"] },
+            { label: "⑤", answer: ["테스트", "예측", "적용", "예측·적용"] }
+          ] },
+        { k: "fill", q: "지난 시간 복습입니다.", blanks: [
+            { label: "AI는 사람처럼 ①( )하고 ②( )하는 컴퓨터 시스템이다 — ①", answer: ["생각"] },
+            { label: "②", answer: ["판단"] },
+            { label: "AI가 틀린 정보를 자신 있게 말하는 현상 = ", answer: ["할루시네이션", "환각"] }
+          ] },
+        { k: "ox", q: "지도학습은 정답(라벨)이 붙은 데이터로 AI를 학습시키는 방법이다.", answer: true,
+          why: "지도학습은 '선생님이 있는 공부'입니다. 문제와 답을 함께 보여 주며 가르칩니다." },
+        { k: "ox", q: "학습에 쓰는 데이터가 적어도 AI 성능은 똑같다.", answer: false,
+          why: "데이터가 많고 다양하고 품질이 좋을수록 AI 성능이 올라갑니다. 오늘 실습으로 직접 확인합니다." }
+      ] },
+      { title: "2단계 · 내가 만들 AI 모델 설계하기", items: [
+        { k: "text", q: "모델 이름을 정해 봅시다.", rows: 1, ph: "예) 가위바위보 판별기" },
+        { k: "text", q: "분류할 클래스(종류) 2가지의 이름을 적어 봅시다.", rows: 1, ph: "예) 가위 / 주먹" },
+        { k: "text", q: "첫 번째 클래스에 해당하는 사물·장면을 3가지 이상 적어 봅시다.", rows: 2 },
+        { k: "text", q: "두 번째 클래스에 해당하는 사물·장면을 3가지 이상 적어 봅시다.", rows: 2 }
+      ] },
+      { title: "3단계 · AI 모델 구현 점검표", items: [
+        { k: "check", q: "엔트리에서 한 것을 표시해 봅시다.", options: [
+          "엔트리(playentry.org)에 접속했다",
+          "인공지능 → 모델 학습하기 → 이미지를 골랐다",
+          "클래스 이름 2개를 입력했다",
+          "클래스마다 사진을 10장 이상 모았다",
+          "'모델 학습하기'를 눌러 학습을 끝냈다",
+          "새 사진(또는 카메라)으로 테스트했다"
+        ] }
+      ] },
+      { title: "4단계 · 탐구 기록", items: [
+        { k: "tbl", q: "학습에 쓴 사진 수를 바꾸면서 정확도가 어떻게 변하는지 적어 봅시다.",
+          head: ["학습에 쓴 사진 수", "정확도(%)", "알게 된 점"],
+          fixed: ["클래스마다 10장", "클래스마다 20장", "배경이 다른 사진을 더 넣음"] },
+        { k: "text", q: "Q1. 사진을 10장에서 20장으로 늘렸을 때 정확도는 어떻게 변했나요? 왜 그럴까요?", rows: 3 },
+        { k: "text", q: "Q2. 배경이 다른 곳에서 찍은 사진을 추가하면 어떻게 변하나요?", rows: 3 },
+        { k: "text", q: "Q3. 일부러 틀린 라벨을 붙이면 모델은 어떻게 반응하나요?", rows: 3 }
+      ] },
+      { title: "5단계 · AI 일기 (성찰)", items: [
+        { k: "text", q: "오늘 만든 AI 모델을 소개하고, AI가 잘하는 것과 못하는 것을 적어 봅시다.", rows: 4 },
+        { k: "text", q: "'데이터가 편향되면 AI도 편향된다'는 말을 오늘 실습에서 느낀 점과 연결해 적어 봅시다.", rows: 4 }
+      ] }
+    ]
+  },
+
+  3: {
+    label: "3차시 학습지",
+    title: "편향된 데이터, 편향된 AI",
+    standard: "[9정04-05] 인공지능 학습에 필요한 데이터의 수집과 활용에서 발생하는 윤리적인 문제의 해결 방안을 구상한다.",
+    tool: { href: "bias.html", name: "데이터 편향 실험실" },
+    ext: "투닝(tooning.io)으로 '정보 선생님' 그림을 먼저 만들어 봅니다.",
+    steps: [
+      { title: "1단계 · 무슨 일이 일어났나 (관찰)", items: [
+        { k: "tbl", q: "'정보 선생님'을 그려 달라고 했을 때 나온 그림들을 세어 봅시다.",
+          head: ["구분", "몇 명?"],
+          fixed: ["서양인처럼 보이는 사람", "한국인처럼 보이는 사람", "여성", "남성"] },
+        { k: "text", q: "나온 그림들에서 눈에 띄는 공통점은 무엇인가요?", rows: 3 }
+      ] },
+      { title: "2단계 · 왜 그럴까 (원인 찾기)", items: [
+        { k: "text", q: "AI는 무엇을 보고 '선생님'의 모습을 배웠을까요?", rows: 2 },
+        { k: "text", q: "인터넷에서 찾을 수 있는 선생님 사진은 어떤 모습이 많을까요?", rows: 2 },
+        { k: "choice", q: "AI 편향이 생기는 가장 큰 원인은 무엇일까요?", answer: 1,
+          options: [
+            "AI가 일부러 차별을 하기 때문이다",
+            "학습한 데이터가 한쪽으로 치우쳐 있기 때문이다",
+            "컴퓨터 성능이 낮기 때문이다",
+            "프로그램에 오류가 있기 때문이다"
+          ],
+          why: "AI는 학습한 데이터를 그대로 따라갑니다. 데이터가 치우치면 결과도 치우칩니다." }
+      ] },
+      { title: "3단계 · 실제로 있었던 일", items: [
+        { k: "tbl", q: "실제 사건을 정리해 봅시다.",
+          head: ["사건", "무슨 일이 있었나", "데이터에 어떤 문제가 있었나"],
+          fixed: ["아마존 채용 AI (2018)", "구글 포토 얼굴 인식 (2015)", "COMPAS 재범 예측 AI"] }
+      ] },
+      { title: "4단계 · 어떻게 고칠까 (해결 방안)", items: [
+        { k: "check", q: "공정한 AI를 만들려면 무엇이 필요할까요? 우리 모둠이 고른 것을 표시해 봅시다.", options: [
+          "다양한 국적·성별·연령의 데이터를 모은다",
+          "종류별 데이터 개수의 균형을 맞춘다",
+          "라벨(설명)을 다양하게 붙인다",
+          "AI가 낸 결과를 사람이 한 번 더 검토한다",
+          "데이터를 어디서 모았는지 기록해 둔다"
+        ] },
+        { k: "text", q: "우리 모둠이 생각한 해결 방안을 3가지 이상 문장으로 적어 봅시다.", rows: 4 }
+      ] },
+      { title: "5단계 · 정리", items: [
+        { k: "fill", q: "핵심 한 줄을 채워 봅시다.", blanks: [
+          { label: "( )된 데이터 → ( )된 AI 결과 — 앞", answer: ["편향"] },
+          { label: "뒤", answer: ["편향"] }
+        ] },
+        { k: "text", q: "오늘 배운 것 중 가장 기억에 남는 것과, 앞으로 AI를 쓸 때 조심할 점을 적어 봅시다.", rows: 3 }
+      ] }
+    ]
+  },
+
+  4: {
+    label: "4차시 학습지",
+    title: "정답 없이 스스로 묶기 — K-Means",
+    standard: "[9정04-02] 인공지능 학습에서 데이터의 중요성을 이해하고, 학습에 필요한 데이터를 수집하여 분류한다.",
+    tool: { href: "kmeans.html", name: "K-Means 실험실" },
+    ext: "색 스티커 언플러그드 활동으로 '묶기' 감각을 잡은 뒤 실험실과 엔트리로 넘어갑니다.",
+    steps: [
+      { title: "1단계 · 우리 반 데이터 만들기", items: [
+        { k: "text", q: "팀을 나누는 데 쓸 능력(항목) 두 가지를 정하고, 왜 그것을 골랐는지 적어 봅시다.", rows: 2,
+          ph: "예) 그림 실력 / 말하기 실력 — 유튜브 채널에는 이 두 가지가 필요해서" },
+        { k: "tbl", q: "우리 반(또는 우리 모둠) 데이터를 적어 봅시다.",
+          sub: "이름은 쓰지 않고 번호만 씁니다.",
+          head: ["번호", "능력 A 점수", "능력 B 점수"], n: 8 }
+      ] },
+      { title: "2단계 · 산점도 관찰하기", items: [
+        { k: "text", q: "점들이 대략 몇 덩어리로 보이나요? 왜 그렇게 보이나요?", rows: 2 },
+        { k: "text", q: "다른 점들과 유난히 멀리 떨어진 번호가 있나요? 몇 번이고, 왜 그렇게 생각하나요?", rows: 2 }
+      ] },
+      { title: "3단계 · 결과 예측하기", items: [
+        { k: "draw", q: "K=3으로 나눈다면 어떻게 묶일까요? 산점도를 그리고 동그라미로 묶어 봅시다." }
+      ] },
+      { title: "4단계 · 실제 결과 기록하기", items: [
+        { k: "tbl", q: "K-Means가 나눈 팀의 인원을 적어 봅시다.",
+          head: ["팀", "인원"], fixed: ["1팀", "2팀", "3팀"] },
+        { k: "text", q: "인원이 고르게 나뉘지 않았다면 왜 그럴까요?", rows: 3 }
+      ] },
+      { title: "5단계 · 지도학습과 비교하기", items: [
+        { k: "tbl", q: "두 학습 방법을 비교해 봅시다.",
+          head: ["구분", "지도학습", "비지도학습"],
+          fixed: ["정답(라벨)이 필요한가?", "무엇을 하는가?", "우리 수업에서 한 활동"] },
+        { k: "ox", q: "K-Means는 정답(라벨)이 없어도 데이터를 묶을 수 있다.", answer: true,
+          why: "비지도학습이라 라벨이 필요 없습니다. 비슷한 것끼리 스스로 묶습니다." },
+        { k: "ox", q: "K는 데이터의 개수를 뜻한다.", answer: false,
+          why: "K는 '나눌 그룹(팀)의 개수'입니다. 3팀으로 나누고 싶으면 K=3입니다." },
+        { k: "text", q: "K-Means를 실생활에서 쓸 수 있는 예를 하나 찾아 적어 봅시다.", rows: 2,
+          ph: "예) 비슷한 노래끼리 플레이리스트 자동 만들기" }
+      ] }
+    ]
+  },
+
+  5: {
+    label: "5차시 학습지",
+    title: "데이터 전처리 — 이상치를 걷어내면",
+    standard: "[9정04-02] / [9정04-05]",
+    tool: { href: "kmeans.html", name: "K-Means 실험실 (이상치 스위치)" },
+    ext: "실험실의 <b>이상치 스위치</b>와 <b>포함/제외 비교</b>를 쓰면 전·후 변화가 바로 보입니다. 엔트리 테이블도 함께 씁니다.",
+    steps: [
+      { title: "1단계 · 예상해 보기", items: [
+        { k: "text", q: "이상치를 제거하면 팀이 더 잘 나뉠까요? 내 예상과 이유를 적어 봅시다.", rows: 2 }
+      ] },
+      { title: "2단계 · 이상치 처리하기", items: [
+        { k: "text", q: "삭제한 데이터는 몇 번인가요? 왜 이상치라고 판단했나요?", rows: 2 },
+        { k: "tbl", q: "이상치를 삭제하기 전과 후의 팀 인원을 비교해 봅시다.",
+          head: ["구분", "1팀 인원", "2팀 인원", "3팀 인원"],
+          fixed: ["이상치 삭제 전", "이상치 삭제 후"] },
+        { k: "text", q: "산점도의 모양은 어떻게 달라졌나요?", rows: 2 },
+        { k: "fill", q: "빈칸을 채워 봅시다.", blanks: [
+          { label: "평균에서 크게 벗어난 값을", answer: ["이상치"] },
+          { label: "데이터를 다듬어 정리하는 일을", answer: ["전처리", "데이터 전처리"] }
+        ] }
+      ] },
+      { title: "3단계 · 팀 자동 생성 프로그램 만들기", items: [
+        { k: "check", q: "엔트리에서 한 것을 표시해 봅시다.", options: [
+          "테이블에서 이상치 데이터를 삭제했다",
+          "K-Means 모델을 다시 학습시켰다",
+          "군집(팀) 번호를 화면에 출력했다",
+          "번호와 팀 번호를 함께 출력했다",
+          "완성된 팀 목록을 확인했다"
+        ] },
+        { k: "text", q: "완성된 팀 목록을 적어 봅시다. (번호 — 팀)", rows: 4,
+          ph: "예) 1번 — 2팀 / 2번 — 1팀 / 3번 — 3팀 ..." }
+      ] },
+      { title: "4단계 · 토론 — AI로 팀을 나누는 것은 공정한가?", items: [
+        { k: "choice", q: "내 생각은?", answer: null, options: [
+          "공정하다", "공정하지 않다", "조건에 따라 다르다"
+        ] },
+        { k: "text", q: "그렇게 생각한 이유를 근거를 들어 적어 봅시다.", rows: 3 }
+      ] },
+      { title: "5단계 · 정리", items: [
+        { k: "fill", q: "핵심 한 줄을 채워 봅시다.", blanks: [
+          { label: "좋은 데이터가 좋은", answer: ["AI", "인공지능", "ai"] }
+        ] },
+        { k: "text", q: "전처리를 하지 않고 AI를 만들면 어떤 문제가 생길까요?", rows: 3 }
+      ] }
+    ]
+  },
+
+  6: {
+    label: "6차시 · 학습지 ⑥",
+    title: "공공데이터로 예측하기 — 회귀분석",
+    standard: "[9정04-03] 다양한 데이터를 활용하여 인공지능 시스템을 구성하고 적용한다.",
+    ext: "선생님이 주신 <b>사전 병합 엑셀 파일</b>을 엔트리에 올려 '숫자 예측' 모델을 만듭니다.",
+    steps: [
+      { title: "1단계 · 산점도를 보고 관계 예측하기", items: [
+        { k: "text", q: "시간과 소비전력량은 어떤 관계인가요? 산점도를 보고 적어 봅시다.", rows: 2 },
+        { k: "text", q: "기온과 소비전력량은 어떤 관계인가요?", rows: 2 },
+        { k: "choice", q: "기온과 소비전력량이 U자 모양 관계인 이유는 무엇일까요?", answer: 2,
+          options: [
+            "기온을 잘못 측정했기 때문이다",
+            "전기 요금이 계절마다 다르기 때문이다",
+            "더우면 냉방기, 추우면 난방기를 켜기 때문이다",
+            "습도가 함께 변하기 때문이다"
+          ],
+          why: "기온이 아주 높거나 아주 낮을 때 전력을 많이 쓰고, 중간 기온에서는 적게 씁니다." },
+        { k: "text", q: "점심시간에 소비전력량이 떨어지는 이유는 무엇일까요?", rows: 2 }
+      ] },
+      { title: "2단계 · 예측값 비교표", items: [
+        { k: "tbl", q: "값을 넣어 예측해 보고, 실제값과 비교해 봅시다.",
+          head: ["입력 (시간, 기온)", "AI 예측값(kWh)", "실제값(kWh)", "차이"], n: 4 }
+      ] },
+      { title: "3단계 · 오차의 원인 추론하기", items: [
+        { k: "text", q: "AI의 예측값이 실제값과 다른 이유를 2가지 이상 적어 봅시다.", rows: 3 },
+        { k: "text", q: "예측을 더 정확하게 만들려면 어떤 데이터를 더 넣으면 좋을까요?", rows: 2 }
+      ] },
+      { title: "4단계 · 학습 유형 지도 완성하기", items: [
+        { k: "fill", q: "빈칸을 채워 봅시다.", blanks: [
+          { label: "이미지 분류(2차시) = 지도학습의", answer: ["분류"] },
+          { label: "전력 예측(오늘) = 지도학습의", answer: ["숫자 예측", "숫자예측", "회귀", "회귀분석", "예측"] }
+        ] },
+        { k: "tbl", q: "학습 유형 지도를 채워 봅시다.",
+          head: ["학습 유형", "정답(라벨)이 필요한가?", "우리 수업에서 한 활동"],
+          fixed: ["지도학습 — 분류", "지도학습 — 숫자 예측", "비지도학습 — 군집화"] },
+        { k: "text", q: "AI가 우리 생활을 어떻게 바꿀까요? 자유롭게 적어 봅시다.", rows: 4 }
+      ] }
+    ]
+  },
+
+  7: {
+    label: "7차시 · 학습지 ⑦",
+    title: "스마트 학교 프로그램 설계서",
+    standard: "[9정04-03] / [9정04-05]",
+    ext: "모둠별 <b>설계서</b>를 완성한 뒤 엔트리에서 6차시 회귀 모델을 불러옵니다(STEP 1).",
+    steps: [
+      { title: "1단계 · 프로그램 이름 짓기", items: [
+        { k: "text", q: "우리 모둠 프로그램의 이름은?", rows: 1, ph: "예) 우리 학교 절전 지킴이" },
+        { k: "text", q: "모둠원의 역할을 나눠 적어 봅시다. (설계 / 코딩 / 테스트)", rows: 2,
+          ph: "이름 대신 번호로 적어도 됩니다" }
+      ] },
+      { title: "2단계 · 화면 흐름도 그리기", items: [
+        { k: "draw", q: "시작 → 입력 → 결과 순서로 화면 흐름도를 그려 봅시다." }
+      ] },
+      { title: "3단계 · 조건 분기표 만들기", items: [
+        { k: "tbl", q: "예측한 전력량에 따라 어떤 안내 메시지를 보여 줄지 정해 봅시다.",
+          sub: "예) 3kWh 미만 → '절전 잘 하고 있어요' / 3~5kWh → '에어컨 온도를 확인하세요' / 5kWh 이상 → '긴급! 전원을 차단하세요'",
+          head: ["예측 전력량 구간", "보여 줄 안내 메시지"], n: 4 },
+        { k: "warn", q: "조건 구간이 서로 겹치지 않는지 확인하세요. 겹치면 프로그램이 엉뚱한 메시지를 냅니다." }
+      ] },
+      { title: "4단계 · 필요한 엔트리 블록 정리하기", items: [
+        { k: "check", q: "우리 프로그램에 필요한 블록을 골라 봅시다.", options: [
+          "묻고 기다리기 (시간·기온 입력받기)",
+          "변수 만들기 / 변수 값 정하기",
+          "학습한 모델 불러오기",
+          "숫자 예측하기",
+          "만약 ~이라면 (조건)",
+          "말하기 / 글쓰기",
+          "모양 바꾸기 · 배경 바꾸기 (선택 기능)"
+        ] },
+        { k: "text", q: "넣고 싶은 선택 기능 아이디어를 적어 봅시다.", rows: 2,
+          ph: "예) 절전 로봇 표정 변화, 계절별 배경, 달성률 그래프" }
+      ] },
+      { title: "5단계 · 제작 착수 점검 (STEP 1)", items: [
+        { k: "check", q: "엔트리에서 여기까지 되었는지 표시해 봅시다.", options: [
+          "새 작품에서 AI 블록의 '학습한 모델 불러오기'로 6차시 회귀 모델을 불러왔다",
+          "'숫자 예측하기' 블록으로 예측값을 확인했다 (예: 시간=14, 기온=30)"
+        ] },
+        { k: "text", q: "예측값이 얼마로 나왔나요? 이상하다면 무엇이 문제일까요?", rows: 2 }
+      ] }
+    ]
+  },
+
+  8: {
+    label: "8차시 학습지",
+    title: "프로그램 만들기 ① — 입력·예측·조건 분기",
+    standard: "[9정04-03] 다양한 데이터를 활용하여 인공지능 시스템을 구성하고 적용한다.",
+    ext: "엔트리에서 <b>입력 → AI 예측 → 조건 분기</b>를 완성하고 오류를 고칩니다(STEP 2·3).",
+    steps: [
+      { title: "1단계 · 오늘의 목표 점검", items: [
+        { k: "check", q: "STEP 2 — 입력 화면", options: [
+          "오브젝트와 배경을 골랐다",
+          "'묻고 기다리기'로 시간과 기온을 입력받았다",
+          "입력값을 변수에 저장했다",
+          "예측 결과를 '예측 결과 [ ]kWh' 로 말하게 했다"
+        ] },
+        { k: "check", q: "STEP 3 — 조건 분기", options: [
+          "'만약 ~이라면' 블록으로 조건을 3개 이상 만들었다",
+          "구간마다 다른 안내 메시지가 나온다",
+          "설계서의 조건 분기표와 같게 만들었다"
+        ] }
+      ] },
+      { title: "2단계 · 테스트 기록", items: [
+        { k: "tbl", q: "입력값 3세트로 끝까지 실행해 보고 결과를 적어 봅시다.",
+          head: ["입력값 (시간, 기온)", "예측 결과(kWh)", "나온 안내 메시지", "맞게 나왔나?"],
+          fixed: ["일반 (14시, 25도)", "한여름 (14시, 33도)", "겨울 (9시, 2도)"] }
+      ] },
+      { title: "3단계 · 오류와 해결 기록 (디버깅)", items: [
+        { k: "check", q: "자주 나오는 오류 중 우리에게 생긴 것을 표시해 봅시다.", options: [
+          "변수가 예측 블록에 연결되지 않았다",
+          "조건의 숫자 범위가 서로 겹쳤다",
+          "숫자가 아닌 값을 입력했더니 멈췄다",
+          "모델을 불러오지 않아 예측이 안 됐다"
+        ] },
+        { k: "tbl", q: "우리 모둠이 만난 오류를 적어 봅시다.",
+          head: ["생긴 오류", "원인", "해결 방법"], n: 3 }
+      ] },
+      { title: "4단계 · 협력 기록", items: [
+        { k: "text", q: "오늘 내가 맡아서 한 일을 적어 봅시다.", rows: 2 },
+        { k: "text", q: "모둠원과 함께 해결한 문제가 있다면 적어 봅시다.", rows: 2 }
+      ] }
+    ]
+  },
+
+  9: {
+    label: "9차시 학습지",
+    title: "프로그램 만들기 ② — 완성과 자체 점검",
+    standard: "[9정04-03] 다양한 데이터를 활용하여 인공지능 시스템을 구성하고 적용한다.",
+    ext: "엔트리에서 선택 기능·디자인을 보완하고 <b>입력값 3세트</b>로 자체 테스트합니다.",
+    steps: [
+      { title: "1단계 · 필수 기능 자가 점검", items: [
+        { k: "check", q: "핵심 기능이 작동하는지 확인해 봅시다.", options: [
+          "사용자에게 시간·기온을 입력받는다",
+          "AI 모델이 전력량을 예측한다",
+          "예측값에 따라 3가지 이상 다른 메시지가 나온다",
+          "작품을 저장했다"
+        ] },
+        { k: "hint", q: "핵심 기능이 작동하면 성공입니다. 여기까지 되었다면 다음 단계로 넘어가세요." }
+      ] },
+      { title: "2단계 · 선택 기능 추가", items: [
+        { k: "check", q: "추가한 선택 기능을 표시해 봅시다.", options: [
+          "캐릭터 애니메이션 (절전 로봇 표정 변화)",
+          "계절별 배경 변화 (기온 25도↑ 여름 / 10도↓ 겨울)",
+          "전력 절감 목표 대비 달성률 그래프",
+          "입력 예외처리 (숫자가 아니면 다시 입력 안내)",
+          "습도 변수 추가 반영 (다중 입력)"
+        ] },
+        { k: "text", q: "그 기능을 어떤 블록으로 만들었나요?", rows: 3 }
+      ] },
+      { title: "3단계 · 자체 테스트", items: [
+        { k: "tbl", q: "입력값 3세트로 다시 테스트해 봅시다.",
+          head: ["입력값", "결과", "잘 되었나?"],
+          fixed: ["일반 (14시, 25도)", "한여름 (14시, 33도)", "겨울 (9시, 2도)"] },
+        { k: "text", q: "발견한 오류와 어떻게 고쳤는지 적어 봅시다.", rows: 3 }
+      ] },
+      { title: "4단계 · 전시 준비", items: [
+        { k: "text", q: "우리 프로그램을 한 줄로 소개해 봅시다.", rows: 2,
+          ph: "예) 시간과 기온을 넣으면 전력 사용량을 예측해 절전 방법을 알려 주는 프로그램" },
+        { k: "text", q: "30초 시연 시나리오를 정해 봅시다. (무엇을 보여 줄지 순서대로)", rows: 3 }
+      ] }
+    ]
+  },
+
+  10: {
+    label: "10차시 · 학습지 ⑩-A / ⑩-B",
+    title: "작품 공유와 단원 회고",
+    standard: "[9정04-03] / [9정04-05]",
+    ext: "갤러리 워크로 다른 모둠 작품을 직접 실행해 보고 피드백을 적습니다(8분 2라운드).",
+    steps: [
+      { title: "⑩-A · 동료 피드백 (갤러리 워크)", items: [
+        { k: "tbl", q: "다른 모둠 작품을 직접 실행해 보고 적어 봅시다. (3개 이상)",
+          sub: "점수를 매기지 않습니다. 잘된 점과 인상 깊은 기능을 구체적으로 적어 주세요.",
+          head: ["체험한 모둠", "잘된 점", "인상 깊은 기능", "한 줄 응원"], n: 4 }
+      ] },
+      { title: "⑩-B · 단원 회고 (1~10차시)", items: [
+        { k: "text", q: "[1] 가장 기억에 남는 활동은 무엇이고, 왜 그런가요?", rows: 3 },
+        { k: "text", q: "[2] AI에 대해 수업 전과 후, 생각이 어떻게 달라졌나요?", rows: 3 },
+        { k: "text", q: "[3] '데이터'가 왜 중요한지 한 문장으로 적어 봅시다.", rows: 2 },
+        { k: "text", q: "[4] AI로 우리 학교나 지역사회를 위해 해보고 싶은 일이 있나요?", rows: 3 },
+        { k: "text", q: "[5] 아쉬웠던 점과 더 배우고 싶은 점을 적어 봅시다.", rows: 3 }
+      ] }
+    ]
+  }
+};
+
+/* =========================================================
+   화면 만들기
+   ========================================================= */
+/* 1차시는 학습지 ①②를 'AI 판별 트레이너' 안에서 쓴다.
+   그래도 차시 고르기 줄에는 넣어 준다 — 수업에서 1차시부터 차례로 찾기 때문이다. */
+var LESSON1 = {
+  label: "1차시 · 학습지 ①②",
+  title: "AI 개념과 윤리 — AI도 틀릴 수 있다",
+  standard: "[9정04-01] 인공지능의 개념과 특성을 설명하고 인공지능 소프트웨어를 구별한다.",
+  tool: { href: "ai-or-not.html", name: "AI 판별 트레이너" },
+  ext: "AutoDraw · AI 고양이 생성기 · 퀴즈앤도 함께 씁니다.",
+  inTool: true                     // 학습지를 도구 안에서 쓴다는 뜻
+};
+
+var LESSONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var current = null;          // 지금 고른 차시
+var ctrls = [];              // 문항 조작기 목록
+var padList = [];            // 손글씨 판 목록
+
+/* 제출(PDF 저장) 상태
+   - submitted 가 true 이면 답을 고칠 수 없고, 그때부터 정답을 볼 수 있다.
+   - lastPdf 를 들고 있어 'PDF 다시 받기' 가 가능하다(내려받기가 막힌 경우 대비).
+   ⚠ 이 상태는 브라우저에 저장하지 않는다. 새로고침하면 처음 상태로 돌아간다. */
+var submitted = false;
+var lastPdf = null;
+var lastPdfName = "";
+var checkBtns = [];         // 단계별 '정답 확인' 단추들
+
+var picker = document.getElementById("picker");
+var sheetEl = document.getElementById("sheet");
+var saveBar = document.getElementById("saveBar");
+var saveNote = document.getElementById("saveNote");
+
+LESSONS.forEach(function (n) {
+  var b = document.createElement("button");
+  b.type = "button";
+  b.className = "btn";
+  b.textContent = n + "차시";
+  b.addEventListener("click", function () { openSheet(n); });
+  picker.appendChild(b);
+});
+
+/* 답안 임시 보관 — 새로고침으로 날아가지 않게 한다.
+   ⚠ 이름·학번은 여기에 넣지 않는다. 탭을 닫으면 sessionStorage 는 저절로 사라진다. */
+function storeKey(n) { return "aiclass_ws_" + n; }
+
+function loadStore(n) {
+  try { return JSON.parse(sessionStorage.getItem(storeKey(n)) || "{}"); }
+  catch (e) { return {}; }
+}
+function saveStore() {
+  if (current == null) return;
+  var data = {};
+  ctrls.forEach(function (c) { data[c.id] = c.get(); });
+  try { sessionStorage.setItem(storeKey(current), JSON.stringify(data)); }
+  catch (e) { /* 저장이 막힌 환경이면 조용히 넘어간다 */ }
+}
+var saveTimer = null;
+function saveLater() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveStore, 400);
+}
+
+/* 차시 하나의 정보 (1차시는 학습지가 도구 안에 있어 따로 둔다) */
+function metaOf(n) { return (n === 1) ? LESSON1 : SHEETS[n]; }
+
+/* 고른 차시의 안내만 보여 준다 — 다른 차시 이야기는 띄우지 않는다 */
+function renderLessonNow(n) {
+  var m = metaOf(n);
+  var box = document.getElementById("lessonNow");
+
+  var tools = "";
+  if (m.tool) {
+    /* 실험실(또는 도구)은 새 창으로 연다 — 학습지와 나란히 놓고 쓸 수 있게.
+       target 에 창 이름을 주었으므로 여러 번 눌러도 창이 하나만 생긴다. */
+    tools += '<a class="tool" href="' + m.tool.href + '" target="ai-class-lab" data-win>' +
+             m.tool.name + ' 열기 ↗</a>';
+  }
+  tools += m.inTool
+    ? '<span class="here">학습지 ①②도 그 안에서 씁니다</span>'
+    : '<span class="here">📝 학습지는 아래에서 씁니다</span>';
+
+  box.hidden = false;
+  box.innerHTML =
+    '<div class="nowbox">' +
+      '<div class="nowhead"><span class="step">' + m.label + '</span>' + m.title + '</div>' +
+      '<p class="nowstd">' + m.standard + '</p>' +
+      '<div class="nowtools">' + tools + '</div>' +
+      (m.ext ? '<p class="nowext">함께 쓰는 것 : ' + m.ext + '</p>' : '') +
+      (m.tool ? '<p class="nowext"><b>새 창</b>으로 열립니다. 두 창을 나란히 놓고 쓰세요.</p>' : '') +
+    '</div>';
+}
+
+function openSheet(n) {
+  current = n;
+  ctrls = [];
+  padList = [];
+  checkBtns = [];
+  submitted = false;
+  lastPdf = null;
+
+  Array.prototype.forEach.call(picker.children, function (b, i) {
+    b.classList.toggle("on", LESSONS[i] === n);
+  });
+
+  renderLessonNow(n);
+  sheetEl.innerHTML = "";
+
+  /* 1차시는 이 페이지에 학습지가 없다 — 트레이너로 보내 준다 */
+  if (n === 1) {
+    var g = document.createElement("div");
+    g.className = "card";
+    g.innerHTML =
+      '<h2><span class="step">1차시</span>학습지 ①②는 트레이너에서 씁니다</h2>' +
+      '<p class="lead">1차시는 활동과 학습지가 붙어 있습니다. ' +
+      '<b>AI 판별 트레이너</b>에서 문제를 풀면 그 내용이 그대로 학습지 ①②가 되고, ' +
+      '거기에서 바로 <b>PDF로 저장</b>해 냅니다.</p>' +
+      '<div class="btnrow">' +
+        '<a class="btn primary big" href="ai-or-not.html" target="ai-class-lab" data-win ' +
+        'style="text-decoration:none;display:inline-flex;align-items:center">' +
+        'AI 판별 트레이너 열기 ↗</a>' +
+      '</div>';
+    sheetEl.appendChild(g);
+    saveBar.hidden = true;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  var sheet = SHEETS[n];
+  var saved = loadStore(n);
+
+  /* 단계별 카드 */
+  sheet.steps.forEach(function (step, si) {
+    var card = document.createElement("div");
+    card.className = "card";
+    var h = document.createElement("h2");
+    h.textContent = step.title;
+    card.appendChild(h);
+
+    var scored = 0;
+    step.items.forEach(function (item, ii) {
+      var id = "s" + n + "_" + si + "_" + ii;
+      var box = document.createElement("div");
+      box.className = "item";
+      card.appendChild(box);
+      var c = renderItem(item, id, box, ii + 1);
+      if (c) {
+        c.id = id;
+        c.stepIdx = si;                       // 어느 단계의 문항인지 (단계별 채점에 쓴다)
+        ctrls.push(c);
+        if (saved[id] !== undefined) c.set(saved[id]);
+        if (c.grade) scored++;
+      }
+    });
+
+    /* 자동 채점 문항이 있는 단계에는 확인 단추를 붙인다.
+       ⚠ 정답은 PDF 로 제출한 뒤에만 볼 수 있다 (미리 보고 베끼지 못하게).
+          단추를 disabled 로 두지 않고, 눌렀을 때 '왜 안 되는지' 알려 준다. */
+    if (scored > 0) {
+      var row = document.createElement("div");
+      row.className = "btnrow";
+      var chk = document.createElement("button");
+      chk.type = "button";
+      chk.className = "btn primary";
+      var out = document.createElement("span");
+      out.className = "step-score";
+      chk.addEventListener("click", function () {
+        if (!submitted) {
+          PdfKit.toast("정답은 PDF로 저장(제출)한 뒤에 볼 수 있습니다.", "warn");
+          return;
+        }
+        out.textContent = "맞힌 문항 " + gradeStep(si) + " / " + countScored(si);
+      });
+      row.appendChild(chk);
+      row.appendChild(out);
+      card.appendChild(row);
+      checkBtns.push({ btn: chk, out: out, si: si });
+    }
+
+    sheetEl.appendChild(card);
+  });
+
+  saveBar.hidden = false;
+  applyLockState();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ---------------------------------------------------------
+   제출 전 / 제출 후 화면을 한 곳에서 바꾼다
+   (binary-converter 에서 얻은 교훈 : 잠글 때는 그 이유를 같은 화면에 보여 준다)
+   --------------------------------------------------------- */
+function applyLockState() {
+  var sheet = SHEETS[current];
+
+  /* 입력 잠금 */
+  document.querySelectorAll("#sheet .item").forEach(function (box) {
+    box.classList.toggle("locked", submitted);
+    box.querySelectorAll("input, textarea, select, button.opt").forEach(function (el) {
+      el.disabled = submitted;
+    });
+  });
+  /* 손글씨 판 도구 단추도 잠근다 (그리기 자체는 pad 의 enabled 로 막는다) */
+  document.querySelectorAll("#sheet .pad-tools button").forEach(function (el) {
+    el.disabled = submitted;
+  });
+
+  /* 단계별 정답 확인 단추 */
+  checkBtns.forEach(function (c) {
+    c.btn.textContent = submitted ? "이 단계 정답 확인" : "정답 확인 (PDF 저장 후 열림) 🔒";
+    c.btn.classList.toggle("ghost", !submitted);
+    c.btn.setAttribute("aria-disabled", submitted ? "false" : "true");
+  });
+
+  /* 아래 단추 줄
+     제출한 뒤에는 '쓴 내용 지우기'도 감춘다 — 제출은 한 번뿐이고 다시 풀 수 없다. */
+  document.getElementById("btnAnswers").hidden = !submitted;
+  document.getElementById("btnRedown").hidden = !submitted;
+  document.getElementById("btnClear").hidden = submitted;
+  document.getElementById("btnPdf").hidden = submitted;
+
+  /* 안내 막대 */
+  var bar = document.getElementById("lockBar");
+  if (submitted) {
+    var ok = 0, all = 0;
+    ctrls.forEach(function (c) { if (c.grade) { all++; } });
+    ok = gradeAll();
+    bar.hidden = false;
+    bar.innerHTML = "<b>제출 완료</b> — PDF를 저장했습니다. <b>제출은 한 번뿐이며 답을 고칠 수 없습니다.</b><br>" +
+      (all > 0
+        ? "<span class='sc'>자동 채점 " + ok + " / " + all + "</span> · 아래 <b>[정답·해설 모두 보기]</b>로 확인해 보세요."
+        : "이 학습지에는 자동 채점 문항이 없습니다. 선생님이 읽고 확인해 주십니다.");
+    saveNote.textContent = sheet.label + " — 제출이 끝났습니다. 정답과 해설을 확인해 보세요.";
+  } else {
+    bar.hidden = true;
+    saveNote.innerHTML = sheet.label +
+      " — 쓴 내용은 이 탭을 닫으면 사라집니다. 다 쓰면 PDF로 저장해 주세요." +
+      " <b>제출은 한 번뿐입니다</b>(저장하면 고칠 수 없고 정답이 열립니다).";
+  }
+}
+
+/* 단계 하나를 채점한다 */
+function gradeStep(si) {
+  var ok = 0;
+  ctrls.forEach(function (c) {
+    if (!c.grade || c.stepIdx !== si) return;
+    if (c.grade()) ok++;
+  });
+  return ok;
+}
+function countScored(si) {
+  var n = 0;
+  ctrls.forEach(function (c) { if (c.grade && c.stepIdx === si) n++; });
+  return n;
+}
+/* 전체를 채점한다 (맞힌 개수를 돌려준다) */
+function gradeAll() {
+  var ok = 0;
+  ctrls.forEach(function (c) { if (c.grade && c.grade()) ok++; });
+  return ok;
+}
+
+/* ---------------------------------------------------------
+   문항 하나를 화면에 만든다.
+   돌려주는 객체 : { get(), set(v), grade?(), forPdf(doc) }
+   --------------------------------------------------------- */
+function renderItem(item, id, box, num) {
+  var qEl;
+  if (item.k !== "warn" && item.k !== "hint") {
+    qEl = document.createElement("p");
+    qEl.className = "q";
+    qEl.innerHTML = '<span class="num">' + num + '.</span>' + esc(item.q);
+    box.appendChild(qEl);
+    if (item.sub) {
+      var s = document.createElement("p");
+      s.className = "sub";
+      s.textContent = item.sub;
+      box.appendChild(s);
+    }
+  }
+
+  /* 안내 상자 : 답할 것이 없다 */
+  if (item.k === "warn" || item.k === "hint") {
+    var w = document.createElement("div");
+    w.className = item.k === "warn" ? "warnbox" : "hint";
+    w.textContent = item.q;
+    box.appendChild(w);
+    return null;
+  }
+
+  /* ---- 서술 ---- */
+  if (item.k === "text") {
+    var ta = document.createElement("textarea");
+    ta.rows = item.rows || 3;
+    ta.style.minHeight = ((item.rows || 3) * 34 + 24) + "px";
+    if (item.ph) ta.placeholder = item.ph;
+    ta.id = id;
+    ta.addEventListener("input", saveLater);
+    box.appendChild(ta);
+    return {
+      get: function () { return ta.value; },
+      set: function (v) { ta.value = v || ""; },
+      forPdf: function (doc) { doc.h2(item.q); doc.box("", ta.value, { minLines: 2 }); }
+    };
+  }
+
+  /* ---- 빈칸 ---- */
+  if (item.k === "fill") {
+    var wrapF = document.createElement("div");
+    wrapF.className = "fills";
+    var inputs = [];
+    item.blanks.forEach(function (b, i) {
+      var lab = document.createElement("label");
+      lab.appendChild(document.createTextNode(b.label + " "));
+      var inp = document.createElement("input");
+      inp.type = "text";
+      inp.addEventListener("input", saveLater);
+      lab.appendChild(inp);
+      wrapF.appendChild(lab);
+      inputs.push(inp);
+    });
+    box.appendChild(wrapF);
+    var res = document.createElement("div");
+    box.appendChild(res);
+
+    function norm(s) { return String(s || "").replace(/\s|·/g, "").toLowerCase(); }
+    function judge() {
+      return item.blanks.map(function (b, i) {
+        return b.answer.some(function (a) { return norm(a) === norm(inputs[i].value); });
+      });
+    }
+    return {
+      get: function () { return inputs.map(function (i) { return i.value; }); },
+      set: function (v) { (v || []).forEach(function (x, i) { if (inputs[i]) inputs[i].value = x; }); },
+      grade: function () {
+        var r = judge();
+        var allOk = r.every(Boolean);
+        res.className = "res " + (allOk ? "ok" : "no");
+        res.innerHTML = r.map(function (ok, i) {
+          return '<span class="' + (ok ? "mark-ok" : "mark-no") + '">' + (ok ? "○" : "×") + "</span> " +
+                 esc(item.blanks[i].label) + (ok ? "" : " → 정답: " + esc(item.blanks[i].answer[0]));
+        }).join("<br>");
+        return allOk;
+      },
+      forPdf: function (doc) {
+        doc.h2(item.q);
+        var r = judge();
+        item.blanks.forEach(function (b, i) {
+          doc.mark(b.label + " : " + (inputs[i].value || "(빈칸)"), r[i],
+                   r[i] ? "" : "정답 " + b.answer[0]);
+        });
+        doc.gap(8);
+      }
+    };
+  }
+
+  /* ---- O / X ---- */
+  if (item.k === "ox") {
+    var opts = document.createElement("div");
+    opts.className = "opts";
+    var picked = null, btns = [];
+    ["O (맞다)", "X (아니다)"].forEach(function (t, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt";
+      b.textContent = t;
+      b.addEventListener("click", function () {
+        picked = (i === 0);
+        btns.forEach(function (x) { x.classList.remove("on"); });
+        b.classList.add("on");
+        saveLater();
+      });
+      btns.push(b);
+      opts.appendChild(b);
+    });
+    box.appendChild(opts);
+    var resO = document.createElement("div");
+    box.appendChild(resO);
+    return {
+      get: function () { return picked; },
+      set: function (v) {
+        if (v === null || v === undefined) return;
+        picked = v;
+        btns[v ? 0 : 1].classList.add("on");
+      },
+      grade: function () {
+        var ok = picked === item.answer;
+        resO.className = "res " + (ok ? "ok" : "no");
+        resO.innerHTML = (ok ? '<span class="mark-ok">○ 맞았어요!</span> ' :
+          '<span class="mark-no">× 다시 생각해 봐요.</span> 정답은 ' + (item.answer ? "O" : "X") + "입니다. ") +
+          esc(item.why || "");
+        return ok;
+      },
+      forPdf: function (doc) {
+        var ok = picked === item.answer;
+        doc.mark(item.q + "  → 내 답: " + (picked === null ? "(안 고름)" : (picked ? "O" : "X")),
+                 picked === null ? null : ok,
+                 "정답 " + (item.answer ? "O" : "X"));
+      }
+    };
+  }
+
+  /* ---- 여러 개 중 하나 ---- */
+  if (item.k === "choice") {
+    var oc = document.createElement("div");
+    oc.className = "opts";
+    oc.style.flexDirection = "column";
+    var pick = null, cbtns = [];
+    item.options.forEach(function (t, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt wide";
+      b.textContent = (i + 1) + ") " + t;
+      b.addEventListener("click", function () {
+        pick = i;
+        cbtns.forEach(function (x) { x.classList.remove("on"); });
+        b.classList.add("on");
+        saveLater();
+      });
+      cbtns.push(b);
+      oc.appendChild(b);
+    });
+    box.appendChild(oc);
+    var resC = document.createElement("div");
+    box.appendChild(resC);
+
+    var o = {
+      get: function () { return pick; },
+      set: function (v) {
+        if (v === null || v === undefined) return;
+        pick = v;
+        if (cbtns[v]) cbtns[v].classList.add("on");
+      },
+      forPdf: function (doc) {
+        var txt = pick === null ? "(안 고름)" : item.options[pick];
+        if (item.answer === null || item.answer === undefined) {
+          doc.h2(item.q);
+          doc.box("내가 고른 것", txt);
+        } else {
+          doc.mark(item.q + "  → " + txt, pick === null ? null : (pick === item.answer),
+                   "정답 " + item.options[item.answer]);
+        }
+      }
+    };
+    /* answer 가 없는 문항(의견)은 채점하지 않는다 */
+    if (item.answer !== null && item.answer !== undefined) {
+      o.grade = function () {
+        var ok = pick === item.answer;
+        resC.className = "res " + (ok ? "ok" : "no");
+        resC.innerHTML = (ok ? '<span class="mark-ok">○ 맞았어요!</span> ' :
+          '<span class="mark-no">× 정답은 ' + (item.answer + 1) + "번입니다.</span> ") + esc(item.why || "");
+        return ok;
+      };
+    }
+    return o;
+  }
+
+  /* ---- 체크리스트 ---- */
+  if (item.k === "check") {
+    var cs = document.createElement("div");
+    cs.className = "checks";
+    var boxes = [];
+    item.options.forEach(function (t) {
+      var lab = document.createElement("label");
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.addEventListener("change", function () {
+        lab.classList.toggle("on", cb.checked);
+        saveLater();
+      });
+      lab.appendChild(cb);
+      lab.appendChild(document.createTextNode(t));
+      cs.appendChild(lab);
+      boxes.push(cb);
+    });
+    box.appendChild(cs);
+    return {
+      get: function () { return boxes.map(function (b) { return b.checked; }); },
+      set: function (v) {
+        (v || []).forEach(function (x, i) {
+          if (!boxes[i]) return;
+          boxes[i].checked = !!x;
+          boxes[i].parentNode.classList.toggle("on", !!x);
+        });
+      },
+      forPdf: function (doc) {
+        doc.h2(item.q);
+        doc.bullets(item.options.map(function (t, i) {
+          return (boxes[i].checked ? "[V] " : "[  ] ") + t;
+        }));
+      }
+    };
+  }
+
+  /* ---- 표 채우기 ---- */
+  if (item.k === "tbl") {
+    var scroll = document.createElement("div");
+    scroll.className = "tablescroll";
+    var tb = document.createElement("table");
+    tb.className = "grid";
+    var thead = document.createElement("tr");
+    item.head.forEach(function (h) {
+      var th = document.createElement("th");
+      th.textContent = h;
+      thead.appendChild(th);
+    });
+    tb.appendChild(thead);
+
+    var cells = [];               // [행][열] — 고정 칸은 null
+    var rowCount = item.fixed ? item.fixed.length : (item.n || 3);
+    for (var r = 0; r < rowCount; r++) {
+      var tr = document.createElement("tr");
+      var rowCells = [];
+      for (var c2 = 0; c2 < item.head.length; c2++) {
+        var td = document.createElement("td");
+        if (item.fixed && c2 === 0) {
+          td.textContent = item.fixed[r];
+          td.className = "left";
+          rowCells.push(null);
+        } else {
+          var inp2 = document.createElement("input");
+          inp2.type = "text";
+          inp2.addEventListener("input", saveLater);
+          td.appendChild(inp2);
+          rowCells.push(inp2);
+        }
+        tr.appendChild(td);
+      }
+      cells.push(rowCells);
+      tb.appendChild(tr);
+    }
+    scroll.appendChild(tb);
+    box.appendChild(scroll);
+
+    return {
+      get: function () {
+        return cells.map(function (row) {
+          return row.map(function (i) { return i ? i.value : null; });
+        });
+      },
+      set: function (v) {
+        (v || []).forEach(function (row, r) {
+          (row || []).forEach(function (val, c) {
+            if (cells[r] && cells[r][c]) cells[r][c].value = val || "";
+          });
+        });
+      },
+      forPdf: function (doc) {
+        doc.h2(item.q);
+        if (item.sub) doc.p(item.sub, { size: 20 });
+        var rows = [item.head.slice()];
+        cells.forEach(function (row, r) {
+          rows.push(row.map(function (inp, c) {
+            if (item.fixed && c === 0) return item.fixed[r];
+            return (inp && inp.value) ? inp.value : "";
+          }));
+        });
+        var widths = item.head.map(function (h, i) { return (item.fixed && i === 0) ? 1.4 : 1; });
+        doc.table(rows, widths);
+      }
+    };
+  }
+
+  /* ---- 손으로 그리기 ---- */
+  if (item.k === "draw") {
+    var padWrap = document.createElement("div");
+    box.appendChild(padWrap);
+    var pad = PdfKit.createPad(padWrap, {
+      height: 520,
+      label: item.q,
+      enabled: function () { return !submitted; }   // 제출 뒤에는 그릴 수 없다
+    });
+    padList.push(pad);
+    return {
+      get: function () { return null; },     // 그림은 임시 보관하지 않는다(용량이 크다)
+      set: function () {},
+      forPdf: function (doc) {
+        doc.h2(item.q);
+        doc.img(pad.canvas, { maxH: 620 });
+      }
+    };
+  }
+
+  return null;
+}
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/* =========================================================
+   PDF 저장
+   ========================================================= */
+document.getElementById("btnPdf").addEventListener("click", function () {
+  if (current == null || submitted) return;
+  /* 제출은 한 번뿐이라 되돌릴 수 없다 — 실수로 눌러 잠기지 않게 한 번 확인한다 */
+  if (!confirm("PDF로 저장하면 제출이 끝납니다.\n답을 고칠 수 없고 정답이 열립니다.\n\n다 썼는지 확인했나요?")) return;
+  PdfKit.askStudentInfo({}, function (info) {
+    try {
+      makePdf(info);
+    } catch (e) {
+      PdfKit.toast("PDF를 만들지 못했습니다: " + e.message, "no");
+    }
+  });
+});
+
+/* 제출 뒤 : 정답·해설 모두 보기 */
+document.getElementById("btnAnswers").addEventListener("click", function () {
+  if (!submitted) return;
+  var ok = gradeAll();
+  var all = ctrls.filter(function (c) { return !!c.grade; }).length;
+  checkBtns.forEach(function (c) {
+    c.out.textContent = "맞힌 문항 " + gradeStep(c.si) + " / " + countScored(c.si);
+  });
+  PdfKit.toast(all ? ("자동 채점 " + ok + " / " + all + " — 각 문항에 정답과 해설을 표시했습니다.")
+                   : "이 학습지에는 자동 채점 문항이 없습니다.", "ok");
+});
+
+/* 제출 뒤 : PDF 다시 받기 (내려받기가 막혔거나 파일을 잃어버린 경우) */
+document.getElementById("btnRedown").addEventListener("click", function () {
+  if (!lastPdf) return;
+  PdfKit.downloadBlob(lastPdf, lastPdfName);
+  PdfKit.toast("같은 PDF를 다시 저장했습니다 — " + lastPdfName, "ok");
+});
+
+function makePdf(info) {
+  var sheet = SHEETS[current];
+
+  /* 자동 채점 문항 집계 */
+  var ok = 0, all = 0;
+  ctrls.forEach(function (c) {
+    if (!c.grade) return;
+    all++;
+    if (c.grade()) ok++;
+  });
+
+  var doc = PdfKit.createDoc({
+    title: sheet.label,
+    subtitle: sheet.title + "  ·  " + sheet.standard,
+    meta: {
+      grade: info.grade, cls: info.cls, num: info.num, name: info.name, when: info.when,
+      right: all > 0 ? ("자동 채점 " + ok + " / " + all) : ""
+    },
+    footer: "인공지능의 이해와 활용 · " + sheet.label
+  });
+
+  sheet.steps.forEach(function (step, si) {
+    doc.h1(step.title);
+    step.items.forEach(function (item, ii) {
+      var id = "s" + current + "_" + si + "_" + ii;
+      var c = ctrls.filter(function (x) { return x.id === id; })[0];
+      if (!c) {                                   // 안내 상자는 글로만 넣는다
+        if (item.k === "warn" || item.k === "hint") doc.p("※ " + item.q, { size: 21 });
+        return;
+      }
+      c.forPdf(doc);
+    });
+    doc.gap(10);
+  });
+
+  var pages = doc.finish();
+  var blob = PdfKit.buildPdf(pages);
+  var fname = PdfKit.makeFileName("학습지" + current + "차시", info);
+
+  lastPdf = blob;
+  lastPdfName = fname;
+  PdfKit.downloadBlob(blob, fname);
+
+  /* 여기서부터 제출 상태 : 입력을 잠그고 정답을 열어 준다 */
+  submitted = true;
+  applyLockState();
+
+  PdfKit.toast(pages.length + "쪽 PDF를 저장했습니다 — " + fname, "ok");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* 쓴 내용 지우기 — 제출 전에만 쓸 수 있다(제출 후에는 단추가 사라진다) */
+document.getElementById("btnClear").addEventListener("click", function () {
+  if (current == null || submitted) return;
+  if (!confirm("지금까지 쓴 내용을 모두 지울까요? 되돌릴 수 없습니다.")) return;
+  try { sessionStorage.removeItem(storeKey(current)); } catch (e) {}
+  openSheet(current);
+  PdfKit.toast("내용을 모두 지웠습니다.", "warn");
+});
+
+/* 첫 화면은 1차시부터 시작한다.
+   주소에 ?n=4 처럼 붙이면 그 차시를 바로 연다 (교사가 링크로 나눠 줄 때 편하다). */
+(function () {
+  var m = /[?&]n=(\d+)/.exec(location.search);
+  var n = (m && LESSONS.indexOf(+m[1]) >= 0) ? +m[1] : 1;
+  openSheet(n);
+})();
+</script>
+</body>
+</html>
