@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10진수 → 2진수 변환 학습기</title>
+<!-- 탭 아이콘(favicon) : 외부 파일 없이 SVG 를 그대로 넣어 오프라인에서도 보이게 한다 -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23103b6f'/%3E%3Ctext x='16' y='21' font-family='sans-serif' font-size='11' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E1101%3C/text%3E%3C/svg%3E">
+<style>
+  /* ===== 기본 설정 : 교실 TV·전자칠판에서 잘 보이도록 글자와 버튼을 크게 ===== */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+    font-size: 22px;
+    line-height: 1.6;
+    color: #1b2430;
+    background: #f2f6fb;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+
+  h1 {
+    font-size: 44px;
+    margin: 0 0 8px;
+    text-align: center;
+    color: #103b6f;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 20px;
+    color: #4a5b70;
+    margin: 0 0 28px;
+  }
+  .badge {
+    display: inline-block;
+    background: #103b6f;
+    color: #fff;
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 18px;
+    margin-left: 6px;
+  }
+
+  /* ===== 탭(페이지 전환) ===== */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 6px;
+    border-bottom: 6px solid #1668c9;
+  }
+  .tab {                                  /* 선택되지 않은 탭 */
+    background: #dde7f4;
+    color: #3a4c63;
+    font-size: 26px;
+    padding: 14px 30px;
+    border-radius: 14px 14px 0 0;
+    box-shadow: none;
+  }
+  .tab:hover { background: #c6d7ec; }
+  .tab[aria-selected="true"] {            /* 지금 보고 있는 탭 */
+    background: #1668c9;
+    color: #fff;
+  }
+  .tab[aria-selected="true"]:hover { background: #1668c9; }
+  .tab:focus-visible {                    /* 키보드로 이동할 때 잘 보이도록 */
+    outline: 4px solid #f0b429;
+    outline-offset: 3px;
+  }
+  .tab[aria-disabled="true"] {            /* 평가 중에 잠긴 학습 탭 */
+    background: #e6e8ec;
+    color: #a3adba;
+    cursor: not-allowed;
+  }
+  .tab[aria-disabled="true"]:hover { background: #e6e8ec; }
+
+  .tab-lock-msg {
+    margin: 14px 0 0;
+    font-size: 21px;
+    font-weight: bold;
+    color: #8a5300;
+    background: #fffbea;
+    border-left: 6px solid #f0b429;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+  .tab-panel { padding-top: 26px; }
+  [hidden] { display: none !important; }
+
+  .panel-note {                           /* 탭 페이지 맨 위 안내문 */
+    font-size: 20px;
+    color: #4a5b70;
+    margin: -6px 0 0;
+  }
+
+  section {
+    background: #fff;
+    border-radius: 18px;
+    padding: 26px 28px 32px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 14px rgba(16, 59, 111, .10);
+  }
+  h2 {
+    font-size: 32px;
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 4px solid #dbe6f5;
+    color: #103b6f;
+  }
+
+  /* ===== 입력 영역 ===== */
+  .input-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+  label { font-weight: bold; }
+  input[type="number"], input[type="text"] {
+    font-family: inherit;
+    font-size: 34px;
+    font-weight: bold;
+    width: 220px;
+    padding: 10px 14px;
+    border: 3px solid #a8bdd8;
+    border-radius: 12px;
+    text-align: center;
+    color: #103b6f;
+  }
+  input:focus { outline: none; border-color: #1668c9; background: #f4f9ff; }
+
+  button {
+    font-family: inherit;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 12px;
+    background: #1668c9;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover { background: #0f4f9e; }
+  button.sub { background: #5a6b80; }
+  button.sub:hover { background: #414f61; }
+  button.small { font-size: 20px; padding: 9px 18px; }
+  button:disabled { background: #b7c2d0; cursor: default; }
+
+  .msg { font-size: 22px; margin-top: 14px; min-height: 32px; font-weight: bold; }
+  .msg.error { color: #c62828; }
+  .msg.info  { color: #2e6b34; }
+
+  /* ===== 나눗셈 과정 표 ===== */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 22px;
+    font-size: 24px;
+  }
+  caption {
+    font-size: 22px;
+    text-align: left;
+    padding-bottom: 10px;
+    color: #4a5b70;
+  }
+  th, td {
+    border: 2px solid #c9d7e8;
+    padding: 12px 10px;
+    text-align: center;
+  }
+  th { background: #e8f0fb; color: #103b6f; font-size: 22px; }
+  td.expr { font-size: 26px; font-weight: bold; letter-spacing: 1px; }
+  td.rest { font-size: 30px; font-weight: bold; color: #c62828; background: #fff5f5; }
+  tbody tr { animation: appear .35s ease-out; }
+  @keyframes appear { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; } }
+
+  .arrow-note {
+    margin-top: 18px;
+    font-size: 22px;
+    color: #4a5b70;
+  }
+
+  /* ===== 결과 영역 ===== */
+  .result-box {
+    margin-top: 22px;
+    padding: 22px;
+    border-radius: 14px;
+    background: #f0f7ff;
+    border: 3px dashed #1668c9;
+  }
+  .bits { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; }
+  .bit {
+    width: 62px;
+    text-align: center;
+    background: #fff;
+    border: 3px solid #1668c9;
+    border-radius: 10px;
+    padding: 6px 0 8px;
+  }
+  .bit .digit { display: block; font-size: 38px; font-weight: bold; color: #103b6f; }
+  .bit .place { display: block; font-size: 15px; color: #6b7c93; }
+  .answer {
+    font-size: 40px;
+    font-weight: bold;
+    color: #c62828;
+    letter-spacing: 3px;
+    word-break: break-all;
+  }
+  .check-line { font-size: 22px; color: #2e4a6b; margin-top: 10px; }
+  .hidden { display: none; }
+
+  /* ===== 연습문제 ===== */
+  .quiz-item {
+    border: 3px solid #dbe6f5;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    background: #fbfdff;
+  }
+  .quiz-title { font-size: 26px; font-weight: bold; color: #103b6f; margin-bottom: 12px; }
+  .quiz-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .quiz-row input[type="text"] { width: 260px; font-size: 30px; }
+  .feedback { font-size: 22px; font-weight: bold; margin-top: 12px; min-height: 30px; }
+  .feedback.ok  { color: #1b7c3d; }
+  .feedback.no  { color: #c62828; }
+  .feedback.tip { color: #8a5300; }
+
+  /* ===== 쉬운 방법 : 자리값 카드 ===== */
+  .how-box {
+    background: #f3f8ff;
+    border: 3px solid #cfe0f5;
+    border-radius: 14px;
+    padding: 16px 22px 18px;
+  }
+  .how-box .how-title { margin: 0 0 6px; font-size: 24px; font-weight: bold; color: #103b6f; }
+  .how-list { margin: 0; padding-left: 30px; font-size: 21px; }
+  .how-list li { margin: 7px 0; }
+
+  .rest-view { font-size: 28px; font-weight: bold; color: #2e4a6b; margin: 24px 0 12px; }
+  .rest-view span { font-size: 42px; color: #c62828; }
+
+  /* 카드는 왼쪽부터 순서대로 읽어야 하므로 줄바꿈하지 않고 한 줄로 둔다.
+     화면이 좁으면 카드 폭을 줄이고, 그래도 좁으면 좌우로 스크롤한다. */
+  .cards { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+  .card {                                   /* 자리값 카드 한 장 */
+    flex: 1 1 auto;
+    min-width: 58px;
+    max-width: 92px;
+    padding: 8px 0 10px;
+    text-align: center;
+    background: #fff;
+    border: 3px solid #a8bdd8;
+    border-radius: 14px;
+    transition: transform .15s, background .15s, border-color .15s;
+  }
+  .card .pv   { display: block; font-size: 24px; font-weight: bold; color: #103b6f; }  /* 자리값(10진수) */
+  .card .pw   { display: block; font-size: 14px; color: #6b7c93; }                     /* 2의 거듭제곱 */
+  .card .slot { display: block; font-size: 38px; font-weight: bold; line-height: 1.2; color: #b7c2d0; }
+  .card.one  { border-color: #c62828; background: #fff5f5; }                            /* 1을 쓴 카드 */
+  .card.one  .slot { color: #c62828; }
+  .card.zero { border-color: #c9d7e8; background: #f5f7fa; }                            /* 0으로 채운 카드 */
+  .card.zero .slot { color: #7b8a9c; }
+  .card.toobig .slot { color: #b7c2d0; font-size: 28px; }                               /* 남은 수보다 큰 카드 */
+  .card.toobig { background: #f5f7fa; }
+  .card.active {                                                                        /* 지금 고른 카드 */
+    transform: translateY(-8px);
+    outline: 5px solid #f0b429;
+  }
+
+  .compare-table th { text-align: center; }
+  .compare-table td { text-align: left; font-size: 21px; }
+  .compare-table td:first-child { background: #f3f8ff; font-weight: bold; text-align: center; }
+
+  /* ===== 평가 탭 ===== */
+  .eval-info { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+  .eval-info .field { display: flex; align-items: center; gap: 8px; }
+  select {
+    font-family: inherit;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 10px 12px;
+    border: 3px solid #a8bdd8;
+    border-radius: 12px;
+    background: #fff;
+    color: #103b6f;
+  }
+  .eval-info input[type="text"], .eval-info input[type="number"] { width: 150px; font-size: 28px; }
+  .eval-info input.name { width: 190px; }
+
+  .target-note {
+    margin-top: 16px;
+    font-size: 19px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #f3f8ff;
+    border-left: 6px solid #1668c9;
+    color: #2e4a6b;
+  }
+  .target-note.off { background: #fffbea; border-left-color: #f0b429; }
+
+
+  .eval-problem {
+    border: 3px solid #dbe6f5;
+    border-radius: 16px;
+    padding: 18px 20px 22px;
+    margin-bottom: 24px;
+    background: #fbfdff;
+  }
+  .eval-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .eval-no { font-size: 28px; font-weight: bold; color: #103b6f; }
+  .level-group { display: flex; gap: 8px; }
+  .lv {                                     /* 상/중/하 선택 단추 */
+    background: #e8f0fb;
+    color: #3a4c63;
+    font-size: 22px;
+    padding: 9px 22px;
+    border-radius: 10px;
+  }
+  .lv:hover { background: #d3e2f5; }
+  .lv[aria-pressed="true"] { background: #1668c9; color: #fff; }
+  .lv[aria-pressed="true"]:hover { background: #1668c9; }
+  .lv-note { font-size: 19px; color: #6b7c93; }
+
+  .eval-q {
+    font-size: 30px;
+    font-weight: bold;
+    color: #103b6f;
+    background: #eef4fd;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 14px 0 12px;
+  }
+  .eval-q.empty { color: #7b8a9c; font-weight: normal; font-size: 24px; background: #f5f7fa; }
+
+  .pad-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .pad-tools .sep { width: 2px; height: 30px; background: #dbe6f5; margin: 0 6px; }
+  .tool { background: #e8f0fb; color: #3a4c63; font-size: 19px; padding: 8px 14px; border-radius: 9px; }
+  .tool:hover { background: #d3e2f5; }
+  .tool[aria-pressed="true"] { background: #1668c9; color: #fff; }
+  .tool[aria-pressed="true"]:hover { background: #1668c9; }
+  .tool.ink { width: 44px; padding: 8px 0; }
+  .tool.ink span { display: inline-block; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #fff; }
+
+  .pad-label { font-size: 20px; color: #4a5b70; margin: 0 0 6px; }
+  .pad-wrap {
+    border: 3px solid #a8bdd8;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .pad-wrap canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    touch-action: none;              /* 손가락으로 그릴 때 화면이 밀리지 않게 */
+    cursor: crosshair;
+  }
+  .ans-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 14px; }
+  .ans-row input[type="text"] { width: 280px; font-size: 30px; }
+  .ans-row label { font-size: 24px; }
+
+  .score-big { font-size: 40px; font-weight: bold; color: #103b6f; }
+  .grade-table td.ox { font-size: 30px; font-weight: bold; }
+  .ox-o { color: #1b7c3d; }
+  .ox-x { color: #c62828; }
+
+  .tip-box {
+    margin-top: 6px;
+    font-size: 20px;
+    color: #4a5b70;
+    background: #fffbea;
+    border-left: 6px solid #f0b429;
+    padding: 10px 14px;
+    border-radius: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>10진수 → 2진수 변환 학습기</h1>
+  <p class="subtitle">
+    자료의 디지털 표현 · 중학교 1학년
+    <span class="badge">성취기준 9정02-01</span>
+  </p>
+
+  <!-- ================= 탭 단추 ================= -->
+  <div class="tabs" role="tablist" aria-label="2진수 변환 방법 선택">
+    <button class="tab" id="tabDivide" role="tab"
+            aria-selected="true" aria-controls="panelDivide" tabindex="0">① 2로 나누기</button>
+    <button class="tab" id="tabEasy" role="tab"
+            aria-selected="false" aria-controls="panelEasy" tabindex="-1">② 쉬운 방법 (자리값 카드)</button>
+    <button class="tab" id="tabEval" role="tab"
+            aria-selected="false" aria-controls="panelEval" tabindex="-1">③ 평가</button>
+  </div>
+
+  <!-- 평가 중에는 학습 탭을 쓸 수 없다는 안내 -->
+  <p class="tab-lock-msg hidden" id="tabLockMsg"></p>
+
+  <!-- ================= 탭 1 : 2로 나누기 (기본 방법) ================= -->
+  <div class="tab-panel" id="panelDivide" role="tabpanel" aria-labelledby="tabDivide">
+
+  <!-- ================= ① ② ③ 변환 실습 ================= -->
+  <section>
+    <h2>1. 2로 나누어 보기</h2>
+
+    <div class="input-row">
+      <label for="decInput">10진수 입력 (0 ~ 1023)</label>
+      <input type="number" id="decInput" value="13" min="0" max="1023" step="1">
+      <button id="btnAll">변환하기</button>
+      <button id="btnStep" class="sub">한 단계씩 보기</button>
+      <button id="btnReset" class="sub small">지우기</button>
+    </div>
+    <p class="msg" id="convMsg"></p>
+
+    <table id="stepTable" class="hidden">
+      <caption>몫이 0이 될 때까지 2로 계속 나누고, <strong>나머지</strong>를 적습니다.</caption>
+      <thead>
+        <tr>
+          <th style="width:15%">단계</th>
+          <th style="width:45%">나눗셈</th>
+          <th style="width:20%">몫</th>
+          <th style="width:20%">나머지</th>
+        </tr>
+      </thead>
+      <tbody id="stepBody"></tbody>
+    </table>
+
+    <div class="result-box hidden" id="resultBox">
+      <p class="arrow-note">나머지를 <strong>아래에서 위로(↑)</strong> 거꾸로 읽으면 2진수가 됩니다.</p>
+      <div class="bits" id="bitsView"></div>
+      <p>정답 : <span class="answer" id="answerText"></span><sub>(2)</sub></p>
+      <p class="check-line" id="checkLine"></p>
+    </div>
+  </section>
+
+  <!-- ================= ④ 연습문제 ================= -->
+  <section>
+    <h2>2. 연습문제 3개</h2>
+    <p style="margin-top:-6px;color:#4a5b70;font-size:20px;">
+      10진수를 2진수로 바꾸어 입력한 뒤 <strong>정답 확인</strong>을 누르세요.
+    </p>
+    <div id="quizArea"></div>
+    <div class="quiz-row" style="margin-top:8px;">
+      <button id="btnNewQuiz" class="sub">새 문제 3개</button>
+      <span class="feedback" id="scoreView"></span>
+    </div>
+  </section>
+
+  </div><!-- /panelDivide -->
+
+  <!-- ================= 탭 2 : 쉬운 방법 (자리값 카드) ================= -->
+  <div class="tab-panel" id="panelEasy" role="tabpanel" aria-labelledby="tabEasy" hidden>
+
+    <section>
+      <h2>1. 자리값 카드로 채우기</h2>
+
+      <div class="how-box">
+        <p class="how-title">이렇게 하면 나누지 않고도 구할 수 있어요</p>
+        <ol class="how-list">
+          <li>2진수의 자리값(1, 2, 4, 8, 16, 32 …)을 10진수로 적어 <strong>카드</strong>를 늘어놓는다.</li>
+          <li>주어진 수보다 <strong>작거나 같은 가장 큰 자리값</strong> 카드에 <strong>1</strong>을 쓴다.</li>
+          <li>주어진 수에서 그 자리값을 <strong>뺀다</strong>. 남은 수로 2번을 다시 한다.</li>
+          <li>남은 수가 <strong>0</strong>이 되면, 1을 쓰지 않은 카드는 모두 <strong>0</strong>으로 채운다.</li>
+        </ol>
+      </div>
+
+      <div class="input-row" style="margin-top:24px">
+        <label for="easyInput">10진수 입력 (0 ~ 1023)</label>
+        <input type="number" id="easyInput" value="13" min="0" max="1023" step="1">
+        <button id="easyBtnAll">변환하기</button>
+        <button id="easyBtnStep" class="sub">한 단계씩 보기</button>
+        <button id="easyBtnReset" class="sub small">지우기</button>
+      </div>
+      <p class="msg" id="easyMsg"></p>
+
+      <div id="easyStage" class="hidden">
+        <p class="rest-view">남은 수 : <span id="easyRest">0</span></p>
+        <div class="cards" id="easyCards"></div>
+
+        <table>
+          <caption>남은 수보다 <strong>작거나 같은 가장 큰 자리값</strong>을 골라 빼 나갑니다.</caption>
+          <thead>
+            <tr>
+              <th style="width:15%">단계</th>
+              <th style="width:20%">남은 수</th>
+              <th style="width:25%">고른 자리값</th>
+              <th style="width:40%">빼기</th>
+            </tr>
+          </thead>
+          <tbody id="easyBody"></tbody>
+        </table>
+      </div>
+
+      <div class="result-box hidden" id="easyResultBox">
+        <p class="arrow-note">카드에 쓴 숫자를 <strong>왼쪽에서 오른쪽으로(→)</strong> 그대로 읽으면 2진수가 됩니다.</p>
+        <div class="bits" id="easyBits"></div>
+        <p>정답 : <span class="answer" id="easyAnswer"></span><sub>(2)</sub></p>
+        <p class="check-line" id="easyCheck"></p>
+        <p style="margin-top:16px">
+          <button id="btnCompare" class="small">① 2로 나누기 방법으로도 확인하기</button>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. 두 방법 비교</h2>
+      <p class="panel-note">같은 수를 넣으면 두 방법의 답은 항상 같습니다. 어느 방법이 더 편한지 이야기해 보세요.</p>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="width:16%"></th>
+            <th style="width:42%">① 2로 나누기</th>
+            <th style="width:42%">② 자리값 카드</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>계산</td><td>2로 계속 나눈다</td><td>큰 자리값부터 뺀다</td></tr>
+          <tr><td>읽는 방향</td><td>나머지를 아래에서 위로 거꾸로</td><td>카드를 왼쪽에서 오른쪽으로 그대로</td></tr>
+          <tr><td>좋은 점</td><td>규칙이 정해져 있어 큰 수도 실수가 적다</td><td>익숙해지면 암산으로 빠르고, 자리값 감각이 생긴다</td></tr>
+          <tr><td>주의할 점</td><td>거꾸로 읽는 것을 잊기 쉽다</td><td>가장 큰 자리값을 잘못 고르기 쉽다</td></tr>
+        </tbody>
+      </table>
+      <p class="panel-note" style="margin-top:18px">
+        연습문제는 <strong>① 2로 나누기</strong> 탭 아래쪽에 있습니다. 두 방법 중 편한 쪽으로 풀어 보세요.
+      </p>
+    </section>
+
+  </div><!-- /panelEasy -->
+
+  <!-- ================= 탭 3 : 평가 ================= -->
+  <div class="tab-panel" id="panelEval" role="tabpanel" aria-labelledby="tabEval" hidden>
+
+    <section>
+      <h2>1. 학생 정보</h2>
+      <div class="eval-info">
+        <span class="field">
+          <label for="evGrade">학년</label>
+          <select id="evGrade">
+            <option value="">선택</option>
+            <option value="1">1학년</option>
+            <option value="2">2학년</option>
+            <option value="3">3학년</option>
+          </select>
+        </span>
+        <span class="field">
+          <label for="evClass">반</label>
+          <select id="evClass"><option value="">선택</option></select>
+        </span>
+        <span class="field">
+          <label for="evNo">학번</label>
+          <input type="number" id="evNo" min="1" max="50" step="1" placeholder="번호">
+        </span>
+        <span class="field">
+          <label for="evName">이름</label>
+          <input type="text" id="evName" class="name" maxlength="10" placeholder="이름">
+        </span>
+      </div>
+      <p class="target-note" id="evTargetNote"></p>
+      <div class="quiz-row" style="margin-top:18px">
+        <button id="evStart">평가 시작</button>
+        <span class="feedback" id="evStartMsg"></span>
+      </div>
+      <p class="panel-note">
+        <strong>평가를 시작하면 ① 2로 나누기 · ② 쉬운 방법 탭을 쓸 수 없습니다.</strong>
+        (제출하거나 [처음부터 다시]를 누르면 다시 쓸 수 있습니다.)
+      </p>
+    </section>
+
+    <section>
+      <h2>2. 문제 풀기</h2>
+      <p class="panel-note">
+        문제마다 <strong>수준(상·중·하)</strong>을 고르면 문제가 나옵니다.
+        수준마다 <strong>배점이 다릅니다 — 하 1점 · 중 2점 · 상 3점.</strong>
+        어려운 수준을 고르면 얻을 점수가 커지지만 <strong>만점도 함께 커집니다</strong>
+        (예 : 하·중·상을 하나씩 고르면 만점 6점).
+        <strong>풀이는 아래 칸에 손으로 적고</strong>, 답은 0과 1로 입력하세요.
+        제출하기 전에는 정답을 알려주지 않습니다.
+      </p>
+      <p class="target-note off" id="evPhaseNote"></p>
+      <div id="evalProblems"></div>
+    </section>
+
+    <section>
+      <h2>3. 제출</h2>
+      <div class="quiz-row">
+        <button id="evSubmit">제출하기</button>
+        <button id="evRedo" class="sub small">처음부터 다시</button>
+      </div>
+      <p class="msg" id="evSubmitMsg"></p>
+      <div class="result-box hidden" id="evResultBox">
+        <p>점수 : <span class="score-big" id="evScore"></span></p>
+        <table class="grade-table">
+          <thead>
+            <tr>
+              <th style="width:10%">문제</th>
+              <th style="width:12%">수준</th>
+              <th style="width:10%">배점</th>
+              <th style="width:14%">문제</th>
+              <th style="width:19%">내가 쓴 답</th>
+              <th style="width:19%">정답</th>
+              <th style="width:16%">채점</th>
+            </tr>
+          </thead>
+          <tbody id="evGradeBody"></tbody>
+        </table>
+        <p class="check-line" id="evSaveInfo"></p>
+        <div class="quiz-row" style="margin-top:14px">
+          <button id="evAgain" class="small">PDF 다시 받기</button>
+          <button id="evOpen" class="small sub">새 탭에서 열기</button>
+        </div>
+        <p class="check-line">
+          내려받은 PDF 파일을 선생님이 알려 주신 방법(구글 클래스룸·이메일 등)으로 제출하세요.
+        </p>
+      </div>
+    </section>
+
+  </div><!-- /panelEval -->
+
+</div>
+
+<script>
+/* =========================================================
+   탭 전환 : 단추를 누르면 해당 페이지(패널)만 보여 준다
+   - aria-selected / hidden 두 가지만 바꾸면 되므로 간단하다.
+   - 탭을 옮겨도 각 페이지의 내용(입력값, 표, 점수)은 그대로 남는다.
+   ========================================================= */
+const tabButtons = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+
+/* 평가 중에는 학습 탭(①②)으로 넘어가지 못하게 막는다.
+   `disabled` 대신 aria-disabled 를 쓰는 이유 : 눌렀을 때 "왜 안 되는지" 알려 주기 위해서다. */
+function isTabLocked(btn) { return btn.dataset.locked === "1"; }
+
+function selectTab(tab, moveFocus) {
+  if (isTabLocked(tab)) {
+    const msg = document.getElementById("tabLockMsg");
+    msg.classList.remove("hidden");
+    msg.textContent = "평가 중입니다. " + tab.textContent.trim() +
+                      " 탭은 평가를 제출한 뒤에 다시 쓸 수 있습니다.";
+    return;
+  }
+  tabButtons.forEach(function (btn) {
+    const isSelected = (btn === tab);
+    btn.setAttribute("aria-selected", isSelected ? "true" : "false");
+    btn.tabIndex = isSelected ? 0 : -1;              // 선택된 탭만 Tab 키로 잡히게 한다
+    const panel = document.getElementById(btn.getAttribute("aria-controls"));
+    panel.hidden = !isSelected;                      // 선택된 페이지만 보이기
+  });
+  if (moveFocus) tab.focus();
+}
+
+tabButtons.forEach(function (btn, idx) {
+  /* 마우스·터치로 누르기 */
+  btn.addEventListener("click", function () { selectTab(btn, false); });
+
+  /* 키보드 방향키로도 탭을 옮길 수 있게 한다 */
+  btn.addEventListener("keydown", function (e) {
+    let next = null;
+    if (e.key === "ArrowRight")     next = tabButtons[(idx + 1) % tabButtons.length];
+    else if (e.key === "ArrowLeft") next = tabButtons[(idx - 1 + tabButtons.length) % tabButtons.length];
+    else if (e.key === "Home")      next = tabButtons[0];
+    else if (e.key === "End")       next = tabButtons[tabButtons.length - 1];
+    if (next) {
+      e.preventDefault();
+      selectTab(next, true);
+    }
+  });
+});
+
+/* =========================================================
+   핵심 로직 1 : 10진수를 2로 반복해서 나누는 과정 만들기
+   - 각 단계마다 (나눌 수, 몫, 나머지)를 순서대로 저장한다.
+   - 몫이 0이 되면 나누기를 멈춘다.
+   ========================================================= */
+function makeSteps(n) {
+  const steps = [];
+  if (n === 0) {                       // 0은 나눌 것이 없으므로 한 줄만 만든다
+    steps.push({ value: 0, quotient: 0, remainder: 0 });
+    return steps;
+  }
+  let value = n;
+  while (value > 0) {
+    const quotient  = Math.floor(value / 2);   // 몫  : 소수점 아래를 버린다
+    const remainder = value % 2;               // 나머지 : 0 또는 1
+    steps.push({ value: value, quotient: quotient, remainder: remainder });
+    value = quotient;                          // 몫을 다음 단계의 나눌 수로
+  }
+  return steps;
+}
+
+/* 나머지를 거꾸로(아래에서 위로) 이어 붙이면 2진수가 된다 */
+function stepsToBinary(steps) {
+  let bits = "";
+  for (let i = steps.length - 1; i >= 0; i--) {
+    bits += steps[i].remainder;
+  }
+  return bits;
+}
+
+/* =========================================================
+   화면 그리기
+   ========================================================= */
+const decInput  = document.getElementById("decInput");
+const stepTable = document.getElementById("stepTable");
+const stepBody  = document.getElementById("stepBody");
+const resultBox = document.getElementById("resultBox");
+const bitsView  = document.getElementById("bitsView");
+const answerText= document.getElementById("answerText");
+const checkLine = document.getElementById("checkLine");
+const convMsg   = document.getElementById("convMsg");
+
+let steps = [];      // 현재 문제의 전체 단계
+let shown = 0;       // 지금까지 화면에 보여 준 단계 수
+let timerId = null;  // 자동으로 한 줄씩 보여 주는 타이머
+
+/* 입력값 검사 : 0~1023 사이의 정수만 허용 */
+function readInput() {
+  const raw = decInput.value.trim();
+  if (raw === "") { showMsg("숫자를 입력해 주세요.", "error"); return null; }
+  const n = Number(raw);
+  if (!Number.isInteger(n)) { showMsg("정수만 입력할 수 있어요.", "error"); return null; }
+  if (n < 0 || n > 1023)    { showMsg("0부터 1023까지의 수를 입력해 주세요.", "error"); return null; }
+  return n;
+}
+
+function showMsg(text, type) {
+  convMsg.textContent = text;
+  convMsg.className = "msg " + (type || "");
+}
+
+/* 표 한 줄 추가 */
+function addRow(index) {
+  const s = steps[index];
+  const tr = document.createElement("tr");
+  tr.innerHTML =
+    "<td>" + (index + 1) + "단계</td>" +
+    "<td class='expr'>" + s.value + " ÷ 2</td>" +
+    "<td>" + s.quotient + "</td>" +
+    "<td class='rest'>" + s.remainder + "</td>";
+  stepBody.appendChild(tr);
+}
+
+/* 결과(2진수 + 자리값 검산) 보여 주기 */
+function showResult() {
+  const bits = stepsToBinary(steps);
+  const n = steps.length === 1 && steps[0].value === 0 ? 0 : steps[0].value;
+
+  // 비트마다 자리값(2의 거듭제곱)을 함께 보여 준다
+  bitsView.innerHTML = "";
+  for (let i = 0; i < bits.length; i++) {
+    const place = Math.pow(2, bits.length - 1 - i);   // 왼쪽이 가장 큰 자리값
+    const div = document.createElement("div");
+    div.className = "bit";
+    div.innerHTML = "<span class='digit'>" + bits[i] + "</span>" +
+                    "<span class='place'>" + place + "</span>";
+    bitsView.appendChild(div);
+  }
+
+  answerText.textContent = bits;
+
+  // 검산 : 1이 있는 자리의 자리값을 모두 더하면 원래 10진수가 된다
+  const parts = [];
+  for (let i = 0; i < bits.length; i++) {
+    if (bits[i] === "1") parts.push(String(Math.pow(2, bits.length - 1 - i)));
+  }
+  checkLine.textContent = parts.length
+    ? "검산 : " + parts.join(" + ") + " = " + n
+    : "검산 : 모든 자리가 0이므로 값은 0 입니다.";
+
+  resultBox.classList.remove("hidden");
+}
+
+/* [변환하기] : 모든 단계를 차례로(0.35초 간격) 펼쳐 보여 준다 */
+function convertAll() {
+  const n = readInput();
+  if (n === null) return;
+  resetView();
+  steps = makeSteps(n);
+  stepTable.classList.remove("hidden");
+  showMsg(n + "을(를) 2로 나누는 과정입니다.", "info");
+
+  let i = 0;
+  timerId = setInterval(function () {
+    addRow(i);
+    shown = ++i;
+    if (i >= steps.length) {         // 마지막 단계까지 보여 주면 결과 표시
+      clearInterval(timerId);
+      timerId = null;
+      showResult();
+      updateStepButton();
+    }
+  }, 350);
+}
+
+/* [한 단계씩 보기] : 누를 때마다 한 줄만 추가 */
+function convertOneStep() {
+  if (timerId !== null) {            // 자동 진행 중이면 먼저 멈추고 직접 넘기게 한다
+    clearInterval(timerId);
+    timerId = null;
+    showMsg("자동 진행을 멈췄어요. 버튼을 눌러 다음 단계로 넘어가세요.", "info");
+    return;
+  }
+  if (shown === 0) {                 // 첫 클릭이면 새로 계산 시작
+    const n = readInput();
+    if (n === null) return;
+    resetView();
+    steps = makeSteps(n);
+    stepTable.classList.remove("hidden");
+    showMsg("[한 단계씩 보기]를 눌러 다음 나눗셈을 확인해 보세요.", "info");
+  }
+  if (shown < steps.length) {
+    addRow(shown);
+    shown++;
+  }
+  if (shown === steps.length) {
+    showResult();
+    showMsg("몫이 0이 되었으니 나누기를 멈춥니다.", "info");
+  }
+  updateStepButton();
+}
+
+function updateStepButton() {
+  const btn = document.getElementById("btnStep");
+  const done = steps.length > 0 && shown >= steps.length;
+  btn.disabled = done;
+  btn.textContent = done ? "모든 단계 완료" : (shown === 0 ? "한 단계씩 보기" : "다음 단계 ▶");
+}
+
+/* 화면 초기화 */
+function resetView() {
+  if (timerId !== null) {             // 진행 중인 애니메이션이 있으면 먼저 멈춘다
+    clearInterval(timerId);
+    timerId = null;
+  }
+  stepBody.innerHTML = "";
+  stepTable.classList.add("hidden");
+  resultBox.classList.add("hidden");
+  steps = [];
+  shown = 0;
+  updateStepButton();
+}
+
+document.getElementById("btnAll").addEventListener("click", convertAll);
+document.getElementById("btnStep").addEventListener("click", convertOneStep);
+document.getElementById("btnReset").addEventListener("click", function () {
+  resetView();
+  showMsg("", "");
+});
+/* 입력값을 바꾸면 이전 과정은 지운다 */
+decInput.addEventListener("input", function () { resetView(); showMsg("", ""); });
+/* 엔터 키로도 변환 */
+decInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") convertAll();
+});
+
+/* =========================================================
+   핵심 로직 2 : 연습문제 3개 만들기와 정답 확인
+   (학생 정보는 저장하지 않고, 화면에서만 채점한다)
+   ========================================================= */
+const quizArea  = document.getElementById("quizArea");
+const scoreView = document.getElementById("scoreView");
+let quizNumbers = [];
+
+/* 5~200 사이의 서로 다른 수 3개를 뽑는다.
+   평가 탭에 이미 출제된 수는 피한다(연습문제와 평가문제가 겹치지 않게 양쪽에서 막는다). */
+function pickNumbers() {
+  const evalUsed = (typeof evalItems === "undefined") ? []
+    : evalItems.filter(function (it) { return it.number !== null; }).map(function (it) { return it.number; });
+  const picked = [];
+  let 시도 = 0;
+  while (picked.length < 3 && 시도 < 500) {
+    시도++;
+    const n = Math.floor(Math.random() * 196) + 5;
+    if (picked.indexOf(n) === -1 && evalUsed.indexOf(n) === -1) picked.push(n);
+  }
+  while (picked.length < 3) picked.push(Math.floor(Math.random() * 196) + 5);   // 만일을 위한 대비
+  return picked;
+}
+
+function buildQuiz() {
+  quizNumbers = pickNumbers();
+  quizArea.innerHTML = "";
+  scoreView.textContent = "";
+
+  quizNumbers.forEach(function (n, idx) {
+    const answer = n.toString(2);          // 정답 2진수 문자열
+
+    const box = document.createElement("div");
+    box.className = "quiz-item";
+    box.innerHTML =
+      "<div class='quiz-title'>문제 " + (idx + 1) + ". 10진수 " + n + "을(를) 2진수로 나타내면?</div>" +
+      "<div class='quiz-row'>" +
+        "<input type='text' inputmode='numeric' placeholder='0과 1로 입력'>" +
+        "<button class='small'>정답 확인</button>" +
+        "<button class='small sub'>힌트</button>" +
+      "</div>" +
+      "<div class='feedback'></div>";
+
+    const input    = box.querySelector("input");
+    const btnCheck = box.querySelectorAll("button")[0];
+    const btnHint  = box.querySelectorAll("button")[1];
+    const feedback = box.querySelector(".feedback");
+
+    /* 정답 확인 */
+    btnCheck.addEventListener("click", function () {
+      const typed = input.value.trim();
+      if (typed === "") {
+        feedback.className = "feedback no";
+        feedback.textContent = "답을 입력해 주세요.";
+        return;
+      }
+      if (!/^[01]+$/.test(typed)) {         // 2진수는 0과 1만 사용
+        feedback.className = "feedback no";
+        feedback.textContent = "2진수는 0과 1만 사용해요. 다시 입력해 보세요.";
+        return;
+      }
+      // 앞쪽 0은 값이 같으므로 정답으로 인정 (예: 0101 = 101)
+      if (parseInt(typed, 2) === n) {
+        feedback.className = "feedback ok";
+        feedback.textContent = "정답입니다! " + n + " = " + answer + "(2)";
+        box.dataset.solved = "1";
+      } else {
+        feedback.className = "feedback no";
+        feedback.textContent = "아직 아니에요. " + n + " ÷ 2 부터 다시 계산해 보세요.";
+        box.dataset.solved = "0";      // 현재 입력한 답을 기준으로 점수를 표시
+      }
+      updateScore();
+    });
+
+    /* 힌트 : 첫 나눗셈과 자릿수를 알려 준다 */
+    btnHint.addEventListener("click", function () {
+      feedback.className = "feedback tip";
+      feedback.innerHTML =
+        "<div class='tip-box'>힌트 · " + n + " ÷ 2 = " + Math.floor(n / 2) +
+        " … 나머지 <strong>" + (n % 2) + "</strong> (이 나머지가 <u>맨 오른쪽 자리</u>) / 정답은 " +
+        answer.length + "자리입니다.</div>";
+    });
+
+    /* 엔터 키로도 정답 확인 */
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") btnCheck.click();
+    });
+
+    quizArea.appendChild(box);
+  });
+}
+
+function updateScore() {
+  const solved = quizArea.querySelectorAll("[data-solved='1']").length;
+  scoreView.className = "feedback " + (solved === 3 ? "ok" : "tip");
+  scoreView.textContent = "맞힌 문제 : " + solved + " / 3" + (solved === 3 ? "  모두 정답!" : "");
+}
+
+document.getElementById("btnNewQuiz").addEventListener("click", buildQuiz);
+
+/* =========================================================
+   핵심 로직 3 : 쉬운 방법(자리값 카드) 시뮬레이션
+   - 자리값 카드를 늘어놓고, 남은 수보다 작거나 같은
+     가장 큰 자리값을 골라 1을 쓰고 그만큼 뺀다.
+   - 남은 수가 0이 되면 나머지 카드를 모두 0으로 채운다.
+   ========================================================= */
+const easyInput  = document.getElementById("easyInput");
+const easyMsg    = document.getElementById("easyMsg");
+const easyStage  = document.getElementById("easyStage");
+const easyRest   = document.getElementById("easyRest");
+const easyCards  = document.getElementById("easyCards");
+const easyBody   = document.getElementById("easyBody");
+const easyResultBox = document.getElementById("easyResultBox");
+const easyBits   = document.getElementById("easyBits");
+const easyAnswer = document.getElementById("easyAnswer");
+const easyCheck  = document.getElementById("easyCheck");
+const easyBtnStep= document.getElementById("easyBtnStep");
+
+let easyNumber = 0;        // 지금 다루는 10진수
+let easyPlaces = [];       // 카드에 적힌 자리값 (큰 값 → 작은 값)
+let easySteps  = [];       // 뺄셈 단계 목록
+let easyIndex  = 0;        // 다음에 보여 줄 단계 번호
+let easyPhase  = "idle";   // idle → running(빼기 중) → fill(0 채우기 남음) → done
+let easyTimer  = null;     // 자동 진행 타이머
+
+/* 카드 목록과 뺄셈 단계를 미리 계산한다 */
+function makeEasyPlan(n) {
+  // ① 카드 : n 보다 작거나 같은 가장 큰 자리값부터 1까지 (n=0이면 카드 한 장)
+  const places = [];
+  let top = 1;
+  while (top * 2 <= n) top = top * 2;
+  for (let v = top; v >= 1; v = v / 2) places.push(v);
+
+  // ② 단계 : 남은 수보다 작거나 같은 가장 큰 자리값을 계속 뺀다
+  const steps = [];
+  let rest = n;
+  while (rest > 0) {
+    let pick = 1;
+    while (pick * 2 <= rest) pick = pick * 2;
+    steps.push({ place: pick, before: rest, after: rest - pick });
+    rest = rest - pick;
+  }
+  return { places: places, steps: steps };
+}
+
+function easyShowMsg(text, type) {
+  easyMsg.textContent = text;
+  easyMsg.className = "msg " + (type || "");
+}
+
+/* 입력값 검사 (탭 ①과 같은 규칙) */
+function readEasyInput() {
+  const raw = easyInput.value.trim();
+  if (raw === "") { easyShowMsg("숫자를 입력해 주세요.", "error"); return null; }
+  const n = Number(raw);
+  if (!Number.isInteger(n)) { easyShowMsg("정수만 입력할 수 있어요.", "error"); return null; }
+  if (n < 0 || n > 1023)    { easyShowMsg("0부터 1023까지의 수를 입력해 주세요.", "error"); return null; }
+  return n;
+}
+
+/* 카드를 화면에 늘어놓는다 (아직 아무것도 쓰지 않은 상태) */
+function drawEasyCards() {
+  easyCards.innerHTML = "";
+  easyPlaces.forEach(function (v, i) {
+    const pow = easyPlaces.length - 1 - i;       // 오른쪽 카드가 2⁰
+    const div = document.createElement("div");
+    div.className = "card";
+    div.dataset.place = String(v);
+    div.innerHTML = "<span class='pv'>" + v + "</span>" +
+                    "<span class='pw'>2<sup>" + pow + "</sup></span>" +
+                    "<span class='slot'>?</span>";
+    easyCards.appendChild(div);
+  });
+}
+
+function easyCardOf(place) {
+  return easyCards.querySelector("[data-place='" + place + "']");
+}
+
+/* 남은 수보다 큰 카드에 '너무 큼(×)' 표시 : 왜 0이 되는지 보여 주기 위한 힌트 */
+function markTooBig(rest) {
+  easyPlaces.forEach(function (v) {
+    const card = easyCardOf(v);
+    if (card.classList.contains("one") || card.classList.contains("zero")) return;
+    if (v > rest) {
+      card.classList.add("toobig");
+      card.querySelector(".slot").textContent = "×";
+    } else {
+      card.classList.remove("toobig");
+      card.querySelector(".slot").textContent = "?";
+    }
+  });
+}
+
+/* 표에 한 줄 추가 */
+function easyAddRow(cells) {
+  const tr = document.createElement("tr");
+  tr.innerHTML = cells.map(function (c) { return "<td>" + c + "</td>"; }).join("");
+  easyBody.appendChild(tr);
+}
+
+/* 결과(2진수 + 검산) 보여 주기 */
+function showEasyResult() {
+  let bits = "";
+  easyPlaces.forEach(function (v) {
+    bits += easyCardOf(v).classList.contains("one") ? "1" : "0";
+  });
+
+  easyBits.innerHTML = "";
+  for (let i = 0; i < bits.length; i++) {
+    const div = document.createElement("div");
+    div.className = "bit";
+    div.innerHTML = "<span class='digit'>" + bits[i] + "</span>" +
+                    "<span class='place'>" + easyPlaces[i] + "</span>";
+    easyBits.appendChild(div);
+  }
+  easyAnswer.textContent = bits;
+
+  // 검산 : 1을 쓴 카드의 자리값을 모두 더하면 원래 수가 된다
+  const used = easySteps.map(function (s) { return String(s.place); });
+  easyCheck.textContent = used.length
+    ? "검산 : " + used.join(" + ") + " = " + easyNumber
+    : "검산 : 모든 자리가 0이므로 값은 0 입니다.";
+
+  easyResultBox.classList.remove("hidden");
+}
+
+/* 준비 : 카드를 늘어놓고 첫 안내를 띄운다 */
+function easyStart(n) {
+  easyResetView();
+  easyNumber = n;
+  const plan = makeEasyPlan(n);
+  easyPlaces = plan.places;
+  easySteps  = plan.steps;
+  easyIndex  = 0;
+  easyPhase  = "running";
+  drawEasyCards();
+  easyRest.textContent = String(n);
+  easyStage.classList.remove("hidden");
+  markTooBig(n);
+  easyUpdateStepButton();
+}
+
+/* 한 단계 진행 */
+function easyNextStep() {
+  // ① 아직 뺄 단계가 남았다면 카드 한 장에 1을 쓴다
+  if (easyPhase === "running" && easyIndex < easySteps.length) {
+    const s = easySteps[easyIndex];
+
+    const prev = easyCards.querySelector(".card.active");
+    if (prev) prev.classList.remove("active");
+
+    const card = easyCardOf(s.place);
+    card.classList.remove("toobig");
+    card.classList.add("one", "active");
+    card.querySelector(".slot").textContent = "1";
+
+    easyRest.textContent = String(s.after);
+    easyAddRow([ (easyIndex + 1) + "단계", s.before, s.place,
+                 s.before + " − " + s.place + " = " + s.after ]);
+    markTooBig(s.after);
+
+    easyShowMsg(s.before + "보다 작거나 같은 가장 큰 자리값은 " + s.place +
+                " → " + s.place + " 카드에 1을 쓰고, " + s.before + " − " + s.place + " = " + s.after +
+                (s.after === 0 ? "  (남은 수가 0이 되었습니다!)" : ""), "info");
+
+    easyIndex++;
+    if (easyIndex >= easySteps.length) easyPhase = "fill";   // 다음 클릭에서 0을 채운다
+    easyUpdateStepButton();
+    return;
+  }
+
+  // ② 남은 카드를 모두 0으로 채우고 결과를 보여 준다
+  if (easyPhase === "fill" || (easyPhase === "running" && easySteps.length === 0)) {
+    const prev = easyCards.querySelector(".card.active");
+    if (prev) prev.classList.remove("active");
+
+    let filled = 0;
+    easyPlaces.forEach(function (v) {
+      const card = easyCardOf(v);
+      if (!card.classList.contains("one")) {
+        card.classList.remove("toobig");
+        card.classList.add("zero");
+        card.querySelector(".slot").textContent = "0";
+        filled++;
+      }
+    });
+    easyAddRow(["마무리", 0, "—", "1을 쓰지 않은 카드 " + filled + "장을 0으로 채움"]);
+    easyShowMsg("1을 쓰지 않은 카드를 모두 0으로 채웠습니다. 이제 카드를 왼쪽부터 읽으면 됩니다.", "info");
+    easyPhase = "done";
+    showEasyResult();
+    easyUpdateStepButton();
+  }
+}
+
+/* [변환하기] : 0.9초 간격으로 자동 진행 */
+function easyConvertAll() {
+  const n = readEasyInput();
+  if (n === null) return;
+  easyStart(n);
+  easyShowMsg(n + "부터 시작합니다. " + n + "보다 작거나 같은 가장 큰 자리값 카드를 찾아보세요.", "info");
+
+  easyTimer = setInterval(function () {
+    easyNextStep();
+    if (easyPhase === "done") {
+      clearInterval(easyTimer);
+      easyTimer = null;
+      easyUpdateStepButton();
+    }
+  }, 900);
+}
+
+/* [한 단계씩 보기] */
+function easyConvertOneStep() {
+  if (easyTimer !== null) {            // 자동 진행 중이면 멈추고 직접 넘기게 한다
+    clearInterval(easyTimer);
+    easyTimer = null;
+    easyShowMsg("자동 진행을 멈췄어요. 버튼을 눌러 다음 단계로 넘어가세요.", "info");
+    easyUpdateStepButton();
+    return;
+  }
+  if (easyPhase === "idle") {          // 첫 클릭이면 카드만 늘어놓는다
+    const n = readEasyInput();
+    if (n === null) return;
+    easyStart(n);
+    easyShowMsg(n + "부터 시작합니다. " + n + "보다 작거나 같은 가장 큰 자리값 카드를 찾아보세요.", "info");
+    return;
+  }
+  if (easyPhase !== "done") easyNextStep();
+}
+
+function easyUpdateStepButton() {
+  const done = (easyPhase === "done");
+  easyBtnStep.disabled = done;
+  easyBtnStep.textContent = done ? "모든 단계 완료"
+                                 : (easyPhase === "idle" ? "한 단계씩 보기" : "다음 단계 ▶");
+}
+
+/* 화면 초기화 */
+function easyResetView() {
+  if (easyTimer !== null) {
+    clearInterval(easyTimer);
+    easyTimer = null;
+  }
+  easyCards.innerHTML = "";
+  easyBody.innerHTML = "";
+  easyStage.classList.add("hidden");
+  easyResultBox.classList.add("hidden");
+  easyPlaces = [];
+  easySteps = [];
+  easyIndex = 0;
+  easyPhase = "idle";
+  easyUpdateStepButton();
+}
+
+document.getElementById("easyBtnAll").addEventListener("click", easyConvertAll);
+easyBtnStep.addEventListener("click", easyConvertOneStep);
+document.getElementById("easyBtnReset").addEventListener("click", function () {
+  easyResetView();
+  easyShowMsg("", "");
+});
+easyInput.addEventListener("input", function () { easyResetView(); easyShowMsg("", ""); });
+easyInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") easyConvertAll();
+});
+
+/* 같은 수를 탭 ①에서도 확인해 두 방법의 답이 같은지 비교한다 */
+document.getElementById("btnCompare").addEventListener("click", function () {
+  decInput.value = String(easyNumber);
+  selectTab(document.getElementById("tabDivide"), false);
+  convertAll();
+  window.scrollTo(0, 0);
+});
+
+/* =========================================================
+   핵심 로직 4 : 평가 탭
+   (1) 학생 정보 → (2) 문제 3개(수준 선택) + 손글씨 풀이 + 답 입력
+   → (3) 제출하기 : 채점 → PDF 만들기 → 선생님 드라이브 업로드(또는 내 PC 저장)
+   ========================================================= */
+
+/* ---- 평가 설정 (선생님이 고치는 곳) --------------------------------
+   ① 제출하면 답안 PDF 는 **언제나 학생 기기에 저장(다운로드)** 된다.
+   ② 제출 횟수 제한은 두지 않는다(2026-07-28 사용자 결정).
+      학생 기기가 개인 소유라 교사가 원격으로 잠금을 풀 방법이 없기 때문이다.
+      여러 번 낸 학생은 **교사 페이지의 제출물 정리 도구**에서 걸러낸다
+      (같은 학번의 제출을 모아 `2회 (최종)/(이전)` 로 표시하고, 최초·최종 중 무엇으로 채점할지 고를 수 있다).
+      → 학생 페이지는 **브라우저에 아무것도 저장하지 않는다.**
+   ③ apiUrl 은 비워 두면 쓰지 않는다. (나중에 구글 드라이브 자동 저장을 쓰고 싶을 때만
+      apps-script.gs 를 배포하고 그 주소를 적으면, 다운로드와 함께 드라이브에도 저장된다.) */
+const EVAL_CONFIG = {
+  apiUrl: ""            // 예: "https://script.google.com/macros/s/.../exec" (비워 두면 다운로드만)
+};
+
+/* 주소창의 ?api= 값을 우선 사용한다.
+   단, 엉뚱한 곳으로 답안이 새어 나가지 않도록 구글 스크립트 주소만 허용한다. */
+function getEvalApiUrl() {
+  const allowed = function (u) {
+    return /^https:\/\/script\.google(usercontent)?\.com\/macros\//.test(u || "");
+  };
+  let fromQuery = "";
+  try { fromQuery = new URLSearchParams(location.search).get("api") || ""; } catch (e) { fromQuery = ""; }
+  if (allowed(fromQuery)) return fromQuery;          // ① 교사가 만든 링크
+  if (allowed(EVAL_CONFIG.apiUrl)) return EVAL_CONFIG.apiUrl;   // ② 파일에 적어 둔 주소
+  return "";                                          // ③ 없거나 허용되지 않는 주소 → 내 PC 저장
+}
+
+/* 수준별 출제 범위와 배점
+   하 = 5자리 이하(1~31) 1점 / 중 = 6~8자리(32~255) 2점 / 상 = 9자리 이상(256~1023) 3점
+   → 어려운 수준을 고르면 배점이 크지만 만점도 커진다.
+     만점은 고른 수준의 배점 합이므로 학생마다 다르고, 그래서 획득률(%)도 함께 기록한다. */
+const EVAL_LEVELS = {
+  low:  { name: "하", min: 1,   max: 31,   points: 1, hint: "2진수 5자리 이하 (10진수 1~31)" },
+  mid:  { name: "중", min: 32,  max: 255,  points: 2, hint: "2진수 6~8자리 (10진수 32~255)" },
+  high: { name: "상", min: 256, max: 1023, points: 3, hint: "2진수 9자리 이상 (10진수 256~1023)" }
+};
+
+const EV_COUNT = 3;                 // 문제 수
+const evalItems = [];               // 문제별 상태 { level, number, pad, ansInput, ... }
+let evalSubmitted = false;
+let evalStarted = false;            // [평가 시작] 을 눌렀는가 (누르면 학습 탭이 잠긴다)
+let lastPdf = null;                 // 마지막으로 만든 PDF { blob, filename } — 다시 받기용
+
+/* ---------- 손글씨 그리기 판 ----------
+   좌표는 캔버스 크기(1400×400) 기준으로 저장하므로
+   화면 크기가 달라도 그림이 찌그러지지 않는다. */
+function createPad(wrap) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1400;
+  canvas.height = 400;
+  canvas.setAttribute("aria-label", "풀이를 손으로 적는 칸");
+  wrap.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+
+  const strokes = [];               // 획 목록 : { color, width, points:[[x,y], ...] }
+  let drawing = null;               // 지금 그리고 있는 획
+  const tool = { color: "#111111", width: 4, eraser: false };
+
+  function clearAll() {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function drawStroke(s) {
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = s.width;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    if (s.points.length === 1) {                       // 점 하나만 찍은 경우
+      ctx.arc(s.points[0][0], s.points[0][1], s.width / 2, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.fill();
+      return;
+    }
+    ctx.moveTo(s.points[0][0], s.points[0][1]);
+    for (let i = 1; i < s.points.length; i++) ctx.lineTo(s.points[i][0], s.points[i][1]);
+    ctx.stroke();
+  }
+
+  function redraw() {
+    clearAll();
+    strokes.forEach(drawStroke);
+  }
+
+  /* 화면 좌표 → 캔버스 좌표 */
+  function toCanvas(e) {
+    const r = canvas.getBoundingClientRect();
+    return [ (e.clientX - r.left) * (canvas.width / r.width),
+             (e.clientY - r.top)  * (canvas.height / r.height) ];
+  }
+
+  canvas.addEventListener("pointerdown", function (e) {
+    if (!evalStarted || evalSubmitted) return;         // 평가 중에만 그릴 수 있다
+    // 펜·손가락이 칸을 벗어나도 계속 그려지도록 붙잡아 둔다(지원하지 않는 브라우저는 넘어감)
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    drawing = {
+      color: tool.eraser ? "#ffffff" : tool.color,     // 지우개 = 흰색으로 덧그리기
+      width: tool.eraser ? tool.width * 6 : tool.width,
+      points: [toCanvas(e)]
+    };
+    strokes.push(drawing);
+    redraw();
+  });
+  canvas.addEventListener("pointermove", function (e) {
+    if (!drawing) return;
+    drawing.points.push(toCanvas(e));
+    drawStroke(drawing);                               // 그리는 중에는 마지막 획만 이어 그린다
+  });
+  ["pointerup", "pointercancel", "pointerleave"].forEach(function (type) {
+    canvas.addEventListener(type, function () { drawing = null; });
+  });
+
+  clearAll();
+
+  return {
+    canvas: canvas,
+    setColor: function (c) { tool.color = c; tool.eraser = false; },
+    setWidth: function (w) { tool.width = w; },
+    setEraser: function (on) { tool.eraser = on; },
+    isEraser: function () { return tool.eraser; },
+    undo: function () { strokes.pop(); redraw(); },
+    clear: function () { strokes.length = 0; redraw(); },
+    isEmpty: function () { return strokes.length === 0; }
+  };
+}
+
+/* ---------- 문제 한 개 만들기 ---------- */
+function buildEvalProblem(idx) {
+  const box = document.createElement("div");
+  box.className = "eval-problem";
+  box.innerHTML =
+    "<div class='eval-head'>" +
+      "<span class='eval-no'>문제 " + (idx + 1) + "</span>" +
+      "<span class='level-group' role='group' aria-label='문제 " + (idx + 1) + " 수준 선택'>" +
+        "<button class='lv' type='button' data-lv='low'  aria-pressed='false'>하 (1점)</button>" +
+        "<button class='lv' type='button' data-lv='mid'  aria-pressed='false'>중 (2점)</button>" +
+        "<button class='lv' type='button' data-lv='high' aria-pressed='false'>상 (3점)</button>" +
+      "</span>" +
+      "<span class='lv-note'>수준을 고르면 문제가 나옵니다</span>" +
+    "</div>" +
+    "<p class='eval-q empty'>— 상 · 중 · 하 중에서 수준을 먼저 고르세요 —</p>" +
+    "<p class='pad-label'>풀이 (여기에 손으로 계산 과정을 적으세요)</p>" +
+    "<div class='pad-tools'>" +
+      "<button class='tool w' type='button' data-w='2'  aria-pressed='false'>얇게</button>" +
+      "<button class='tool w' type='button' data-w='4'  aria-pressed='true'>보통</button>" +
+      "<button class='tool w' type='button' data-w='8'  aria-pressed='false'>굵게</button>" +
+      "<span class='sep'></span>" +
+      "<button class='tool ink' type='button' data-c='#111111' aria-pressed='true'  aria-label='검정'><span style='background:#111'></span></button>" +
+      "<button class='tool ink' type='button' data-c='#1668c9' aria-pressed='false' aria-label='파랑'><span style='background:#1668c9'></span></button>" +
+      "<button class='tool ink' type='button' data-c='#c62828' aria-pressed='false' aria-label='빨강'><span style='background:#c62828'></span></button>" +
+      "<span class='sep'></span>" +
+      "<button class='tool er' type='button' aria-pressed='false'>지우개</button>" +
+      "<button class='tool undo' type='button'>되돌리기</button>" +
+      "<button class='tool clr' type='button'>전체 지우기</button>" +
+    "</div>" +
+    "<div class='pad-wrap'></div>" +
+    "<div class='ans-row'>" +
+      "<label>정답 (2진수)</label>" +
+      "<input type='text' class='ans' inputmode='numeric' placeholder='0과 1로 입력' disabled>" +
+    "</div>" +
+    "<div class='feedback fb'></div>";
+
+  const pad = createPad(box.querySelector(".pad-wrap"));
+  const item = {
+    box: box,
+    pad: pad,
+    level: null,
+    number: null,
+    ansInput: box.querySelector(".ans"),
+    qText: box.querySelector(".eval-q"),
+    note: box.querySelector(".lv-note"),
+    fb: box.querySelector(".fb")
+  };
+
+  /* 수준 선택 */
+  box.querySelectorAll(".lv").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      if (evalSubmitted) return;
+      // 이미 풀이를 적었다면 실수로 지워지지 않게 한 번 물어본다
+      if (item.level && (!pad.isEmpty() || item.ansInput.value.trim() !== "")) {
+        if (!window.confirm("수준을 바꾸면 지금 문제와 풀이가 지워집니다. 바꿀까요?")) return;
+      }
+      const lv = btn.dataset.lv;
+      const range = EVAL_LEVELS[lv];
+
+      box.querySelectorAll(".lv").forEach(function (b) {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+
+      item.level = lv;
+      item.number = pickEvalNumber(range, idx);
+      item.qText.className = "eval-q";
+      item.qText.textContent = "10진수 " + item.number + " 을(를) 2진수로 나타내시오.";
+      item.note.textContent = "수준 " + range.name + " · " + range.hint;
+      item.ansInput.disabled = false;
+      item.ansInput.value = "";
+      item.fb.textContent = "";
+      pad.clear();
+    });
+  });
+
+  /* 그리기 도구 */
+  box.querySelectorAll(".tool.w").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      box.querySelectorAll(".tool.w").forEach(function (b) {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+      pad.setWidth(Number(btn.dataset.w));
+    });
+  });
+  box.querySelectorAll(".tool.ink").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      box.querySelectorAll(".tool.ink").forEach(function (b) {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      });
+      box.querySelector(".tool.er").setAttribute("aria-pressed", "false");
+      pad.setColor(btn.dataset.c);
+    });
+  });
+  const erBtn = box.querySelector(".tool.er");
+  erBtn.addEventListener("click", function () {
+    const on = erBtn.getAttribute("aria-pressed") !== "true";
+    erBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    pad.setEraser(on);
+  });
+  box.querySelector(".tool.undo").addEventListener("click", function () {
+    if (!evalSubmitted) pad.undo();
+  });
+  box.querySelector(".tool.clr").addEventListener("click", function () {
+    if (evalSubmitted) return;
+    if (pad.isEmpty() || window.confirm("풀이를 모두 지울까요?")) pad.clear();
+  });
+
+  item.ansInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") e.preventDefault();
+  });
+
+  return item;
+}
+
+/* 평가 문제 뽑기
+   - 다른 평가 문제와 겹치지 않게 하고,
+   - **탭 ①의 연습문제로 이미 나온 수도 피한다**(연습에서 본 문제가 평가에 다시 나오지 않게). */
+function pickEvalNumber(range, idx) {
+  const used = evalItems.filter(function (it, i) { return i !== idx && it.number !== null; })
+                        .map(function (it) { return it.number; })
+                        .concat(quizNumbers);          // 연습문제 숫자도 제외
+  let n = 0;
+  let 시도 = 0;
+  do {
+    n = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+    시도++;
+  } while (used.indexOf(n) !== -1 && 시도 < 200);      // 후보가 거의 없을 때 무한 반복 방지
+  return n;
+}
+
+/* ---------- 화면 준비 ---------- */
+const evalProblemsArea = document.getElementById("evalProblems");
+const evClassSel = document.getElementById("evClass");
+for (let c = 1; c <= 15; c++) {                 // 반 목록 1~15
+  const op = document.createElement("option");
+  op.value = String(c);
+  op.textContent = c + "반";
+  evClassSel.appendChild(op);
+}
+for (let i = 0; i < EV_COUNT; i++) {
+  const item = buildEvalProblem(i);
+  evalItems.push(item);
+  evalProblemsArea.appendChild(item.box);
+}
+
+/* 제출 위치 안내 문구 */
+const evTargetNote = document.getElementById("evTargetNote");
+function updateTargetNote() {
+  evTargetNote.className = "target-note";
+  evTargetNote.innerHTML =
+    "제출하면 답안 PDF가 <strong>내 기기(다운로드 폴더)에 저장</strong>됩니다. 그 파일을 선생님께 제출하세요." +
+    (getEvalApiUrl() ? " (선생님 드라이브에도 함께 저장됩니다.)" : "") +
+    " <strong>여러 번 제출하면 선생님 화면에 제출 시각과 함께 모두 남습니다</strong> — 답을 다 확인한 뒤 누르세요.";
+}
+updateTargetNote();
+
+/* 평가 진행 단계에 따라 화면을 맞춘다
+   before  : [평가 시작] 전 — 문제 영역 잠김, 학습 탭 사용 가능
+   running : 평가 중 — 문제 영역 사용, **학습 탭 잠김(시뮬레이션 사용 불가)**
+   done    : 제출 완료 — 문제 영역 잠김(답안 보존), 학습 탭 다시 사용 가능 */
+function updateEvalSubmitState() {
+  const running = evalStarted && !evalSubmitted;
+  const submit  = document.getElementById("evSubmit");
+  const note    = document.getElementById("evPhaseNote");
+
+  lockEval(!running);                                   // 평가 중이 아니면 문제 영역을 잠근다
+  submit.disabled = !running;
+  submit.textContent = evalSubmitted ? "제출 완료" : "제출하기";
+  document.getElementById("evStart").disabled = running || evalSubmitted;
+  document.getElementById("evStart").textContent = evalSubmitted ? "평가 종료" : (running ? "평가 중" : "평가 시작");
+  document.getElementById("evRedo").disabled = false;   // 처음부터 다시는 언제나 가능
+
+  setLearningTabsLocked(running);                       // 평가 중에만 학습 탭을 잠근다
+
+  if (evalSubmitted) {
+    note.className = "target-note";
+    note.innerHTML = "제출이 끝났습니다. 채점 결과는 아래 <strong>3. 제출</strong>에서 확인하세요. " +
+                     "다시 풀려면 [처음부터 다시]를 누르세요.";
+  } else if (running) {
+    note.className = "target-note";
+    note.innerHTML = "<strong>평가 중입니다.</strong> 문제마다 수준을 고르고, 풀이를 손으로 적은 뒤 답을 입력하세요.";
+  } else {
+    note.className = "target-note off";
+    note.innerHTML = "위 <strong>1. 학생 정보</strong>를 채우고 <strong>[평가 시작]</strong>을 누르면 문제가 나옵니다.";
+  }
+}
+
+/* 학습 탭(① ②) 잠그기 / 풀기 */
+function setLearningTabsLocked(locked) {
+  const msg = document.getElementById("tabLockMsg");
+  [document.getElementById("tabDivide"), document.getElementById("tabEasy")].forEach(function (btn) {
+    btn.dataset.locked = locked ? "1" : "0";
+    btn.setAttribute("aria-disabled", locked ? "true" : "false");
+  });
+  // 혹시 진행 중이던 시뮬레이션이 있으면 멈추고 지운다
+  if (locked) {
+    resetView();
+    easyResetView();
+    showMsg("", "");
+    easyShowMsg("", "");
+    msg.classList.remove("hidden");
+    msg.textContent = "평가 중입니다. ① 2로 나누기 · ② 쉬운 방법 탭은 평가를 제출한 뒤에 쓸 수 있습니다.";
+  } else {
+    msg.classList.add("hidden");
+  }
+  // 시뮬레이션의 입력·단추도 함께 잠근다(탭 전환을 우회해도 쓰지 못하게)
+  ["decInput", "btnAll", "btnStep", "btnReset",
+   "easyInput", "easyBtnAll", "easyBtnStep", "easyBtnReset", "btnCompare", "btnNewQuiz"].forEach(function (id) {
+    const el = document.getElementById(id);
+    if (el) el.disabled = locked;
+  });
+  document.querySelectorAll("#quizArea input, #quizArea button").forEach(function (el) { el.disabled = locked; });
+}
+
+/* =========================================================
+   PDF 만들기 : 외부 라이브러리 없이 직접 조립한다
+   - 답안지 한 장을 캔버스에 그려 JPEG 로 만든 뒤,
+     그 JPEG 를 페이지마다 넣은 PDF 파일 구조를 손으로 만든다.
+   - 이렇게 하면 한글 글꼴을 PDF 에 넣지 않아도 한글이 그대로 보인다.
+   ========================================================= */
+function jpegOf(canvas) {
+  const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+  const base64 = dataUrl.substring(dataUrl.indexOf(",") + 1);
+  const bin = atob(base64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
+function buildPdf(pageImages) {
+  const A4W = 595, A4H = 842;            // A4 크기(포인트)
+  const chunks = [];
+  let size = 0;
+  function put(data) {
+    const bytes = (typeof data === "string") ? latin1(data) : data;
+    chunks.push(bytes);
+    size += bytes.length;
+  }
+  function latin1(s) {
+    const a = new Uint8Array(s.length);
+    for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i) & 0xff;
+    return a;
+  }
+
+  const objCount = 2 + pageImages.length * 3;
+  const offsets = new Array(objCount + 1).fill(0);
+
+  put("%PDF-1.4\n%âãÏÓ\n");
+
+  // 1 : 문서 목차
+  offsets[1] = size;
+  put("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+
+  // 2 : 페이지 목록
+  const kids = [];
+  for (let i = 0; i < pageImages.length; i++) kids.push((3 + i * 3) + " 0 R");
+  offsets[2] = size;
+  put("2 0 obj\n<< /Type /Pages /Kids [" + kids.join(" ") + "] /Count " + pageImages.length + " >>\nendobj\n");
+
+  // 페이지마다 : 페이지 → 내용 → 그림
+  pageImages.forEach(function (img, i) {
+    const pageNo = 3 + i * 3, contentNo = pageNo + 1, imgNo = pageNo + 2;
+
+    offsets[pageNo] = size;
+    put(pageNo + " 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 " + A4W + " " + A4H + "]" +
+        " /Resources << /XObject << /Im0 " + imgNo + " 0 R >> >> /Contents " + contentNo + " 0 R >>\nendobj\n");
+
+    const content = "q " + A4W + " 0 0 " + A4H + " 0 0 cm /Im0 Do Q\n";
+    offsets[contentNo] = size;
+    put(contentNo + " 0 obj\n<< /Length " + content.length + " >>\nstream\n" + content + "endstream\nendobj\n");
+
+    offsets[imgNo] = size;
+    put(imgNo + " 0 obj\n<< /Type /XObject /Subtype /Image /Width " + img.width +
+        " /Height " + img.height + " /ColorSpace /DeviceRGB /BitsPerComponent 8" +
+        " /Filter /DCTDecode /Length " + img.bytes.length + " >>\nstream\n");
+    put(img.bytes);
+    put("\nendstream\nendobj\n");
+  });
+
+  // 상호 참조 표(xref) : 각 줄이 정확히 20바이트여야 한다
+  const xrefAt = size;
+  let xref = "xref\n0 " + (objCount + 1) + "\n0000000000 65535 f \n";
+  for (let i = 1; i <= objCount; i++) {
+    xref += ("0000000000" + offsets[i]).slice(-10) + " 00000 n \n";
+  }
+  put(xref);
+  put("trailer\n<< /Size " + (objCount + 1) + " /Root 1 0 R >>\nstartxref\n" + xrefAt + "\n%%EOF\n");
+
+  return new Blob(chunks, { type: "application/pdf" });
+}
+
+/* 답안지 한 장을 캔버스에 그린다 (문제 1개당 1장) */
+function renderAnswerPage(meta, item, result, pageNo, pageTotal) {
+  const c = document.createElement("canvas");
+  c.width = 1240;                         // A4 비율 (약 150dpi)
+  c.height = 1754;
+  const g = c.getContext("2d");
+  const F = "'Malgun Gothic', '맑은 고딕', sans-serif";
+
+  g.fillStyle = "#ffffff";
+  g.fillRect(0, 0, c.width, c.height);
+
+  // 머리글
+  g.fillStyle = "#103b6f";
+  g.font = "bold 46px " + F;
+  g.fillText("2진수 변환 평가", 70, 100);
+  g.font = "24px " + F;
+  g.fillStyle = "#4a5b70";
+  g.fillText(pageNo + " / " + pageTotal + " 쪽", c.width - 190, 100);
+  g.fillStyle = "#1668c9";
+  g.fillRect(70, 122, c.width - 140, 5);
+
+  // 학생 정보 + 점수
+  g.fillStyle = "#1b2430";
+  g.font = "bold 30px " + F;
+  g.fillText(meta.grade + "학년 " + meta.class + "반 " + meta.no + "번   " + meta.name, 70, 182);
+  g.font = "24px " + F;
+  g.fillStyle = "#4a5b70";
+  g.fillText("제출 " + meta.submittedAt + "   ·   점수 " + meta.score + " / " + meta.total +
+             "점 (" + meta.rate + "%)", 70, 224);
+
+  // 문제
+  g.fillStyle = "#eef4fd";
+  g.fillRect(70, 260, c.width - 140, 120);
+  g.fillStyle = "#103b6f";
+  g.font = "bold 32px " + F;
+  g.fillText("문제 " + pageNo + "   (수준 " + EVAL_LEVELS[item.level].name +
+             " · 배점 " + result.points + "점)", 96, 306);
+  g.font = "bold 34px " + F;
+  g.fillText("10진수 " + item.number + " 을(를) 2진수로 나타내시오.", 96, 356);
+
+  // 채점 결과
+  g.font = "bold 30px " + F;
+  g.fillStyle = "#1b2430";
+  g.fillText("내가 쓴 답 : " + (result.typed || "(빈칸)"), 70, 440);
+  g.fillText("정답 : " + result.correct, 70, 486);
+  g.fillStyle = result.ok ? "#1b7c3d" : "#c62828";
+  g.font = "bold 40px " + F;
+  g.fillText(result.ok ? "○ 정답" : "× 오답", c.width - 300, 448);
+  g.font = "bold 28px " + F;
+  g.fillText("얻은 점수 " + result.earned + " / " + result.points + "점", c.width - 300, 492);
+
+  // 풀이 그림
+  g.fillStyle = "#4a5b70";
+  g.font = "24px " + F;
+  g.fillText("풀이", 70, 546);
+  const boxX = 70, boxY = 566, boxW = c.width - 140, boxH = Math.round((c.width - 140) * 400 / 1400);
+  g.strokeStyle = "#a8bdd8";
+  g.lineWidth = 3;
+  g.strokeRect(boxX, boxY, boxW, boxH);
+  g.drawImage(item.pad.canvas, boxX + 2, boxY + 2, boxW - 4, boxH - 4);
+
+  // 꼬리말
+  g.fillStyle = "#8a97a8";
+  g.font = "20px " + F;
+  g.fillText("10진수 → 2진수 변환 학습기 · 자료의 디지털 표현 [9정02-01]", 70, c.height - 60);
+
+  return { canvas: c, width: c.width, height: c.height };
+}
+
+/* ---------- 제출하기 ---------- */
+const evSubmitMsg = document.getElementById("evSubmitMsg");
+const evResultBox = document.getElementById("evResultBox");
+const evGradeBody = document.getElementById("evGradeBody");
+
+function evShowMsg(text, type) {
+  evSubmitMsg.textContent = text;
+  evSubmitMsg.className = "msg " + (type || "");
+}
+
+function twoDigits(n) { return (n < 10 ? "0" : "") + n; }
+
+function nowStamp() {
+  const d = new Date();
+  return {
+    text: d.getFullYear() + "-" + twoDigits(d.getMonth() + 1) + "-" + twoDigits(d.getDate()) +
+          " " + twoDigits(d.getHours()) + ":" + twoDigits(d.getMinutes()),
+    file: "" + d.getFullYear() + twoDigits(d.getMonth() + 1) + twoDigits(d.getDate()) +
+          "_" + twoDigits(d.getHours()) + twoDigits(d.getMinutes())
+  };
+}
+
+/* 학생 정보가 모두 채워졌는지 확인해서 돌려준다 (없으면 null) */
+function readStudentInfo() {
+  const grade = document.getElementById("evGrade").value;
+  const klass = document.getElementById("evClass").value;
+  const no    = document.getElementById("evNo").value.trim();
+  const name  = document.getElementById("evName").value.trim();
+  if (!grade || !klass || !no || !name) return null;
+  return { grade: grade, klass: klass, no: no, name: name };
+}
+
+async function submitEval() {
+  if (evalSubmitted) { evShowMsg("이미 제출했습니다.", "error"); return; }
+  if (!evalStarted) { evShowMsg("먼저 [평가 시작]을 눌러 주세요.", "error"); return; }
+
+  // ① 학생 정보 확인
+  const info = readStudentInfo();
+  if (!info) {
+    evShowMsg("학년·반·학번·이름을 모두 입력해 주세요.", "error");
+    document.getElementById("evGrade").focus();
+    return;
+  }
+  const grade = info.grade, klass = info.klass, no = info.no, name = info.name;
+
+  // ② 문제·답 확인
+  for (let i = 0; i < evalItems.length; i++) {
+    const it = evalItems[i];
+    if (!it.level) { evShowMsg("문제 " + (i + 1) + "의 수준을 골라 주세요.", "error"); return; }
+    const typed = it.ansInput.value.trim();
+    if (typed === "") { evShowMsg("문제 " + (i + 1) + "의 정답을 입력해 주세요.", "error"); it.ansInput.focus(); return; }
+    if (!/^[01]+$/.test(typed)) {
+      evShowMsg("문제 " + (i + 1) + "의 답은 0과 1로만 입력해 주세요.", "error");
+      it.ansInput.focus();
+      return;
+    }
+  }
+  const emptyPads = evalItems.filter(function (it) { return it.pad.isEmpty(); }).length;
+  if (emptyPads > 0 &&
+      !window.confirm("풀이를 적지 않은 문제가 " + emptyPads + "개 있습니다. 그래도 제출할까요?")) return;
+
+  // ③ 채점 : 수준별 배점을 더한다 (만점 = 고른 수준의 배점 합)
+  const stamp = nowStamp();
+  const results = evalItems.map(function (it) {
+    const typed = it.ansInput.value.trim();
+    const correct = it.number.toString(2);
+    const points = EVAL_LEVELS[it.level].points;
+    const ok = parseInt(typed, 2) === it.number;
+    return { typed: typed, correct: correct, ok: ok, points: points, earned: ok ? points : 0 };
+  });
+  const score = results.reduce(function (a, r) { return a + r.earned; }, 0);   // 얻은 점수
+  const total = results.reduce(function (a, r) { return a + r.points; }, 0);   // 만점
+  const rate  = total > 0 ? Math.round(score / total * 100) : 0;              // 획득률(%)
+
+  const meta = {
+    grade: grade, class: klass, no: no, name: name,
+    score: score, total: total, rate: rate,
+    submittedAt: stamp.text,
+    problems: evalItems.map(function (it, i) {
+      return { level: EVAL_LEVELS[it.level].name, points: results[i].points, number: it.number,
+               typed: results[i].typed, correct: results[i].correct,
+               ok: results[i].ok, earned: results[i].earned };
+    })
+  };
+
+  evalSubmitted = true;
+  updateEvalSubmitState();
+
+  // 채점 표
+  evGradeBody.innerHTML = "";
+  evalItems.forEach(function (it, i) {
+    const r = results[i];
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + (i + 1) + "번</td>" +
+                   "<td>" + EVAL_LEVELS[it.level].name + "</td>" +
+                   "<td>" + r.points + "점</td>" +
+                   "<td>" + it.number + "</td>" +
+                   "<td>" + r.typed + "</td>" +
+                   "<td>" + r.correct + "</td>" +
+                   "<td class='ox " + (r.ok ? "ox-o" : "ox-x") + "'>" +
+                     (r.ok ? "○ +" + r.earned + "점" : "× 0점") + "</td>";
+    evGradeBody.appendChild(tr);
+  });
+  document.getElementById("evScore").textContent =
+    score + " / " + total + " 점  (" + rate + "%)";
+  evResultBox.classList.remove("hidden");
+
+  // ④ PDF 만들기
+  evShowMsg("답안지를 PDF로 만들고 있습니다…", "info");
+  const pages = evalItems.map(function (it, i) {
+    const page = renderAnswerPage(meta, it, results[i], i + 1, EV_COUNT);
+    return { bytes: jpegOf(page.canvas), width: page.width, height: page.height };
+  });
+  const blob = buildPdf(pages);
+  // 파일 이름에 점수와 만점을 함께 넣는다(만점이 학생마다 달라서 점수만으로는 비교가 안 되므로)
+  const filename = "2진수평가_" + grade + "-" + klass + "-" + twoDigits(Number(no)) + "_" + name +
+                   "_" + score + "점(만점" + total + ")_" + stamp.file + ".pdf";
+
+  // ⑤ PDF 는 언제나 내 PC 에 저장한다. (드라이브 주소가 설정돼 있으면 거기에도 함께 보낸다)
+  lastPdf = { blob: blob, filename: filename };
+  downloadBlob(blob, filename);
+  let saveInfo = "PDF를 내 PC(다운로드 폴더)에 저장했습니다. 파일명 : " + filename;
+  evShowMsg("제출이 완료되었습니다. 점수 " + score + " / " + EV_COUNT + "점", "info");
+
+  const api = getEvalApiUrl();
+  if (api) {
+    try {
+      const base64 = await blobToBase64(blob);
+      const res = await fetch(api, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },   // 미리 확인 요청(preflight)을 피하기 위한 방식
+        body: JSON.stringify({ action: "submit", filename: filename, meta: meta, pdfBase64: base64 })
+      });
+      const out = await res.json();
+      if (!out || !out.ok) throw new Error(out && out.error ? out.error : "서버 응답 오류");
+      saveInfo += "  ·  선생님 드라이브에도 저장했습니다.";
+    } catch (err) {
+      saveInfo += "  ·  (선생님 드라이브 저장은 실패했습니다 : " +
+                  (err && err.message ? err.message : "연결 실패") + " — 내려받은 파일로 제출하세요.)";
+    }
+  }
+  document.getElementById("evSaveInfo").textContent = saveInfo;
+  return { filename: filename, size: blob.size, score: score };
+}
+
+function blobToBase64(blob) {
+  return new Promise(function (resolve, reject) {
+    const fr = new FileReader();
+    fr.onload = function () {
+      const s = String(fr.result);
+      resolve(s.substring(s.indexOf(",") + 1));
+    };
+    fr.onerror = reject;
+    fr.readAsDataURL(blob);
+  });
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+}
+
+/* 제출 뒤에는 고칠 수 없게 잠근다 */
+function lockEval(locked) {
+  ["evGrade", "evClass", "evNo", "evName"].forEach(function (id) {
+    document.getElementById(id).disabled = locked;
+  });
+  evalItems.forEach(function (it) {
+    it.ansInput.disabled = locked || !it.level;
+    it.box.querySelectorAll("button").forEach(function (b) { b.disabled = locked; });
+  });
+  document.getElementById("evSubmit").disabled = locked;
+}
+
+/* 처음부터 다시 : 화면을 비운다 (제출한 PDF 는 그대로 남는다) */
+function resetEval() {
+  // 제출한 뒤에도 다시 풀 수 있다(제출 횟수 제한 없음). 제출한 PDF 는 그대로 남는다.
+  if (!window.confirm(evalSubmitted
+        ? "새로 풀어서 다시 제출할까요? 방금 낸 PDF 파일은 그대로 남습니다."
+        : "입력한 내용과 풀이를 모두 지우고 처음부터 다시 할까요?")) return;
+  evalSubmitted = false;
+  evalStarted = false;              // 다시 [평가 시작] 을 눌러야 한다(학습 탭도 다시 열린다)
+  ["evGrade", "evClass"].forEach(function (id) { document.getElementById(id).value = ""; });
+  document.getElementById("evNo").value = "";
+  document.getElementById("evName").value = "";
+  evalItems.forEach(function (it) {
+    it.level = null;
+    it.number = null;
+    it.ansInput.value = "";
+    it.ansInput.disabled = true;
+    it.qText.className = "eval-q empty";
+    it.qText.textContent = "— 상 · 중 · 하 중에서 수준을 먼저 고르세요 —";
+    it.note.textContent = "수준을 고르면 문제가 나옵니다";
+    it.fb.textContent = "";
+    it.pad.clear();
+    it.box.querySelectorAll(".lv").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+  });
+  document.getElementById("evStartMsg").textContent = "";
+  updateEvalSubmitState();
+  evResultBox.classList.add("hidden");
+  evGradeBody.innerHTML = "";
+  evShowMsg("", "");
+}
+
+/* [평가 시작] : 학생 정보를 확인하고 평가를 시작한다(이때부터 학습 탭이 잠긴다) */
+document.getElementById("evStart").addEventListener("click", function () {
+  const startMsg = document.getElementById("evStartMsg");
+  const info = readStudentInfo();
+  if (!info) {
+    startMsg.className = "feedback no";
+    startMsg.textContent = "학년·반·학번·이름을 모두 입력한 뒤 눌러 주세요.";
+    document.getElementById("evGrade").focus();
+    return;
+  }
+  evalStarted = true;
+  updateEvalSubmitState();
+  startMsg.className = "feedback ok";
+  startMsg.textContent = info.grade + "학년 " + info.klass + "반 " + Number(info.no) + "번 " +
+                         info.name + " · 평가를 시작했습니다.";
+  evShowMsg("", "");
+});
+
+document.getElementById("evSubmit").addEventListener("click", function () { submitEval(); });
+document.getElementById("evRedo").addEventListener("click", resetEval);
+
+/* 내려받은 PDF 를 다시 받기 / 새 탭에서 열기 (다운로드가 막힌 경우 대비) */
+document.getElementById("evAgain").addEventListener("click", function () {
+  if (!lastPdf) { evShowMsg("먼저 제출해 주세요.", "error"); return; }
+  downloadBlob(lastPdf.blob, lastPdf.filename);
+  evShowMsg("PDF를 다시 내려받았습니다.", "info");
+});
+document.getElementById("evOpen").addEventListener("click", function () {
+  if (!lastPdf) { evShowMsg("먼저 제출해 주세요.", "error"); return; }
+  const url = URL.createObjectURL(lastPdf.blob);
+  window.open(url, "_blank");          // 새 탭에서 열면 Ctrl+S 로도 저장할 수 있다
+  setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+});
+
+/* 시작할 때 연습문제 준비 */
+buildQuiz();
+updateStepButton();
+easyUpdateStepButton();
+updateEvalSubmitState();
+</script>
+</body>
+</html>
