@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>무선통신 시뮬레이터 — 스마트하우스, 선 없이 잇기</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>📡 무선통신 시뮬레이터</h1>
+  <span class="badge">실습 전에 원리 먼저</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 프로젝트 홈</a>
+</header>
+
+<div class="wrap">
+
+  <!-- ===== 스테이지 고르기 ===== -->
+  <div class="stagepick" id="stagePick">
+    <button class="btn on" data-stage="1">① 명령이 누구에게 가는가</button>
+    <button class="btn" data-stage="2">② 기기를 어떻게 찾는가</button>
+    <button class="btn" data-stage="3">③ 가까이 가면 반응한다</button>
+  </div>
+
+  <!-- ===== 스테이지 설명 ===== -->
+  <section class="card" id="stageCard">
+    <h2><span class="step" id="stageNo">스테이지 1</span> <span id="stageTitle">명령이 누구에게 가는가</span></h2>
+    <p class="lead" id="stageLead"></p>
+    <div class="hint" id="stageHint"></div>
+  </section>
+
+  <!-- ===== 실험 화면 ===== -->
+  <section class="card">
+    <div class="labgrid">
+
+      <div class="labmain">
+        <div class="scenepick" id="scenePick" hidden>
+          <button class="btn on" data-scene="house">🏠 우리 집 · 옆집</button>
+          <button class="btn" data-scene="duck">🐤 오리 릴레이 예행연습</button>
+        </div>
+        <canvas id="lab"></canvas>
+        <p class="tinynote" id="labNote"></p>
+      </div>
+
+      <aside class="labside">
+
+        <!-- micro:bit 화면 -->
+        <div class="mbcard" data-for="2 3">
+          <div class="mbtitle">micro:bit 화면</div>
+          <div class="mbscreen" id="mbscreen" aria-hidden="true"></div>
+          <div class="mbcaption" id="mbCaption">—</div>
+        </div>
+
+        <!-- 계기판 -->
+        <div class="gauge" data-for="2 3">
+          <div class="gaugerow">
+            <span>신호 세기</span>
+            <b id="gRssi">—</b>
+          </div>
+          <div class="bar"><i id="gBar" style="width:0%"></i></div>
+          <div class="gaugescale"><span>-95 약함</span><span>-42 강함</span></div>
+          <div class="gaugerow"><span>거리</span><b id="gDist">—</b></div>
+          <div class="gaugerow" data-for="2"><span>도착률</span><b id="gRate">—</b></div>
+          <div class="gaugerow" data-for="3"><span>지나온 벽</span><b id="gWalls">—</b></div>
+        </div>
+
+        <!-- 패킷 모니터 -->
+        <div class="monitor">
+          <div class="mbtitle">📻 패킷 모니터</div>
+          <div id="log" class="log"></div>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===== 조작 ===== -->
+  <section class="card">
+    <h2>🎛️ 조작</h2>
+
+    <!-- 스테이지 1 -->
+    <div class="ctlwrap" data-key="1">
+      <div class="ctl">
+        <label for="s1group">내 <b>리모컨</b>의 그룹 번호 <span class="num" id="s1groupV">7</span></label>
+        <input type="range" id="s1group" min="0" max="255" value="7">
+        <p class="tinynote"><code>radio.setGroup(번호)</code> — 번호가 같은 것끼리만 이야기한다</p>
+      </div>
+      <div class="ctl">
+        <label for="s1myGroup">우리 집 <b>기기</b>의 그룹 번호 <span class="num" id="s1myGroupV">7</span></label>
+        <input type="range" id="s1myGroup" min="0" max="255" value="7">
+        <p class="tinynote">리모컨과 기기가 <b>둘 다</b> 같아야 통한다</p>
+      </div>
+      <div class="ctl">
+        <label for="s1nbGroup">옆집(2호) 기기의 그룹 번호 <span class="num" id="s1nbGroupV">7</span></label>
+        <input type="range" id="s1nbGroup" min="0" max="255" value="7">
+        <p class="tinynote">옆집이 우연히 같은 번호를 쓰고 있다</p>
+      </div>
+      <div class="ctl">
+        <label for="s1target">누구에게 보낼까 (<b>주소</b>)</label>
+        <select id="s1target">
+          <option value="all">전체에게 (브로드캐스트)</option>
+          <option value="light">💡 거실등</option>
+          <option value="lock">🚪 현관 도어락</option>
+          <option value="curtain">🪟 커튼</option>
+          <option value="boiler">🌡️ 보일러</option>
+        </select>
+        <p class="tinynote">보내는 방식은 늘 <b>브로드캐스트</b>다. 주소는 메시지 안에 글자로 넣는다</p>
+      </div>
+      <div class="ctl">
+        <label>명령</label>
+        <div class="btnrow">
+          <button class="btn on" id="s1cmdOn">켜기 ON</button>
+          <button class="btn" id="s1cmdOff">끄기 OFF</button>
+        </div>
+      </div>
+      <div class="ctl wide">
+        <div class="btnrow">
+          <button class="btn primary big" id="s1send">📤 보내기</button>
+          <button class="btn" id="s1reset">기기 모두 끄기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 스테이지 1 · 오리 릴레이 -->
+    <div class="ctlwrap" data-key="1duck" hidden>
+      <div class="ctl">
+        <label for="dPlayers">참가자 수 <span class="num" id="dPlayersV">4</span></label>
+        <input type="range" id="dPlayers" min="3" max="8" value="4">
+      </div>
+      <div class="ctl wide">
+        <div class="btnrow">
+          <button class="btn primary big" id="dShake">🤝 흔들기 (오리 넘기기)</button>
+          <button class="btn" id="dAuto">자동으로 10번</button>
+          <button class="btn" id="dReset">처음으로</button>
+        </div>
+        <p class="tinynote">오리를 가진 사람만 넘길 수 있다. 자기 자신에게는 못 보낸다</p>
+      </div>
+    </div>
+
+    <!-- 스테이지 2 -->
+    <div class="ctlwrap" data-key="2" hidden>
+      <div class="ctl">
+        <label for="s2power">비콘 <b>송신 출력</b> <span class="num" id="s2powerV">0</span></label>
+        <input type="range" id="s2power" min="0" max="7" value="0">
+        <p class="tinynote"><code>radio.setTransmitPower(0~7)</code> — <span id="s2powerDbm">-30 dBm</span></p>
+      </div>
+      <div class="ctl">
+        <label for="s2interval">전송 간격 <span class="num" id="s2intervalV">200 ms</span></label>
+        <input type="range" id="s2interval" min="100" max="2000" step="100" value="200">
+        <p class="tinynote">1분에 <b id="s2rate">300</b>번 전송 · 배터리 예상 <b id="s2battery">—</b><br>
+          <span class="dim">보낼 때만 깨어나는 <b>절전 방식</b>으로 짰다고 볼 때의 어림값이다.
+          그냥 켜 두면 간격을 늘려도 수명은 거의 안 변한다.</span></p>
+      </div>
+      <div class="ctl wide">
+        <div class="btnrow">
+          <button class="btn" id="s2reveal">👀 비콘 위치 보기</button>
+          <button class="btn" id="s2shuffle">🔀 다시 숨기기</button>
+          <button class="btn" id="s2reset">찾은 기록 지우기</button>
+        </div>
+        <p class="tinynote">수신기(파란 점)를 <b>끌어서</b> 옮긴다. 화살표 키로도 움직인다</p>
+      </div>
+    </div>
+
+    <!-- 스테이지 3 -->
+    <div class="ctlwrap" data-key="3" hidden>
+      <div class="ctl">
+        <label for="s3power">현관 비콘 <b>송신 출력</b> <span class="num" id="s3powerV">6</span></label>
+        <input type="range" id="s3power" min="0" max="7" value="6">
+        <p class="tinynote"><span id="s3powerDbm">0 dBm</span></p>
+      </div>
+      <div class="ctl">
+        <label for="s3thr"><b>임계값</b> — 이 값보다 세면 현관등 ON <span class="num" id="s3thrV">-70</span></label>
+        <input type="range" id="s3thr" min="-95" max="-42" value="-70">
+        <p class="tinynote">너무 높이면 문 앞에서도 안 켜지고, 너무 낮추면 지나가는 사람에게 켜진다</p>
+      </div>
+      <div class="ctl">
+        <label><input type="checkbox" id="s3noise" checked> 신호 흔들림(잡음) 넣기</label>
+        <p class="tinynote">실제 RSSI 는 가만히 서 있어도 ±2~3 dB 흔들린다</p>
+      </div>
+      <div class="ctl wide">
+        <div class="btnrow">
+          <button class="btn primary big" id="s3walk">🚶 걷기 시험 시작</button>
+          <button class="btn" id="s3stop">멈추기</button>
+        </div>
+        <p class="tinynote">우리 집 사람 3명이 현관까지 걸어오고, 옆집 사람 3명이 앞을 지나간다</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 미션 ===== -->
+  <section class="card" id="missionCard">
+    <h2>🏆 미션</h2>
+    <div id="missionList"></div>
+  </section>
+
+  <!-- ===== 정리 + 실습으로 ===== -->
+  <section class="card" id="nextCard">
+    <h2>🔧 이제 실물로</h2>
+    <p class="lead" id="nextLead"></p>
+    <div class="setupbox">
+      <div class="mbtitle">이 스테이지에서 정한 값 — 실습에 그대로 씁니다</div>
+      <div id="setupSummary" class="setupsum"></div>
+    </div>
+    <div class="btnrow">
+      <a class="btn primary big" id="nextLink" href="#" target="mb-lab" data-win rel="noopener">실습 페이지 열기 ↗</a>
+      <a class="btn" href="index.html">프로젝트 홈으로</a>
+    </div>
+    <p class="tinynote">새 창으로 열립니다. 시뮬레이터를 옆에 두고 보세요.</p>
+  </section>
+
+</div>
+
+<script src="js/pdf.js"></script>
+<script src="js/radio.js"></script>
+<script src="js/sim.js"></script>
+</body>
+</html>

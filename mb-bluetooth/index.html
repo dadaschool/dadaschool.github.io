@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스마트하우스, 선 없이 잇기 — micro:bit 무선통신</title>
+<link rel="stylesheet" href="css/app.css">
+<style>
+  .hero { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff;
+          border-radius: var(--radius); padding: 30px 32px; margin: 0 0 24px; }
+  .hero h2 { margin: 0 0 10px; font-size: 32px; }
+  .hero p { margin: 0; font-size: 20px; opacity: .95; line-height: 1.55; }
+  .hero .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .hero .tags span { background: rgba(255,255,255,.2); border-radius: 999px; padding: 5px 14px; font-size: 16px; }
+  .stepcard .go { display: flex; gap: 10px; flex-wrap: wrap; }
+  .stepcard .go .btn { min-height: 50px; padding: 10px 18px; font-size: 18px; }
+  .grouptbl td.pick { font-weight: bold; color: var(--brand); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>🏠 스마트하우스, 선 없이 잇기</h1>
+  <span class="badge">중등 영재 · micro:bit 무선통신</span>
+  <span class="spacer"></span>
+  <a class="home" href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h2>우리 모둠 스마트하우스를 짓는다</h2>
+    <p>그런데 집 안에 선을 다 깔 수는 없다. <b>무선으로 이어야 한다.</b><br>
+       시뮬레이터로 원리를 먼저 잡고, 곧바로 실제 micro:bit 로 만들어 본다.</p>
+    <div class="tags">
+      <span>시뮬레이터 3</span><span>micro:bit 실습 3</span><span>학습지 16문항</span><span>5차시</span>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>📍 이렇게 진행합니다</h2>
+    <p class="lead">각 단계마다 <b>시뮬레이터로 먼저 이해하고 → 실물로 확인</b>합니다.</p>
+
+    <div class="steps">
+
+      <div class="stepcard">
+        <div class="n">1</div>
+        <div>
+          <h3>어떤 센서를 넣을까</h3>
+          <p>스마트하우스에 들어갈 센서를 모둠별로 조사한다. 표를 채우면 <b>노션에 그대로 붙여넣을 수 있게</b> 복사해 준다.</p>
+        </div>
+        <div class="go">
+          <a class="btn primary" href="sensors.html">센서 조사 ▸</a>
+        </div>
+      </div>
+
+      <div class="stepcard">
+        <div class="n">2</div>
+        <div>
+          <h3>명령이 누구에게 가는가 <span class="dim">— 그룹과 주소</span></h3>
+          <p>무선 명령은 편지가 아니라 <b>확성기</b>다. 근처의 모두가 듣는데도 거실등만 켜지는 이유를 알아낸다.</p>
+        </div>
+        <div class="go">
+          <a class="btn primary" href="sim.html?s=1">시뮬레이터 ①</a>
+          <a class="btn" href="https://microbit.org/ko/projects/make-it-code-it/group-teleporting-duck/"
+             target="mb-lab" data-win rel="noopener">실습① 그룹 텔레포트 ↗</a>
+        </div>
+      </div>
+
+      <div class="stepcard">
+        <div class="n">3</div>
+        <div>
+          <h3>기기를 어떻게 찾는가 <span class="dim">— 신호 세기와 출력</span></h3>
+          <p>숨은 비콘이 자기 번호를 외치고 있다. <b>가까울수록 자주 뜬다</b>는 것 하나로 위치를 짚어 낸다.</p>
+        </div>
+        <div class="go">
+          <a class="btn primary" href="sim.html?s=2">시뮬레이터 ②</a>
+          <a class="btn" href="https://microbit.org/ko/projects/make-it-code-it/treasure-hunt/"
+             target="mb-lab" data-win rel="noopener">실습② 보물찾기 ↗</a>
+        </div>
+      </div>
+
+      <div class="stepcard">
+        <div class="n">4</div>
+        <div>
+          <h3>가까이 가면 반응한다 <span class="dim">— 비례 변환과 임계값</span></h3>
+          <p>신호 세기를 숫자로 읽어 거리를 짐작한다. 오탐도 미탐도 없는 <b>임계값</b>을 직접 찾는다.</p>
+        </div>
+        <div class="go">
+          <a class="btn primary" href="sim.html?s=3">시뮬레이터 ③</a>
+          <a class="btn" href="https://microbit.org/ko/projects/make-it-code-it/proximity-beacon/"
+             target="mb-lab" data-win rel="noopener">실습③ 근접 비콘 ↗</a>
+        </div>
+      </div>
+
+      <div class="stepcard lab">
+        <div class="n">5</div>
+        <div>
+          <h3>우리 집 설계하고 제출하기</h3>
+          <p>학습지 16문항을 채우고 <b>스마트하우스 설계도</b>를 그려 PDF 로 낸다.
+             제출하면 답이 잠기고, 선생님이 <b>정답 코드</b>를 알려 주면 해설이 열린다.</p>
+        </div>
+        <div class="go">
+          <a class="btn primary" href="worksheet.html">학습지 ▸</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🔧 실습 준비물과 운영</h2>
+    <div class="tablescroll">
+      <table class="grid">
+        <tr><th>실습</th><th>필요한 것</th><th>인원</th><th>이 시뮬레이터에서 미리 정할 값</th></tr>
+        <tr>
+          <td class="left"><b>① 그룹 텔레포트</b></td>
+          <td class="left">micro:bit 3대 이상 · 배터리팩</td><td>모둠 3~8명</td>
+          <td class="left"><code>radio.setGroup()</code> 번호</td>
+        </tr>
+        <tr>
+          <td class="left"><b>② 보물찾기</b></td>
+          <td class="left">micro:bit 여러 대 · 배터리팩 · 넓은 공간</td><td>모둠 3~4명</td>
+          <td class="left">송신 출력 · 전송 간격</td>
+        </tr>
+        <tr>
+          <td class="left"><b>③ 근접 비콘</b></td>
+          <td class="left">micro:bit 2대 이상 · 배터리팩</td><td>2인 1조</td>
+          <td class="left">송신 출력 · 임계값 · map 범위</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="warnbox">
+      <b>모둠마다 그룹 번호를 미리 다르게 배정하세요.</b> 번호가 겹치면 실습②에서 옆 모둠 비콘이 잡혀
+      수업이 꼬입니다. 추천 : 1모둠 <b>11</b> · 2모둠 <b>22</b> · 3모둠 <b>33</b> … 8모둠 <b>88</b>
+    </div>
+
+    <div class="hint">
+      <b>실습이 안 될 때 점검 순서</b> ① 보내는 쪽·받는 쪽의 그룹 번호가 같은가
+      ② 배터리가 끼워져 있는가 ③ 코드를 실제로 micro:bit 에 내려받았는가
+      ④ 옆 모둠과 번호가 겹치지 않는가
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📚 무엇을 배우나</h2>
+    <div class="tablescroll">
+      <table class="grid">
+        <tr><th>성취기준</th><th>내용</th><th>담당하는 단계</th></tr>
+        <tr><td><b>[9정01-02]</b></td>
+            <td class="left">피지컬 컴퓨팅의 개념을 이해하고 생활 속 적용 사례로 가치를 판단한다</td><td>1 · 5</td></tr>
+        <tr><td><b>[9정01-03]</b></td>
+            <td class="left">문제 해결 목적에 맞는 피지컬 컴퓨팅 구성요소를 선택해 시스템을 구상한다</td><td>2~5</td></tr>
+        <tr><td><b>[9정03-06]</b></td>
+            <td class="left">논리 연산과 중첩 제어 구조를 활용해 문제를 해결하는 프로그램을 작성한다</td><td>2 · 4</td></tr>
+        <tr><td><b>[9정03-08]</b></td>
+            <td class="left">실생활의 문제를 탐색해 발견하고 프로그래밍으로 해결한다</td><td>4 · 5</td></tr>
+        <tr><td><b>[9정03-09]</b></td>
+            <td class="left">다양한 분야의 문제 해결을 위해 협력하여 소프트웨어를 개발한다</td><td>모둠 활동 전체</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>ℹ️ 알아 둘 것</h2>
+    <div class="hint">
+      <b>micro:bit 의 <code>radio</code> 는 엄밀히 말하면 블루투스가 아닙니다.</b>
+      같은 2.4GHz 대역을 쓰지만 Nordic 칩의 전용 방식이라 훨씬 단순합니다.
+      micro:bit 는 진짜 블루투스(BLE)도 되지만 <code>radio</code> 와 <b>동시에는 쓸 수 없습니다</b>.
+      그래도 <b>채널(그룹) · 주소 · 신호 세기 · 송신 출력</b> 이라는 개념은 실제 블루투스와 그대로 통합니다.
+    </div>
+    <p class="tinynote">
+      개인정보 : 학년·반·학번·이름은 <b>PDF를 만드는 순간에만</b> 물어보고 PDF 안에만 들어갑니다.
+      기기에는 아무것도 저장하지 않습니다. 시뮬레이터와 실습 안내는 누구나 볼 수 있고,
+      <b>정답·해설과 선생님 화면만</b> 코드로 잠겨 있습니다.
+    </p>
+  </section>
+
+</div>
+
+<script src="js/pdf.js"></script>
+</body>
+</html>
