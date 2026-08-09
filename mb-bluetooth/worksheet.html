@@ -50,12 +50,13 @@
     <h2>이 학습지는 이렇게 씁니다</h2>
     <div class="hint">
       ① 시뮬레이터와 실습을 하면서 <b>채워 나갑니다</b>.
-      ② 다 쓰면 <b>PDF로 저장</b>해서 냅니다. 그때 답이 잠깁니다.
+      ② 다 쓰면 <b>제출하기</b>를 누릅니다. PDF 가 만들어져 선생님께 바로 갑니다. 그때 답이 잠깁니다.
       ③ 선생님이 <b>정답 코드</b>를 알려 주면 그때 채점 결과와 해설이 열립니다.
     </div>
     <p class="tinynote">
-      학년·반·학번·이름은 <b>PDF를 만드는 순간에만</b> 물어보고 PDF 안에만 들어갑니다.
-      이 기기에는 아무것도 저장하지 않습니다. (쓰던 글은 탭을 닫으면 사라집니다)
+      학년·반·학번·이름은 <b>제출하는 순간에만</b> 물어봅니다. 이 기기에는 아무것도 저장하지 않습니다.
+      선생님께는 <b>이름·학년과 PDF</b>가 전달되고, 반·학번은 PDF 안에만 들어갑니다.
+      (쓰던 글은 탭을 닫으면 사라집니다)
     </p>
     <div class="btnrow">
       <a class="btn" href="sim.html" target="mb-sim" data-win rel="noopener">시뮬레이터 열기 ↗</a>
@@ -67,9 +68,10 @@
   <section class="card">
     <div id="sheet"></div>
     <div class="savebar">
-      <span class="grow" id="saveNote">다 쓰면 PDF로 저장해서 제출하세요.</span>
+      <span class="grow" id="saveNote">다 쓰면 제출하세요.</span>
       <button class="btn" id="btnClear">쓴 내용 지우기</button>
-      <button class="btn primary big" id="btnSave">PDF로 저장하기</button>
+      <button class="btn" id="btnDownload" hidden>PDF로 내려받기</button>
+      <button class="btn primary big" id="btnSave">제출하기</button>
     </div>
   </section>
 
@@ -83,6 +85,7 @@
 <script src="js/pdf.js"></script>
 <script src="js/lock.js"></script>
 <script src="js/locked.js"></script>
+<script src="js/notion.js"></script>
 <script>
 (function () {
   "use strict";
@@ -454,30 +457,100 @@
   /* ---------------------------------------------------------
      제출 · 잠금 · 정답 열기
      --------------------------------------------------------- */
+  /* 노션에 바로 낼 수 있는가 (설정이 없으면 예전처럼 PDF 를 내려받는다) */
+  function toNotion() { return !!(window.Notion && Notion.enabled()); }
+
   function applyLockState() {
     document.body.classList.toggle("locked", submitted);
     document.getElementById("btnClear").hidden = submitted;
     document.getElementById("btnSave").hidden = submitted;
+    document.getElementById("btnDownload").hidden = submitted || !toNotion();
     document.getElementById("revealCard").hidden = !submitted;
     document.getElementById("saveNote").innerHTML = submitted
       ? "제출했습니다. <b>선생님이 알려 주는 정답 코드</b>를 아래에 넣으면 채점 결과와 해설이 열립니다."
-      : "다 쓰면 PDF로 저장해서 제출하세요.";
+      : (toNotion()
+          ? "다 쓰면 <b>제출하기</b>를 누르세요. PDF 가 만들어져 <b>선생님 노션에 바로</b> 올라갑니다."
+          : "다 쓰면 PDF로 저장해서 제출하세요.");
     if (submitted) ctrls.forEach(function (c) { c.lock(); });
   }
 
+  /* 제출한 뒤 잠그고 정답 코드 상자를 연다 */
+  function lockAfterSubmit(msg) {
+    submitted = true;
+    try { sessionStorage.removeItem(STORE); } catch (e) { }
+    applyLockState();
+    mountLock();
+    K.toast(msg, "ok");
+    window.scrollTo({ top: document.getElementById("revealCard").offsetTop - 20, behavior: "smooth" });
+  }
+
+  function blobToB64(blob) {
+    return new Promise(function (res, rej) {
+      var r = new FileReader();
+      r.onload = function () { res(String(r.result).replace(/^data:[^,]*,/, "")); };
+      r.onerror = function () { rej(new Error("PDF 를 읽지 못했습니다.")); };
+      r.readAsDataURL(blob);
+    });
+  }
+
   function submit() {
-    if (!confirm("PDF로 저장하면 답을 고칠 수 없습니다.\n다 썼는지 확인했나요?")) return;
+    var warn = toNotion()
+      ? "제출하면 답을 고칠 수 없고, PDF 가 선생님 노션에 올라갑니다.\n다 썼는지 확인했나요?"
+      : "PDF로 저장하면 답을 고칠 수 없습니다.\n다 썼는지 확인했나요?";
+    if (!confirm(warn)) return;
+
     K.askStudentInfo({ title: "제출 전 확인" }, function (info) {
       info.when = info.when || new Date().toLocaleString("ko-KR");
-      var pages = makePdf(info, false);
-      K.downloadBlob(K.buildPdf(pages),
-        K.makeFileName("무선통신학습지", info));
-      submitted = true;
-      try { sessionStorage.removeItem(STORE); } catch (e) { }
-      applyLockState();
-      mountLock();
-      K.toast("제출했습니다. 정답 코드는 선생님이 알려 줍니다.", "ok");
-      window.scrollTo({ top: document.getElementById("revealCard").offsetTop - 20, behavior: "smooth" });
+      var blob = K.buildPdf(makePdf(info, false));
+      var fname = K.makeFileName("무선통신학습지", info);
+
+      /* 노션 설정이 없으면 예전 그대로 내려받기 */
+      if (!toNotion()) {
+        K.downloadBlob(blob, fname);
+        lockAfterSubmit("제출했습니다. 정답 코드는 선생님이 알려 줍니다.");
+        return;
+      }
+
+      var btn = document.getElementById("btnSave");
+      btn.disabled = true;
+      btn.textContent = "제출하는 중…";
+
+      blobToB64(blob).then(function (b64) {
+        /* 같은 이름·학년으로 이미 낸 것이 있는지 먼저 물어본다 */
+        return Notion.submitWorksheet(info, b64, fname, false).then(function (d) {
+          if (!d.duplicate) return d;
+          var again = confirm(
+            info.grade + "학년 " + info.name + " 이름으로 이미 낸 학습지가 있습니다.\n\n" +
+            "[확인] 새로 낸 것으로 바꾸기\n[취소] 그만두기"
+          );
+          if (!again) return { cancelled: true };
+          return Notion.submitWorksheet(info, b64, fname, true);
+        });
+      }).then(function (d) {
+        if (d.cancelled) {
+          K.toast("제출을 그만두었습니다. 답은 그대로 있습니다.", "warn");
+          return;
+        }
+        lockAfterSubmit(d.updated ? "먼저 낸 것을 새 것으로 바꿨습니다." : "노션에 제출했습니다.");
+      }).catch(function (e) {
+        /* 인터넷이 끊겨도 학생이 낸 것을 잃지 않게 PDF 를 내려 준다 */
+        K.downloadBlob(blob, fname);
+        alert("노션에 올리지 못했습니다.\n\n" + e.message +
+              "\n\n대신 PDF 를 내려받았습니다. 그 파일을 선생님께 내세요.");
+        lockAfterSubmit("PDF 를 내려받았습니다. 선생님께 파일로 내세요.");
+      }).then(function () {
+        btn.disabled = false;
+        btn.textContent = "제출하기";
+      });
+    });
+  }
+
+  /* 노션에 내더라도 학생이 자기 PDF 를 갖고 싶을 수 있다 */
+  function downloadOnly() {
+    K.askStudentInfo({ title: "PDF 내려받기" }, function (info) {
+      info.when = info.when || new Date().toLocaleString("ko-KR");
+      K.downloadBlob(K.buildPdf(makePdf(info, false)), K.makeFileName("무선통신학습지", info));
+      K.toast("내려받았습니다. 이건 제출이 아닙니다 — 제출하려면 「제출하기」를 누르세요.", "warn");
     });
   }
 
@@ -536,6 +609,7 @@
   build();
   applyLockState();
   document.getElementById("btnSave").addEventListener("click", submit);
+  document.getElementById("btnDownload").addEventListener("click", downloadOnly);
   document.getElementById("btnClear").addEventListener("click", function () {
     if (!confirm("쓴 내용을 모두 지울까요?")) return;
     try { sessionStorage.removeItem(STORE); } catch (e) { }

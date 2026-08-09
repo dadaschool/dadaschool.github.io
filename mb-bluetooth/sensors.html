@@ -13,8 +13,25 @@
                   color: var(--faint); cursor: pointer; padding: 6px 10px; }
   .sensorrow .x:hover { color: var(--no); }
   table.grid.sensors th { font-size: 17px; }
-  table.grid.sensors { min-width: 900px; }
+  table.grid.sensors { min-width: 1080px; }
   .out { width: 100%; min-height: 160px; font-family: Consolas, monospace; font-size: 15px; white-space: pre; }
+
+  /* 모양(사진) 칸 */
+  .photocell { width: 190px; }
+  .photocell input[type="file"] { display: none; }
+  .pickbtn {
+    font: inherit; font-size: 16px; width: 100%; min-height: 44px; padding: 8px 10px;
+    border: 2px dashed var(--line); border-radius: 10px; background: #fff; cursor: pointer; color: var(--sub);
+  }
+  .pickbtn:hover { border-color: var(--brand); background: var(--band); color: var(--brand); }
+  .thumbwrap { position: relative; margin-bottom: 6px; }
+  .thumbwrap img { width: 100%; border-radius: 8px; display: block; border: 1px solid var(--line); }
+  .thumbwrap .drop {
+    position: absolute; top: 4px; right: 4px; width: 30px; height: 30px; border-radius: 50%;
+    border: 0; background: rgba(17,24,39,.72); color: #fff; font-size: 16px; cursor: pointer; line-height: 1;
+  }
+  .thumbinfo { font-size: 13px; color: var(--faint); margin: 4px 0 6px; text-align: center; }
+  .photocell .urlin { font-size: 15px; padding: 7px 9px; margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -55,7 +72,8 @@
       <table class="grid sensors" id="tbl">
         <thead>
           <tr>
-            <th>#</th><th>센서명</th><th>설명 (어떻게 재나)</th><th>활용분야 (집 어디에)</th><th>예시 (링크)</th><th></th>
+            <th>#</th><th>센서명</th><th>모양 (사진)</th><th>설명 (어떻게 재나)</th>
+            <th>활용분야 (집 어디에)</th><th>예시 (링크)</th><th></th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -77,15 +95,16 @@
     </div>
     <p class="res" id="sendMsg" hidden></p>
     <div class="hint" id="sendHint" hidden>
-      <b>「노션에 보내기」를 누르면 표의 내용이 바로 노션에 들어갑니다.</b>
-      한 번 보낸 것은 이 화면에서 지울 수 없으니, 다 적은 뒤에 누르세요.
-      사진(모양) 칸은 노션에서 직접 올립니다.
+      <b>「노션에 보내기」를 누르면 표의 내용이 사진까지 바로 노션에 들어갑니다.</b>
+      한 번 보낸 것은 이 화면에서 지울 수 없으니, 다 적은 뒤에 누르세요.<br>
+      <span class="dim">사진은 보내기 전에 자동으로 줄입니다(가로 1600px). 원본은 건드리지 않습니다.</span>
     </div>
     <div class="hint">
       <b>붙여넣는 방법</b> ① 위 단추로 복사 → ② 노션의 「센서 조사 보고서」 표에서
       <b>맨 아래 빈 줄의 첫 칸</b>을 클릭 → ③ <kbd>Ctrl</kbd>+<kbd>V</kbd>.
       줄이 한꺼번에 들어갑니다.<br>
-      잘 안 되면 <b>CSV 내려받기</b> → 노션 표 오른쪽 위 <b>···</b> → <b>Merge with CSV</b>(CSV와 병합) 를 쓰세요.
+      잘 안 되면 <b>CSV 내려받기</b> → 노션 표 오른쪽 위 <b>···</b> → <b>Merge with CSV</b>(CSV와 병합) 를 쓰세요.<br>
+      <b>⚠ 복사하기·CSV 로는 사진이 옮겨지지 않습니다.</b> 사진까지 보내려면 「📤 노션에 보내기」를 쓰세요.
     </div>
     <label for="out" style="margin-top:14px; display:block;"><b>옮겨질 내용 미리보기</b></label>
     <textarea class="out" id="out" readonly></textarea>
@@ -117,22 +136,90 @@
     var no = el("td", "no");
     tr.appendChild(no);
     var inputs = [];
+    var rec = null;      // 아래에서 채운다 (사진 칸이 참조한다)
+
+    /* 센서명 */
+    var tdName = el("td");
+    var nameIn = el("input");
+    nameIn.type = "text";
+    nameIn.placeholder = "예) 인체 감지(PIR)";
+    nameIn.value = vals[0] || "";
+    nameIn.addEventListener("input", refresh);
+    tdName.appendChild(nameIn);
+    tr.appendChild(tdName);
+    inputs.push(nameIn);
+
+    /* 모양(사진) — 파일을 고르거나 이미지 주소를 붙여넣는다 */
+    var tdPhoto = el("td", "photocell");
+    var thumbBox = el("div");
+    var file = el("input"); file.type = "file"; file.accept = "image/*";
+    var pick = el("button", "pickbtn", "📷 사진 고르기");
+    pick.type = "button";
+    var urlIn = el("input", "urlin");
+    urlIn.type = "text";
+    urlIn.placeholder = "또는 이미지 주소";
+    urlIn.value = vals[4] || "";
+    urlIn.addEventListener("input", refresh);
+    tdPhoto.appendChild(thumbBox);
+    tdPhoto.appendChild(file);
+    tdPhoto.appendChild(pick);
+    tdPhoto.appendChild(urlIn);
+    tr.appendChild(tdPhoto);
+
+    pick.addEventListener("click", function () { file.click(); });
+    file.addEventListener("change", function () {
+      var f = file.files && file.files[0];
+      file.value = "";
+      if (!f) return;
+      pick.textContent = "줄이는 중…";
+      pick.disabled = true;
+      shrink(f).then(function (photo) {
+        rec.photo = photo;
+        drawThumb();
+        refresh();
+        K.toast("사진을 넣었습니다 (" + photo.kb + " KB 로 줄임)", "ok");
+      }).catch(function (e) {
+        K.toast(e.message, "no");
+      }).then(function () {
+        pick.disabled = false;
+        drawThumb();
+      });
+    });
+
+    function drawThumb() {
+      thumbBox.innerHTML = "";
+      if (!rec || !rec.photo) { pick.textContent = "📷 사진 고르기"; urlIn.hidden = false; return; }
+      pick.textContent = "📷 다른 사진으로";
+      urlIn.hidden = true;                   // 파일이 있으면 주소는 안 쓴다
+      var wrap = el("div", "thumbwrap");
+      var img = el("img");
+      img.src = "data:" + rec.photo.type + ";base64," + rec.photo.b64;
+      img.alt = "고른 사진";
+      var x = el("button", "drop", "✕");
+      x.type = "button"; x.title = "사진 빼기";
+      x.addEventListener("click", function () { rec.photo = null; drawThumb(); refresh(); });
+      wrap.appendChild(img); wrap.appendChild(x);
+      thumbBox.appendChild(wrap);
+      thumbBox.appendChild(el("div", "thumbinfo", rec.photo.w + "×" + rec.photo.h + " · " + rec.photo.kb + " KB"));
+    }
+
+    /* 설명 · 활용분야 · 예시 */
     [
-      { ph: "예) 인체 감지(PIR)", tag: "input" },
-      { ph: "무엇을 어떻게 재는가", tag: "textarea" },
-      { ph: "집 어디에 쓸까", tag: "textarea" },
-      { ph: "https://…", tag: "input" }
-    ].forEach(function (spec, i) {
+      { ph: "무엇을 어떻게 재는가", tag: "textarea", v: vals[1] },
+      { ph: "집 어디에 쓸까", tag: "textarea", v: vals[2] },
+      { ph: "https://…", tag: "input", v: vals[3] }
+    ].forEach(function (spec) {
       var td = el("td");
       var inp = el(spec.tag);
       if (spec.tag === "input") inp.type = "text";
       inp.placeholder = spec.ph;
-      inp.value = vals[i] || "";
+      inp.value = spec.v || "";
       inp.addEventListener("input", refresh);
       td.appendChild(inp);
       tr.appendChild(td);
       inputs.push(inp);
     });
+
     var td2 = el("td", "del");
     var x = el("button", "x", "✕");
     x.type = "button";
@@ -147,25 +234,106 @@
     tr.appendChild(td2);
     document.getElementById("rows").appendChild(tr);
 
-    var rec = { tr: tr, no: no, inputs: inputs };
+    rec = { tr: tr, no: no, inputs: inputs, urlIn: urlIn, photo: null };
     rows.push(rec);
+    drawThumb();
     refresh();
     return rec;
   }
 
   /* ---------------------------------------------------------
+     사진 줄이기
+
+     무료 노션은 파일당 5 MiB 까지다. 요즘 휴대폰 사진은 그보다 큰 것이 많아
+     **보내기 전에 브라우저에서 줄인다.** 표에 들어갈 사진이라 화질 손해도 없고,
+     한 반이 올려도 노션이 무거워지지 않는다.
+     --------------------------------------------------------- */
+  var MAX_SIDE = 1600;              // 긴 변 기준
+  var TARGET_BYTES = 3 * 1024 * 1024;
+
+  function shrink(f) {
+    if (!/^image\//.test(f.type)) {
+      return Promise.reject(new Error("이미지 파일만 넣을 수 있습니다."));
+    }
+    return createImageBitmap(f).catch(function () {
+      /* 아이폰 HEIC 처럼 브라우저가 못 읽는 형식이 있다 */
+      throw new Error("이 사진 형식은 브라우저가 읽지 못합니다. JPG·PNG 로 바꿔서 넣어 주세요.");
+    }).then(function (bmp) {
+      var scale = Math.min(1, MAX_SIDE / Math.max(bmp.width, bmp.height));
+      var w = Math.max(1, Math.round(bmp.width * scale));
+      var h = Math.max(1, Math.round(bmp.height * scale));
+      var cv = document.createElement("canvas");
+      cv.width = w; cv.height = h;
+      var g = cv.getContext("2d");
+      g.drawImage(bmp, 0, 0, w, h);
+      bmp.close && bmp.close();
+
+      /* 그래도 크면 화질을 한 단계씩 낮춘다 */
+      function tryQ(qs) {
+        return new Promise(function (res, rej) {
+          cv.toBlob(function (b) {
+            if (!b) { rej(new Error("사진을 처리하지 못했습니다.")); return; }
+            if (b.size <= TARGET_BYTES || qs.length === 1) { res(b); return; }
+            tryQ(qs.slice(1)).then(res, rej);
+          }, "image/jpeg", qs[0]);
+        });
+      }
+      return tryQ([0.82, 0.7, 0.55, 0.4]).then(function (blob) {
+        return blobToB64(blob).then(function (b64) {
+          return {
+            name: (f.name || "사진").replace(/\.[^.]+$/, "") + ".jpg",
+            type: "image/jpeg",
+            b64: b64, w: w, h: h,
+            kb: Math.round(blob.size / 1024)
+          };
+        });
+      });
+    });
+  }
+
+  function blobToB64(blob) {
+    return new Promise(function (res, rej) {
+      var r = new FileReader();
+      r.onload = function () { res(String(r.result).replace(/^data:[^,]*,/, "")); };
+      r.onerror = function () { rej(new Error("사진을 읽지 못했습니다.")); };
+      r.readAsDataURL(blob);
+    });
+  }
+
+  /* ---------------------------------------------------------
      옮길 내용 만들기 — 탭으로 나누면 노션 표에 그대로 붙는다
      --------------------------------------------------------- */
+  function clean(v) {
+    /* 줄바꿈과 탭이 들어가면 칸이 어긋난다 */
+    return String(v || "").replace(/[\t\r\n]+/g, " ").trim();
+  }
+
+  function filled() {
+    return rows.filter(function (r) { return r.inputs[0].value.trim(); });
+  }
+
+  /* 붙여넣기·CSV 용 — 글자만. 사진은 여기로 못 나간다 */
   function data() {
     var team = document.getElementById("team").value || "";
-    return rows
-      .filter(function (r) { return r.inputs[0].value.trim(); })
-      .map(function (r) {
-        return [team].concat(r.inputs.map(function (i) {
-          /* 줄바꿈과 탭이 들어가면 칸이 어긋난다 */
-          return i.value.replace(/[\t\r\n]+/g, " ").trim();
-        }));
-      });
+    return filled().map(function (r) {
+      return [team].concat(r.inputs.map(clean));
+    });
+  }
+
+  /* 노션에 보내기 용 — 사진까지 담는다 */
+  function rowsForNotion() {
+    var team = document.getElementById("team").value || "";
+    return filled().map(function (r) {
+      return {
+        모둠: team,
+        센서명: clean(r.inputs[0].value),
+        설명: clean(r.inputs[1].value),
+        활용분야: clean(r.inputs[2].value),
+        예시: r.inputs[3].value.trim(),
+        사진: r.photo ? { name: r.photo.name, type: r.photo.type, b64: r.photo.b64 } : null,
+        사진주소: r.urlIn.value.trim()
+      };
+    });
   }
 
   function refresh() {
@@ -177,11 +345,15 @@
     save();
   }
 
+  /* 임시 보관 — 글자만 담는다.
+     사진은 용량이 커서 담지 않는다(새로고침하면 다시 골라야 한다). 개인정보도 아니다. */
   function save() {
     try {
       sessionStorage.setItem(STORE, JSON.stringify({
         team: document.getElementById("team").value,
-        rows: rows.map(function (r) { return r.inputs.map(function (i) { return i.value; }); })
+        rows: rows.map(function (r) {
+          return r.inputs.map(function (i) { return i.value; }).concat([r.urlIn.value]);
+        })
       }));
     } catch (e) { }
   }
@@ -268,14 +440,13 @@
   }
 
   function sendToNotion() {
-    var d = data();
-    if (!d.length) { K.toast("먼저 센서명을 적어 주세요.", "warn"); return; }
+    var rows2 = rowsForNotion();
+    if (!rows2.length) { K.toast("먼저 센서명을 적어 주세요.", "warn"); return; }
 
-    var rows2 = d.map(function (r) {
-      return { 모둠: r[0], 센서명: r[1], 설명: r[2], 활용분야: r[3], 예시: r[4] };
-    });
-
-    if (!confirm(rows2.length + "줄을 노션에 보냅니다.\n보낸 뒤에는 이 화면에서 지울 수 없습니다. 다 적으셨나요?")) return;
+    var pics = rows2.filter(function (r) { return r.사진; }).length;
+    var msg = rows2.length + "줄" + (pics ? " (사진 " + pics + "장)" : "") + "을 노션에 보냅니다.\n" +
+              "보낸 뒤에는 이 화면에서 지울 수 없습니다. 다 적으셨나요?";
+    if (!confirm(msg)) return;
 
     btnSend.disabled = true;
     var old = btnSend.textContent;
@@ -288,9 +459,13 @@
           say("<b>" + res.created + "줄은 들어갔고 " + res.failed.length + "줄은 실패했습니다.</b><br>" +
               res.failed.map(function (f) { return f.줄 + "번째 줄 — " + f.이유; }).join("<br>"), "no");
           K.toast("일부만 들어갔습니다. 아래 설명을 보세요.", "warn");
+        } else if (res.photoFailed && res.photoFailed.length) {
+          say("<b>✅ " + res.created + "줄을 넣었습니다. 다만 사진 " + res.photoFailed.length + "장은 못 넣었습니다.</b><br>" +
+              res.photoFailed.map(function (f) { return f.줄 + "번째 줄 — " + f.이유; }).join("<br>") +
+              "<br>그 사진만 노션에서 직접 올리시면 됩니다.", "no");
+          K.toast("글은 다 들어갔고 사진 일부가 실패했습니다.", "warn");
         } else {
-          say("<b>✅ " + res.created + "줄을 노션에 넣었습니다.</b> 노션의 「센서 조사 보고서」 표를 확인해 보세요. " +
-              "사진(모양)은 노션에서 직접 올리면 됩니다.", "ok");
+          say("<b>✅ " + res.created + "줄을 노션에 넣었습니다.</b> 노션의 「센서 조사 보고서」 표를 확인해 보세요.", "ok");
           K.toast(res.created + "줄을 노션에 넣었습니다.", "ok");
         }
       })

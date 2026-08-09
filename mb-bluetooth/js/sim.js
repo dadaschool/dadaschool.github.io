@@ -37,7 +37,7 @@
     cv: null, g: null,
     W: 0, H: 0,              // 캔버스 실제 픽셀
     world: { w: 25, h: 10.5 },
-    pad: 10,                 // 바깥 여백(px)
+    pad: 16,                 // 바깥 여백(px) — 집 이름표가 위쪽에서 잘리지 않을 만큼
     scale: 1, ox: 0, oy: 0,
     waves: [],               // 퍼지는 전파 {x,y,born,color}
     flash: {},               // 기기별 반짝임 {key: 남은시간}
@@ -216,36 +216,38 @@
   /* --- 스테이지 3 : 현관등 자동화 --- */
   function buildThree() {
     three = {
+      /* ⚠ 세계 높이가 곧 그림 크기다.
+         캔버스 높이를 화면에 맞춰 묶어 두었으므로(조작이 같이 보여야 한다)
+         세계가 세로로 길면 배율이 떨어져 글자와 아이콘이 뭉개진다.
+         집을 낮게 잡되 **길은 비콘에서 충분히 멀리** 두어야 한다 —
+         문턱 -46 dBm 과 길 -57 dBm 의 차이가 이 스테이지의 전부이기 때문이다. */
       walls: [
         { x1: 7, y1: 0.5, x2: 19, y2: 0.5 },
-        { x1: 19, y1: 0.5, x2: 19, y2: 8.5 },
-        { x1: 19, y1: 8.5, x2: 14.0, y2: 8.5 },
-        { x1: 11.6, y1: 8.5, x2: 7, y2: 8.5 },
-        { x1: 7, y1: 8.5, x2: 7, y2: 0.5 },
-        { x1: 13.2, y1: 0.5, x2: 13.2, y2: 5.2 }
+        { x1: 19, y1: 0.5, x2: 19, y2: 5.6 },
+        { x1: 19, y1: 5.6, x2: 14.0, y2: 5.6 },
+        { x1: 11.6, y1: 5.6, x2: 7, y2: 5.6 },
+        { x1: 7, y1: 5.6, x2: 7, y2: 0.5 },
+        { x1: 13.2, y1: 0.5, x2: 13.2, y2: 3.4 }
       ],
-      beacon: { x: 12.8, y: 7.4 },
-      door: { x: 12.8, y: 8.5 },
-      person: { x: 3.0, y: 12.6 },
+      beacon: { x: 12.8, y: 4.5 },
+      door: { x: 12.8, y: 5.6 },
+      person: { x: 3.0, y: 9.2 },
       power: 6, thr: -70, noise: true,
       lightOn: false, rssi: -95,
       hist: [], histAt: 0,
       walk: null,
       score: null
     };
-    S.world = { w: 24, h: 13.4 };
+    S.world = { w: 24, h: 10.8 };
   }
 
   /* ---------------------------------------------------------
      5. 좌표 변환 · 캔버스 크기
      --------------------------------------------------------- */
-  /* 캔버스 비율은 장면마다 다르다. 스테이지를 바꿀 때 한 번만 정한다.
-     ⚠ fit() 안에서 style 을 건드리면 ResizeObserver → fit → style 로
-        크기가 서로를 밀어내는 되먹임이 생긴다(EnergyKeeper 에서 겪은 문제). */
-  function setAspect() {
-    if (S.cv) S.cv.style.aspectRatio = S.world.w + " / " + S.world.h;
-  }
-
+  /* 캔버스 높이는 CSS 가 화면 높이에 맞춰 정한다(조작이 같이 보여야 하므로).
+     세계의 비율은 스테이지마다 다르지만, 남는 자리는 fit() 이 여백으로 처리한다.
+     ⚠ 스크립트에서 캔버스 크기를 직접 정하지 말 것 —
+        ResizeObserver → fit → style 로 크기가 서로를 밀어내는 되먹임이 생긴다. */
   function fit() {
     var cv = S.cv;
     var rect = cv.getBoundingClientRect();
@@ -544,28 +546,28 @@
     var t = three;
 
     /* 마당과 길 — 길은 걷기 시험이 지나가는 자리다(그래프로 덮지 말 것) */
-    rect(g, 0.2, 8.5, 23.6, 3.1, C.grass);
-    rect(g, 0.2, 11.6, 23.6, 1.6, C.road);
-    label(g, 1.4, 12.4, "길", 14, C.faint);
-    label(g, 3.0, 9.6, "마당", 14, "#86a37e");
+    rect(g, 0.2, 5.6, 23.6, 2.8, C.grass);
+    rect(g, 0.2, 8.4, 23.6, 1.6, C.road);
+    label(g, 1.4, 9.2, "길", 14, C.faint);
+    label(g, 3.2, 6.6, "마당", 14, "#86a37e");
 
     /* 집 */
-    rect(g, 7, 0.5, 12, 8, "#ffffff");
-    label(g, 10.0, 2.0, "거실", 14, C.faint);
-    label(g, 16.2, 2.0, "주방", 14, C.faint);
+    rect(g, 7, 0.5, 12, 5.1, "#ffffff");
+    label(g, 10.0, 1.5, "거실", 14, C.faint);
+    label(g, 16.2, 1.5, "주방", 14, C.faint);
     drawWalls(g, t.walls);
 
     /* 현관문 */
     g.strokeStyle = C.warn;
     g.lineWidth = Math.max(3, S.scale * 0.22);
-    g.beginPath(); g.moveTo(PX(11.6), PY(8.5)); g.lineTo(PX(14.0), PY(8.5)); g.stroke();
-    label(g, 10.4, 8.9, "현관문", 13, C.warn);
+    g.beginPath(); g.moveTo(PX(11.6), PY(5.6)); g.lineTo(PX(14.0), PY(5.6)); g.stroke();
+    label(g, 10.0, 5.95, "현관문", 13, C.warn);
 
     drawWaves(g);
 
     /* 현관등 — 문 오른쪽 바깥벽에 달려 있다 (비콘과 겹치지 않게).
        이모지(🌑)는 기기마다 색이 달라 꺼진 상태가 보라색 덩어리로 보였다. 직접 그린다. */
-    var lx = 15.8, ly = 9.2, lr = Math.max(13, S.scale * 0.55);
+    var lx = 16.4, ly = 6.4, lr = Math.max(12, S.scale * 0.42);
     if (t.lightOn) {
       g.beginPath(); g.arc(PX(lx), PY(ly), lr * 3.2, 0, Math.PI * 2);
       g.fillStyle = "rgba(250,204,21,.30)"; g.fill();
@@ -583,7 +585,7 @@
 
     /* 비콘 */
     var b = t.beacon;
-    g.beginPath(); g.arc(PX(b.x), PY(b.y), Math.max(11, S.scale * 0.42), 0, Math.PI * 2);
+    g.beginPath(); g.arc(PX(b.x), PY(b.y), Math.max(10, S.scale * 0.34), 0, Math.PI * 2);
     g.fillStyle = C.warn; g.fill();
     g.font = "13px " + FONT;
     g.fillStyle = C.sub; g.textBaseline = "middle"; g.textAlign = "left";
@@ -592,7 +594,7 @@
     /* 사람 */
     function person(p, kind) {
       var px = PX(p.x), py = PY(p.y);
-      var rr = Math.max(13, S.scale * 0.5);
+      var rr = Math.max(12, S.scale * 0.42);
       g.beginPath(); g.arc(px, py, rr, 0, Math.PI * 2);
       g.fillStyle = kind === "nb" ? "#f3f4f6" : "#dbeafe";
       g.fill();
@@ -606,16 +608,16 @@
     /* 이름표는 사람 아래에 붙인다 (위에 붙이면 현관문을 가린다) */
     if (t.walk) {
       person(t.walk.pos, t.walk.kind);
-      chip(g, t.walk.pos.x, t.walk.pos.y + 1.25,
+      chip(g, t.walk.pos.x, t.walk.pos.y + 1.05,
            t.walk.kind === "nb" ? "옆집 사람 · 지나감" : "우리 집 사람 · 귀가",
            t.walk.kind === "nb" ? C.faint : C.brand, "#fff", 13);
     } else {
       person(t.person, "me");
-      chip(g, t.person.x, t.person.y + 1.25, "끌어서 옮기기", C.brand, "#fff", 13);
+      chip(g, t.person.x, t.person.y + 1.05, "끌어서 옮기기", C.brand, "#fff", 13);
     }
 
     /* RSSI 그래프 — 집 왼쪽 빈 자리에 얹는다 */
-    drawChart(g, 0.5, 0.6, 6.0, 5.2);
+    drawChart(g, 0.4, 0.6, 6.2, 4.6);
   }
 
   /* 최근 신호 세기 꺾은선. 오른쪽 끝이 '지금'이다. */
@@ -641,10 +643,11 @@
     g.setLineDash([7, 5]);
     g.beginPath(); g.moveTo(px + 6, ty); g.lineTo(px + pw - 6, ty); g.stroke();
     g.setLineDash([]);
+    /* 임계값은 선 오른쪽 끝에, 눈금은 왼쪽에 — 서로 겹치지 않게 */
     g.fillStyle = C.no;
     g.font = "bold 13px " + FONT;
-    g.textAlign = "left"; g.textBaseline = ty < top + 16 ? "top" : "bottom";
-    g.fillText("임계값 " + t.thr, px + 8, ty + (ty < top + 16 ? 3 : -3));
+    g.textAlign = "right"; g.textBaseline = ty < top + 16 ? "top" : "bottom";
+    g.fillText("임계값 " + t.thr, px + pw - 8, ty + (ty < top + 16 ? 3 : -3));
 
     /* 신호 세기 곡선 — 오른쪽 끝이 지금 */
     if (t.hist.length > 1) {
@@ -660,10 +663,10 @@
     }
     g.fillStyle = C.faint;
     g.font = "12px " + FONT;
-    g.textAlign = "right"; g.textBaseline = "top";
-    g.fillText("-42 강함", px + pw - 8, top);
+    g.textAlign = "left"; g.textBaseline = "top";
+    g.fillText("-42 강함", px + 8, top);
     g.textBaseline = "bottom";
-    g.fillText("-95 약함", px + pw - 8, top + hh);
+    g.fillText("-95 약함", px + 8, top + hh);
   }
 
   /* ---------------------------------------------------------
@@ -839,8 +842,8 @@
     }
     var kind = WALK_PLAN[i].kind;
     var path = kind === "me"
-      ? [{ x: -0.8, y: 12.6 }, { x: 12.8, y: 12.6 }, { x: 12.8, y: 9.2 }]
-      : [{ x: -0.8, y: 12.6 }, { x: 24.8, y: 12.6 }];
+      ? [{ x: -0.8, y: 9.2 }, { x: 12.8, y: 9.2 }, { x: 12.8, y: 6.3 }]
+      : [{ x: -0.8, y: 9.2 }, { x: 24.8, y: 9.2 }];
     t.walk = {
       idx: i, kind: kind, path: path, seg: 0, u: 0,
       pos: { x: path[0].x, y: path[0].y },
@@ -1235,7 +1238,6 @@
 
     syncPanels();
     renderMissions();
-    setAspect();
     fit();
     updateSetup();
     if (n !== 1) updateSide();
@@ -1252,7 +1254,6 @@
     });
     syncPanels();
     renderMissions();
-    setAspect();
     fit();
     draw();
   }

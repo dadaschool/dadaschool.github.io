@@ -17,32 +17,28 @@
 
 <div class="wrap">
 
-  <!-- ===== 스테이지 고르기 ===== -->
-  <div class="stagepick" id="stagePick">
-    <button class="btn on" data-stage="1">① 명령이 누구에게 가는가</button>
-    <button class="btn" data-stage="2">② 기기를 어떻게 찾는가</button>
-    <button class="btn" data-stage="3">③ 가까이 가면 반응한다</button>
-  </div>
+  <!-- ===== 실험 화면 + 조작 (한 화면에 같이) ===== -->
+  <section class="card labcard">
 
-  <!-- ===== 스테이지 설명 ===== -->
-  <section class="card" id="stageCard">
-    <h2><span class="step" id="stageNo">스테이지 1</span> <span id="stageTitle">명령이 누구에게 가는가</span></h2>
-    <p class="lead" id="stageLead"></p>
-    <div class="hint" id="stageHint"></div>
-  </section>
+    <div class="labhead">
+      <div class="stagepick" id="stagePick">
+        <button class="btn on" data-stage="1">① 명령이 누구에게</button>
+        <button class="btn" data-stage="2">② 기기 찾기</button>
+        <button class="btn" data-stage="3">③ 가까이 가면</button>
+      </div>
+      <span class="spacer"></span>
+      <div class="scenepick" id="scenePick" hidden>
+        <button class="btn on" data-scene="house">🏠 우리 집 · 옆집</button>
+        <button class="btn" data-scene="duck">🐤 오리 릴레이</button>
+      </div>
+    </div>
 
-  <!-- ===== 실험 화면 ===== -->
-  <section class="card">
     <div class="labgrid">
 
       <div class="labmain">
-        <div class="scenepick" id="scenePick" hidden>
-          <button class="btn on" data-scene="house">🏠 우리 집 · 옆집</button>
-          <button class="btn" data-scene="duck">🐤 오리 릴레이 예행연습</button>
-        </div>
         <canvas id="lab"></canvas>
         <p class="tinynote" id="labNote"></p>
-      </div>
+      </div><!-- /.labmain -->
 
       <aside class="labside">
 
@@ -73,29 +69,28 @@
         </div>
 
       </aside>
-    </div>
-  </section>
+    </div><!-- /.labgrid -->
 
-  <!-- ===== 조작 ===== -->
-  <section class="card">
-    <h2>🎛️ 조작</h2>
-
+    <!-- 조작 — 캔버스 바로 아래, 카드 전체 폭.
+         슬라이더를 움직이며 화면을 봐야 하므로 둘이 한 화면에 있어야 하고,
+         폭을 넓게 쓰면 줄 수가 줄어 캔버스를 크게 유지할 수 있다. -->
+    <div class="ctlbox">
     <!-- 스테이지 1 -->
     <div class="ctlwrap" data-key="1">
       <div class="ctl">
         <label for="s1group">내 <b>리모컨</b>의 그룹 번호 <span class="num" id="s1groupV">7</span></label>
         <input type="range" id="s1group" min="0" max="255" value="7">
-        <p class="tinynote"><code>radio.setGroup(번호)</code> — 번호가 같은 것끼리만 이야기한다</p>
+        <p class="tinynote"><code>radio.setGroup()</code> · 같은 번호끼리만 통한다</p>
       </div>
       <div class="ctl">
         <label for="s1myGroup">우리 집 <b>기기</b>의 그룹 번호 <span class="num" id="s1myGroupV">7</span></label>
         <input type="range" id="s1myGroup" min="0" max="255" value="7">
-        <p class="tinynote">리모컨과 기기가 <b>둘 다</b> 같아야 통한다</p>
+        <p class="tinynote"><b>둘 다</b> 같아야 통한다</p>
       </div>
       <div class="ctl">
         <label for="s1nbGroup">옆집(2호) 기기의 그룹 번호 <span class="num" id="s1nbGroupV">7</span></label>
         <input type="range" id="s1nbGroup" min="0" max="255" value="7">
-        <p class="tinynote">옆집이 우연히 같은 번호를 쓰고 있다</p>
+        <p class="tinynote">옆집도 우연히 7번을 쓴다</p>
       </div>
       <div class="ctl">
         <label for="s1target">누구에게 보낼까 (<b>주소</b>)</label>
@@ -106,17 +101,15 @@
           <option value="curtain">🪟 커튼</option>
           <option value="boiler">🌡️ 보일러</option>
         </select>
-        <p class="tinynote">보내는 방식은 늘 <b>브로드캐스트</b>다. 주소는 메시지 안에 글자로 넣는다</p>
+        <p class="tinynote">늘 <b>브로드캐스트</b> · 주소는 메시지 안에 넣는다</p>
       </div>
-      <div class="ctl">
-        <label>명령</label>
-        <div class="btnrow">
-          <button class="btn on" id="s1cmdOn">켜기 ON</button>
-          <button class="btn" id="s1cmdOff">끄기 OFF</button>
-        </div>
-      </div>
+      <!-- 명령과 보내기를 한 줄에 둔다. 줄이 늘어나면 캔버스가 화면 밖으로 밀린다 -->
       <div class="ctl wide">
         <div class="btnrow">
+          <span class="rowlabel">명령</span>
+          <button class="btn on" id="s1cmdOn">켜기 ON</button>
+          <button class="btn" id="s1cmdOff">끄기 OFF</button>
+          <span class="rowgap"></span>
           <button class="btn primary big" id="s1send">📤 보내기</button>
           <button class="btn" id="s1reset">기기 모두 끄기</button>
         </div>
@@ -135,7 +128,7 @@
           <button class="btn" id="dAuto">자동으로 10번</button>
           <button class="btn" id="dReset">처음으로</button>
         </div>
-        <p class="tinynote">오리를 가진 사람만 넘길 수 있다. 자기 자신에게는 못 보낸다</p>
+        <p class="tinynote">오리를 가진 사람만 · 자기에게는 못 보낸다</p>
       </div>
     </div>
 
@@ -144,14 +137,12 @@
       <div class="ctl">
         <label for="s2power">비콘 <b>송신 출력</b> <span class="num" id="s2powerV">0</span></label>
         <input type="range" id="s2power" min="0" max="7" value="0">
-        <p class="tinynote"><code>radio.setTransmitPower(0~7)</code> — <span id="s2powerDbm">-30 dBm</span></p>
+        <p class="tinynote"><code>setTransmitPower()</code> · <span id="s2powerDbm">-30 dBm</span></p>
       </div>
       <div class="ctl">
         <label for="s2interval">전송 간격 <span class="num" id="s2intervalV">200 ms</span></label>
         <input type="range" id="s2interval" min="100" max="2000" step="100" value="200">
-        <p class="tinynote">1분에 <b id="s2rate">300</b>번 전송 · 배터리 예상 <b id="s2battery">—</b><br>
-          <span class="dim">보낼 때만 깨어나는 <b>절전 방식</b>으로 짰다고 볼 때의 어림값이다.
-          그냥 켜 두면 간격을 늘려도 수명은 거의 안 변한다.</span></p>
+        <p class="tinynote">1분에 <b id="s2rate">300</b>번 · 배터리 <b id="s2battery">—</b> <span class="dim">(절전 쓸 때 어림값)</span></p>
       </div>
       <div class="ctl wide">
         <div class="btnrow">
@@ -159,7 +150,7 @@
           <button class="btn" id="s2shuffle">🔀 다시 숨기기</button>
           <button class="btn" id="s2reset">찾은 기록 지우기</button>
         </div>
-        <p class="tinynote">수신기(파란 점)를 <b>끌어서</b> 옮긴다. 화살표 키로도 움직인다</p>
+        <p class="tinynote">수신기(파란 점)를 <b>끌어서</b> 옮긴다 · 화살표 키도 된다</p>
       </div>
     </div>
 
@@ -173,20 +164,33 @@
       <div class="ctl">
         <label for="s3thr"><b>임계값</b> — 이 값보다 세면 현관등 ON <span class="num" id="s3thrV">-70</span></label>
         <input type="range" id="s3thr" min="-95" max="-42" value="-70">
-        <p class="tinynote">너무 높이면 문 앞에서도 안 켜지고, 너무 낮추면 지나가는 사람에게 켜진다</p>
+        <p class="tinynote">높이면 미탐, 낮추면 오탐</p>
       </div>
       <div class="ctl">
         <label><input type="checkbox" id="s3noise" checked> 신호 흔들림(잡음) 넣기</label>
-        <p class="tinynote">실제 RSSI 는 가만히 서 있어도 ±2~3 dB 흔들린다</p>
+        <p class="tinynote">가만히 서 있어도 ±2~3 dB 흔들린다</p>
       </div>
       <div class="ctl wide">
         <div class="btnrow">
           <button class="btn primary big" id="s3walk">🚶 걷기 시험 시작</button>
           <button class="btn" id="s3stop">멈추기</button>
         </div>
-        <p class="tinynote">우리 집 사람 3명이 현관까지 걸어오고, 옆집 사람 3명이 앞을 지나간다</p>
+        <p class="tinynote">우리 집 3명은 현관으로, 옆집 3명은 그냥 지나간다</p>
       </div>
-    </div>
+    </div><!-- /.ctlwrap data-key=3 -->
+
+    </div><!-- /.ctlbox -->
+
+    <!-- 무엇을 배우는 자리인가 — 접어 둘 수 있게 -->
+    <details class="stagenote" id="stageCard" open>
+      <summary>
+        <span class="step" id="stageNo">스테이지 1</span>
+        <b id="stageTitle">명령이 누구에게 가는가</b>
+        <span class="dim">— 무엇을 알게 되나</span>
+      </summary>
+      <p class="lead" id="stageLead"></p>
+      <div class="hint" id="stageHint"></div>
+    </details>
   </section>
 
   <!-- ===== 미션 ===== -->

@@ -19,7 +19,10 @@
      --------------------------------------------------------- */
   var CONFIG = {
     workerUrl: "https://sensor-notion.edudadat.workers.dev",
-    submitKey: ""
+    submitKey: "",
+    /* 학습지 PDF 가 들어갈 노션 표의 「학교」 칸에 넣을 값.
+       학생에게 묻지 않고 여기 적어 둔 것을 그대로 씁니다. */
+    school: "거제중학교"
   };
   /* ⬆⬆⬆  여기까지  ⬆⬆⬆ */
 
@@ -74,5 +77,61 @@
     });
   }
 
-  global.Notion = { enabled: enabled, send: send, config: CONFIG };
+  /* ---------------------------------------------------------
+     학습지 PDF 를 노션에 바로 제출하기
+
+       Notion.checkWorksheet(info)              → {found:true/false}
+       Notion.submitWorksheet(info, b64, 덮어쓰기) → {ok, updated} 또는 {duplicate:true}
+
+     info 는 { grade, cls, num, name } (PdfKit.askStudentInfo 가 주는 그대로).
+     노션 표에는 **이름 · 학년 · 학교 · PDF** 만 들어간다. 반·학번은 PDF 안에만 있다.
+     --------------------------------------------------------- */
+  function post(payload) {
+    if (!enabled()) return Promise.reject(new Error("노션 연결이 설정되지 않았습니다."));
+    var headers = { "Content-Type": "application/json" };
+    if (CONFIG.submitKey) headers["X-Submit-Key"] = CONFIG.submitKey;
+    return fetch(CONFIG.workerUrl.trim(), {
+      method: "POST", headers: headers, body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () {
+        throw new Error("중계 서버가 이상한 답을 보냈습니다 (" + res.status + ")");
+      });
+    }).catch(function (e) {
+      if (e instanceof TypeError) {
+        throw new Error("중계 서버에 연결하지 못했습니다. 인터넷과 주소를 확인해 주세요.");
+      }
+      throw e;
+    });
+  }
+
+  function checkWorksheet(info) {
+    return post({
+      action: "check",
+      이름: info.name,
+      학년: info.grade
+    }).then(function (d) {
+      if (d.error) throw new Error(d.error);
+      return d;
+    });
+  }
+
+  function submitWorksheet(info, pdfB64, fileName, overwrite) {
+    return post({
+      action: "submit",
+      overwrite: !!overwrite,
+      이름: info.name,
+      학년: info.grade,
+      학교: CONFIG.school || "",
+      pdf: { name: fileName, b64: pdfB64 }
+    }).then(function (d) {
+      if (d.duplicate) return d;              // 이미 있음 — 부르는 쪽이 물어본다
+      if (!d.ok) throw new Error(d.error || "제출하지 못했습니다.");
+      return d;
+    });
+  }
+
+  global.Notion = {
+    enabled: enabled, send: send, config: CONFIG,
+    checkWorksheet: checkWorksheet, submitWorksheet: submitWorksheet
+  };
 })(window);
