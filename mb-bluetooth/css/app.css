@@ -541,3 +541,6 @@ input[type="checkbox"] { width: 24px; height: 24px; vertical-align: -4px; margin
 /* 조작 줄 안의 작은 이름표 (「명령」처럼 단추 앞에 붙는 것) */
 .rowlabel { font-size: 17px; color: var(--sub); align-self: center; margin-right: 2px; }
 .rowgap { flex: 0 0 14px; }
+
+/* 학생 정보 상자에서 한 줄을 다 쓰는 칸 (학교 이름) */
+.si-grid .si-wide { grid-column: 1 / -1; }

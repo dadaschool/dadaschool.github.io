@@ -79,7 +79,7 @@
       <label>학년
         <select id="fGrade"><option value="">전체</option></select>
       </label>
-      <label>반
+      <label>반 · 학교
         <select id="fCls"><option value="">전체</option></select>
       </label>
       <label>여러 번 낸 경우
@@ -105,8 +105,9 @@
     <div class="tablescroll">
       <table class="grid">
         <tr><th>자료</th><th>파일 이름 예시</th></tr>
-        <tr><td class="left">학습지 (제출본)</td><td class="left">무선통신학습지_1-3-07_홍길동_20260808_1420.pdf</td></tr>
-        <tr><td class="left">학습지 (채점본)</td><td class="left">무선통신학습지채점_1-3-07_홍길동_20260808_1435.pdf</td></tr>
+        <tr><td class="left">학습지 (제출본)</td><td class="left">무선통신학습지_거제중학교_1_홍길동_20260810_1554.pdf</td></tr>
+        <tr><td class="left">학습지 (채점본)</td><td class="left">무선통신학습지채점_거제중학교_1_홍길동_20260810_1610.pdf</td></tr>
+        <tr><td class="left">반·학번을 쓰는 수업</td><td class="left">무선통신학습지_1-3-07_홍길동_20260808_1420.pdf</td></tr>
       </table>
     </div>
     <div class="warnbox">
@@ -139,7 +140,12 @@
 
 /* 학습지4차시_1-3-07_홍길동_20260729_1420.pdf
    브라우저가 중복 다운로드에 붙이는 " (1)" 도 받아들인다 */
+/* 두 가지 형식을 받아들인다
+     ① 학년-반-학번 :  무선통신학습지_1-3-07_홍길동_20260810_1554.pdf
+     ② 학교_학년   :  무선통신학습지_거제중학교_1_홍길동_20260810_1554.pdf  ← 영재반(반·학번 없음)
+   PdfKit.makeFileName 이 만드는 형식이다. 그쪽을 바꾸면 여기도 고칠 것. */
 var NAME_RE = /^([^_]+)_(\d+)-(\d+)-(\d+)_([^_]+)_(\d{8})_(\d{4})(?:\s*\(\d+\))?\.pdf$/i;
+var NAME_RE2 = /^([^_]+)_([^_\d][^_]*)_(\d+)_([^_]+)_(\d{8})_(\d{4})(?:\s*\(\d+\))?\.pdf$/i;
 
 var rows = [];        // 읽어 낸 제출물
 var bad = [];         // 읽지 못한 파일 이름
@@ -148,14 +154,20 @@ var sortAsc = true;
 
 function parseName(fname) {
   var m = NAME_RE.exec(fname);
-  if (!m) return null;
-  var d = m[6], t = m[7];
+  var r = null;
+  if (m) {
+    r = { kind: m[1], grade: +m[2], cls: +m[3], num: +m[4], school: "", name: m[5], d: m[6], t: m[7] };
+  } else {
+    m = NAME_RE2.exec(fname);
+    if (!m) return null;
+    /* 영재반 형식 : 반·학번이 없고 학교가 있다 */
+    r = { kind: m[1], grade: +m[3], cls: null, num: null, school: m[2], name: m[4], d: m[5], t: m[6] };
+  }
+  var d = r.d, t = r.t;
   return {
-    kind: m[1],
-    grade: +m[2],
-    cls: +m[3],
-    num: +m[4],
-    name: m[5],
+    kind: r.kind, grade: r.grade, cls: r.cls, num: r.num, school: r.school, name: r.name,
+    /* 「반」 칸에 보여 줄 것 — 반이 없으면 학교를 보여 준다 */
+    where: (r.cls == null) ? r.school : (r.cls + "반 " + r.num + "번"),
     when: d + t,                                     // 정렬용
     whenText: d.slice(0, 4) + "-" + d.slice(4, 6) + "-" + d.slice(6, 8) +
               " " + t.slice(0, 2) + ":" + t.slice(2, 4),
@@ -163,8 +175,13 @@ function parseName(fname) {
   };
 }
 
+/* 사람을 가리키는 열쇠 — 반·학번이 있으면 그것으로, 없으면 학교+이름으로 */
+function whoOf(r) {
+  return (r.cls == null) ? (r.school + "|" + r.grade) : (r.grade + "-" + r.cls + "-" + r.num);
+}
+
 /* 같은 학생 + 같은 종류 = 같은 과제. 그 안에서 제출 순서를 매긴다 */
-function keyOf(r) { return r.kind + "|" + r.grade + "-" + r.cls + "-" + r.num + "|" + r.name; }
+function keyOf(r) { return r.kind + "|" + whoOf(r) + "|" + r.name; }
 
 /* 같은 학생 + 같은 종류 + 같은 제출 시각 = 같은 제출물.
    브라우저가 중복 내려받기에 붙이는 "… (1).pdf" 를 별개 제출로 세지 않기 위한 것이다. */
@@ -277,7 +294,7 @@ function visibleRows() {
   return rows.filter(function (r) {
     if (kind && r.kind !== kind) return false;
     if (grade && String(r.grade) !== grade) return false;
-    if (cls && String(r.cls) !== cls) return false;
+    if (cls && String(r.cls == null ? r.school : r.cls) !== cls) return false;
     if (dup === "last" && !r.isLast) return false;
     if (dup === "first" && !r.isFirst) return false;
     return true;
@@ -292,20 +309,20 @@ function render() {
 
   fillSelect("fKind", uniqueSorted(function (r) { return r.kind; }));
   fillSelect("fGrade", uniqueSorted(function (r) { return String(r.grade); }));
-  fillSelect("fCls", uniqueSorted(function (r) { return String(r.cls); }));
+  fillSelect("fCls", uniqueSorted(function (r) { return String(r.cls == null ? r.school : r.cls); }));
 
   var vis = visibleRows();
 
   /* ---- 요약 ---- */
   var students = {};
-  vis.forEach(function (r) { students[r.grade + "-" + r.cls + "-" + r.num] = true; });
+  vis.forEach(function (r) { students[whoOf(r) + "|" + r.name] = true; });
   var kinds = {};
   vis.forEach(function (r) { kinds[r.kind] = (kinds[r.kind] || 0) + 1; });
   var classes = {};
   vis.forEach(function (r) {
-    var k = r.grade + "학년 " + r.cls + "반";
+    var k = r.grade + "학년 " + (r.cls == null ? r.school : r.cls + "반");
     classes[k] = classes[k] || {};
-    classes[k][r.grade + "-" + r.cls + "-" + r.num] = true;
+    classes[k][whoOf(r) + "|" + r.name] = true;
   });
 
   var sum = document.getElementById("sum");
@@ -336,7 +353,7 @@ function render() {
   /* ---- 표 ---- */
   var cols = [
     { k: "kind",  t: "종류" },
-    { k: "who",   t: "학년-반-학번" },
+    { k: "who",   t: "학년 · 반/학교" },
     { k: "name",  t: "이름" },
     { k: "when",  t: "제출 시각" },
     { k: "tries", t: "제출 횟수" },
@@ -346,8 +363,14 @@ function render() {
   var sorted = vis.slice().sort(function (a, b) {
     var av, bv;
     if (sortKey === "who") {
-      av = a.grade * 10000 + a.cls * 100 + a.num;
-      bv = b.grade * 10000 + b.cls * 100 + b.num;
+      /* 반·학번이 있으면 번호순, 없으면(영재반) 학교 이름순으로 정렬한다 */
+      if (a.cls == null || b.cls == null) {
+        av = (a.school || "") + " " + a.grade + " " + a.name;
+        bv = (b.school || "") + " " + b.grade + " " + b.name;
+      } else {
+        av = a.grade * 10000 + a.cls * 100 + a.num;
+        bv = b.grade * 10000 + b.cls * 100 + b.num;
+      }
     } else {
       av = a[sortKey]; bv = b[sortKey];
     }
@@ -376,7 +399,7 @@ function render() {
       ? r.tries + "회 (" + (r.isFirst ? "최초" : (r.isLast ? "최종" : "중간")) + ")"
       : "1회";
     [r.kind,
-     r.grade + "-" + r.cls + "-" + PdfPad(r.num),
+     r.cls == null ? (r.school + " " + r.grade + "학년") : (r.grade + "-" + r.cls + "-" + PdfPad(r.num)),
      r.name,
      r.whenText,
      order,
@@ -402,12 +425,12 @@ document.getElementById("btnCsv").addEventListener("click", function () {
   var vis = visibleRows();
   if (!vis.length) return;
 
-  var head = ["종류", "학년", "반", "학번", "이름", "제출시각", "제출횟수", "최종제출", "파일명"];
+  var head = ["종류", "학년", "반", "학번", "학교", "이름", "제출시각", "제출횟수", "최종제출", "파일명"];
   var lines = [head.join(",")];
 
   vis.forEach(function (r) {
     lines.push([
-      r.kind, r.grade, r.cls, r.num, r.name, r.whenText,
+      r.kind, r.grade, (r.cls == null ? "" : r.cls), (r.num == null ? "" : r.num), (r.school || ""), r.name, r.whenText,
       r.tries, (r.isLast ? "예" : "아니오"), r.file
     ].map(function (v) {
       var s = String(v);

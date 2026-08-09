@@ -20,8 +20,9 @@
   var CONFIG = {
     workerUrl: "https://sensor-notion.edudadat.workers.dev",
     submitKey: "",
-    /* 학습지 PDF 가 들어갈 노션 표의 「학교」 칸에 넣을 값.
-       학생에게 묻지 않고 여기 적어 둔 것을 그대로 씁니다. */
+    /* 학습지 제출 창의 「학교」 칸에 **미리 채워 둘** 값.
+       학생이 고칠 수 있습니다(영재반은 여러 학교에서 오므로).
+       비워 두면 빈 칸으로 시작합니다. */
     school: "거제중학교"
   };
   /* ⬆⬆⬆  여기까지  ⬆⬆⬆ */
@@ -83,8 +84,8 @@
        Notion.checkWorksheet(info)              → {found:true/false}
        Notion.submitWorksheet(info, b64, 덮어쓰기) → {ok, updated} 또는 {duplicate:true}
 
-     info 는 { grade, cls, num, name } (PdfKit.askStudentInfo 가 주는 그대로).
-     노션 표에는 **이름 · 학년 · 학교 · PDF** 만 들어간다. 반·학번은 PDF 안에만 있다.
+     info 는 { school, grade, name } (PdfKit.askStudentInfo 의 fields:"school" 모드가 주는 그대로).
+     노션 표에는 **이름 · 학년 · 학교 · PDF** 가 들어간다.
      --------------------------------------------------------- */
   function post(payload) {
     if (!enabled()) return Promise.reject(new Error("노션 연결이 설정되지 않았습니다."));
@@ -121,7 +122,7 @@
       overwrite: !!overwrite,
       이름: info.name,
       학년: info.grade,
-      학교: CONFIG.school || "",
+      학교: info.school || CONFIG.school || "",
       pdf: { name: fileName, b64: pdfB64 }
     }).then(function (d) {
       if (d.duplicate) return d;              // 이미 있음 — 부르는 쪽이 물어본다

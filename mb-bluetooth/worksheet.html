@@ -54,8 +54,8 @@
       ③ 선생님이 <b>정답 코드</b>를 알려 주면 그때 채점 결과와 해설이 열립니다.
     </div>
     <p class="tinynote">
-      학년·반·학번·이름은 <b>제출하는 순간에만</b> 물어봅니다. 이 기기에는 아무것도 저장하지 않습니다.
-      선생님께는 <b>이름·학년과 PDF</b>가 전달되고, 반·학번은 PDF 안에만 들어갑니다.
+      학교·학년·이름은 <b>제출하는 순간에만</b> 물어봅니다. 이 기기에는 아무것도 저장하지 않습니다.
+      선생님께는 <b>학교·학년·이름과 PDF</b>가 전달됩니다.
       (쓰던 글은 탭을 닫으면 사라집니다)
     </p>
     <div class="btnrow">
@@ -499,7 +499,11 @@
       : "PDF로 저장하면 답을 고칠 수 없습니다.\n다 썼는지 확인했나요?";
     if (!confirm(warn)) return;
 
-    K.askStudentInfo({ title: "제출 전 확인" }, function (info) {
+    K.askStudentInfo({
+      fields: "school",
+      school: (window.Notion && Notion.config.school) || "",
+      okText: toNotion() ? "제출하기" : "PDF 만들기"
+    }, function (info) {
       info.when = info.when || new Date().toLocaleString("ko-KR");
       var blob = K.buildPdf(makePdf(info, false));
       var fname = K.makeFileName("무선통신학습지", info);
@@ -547,7 +551,11 @@
 
   /* 노션에 내더라도 학생이 자기 PDF 를 갖고 싶을 수 있다 */
   function downloadOnly() {
-    K.askStudentInfo({ title: "PDF 내려받기" }, function (info) {
+    K.askStudentInfo({
+      fields: "school",
+      school: (window.Notion && Notion.config.school) || "",
+      okText: "PDF 만들기"
+    }, function (info) {
       info.when = info.when || new Date().toLocaleString("ko-KR");
       K.downloadBlob(K.buildPdf(makePdf(info, false)), K.makeFileName("무선통신학습지", info));
       K.toast("내려받았습니다. 이건 제출이 아닙니다 — 제출하려면 「제출하기」를 누르세요.", "warn");
@@ -594,7 +602,11 @@
       '<div class="btnrow"><button class="btn primary" id="btnScored">채점본 PDF 받기</button></div>';
 
     document.getElementById("btnScored").addEventListener("click", function () {
-      K.askStudentInfo({ title: "채점본 받기" }, function (info) {
+      K.askStudentInfo({
+        fields: "school",
+        school: (window.Notion && Notion.config.school) || "",
+        okText: "PDF 만들기"
+      }, function (info) {
         info.when = info.when || new Date().toLocaleString("ko-KR");
         K.downloadBlob(K.buildPdf(makePdf(info, true)),
           K.makeFileName("무선통신학습지채점", info));
