@@ -544,3 +544,60 @@ input[type="checkbox"] { width: 24px; height: 24px; vertical-align: -4px; margin
 
 /* 학생 정보 상자에서 한 줄을 다 쓰는 칸 (학교 이름) */
 .si-grid .si-wide { grid-column: 1 / -1; }
+
+/* ---------- 수업 슬라이드 ---------- */
+.slidestrip { margin: 14px 0 0; }
+.slidestrip-h { font-size: 16px; font-weight: bold; color: var(--sub); margin: 0 0 8px; }
+.slidestrip-b { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.slidecard {
+  margin: 0; border: 2px solid var(--line); border-radius: 12px; overflow: hidden;
+  background: #fff; cursor: zoom-in; transition: border-color .12s ease, transform .06s ease;
+}
+.slidecard:hover, .slidecard:focus-visible { border-color: var(--brand); outline: none; }
+.slidecard:active { transform: translateY(1px); }
+.slidecard img { width: 100%; display: block; aspect-ratio: 1400 / 782; object-fit: cover; background: #f5efe0; }
+.slidecard figcaption { padding: 8px 11px 10px; font-size: 15px; line-height: 1.4; }
+.slidecard figcaption b { display: block; color: var(--ink); }
+.slidecard figcaption span { display: block; color: var(--faint); font-size: 14px; margin-top: 2px; }
+
+/* 크게 보기 */
+.slideview {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(17, 24, 39, .93);
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 18px;
+}
+.slideview[hidden] { display: none; }
+.slideview .sv-fig { margin: 0; max-width: min(1400px, 92vw); }
+.slideview .sv-img { width: 100%; max-height: 78vh; object-fit: contain; border-radius: 10px; background: #f5efe0; display: block; }
+.slideview figcaption { color: #fff; text-align: center; margin-top: 12px; }
+.slideview figcaption b { display: block; font-size: 22px; }
+.slideview figcaption span { display: block; font-size: 17px; opacity: .8; margin-top: 3px; }
+.slideview figcaption em { display: block; font-size: 15px; opacity: .6; font-style: normal; margin-top: 6px; }
+.slideview button {
+  font: inherit; color: #fff; background: rgba(255, 255, 255, .16);
+  border: 0; border-radius: 50%; cursor: pointer; flex: 0 0 auto;
+  width: 54px; height: 54px; font-size: 30px; line-height: 1;
+}
+.slideview button:hover { background: rgba(255, 255, 255, .3); }
+.slideview .sv-close {
+  position: absolute; top: 16px; right: 18px; width: 48px; height: 48px; font-size: 22px;
+}
+@media (max-width: 720px) {
+  .slideview { padding: 10px; gap: 4px; }
+  .slideview button { width: 42px; height: 42px; font-size: 24px; }
+  .slideview figcaption b { font-size: 18px; }
+}
+
+/* 슬라이드 전체 보기 화면 */
+.deck { max-width: 1300px; margin: 0 auto; }
+.deckstage { position: relative; background: #f5efe0; border: 2px solid var(--line); border-radius: 14px; overflow: hidden; }
+.deckstage img { width: 100%; display: block; aspect-ratio: 1400 / 782; object-fit: contain; }
+.deckbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 14px 0 0; }
+.deckbar .grow { flex: 1 1 auto; }
+.decktitle { font-size: 23px; font-weight: bold; }
+.deckcap { font-size: 17px; color: var(--sub); }
+.deckthumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 18px; }
+.deckthumbs button { padding: 0; border: 2px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; cursor: pointer; }
+.deckthumbs button.on { border-color: var(--brand); box-shadow: 0 0 0 2px var(--band); }
+.deckthumbs img { width: 100%; display: block; aspect-ratio: 1400 / 782; object-fit: cover; }

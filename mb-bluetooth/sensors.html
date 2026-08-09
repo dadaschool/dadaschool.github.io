@@ -49,6 +49,7 @@
     <h2>이 표를 채우면 노션에 그대로 옮길 수 있습니다</h2>
     <p class="lead">우리 모둠 스마트하우스에 넣고 싶은 센서를 조사해 적으세요.
       다 적으면 아래에서 <b>복사</b>하거나 <b>CSV로 내려받아</b> 노션의 「센서 조사 보고서」 표에 넣습니다.</p>
+    <div id="slidesSensor"></div>
     <div class="hint">
       <b>사진(모양) 칸은 노션에서 직접 올립니다.</b> 파일은 글자로 옮길 수 없기 때문입니다.
       나머지 다섯 칸(모둠 · 센서명 · 설명 · 활용분야 · 예시)은 여기서 옮겨집니다.
@@ -114,6 +115,7 @@
 
 <script src="js/pdf.js"></script>
 <script src="js/notion.js"></script>
+<script src="js/slides.js"></script>
 <script>
 (function () {
   "use strict";
@@ -479,6 +481,8 @@
         btnSend.textContent = old;
       });
   }
+
+  Slides.strip("slidesSensor", [4], { title: "이 활동은 이런 것입니다" });
 
   /* 검사용 손잡이 */
   window.Sensors = { rows: rows, data: data, csv: csv, addRow: addRow, refresh: refresh, send: sendToNotion };

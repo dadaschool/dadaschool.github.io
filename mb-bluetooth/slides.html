@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수업 슬라이드 — 스마트하우스, 선 없이 잇기</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🖼️ 수업 슬라이드</h1>
+  <span class="badge">16장 · 교실 TV용</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 프로젝트 홈</a>
+</header>
+
+<div class="wrap">
+
+  <section class="card deck">
+    <div class="deckstage">
+      <img id="deckImg" src="slides/s01.webp" alt="">
+    </div>
+
+    <div class="deckbar">
+      <button class="btn" id="prev">‹ 이전</button>
+      <button class="btn" id="next">다음 ›</button>
+      <div class="grow">
+        <div class="decktitle" id="dTitle"></div>
+        <div class="deckcap" id="dCap"></div>
+      </div>
+      <div class="decktitle" id="dNo"></div>
+    </div>
+
+    <p class="tinynote">
+      키보드 <kbd>←</kbd> <kbd>→</kbd> 로 넘길 수 있습니다. <kbd>F</kbd> 를 누르면 전체 화면이 됩니다.
+      각 슬라이드는 앱의 해당 화면에도 들어 있습니다.
+    </p>
+
+    <div class="deckthumbs" id="thumbs"></div>
+  </section>
+
+  <section class="card">
+    <h2>어느 화면에서 볼 수 있나</h2>
+    <p class="lead">같은 슬라이드가 앱의 알맞은 자리에 들어가 있습니다. 수업 흐름대로 따라가면 됩니다.</p>
+    <div class="tablescroll">
+      <table class="grid">
+        <tr><th>슬라이드</th><th>내용</th><th>앱에서 보이는 곳</th></tr>
+        <tr><td>1 · 2 · 3</td><td class="left">표지 · 왜 무선인가 · 3단계 계획</td>
+            <td class="left"><a href="index.html">프로젝트 홈</a></td></tr>
+        <tr><td>4</td><td class="left">입력(센서) → 출력(장치) 짝 짓기</td>
+            <td class="left"><a href="sensors.html">1단계 센서 조사</a></td></tr>
+        <tr><td>5 · 6</td><td class="left">확성기와 그룹 · Radio vs 블루투스</td>
+            <td class="left"><a href="sim.html?s=1">시뮬레이터 스테이지 ①</a></td></tr>
+        <tr><td>7 · 8 · 9</td><td class="left">기기 찾기 · RSSI · 보물찾기 실전</td>
+            <td class="left"><a href="sim.html?s=2">시뮬레이터 스테이지 ②</a></td></tr>
+        <tr><td>10 · 11 · 12</td><td class="left">비례 변환 · 임계값 · 오탐과 미탐</td>
+            <td class="left"><a href="sim.html?s=3">시뮬레이터 스테이지 ③</a></td></tr>
+        <tr><td>13 · 14</td><td class="left">최종 설계도 · 제출과 보안 규칙</td>
+            <td class="left"><a href="worksheet.html">학습지</a></td></tr>
+        <tr><td>15</td><td class="left">실습 점검 체크리스트</td>
+            <td class="left"><a href="index.html">프로젝트 홈 (실습 준비물)</a></td></tr>
+        <tr><td>16</td><td class="left">마무리 — 소프트웨어와 하드웨어</td>
+            <td class="left"><a href="index.html">프로젝트 홈 (맨 아래)</a></td></tr>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<script src="js/slides.js"></script>
+<script>
+(function () {
+  "use strict";
+  var at = 0;
+  var img = document.getElementById("deckImg");
+  var stage = document.querySelector(".deckstage");
+
+  function show(i) {
+    at = (i + Slides.DATA.length) % Slides.DATA.length;
+    var m = Slides.DATA[at];
+    img.src = Slides.src(m.n);
+    img.alt = m.t;
+    document.getElementById("dTitle").textContent = m.t;
+    document.getElementById("dCap").textContent = m.c;
+    document.getElementById("dNo").textContent = (at + 1) + " / " + Slides.DATA.length;
+    Array.prototype.forEach.call(document.querySelectorAll("#thumbs button"), function (b, j) {
+      b.classList.toggle("on", j === at);
+    });
+    /* 다음 장을 미리 받아 두면 넘길 때 끊기지 않는다 */
+    var nx = new Image();
+    nx.src = Slides.src(Slides.DATA[(at + 1) % Slides.DATA.length].n);
+  }
+
+  /* 아래 작은 그림들 */
+  var th = document.getElementById("thumbs");
+  th.innerHTML = Slides.DATA.map(function (m, i) {
+    return '<button type="button" title="' + (i + 1) + '. ' + m.t + '">' +
+           '<img src="' + Slides.src(m.n) + '" alt="' + (i + 1) + '번 슬라이드" loading="lazy"></button>';
+  }).join("");
+  Array.prototype.forEach.call(th.querySelectorAll("button"), function (b, i) {
+    b.addEventListener("click", function () { show(i); });
+  });
+
+  document.getElementById("prev").addEventListener("click", function () { show(at - 1); });
+  document.getElementById("next").addEventListener("click", function () { show(at + 1); });
+  stage.addEventListener("click", function () { show(at + 1); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft") { show(at - 1); e.preventDefault(); }
+    else if (e.key === "ArrowRight" || e.key === " ") { show(at + 1); e.preventDefault(); }
+    else if (e.key === "f" || e.key === "F") {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (stage.requestFullscreen) stage.requestFullscreen();
+    }
+  });
+
+  show(0);
+  window.Deck = { show: show, at: function () { return at; } };
+})();
+</script>
+</body>
+</html>

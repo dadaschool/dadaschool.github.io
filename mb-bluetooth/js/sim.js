@@ -63,7 +63,8 @@
       note: "이 스테이지에서는 신호가 항상 닿는다고 봅니다. 거리 이야기는 스테이지 ②에서 합니다.",
       next: "실습① <b>그룹 텔레포트</b> — 오리를 무선으로 주고받는다. " +
             "지금 익힌 '그룹을 맞추고, 받을 사람 번호를 메시지에 담는다'가 그대로 나온다.",
-      link: "https://microbit.org/ko/projects/make-it-code-it/group-teleporting-duck/"
+      link: "https://microbit.org/ko/projects/make-it-code-it/group-teleporting-duck/",
+      slides: [5, 6]
     },
     2: {
       title: "기기를 어떻게 찾는가",
@@ -74,7 +75,8 @@
       note: "파란 수신기를 끌어서 옮기세요. 화살표 키로도 움직입니다.",
       next: "실습② <b>보물찾기</b> — 비콘을 교실에 숨기고 찾아낸다. " +
             "여기서 정한 <b>송신 출력</b>과 <b>전송 간격</b>을 그대로 쓰면 된다.",
-      link: "https://microbit.org/ko/projects/make-it-code-it/treasure-hunt/"
+      link: "https://microbit.org/ko/projects/make-it-code-it/treasure-hunt/",
+      slides: [7, 8, 9]
     },
     3: {
       title: "가까이 가면 반응한다",
@@ -85,7 +87,8 @@
       note: "사람을 끌어서 옮길 수도 있고, 걷기 시험으로 자동 채점할 수도 있습니다.",
       next: "실습③ <b>근접 비콘</b> — 신호 세기를 LED 밝기로 바꾼다. " +
             "여기서 본 <b>비례 변환(map)</b> 계산이 그 코드의 핵심이다.",
-      link: "https://microbit.org/ko/projects/make-it-code-it/proximity-beacon/"
+      link: "https://microbit.org/ko/projects/make-it-code-it/proximity-beacon/",
+      slides: [10, 11, 12]
     }
   };
 
@@ -1228,6 +1231,8 @@
     document.getElementById("labNote").textContent = meta.note;
     document.getElementById("nextLead").innerHTML = meta.next;
     document.getElementById("nextLink").href = meta.link;
+    /* 이 스테이지에 해당하는 수업 슬라이드 (slides.js 가 없으면 그냥 넘어간다) */
+    if (global.Slides) Slides.strip("stageSlides", meta.slides, { title: "수업 슬라이드" });
 
     Array.prototype.forEach.call(document.querySelectorAll("#stagePick .btn"), function (b) {
       b.classList.toggle("on", b.getAttribute("data-stage") === String(n));

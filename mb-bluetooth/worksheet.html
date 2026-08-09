@@ -58,6 +58,7 @@
       선생님께는 <b>학교·학년·이름과 PDF</b>가 전달됩니다.
       (쓰던 글은 탭을 닫으면 사라집니다)
     </p>
+    <div id="slidesSheet"></div>
     <div class="btnrow">
       <a class="btn" href="sim.html" target="mb-sim" data-win rel="noopener">시뮬레이터 열기 ↗</a>
     </div>
@@ -86,6 +87,7 @@
 <script src="js/lock.js"></script>
 <script src="js/locked.js"></script>
 <script src="js/notion.js"></script>
+<script src="js/slides.js"></script>
 <script>
 (function () {
   "use strict";
@@ -618,6 +620,7 @@
   /* ---------------------------------------------------------
      시작
      --------------------------------------------------------- */
+  Slides.strip("slidesSheet", [13, 14], { title: "무엇을 내는가" });
   build();
   applyLockState();
   document.getElementById("btnSave").addEventListener("click", submit);

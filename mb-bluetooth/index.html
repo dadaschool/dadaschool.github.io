@@ -38,6 +38,15 @@
   </div>
 
   <section class="card">
+    <h2>🖼️ 오늘 무엇을 하나</h2>
+    <p class="lead">수업 슬라이드로 먼저 큰 그림을 봅니다.</p>
+    <div id="slidesIntro"></div>
+    <div class="btnrow">
+      <a class="btn" href="slides.html">슬라이드 16장 모두 보기 ▸</a>
+    </div>
+  </section>
+
+  <section class="card">
     <h2>📍 이렇게 진행합니다</h2>
     <p class="lead">각 단계마다 <b>시뮬레이터로 먼저 이해하고 → 실물로 확인</b>합니다.</p>
 
@@ -109,6 +118,16 @@
   </section>
 
   <section class="card">
+    <h2>🖼️ 수업 슬라이드</h2>
+    <p class="lead">위에서 본 슬라이드를 포함해 <b>16장 전체</b>를 한 화면에서 넘겨 볼 수 있습니다.
+      각 슬라이드는 해당하는 단계 화면에도 들어가 있습니다.</p>
+    <div class="btnrow">
+      <a class="btn primary big" href="slides.html">슬라이드 16장 보기 ▸</a>
+    </div>
+    <p class="tinynote">교실 TV 로 띄우고 <kbd>←</kbd> <kbd>→</kbd> 로 넘기세요. <kbd>F</kbd> 는 전체 화면입니다.</p>
+  </section>
+
+  <section class="card">
     <h2>🔧 실습 준비물과 운영</h2>
     <div class="tablescroll">
       <table class="grid">
@@ -141,6 +160,7 @@
       ② 배터리가 끼워져 있는가 ③ 코드를 실제로 micro:bit 에 내려받았는가
       ④ 옆 모둠과 번호가 겹치지 않는가
     </div>
+    <div id="slidesCheck"></div>
   </section>
 
   <section class="card">
@@ -170,6 +190,7 @@
       micro:bit 는 진짜 블루투스(BLE)도 되지만 <code>radio</code> 와 <b>동시에는 쓸 수 없습니다</b>.
       그래도 <b>채널(그룹) · 주소 · 신호 세기 · 송신 출력</b> 이라는 개념은 실제 블루투스와 그대로 통합니다.
     </div>
+    <div id="slidesEnd"></div>
     <p class="tinynote">
       개인정보 : 학년·반·학번·이름은 <b>PDF를 만드는 순간에만</b> 물어보고 PDF 안에만 들어갑니다.
       기기에는 아무것도 저장하지 않습니다. 시뮬레이터와 실습 안내는 누구나 볼 수 있고,
@@ -180,5 +201,11 @@
 </div>
 
 <script src="js/pdf.js"></script>
+<script src="js/slides.js"></script>
+<script>
+  Slides.strip("slidesIntro", [1, 2, 3], { title: "수업 열기" });
+  Slides.strip("slidesCheck", [15], { title: "실습 점검 체크리스트" });
+  Slides.strip("slidesEnd", [6, 16], { title: "정리하며" });
+</script>
 </body>
 </html>
