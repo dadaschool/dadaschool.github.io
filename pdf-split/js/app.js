@@ -89,6 +89,7 @@
   elPick.addEventListener('click', function () { elFile.click(); });
   elFile.addEventListener('change', function () {
     if (elFile.files && elFile.files[0]) readPdf(elFile.files[0]);
+    elFile.value = '';   // 비워 두어야 같은 파일을 다시 골라도 change 가 일어난다
   });
 
   // 창 아무 데나 떨어뜨렸을 때 브라우저가 PDF 를 그냥 열어 버리는 것을 막는다
@@ -103,11 +104,31 @@
     if (f) readPdf(f);
   });
 
+  /* 파일이 바뀌면 앞 파일에서 고른 방법·쪽 번호·결과를 처음 상태로 되돌린다
+     (앞 파일 기준으로 적은 쪽 번호가 새 파일에 그대로 남으면 엉뚱한 쪽이 나온다) */
+  function resetChoices() {
+    state.mode = 'merge';
+    Array.prototype.forEach.call(document.querySelectorAll('.mode'), function (b) {
+      var on = b.getAttribute('data-mode') === 'merge';
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    elRanges.value = '';
+    elPreview.innerHTML = '';
+    elResult.innerHTML = '';
+    elStepOut.classList.add('hidden');
+    madeUrls.forEach(URL.revokeObjectURL); madeUrls = [];
+    elRun.disabled = true;
+  }
+
   function readPdf(file) {
+    resetChoices();
+    state.doc = null; state.total = 0; state.name = '';
+    lockSteps(true);
+
     if (!/\.pdf$/i.test(file.name)) { showInfo('PDF 파일만 넣을 수 있습니다.', true); return; }
 
     showInfo('읽는 중… (큰 파일은 몇 초 걸립니다)', false);
-    state.doc = null; state.total = 0; lockSteps(true);
 
     file.arrayBuffer().then(function (buf) {
       return PDFDocument.load(buf);
