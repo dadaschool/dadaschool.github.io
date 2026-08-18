@@ -3,268 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>수업용 웹앱 모음 — 중학교 정보</title>
-<meta name="description" content="중학교 정보 교과 수업에서 바로 쓰는 웹앱 모음입니다. 설치 없이 브라우저에서 열립니다.">
-<!-- 탭 아이콘(favicon) : 외부 파일 없이 SVG 를 그대로 넣어 오프라인에서도 보이게 한다 -->
+<title>수업용 웹앱 모음</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23103b6f'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E%E2%98%B0%3C/text%3E%3C/svg%3E">
 <style>
-  /* ===== 기본 설정 : 교실 TV·전자칠판에서 잘 보이도록 글자와 버튼을 크게 ===== */
-  * { box-sizing: border-box; }
   body {
     margin: 0;
-    padding: 28px 16px 70px;
+    padding: 40px 20px 60px;
     font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
-    font-size: 20px;
-    line-height: 1.6;
     color: #1b2430;
     background: #f2f6fb;
   }
-  .wrap { max-width: 1120px; margin: 0 auto; }
-
-  /* ===== 머리말 ===== */
-  header { text-align: center; margin-bottom: 30px; }
-  h1 {
-    font-size: 44px;
-    margin: 0 0 10px;
-    color: #103b6f;
-    letter-spacing: -1px;
-  }
-  .subtitle {
-    font-size: 20px;
-    color: #4a5b70;
-    margin: 0 0 14px;
-  }
-  .hint {
-    display: inline-block;
-    background: #e8f0fb;
-    border: 2px solid #cadcf3;
-    border-radius: 999px;
-    padding: 6px 18px;
-    font-size: 17px;
-    color: #2a4a75;
-    margin: 0;
-  }
-
-  /* ===== 앱 카드 목록 ===== */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-    gap: 22px;
-    margin-top: 30px;
-  }
-  .card {
-    background: #fff;
-    border: 3px solid #dbe6f4;
-    border-radius: 18px;
-    padding: 22px 22px 18px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 3px 10px rgba(16, 59, 111, .06);
-    transition: transform .12s, box-shadow .12s, border-color .12s;
-  }
-  .card:hover {
-    transform: translateY(-3px);
-    border-color: #103b6f;
-    box-shadow: 0 8px 20px rgba(16, 59, 111, .16);
-  }
-  .card .icon { font-size: 42px; line-height: 1; margin-bottom: 8px; }
-  .card h2 {
-    font-size: 27px;
-    margin: 0 0 6px;
-    color: #103b6f;
-    line-height: 1.3;
-  }
-  .card h2 a { color: inherit; text-decoration: none; }
-  .card h2 a:hover { text-decoration: underline; }
-  .card .who {
-    font-size: 16px;
-    color: #6b7c92;
-    margin: 0 0 10px;
-  }
-  /* 설명 길이가 달라도 아래 단추 줄이 나란히 맞도록 남는 공간을 설명이 차지한다 */
-  .card p.desc {
-    font-size: 17px;
-    color: #33465e;
-    margin: 0 0 14px;
-    flex: 1;
-  }
-
-  /* 성취기준 표시 */
-  .std {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 0 0 14px;
-  }
-  .std span {
-    background: #eef3fa;
-    border: 1px solid #d3e0f0;
-    border-radius: 6px;
-    padding: 2px 9px;
-    font-size: 14px;
-    color: #3b5876;
-    font-family: Consolas, "D2Coding", monospace;
-  }
-
-  /* 큰 단추 : 앱 열기 */
-  .open {
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 32px; margin: 0 0 24px; color: #103b6f; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { margin-bottom: 10px; }
+  a {
     display: block;
-    text-align: center;
-    background: #103b6f;
-    color: #fff;
-    text-decoration: none;
-    font-size: 21px;
-    font-weight: bold;
+    background: #fff;
+    border: 2px solid #dbe6f4;
     border-radius: 12px;
-    padding: 13px 10px;
-    margin-bottom: 12px;
-  }
-  .open:hover { background: #16509a; }
-
-  /* 작은 바로가기 : 앱 안의 개별 페이지 */
-  .links { display: flex; flex-wrap: wrap; gap: 7px; }
-  .links a {
-    font-size: 15px;
+    padding: 16px 20px;
+    font-size: 21px;
     text-decoration: none;
-    color: #24507f;
-    background: #f2f7fd;
-    border: 2px solid #d7e5f5;
-    border-radius: 999px;
-    padding: 4px 12px;
+    color: #103b6f;
   }
-  .links a:hover { background: #dceaf9; border-color: #a9c7e8; }
-  /* 교사용 페이지는 색을 달리해 학생이 잘못 누르지 않게 한다 */
-  .links a.teacher {
-    color: #7a4a12;
-    background: #fdf5e8;
-    border-color: #f0dcbb;
-  }
-  .links a.teacher:hover { background: #f9e9cd; border-color: #e2c288; }
-
-  /* ===== 꼬리말 ===== */
-  footer {
-    margin-top: 46px;
-    padding-top: 20px;
-    border-top: 2px solid #dbe6f4;
-    text-align: center;
-    font-size: 16px;
-    color: #6b7c92;
-    line-height: 1.9;
-  }
-  footer strong { color: #4a5b70; }
-
-  /* 화면이 좁은 기기(휴대전화)에서는 글자를 조금 줄인다 */
-  @media (max-width: 520px) {
-    body { font-size: 18px; padding: 20px 12px 50px; }
-    h1 { font-size: 32px; }
-    .cards { grid-template-columns: 1fr; gap: 16px; }
-    .card h2 { font-size: 23px; }
-  }
+  a:hover { border-color: #103b6f; background: #eef4fc; }
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <header>
-    <h1>수업용 웹앱 모음</h1>
-    <p class="subtitle">중학교 <strong>정보</strong> 교과 수업에서 바로 쓰는 학습 도구입니다.</p>
-    <p class="hint">설치할 것이 없습니다 · 아래에서 수업할 앱을 고르세요</p>
-  </header>
-
-  <div class="cards">
-
-    <!-- ① 추상화와 알고리즘 (중1 정보 · 2차시) -->
-    <article class="card">
-      <div class="icon">🧩</div>
-      <h2><a href="abstraction-algo/">추상화와 알고리즘</a></h2>
-      <p class="who">중학교 1학년 정보 · 2차시 · 실험실 + 학습지</p>
-      <p class="desc">
-        분리배출 로봇과 스마트워치 화면으로 <b>추상화</b>를 익히고,
-        블록을 쌓아 만든 순서도대로 응급차를 달리게 하며 <b>알고리즘</b>을 비교합니다.
-      </p>
-      <div class="std">
-        <span>9정03-01</span><span>9정03-02</span><span>9정03-03</span><span>9정03-04</span>
-      </div>
-      <a class="open" href="abstraction-algo/">앱 열기 ▸</a>
-      <div class="links">
-        <a href="abstraction-algo/lesson1.html">1차시 실험실</a>
-        <a href="abstraction-algo/worksheet1.html">1차시 학습지</a>
-        <a href="abstraction-algo/lesson2.html">2차시 실험실</a>
-        <a href="abstraction-algo/worksheet2.html">2차시 학습지</a>
-        <a class="teacher" href="abstraction-algo/teacher.html">교사용</a>
-      </div>
-    </article>
-
-    <!-- ② 인공지능의 이해와 활용 (1~10차시) -->
-    <article class="card">
-      <div class="icon">🤖</div>
-      <h2><a href="ai-class/">인공지능의 이해와 활용</a></h2>
-      <p class="who">중학교 정보 · 1~10차시 · 실험실 + 학습지</p>
-      <p class="desc">
-        차시를 고르면 그 차시의 실험실이 새 창으로 열립니다.
-        데이터 편향·K-Means 군집·AI 판별 트레이너를 직접 다뤄 보고,
-        학습지는 PDF 로 제출합니다.
-      </p>
-      <div class="std">
-        <span>9정04-01</span><span>9정04-02</span><span>9정04-03</span><span>9정04-05</span>
-      </div>
-      <a class="open" href="ai-class/">앱 열기 ▸</a>
-      <div class="links">
-        <a href="ai-class/bias.html">데이터 편향 실험실</a>
-        <a href="ai-class/kmeans.html">K-Means 실험실</a>
-        <a href="ai-class/ai-or-not.html">AI 판별 트레이너</a>
-        <a class="teacher" href="ai-class/teacher.html">교사용</a>
-      </div>
-    </article>
-
-    <!-- ③ 스마트하우스, 선 없이 잇기 (영재반 · micro:bit) -->
-    <article class="card">
-      <div class="icon">📡</div>
-      <h2><a href="mb-bluetooth/">스마트하우스, 선 없이 잇기</a></h2>
-      <p class="who">중등 영재반 정보 · micro:bit 무선통신</p>
-      <p class="desc">
-        micro:bit 실습에 들어가기 전에 <b>그룹·주소</b>, <b>신호 세기와 도착률</b>,
-        <b>비례 변환과 임계값</b>을 시뮬레이터에서 먼저 겪어 봅니다.
-      </p>
-      <div class="std">
-        <span>9정01-02</span><span>9정01-03</span><span>9정03-06</span><span>9정03-08</span><span>9정03-09</span>
-      </div>
-      <a class="open" href="mb-bluetooth/">앱 열기 ▸</a>
-      <div class="links">
-        <a href="mb-bluetooth/sim.html">시뮬레이터</a>
-        <a href="mb-bluetooth/sensors.html">센서 조사</a>
-        <a href="mb-bluetooth/worksheet.html">학습지</a>
-        <a href="mb-bluetooth/slides.html">수업 슬라이드</a>
-        <a class="teacher" href="mb-bluetooth/teacher.html">교사용</a>
-      </div>
-    </article>
-
-    <!-- ④ 10진수 → 2진수 변환 학습기 -->
-    <article class="card">
-      <div class="icon">🔢</div>
-      <h2><a href="binary/">10진수 → 2진수 변환 학습기</a></h2>
-      <p class="who">중학교 정보 · 자료의 디지털 표현</p>
-      <p class="desc">
-        2로 나누는 방법과 자리값 카드로 채우는 방법을 나란히 익히고,
-        수준별 평가 3문항을 풀어 손글씨 풀이와 함께 PDF 로 제출합니다.
-      </p>
-      <div class="std">
-        <span>9정02-01</span>
-      </div>
-      <a class="open" href="binary/">앱 열기 ▸</a>
-      <div class="links">
-        <a class="teacher" href="binary/teacher.html">교사용 제출물 정리</a>
-      </div>
-    </article>
-
-  </div>
-
-  <footer>
-    <strong>안내</strong> · 모든 앱은 브라우저에서 그대로 열리며 설치가 필요 없습니다.<br>
-    학생의 이름·학번은 <b>PDF 를 만드는 순간에만</b> 쓰이고 이 사이트에 저장되지 않습니다.<br>
-    학습지 정답과 해설은 수업 끝에 교사가 <b>정답 코드</b>를 알려 주어야 열립니다.
-  </footer>
-
+  <h1>수업용 웹앱 모음</h1>
+  <!-- 앱을 추가할 때는 아래에 <li> 한 줄만 늘린다 -->
+  <ul>
+    <li><a href="abstraction-algo/">추상화와 알고리즘</a></li>
+    <li><a href="ai-class/">인공지능의 이해와 활용</a></li>
+    <li><a href="mb-bluetooth/">스마트하우스, 선 없이 잇기</a></li>
+    <li><a href="binary/">10진수 → 2진수 변환 학습기</a></li>
+  </ul>
 </div>
 </body>
 </html>
