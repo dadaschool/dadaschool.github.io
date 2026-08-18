@@ -4,42 +4,142 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>수업용 웹앱 모음</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23103b6f'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E%E2%98%B0%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23103b6f'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E%E2%98%B0%3C/text%3E%3C/svg%3E">
 <style>
+  * { box-sizing: border-box; }
+
   body {
     margin: 0;
-    padding: 40px 20px 60px;
-    font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+    min-height: 100vh;
+    padding: 64px 20px 80px;
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
     color: #1b2430;
-    background: #f2f6fb;
+    /* 은은한 파랑 그러데이션 — 밋밋한 회색 배경을 대신한다 */
+    background: linear-gradient(170deg, #eaf1fb 0%, #f6f9fd 45%, #eef3fa 100%);
+    background-attachment: fixed;
   }
-  .wrap { max-width: 640px; margin: 0 auto; }
-  h1 { font-size: 32px; margin: 0 0 24px; color: #103b6f; }
+
+  .wrap { max-width: 620px; margin: 0 auto; }
+
+  /* ===== 머리말 ===== */
+  header { text-align: center; margin-bottom: 40px; }
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 62px; height: 62px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #1d5aa8, #103b6f);
+    color: #fff;
+    font-size: 30px;
+    box-shadow: 0 10px 22px rgba(16, 59, 111, .28);
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin: 0 0 8px;
+    color: #0e2f59;
+  }
+  .sub {
+    margin: 0;
+    font-size: 16px;
+    color: #7286a0;
+    letter-spacing: -.3px;
+  }
+
+  /* ===== 앱 목록 ===== */
   ul { list-style: none; margin: 0; padding: 0; }
-  li { margin-bottom: 10px; }
-  a {
-    display: block;
+  li { margin-bottom: 12px; }
+
+  li a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    overflow: hidden;
+    padding: 20px 22px;
     background: #fff;
-    border: 2px solid #dbe6f4;
-    border-radius: 12px;
-    padding: 16px 20px;
-    font-size: 21px;
+    border: 1px solid #e2eaf5;
+    border-radius: 18px;
     text-decoration: none;
-    color: #103b6f;
+    color: #16375f;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -.5px;
+    box-shadow: 0 2px 5px rgba(16, 59, 111, .05);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
-  a:hover { border-color: #103b6f; background: #eef4fc; }
+
+  /* 왼쪽 세로 띠 : 평소엔 숨었다가 마우스를 올리면 나타난다 */
+  li a::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, #2f7bd6, #103b6f);
+    transform: translateX(-5px);
+    transition: transform .18s ease;
+  }
+
+  li a:hover {
+    transform: translateY(-2px);
+    border-color: #bcd4ef;
+    box-shadow: 0 12px 26px rgba(16, 59, 111, .14);
+  }
+  li a:hover::before { transform: translateX(0); }
+
+  /* 아이콘 : 옅은 파랑 동그라미 안의 이모지 */
+  .ico {
+    flex: none;
+    width: 46px; height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #eef4fc;
+    font-size: 23px;
+    transition: background .18s ease;
+  }
+  li a:hover .ico { background: #dfeafa; }
+
+  .name { flex: 1; }
+
+  /* 오른쪽 화살표 */
+  .go {
+    flex: none;
+    color: #b3c4da;
+    font-size: 20px;
+    transition: transform .18s ease, color .18s ease;
+  }
+  li a:hover .go { transform: translateX(4px); color: #2f7bd6; }
+
+  @media (max-width: 480px) {
+    body { padding: 44px 16px 60px; }
+    h1 { font-size: 28px; }
+    li a { font-size: 18px; padding: 17px 18px; gap: 13px; }
+    .ico { width: 42px; height: 42px; font-size: 21px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>수업용 웹앱 모음</h1>
-  <!-- 앱을 추가할 때는 아래에 <li> 한 줄만 늘린다 -->
+
+  <header>
+    <div class="mark">☰</div>
+    <h1>수업용 웹앱 모음</h1>
+    <p class="sub">중학교 정보 · 수업에서 바로 여는 학습 도구</p>
+  </header>
+
+  <!-- 앱을 추가할 때는 아래에 li 한 줄만 늘린다 (이모지 · 이름 · 폴더) -->
   <ul>
-    <li><a href="abstraction-algo/">추상화와 알고리즘</a></li>
-    <li><a href="ai-class/">인공지능의 이해와 활용</a></li>
-    <li><a href="mb-bluetooth/">스마트하우스, 선 없이 잇기</a></li>
-    <li><a href="binary/">10진수 → 2진수 변환 학습기</a></li>
+    <li><a href="abstraction-algo/"><span class="ico">🧩</span><span class="name">추상화와 알고리즘</span><span class="go">→</span></a></li>
+    <li><a href="ai-class/"><span class="ico">🤖</span><span class="name">인공지능의 이해와 활용</span><span class="go">→</span></a></li>
+    <li><a href="mb-bluetooth/"><span class="ico">📡</span><span class="name">스마트하우스, 선 없이 잇기</span><span class="go">→</span></a></li>
+    <li><a href="binary/"><span class="ico">🔢</span><span class="name">10진수 → 2진수 변환 학습기</span><span class="go">→</span></a></li>
   </ul>
+
 </div>
 </body>
 </html>
