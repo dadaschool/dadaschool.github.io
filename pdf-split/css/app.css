@@ -1,4 +1,6 @@
-/* PDF 쪽 뽑기 — 교무실 PC·전자칠판에서도 보이도록 글씨와 단추를 크게 잡았다 */
+/* PDF 쪽 뽑기
+   ⚠ 이 화면은 스크롤 없이 한 화면에 다 보이는 것이 목표다(사용자 지시).
+     세로로 쌓지 말고 왼쪽(넣기·방법) / 오른쪽(쪽 번호·내려받기) 두 칸을 유지할 것. */
 
 :root{
   --bg:#f4f6fb; --card:#fff; --line:#d8deea;
@@ -9,115 +11,167 @@
 
 *{box-sizing:border-box}
 body{
-  margin:0; padding:0 16px 60px;
+  margin:0; padding:14px 18px 10px;
   background:var(--bg); color:var(--ink);
   font-family:"맑은 고딕","Malgun Gothic",system-ui,sans-serif;
-  font-size:18px; line-height:1.6;
+  font-size:17px; line-height:1.5;
 }
 
-/* 머리말 */
-.top{max-width:840px; margin:0 auto; padding:28px 0 8px; text-align:center}
-.top h1{margin:0; font-size:38px; letter-spacing:-1px}
-.sub{margin:8px 0 0; font-size:20px; color:var(--dim)}
+/* 머리말 — 한 줄로 눕혀 세로 자리를 아낀다 */
+.top{
+  max-width:1080px; margin:0 auto 12px;
+  display:flex; align-items:baseline; flex-wrap:wrap; gap:6px 14px;
+}
+.top h1{margin:0; font-size:27px; letter-spacing:-1px}
+.sub{margin:0; font-size:16px; color:var(--dim)}
 .safe{
-  display:inline-block; margin:14px 0 0; padding:8px 16px;
-  background:#e8f3ec; color:var(--ok); border-radius:999px; font-size:16px;
+  margin:0 0 0 auto; padding:5px 13px;
+  background:#e8f3ec; color:var(--ok); border-radius:999px; font-size:14px;
 }
 
-main{max-width:840px; margin:0 auto}
+/* 두 칸 배치 */
+.board{
+  max-width:1080px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 1.1fr; gap:16px; align-items:start;
+}
+.col{display:flex; flex-direction:column; gap:14px}
 
 /* 단계 상자 */
 .step{
-  background:var(--card); border:1px solid var(--line); border-radius:16px;
-  padding:22px 24px; margin:18px 0;
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:14px 18px;
 }
 .step[aria-disabled="true"]{opacity:.45; pointer-events:none}
-.step h2{margin:0 0 16px; font-size:24px; display:flex; align-items:center; gap:10px}
+.step h2{margin:0 0 10px; font-size:19px; display:flex; align-items:center; gap:9px}
 .num{
-  display:inline-grid; place-items:center; width:34px; height:34px;
-  background:var(--main); color:#fff; border-radius:50%; font-size:19px;
+  display:inline-grid; place-items:center; width:29px; height:29px;
+  background:var(--main); color:#fff; border-radius:50%; font-size:17px;
 }
 .hidden{display:none}
 
 /* 파일 넣는 곳 */
 .drop{
-  border:3px dashed var(--line); border-radius:14px;
-  padding:32px 20px; text-align:center; background:#fbfcff;
+  border:3px dashed var(--line); border-radius:12px;
+  padding:20px 16px; text-align:center; background:#fbfcff;
   transition:border-color .15s, background .15s;
 }
 .drop.over{border-color:var(--main); background:#eef4ff}
-.drop-big{margin:0 0 6px; font-size:21px; font-weight:700}
-.drop-small{margin:0 0 12px; color:var(--dim)}
+.drop-big{margin:0 0 12px; font-size:18px; font-weight:700}
 
 .info{
-  margin-top:16px; padding:14px 18px; border-radius:12px;
-  background:#eef4ff; border:1px solid #cfdcf7; font-size:18px;
+  margin-top:12px; padding:11px 14px; border-radius:10px;
+  background:#eef4ff; border:1px solid #cfdcf7; font-size:16px;
 }
-.info b{font-size:20px}
 .info.bad{background:var(--warn-bg); border-color:#f5c6c2; color:var(--warn)}
+.info small{word-break:break-all}
 
-/* 방법 고르기 */
-.modes{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+/* 방법 고르기 — 좁은 칸이라 위아래로 쌓는다 */
+.modes{display:flex; flex-direction:column; gap:10px}
 .mode{
-  display:block; text-align:left; cursor:pointer;
-  padding:16px 18px; border:2px solid var(--line); border-radius:14px;
+  display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  text-align:left; cursor:pointer;
+  padding:11px 14px; border:2px solid var(--line); border-radius:11px;
   background:#fbfcff; font:inherit; color:inherit;
 }
-.mode b{display:block; font-size:20px; margin-bottom:4px}
-.mode span{font-size:16px; color:var(--dim)}
+.mode b{font-size:18px}
+.mode span{font-size:14px; color:var(--dim)}
 .mode em{font-style:normal; font-weight:700; color:var(--main)}
 .mode.on{border-color:var(--main); background:#eef4ff; box-shadow:0 0 0 3px #d7e4fb}
 
 /* 쪽 번호 입력 */
-.lbl{display:block; margin-bottom:8px; font-size:17px; color:var(--dim)}
 .ranges{
-  width:100%; padding:16px 18px; font:inherit; font-size:26px;
-  letter-spacing:1px; border:2px solid var(--line); border-radius:12px; background:#fff;
+  width:100%; padding:11px 14px; font:inherit; font-size:22px;
+  letter-spacing:1px; border:2px solid var(--line); border-radius:10px; background:#fff;
 }
 .ranges:focus{outline:none; border-color:var(--main); box-shadow:0 0 0 3px #d7e4fb}
 
 .help{
-  list-style:none; display:flex; flex-wrap:wrap; gap:8px 18px;
-  margin:12px 0 0; padding:0; font-size:16px; color:var(--dim);
+  list-style:none; display:flex; flex-wrap:wrap; gap:4px 14px;
+  margin:8px 0 0; padding:0; font-size:14px; color:var(--dim);
 }
 .help code{
-  background:#eef1f7; border-radius:6px; padding:2px 8px;
-  font-family:Consolas,monospace; color:var(--ink); font-size:16px;
+  background:#eef1f7; border-radius:5px; padding:1px 7px;
+  font-family:Consolas,monospace; color:var(--ink); font-size:14px;
 }
 
-.preview{margin:16px 0; font-size:18px; min-height:32px}
+/* 미리 확인 — 내용이 길어져도 이 칸만 스크롤해 화면 길이를 지킨다 */
+.preview{
+  margin:8px 0; font-size:16px; min-height:24px;
+  max-height:80px; overflow-y:auto;
+}
 .preview .good{color:var(--ok); font-weight:700}
 .preview .bad{color:var(--warn); font-weight:700}
-.preview ul{margin:8px 0 0; padding-left:22px}
-.preview li{margin:2px 0}
+.preview ul{margin:5px 0 0; padding-left:20px}
+.preview li{margin:1px 0}
 
 /* 단추 */
 .btn{
-  padding:12px 26px; font:inherit; font-size:19px; font-weight:700;
-  color:#fff; background:var(--main); border:none; border-radius:10px; cursor:pointer;
+  padding:10px 22px; font:inherit; font-size:17px; font-weight:700;
+  color:#fff; background:var(--main); border:none; border-radius:9px; cursor:pointer;
 }
 .btn:hover{background:var(--main-dark)}
 .btn:disabled{background:#b9c2d4; cursor:default}
-.btn.big{width:100%; padding:18px; font-size:23px; margin-top:6px}
-.btn.sub{background:#fff; color:var(--main); border:2px solid var(--main)}
+.btn.big{width:100%; padding:12px; font-size:20px; margin-top:2px}
+.btn.sub{background:#fff; color:var(--main); border:2px solid var(--main); padding:8px 18px; font-size:16px}
 .btn.sub:hover{background:#eef4ff}
 
-/* 결과 */
+/* 결과 — 파일이 여럿이어도 이 칸만 스크롤한다.
+   한 줄에 한 파일씩 담아 좁은 화면에서도 여러 개가 한눈에 보이게 한다. */
+.result{max-height:230px; overflow-y:auto}
 .result .line{
-  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-  padding:14px 0; border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:7px 0; border-bottom:1px solid var(--line);
 }
 .result .line:last-child{border-bottom:none}
-.result .name{flex:1 1 240px; font-size:18px; word-break:break-all}
-.result .name small{display:block; color:var(--dim); font-size:15px}
-.result .all{margin-top:16px}
-.result .done{color:var(--ok); font-weight:700}
+.result .name{flex:1 1 180px; font-size:16px; word-break:break-all}
+.result .name small{color:var(--dim); font-size:14px; margin-left:7px; white-space:nowrap}
+.result .all{margin-top:10px; font-size:13px; color:var(--dim)}
+.result .bad{color:var(--warn)}
 
-.foot{max-width:840px; margin:24px auto 0; color:var(--dim); font-size:15px; text-align:center}
+.foot{max-width:1080px; margin:12px auto 0; color:var(--dim); font-size:13px; text-align:center}
 
-@media (max-width:640px){
-  body{font-size:17px}
-  .top h1{font-size:30px}
-  .modes{grid-template-columns:1fr}
-  .ranges{font-size:22px}
+/* 좁은 화면(노트북 세로·태블릿)에서는 한 칸으로 세운다 */
+@media (max-width:900px){
+  .board{grid-template-columns:1fr}
+  .safe{margin-left:0}
+  .top h1{font-size:24px}
+}
+
+/* ---------------------------------------------------------------------
+   화면이 넉넉할 때는 페이지 자체를 창 높이에 맞춰 고정한다.
+   결과 파일이 몇 개든 페이지는 늘어나지 않고 「내려받기」 칸 안쪽만 스크롤된다.
+   (좁거나 낮은 화면에서는 이 규칙을 걸지 않아 평소처럼 위아래로 스크롤된다)
+--------------------------------------------------------------------- */
+@media (min-width:901px) and (min-height:560px){
+  html, body{height:100%}
+  body{display:flex; flex-direction:column; overflow:hidden}
+
+  .top, .foot{flex:none}
+  .board{flex:1 1 auto; min-height:0; align-items:stretch}
+  .col{height:100%; min-height:0}
+
+  .step{flex:none}
+  #stepOut:not(.hidden){
+    display:flex; flex-direction:column;
+    flex:1 1 auto; min-height:0;     /* 남는 높이를 결과 칸이 가져간다 */
+  }
+  #stepOut h2{flex:none}
+  .result{flex:1 1 auto; max-height:none}
+}
+
+/* 화면이 낮을 때(노트북 1366×768 등) 여백을 한 번 더 줄여
+   「내려받기」 칸에 파일이 여러 개 보이도록 자리를 넘겨준다 */
+@media (min-width:901px) and (max-height:700px){
+  .top{margin-bottom:8px}
+  .step{padding:12px 16px}
+  .step h2{margin-bottom:8px; font-size:18px}
+  .drop{padding:14px 12px}
+  .drop-big{margin-bottom:10px; font-size:17px}
+  .ranges{padding:10px 13px; font-size:20px}
+  .help{margin-top:6px; gap:2px 12px; font-size:13px}
+  .help code{font-size:13px}
+  .preview{margin:6px 0; max-height:52px; font-size:15px}
+  .btn.big{padding:10px; font-size:19px}
+  .result .btn{padding:7px 16px; font-size:15px}
+  .result .line{padding:5px 0}
 }

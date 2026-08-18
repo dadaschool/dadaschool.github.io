@@ -10,71 +10,79 @@
 
 <header class="top">
   <h1>📄 PDF 쪽 뽑기</h1>
-  <p class="sub">PDF에서 필요한 쪽만 골라 새 PDF로 저장합니다.</p>
-  <p class="safe">🔒 파일은 <b>이 브라우저 안에서만</b> 처리됩니다. 어디에도 올라가지 않습니다.</p>
+  <p class="sub">필요한 쪽만 골라 새 PDF 로 저장합니다</p>
+  <p class="safe">🔒 파일은 이 브라우저 안에서만 처리됩니다</p>
 </header>
 
-<main>
+<!-- 한 화면에 다 보이도록 왼쪽(넣기·방법) / 오른쪽(쪽 번호·내려받기) 두 칸으로 나눈다 -->
+<main class="board">
 
-  <!-- 1단계 : 파일 넣기 -->
-  <section class="step">
-    <h2><span class="num">1</span> PDF 넣기</h2>
+  <div class="col">
 
-    <div id="drop" class="drop">
-      <p class="drop-big">여기로 PDF를 끌어다 놓으세요</p>
-      <p class="drop-small">또는</p>
-      <button type="button" id="pickBtn" class="btn">파일 고르기</button>
-      <input type="file" id="file" accept="application/pdf,.pdf" hidden>
-    </div>
+    <!-- 1단계 : 파일 넣기 -->
+    <section class="step">
+      <h2><span class="num">1</span> PDF 넣기</h2>
 
-    <div id="fileInfo" class="info hidden" aria-live="polite"></div>
-  </section>
+      <div id="drop" class="drop">
+        <p class="drop-big">여기로 PDF를 끌어다 놓으세요</p>
+        <button type="button" id="pickBtn" class="btn">파일 고르기</button>
+        <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+      </div>
 
-  <!-- 2단계 : 방법 고르기 -->
-  <section class="step" id="step2" aria-disabled="true">
-    <h2><span class="num">2</span> 방법 고르기</h2>
+      <div id="fileInfo" class="info hidden" aria-live="polite"></div>
+    </section>
 
-    <div class="modes" role="tablist">
-      <button type="button" class="mode on" data-mode="merge" role="tab" aria-selected="true">
-        <b>한 파일로 모으기</b>
-        <span>고른 쪽을 모두 합쳐 <em>PDF 1개</em></span>
-      </button>
-      <button type="button" class="mode" data-mode="split" role="tab" aria-selected="false">
-        <b>범위별로 나누기</b>
-        <span>범위마다 <em>파일 하나씩</em> 따로</span>
-      </button>
-    </div>
-  </section>
+    <!-- 2단계 : 방법 고르기 -->
+    <section class="step" id="step2" aria-disabled="true">
+      <h2><span class="num">2</span> 방법 고르기</h2>
 
-  <!-- 3단계 : 쪽 번호 -->
-  <section class="step" id="step3" aria-disabled="true">
-    <h2><span class="num">3</span> 쪽 번호 적기</h2>
+      <div class="modes" role="tablist">
+        <button type="button" class="mode on" data-mode="merge" role="tab" aria-selected="true">
+          <b>한 파일로 모으기</b>
+          <span>고른 쪽을 합쳐 <em>PDF 1개</em></span>
+        </button>
+        <button type="button" class="mode" data-mode="split" role="tab" aria-selected="false">
+          <b>범위별로 나누기</b>
+          <span>범위마다 <em>파일 하나씩</em></span>
+        </button>
+      </div>
+    </section>
 
-    <label class="lbl" for="ranges">쪽 번호 또는 범위 (쉼표로 구분)</label>
-    <input type="text" id="ranges" class="ranges" placeholder="예) 1-3, 7, 20-25" autocomplete="off" spellcheck="false">
+  </div>
 
-    <ul class="help">
-      <li><code>5</code> 5쪽 하나</li>
-      <li><code>5-12</code> 5쪽부터 12쪽까지</li>
-      <li><code>20-</code> 20쪽부터 끝까지</li>
-      <li><code>-3</code> 처음부터 3쪽까지</li>
-    </ul>
+  <div class="col">
 
-    <div id="preview" class="preview" aria-live="polite"></div>
+    <!-- 3단계 : 쪽 번호 -->
+    <section class="step" id="step3" aria-disabled="true">
+      <h2><span class="num">3</span> 쪽 번호 적기</h2>
 
-    <button type="button" id="runBtn" class="btn big" disabled>PDF 만들기</button>
-  </section>
+      <input type="text" id="ranges" class="ranges" placeholder="예) 1-3, 7, 20-25"
+             autocomplete="off" spellcheck="false" aria-label="쪽 번호 또는 범위">
 
-  <!-- 결과 -->
-  <section class="step hidden" id="stepOut">
-    <h2><span class="num">4</span> 내려받기</h2>
-    <div id="result" class="result"></div>
-  </section>
+      <ul class="help">
+        <li><code>5</code> 5쪽 하나</li>
+        <li><code>5-12</code> 5쪽~12쪽</li>
+        <li><code>20-</code> 20쪽부터 끝까지</li>
+        <li><code>-3</code> 처음부터 3쪽까지</li>
+      </ul>
+
+      <div id="preview" class="preview" aria-live="polite"></div>
+
+      <button type="button" id="runBtn" class="btn big" disabled>PDF 만들기</button>
+    </section>
+
+    <!-- 4단계 : 결과 -->
+    <section class="step hidden" id="stepOut">
+      <h2><span class="num">4</span> 내려받기</h2>
+      <div id="result" class="result"></div>
+    </section>
+
+  </div>
 
 </main>
 
 <footer class="foot">
-  <p>암호가 걸린 PDF는 열 수 없습니다. 책갈피(목차)와 입력 양식은 새 파일에 따라오지 않습니다.</p>
+  암호가 걸린 PDF 는 열 수 없습니다 · 책갈피(목차)와 입력 양식은 새 파일에 따라오지 않습니다
 </footer>
 
 <script src="js/vendor/pdf-lib.min.js"></script>
