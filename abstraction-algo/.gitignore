@@ -1,0 +1,12 @@
+# ⚠ tools/ 전체를 올리지 않는다.
+#   · tools/spec1.src.js · spec2.src.js  = 정답·해설 원문
+#   · tools/코드.md                       = 지금 쓰는 잠금 코드
+#   · tools/lock-maker.html · make-locked.js = 잠금을 만들고 바꾸는 도구
+#   하나라도 올라가면 js/locked.js 를 암호화한 의미가 완전히 사라진다.
+#   한 번이라도 커밋하면 나중에 지워도 커밋 기록에 영원히 남는다.
+tools/
+
+# 편집기·OS 부산물
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,11 @@
+# .bat 은 CP949(ANSI) + CRLF 로 저장되어 있다.
+# git 이 줄바꿈을 LF 로 바꾸면 한국어 Windows 의 cmd.exe 에서 실행이 깨진다.
+# (clone 한 사람의 배치파일이 깨지지 않도록 -text 로 둔다)
+*.bat -text
+
+# 나머지는 텍스트로 다룬다
+*.html text
+*.css  text
+*.js   text
+*.md   text
+*.py   text
