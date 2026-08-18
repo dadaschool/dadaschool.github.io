@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1차시 학습지 · 문제를 컴퓨터의 말로 — 추상화와 알고리즘</title>
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/sheet.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>📝</text></svg>">
+</head>
+<body data-theme="a">
+
+<header class="top">
+  <h1><span class="em">📝</span> 1차시 학습지</h1>
+  <span class="badge">문제의 구조화와 추상화</span>
+  <span class="spacer"></span>
+  <a class="navlink" href="lesson1.html">🧪 실험실</a>
+  <a class="home" href="index.html">🏠 처음으로</a>
+</header>
+
+<main class="wrap narrow">
+
+  <div id="scoreBar" class="hidden"></div>
+  <div id="lockHost" class="hidden"></div>
+
+  <div class="labcall">
+    <div class="txt">
+      <b>🧪 실험실을 옆에 놓고 쓰세요</b>
+      <span>실험실에서 정한 상태·작업·남긴 정보를 그대로 옮겨 적으면 됩니다. 단추를 누르면 오른쪽 절반에 실험실이 열립니다.</span>
+    </div>
+    <a class="btn" href="lesson1.html" target="aa-lab" data-win>실험실 열기 ↗</a>
+  </div>
+
+  <div id="sheet"></div>
+
+  <div class="submitbar">
+    <span class="msg" id="submitMsg">
+      다 썼으면 <b>PDF로 저장</b>하세요. 저장하는 순간 답이 잠깁니다.
+      <b>채점과 해설은 수업 끝에 선생님이 정답 코드를 알려 주시면</b> 열립니다.
+    </span>
+    <button type="button" class="btn ghost hide-after-submit" id="clearBtn">🧹 모두 지우기</button>
+    <button type="button" class="btn primary big" id="pdfBtn">📄 PDF로 저장하기</button>
+    <button type="button" class="btn big hidden" id="gradedPdfBtn">🏅 채점본 PDF 받기</button>
+  </div>
+
+  <p class="hint" style="margin-top:22px">
+    <b>개인정보 안내</b> — 학년·반·학번·이름은 <b>PDF를 만드는 순간에만</b> 물어보고
+    <b>PDF 파일 안(과 파일 이름)에만</b> 들어갑니다. 이 기기에는 저장되지 않습니다.
+  </p>
+
+</main>
+
+<script src="js/pdf.js"></script>
+<script src="js/lock.js"></script>
+<script src="js/locked.js"></script>
+<script src="js/sheet.js"></script>
+<script src="js/spec1.js"></script>
+<script>
+/* =========================================================
+   1차시 학습지 문항
+     활동 1 — 쓰레기 분리배출 문제 구조화  [9정03-01]
+     활동 2 — 스마트워치 화면 디자인(추상화) [9정03-02]
+   화면 만들기·채점·PDF·잠금은 js/sheet.js 가 맡는다.
+   ========================================================= */
+var sheet = Sheet.build(Object.assign({
+  host: document.getElementById("sheet"),
+  key: "w1"
+}, SPEC1));
+
+document.getElementById("pdfBtn").addEventListener("click", function () { sheet.savePdf(); });
+
+document.getElementById("clearBtn").addEventListener("click", function () {
+  if (sheet.isSubmitted()) return;
+  if (!confirm("쓴 내용을 모두 지울까요?")) return;
+  try { sessionStorage.removeItem("aa-sheet-w1"); } catch (e) {}
+  location.reload();
+});
+</script>
+</body>
+</html>

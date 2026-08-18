@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>잠금 코드 바꾸기 — 추상화와 알고리즘 (선생님 전용)</title>
+<link rel="stylesheet" href="../css/app.css">
+<style>
+  .step-card { counter-increment: st; }
+  .step-card > h2::before {
+    content: counter(st);
+    display: grid; place-items: center;
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--brand); color: #fff; font-size: 20px; flex: none;
+  }
+  body { counter-reset: st; }
+  .codegrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .codegrid label { display: flex; flex-direction: column; gap: 6px; font-weight: bold; font-size: 17px; }
+  .codegrid input { font-family: "Consolas", "D2Coding", monospace; font-size: 19px; }
+  .codegrid .hint2 { font-weight: normal; font-size: 14px; color: var(--faint); }
+  textarea.out {
+    font-family: "Consolas", "D2Coding", monospace; font-size: 13px;
+    min-height: 220px; line-height: 1.5;
+  }
+</style>
+</head>
+<body data-theme="b">
+
+<header class="top">
+  <h1><span class="em">🔑</span> 잠금 코드 바꾸기</h1>
+  <span class="badge">선생님 전용 도구</span>
+  <span class="spacer"></span>
+  <a class="home" href="../teacher.html">👩‍🏫 선생님용 화면</a>
+</header>
+
+<main class="wrap narrow">
+
+  <div class="warnbox">
+    <b>이 도구는 저장소에 올라가지 않습니다</b>(`tools/` 폴더 전체가 `.gitignore` 로 제외되어 있습니다).
+    학생에게 주소를 알려 주지 마세요.
+  </div>
+
+  <div class="card step-card">
+    <h2 style="display:flex;align-items:center;gap:12px">지금 코드로 열기</h2>
+    <p class="lead">
+      지금 <code>js/locked.js</code> 에 들어 있는 정답을 꺼냅니다.
+      <b>교사 코드</b>로 열면 두 차시 정답이 한꺼번에 나옵니다.
+    </p>
+    <div class="codegrid">
+      <label>지금 교사 코드
+        <input type="text" id="oldTeacher" placeholder="예) gje-mbit-2026-teacher" autocomplete="off" spellcheck="false">
+      </label>
+    </div>
+    <div class="btnrow">
+      <button type="button" class="btn primary" id="openBtn">🔓 열기</button>
+    </div>
+    <div id="openMsg"></div>
+  </div>
+
+  <div class="card step-card">
+    <h2 style="display:flex;align-items:center;gap:12px">새 코드로 다시 잠그기</h2>
+    <p class="lead">
+      수업마다 <b>정답 코드</b>를 바꾸면 지난 반이 알려 준 코드로는 열리지 않습니다.
+      교사 코드는 그대로 두어도 됩니다.
+    </p>
+    <div class="codegrid">
+      <label>1차시 정답 코드
+        <input type="text" id="newW1" placeholder="예) algo0311" autocomplete="off" spellcheck="false">
+        <span class="hint2">수업 끝에 칠판에 적어 학생에게 공개</span>
+      </label>
+      <label>2차시 정답 코드
+        <input type="text" id="newW2" placeholder="예) golden0313" autocomplete="off" spellcheck="false">
+        <span class="hint2">1차시와 다르게 두면 2차시 정답이 미리 열리지 않습니다</span>
+      </label>
+      <label>교사 코드
+        <input type="text" id="newTeacher" placeholder="예) gje-mbit-2026-teacher" autocomplete="off" spellcheck="false">
+        <span class="hint2">학생에게 절대 알려 주지 않는 코드</span>
+      </label>
+    </div>
+    <div class="btnrow">
+      <button type="button" class="btn primary" id="sealBtn" disabled>🔒 다시 잠그기</button>
+      <button type="button" class="btn" id="dlBtn" disabled>💾 locked.js 내려받기</button>
+      <button type="button" class="btn ghost" id="copyBtn" disabled>📋 복사</button>
+    </div>
+    <div id="sealMsg"></div>
+    <textarea class="out hidden" id="out" readonly aria-label="새로 만든 locked.js"></textarea>
+  </div>
+
+  <div class="card step-card">
+    <h2 style="display:flex;align-items:center;gap:12px">바꾼 것을 반영하기</h2>
+    <ol style="font-size:18px;color:var(--sub);padding-left:24px;margin:0">
+      <li>위에서 받은 <code>locked.js</code> 를 <code>abstraction-algo/js/locked.js</code> 에 덮어씁니다.</li>
+      <li>웹에 올려 둔 것도 바꾸려면 아래 두 줄을 실행합니다.
+        <pre style="background:#0f172a;color:#e2e8f0;border-radius:10px;padding:12px 14px;font-size:15px;overflow-x:auto">cd C:\project_AI\abstraction-algo
+git add js/locked.js &amp;&amp; git commit -m "정답 코드 변경" &amp;&amp; git push</pre>
+      </li>
+      <li>1~2분 뒤 GitHub Pages 에 반영됩니다. <b>새 코드를 적어 두세요.</b></li>
+    </ol>
+    <div class="hint">
+      <b>Node 가 있다면 한 줄로도 됩니다</b><br>
+      <code>node tools/make-locked.js &lt;1차시코드&gt; &lt;2차시코드&gt; &lt;교사코드&gt;</code><br>
+      이쪽은 <b>문항을 고쳤을 때</b>도 함께 반영됩니다(이 브라우저 도구는 코드만 바꿉니다).
+    </div>
+  </div>
+
+</main>
+
+<script src="../js/pdf.js"></script>
+<script src="../js/lock.js"></script>
+<script src="../js/locked.js"></script>
+<script>
+/* =========================================================
+   코드만 바꾸는 도구.
+   문항 자체를 고칠 때는 tools/spec*.src.js 를 고치고
+   node tools/make-locked.js 를 돌려야 한다(이 도구는 문항을 모른다).
+   ========================================================= */
+var opened = null;      // { w1:{…}, w2:{…} }
+var made = "";
+
+function msg(host, kind, html) {
+  document.getElementById(host).innerHTML = '<div class="verdict ' + kind + '">' + html + '</div>';
+}
+
+document.getElementById("openBtn").addEventListener("click", function () {
+  var code = document.getElementById("oldTeacher").value.trim();
+  if (!code) { msg("openMsg", "no", "<b>코드를 넣어 주세요</b>"); return; }
+  Lock.open((window.LOCKED || {}).teacher, code).then(function (val) {
+    opened = val;
+    var n1 = Object.keys(val.w1 || {}).length, n2 = Object.keys(val.w2 || {}).length;
+    msg("openMsg", "ok", "<b>열렸습니다 ✅</b>1차시 " + n1 + "문항 · 2차시 " + n2 + "문항의 정답을 꺼냈습니다. 아래에서 새 코드로 다시 잠그세요.");
+    document.getElementById("sealBtn").disabled = false;
+    document.getElementById("newTeacher").value = code;
+  }).catch(function (e) {
+    opened = null;
+    document.getElementById("sealBtn").disabled = true;
+    msg("openMsg", "no", "<b>열지 못했습니다</b>" + e.message);
+  });
+});
+
+document.getElementById("sealBtn").addEventListener("click", function () {
+  if (!opened) return;
+  var w1 = document.getElementById("newW1").value.trim();
+  var w2 = document.getElementById("newW2").value.trim();
+  var t = document.getElementById("newTeacher").value.trim();
+  if (!w1 || !w2 || !t) { msg("sealMsg", "no", "<b>세 코드를 모두 넣어 주세요</b>"); return; }
+  if (w1 === t || w2 === t) {
+    msg("sealMsg", "no", "<b>정답 코드와 교사 코드가 같으면 안 됩니다</b>학생이 선생님용 자료까지 열게 됩니다.");
+    return;
+  }
+
+  Promise.all([
+    Lock.seal(opened.w1, w1),
+    Lock.seal(opened.w2, w2),
+    Lock.seal(opened, t)
+  ]).then(function (r) {
+    function ind(o) { return JSON.stringify(o, null, 2).replace(/\n/g, "\n  "); }
+    made =
+'/* =========================================================\n' +
+'   locked.js — 잠긴 정답·해설 (자동 생성 파일 · 손으로 고치지 말 것)\n' +
+'\n' +
+'   여기 들어 있는 것은 전부 **암호문**이다.\n' +
+'   코드를 모르면 이 파일을 아무리 들여다봐도 정답을 읽을 수 없다.\n' +
+'\n' +
+'     w1      1차시 학습지 정답·해설  — 1차시 정답 코드로 열린다\n' +
+'     w2      2차시 학습지 정답·해설  — 2차시 정답 코드로 열린다\n' +
+'     teacher 두 차시 전부           — 교사 코드로 열린다\n' +
+'\n' +
+'   이 파일은 tools/lock-maker.html 로 다시 만든 것이다.\n' +
+'   ========================================================= */\n' +
+'window.LOCKED = {\n' +
+'  w1: ' + ind(r[0]) + ',\n' +
+'  w2: ' + ind(r[1]) + ',\n' +
+'  teacher: ' + ind(r[2]) + '\n' +
+'};\n';
+
+    document.getElementById("out").value = made;
+    document.getElementById("out").classList.remove("hidden");
+    document.getElementById("dlBtn").disabled = false;
+    document.getElementById("copyBtn").disabled = false;
+    msg("sealMsg", "ok", "<b>다시 잠갔습니다 🔒</b>아래 <code>locked.js</code> 를 내려받아 <code>js/locked.js</code> 에 덮어쓰세요.<br>" +
+      "새 코드 — 1차시 <b>" + w1 + "</b> · 2차시 <b>" + w2 + "</b> · 교사 <b>" + t + "</b>");
+  }).catch(function (e) {
+    msg("sealMsg", "no", "<b>잠그지 못했습니다</b>" + e.message);
+  });
+});
+
+document.getElementById("dlBtn").addEventListener("click", function () {
+  PdfKit.downloadBlob(new Blob([made], { type: "text/javascript" }), "locked.js");
+});
+document.getElementById("copyBtn").addEventListener("click", function () {
+  navigator.clipboard.writeText(made).then(
+    function () { PdfKit.toast("복사했습니다. js/locked.js 에 붙여넣으세요.", "ok"); },
+    function () { PdfKit.toast("복사하지 못했습니다. 아래 상자에서 직접 복사하세요.", "no"); }
+  );
+});
+</script>
+</body>
+</html>

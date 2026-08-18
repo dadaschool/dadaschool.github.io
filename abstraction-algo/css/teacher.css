@@ -1,0 +1,121 @@
+/* =========================================================
+   teacher.css — 선생님용 화면 전용 스타일
+   화면에서도 보기 좋고, 인쇄(정답표·루브릭)도 깔끔하게 나오도록 잡았다.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   45분 운영안
+   --------------------------------------------------------- */
+.timeline {
+  border-left: 6px solid var(--brand);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--brand-soft);
+  padding: 16px 20px;
+  margin: 0 0 18px;
+}
+.timeline.b { border-left-color: #9333ea; background: #faf5ff; }
+.timeline h3 { margin: 0 0 12px; font-size: 21px; }
+.timeline h3 span { font-size: 15px; font-weight: normal; color: var(--sub); }
+.tl-row {
+  display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px;
+  padding: 9px 0; border-top: 1px solid rgba(15, 23, 42, .08);
+  font-size: 17px;
+}
+.tl-row:first-of-type { border-top: 0; }
+.tl-row b { color: var(--brand); white-space: nowrap; }
+.timeline.b .tl-row b { color: #9333ea; }
+.tl-row a { color: inherit; font-weight: bold; }
+
+@media (max-width: 640px) {
+  .tl-row { grid-template-columns: 1fr; gap: 3px; }
+  .tl-row b { white-space: normal; }   /* 좁은 화면에서 '전개① 15분' 이 옆으로 밀리지 않게 */
+  .timeline { padding: 14px 15px; }
+}
+
+.memo h4 {
+  margin: 20px 0 6px; font-size: 19px;
+  padding-left: 12px; border-left: 5px solid var(--accent);
+}
+.memo h4:first-child { margin-top: 0; }
+.memo p { margin: 0; font-size: 18px; color: var(--sub); }
+
+/* ---------------------------------------------------------
+   정답·해설표
+   --------------------------------------------------------- */
+.keyhead {
+  margin: 22px 0 6px; font-size: 23px;
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+}
+.keyhead span { font-size: 15px; font-weight: normal; color: var(--faint); }
+.keyact {
+  margin: 22px 0 10px; font-size: 19px; color: #fff;
+  background: var(--brand); border-radius: 999px;
+  padding: 6px 18px; display: inline-block;
+}
+.keyq {
+  border: 1px solid var(--line); border-left: 6px solid var(--ok);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px; margin-bottom: 10px;
+  background: #fff;
+  break-inside: avoid;
+}
+.keyq.open { border-left-color: var(--faint); }
+.kq { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.kq .kno {
+  flex: none; width: 30px; height: 30px; border-radius: 8px;
+  background: var(--ink); color: #fff;
+  display: grid; place-items: center; font-size: 16px; font-weight: bold;
+}
+.kq .ktype {
+  flex: none; font-size: 13px; color: var(--sub);
+  background: var(--line); border-radius: 999px; padding: 3px 11px;
+}
+.kq .ktx { flex: 1 1 240px; font-size: 18px; font-weight: bold; }
+.ka, .ks {
+  margin-top: 9px; padding: 9px 13px; border-radius: 9px; font-size: 17px;
+}
+.ka { background: var(--ok-bg); color: var(--ink); }
+.keyq.open .ka { background: #f1f5f9; }
+.ks { background: #f8fafc; color: var(--sub); }
+.ka b, .ks b {
+  display: inline-block; min-width: 62px; color: var(--sub);
+  font-size: 14px; margin-right: 8px;
+}
+.ka b { color: var(--ok); }
+
+/* ---------------------------------------------------------
+   제출물 정리
+   --------------------------------------------------------- */
+.drop {
+  border: 3px dashed var(--line-strong);
+  border-radius: var(--radius);
+  padding: 30px 20px 24px;
+  text-align: center;
+  background: #fbfcfe;
+  transition: border-color .15s ease, background .15s ease;
+}
+.drop.over { border-color: var(--brand); background: var(--brand-soft); }
+.drop p { margin: 0 0 4px; font-size: 20px; }
+.drop p.sub { font-size: 16px; color: var(--sub); margin-bottom: 16px; }
+#rowsInfo { margin-top: 22px; }
+#countMsg { font-size: 18px; }
+
+/* ---------------------------------------------------------
+   루브릭
+   --------------------------------------------------------- */
+table.rubric td { vertical-align: top; font-size: 17px; }
+table.rubric td:first-child { width: 21%; background: #fbfcfe; }
+table.rubric .where { font-size: 14px; color: var(--faint); }
+
+/* ---------------------------------------------------------
+   인쇄
+   --------------------------------------------------------- */
+@media print {
+  body { background: #fff; padding: 0; font-size: 12pt; }
+  body::before { display: none; }
+  .top, .steps, .btnrow, .drop, #toast { display: none !important; }
+  .wrap { max-width: none; padding: 0; }
+  .card { box-shadow: none; border: 0; padding: 0; margin: 0 0 10mm; }
+  .keyq { page-break-inside: avoid; }
+  a { text-decoration: none; color: inherit; }
+}

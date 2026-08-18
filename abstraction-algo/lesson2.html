@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2차시 실험실 · 골든타임을 사수하라 — 추상화와 알고리즘</title>
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/lesson2.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🚑</text></svg>">
+</head>
+<body data-theme="b">
+
+<header class="top">
+  <h1><span class="em">🚑</span> 2차시 실험실</h1>
+  <span class="badge">골든타임을 사수하라</span>
+  <span class="spacer"></span>
+  <a class="navlink" href="worksheet2.html">📝 학습지</a>
+  <a class="home" href="index.html">🏠 처음으로</a>
+</header>
+
+<main class="wrap">
+
+  <div class="progress">
+    <span class="label">오늘의 진행</span>
+    <div class="track"><div class="fill" id="progFill"></div></div>
+    <span class="label" id="progText">0 / 5</span>
+  </div>
+
+  <nav class="steps" aria-label="실험 단계 고르기">
+    <button type="button" class="step-btn on" data-go="s0"><span class="no">0</span><span class="em">🗺️</span> 조감도 → 노선도</button>
+    <button type="button" class="step-btn" data-go="s1"><span class="no">1</span><span class="em">🧱</span> 알고리즘 설계</button>
+    <button type="button" class="step-btn" data-go="s2"><span class="no">2</span><span class="em">⚖️</span> 효율성 실험실</button>
+  </nav>
+
+  <!-- ==================================================================
+       0단계 — 조감도에서 노선도로
+       ================================================================== -->
+  <section id="s0">
+    <div class="card">
+      <h2><span class="step">도입</span> 심정지 환자를 태운 응급차가 병원으로 갑니다</h2>
+      <p class="lead">
+        아래가 우리가 사는 <b>진짜 도시</b>입니다. 건물도 나무도 신호등도 있습니다.
+        그런데 컴퓨터에게 “가장 빠른 길을 찾아라”라고 시키려면 이 그림 그대로는 안 됩니다.
+        <b>손잡이를 오른쪽으로 끌어</b> 무엇을 지워야 하는지 확인해 보세요.
+      </p>
+
+      <div class="stage">
+        <canvas id="cityStage" width="900" height="530" aria-label="도시 조감도가 노선도로 바뀌는 그림"></canvas>
+        <div class="stage-tip" id="cityTip">손잡이를 끌면 필요 없는 것부터 사라집니다.</div>
+      </div>
+
+      <div class="ctl">
+        <label for="absSlider">
+          <span>추상화 정도</span>
+          <span id="absLabel">0% — 있는 그대로의 도시</span>
+        </label>
+        <input type="range" id="absSlider" min="0" max="100" value="0" step="1">
+      </div>
+
+      <div class="abs-legend">
+        <div class="leg" data-at="20"><b>20%</b><span>사람·자동차를 지웠다</span></div>
+        <div class="leg" data-at="45"><b>45%</b><span>건물 모양·나무를 지웠다</span></div>
+        <div class="leg" data-at="70"><b>70%</b><span>도로 폭·색을 선 하나로 바꿨다</span></div>
+        <div class="leg" data-at="100"><b>100%</b><span>지역(노드)과 길(경로)만 남았다</span></div>
+      </div>
+
+      <div class="hint" id="cityDone" hidden>
+        <b>지도가 아니라 ‘문제’가 되었습니다</b><br>
+        남은 것은 <b>지역 5개와 길 7개</b>뿐입니다. 지하철 노선도가 실제 지형과 다르게 생긴 것도 같은 이유입니다.
+        이제 컴퓨터가 다룰 수 있습니다 — 다음 단계에서 이 위를 달릴 <b>알고리즘</b>을 직접 만들어 봅시다.
+      </div>
+
+      <div class="btnrow">
+        <button type="button" class="btn primary big" data-go="s1">다음 — 알고리즘 설계하기 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       1단계 — 문제 분해 + 의사코드 조립 + 순서도
+       ================================================================== -->
+  <section id="s1" class="hidden">
+
+    <div class="card">
+      <h2><span class="step">전개 ① - 1</span> 큰 문제를 작은 문제로 나누기</h2>
+      <p class="lead">
+        ‘응급 구조 성공’은 너무 큽니다. 한입에 삼킬 수 없는 문제는 <b>나누어야</b> 풀립니다.
+        아래에서 <b>이 문제를 푸는 데 꼭 필요한 작은 문제 3개</b>를 고르세요.
+      </p>
+      <div class="decomp" id="decomp"></div>
+      <div id="decompVerdict"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">전개 ① - 2</span> 알고리즘 조립기</h2>
+      <p class="lead">
+        블록을 누르면 <b>왼쪽에 의사코드</b>가 쌓이고 <b>오른쪽에 순서도</b>가 저절로 그려집니다.
+        다 만들었으면 ▶ 를 눌러 응급차를 실제로 달리게 해 보세요. <b>망가뜨려 보는 것도 실험입니다.</b>
+      </p>
+
+      <div class="asm">
+        <div class="asm-left">
+          <p class="minihead">블록 창고 <span class="mini">누르면 아래에 붙습니다</span></p>
+          <div class="palette" id="palette"></div>
+
+          <p class="minihead">내 알고리즘 (의사코드) <span class="cnt" id="codeCount">0줄</span></p>
+          <ol class="code" id="code"><li class="empty">위에서 블록을 눌러 쌓으세요.</li></ol>
+
+          <div class="btnrow">
+            <button type="button" class="btn primary big" id="runCode">▶ 응급차 출발</button>
+            <button type="button" class="btn ghost" id="clearCode">↺ 처음부터</button>
+            <button type="button" class="btn" id="sampleCode">💡 교과서 예시 넣기</button>
+          </div>
+        </div>
+
+        <div class="asm-right">
+          <p class="minihead">순서도 <span class="mini">— 블록을 쌓으면 자동으로 그려집니다</span></p>
+          <div class="flowbox" id="flow"><p class="empty">아직 블록이 없습니다.</p></div>
+        </div>
+      </div>
+
+      <div class="road-wrap">
+        <div class="stage">
+          <canvas id="roadStage" width="900" height="260" aria-label="응급차가 달리는 도로"></canvas>
+          <div class="stage-tip" id="roadTip">▶ 를 누르면 내가 만든 알고리즘대로 응급차가 움직입니다.</div>
+        </div>
+        <div id="runVerdict"></div>
+      </div>
+
+      <div class="panel" style="margin-top:16px">
+        <h3>🧾 알고리즘의 5가지 조건 — 내 알고리즘은 몇 개를 지켰나요?</h3>
+        <p class="sub">실행해 보면 하나씩 켜집니다. 조건을 어기면 어떻게 되는지 직접 겪어 보세요.</p>
+        <div id="fiveCond"></div>
+      </div>
+    </div>
+
+    <div class="btnrow" style="margin:0 0 24px">
+      <button type="button" class="btn primary big" data-go="s2">다음 — 효율성 따져 보기 →</button>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       2단계 — 효율성 실험실
+       ================================================================== -->
+  <section id="s2" class="hidden">
+
+    <div class="card">
+      <h2><span class="step">전개 ②</span> 무엇이 ‘최적’인가?</h2>
+      <p class="lead">
+        같은 지도, 같은 출발지, 같은 병원입니다. 그런데 <b>②번 규칙 한 줄</b>만 바꾸면 응급차는 전혀 다른 길로 갑니다.
+        두 알고리즘을 <b>나란히 달리게 해</b> 직접 확인해 봅시다.
+      </p>
+
+      <div class="algo-cards">
+        <div class="algo a">
+          <h3>알고리즘 A <span>기준 : 거리</span></h3>
+          <ol>
+            <li>집에서 출발한다.</li>
+            <li>현재 위치에서 <b>거리가 가장 짧은</b> 길로 이동한다. 한 번 지난 곳은 다시 가지 않는다.</li>
+            <li>병원에 도착했으면 종료, 아니면 ②를 반복한다.</li>
+          </ol>
+        </div>
+        <div class="algo b">
+          <h3>알고리즘 B <span>기준 : 시간</span></h3>
+          <ol>
+            <li>집에서 출발한다.</li>
+            <li>현재 위치에서 <b>시간이 가장 적게 걸리는</b> 길로 이동한다. 한 번 지난 곳은 다시 가지 않는다.</li>
+            <li>병원에 도착했으면 종료, 아니면 ②를 반복한다.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="stage-wrap">
+        <div>
+          <div class="stage">
+            <canvas id="mapStage" width="900" height="530" aria-label="응급차 길 찾기 지도"></canvas>
+            <div class="stage-tip" id="mapTip">▶ 단추를 눌러 두 알고리즘을 달리게 해 보세요.</div>
+          </div>
+
+          <div class="panel" style="margin-top:16px">
+            <h3>📊 주행 기록</h3>
+            <div class="tablescroll">
+              <table class="grid" id="raceTable">
+                <thead>
+                  <tr><th class="left">알고리즘</th><th>지나간 길</th><th>이동 거리</th><th>걸린 시간</th></tr>
+                </thead>
+                <tbody><tr><td colspan="4" class="left" style="color:var(--faint)">아직 달리지 않았습니다.</td></tr></tbody>
+              </table>
+            </div>
+            <div id="raceVerdict"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="panel">
+            <h3>🏁 출발시키기</h3>
+            <p class="sub">두 대를 함께 달리게 하면 차이가 한눈에 보입니다.</p>
+            <div class="btnrow" style="margin-top:6px">
+              <button type="button" class="btn primary big" id="raceBoth" style="width:100%">🏁 A · B 동시에 출발</button>
+            </div>
+            <div class="btnrow">
+              <button type="button" class="btn" id="raceA">🔵 A만</button>
+              <button type="button" class="btn" id="raceB">🔴 B만</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>🗺️ 이 지도 읽는 법</h3>
+            <ul class="legend">
+              <li><span class="sw green"></span> 초록 도로 — <b>2분</b></li>
+              <li><span class="sw orange"></span> 주황 도로 — <b>4분</b></li>
+              <li><span class="sw red"></span> 빨강 도로 — <b>6분</b></li>
+            </ul>
+            <p class="sub" style="margin-top:8px">
+              도로에 적힌 숫자는 <b>거리(m)</b> 입니다. 색과 거리는 서로 상관이 없습니다 —
+              <b>짧지만 느린 길</b>도, <b>길지만 빠른 길</b>도 있습니다.
+            </p>
+            <p class="sub">골든타임은 <b>10분</b>입니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">깊이</span> 정말 이 길이 가장 좋을까요?</h2>
+      <p class="lead">
+        A와 B는 <b>바로 앞만 보고</b> 가장 좋아 보이는 길을 고릅니다. 이런 방법을 <b>욕심쟁이(탐욕) 방법</b>이라고 합니다.
+        빠르고 쉽지만, 함정이 있습니다. 집에서 병원까지 가는 <b>모든 길</b>을 펼쳐 놓고 확인해 봅시다.
+      </p>
+      <div class="btnrow" style="margin-top:0">
+        <button type="button" class="btn primary" id="showAll">📋 모든 길 펼쳐 보기</button>
+      </div>
+      <div id="allPaths"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">적용</span> 상황이 바뀌면 ‘최적’도 바뀝니다</h2>
+      <p class="lead">카드를 뽑아 상황을 읽고, <b>이번에는 무엇을 기준으로 삼을지</b> 먼저 정한 뒤 달려 보세요.</p>
+      <div class="cardpick" id="cardPick"></div>
+      <div id="cardBody"></div>
+    </div>
+
+  </section>
+
+  <div class="card">
+    <h2>📝 정리하기</h2>
+    <p class="lead">여기서 만든 <b>의사코드·순서도</b>와 <b>A·B 비교표</b>가 학습지의 활동 3 그대로입니다.</p>
+    <div class="btnrow">
+      <a class="btn primary big" href="worksheet2.html">📝 2차시 학습지 열기</a>
+      <a class="btn" href="index.html">🏠 처음으로</a>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/pdf.js"></script>
+<script src="js/map2.js"></script>
+<script src="js/flow.js"></script>
+<script src="js/lesson2.js"></script>
+</body>
+</html>

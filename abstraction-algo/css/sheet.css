@@ -1,0 +1,60 @@
+/* =========================================================
+   sheet.css — 학습지 전용 스타일 (worksheet1 · worksheet2 공용)
+   ========================================================= */
+
+.padwrap { margin-top: 12px; }
+
+.answer-note {
+  animation: pop .25s ease;
+}
+.answer-note.wrong {
+  background: var(--no-bg);
+  border-left-color: var(--no);
+}
+
+/* 제출한 뒤 잠긴 요소 — 눌러도 반응하지 않는다는 것이 보여야 한다 */
+.locked-el { opacity: .8; cursor: default !important; }
+.locked-el:hover { transform: none !important; border-color: var(--line-strong) !important; }
+.opt.locked-el.right { opacity: 1; border-color: var(--ok) !important; }
+.opt.locked-el.wrong { opacity: 1; border-color: var(--no) !important; }
+
+/* 제출 뒤 위쪽에 뜨는 점수 막대 */
+#scoreBar {
+  background: #fff;
+  border: 2px solid var(--ok);
+  border-left-width: 8px;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 0 0 22px;
+  box-shadow: var(--shadow);
+  animation: pop .3s ease;
+}
+#scoreBar p { margin: 10px 0 0; font-size: 18px; color: var(--sub); }
+#scoreBar h3 { margin: 0; font-size: 22px; }
+/* 제출은 했지만 아직 정답 코드를 안 넣은 상태 */
+#scoreBar.waiting { border-color: var(--accent); }
+
+/* 제출 뒤에는 '지우기' 같은 단추를 감춘다 */
+body.submitted .hide-after-submit { display: none !important; }
+
+/* 아래에 늘 붙어 있는 제출 막대 */
+.submitbar {
+  position: sticky;
+  bottom: 0;
+  background: rgba(255, 255, 255, .93);
+  backdrop-filter: blur(6px);
+  border-top: 2px solid var(--line);
+  padding: 14px 18px;
+  margin: 26px -18px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  z-index: 60;
+}
+.submitbar .msg { flex: 1 1 240px; font-size: 17px; color: var(--sub); }
+
+@media (max-width: 640px) {
+  .submitbar { margin: 22px -12px 0; padding: 12px; }
+  .submitbar .btn { flex: 1 1 100%; }
+}

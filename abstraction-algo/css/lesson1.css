@@ -1,0 +1,149 @@
+/* =========================================================
+   lesson1.css — 1차시 실험실 전용 스타일
+   (공통 디자인은 app.css 에 있다. 이 파일은 app.css 뒤에 불러온다)
+   ========================================================= */
+
+/* 이 파일에는 1차시에서만 쓰는 것만 둔다.
+   공용 조각(.minihead · .empty · .tinybtn · .checkrow · 순서 짜기 widget)은 app.css 에 있다. */
+
+/* ---------------------------------------------------------
+   로봇 실행 기록
+   --------------------------------------------------------- */
+.loglist { display: flex; flex-direction: column; gap: 7px; }
+.logrow {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: #f1f5f9; border-radius: 10px; padding: 9px 13px; font-size: 17px;
+  animation: pop .22s ease;
+}
+.logrow.warn { background: var(--warn-bg); }
+.logrow .lem { font-size: 20px; flex: none; }
+
+/* ---------------------------------------------------------
+   스마트워치 디자이너
+   --------------------------------------------------------- */
+.watch-lab { display: grid; grid-template-columns: minmax(0, 1fr) 296px; gap: 22px; align-items: start; }
+@media (max-width: 900px) { .watch-lab { grid-template-columns: 1fr; } }
+.watch-side.center { display: flex; flex-direction: column; align-items: center; }
+.watch-side.center .minihead { align-self: flex-start; }
+
+.infolist { display: grid; grid-template-columns: repeat(auto-fill, minmax(206px, 1fr)); gap: 9px; }
+.infocard {
+  font: inherit; text-align: left; cursor: pointer;
+  border: 2px solid var(--line-strong); border-radius: var(--radius-sm);
+  background: #fff; padding: 10px 12px;
+  display: grid; grid-template-columns: auto 1fr auto; gap: 2px 9px;
+  align-items: center;
+  transition: transform .07s ease, border-color .15s ease;
+}
+.infocard:hover { border-color: var(--brand); transform: translateY(-2px); }
+.infocard .em { font-size: 24px; grid-row: span 2; }
+.infocard .nm { font-size: 16px; font-weight: bold; }
+.infocard .tx { font-size: 14px; color: var(--sub); grid-column: 2; }
+.infocard .pick { font-size: 14px; color: var(--faint); grid-row: span 2; }
+.infocard.on { border-color: var(--brand); background: var(--brand-soft); }
+.infocard.on .pick { color: var(--brand); font-weight: bold; }
+
+.watch { display: flex; flex-direction: column; align-items: center; }
+.watch-band { width: 78px; height: 32px; background: #334155; }
+.watch-band.top { border-radius: 12px 12px 4px 4px; }
+.watch-band.bottom { border-radius: 4px 4px 12px 12px; }
+.watch-body {
+  width: 228px; height: 252px;
+  background: linear-gradient(150deg, #64748b, #1e293b);
+  border-radius: 42px;
+  padding: 13px;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, .34);
+}
+.watch-screen {
+  width: 100%; height: 100%;
+  background: #0b1220;
+  border-radius: 31px;
+  padding: 12px 11px;
+  display: flex; flex-direction: column; gap: 6px;
+  overflow: hidden;
+}
+.watch-empty { color: #64748b; font-size: 14px; text-align: center; margin: auto; line-height: 1.5; }
+.wtile {
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .1);
+  color: #f1f5f9;
+  padding: 5px 9px;
+  display: flex; align-items: center; gap: 7px;
+  animation: pop .22s ease;
+  flex: none;
+}
+.wtile.picto { justify-content: center; }
+.wtile .wem { font-size: 25px; line-height: 1.1; }
+.wtile .wnum { font-size: 22px; font-weight: bold; }
+.wtile .wtx { font-size: 14px; line-height: 1.35; }
+.wtile.over { opacity: .26; border: 2px dashed #ef4444; }
+.wcut { font-size: 12px; color: #fca5a5; text-align: center; margin-top: 2px; }
+
+.capacity { display: flex; align-items: center; gap: 10px; margin: 16px 0 5px; width: 100%; }
+.cap-track { flex: 1 1 auto; height: 13px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+.cap-fill {
+  height: 100%; width: 0; border-radius: 999px;
+  background: linear-gradient(90deg, var(--hero-1), var(--hero-2));
+  transition: width .3s ease;
+}
+.cap-fill.over { background: linear-gradient(90deg, #f59e0b, #dc2626); }
+.capacity span { font-size: 16px; color: var(--sub); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.capnote { font-size: 15px; color: var(--faint); margin: 0; text-align: center; }
+
+.chosenrow {
+  display: flex; align-items: center; gap: 9px;
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 10px; margin-bottom: 8px;
+}
+.chosenrow .em { font-size: 21px; }
+.chosenrow .nm { flex: 1 1 auto; font-size: 17px; }
+.tog {
+  font: inherit; font-size: 14px; padding: 6px 12px; min-height: 40px;
+  border: 2px solid var(--line-strong); border-radius: 999px;
+  background: #fff; cursor: pointer; white-space: nowrap;
+}
+.tog.on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: bold; }
+
+/* ---------------------------------------------------------
+   2초 테스트
+   --------------------------------------------------------- */
+.flash-back {
+  position: fixed; inset: 0; z-index: 450;
+  background: rgba(2, 6, 23, .94);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.flash-box { text-align: center; width: 100%; max-width: 780px; }
+.flash-count { font-size: 96px; color: #fff; margin: 0; font-weight: bold; animation: pop .3s ease; }
+.flash-view.full-mode { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 10px; }
+.flash-view.watch-mode {
+  width: 234px; margin: 0 auto; background: #0b1220;
+  border: 12px solid #475569; border-radius: 38px; padding: 14px 12px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.ftile { background: #fff; border-radius: 10px; padding: 10px 12px; text-align: left; }
+.ftile b { display: block; font-size: 14px; color: var(--sub); font-weight: normal; }
+.ftile span { font-size: 17px; font-weight: bold; }
+
+.quizbox { margin-top: 16px; }
+.quizhead { margin: 0 0 12px; font-size: 18px; font-weight: bold; }
+.quizq { margin-bottom: 14px; }
+.quizq-t { margin: 0 0 7px; font-size: 17px; }
+
+.compare { margin-top: 18px; }
+.cmp-row {
+  display: grid; grid-template-columns: 152px 1fr 46px; gap: 10px;
+  align-items: center; margin-bottom: 9px; font-size: 16px;
+}
+.cmp-track { height: 22px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+.cmp-fill {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--hero-1), var(--hero-2));
+  transition: width .5s ease;
+}
+.cmp-row b { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 640px) {
+  .cmp-row { grid-template-columns: 108px 1fr 42px; font-size: 14px; }
+  .infolist { grid-template-columns: 1fr; }
+}
