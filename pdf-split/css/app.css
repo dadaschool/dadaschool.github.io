@@ -1,0 +1,123 @@
+/* PDF 쪽 뽑기 — 교무실 PC·전자칠판에서도 보이도록 글씨와 단추를 크게 잡았다 */
+
+:root{
+  --bg:#f4f6fb; --card:#fff; --line:#d8deea;
+  --ink:#1c2333; --dim:#5b6478;
+  --main:#2f6bd8; --main-dark:#2455ad;
+  --ok:#1e8a5a; --warn:#c0392b; --warn-bg:#fdeceb;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; padding:0 16px 60px;
+  background:var(--bg); color:var(--ink);
+  font-family:"맑은 고딕","Malgun Gothic",system-ui,sans-serif;
+  font-size:18px; line-height:1.6;
+}
+
+/* 머리말 */
+.top{max-width:840px; margin:0 auto; padding:28px 0 8px; text-align:center}
+.top h1{margin:0; font-size:38px; letter-spacing:-1px}
+.sub{margin:8px 0 0; font-size:20px; color:var(--dim)}
+.safe{
+  display:inline-block; margin:14px 0 0; padding:8px 16px;
+  background:#e8f3ec; color:var(--ok); border-radius:999px; font-size:16px;
+}
+
+main{max-width:840px; margin:0 auto}
+
+/* 단계 상자 */
+.step{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  padding:22px 24px; margin:18px 0;
+}
+.step[aria-disabled="true"]{opacity:.45; pointer-events:none}
+.step h2{margin:0 0 16px; font-size:24px; display:flex; align-items:center; gap:10px}
+.num{
+  display:inline-grid; place-items:center; width:34px; height:34px;
+  background:var(--main); color:#fff; border-radius:50%; font-size:19px;
+}
+.hidden{display:none}
+
+/* 파일 넣는 곳 */
+.drop{
+  border:3px dashed var(--line); border-radius:14px;
+  padding:32px 20px; text-align:center; background:#fbfcff;
+  transition:border-color .15s, background .15s;
+}
+.drop.over{border-color:var(--main); background:#eef4ff}
+.drop-big{margin:0 0 6px; font-size:21px; font-weight:700}
+.drop-small{margin:0 0 12px; color:var(--dim)}
+
+.info{
+  margin-top:16px; padding:14px 18px; border-radius:12px;
+  background:#eef4ff; border:1px solid #cfdcf7; font-size:18px;
+}
+.info b{font-size:20px}
+.info.bad{background:var(--warn-bg); border-color:#f5c6c2; color:var(--warn)}
+
+/* 방법 고르기 */
+.modes{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.mode{
+  display:block; text-align:left; cursor:pointer;
+  padding:16px 18px; border:2px solid var(--line); border-radius:14px;
+  background:#fbfcff; font:inherit; color:inherit;
+}
+.mode b{display:block; font-size:20px; margin-bottom:4px}
+.mode span{font-size:16px; color:var(--dim)}
+.mode em{font-style:normal; font-weight:700; color:var(--main)}
+.mode.on{border-color:var(--main); background:#eef4ff; box-shadow:0 0 0 3px #d7e4fb}
+
+/* 쪽 번호 입력 */
+.lbl{display:block; margin-bottom:8px; font-size:17px; color:var(--dim)}
+.ranges{
+  width:100%; padding:16px 18px; font:inherit; font-size:26px;
+  letter-spacing:1px; border:2px solid var(--line); border-radius:12px; background:#fff;
+}
+.ranges:focus{outline:none; border-color:var(--main); box-shadow:0 0 0 3px #d7e4fb}
+
+.help{
+  list-style:none; display:flex; flex-wrap:wrap; gap:8px 18px;
+  margin:12px 0 0; padding:0; font-size:16px; color:var(--dim);
+}
+.help code{
+  background:#eef1f7; border-radius:6px; padding:2px 8px;
+  font-family:Consolas,monospace; color:var(--ink); font-size:16px;
+}
+
+.preview{margin:16px 0; font-size:18px; min-height:32px}
+.preview .good{color:var(--ok); font-weight:700}
+.preview .bad{color:var(--warn); font-weight:700}
+.preview ul{margin:8px 0 0; padding-left:22px}
+.preview li{margin:2px 0}
+
+/* 단추 */
+.btn{
+  padding:12px 26px; font:inherit; font-size:19px; font-weight:700;
+  color:#fff; background:var(--main); border:none; border-radius:10px; cursor:pointer;
+}
+.btn:hover{background:var(--main-dark)}
+.btn:disabled{background:#b9c2d4; cursor:default}
+.btn.big{width:100%; padding:18px; font-size:23px; margin-top:6px}
+.btn.sub{background:#fff; color:var(--main); border:2px solid var(--main)}
+.btn.sub:hover{background:#eef4ff}
+
+/* 결과 */
+.result .line{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:14px 0; border-bottom:1px solid var(--line);
+}
+.result .line:last-child{border-bottom:none}
+.result .name{flex:1 1 240px; font-size:18px; word-break:break-all}
+.result .name small{display:block; color:var(--dim); font-size:15px}
+.result .all{margin-top:16px}
+.result .done{color:var(--ok); font-weight:700}
+
+.foot{max-width:840px; margin:24px auto 0; color:var(--dim); font-size:15px; text-align:center}
+
+@media (max-width:640px){
+  body{font-size:17px}
+  .top h1{font-size:30px}
+  .modes{grid-template-columns:1fr}
+  .ranges{font-size:22px}
+}
