@@ -67,6 +67,14 @@ function showDemoBar() {
    ① 반 고르기
    --------------------------------------------------------- */
 async function start() {
+  /* ⚠ 설정 조합이 원리상 불가능한 경우를 먼저 잡는다
+     (예 : 활동지는 드라이브에서 가져오는데 제출은 노션으로) */
+  const bad = window.API.configError();
+  if (bad) {
+    $("classLoading").remove();
+    note($("setupHint"), "<strong>설정을 확인해 주세요.</strong><br>" + esc(bad), "bad");
+    return;
+  }
   if (!window.API.ready()) {
     $("classLoading").remove();
     note($("setupHint"),
@@ -141,7 +149,7 @@ async function openTask(t) {
   task = t;
   busy("활동지를 받는 중…", '<span class="spin"></span>');
   try {
-    srcBytes = await window.API.pdf(t.id);
+    srcBytes = await window.API.pdf(t.id, klass);
   } catch (e) {
     busy("활동지를 받지 못했습니다", esc(e.message), true);
     return;
@@ -226,7 +234,9 @@ async function doSubmit() {
     return;
   }
 
-  const info = { task: task.id, klass: klass, no: no, name: name };
+  /* task = 저장소가 아는 활동지 id (노션 페이지 id 또는 드라이브 파일 id)
+     taskTitle = 드라이브가 **폴더 이름**으로 쓴다. 노션 쪽은 쓰지 않는다. */
+  const info = { task: task.id, klass: klass, no: no, name: name, taskTitle: task.title };
   $("subVeil").classList.remove("on");
 
   /* 이미 낸 것이 있는지 먼저 물어본다 */
@@ -255,17 +265,26 @@ async function doSubmit() {
     return;
   }
 
+  /* 노션에 올릴 때 쓰는 파일 이름(날짜·시각 포함).
+     ⚠ 드라이브는 **덮어쓰기**라 날짜가 없는 다른 이름을 쓴다 —
+       그 이름은 drive/제출저장.gs 의 제출파일이름() 이 만든다. */
   const filename = makeName(task.title, klass, no, name);
-  const blob = new Blob([outBytes], { type: "application/pdf" });
 
-  busy("보내는 중…", '<span class="spin"></span> ' + Math.round(blob.size / 1024) + " KB");
+  busy("보내는 중…", '<span class="spin"></span> ' + Math.round(outBytes.length / 1024) + " KB");
   try {
-    const r = await window.API.submit(info, blob, filename);
+    const r = await window.API.submit(info, outBytes, filename, { taskTitle: task.title });
     store.drop();                       /* 낸 뒤에는 임시 보관을 지운다 */
+    /* 어디에 들어갔는지 정확히 알려 준다 (설정에 따라 다르다) */
+    const 어디 = window.API.target() === "drive" ? "선생님 구글 드라이브에"
+               : window.API.target() === "both" ? "선생님 노션과 구글 드라이브에"
+               : "선생님 노션에";
     busy("✅ 냈습니다",
       "<strong>" + esc(klass) + "반 " + no + "번 " + esc(name) + "</strong> · " +
       (r.round || 1) + "번째 제출<br>" +
-      "<small style='color:var(--sub)'>선생님 노션에 들어갔습니다. 이 화면을 닫아도 됩니다.</small>", true);
+      "<small style='color:var(--sub)'>" + 어디 + " 들어갔습니다. 이 화면을 닫아도 됩니다." +
+      (r.driveError ? "<br>⚠ 드라이브 저장만 실패했습니다 — 선생님께 알려 주세요 (" +
+        esc(r.driveError) + ")" : "") +
+      "</small>", true);
     $("bSubmit").disabled = true;
   } catch (e) {
     /* 실패해도 획은 그대로 남아 있으니 다시 시도할 수 있다 */

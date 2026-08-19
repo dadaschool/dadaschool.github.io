@@ -26,6 +26,9 @@
   var current = null;
   var rows = [];
 
+  /* 제출물이 어디에 쌓이나 — js/config.js 의 TARGET */
+  function 드라이브인가() { return window.API.target() === "drive"; }
+
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
@@ -74,6 +77,7 @@
       $("gate").style.display = "none";
       $("main").style.display = "";
       $("badge").textContent = "활동지 " + tasks.length + "개";
+      저장소에맞추기();
       drawTasks();
     }).catch(function (e) {
       key = "";
@@ -81,6 +85,30 @@
       $("enter").textContent = "확인";
       note($("gateMsg"), esc(e.message), "bad");
     });
+  }
+
+  /* 노션이냐 드라이브냐에 따라 안 쓰는 부분을 감춘다.
+     ⚠ 「제출」 표 만들기는 노션에만 있는 기능이고,
+       「반 폴더 미리 만들기」는 드라이브에만 있는 기능이다. */
+  function 저장소에맞추기() {
+    var d = 드라이브인가();
+    /* 「제출」 표 만들기는 **노션에만** 있는 기능이라 드라이브일 때는 감춘다.
+       ⚠ previousElementSibling 로 구분선을 찾지 말 것 — HTML 구조를 고치면 깨진다.
+         그래서 id(setupLine)를 붙여 두었다. */
+    ["setup", "setupHead", "setupLine", "setupWhy"].forEach(function (id) {
+      var el = $(id);
+      if (el) el.style.display = d ? "none" : "";
+    });
+    if (d) {
+      var w = $("whereNote");
+      if (w) {
+        w.innerHTML =
+          "⚠ 제출한 <strong>PDF 파일</strong>은 <strong>구글 드라이브</strong>에 있습니다 — " +
+          "<code>과제제출 / 반 / 과제 / 파일.pdf</code><br>" +
+          "아래 표의 <strong>«열기»</strong> 를 누르면 그 파일이 바로 열립니다. " +
+          "같은 학생이 다시 내면 <u>덮어써지고</u>, 이전 것은 드라이브의 «버전 기록» 에 남습니다.";
+      }
+    }
   }
 
   /* ---------------------------------------------------------
@@ -128,6 +156,8 @@
       sel.appendChild(o);
     });
     if ((t.classes || []).length === 1) sel.value = t.classes[0];
+    $("drivePrep").style.display = 드라이브인가() ? "" : "none";
+    $("prepMsg").style.display = "none";
     load();
   }
 
@@ -136,7 +166,7 @@
     note($("summary"), '불러오는 중 <span class="spin"></span>', "");
     $("rows").innerHTML = "";
     $("missing").style.display = "none";
-    window.API.report(key, current.id).then(function (d) {
+    window.API.report(key, current.id, current.title).then(function (d) {
       rows = d.rows || [];
       draw();
     }).catch(function (e) {
@@ -283,6 +313,22 @@
     });
   }
 
+  /* 반 폴더 미리 만들기 (드라이브) */
+  function prepare() {
+    if (!current) return;
+    var 반들 = current.classes || [];
+    if (!반들.length) { note($("prepMsg"), "이 활동지에 반이 지정되지 않았습니다.", "warn"); return; }
+    $("prepare").disabled = true;
+    note($("prepMsg"), '만드는 중 <span class="spin"></span>', "");
+    window.API.prepare(key, current.title, 반들).then(function (d) {
+      note($("prepMsg"), "✅ " + esc(d.message || "준비했습니다."), "good");
+      $("prepare").disabled = false;
+    }).catch(function (e) {
+      note($("prepMsg"), esc(e.message), "bad");
+      $("prepare").disabled = false;
+    });
+  }
+
   /* ---------------------------------------------------------
      연결
      --------------------------------------------------------- */
@@ -294,4 +340,5 @@
   $("noSkip").oninput = draw;
   $("refresh").onclick = load;
   $("setup").onclick = setup;
+  $("prepare").onclick = prepare;
 })();

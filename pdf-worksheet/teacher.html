@@ -73,19 +73,29 @@
       <div class="hint warn" id="missing" style="display:none"></div>
       <div class="hint bad" id="stray" style="display:none"></div>
 
+      <!-- 드라이브에 저장할 때만 보인다 -->
+      <div id="drivePrep" style="display:none;margin:14px 0">
+        <button class="tbtn wide" id="prepare">📁 이 활동지의 반 폴더 미리 만들기</button>
+        <span style="font-size:17px;color:var(--sub);margin-left:8px">
+          수업 시작 전에 한 번 누르면 30명이 동시에 내도 폴더가 겹치지 않습니다.
+        </span>
+        <div class="hint" id="prepMsg" style="display:none"></div>
+      </div>
+
       <table class="report" id="rows"></table>
 
-      <p style="font-size:17px;color:var(--sub)">
+      <!-- 제출물이 어디에 있는지 — 저장소에 따라 teacher.js 가 글을 바꾼다 -->
+      <p style="font-size:17px;color:var(--sub)" id="whereNote">
         ⚠ 제출한 <strong>PDF 파일</strong>은 노션에서 봅니다 —
         활동지 글의 <strong>댓글</strong>에 붙어 있고, <strong>「제출」 표</strong>의
         「제출 파일」 칸에도 같은 파일이 있습니다.
       </p>
     </div>
 
-    <hr style="margin:36px 0;border:none;border-top:2px solid var(--line)">
+    <hr style="margin:36px 0;border:none;border-top:2px solid var(--line)" id="setupLine">
 
-    <h2>처음 한 번만 — 「제출」 표 만들기</h2>
-    <p style="font-size:18px;color:var(--sub)">
+    <h2 id="setupHead">처음 한 번만 — 「제출」 표 만들기</h2>
+    <p style="font-size:18px;color:var(--sub)" id="setupWhy">
       노션의 「과제제출」 페이지 안에 <strong>「제출」 표</strong>를 만듭니다.
       이 표가 있어야 «누가 안 냈는지»를 볼 수 있습니다. 이미 있으면 다시 만들지 않습니다.
     </p>

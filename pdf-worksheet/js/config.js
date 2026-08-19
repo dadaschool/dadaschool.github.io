@@ -20,6 +20,25 @@ window.CONFIG = {
         진짜 방어는 Worker 의 ALLOWED_ORIGINS(접속 주소 제한)와 종료일이다. */
   SUBMIT_KEY: "",
 
+  /* ─── 구글 드라이브 제출 (Apps Script 웹앱) ───────────────
+     drive/설치안내.md 를 따라 배포하면 이런 주소를 받는다 —
+       https://script.google.com/macros/s/AKfycb.../exec
+     쓰지 않으면 비워 둔다. */
+  DRIVE: "",
+
+  /* 활동지 목록·PDF 를 **어디서** 가져오나
+       "notion" — 노션 「과제제출」 표 (반·마감·PDF)
+       "drive"  — 드라이브 활동지 폴더 (반=폴더, 과제=파일이름, 마감=파일이름의 ~ 뒤) */
+  SOURCE: "notion",
+
+  /* 제출을 **어디로** 보내나
+       "notion" — 노션 활동지 글의 댓글 + 「제출」 표
+       "drive"  — 드라이브  과제제출/반/과제/파일.pdf   (덮어쓰기)
+       "both"   — 둘 다 (노션이 기준, 드라이브 실패는 따로 알려 준다)
+     ⚠ SOURCE 가 "drive" 면 TARGET 도 "drive" 여야 한다.
+       활동지 id 가 드라이브 파일 id 라서 노션이 확인할 수 없기 때문이다. */
+  TARGET: "notion",
+
   /* 학교 이름 — 제출 파일 이름과 노션 댓글에 들어간다 */
   SCHOOL: "거제중학교",
 
