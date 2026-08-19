@@ -233,7 +233,11 @@
       g.strokeRect(MARGIN, y, innerW, h);
       g.fillStyle = C.ink;
       g.font = "bold 26px " + FONT;
-      g.fillText(m.grade + "학년 " + m.cls + "반 " + m.num + "번  " + m.name, MARGIN + 22, y + 12);
+      /* 반·학번이 없는 수업(영재반 등)은 학교·학년·이름으로 적는다 */
+      var who = (m.cls == null || m.num == null)
+        ? (m.school ? m.school + " " : "") + m.grade + "학년  " + m.name
+        : m.grade + "학년 " + m.cls + "반 " + m.num + "번  " + m.name;
+      g.fillText(who, MARGIN + 22, y + 12);
       g.fillStyle = C.sub;
       g.font = "20px " + FONT;
       g.fillText("작성 " + m.when, MARGIN + 22, y + 44);
@@ -603,23 +607,36 @@
      --------------------------------------------------------- */
   function askStudentInfo(opt, onOk) {
     opt = opt || {};
+    /* fields:"school" 이면 **학교·학년·이름** 을 묻는다.
+       여러 학교에서 모이는 영재반처럼 반·학번이 뜻이 없는 수업을 위한 것이다.
+       옵션을 주지 않으면 예전 그대로 학년·반·학번·이름을 묻는다(다른 앱들이 그대로 쓴다). */
+    var schoolMode = opt.fields === "school";
     var back = document.createElement("div");
     back.className = "modal-back";
     back.innerHTML =
       '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="siTitle">' +
         '<h2 id="siTitle">누가 낸 것인지 적어 주세요</h2>' +
-        '<p class="modal-note">여기 적은 <b>이름과 학번은 PDF 파일 안에만</b> 들어갑니다.<br>' +
-        '이 태블릿·컴퓨터에는 <b>저장되지 않습니다.</b></p>' +
+        '<p class="modal-note">' + (opt.note ||
+          (schoolMode
+            ? '여기 적은 <b>학교·학년·이름</b>은 선생님께 낼 때만 씁니다.<br>' +
+              '이 태블릿·컴퓨터에는 <b>저장되지 않습니다.</b>'
+            : '여기 적은 <b>이름과 학번은 PDF 파일 안에만</b> 들어갑니다.<br>' +
+              '이 태블릿·컴퓨터에는 <b>저장되지 않습니다.</b>')) + '</p>' +
         '<div class="si-grid">' +
-          '<label>학년<input type="number" id="siGrade" min="1" max="3" inputmode="numeric"></label>' +
-          '<label>반<input type="number" id="siCls" min="1" max="20" inputmode="numeric"></label>' +
-          '<label>학번<input type="number" id="siNum" min="1" max="50" inputmode="numeric"></label>' +
-          '<label>이름<input type="text" id="siName" maxlength="12" autocomplete="off"></label>' +
+          (schoolMode
+            ? '<label class="si-wide">학교<input type="text" id="siSchool" maxlength="20" autocomplete="off" ' +
+              'placeholder="예) 거제중학교"></label>' +
+              '<label>학년<input type="number" id="siGrade" min="1" max="3" inputmode="numeric"></label>' +
+              '<label>이름<input type="text" id="siName" maxlength="12" autocomplete="off"></label>'
+            : '<label>학년<input type="number" id="siGrade" min="1" max="3" inputmode="numeric"></label>' +
+              '<label>반<input type="number" id="siCls" min="1" max="20" inputmode="numeric"></label>' +
+              '<label>학번<input type="number" id="siNum" min="1" max="50" inputmode="numeric"></label>' +
+              '<label>이름<input type="text" id="siName" maxlength="12" autocomplete="off"></label>') +
         '</div>' +
         '<p class="modal-warn" id="siWarn" hidden></p>' +
         '<div class="modal-btns">' +
           '<button type="button" class="btn ghost" id="siCancel">취소</button>' +
-          '<button type="button" class="btn primary" id="siOk">PDF 만들기</button>' +
+          '<button type="button" class="btn primary" id="siOk">' + (opt.okText || "PDF 만들기") + '</button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(back);
@@ -628,8 +645,10 @@
     var cls = back.querySelector("#siCls");
     var num = back.querySelector("#siNum");
     var name = back.querySelector("#siName");
+    var school = back.querySelector("#siSchool");
     var warn = back.querySelector("#siWarn");
-    grade.focus();
+    if (school && opt.school) school.value = opt.school;   /* 대개 같은 학교라 미리 채워 준다 */
+    (school || grade).focus();
 
     function close() { back.remove(); }
     back.querySelector("#siCancel").addEventListener("click", close);
@@ -640,8 +659,22 @@
     });
 
     function submit() {
-      var g = parseInt(grade.value, 10), c = parseInt(cls.value, 10), n = parseInt(num.value, 10);
+      var g = parseInt(grade.value, 10);
       var nm = (name.value || "").trim();
+
+      if (schoolMode) {
+        var sc = (school.value || "").trim();
+        if (sc === "" || !(g >= 1 && g <= 3) || nm === "") {
+          warn.hidden = false;
+          warn.textContent = "학교 · 학년(1~3) · 이름을 모두 적어 주세요.";
+          return;
+        }
+        close();
+        onOk({ school: sc, grade: g, name: nm, when: stamp().human });
+        return;
+      }
+
+      var c = parseInt(cls.value, 10), n = parseInt(num.value, 10);
       if (!(g >= 1 && g <= 3) || !(c >= 1 && c <= 20) || !(n >= 1 && n <= 50) || nm === "") {
         warn.hidden = false;
         warn.textContent = "학년(1~3) · 반(1~20) · 학번(1~50) · 이름을 모두 올바르게 적어 주세요.";
@@ -651,7 +684,8 @@
       onOk({ grade: g, cls: c, num: n, name: nm, when: stamp().human });
     }
     back.querySelector("#siOk").addEventListener("click", submit);
-    [grade, cls, num, name].forEach(function (el) {
+    [school, grade, cls, num, name].forEach(function (el) {
+      if (!el) return;
       el.addEventListener("keydown", function (e) { if (e.key === "Enter") submit(); });
     });
   }
@@ -680,10 +714,15 @@
     return String(s || "").replace(/[\\/:*?"<>|_\s]/g, "");
   }
 
+  /* 학년·반·학번이 있으면  접두어_1-3-07_홍길동_날짜_시각.pdf
+     학교 모드(반·학번 없음)면 접두어_거제중학교_1_홍길동_날짜_시각.pdf
+     ⚠ teacher.html 의 NAME_RE 가 이 두 형식을 전제한다. 바꾸면 그쪽도 고칠 것. */
   function makeFileName(prefix, info, extra) {
     var t = stamp();
-    return prefix + "_" +
-           info.grade + "-" + info.cls + "-" + pad2(info.num) + "_" +
+    var who = (info.cls == null || info.num == null)
+      ? safeName(info.school) + "_" + info.grade
+      : info.grade + "-" + info.cls + "-" + pad2(info.num);
+    return prefix + "_" + who + "_" +
            safeName(info.name) +
            (extra ? "_" + safeName(extra) : "") + "_" +
            t.date + "_" + t.time + ".pdf";

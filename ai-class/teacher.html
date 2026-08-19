@@ -99,6 +99,33 @@
     </div>
   </div>
 
+  <!-- ======================= 인쇄용 활동지 =======================
+       루트 CLAUDE.md 의 [인쇄용 활동지 규칙] — 태블릿이 모자란 반·결석생 보충·
+       수업 공개 배부용으로 종이 학습지가 필요하다.
+       문항의 출처는 js/sheets.js(2~10차시)·js/sheet1.js(1차시) 이므로 화면과 어긋날 수 없다.
+       ⚠ 이 앱은 정답(answer)과 해설(why)을 평문으로 들고 있다.
+         js/print.js 가 그것을 지우고 인쇄한다 — hints:true 를 주지 말 것. -->
+  <div class="card">
+    <h2>🖨 인쇄용 활동지</h2>
+    <p class="lead">화면 학습지와 <b>똑같은 문항</b>을 종이로 낼 수 있습니다.
+      답 칸은 손으로 쓰도록 비어 있고 <b>정답과 해설은 들어가지 않습니다.</b></p>
+
+    <div class="prnrow" id="prnRow"></div>
+
+    <div class="btnrow" style="margin:18px 0">
+      <button type="button" class="btn primary big" id="prnAll">🖨 1~10차시 모두 한 번에</button>
+    </div>
+
+    <ul class="lead" style="margin:0;padding-left:22px;line-height:1.9">
+      <li>차시 단추를 누르면 <b>새 창</b>에 인쇄용 문서가 열리고 인쇄 대화상자가 뜹니다.</li>
+      <li><b>PDF 파일로 받으려면</b> 그 대화상자의 「대상(프린터)」을 <b>「PDF로 저장」</b> 으로 바꿉니다.</li>
+      <li><b>양면 인쇄</b>를 켜면 종이가 절반으로 줄어듭니다.</li>
+      <li><b>「모두 한 번에」</b> 는 1~10차시를 한 문서로 묶습니다(차시마다 새 쪽에서 시작).
+        학기 초에 한꺼번에 뽑아 두는 용도입니다.</li>
+      <li>종이로 받은 학습지는 <b>자동 채점이 되지 않습니다</b> — 화면 학습지로 답을 확인하세요.</li>
+    </ul>
+  </div>
+
   <div class="card">
     <h2>파일 이름 규칙</h2>
     <p class="lead">학생 화면이 만드는 PDF 는 아래 형식입니다. 이름만으로 정렬·집계가 됩니다.</p>
@@ -120,6 +147,14 @@
 
 </div>
 
+<style>
+/* 인쇄용 활동지 — 차시 단추 줄 */
+.prnrow { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0 4px; }
+.prnrow .btn { font-size: 19px; padding: 12px 18px; }
+</style>
+<script src="js/print.js"></script>
+<script src="js/sheets.js"></script>
+<script src="js/sheet1.js"></script>
 <script>
 "use strict";
 
@@ -418,6 +453,129 @@ document.getElementById("btnCsv").addEventListener("click", function () {
   a.remove();
   setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
 });
+</script>
+<script>
+/* =========================================================
+   🖨 인쇄용 활동지 — 루트 CLAUDE.md 의 [인쇄용 활동지 규칙]
+   ---------------------------------------------------------
+   2~10차시는 js/sheets.js (화면 학습지와 같은 파일).
+   1차시는 js/sheet1.js 의 R1·R2·CLIPS 로 «구별표» 를 만든다
+   (1차시는 문항 배열이 아니라 판별 트레이너 활동이라 여기서 표로 옮긴다).
+
+   ⚠ `hints: true` 를 주지 말 것 — 이 앱의 `why` 는 **정답 해설**이다.
+   ========================================================= */
+(function () {
+  "use strict";
+
+  var STD1 = "[9정04-01] 인공지능의 개념과 특성, 인공지능 소프트웨어 구별";
+
+  /* ---- 1차시 : 판별 트레이너를 종이 구별표로 ---- */
+  function sheet1() {
+    function 구별표(list, 갈래, 제목, 안내) {
+      return {
+        step: 제목, lead: 안내,
+        items: [{
+          kind: "tbl",
+          q: "빈칸에 <b>" + 갈래[0] + " / " + 갈래[1] + "</b> 중 하나를 쓰고, " +
+             "<b>그렇게 본 까닭</b>을 함께 적으세요.",
+          cols: ["소프트웨어 · 서비스", "무엇을 하나", "내 답", "내가 쓴 근거"],
+          widths: [1.3, 1.7, 0.8, 2.4],
+          /* 첫 열만 미리 채운다 — 나머지는 학생이 손으로 쓴다.
+             ⚠ 정답(ans)은 넣지 않는다. */
+          fixed: list.map(function (x) { return x.name; })
+        }]
+      };
+    }
+
+    /* 표는 첫 열만 미리 채울 수 있으므로, '무엇을 하나' 는 아래 목록으로 따로 준다 */
+    function 설명목록(list) {
+      return { kind: "info",
+        q: "<b>참고</b> — " + list.map(function (x) { return x.name + " : " + x.desc; }).join(" / ") };
+    }
+
+    var s1 = 구별표(window.R1, ["일반 SW", "AI SW"], "학습지 ①",
+                    "규칙대로만 움직이는 프로그램과, 데이터에서 스스로 배우는 프로그램을 갈라 봅시다.");
+    s1.items.unshift(설명목록(window.R1));
+    var s2 = 구별표(window.R2, ["판별형", "생성형"], "학습지 ① 심화",
+                    "AI 가운데서도 «가려내는 것» 과 «만들어 내는 것» 을 갈라 봅시다.");
+    s2.items.unshift(설명목록(window.R2));
+
+    /* 학습지 ② — 유튜브 클립. 앱이 정답을 갖지 않는다(모둠 발표 뒤 교사가 공개). */
+    var s3 = {
+      step: "학습지 ②", title: "유튜브 영상 AI 활용 구별",
+      lead: "정답은 모둠 발표 뒤에 선생님이 공개합니다. 지금은 <b>근거</b>를 적는 것이 중요합니다.",
+      items: []
+    };
+    (window.CLIPS || []).forEach(function (c) {
+      s3.items.push({ kind: "choice", q: "<b>" + c.t + "</b> — " + c.d + " · AI 를 썼을까요?",
+                      opts: ["AI 를 썼다 (O)", "AI 를 쓰지 않았다 (X)"] });
+      s3.items.push({ kind: "text", q: "↑ 그렇게 본 <b>근거 2가지 이상</b>", lines: 3 });
+      s3.items.push({ kind: "text", q: "↑ 느낀 점", lines: 2 });
+    });
+
+    return {
+      title: "1차시 학습지 ① ②",
+      subtitle: "AI 판별 트레이너 · 인공지능 소프트웨어 구별",
+      standard: STD1,
+      footer: "AI 판별 트레이너 · 1차시",
+      note: "정답을 먼저 보고 싶어도, 스스로 <b>판단하고 근거를 적어</b> 보세요. " +
+            "근거를 쓰는 것이 이 활동의 목표입니다.",
+      sections: [s1, s2, s3]
+    };
+  }
+
+  /* ---- 2~10차시 : js/sheets.js 를 그대로 넘긴다 ---- */
+  function sheetN(n) {
+    var sh = (window.SHEETS || {})[n];
+    if (!sh) return null;
+    return {
+      title: (sh.label || n + "차시") + " — " + sh.title,
+      subtitle: sh.ext || "",
+      standard: sh.standard || "",
+      footer: "인공지능의 이해와 활용 · " + n + "차시",
+      sections: sh.steps
+    };
+  }
+
+  function 하나(n) {
+    var doc = n === 1 ? sheet1() : sheetN(n);
+    if (!doc) { alert(n + "차시 학습지를 찾지 못했습니다."); return; }
+    window.Print.sheet(doc);
+  }
+
+  /* 차시 단추 만들기 — js/sheets.js 에 있는 차시만 만든다(없는 차시 단추가 생기지 않게) */
+  var row = document.getElementById("prnRow");
+  var 차시들 = [1].concat(Object.keys(window.SHEETS || {}).map(Number).sort(function (a, b) { return a - b; }));
+  차시들.forEach(function (n) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn";
+    b.textContent = "🖨 " + n + "차시";
+    b.addEventListener("click", function () { 하나(n); });
+    row.appendChild(b);
+  });
+
+  /* 모두 한 번에 — 차시마다 새 쪽에서 시작하도록 «쪽 나누기» 단계를 끼운다 */
+  document.getElementById("prnAll").addEventListener("click", function () {
+    var secs = [];
+    차시들.forEach(function (n, i) {
+      var doc = n === 1 ? sheet1() : sheetN(n);
+      if (!doc) return;
+      /* 차시 제목을 «단계» 로 넣어 한 문서 안에서 구분되게 한다 */
+      secs.push({ step: "━━ " + doc.title + " ━━", lead: doc.subtitle || "", items: [],
+                  brk: i > 0 });
+      (doc.sections || []).forEach(function (sc) { secs.push(sc); });
+    });
+    window.Print.sheet({
+      title: "인공지능의 이해와 활용 — 학습지 모음 (1~10차시)",
+      subtitle: "차시마다 새 쪽에서 시작합니다",
+      standard: "[9정04-01] [9정04-02] [9정04-03] [9정04-05]",
+      footer: "인공지능의 이해와 활용 · 학습지 모음",
+      note: "필요한 차시만 골라 인쇄하려면 인쇄 대화상자에서 <b>쪽 범위</b>를 지정하세요.",
+      sections: secs
+    });
+  });
+})();
 </script>
 </body>
 </html>
