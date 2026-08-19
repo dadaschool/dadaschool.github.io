@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>활동지 — 펜으로 쓰고 내기</title>
+<!-- 파일 없이 넣는 아이콘 (favicon.ico 404 를 없앤다) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2728%27%3E%E2%9C%8D%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>✍️ 활동지</h1>
+  <span class="badge" id="badge">반을 고르세요</span>
+  <span class="spacer"></span>
+  <a class="home" href="#" id="restart">처음으로</a>
+</header>
+
+<div class="demobar" id="demobar"></div>
+
+<ul class="steps">
+  <li id="s1" class="on">① 반 고르기</li>
+  <li id="s2">② 활동지 고르기</li>
+  <li id="s3">③ 답 쓰기</li>
+  <li id="s4">④ 내기</li>
+</ul>
+
+<!-- ───────── ① 반 고르기 ───────── -->
+<section class="panel on" id="p1">
+  <div class="wrap" style="max-width:860px;margin:0 auto;padding:24px">
+    <h2>내 반을 고르세요</h2>
+    <div class="hint" id="setupHint" style="display:none"></div>
+    <div class="pickgrid" id="classes"><p id="classLoading">불러오는 중 <span class="spin"></span></p></div>
+  </div>
+</section>
+
+<!-- ───────── ② 활동지 고르기 ───────── -->
+<section class="panel" id="p2">
+  <div class="wrap" style="max-width:860px;margin:0 auto;padding:24px">
+    <h2><span id="klassName"></span> 활동지</h2>
+    <div class="tasklist" id="tasks"><p>불러오는 중 <span class="spin"></span></p></div>
+    <button class="tbtn wide" id="backTo1">◀ 반 다시 고르기</button>
+  </div>
+</section>
+
+<!-- ───────── ③ 답 쓰기 ───────── -->
+<section class="panel" id="p3">
+  <div class="pagenav">
+    <button class="tbtn" id="pPrev" title="앞 쪽">◀</button>
+    <span id="pInfo">1 / 1 쪽</span>
+    <button class="tbtn" id="pNext" title="다음 쪽">▶</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="pagebox" id="pageBox">
+      <canvas id="pdfCanvas"></canvas>
+      <canvas id="inkCanvas" class="ink"></canvas>
+      <canvas id="liveCanvas" class="live"></canvas>
+    </div>
+  </div>
+
+  <div class="tools">
+    <div class="grp">
+      <button class="tbtn on" id="tPen" title="펜">✏️</button>
+      <button class="tbtn" id="tEraser" title="지우개">🧽</button>
+      <button class="tbtn" id="tPan" title="손으로 밀기 (그려지지 않음)">🖐</button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="swatch on" id="cBlack" style="background:#111827" title="검정"></button>
+      <button class="swatch" id="cRed" style="background:#dc2626" title="빨강"></button>
+      <button class="swatch" id="cBlue" style="background:#2563eb" title="파랑"></button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="tbtn wbtn" data-w="1" title="얇게"><i></i></button>
+      <button class="tbtn wbtn on" data-w="2" title="보통"><i></i></button>
+      <button class="tbtn wbtn" data-w="3" title="굵게"><i></i></button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="tbtn" id="bUndo" title="되돌리기">↶</button>
+      <button class="tbtn" id="bRedo" title="다시 하기">↷</button>
+      <button class="tbtn" id="bClear" title="이 쪽 전부 지우기">🗑</button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="tbtn" id="zOut" title="축소">－</button>
+      <button class="tbtn" id="zFit" title="화면에 맞추기">맞춤</button>
+      <button class="tbtn" id="zIn" title="확대">＋</button>
+    </div>
+    <span class="spacer"></span>
+    <button class="tbtn go wide" id="bSubmit">📤 다 했어요 · 내기</button>
+  </div>
+</section>
+
+<!-- ───────── 제출 창 ───────── -->
+<div class="veil" id="subVeil">
+  <div class="sheet">
+    <h2>내 것으로 표시하기</h2>
+    <p style="color:var(--sub);font-size:18px;margin:4px 0 0">
+      선생님이 누가 냈는지 알 수 있게 학번과 이름을 적습니다.
+      <strong>이 기기에는 저장되지 않습니다.</strong>
+    </p>
+    <div class="row"><label>반</label><strong id="subKlass" style="font-size:22px"></strong></div>
+    <div class="row"><label for="subNo">학번</label>
+      <input type="text" id="subNo" inputmode="numeric" maxlength="2" placeholder="예: 7"></div>
+    <div class="row"><label for="subName">이름</label>
+      <input type="text" id="subName" maxlength="10" placeholder="예: 홍길동"></div>
+    <div class="hint" id="subMsg" style="display:none"></div>
+    <div class="btns">
+      <button class="tbtn wide" id="subCancel">취소</button>
+      <button class="tbtn go wide" id="subOk">내기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ───────── 진행 · 결과 창 ───────── -->
+<div class="veil" id="busyVeil">
+  <div class="sheet" style="text-align:center">
+    <h2 id="busyTitle">보내는 중…</h2>
+    <p id="busyMsg" style="font-size:19px;color:var(--sub)">잠시만 기다려 주세요.</p>
+    <div class="btns" style="justify-content:center">
+      <button class="tbtn go wide" id="busyClose" style="display:none">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- 클래식 스크립트 먼저 (모듈보다 순서가 보장된다) -->
+<script src="js/config.js"></script>
+<script src="js/vendor/pdf-lib.min.js"></script>
+<script src="js/ink.js"></script>
+<script src="js/api.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

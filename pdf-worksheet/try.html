@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>활동지 — 손글씨 시험해 보기</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2728%27%3E%F0%9F%A7%AA%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🧪 손글씨 시험해 보기</h1>
+  <span class="badge" id="badge">PDF 를 고르세요</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">학생 화면 →</a>
+</header>
+
+<div class="demobar on">
+  <strong>이 화면은 기기 시험용입니다 — 아무 곳에도 제출되지 않습니다.</strong>
+  내 PDF 를 골라 손글씨를 써 보고, 결과를 <u>내 기기로 내려받아</u> 확인합니다.
+  노션·인터넷 연결이 필요 없고, 파일은 <strong>이 기기 밖으로 나가지 않습니다.</strong>
+  이름·학번도 묻지 않습니다.
+</div>
+
+<!-- ───────── ① PDF 고르기 ───────── -->
+<section class="panel on" id="p1">
+  <div class="wrap" style="max-width:860px;margin:0 auto;padding:24px">
+    <h2>활동지 PDF 고르기</h2>
+    <p style="font-size:18px;color:var(--sub)">
+      한글·워드에서 «PDF로 저장» 한 활동지를 고르세요.
+      <strong>암호가 걸린 PDF 는 열리지 않습니다.</strong>
+    </p>
+
+    <label for="file" class="taskbtn" style="cursor:pointer;display:block">
+      📄 PDF 파일 고르기
+      <span class="due">여기를 누르면 파일 선택 창이 열립니다</span>
+    </label>
+    <input type="file" id="file" accept="application/pdf,.pdf" style="position:absolute;left:-9999px">
+
+    <div class="hint" id="msg" style="display:none"></div>
+
+    <div class="hint" style="margin-top:22px">
+      <strong>무엇을 확인하면 되나요</strong><br>
+      ① 펜으로 쓸 때 <u>선이 손끝을 잘 따라오는지</u><br>
+      ② 태블릿에 손을 얹고 써도 <u>손바닥 자국이 생기지 않는지</u><br>
+      ③ 답 칸 크기에 <u>글씨가 알맞게 들어가는지</u> (안 맞으면 굵기 단추로 바꿔 보세요)<br>
+      ④ 내려받은 PDF 에서 <u>글씨가 제자리에 있고 원본 글자가 선명한지</u>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── ② 써 보기 ───────── -->
+<section class="panel" id="p3">
+  <div class="pagenav">
+    <button class="tbtn" id="pPrev" title="앞 쪽">◀</button>
+    <span id="pInfo">1 / 1 쪽</span>
+    <button class="tbtn" id="pNext" title="다음 쪽">▶</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="pagebox" id="pageBox">
+      <canvas id="pdfCanvas"></canvas>
+      <canvas id="inkCanvas" class="ink"></canvas>
+      <canvas id="liveCanvas" class="live"></canvas>
+    </div>
+  </div>
+
+  <div class="tools">
+    <div class="grp">
+      <button class="tbtn on" id="tPen" title="펜">✏️</button>
+      <button class="tbtn" id="tEraser" title="지우개">🧽</button>
+      <button class="tbtn" id="tPan" title="손으로 밀기 (그려지지 않음)">🖐</button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="swatch on" id="cBlack" style="background:#111827" title="검정"></button>
+      <button class="swatch" id="cRed" style="background:#dc2626" title="빨강"></button>
+      <button class="swatch" id="cBlue" style="background:#2563eb" title="파랑"></button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="tbtn wbtn" data-w="1" title="얇게"><i></i></button>
+      <button class="tbtn wbtn on" data-w="2" title="보통"><i></i></button>
+      <button class="tbtn wbtn" data-w="3" title="굵게"><i></i></button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="tbtn" id="bUndo" title="되돌리기">↶</button>
+      <button class="tbtn" id="bRedo" title="다시 하기">↷</button>
+      <button class="tbtn" id="bClear" title="이 쪽 전부 지우기">🗑</button>
+    </div>
+    <div class="sep"></div>
+    <div class="grp">
+      <button class="tbtn" id="zOut" title="축소">－</button>
+      <button class="tbtn" id="zFit" title="화면에 맞추기">맞춤</button>
+      <button class="tbtn" id="zIn" title="확대">＋</button>
+    </div>
+    <span class="spacer"></span>
+    <button class="tbtn go wide" id="bSave">💾 PDF 로 내려받기</button>
+  </div>
+</section>
+
+<!-- ───────── 알림 창 ───────── -->
+<div class="veil" id="busyVeil">
+  <div class="sheet" style="text-align:center">
+    <h2 id="busyTitle">잠시만…</h2>
+    <p id="busyMsg" style="font-size:19px;color:var(--sub)"></p>
+    <div class="btns" style="justify-content:center">
+      <button class="tbtn go wide" id="busyClose" style="display:none">확인</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/vendor/pdf-lib.min.js"></script>
+<script src="js/ink.js"></script>
+<script type="module" src="js/try.js"></script>
+</body>
+</html>
