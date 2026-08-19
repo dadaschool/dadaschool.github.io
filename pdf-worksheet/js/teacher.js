@@ -360,6 +360,38 @@
   }
 
   /* ---------------------------------------------------------
+     🖨 인쇄용 활동지 내려받기
+
+     이 앱은 교사가 올린 **원본 활동지 PDF 자체가 인쇄용 활동지**다.
+     그래서 새로 만들 것이 없고, 학생이 받는 것과 **똑같은 파일**을 내려받는다
+     — 화면에서 푸는 것과 종이가 다를 수 없다는 뜻이라 오히려 안전하다.
+
+     ⚠ 답이 든 제출물이 아니라 **원본**이다. 정답은 어디에도 넣지 않는다
+       (루트 CLAUDE.md 의 [인쇄용 활동지 규칙]).
+     --------------------------------------------------------- */
+  function 인쇄용받기() {
+    if (!current) { note($("printMsg"), "먼저 활동지를 고르세요.", "warn"); return; }
+    /* 활동지를 받으려면 반이 필요하다(그 반에 열려 있는지 확인하기 때문).
+       고른 반이 없으면 그 활동지의 첫 반을 쓴다. */
+    var 반 = $("classPick").value || (current.classes || [])[0] || "";
+    if (!반) { note($("printMsg"), "이 활동지에 반이 지정되지 않았습니다.", "warn"); return; }
+
+    $("printPdf").disabled = true;
+    note($("printMsg"), '활동지를 받는 중 <span class="spin"></span>', "");
+    window.API.pdf(current.id, 반).then(function (bytes) {
+      var 이름 = current.title.replace(/[\\\/:*?"<>|]+/g, "") + "_인쇄용.pdf";
+      var size = window.Ink.download(bytes, 이름);
+      note($("printMsg"),
+        "🖨 <strong>" + esc(이름) + "</strong> · " + Math.round(size / 1024) + " KB 내려받았습니다.<br>" +
+        "<small>그 파일을 열어 인쇄하세요. 학생 이름·학번 칸은 활동지 안에 있는 그대로입니다.</small>", "good");
+      $("printPdf").disabled = false;
+    }).catch(function (e) {
+      note($("printMsg"), esc(e.message), "bad");
+      $("printPdf").disabled = false;
+    });
+  }
+
+  /* ---------------------------------------------------------
      연결
      --------------------------------------------------------- */
   $("enter").onclick = enter;
@@ -371,4 +403,5 @@
   $("refresh").onclick = load;
   $("setup").onclick = setup;
   $("prepare").onclick = prepare;
+  $("printPdf").onclick = 인쇄용받기;
 })();
