@@ -7,8 +7,14 @@
 
    ⚠ 「누가 안 냈는지」를 어떻게 아는가
      학생 명단을 앱이 갖고 있지 않다(개인정보를 두지 않으려고).
-     대신 **학번을 정렬해 빈 번호**를 찾는다. 그 반 인원만 알려 주면
-     「24명 중 18명 제출 · 빠진 학번 3·7·11·19」 처럼 나온다.
+     대신 교사가 **시작 학번 · 마지막 학번 · 결번**을 적어 «있는 학번 목록»을 만들고,
+     그중 제출하지 않은 번호를 찾는다.
+       예) 1 ~ 30, 결번 7·19  →  28명이 명단, 그중 안 낸 번호를 보여 준다
+     ⚠ **결번**(전출·미배정)을 뺄 수 있어야 한다. 처음에는 「그 반 인원」 숫자 하나만
+       받아 1~N 을 전부 있다고 가정했는데, 그러면 전출한 학생 번호가 **매번**
+       미제출자로 떠서 교사가 머리로 걸러 내야 했다(사용자 지적으로 고침).
+     ⚠ 반대로 **명단에 없는 학번으로 낸 제출**도 따로 알려 준다. 학생이 학번을
+       잘못 적으면 그 학생은 «냈는데 안 냈다» 로 처리되기 때문이다.
    ========================================================= */
 (function () {
   "use strict";
@@ -138,9 +144,46 @@
     });
   }
 
+  /* ---------------------------------------------------------
+     그 반에 «있는 학번» 목록 만들기
+
+     시작 ~ 마지막 사이의 번호에서 **결번**(전출·미배정)을 뺀다.
+     ⚠ 이것을 안 하면 전출한 학생의 번호가 **매번 미제출자로** 뜬다.
+       처음에는 「그 반 인원」 숫자 하나만 받아 1~N 을 전부 있다고 가정했는데,
+       그러면 선생님이 매 시간 머리로 걸러 내야 했다(사용자 지적으로 고침).
+     --------------------------------------------------------- */
+  function parseSkip(text) {
+    /* "7, 19" · "7 19" · "7·19" 를 모두 받는다 */
+    var out = {};
+    String(text || "").split(/[^0-9]+/).forEach(function (t) {
+      var n = parseInt(t, 10);
+      if (isFinite(n) && n > 0) out[n] = true;
+    });
+    return out;
+  }
+
+  function roster() {
+    var from = parseInt($("noFrom").value, 10);
+    var to = parseInt($("noTo").value, 10);
+    if (!isFinite(from) || from < 1) from = 1;
+    if (!isFinite(to) || to < from) return { list: [], skip: {}, from: from, to: from - 1 };
+    var skip = parseSkip($("noSkip").value);
+    var list = [];
+    for (var i = from; i <= to; i++) if (!skip[i]) list.push(i);
+    return { list: list, skip: skip, from: from, to: to };
+  }
+
   function draw() {
     var klass = $("classPick").value;
-    var head = parseInt($("headcount").value, 10) || 0;
+    var r0 = roster();
+    var head = r0.list.length;
+
+    var skipCount = Object.keys(r0.skip).filter(function (n) {
+      return +n >= r0.from && +n <= r0.to;
+    }).length;
+    $("rosterInfo").textContent = head
+      ? "→ " + head + "명" + (skipCount ? " (결번 " + skipCount + "명 뺐음)" : "")
+      : "→ 학번 범위를 확인해 주세요";
 
     var list = klass ? rows.filter(function (r) { return r.klass === klass; }) : rows.slice();
 
@@ -159,20 +202,34 @@
     var again = list.length - uniq.length;
     note($("summary"),
       "<strong>" + (klass ? klass + "반" : "전체") + "</strong> · 제출 <strong>" + uniq.length + "명</strong>" +
-      (head ? " / " + head + "명" : "") +
+      (klass && head ? " / " + head + "명" : "") +
       (again ? " · 다시 낸 것 " + again + "건" : ""), "good");
 
     /* 빠진 학번 — 반을 하나 고른 경우에만 뜻이 있다 */
+    $("missing").style.display = "none";
+    $("stray").style.display = "none";
     if (klass && head) {
       var got = {};
       uniq.forEach(function (r) { if (r.no) got[r.no] = 1; });
-      var miss = [];
-      for (var i = 1; i <= head; i++) if (!got[i]) miss.push(i);
+
+      var miss = r0.list.filter(function (n) { return !got[n]; });
       if (miss.length) {
-        note($("missing"), "<strong>빠진 학번 " + miss.length + "명</strong> — " + miss.join(" · ") +
-          "<br><small>※ 결석·전학 등으로 없는 번호도 함께 나옵니다.</small>", "warn");
+        note($("missing"), "<strong>안 낸 학번 " + miss.length + "명</strong> — " + miss.join(" · ") +
+          "<br><small>※ 결석한 학생도 여기에 들어갑니다. 결번은 빠져 있습니다.</small>", "warn");
       } else {
-        note($("missing"), "✅ <strong>" + klass + "반 전원 제출</strong>", "good");
+        note($("missing"), "✅ <strong>" + klass + "반 " + head + "명 전원 제출</strong>", "good");
+      }
+
+      /* ⚠ 명단에 없는 학번으로 낸 제출 — 학생이 학번을 잘못 적었을 가능성이 크다.
+         이것을 안 알려 주면 그 학생은 «냈는데 안 냈다» 고 처리된다. */
+      var inRoster = {};
+      r0.list.forEach(function (n) { inRoster[n] = true; });
+      var stray = uniq.filter(function (r) { return r.no && !inRoster[r.no]; });
+      if (stray.length) {
+        note($("stray"),
+          "⚠ <strong>명단에 없는 학번으로 낸 제출 " + stray.length + "건</strong> — " +
+          stray.map(function (r) { return esc(r.who) + "(" + r.no + "번)"; }).join(", ") +
+          "<br><small>학번을 잘못 적었거나, 학번 범위·결번 설정이 실제와 다를 수 있습니다.</small>", "bad");
       }
     }
 
@@ -232,7 +289,9 @@
   $("enter").onclick = enter;
   $("key").addEventListener("keydown", function (e) { if (e.key === "Enter") enter(); });
   $("classPick").onchange = draw;
-  $("headcount").oninput = draw;
+  $("noFrom").oninput = draw;
+  $("noTo").oninput = draw;
+  $("noSkip").oninput = draw;
   $("refresh").onclick = load;
   $("setup").onclick = setup;
 })();

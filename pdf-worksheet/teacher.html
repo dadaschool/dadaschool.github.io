@@ -48,12 +48,30 @@
       <div class="row" style="display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap">
         <label for="classPick" style="font-size:19px">반</label>
         <select id="classPick" style="font-size:20px;padding:10px 12px;border:2px solid var(--line);border-radius:10px;font-family:inherit"></select>
-        <label for="headcount" style="font-size:19px">그 반 인원</label>
-        <input type="number" id="headcount" min="1" max="60" value="24" style="font-size:20px;padding:10px 12px;border:2px solid var(--line);border-radius:10px;width:100px;font-family:inherit">
         <button class="tbtn wide" id="refresh">🔄 다시 불러오기</button>
       </div>
 
+      <!-- 그 반의 «있는 학번» 을 정한다.
+           ⚠ 이것이 없으면 전출·결번이 매번 미제출자로 뜬다(처음엔 그랬다). -->
+      <div class="row" style="display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap">
+        <label for="noFrom" style="font-size:19px">학번</label>
+        <input type="number" id="noFrom" min="1" max="80" value="1"
+               style="font-size:20px;padding:10px 12px;border:2px solid var(--line);border-radius:10px;width:86px;font-family:inherit">
+        <span style="font-size:20px">~</span>
+        <input type="number" id="noTo" min="1" max="80" value="30"
+               style="font-size:20px;padding:10px 12px;border:2px solid var(--line);border-radius:10px;width:86px;font-family:inherit">
+        <label for="noSkip" style="font-size:19px;margin-left:8px">결번</label>
+        <input type="text" id="noSkip" placeholder="예: 7, 19" inputmode="numeric"
+               style="font-size:20px;padding:10px 12px;border:2px solid var(--line);border-radius:10px;width:180px;font-family:inherit">
+        <span id="rosterInfo" style="font-size:17px;color:var(--sub)"></span>
+      </div>
+      <p style="font-size:17px;color:var(--sub);margin:-6px 0 14px">
+        <strong>결번</strong> = 전출·미배정 등으로 <u>그 반에 없는 학번</u>입니다.
+        쉼표로 여러 개 적을 수 있습니다(<code>7, 19</code>). 결번은 미제출자에서 빠집니다.
+      </p>
+
       <div class="hint warn" id="missing" style="display:none"></div>
+      <div class="hint bad" id="stray" style="display:none"></div>
 
       <table class="report" id="rows"></table>
 
