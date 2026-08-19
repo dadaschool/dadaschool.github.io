@@ -9,7 +9,7 @@
      · 학번·이름은 sessionStorage 에 넣지 않는다.
    ========================================================= */
 
-import { createViewer } from "./viewer.js?v=202608191953";
+import { createViewer } from "./viewer.js?v=202608192005";
 
 const $ = (id) => document.getElementById(id);
 
@@ -35,6 +35,7 @@ function step(n) {
 function badge(text) { $("badge").textContent = text; }
 
 function busy(title, msg, closable) {
+  $("busySave").style.display = "none";     /* 필요한 곳에서만 다시 켠다 */
   $("busyTitle").textContent = title;
   $("busyMsg").innerHTML = msg || "";
   $("busyClose").style.display = closable ? "" : "none";
@@ -260,6 +261,54 @@ function refreshTools() {
 }
 
 /* ---------------------------------------------------------
+   💾 내 기기에 PDF 로 저장 (제출과 별개로 늘 쓸 수 있다)
+
+   ⚠ 이 프로젝트의 다른 앱들(ai-class·EnergyKeeper·abstraction-algo·data-convert)은
+     모두 「PDF 저장 → 제출」 흐름이다. 학생이 **자기 답안을 손에 들고 있는 것**이
+     기본이고, 제출이 실패해도 답이 사라지지 않는 안전장치다.
+     처음에 이 앱만 빼먹어서 사용자 지적으로 넣었다(2026-08-19). **빼지 말 것.**
+   --------------------------------------------------------- */
+let 마지막PDF = null;      // 결과 창의 「다시 저장」 이 쓴다 (기기 안에만 있다)
+
+async function 답안만들기() {
+  if (store.isEmpty()) {
+    busy("아직 아무것도 쓰지 않았습니다", "펜으로 답을 쓴 뒤에 눌러 주세요.", true);
+    return null;
+  }
+  busy("답안을 만드는 중…", '<span class="spin"></span>');
+  try {
+    return await window.Ink.stamp(srcBytes, store.strokes, window.PDFLib);
+  } catch (e) {
+    busy("답안을 만들지 못했습니다", esc(e.message), true);
+    return null;
+  }
+}
+
+/* 학번·이름을 아직 안 받았을 때도 저장할 수 있게.
+   ⚠ 그때 makeName 에 0·"이름없음" 을 넣으면 «…_1-1-00_이름없음_…» 처럼 지저분해진다.
+     그래서 학번·이름 대신 «작성중» 을 넣는다. */
+function 저장이름() {
+  const d = new Date();
+  const p = (n) => String(n).padStart(2, "0");
+  const stamp = d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) +
+                "_" + p(d.getHours()) + p(d.getMinutes());
+  const safe = (x) => String(x).replace(/[\\/:*?"<>|\s]+/g, "").slice(0, 20);
+  return safe(task.title) + "_" + klass + "_작성중_" + stamp + ".pdf";
+}
+
+async function pdf저장() {
+  const bytes = await 답안만들기();
+  if (!bytes) return;
+  마지막PDF = { bytes: bytes, name: 저장이름() };
+  const size = window.Ink.download(bytes, 마지막PDF.name);
+  busy("💾 저장했습니다",
+    "<strong>" + esc(마지막PDF.name) + "</strong> · " + Math.round(size / 1024) + " KB<br>" +
+    "<small style='color:var(--sub)'>내 기기에 내려받았습니다. " +
+    "이것과 별개로 <strong>«📤 내기»</strong> 를 눌러야 선생님께 제출됩니다.</small>", true);
+  $("busySave").style.display = "";
+}
+
+/* ---------------------------------------------------------
    ④ 내기
    --------------------------------------------------------- */
 function openSubmit() {
@@ -318,6 +367,17 @@ async function doSubmit() {
     return;
   }
 
+  /* ⚠ **보내기 전에 먼저 학생 기기에 저장한다.**
+     순서가 중요하다 — 제출이 실패해도 학생 손에 답안이 남는다.
+     다른 앱들과 같은 「PDF 저장 → 제출」 흐름이다. */
+  let 저장했나 = true;
+  try {
+    window.Ink.download(outBytes, makeName(task.title, klass, no, name));
+  } catch (e) {
+    저장했나 = false;      /* 저장이 안 돼도 제출은 계속한다 */
+  }
+  마지막PDF = { bytes: outBytes, name: makeName(task.title, klass, no, name) };
+
   /* 노션에 올릴 때 쓰는 파일 이름(날짜·시각 포함).
      ⚠ 드라이브는 **덮어쓰기**라 날짜가 없는 다른 이름을 쓴다 —
        그 이름은 drive/제출저장.gs 의 제출파일이름() 이 만든다. */
@@ -334,16 +394,23 @@ async function doSubmit() {
     busy("✅ 냈습니다",
       "<strong>" + esc(klass) + "반 " + no + "번 " + esc(name) + "</strong> · " +
       (r.round || 1) + "번째 제출<br>" +
-      "<small style='color:var(--sub)'>" + 어디 + " 들어갔습니다. 이 화면을 닫아도 됩니다." +
+      "<small style='color:var(--sub)'>" + 어디 + " 들어갔습니다. 이 화면을 닫아도 됩니다.<br>" +
+      (저장했나 ? "💾 <strong>내 기기에도 PDF 로 저장했습니다.</strong>"
+                : "⚠ 내 기기 저장은 되지 않았습니다 — 아래 «PDF 다시 저장» 을 눌러 보세요.") +
       (r.driveError ? "<br>⚠ 드라이브 저장만 실패했습니다 — 선생님께 알려 주세요 (" +
         esc(r.driveError) + ")" : "") +
       "</small>", true);
+    $("busySave").style.display = "";
     $("bSubmit").disabled = true;
   } catch (e) {
     /* 실패해도 획은 그대로 남아 있으니 다시 시도할 수 있다 */
     busy("보내지 못했습니다",
       esc(e.message) + "<br><small style='color:var(--sub)'>쓴 글씨는 그대로 있습니다. " +
-      "잠시 뒤 다시 «내기» 를 눌러 주세요.</small>", true);
+      "잠시 뒤 다시 «내기» 를 눌러 주세요.<br>" +
+      (저장했나 ? "💾 답안 PDF 는 <strong>이미 내 기기에 저장</strong>되어 있으니 안심하세요."
+                : "아래 «PDF 다시 저장» 으로 답안을 먼저 챙겨 두세요.") +
+      "</small>", true);
+    $("busySave").style.display = "";
   }
 }
 
@@ -409,6 +476,11 @@ $("zIn").onclick = () => viewer.zoomIn();
 $("zOut").onclick = () => viewer.zoomOut();
 $("zFit").onclick = () => viewer.fit();
 
+$("bSavePdf").onclick = pdf저장;
+$("busySave").onclick = () => {
+  if (!마지막PDF) { pdf저장(); return; }
+  window.Ink.download(마지막PDF.bytes, 마지막PDF.name);
+};
 $("bSubmit").onclick = openSubmit;
 $("subCancel").onclick = () => $("subVeil").classList.remove("on");
 $("subOk").onclick = doSubmit;

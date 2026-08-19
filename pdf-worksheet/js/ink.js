@@ -329,10 +329,36 @@
     return await doc.save({ useObjectStreams: true });
   }
 
+  /* ---------------------------------------------------------
+     ④ 내 기기에 PDF 로 내려받기
+
+     ⚠ 제출과 **별개로 늘 할 수 있어야** 한다.
+       이 프로젝트의 다른 앱들(ai-class·EnergyKeeper·abstraction-algo·data-convert)은
+       모두 「PDF 저장 → 제출」 흐름이고, 학생이 자기 답안을 손에 들고 있는 것이
+       기본이었다. 제출이 실패해도 학생 답이 사라지지 않는 안전장치이기도 하다.
+
+     ⚠ iPad Safari 등에서는 «저장» 대신 PDF 가 새 창으로 열릴 수 있다.
+       그때도 학생이 거기서 공유·저장할 수 있으므로 그대로 둔다.
+     --------------------------------------------------------- */
+  function download(bytes, filename) {
+    var blob = new Blob([bytes], { type: "application/pdf" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename || "제출.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    /* 곧바로 지우면 아직 내려받는 중일 수 있다 */
+    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+    return blob.size;
+  }
+
   global.Ink = {
     Store: Store,
     drawOn: drawOn,
     stamp: stamp,
+    download: download,
     smooth: smooth,
     runs: runs,
     r2: r2

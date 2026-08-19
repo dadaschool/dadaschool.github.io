@@ -14,7 +14,7 @@
    실제 수업에서도 그대로 나온다.
    ========================================================= */
 
-import { createViewer } from "./viewer.js?v=202608191953";
+import { createViewer } from "./viewer.js?v=202608192005";
 
 const $ = (id) => document.getElementById(id);
 
@@ -129,19 +129,11 @@ async function save() {
 
   const base = srcName.replace(/\.pdf$/i, "");
   const name = base + "_손글씨시험.pdf";
-  const blob = new Blob([out], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  /* 곧바로 지우면 아직 내려받는 중일 수 있다 */
-  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  /* 내려받기는 ink.js 의 공용 함수를 쓴다 (학생 화면과 같은 코드) */
+  const size = window.Ink.download(out, name);
 
   busy("💾 내려받았습니다",
-    "<strong>" + esc(name) + "</strong> · " + Math.round(blob.size / 1024) + " KB<br>" +
+    "<strong>" + esc(name) + "</strong> · " + Math.round(size / 1024) + " KB<br>" +
     "<small style='color:var(--sub)'>그 파일을 열어 글씨가 제자리에 있는지, " +
     "원본 글자가 선명한지 확인해 주세요.</small>", true);
 }
