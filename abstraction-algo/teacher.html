@@ -22,6 +22,7 @@
 
   <nav class="steps" aria-label="화면 고르기">
     <button type="button" class="step-btn on" data-tab="t1"><span class="em">🗓️</span> 수업 운영</button>
+    <button type="button" class="step-btn" data-tab="tp"><span class="em">🖨</span> 인쇄용 활동지</button>
     <button type="button" class="step-btn" data-tab="t2"><span class="em">🔑</span> 정답·해설</button>
     <button type="button" class="step-btn" data-tab="t3"><span class="em">📥</span> 제출물 정리</button>
     <button type="button" class="step-btn" data-tab="t4"><span class="em">📋</span> 평가 루브릭</button>
@@ -74,6 +75,32 @@
         <h4>골든타임 10분</h4>
         <p>A로 가면 12분이라 <b>골든타임을 넘깁니다.</b> “1km 짧은데 5분 느리다면?”이라는 설계안의 발문을
         이 지도에서는 <b>“450m 짧은데 4분 느리다면?”</b>으로 물으면 됩니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 인쇄용 활동지 =======================
+       루트 CLAUDE.md 의 [인쇄용 활동지 규칙] — 태블릿이 모자란 반·결석생 보충·
+       수업 공개 배부용으로 **종이 학습지**가 필요하다. 문항은 화면과 같고
+       정답은 들어가지 않는다(js/print.js 가 정답 칸을 아예 읽지 않는다). -->
+  <section id="tp" class="hidden">
+    <div class="card">
+      <h2>🖨 인쇄용 활동지</h2>
+      <p class="lead">화면 학습지와 <b>똑같은 문항</b>을 종이로 낼 수 있습니다.
+        답 칸은 손으로 쓰도록 비어 있고, <b>정답은 들어가지 않습니다.</b></p>
+
+      <div class="pr-btns">
+        <button type="button" class="btn on" id="prn1">🖨 1차시 학습지 (12문항)</button>
+        <button type="button" class="btn on" id="prn2">🖨 2차시 학습지 (17문항)</button>
+      </div>
+
+      <div class="memo">
+        <p>· 단추를 누르면 <b>새 창</b>에 인쇄용 문서가 열리고 인쇄 대화상자가 뜹니다.</p>
+        <p>· <b>PDF 파일로 받으려면</b> 그 대화상자의 「대상(프린터)」을 <b>「PDF로 저장」</b> 으로 바꿉니다.</p>
+        <p>· <b>양면 인쇄</b>를 켜면 종이가 절반으로 줄어듭니다.</p>
+        <p>· 팝업이 막히면 주소창 오른쪽의 차단 표시를 눌러 허용해 주세요.</p>
+        <p class="warn">⚠ 종이로 받은 학습지는 <b>자동 채점이 되지 않습니다.</b>
+          「정답·해설」 탭의 정답표로 채점하세요.</p>
       </div>
     </div>
   </section>
@@ -193,6 +220,7 @@
 <script src="js/pdf.js"></script>
 <script src="js/lock.js"></script>
 <script src="js/locked.js"></script>
+<script src="js/print.js"></script>
 <script src="js/spec1.js"></script>
 <script src="js/spec2.js"></script>
 <script src="js/teacher.js"></script>

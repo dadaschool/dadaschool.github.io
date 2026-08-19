@@ -28,7 +28,7 @@
   /* ---------------------------------------------------------
      화면 바꾸기
      --------------------------------------------------------- */
-  var TABS = ["t1", "t2", "t3", "t4"];
+  var TABS = ["t1", "tp", "t2", "t3", "t4"];
   document.querySelectorAll("[data-tab]").forEach(function (b) {
     b.addEventListener("click", function () {
       TABS.forEach(function (t) { $(t).classList.toggle("hidden", t !== b.dataset.tab); });
@@ -36,6 +36,32 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
+
+  /* ---------------------------------------------------------
+     🖨 인쇄용 활동지 — js/spec1.js · spec2.js 를 그대로 넘긴다
+
+     문항의 출처가 화면 학습지와 **똑같은 파일**이므로 종이와 화면이
+     어긋날 수 없다. 정답(a·accept)과 해설(sol)은 spec 에 아예 없고
+     (js/locked.js 안 암호문), 혹시 있어도 js/print.js 가 지운다.
+
+     ⚠ 이 앱에서만 `hints: true` 를 준다 — spec 의 `why` 는 **풀기 전에
+       보여 주는 힌트**이고 화면 학습지에도 문항 아래 늘 보인다.
+       (ai-class·EnergyKeeper 의 `why` 는 정답 해설이라 주지 않는다)
+     --------------------------------------------------------- */
+  function 인쇄용(spec, 차시) {
+    if (!spec || !spec.activities) { alert(차시 + "차시 문항을 찾지 못했습니다."); return; }
+    window.Print.sheet({
+      title: spec.title || (차시 + "차시 학습지"),
+      subtitle: spec.subtitle || "",
+      standard: spec.standard || "",
+      footer: spec.footer || "추상화와 알고리즘",
+      note: "실험실에서 직접 해 본 것을 떠올리며 적으세요. 답이 하나가 아닌 문항도 있습니다.",
+      hints: true,
+      sections: spec.activities
+    });
+  }
+  $("prn1").addEventListener("click", function () { 인쇄용(window.SPEC1, 1); });
+  $("prn2").addEventListener("click", function () { 인쇄용(window.SPEC2, 2); });
 
   /* ---------------------------------------------------------
      ① 정답·해설표 — 학습지 문항 데이터로 만든다

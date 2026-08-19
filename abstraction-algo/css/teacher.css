@@ -119,3 +119,15 @@ table.rubric .where { font-size: 14px; color: var(--faint); }
   .keyq { page-break-inside: avoid; }
   a { text-decoration: none; color: inherit; }
 }
+
+/* ---------------------------------------------------------
+   🖨 인쇄용 활동지 탭
+   실제 인쇄 문서의 모양새는 js/print.js 안에 있다(자기 완결).
+   여기 있는 것은 «누르는 단추» 뿐이다.
+   --------------------------------------------------------- */
+.pr-btns { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0 22px; }
+.pr-btns .btn { font-size: 21px; padding: 16px 26px; }
+.memo p.warn {
+  margin-top: 10px; padding: 10px 14px; border-radius: 10px;
+  background: #fff7e6; color: #8a5a00; font-weight: bold;
+}
