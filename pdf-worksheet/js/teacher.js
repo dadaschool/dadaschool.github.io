@@ -77,6 +77,7 @@
       $("gate").style.display = "none";
       $("main").style.display = "";
       $("badge").textContent = "활동지 " + tasks.length + "개";
+      보는곳단추();
       저장소에맞추기();
       drawTasks();
     }).catch(function (e) {
@@ -84,6 +85,35 @@
       $("enter").disabled = false;
       $("enter").textContent = "확인";
       note($("gateMsg"), esc(e.message), "bad");
+    });
+  }
+
+  /* 제출물을 어디서 볼지 고르는 줄.
+     ⚠ 학생이 고를 수 있게 두면 제출물이 두 곳에 흩어진다. 그래서 교사도
+       **번갈아 볼 수 있어야** 한다. 이 줄이 없으면 한쪽만 보이고
+       «안 냈다» 고 잘못 판단하게 된다. */
+  function 보는곳단추() {
+    var 둘다 = window.API.canNotion() && window.API.canDrive();
+    var vp = $("viewPick");
+    vp.style.display = 둘다 ? "" : "none";
+    if (!둘다) return;
+    var 지금 = 드라이브인가() ? "drive" : "notion";
+    Array.prototype.forEach.call(vp.querySelectorAll("[data-view]"), function (b) {
+      b.classList.toggle("on", b.dataset.view === 지금);
+      b.onclick = function () {
+        window.API.setTarget(b.dataset.view);
+        보는곳단추();
+        저장소에맞추기();
+        /* 활동지 목록부터 다시 받는다 — 저장소가 바뀌면 목록도 달라질 수 있다 */
+        $("detail").style.display = "none";
+        window.API.report(key, "").then(function (d) {
+          tasks = d.tasks || [];
+          $("badge").textContent = "활동지 " + tasks.length + "개";
+          drawTasks();
+        }).catch(function (e) {
+          $("tasks").innerHTML = '<div class="hint bad">' + esc(e.message) + "</div>";
+        });
+      };
     });
   }
 

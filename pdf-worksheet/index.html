@@ -6,7 +6,7 @@
 <title>활동지 — 펜으로 쓰고 내기</title>
 <!-- 파일 없이 넣는 아이콘 (favicon.ico 404 를 없앤다) -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2728%27%3E%E2%9C%8D%EF%B8%8F%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/app.css?v=202608191953">
 </head>
 <body>
 
@@ -31,6 +31,14 @@
   <div class="wrap" style="max-width:860px;margin:0 auto;padding:24px">
     <h2>내 반을 고르세요</h2>
     <div class="hint" id="setupHint" style="display:none"></div>
+
+    <!-- 활동지를 어디서 받을지 — 두 곳 다 설정돼 있을 때만 보인다 -->
+    <div class="storepick" id="srcPick" style="display:none">
+      <span class="lbl">활동지 받는 곳</span>
+      <button class="tbtn" data-src="notion">📘 노션</button>
+      <button class="tbtn" data-src="drive">📁 구글 드라이브</button>
+      <p class="why" id="srcWhy"></p>
+    </div>
     <div class="pickgrid" id="classes"><p id="classLoading">불러오는 중 <span class="spin"></span></p></div>
   </div>
 </section>
@@ -108,6 +116,15 @@
       <input type="text" id="subNo" inputmode="numeric" maxlength="2" placeholder="예: 7"></div>
     <div class="row"><label for="subName">이름</label>
       <input type="text" id="subName" maxlength="10" placeholder="예: 홍길동"></div>
+
+    <!-- 어디에 낼지 — 두 곳 다 설정돼 있을 때만 보인다 -->
+    <div class="storepick" id="tgtPick" style="display:none">
+      <span class="lbl">내는 곳</span>
+      <button class="tbtn" data-tgt="notion">📘 노션</button>
+      <button class="tbtn" data-tgt="drive">📁 드라이브</button>
+      <button class="tbtn" data-tgt="both">양쪽</button>
+      <p class="why" id="tgtWhy"></p>
+    </div>
     <div class="hint" id="subMsg" style="display:none"></div>
     <div class="btns">
       <button class="tbtn wide" id="subCancel">취소</button>
@@ -128,10 +145,10 @@
 </div>
 
 <!-- 클래식 스크립트 먼저 (모듈보다 순서가 보장된다) -->
-<script src="js/config.js"></script>
+<script src="js/config.js?v=202608191953"></script>
 <script src="js/vendor/pdf-lib.min.js"></script>
-<script src="js/ink.js"></script>
-<script src="js/api.js"></script>
-<script type="module" src="js/app.js"></script>
+<script src="js/ink.js?v=202608191953"></script>
+<script src="js/api.js?v=202608191953"></script>
+<script type="module" src="js/app.js?v=202608191953"></script>
 </body>
 </html>

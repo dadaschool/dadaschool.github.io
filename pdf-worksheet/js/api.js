@@ -43,8 +43,22 @@
     return (v === undefined || v === null || v === "") ? d : v;
   }
 
-  function source() { return String(cfg("SOURCE", "notion")).toLowerCase(); }
-  function target() { return String(cfg("TARGET", "notion")).toLowerCase(); }
+  /* ⚠ 저장소는 **화면에서 바꿀 수 있다.**
+     config.js 의 SOURCE·TARGET 은 «기본값» 이고, 학생·교사가 화면에서 고르면
+     아래 두 변수가 그것을 덮어쓴다. 새로 고치면 다시 기본값으로 돌아간다
+     (아무것도 저장하지 않는다는 규칙을 지키기 위해서다). */
+  var 고른출처 = null, 고른대상 = null;
+
+  function source() {
+    return String(고른출처 || cfg("SOURCE", "notion")).toLowerCase();
+  }
+  function target() {
+    return String(고른대상 || cfg("TARGET", "notion")).toLowerCase();
+  }
+
+  /* 그 저장소를 쓸 수 있는가 (주소가 설정돼 있는가) */
+  function canNotion() { return !!notionBase(); }
+  function canDrive() { return !!driveBase(); }
 
   function notionBase() {
     var w = cfg("WORKER", "");
@@ -207,6 +221,27 @@
     configError: configError,
     source: source,
     target: target,
+    canNotion: canNotion,
+    canDrive: canDrive,
+
+    /* 화면에서 저장소를 바꾼다.
+       ⚠ 활동지를 드라이브에서 받으면 제출도 드라이브여야 한다(활동지 id 가
+         드라이브 파일 id 라서 노션이 확인할 수 없다). 그래서 함께 맞춰 준다. */
+    setSource: function (s) {
+      s = String(s || "").toLowerCase();
+      if (s !== "notion" && s !== "drive") return;
+      고른출처 = s;
+      if (s === "drive") 고른대상 = "drive";
+      return source();
+    },
+    setTarget: function (t) {
+      t = String(t || "").toLowerCase();
+      if (t !== "notion" && t !== "drive" && t !== "both") return;
+      /* 활동지가 드라이브면 노션으로는 낼 수 없다 */
+      if (source() === "drive" && t !== "drive") return target();
+      고른대상 = t;
+      return target();
+    },
     demo: false,
 
     /* 반 목록 — SOURCE 가 정한 곳에서 */

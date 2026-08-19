@@ -746,3 +746,12 @@ table.report td.miss { color: var(--no); font-weight: 700; }
 .demobar.on { display: block; }
 .demobar strong { color: #92400e; }
 .demobar code { background: rgba(0,0,0,.06); padding: 1px 6px; border-radius: 5px; }
+
+/* ---------- 저장소 고르기 (노션 / 구글 드라이브) ----------
+   ⚠ config.js 의 SOURCE·TARGET 은 «기본값» 이고, 여기서 바꿀 수 있다.
+      바꾼 것은 저장하지 않는다 — 새로 고치면 기본값으로 돌아간다. */
+.storepick { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 16px 0; }
+.storepick .lbl { font-size: 18px; color: var(--sub); margin-right: 4px; }
+.storepick .tbtn { min-height: 48px; font-size: 18px; }
+.storepick .tbtn.on { border-color: var(--brand); background: var(--band); color: var(--brand-dark); font-weight: 700; }
+.storepick .why { font-size: 16px; color: var(--sub); flex: 1 1 100%; margin: 2px 0 0; }

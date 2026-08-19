@@ -14,7 +14,7 @@
    실제 수업에서도 그대로 나온다.
    ========================================================= */
 
-import { createViewer } from "./viewer.js";
+import { createViewer } from "./viewer.js?v=202608191953";
 
 const $ = (id) => document.getElementById(id);
 

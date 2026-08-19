@@ -9,7 +9,7 @@
      · 학번·이름은 sessionStorage 에 넣지 않는다.
    ========================================================= */
 
-import { createViewer } from "./viewer.js";
+import { createViewer } from "./viewer.js?v=202608191953";
 
 const $ = (id) => document.getElementById(id);
 
@@ -64,6 +64,56 @@ function showDemoBar() {
 }
 
 /* ---------------------------------------------------------
+   저장소 고르기 (노션 / 구글 드라이브)
+
+   ⚠ config.js 의 SOURCE·TARGET 은 «기본값» 이다. 두 곳이 다 설정돼 있으면
+     화면에 고르는 줄이 나타나고, 학생이 바꿀 수 있다.
+     고른 것은 **저장하지 않는다** — 새로 고치면 기본값으로 돌아간다
+     (교실 공용 기기에 다음 학생 설정이 남지 않게).
+
+   ⚠ 활동지를 드라이브에서 받으면 제출도 드라이브여야 한다.
+     활동지 id 가 드라이브 파일 id 라서 노션이 «열려 있는 활동지» 인지 확인할 수 없다.
+     그래서 그때는 «내는 곳» 을 드라이브로 잠그고 이유를 적어 준다.
+   --------------------------------------------------------- */
+function 저장소단추그리기() {
+  const 둘다 = window.API.canNotion() && window.API.canDrive();
+
+  /* ① 활동지 받는 곳 */
+  const sp = $("srcPick");
+  sp.style.display = 둘다 ? "" : "none";
+  if (둘다) {
+    sp.querySelectorAll("[data-src]").forEach((b) => {
+      b.classList.toggle("on", b.dataset.src === window.API.source());
+      b.onclick = () => {
+        window.API.setSource(b.dataset.src);
+        저장소단추그리기();
+        start();                     /* 반 목록을 새 저장소에서 다시 받는다 */
+      };
+    });
+    $("srcWhy").textContent = window.API.source() === "drive"
+      ? "드라이브 「활동지」 폴더에서 받습니다. 이때는 제출도 드라이브로만 됩니다."
+      : "노션 「과제제출」 표에서 받습니다.";
+  }
+
+  /* ② 내는 곳 */
+  const tp = $("tgtPick");
+  const 잠김 = window.API.source() === "drive";
+  tp.style.display = 둘다 ? "" : "none";
+  if (둘다) {
+    tp.querySelectorAll("[data-tgt]").forEach((b) => {
+      b.classList.toggle("on", b.dataset.tgt === window.API.target());
+      b.disabled = 잠김 && b.dataset.tgt !== "drive";
+      b.onclick = () => { window.API.setTarget(b.dataset.tgt); 저장소단추그리기(); };
+    });
+    $("tgtWhy").textContent = 잠김
+      ? "활동지를 드라이브에서 받았으므로 제출도 드라이브로만 됩니다."
+      : (window.API.target() === "both"
+          ? "노션과 드라이브 양쪽에 냅니다. 올리는 데 시간이 두 배 걸립니다."
+          : "");
+  }
+}
+
+/* ---------------------------------------------------------
    ① 반 고르기
    --------------------------------------------------------- */
 async function start() {
@@ -71,12 +121,12 @@ async function start() {
      (예 : 활동지는 드라이브에서 가져오는데 제출은 노션으로) */
   const bad = window.API.configError();
   if (bad) {
-    $("classLoading").remove();
+    $("classes").innerHTML = "";
     note($("setupHint"), "<strong>설정을 확인해 주세요.</strong><br>" + esc(bad), "bad");
     return;
   }
   if (!window.API.ready()) {
-    $("classLoading").remove();
+    $("classes").innerHTML = "";
     note($("setupHint"),
       "<strong>아직 활동지를 받아올 수 없습니다.</strong><br>" +
       "선생님께 알려 주세요 — <code>js/config.js</code> 의 <code>WORKER</code> 주소가 비어 있습니다. " +
@@ -85,6 +135,8 @@ async function start() {
       "내 PDF 를 골라 펜이 잘 써지는지 확인할 수 있습니다(설정 없이 됩니다).", "warn");
     return;
   }
+  저장소단추그리기();
+  $("classes").innerHTML = '<p>불러오는 중 <span class="spin"></span></p>';
   try {
     const list = await window.API.classes();
     showDemoBar();
@@ -103,7 +155,7 @@ async function start() {
       box.appendChild(b);
     });
   } catch (e) {
-    $("classLoading").remove();
+    $("classes").innerHTML = "";
     note($("setupHint"), "반 목록을 받지 못했습니다.<br>" + esc(e.message), "bad");
   }
 }
@@ -216,6 +268,7 @@ function openSubmit() {
     return;
   }
   $("subKlass").textContent = klass + "반";
+  저장소단추그리기();
   $("subMsg").style.display = "none";
   $("subVeil").classList.add("on");
   $("subNo").focus();
