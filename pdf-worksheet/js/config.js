@@ -8,8 +8,10 @@ window.CONFIG = {
   /* Cloudflare Worker 주소.
      설치안내.md 를 따라 Worker 를 올리면 이런 주소를 받는다 —
        https://과제제출.<계정이름>.workers.dev
-     비워 두면 앱이 «설정이 안 됐습니다» 안내만 보여 주고 아무 것도 하지 않는다. */
-  WORKER: "",
+     비워 두면 앱이 «설정이 안 됐습니다» 안내만 보여 주고 아무 것도 하지 않는다.
+     ⚠ 이 값을 바꾼 뒤에는 `python tools/사이트에_올리기.py --push` 로 다시 올려야
+       배포된 주소(dadaschool.github.io)에 반영된다. */
+  WORKER: "https://homework.edudadat.workers.dev",
 
   /* (선택) 제출 키. Worker 의 SUBMIT_KEY 와 같은 값을 적는다.
      한글도 쓸 수 있다(본문으로 보내므로).
