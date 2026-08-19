@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이미지 변환 (비트맵 · 벡터 · 해상도) · 아날로그 → 디지털</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Crect x='8' y='9' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='17' y='9' width='7' height='7' fill='%23a5b4fc'/%3E%3Crect x='8' y='18' width='7' height='7' fill='%23a5b4fc'/%3E%3Crect x='17' y='18' width='7' height='7' fill='%23ffffff'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" crossorigin href="./assets/app-D0DPNJ5q.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🖼 이미지 변환 (비트맵 · 벡터 · 해상도)</h1>
+  <span class="badge">자료의 디지털 표현 [9정02-01]</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 처음으로</a>
+  <a class="home" href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <p class="lockbar" id="lockBar" hidden></p>
+
+  <div class="tabs" role="tablist" aria-label="이미지 변환 화면 고르기">
+    <button class="tab" id="tabLearn" role="tab" aria-selected="true"
+            aria-controls="panLearn" tabindex="0">① 이미지 변환</button>
+    <button class="tab" id="tabPractice" role="tab" aria-selected="false"
+            aria-controls="panPractice" tabindex="-1">② 연습문제</button>
+    <button class="tab" id="tabEval" role="tab" aria-selected="false"
+            aria-controls="panEval" tabindex="-1">③ 평가</button>
+  </div>
+
+  <!-- ================= ① 이미지 변환 ================= -->
+  <div id="panLearn" role="tabpanel" aria-labelledby="tabLearn">
+
+    <!-- 시뮬레이터 고르기 — 한 번에 한 화면만 -->
+    <div class="subtabs" id="learnSubs" aria-label="이미지 시뮬레이터 고르기"></div>
+
+    <div class="card" id="bmCard">
+      <h2><span class="step">1</span> <span id="bmTitle">비트맵 — 칸을 눌러 그림을 그려 보세요</span></h2>
+      <p class="lead" id="bmLead">
+        <b>비트맵</b>은 그림을 아주 작은 사각형 점인 <b>픽셀</b>로 나누어 나타냅니다.
+        픽셀마다 <b>색을 숫자로</b> 적으면 그림이 <b>0과 1</b>이 됩니다.
+        칸을 누를 때마다 색이 한 단계씩 바뀝니다. — 교과서 62쪽 활동
+      </p>
+
+      <!-- 방향 고르기 — 그림을 코드로, 코드를 그림으로 둘 다 해 본다 -->
+      <div class="baserow" id="dirRow">
+        <span class="lab">어느 방향으로?</span>
+        <button class="btn on" type="button" data-dir="toBin" aria-pressed="true">그림 → 이진수</button>
+        <button class="btn" type="button" data-dir="toPic" aria-pressed="false">이진수 → 그림</button>
+      </div>
+
+      <div class="baserow" id="sizeRow"><span class="lab">격자 크기</span></div>
+      <div class="baserow" id="depthRow"><span class="lab">색 깊이</span></div>
+
+      <!-- 색상 코드표 : 값마다 어떤 색인지 약속한 표. 이 표가 없으면 값을 알 수 없다. -->
+      <div class="palbox">
+        <p class="t">색상 코드표 — 픽셀 값과 색의 약속</p>
+        <div class="palrow" id="palRow"></div>
+        <p class="lvnote" id="palNote"></p>
+      </div>
+
+      <!-- 이진수 → 그림 : 줄마다 이진수를 넣는다 -->
+      <div id="toPicBox" hidden>
+        <div class="inrow">
+          <textarea id="picIn" rows="5" spellcheck="false"
+                    aria-label="줄마다 이진수" placeholder="0110&#10;1001&#10;1001&#10;0110"></textarea>
+          <span class="unit">줄마다 한 줄씩 (또는 <b>/</b> 로 나눠서) · 0과 1만</span>
+        </div>
+        <div class="btnrow">
+          <button class="btn primary" id="btnPic">그림 만들기</button>
+          <span id="picExRow"></span>
+          <button class="btn ghost" id="btnPicClear">지우기</button>
+        </div>
+        <p class="res no" id="picMsg" hidden></p>
+      </div>
+
+      <div class="btnrow" id="drawBtnRow">
+        <button class="btn" id="btnFace">웃는 얼굴 넣기</button>
+        <button class="btn" id="btnRand">아무렇게나 칠하기</button>
+        <button class="btn ghost" id="btnClearGrid">모두 지우기</button>
+      </div>
+      <div class="gridwrap"><div class="pixgrid" id="pixGrid"></div></div>
+      <p class="lead" style="margin-top:18px" id="binLead">이 그림을 <b>이진수</b>로 적으면 이렇습니다 (줄 단위)</p>
+      <div class="tablescroll">
+        <table class="grid" id="binTable">
+          <thead><tr><th style="width:12%">줄</th><th style="width:30%">픽셀 값</th>
+            <th>이진수</th></tr></thead>
+          <tbody id="binBody"></tbody>
+        </table>
+      </div>
+      <p class="sumline" id="gridAll"></p>
+      <p class="check" id="gridSize"></p>
+    </div>
+
+    <!-- ===== 빛의 삼원색 (RGB) — 교과서 63쪽 「이미지를 저장하는 방식」 ===== -->
+    <div class="card" id="rgbCard">
+      <h2><span class="step">2</span> 빛의 삼원색 — 색도 결국 숫자입니다</h2>
+      <p class="lead">
+        ①에서는 <b>약속표</b>로 색을 정했습니다. 하지만 사진처럼 색이 많은 그림은
+        픽셀마다 <b>빨강 · 초록 · 파랑(RGB)의 밝기를 각각 숫자로</b> 적습니다.
+        <b>물감과 달리 빛은 섞을수록 밝아집니다.</b> 손잡이를 끌어 색을 만들어 보세요.
+      </p>
+      <div class="twocol wide">
+        <div>
+          <div class="rgbslide">
+            <label for="rIn"><span class="dot" style="background:#ef4444"></span> 빨강 (R)</label>
+            <input type="range" id="rIn" min="0" max="255" value="255" step="1">
+            <output id="rOut">255</output>
+          </div>
+          <div class="rgbslide">
+            <label for="gIn"><span class="dot" style="background:#22c55e"></span> 초록 (G)</label>
+            <input type="range" id="gIn" min="0" max="255" value="180" step="1">
+            <output id="gOut">180</output>
+          </div>
+          <div class="rgbslide">
+            <label for="bIn"><span class="dot" style="background:#3b82f6"></span> 파랑 (B)</label>
+            <input type="range" id="bIn" min="0" max="255" value="0" step="1">
+            <output id="bOut">0</output>
+          </div>
+          <div class="baserow" id="rgbPresetRow"><span class="lab">눌러 보기</span></div>
+          <p class="groupname" style="margin-top:20px">빛을 겹치면 — 겹친 곳이 더 밝아집니다</p>
+          <canvas id="mixCanvas" width="360" height="260" class="imgcanvas"
+                  aria-label="빨강·초록·파랑 빛이 겹치는 그림"></canvas>
+        </div>
+        <div>
+          <div class="swatch" id="rgbSwatch"><span id="rgbHex">#FFB400</span></div>
+          <div class="tablescroll">
+            <table class="grid" id="rgbTable">
+              <thead><tr><th style="width:26%">색</th><th style="width:22%">밝기</th>
+                <th>이진수 8자리</th></tr></thead>
+              <tbody id="rgbBody"></tbody>
+            </table>
+          </div>
+          <p class="sumline" id="rgb24"></p>
+          <div class="hint" id="rgbNote"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 색 깊이와 포스터화 ===== -->
+    <div class="card" id="depthCard">
+      <h2><span class="step">3</span> 색 깊이 — 비트를 줄이면 색이 계단처럼 끊깁니다</h2>
+      <p class="lead">
+        한 색(채널)을 몇 비트로 적을지를 <b>색 깊이</b>라고 합니다. 비트를 줄이면
+        <b>용량은 줄지만</b> 부드럽던 하늘이 <b>띠</b>로 끊깁니다. — <b>소리의 양자화와 같은 이야기</b>
+      </p>
+      <div class="baserow" id="chBitsRow"><span class="lab">채널당 비트</span></div>
+      <div class="twoup">
+        <div>
+          <p class="groupname">원본 — 채널당 8비트 (참색)</p>
+          <canvas id="depthA" width="420" height="228" class="imgcanvas"
+                  aria-label="원본 노을 그림"></canvas>
+        </div>
+        <div>
+          <p class="groupname">줄인 것 — <b><span id="depthLab">1비트</span></b></p>
+          <canvas id="depthB" width="420" height="228" class="imgcanvas"
+                  aria-label="색 깊이를 줄인 노을 그림"></canvas>
+        </div>
+      </div>
+      <p class="lvnote" id="depthNote"></p>
+      <div class="tablescroll">
+        <table class="grid" id="depthTable">
+          <thead><tr><th style="width:18%">채널당</th><th style="width:16%">픽셀당</th>
+            <th style="width:30%">만들 수 있는 색</th><th style="width:20%">용량 (Full HD)</th>
+            <th style="width:16%">원본 대비</th></tr></thead>
+          <tbody id="depthBody"></tbody>
+        </table>
+      </div>
+      <div class="hint" id="depthLink"></div>
+    </div>
+
+    <div class="card" id="resCard">
+      <h2><span class="step">4</span> 해상도 — 픽셀이 많아지면 선명하지만 무거워집니다</h2>
+      <p class="lead">
+        <b>해상도</b> = 이미지의 픽셀 수(<b>가로 × 세로</b>). 많을수록 선명하지만
+        <b>용량이 커집니다</b>. — 교과서 63쪽
+      </p>
+      <div class="baserow" id="resRow"><span class="lab">해상도</span></div>
+      <div class="baserow" id="resDepthRow"><span class="lab">색 깊이</span></div>
+      <div class="twoup">
+        <div>
+          <p class="groupname">고른 해상도 — <b><span id="resLab">320×180</span></b></p>
+          <canvas id="resCanvasA" width="420" height="214" class="imgcanvas"
+                  aria-label="고른 해상도로 그린 노을"></canvas>
+        </div>
+        <div>
+          <p class="groupname">픽셀이 많을 때 — <b>320 × 180</b></p>
+          <canvas id="resCanvasB" width="420" height="214" class="imgcanvas"
+                  aria-label="320×180 으로 그린 노을"></canvas>
+        </div>
+      </div>
+      <p class="lvnote" id="resStair"></p>
+      <div class="hint" id="resNote"></div>
+      <div class="tablescroll">
+        <table class="grid" id="resTable">
+          <thead><tr><th style="width:30%">해상도</th><th style="width:20%">픽셀 수</th>
+            <th style="width:26%">전체 비트</th><th style="width:24%">용량</th></tr></thead>
+          <tbody id="resBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" id="vecCard">
+      <h2><span class="step">5</span> 벡터 — 그림을 '숫자로 적은 수식'으로 저장합니다</h2>
+      <p class="lead">
+        <b>벡터</b>는 픽셀 대신 <b>점 · 선 · 면의 수학적인 정보</b>(좌표 · 크기 · 색)를 저장합니다.
+        그래서 <b>확대해도 다시 계산되어 깨지지 않습니다</b>. 세밀한 사진 묘사는 어렵습니다. — 교과서 62쪽
+      </p>
+      <div class="baserow" id="shapeRow"><span class="lab">도형</span></div>
+      <div class="vecform" id="vecForm"></div>
+      <div class="formula" id="vecCode"></div>
+      <p class="lvnote" id="vecKo"></p>
+      <div class="twoup">
+        <div>
+          <p class="groupname">벡터 — 크게 해도 매끄럽다</p>
+          <canvas id="vecCanvas" width="420" height="420" class="imgcanvas"
+                  aria-label="벡터 도형"></canvas>
+        </div>
+        <div>
+          <p class="groupname">비트맵 — 크게 하면 <b>계단 현상</b></p>
+          <canvas id="bmpCanvas" width="420" height="420" class="imgcanvas"
+                  aria-label="같은 도형을 비트맵으로 그린 것"></canvas>
+        </div>
+      </div>
+      <div class="baserow" id="zoomRow"><span class="lab">확대</span></div>
+      <p class="lvnote">
+        같은 도형입니다. 확대할수록 오른쪽(비트맵)은 <b>사각형 픽셀이 드러나</b> 가장자리가 계단처럼 보입니다.
+      </p>
+    </div>
+
+    <div class="card" id="vidCard">
+      <h2><span class="step">6</span> 동영상 — 프레임을 빠르게 넘기면 움직여 보입니다</h2>
+      <p class="lead">
+        한 장의 이미지를 <b>프레임</b>, 1초당 프레임 수를 <b>프레임률(fps)</b> 이라고 합니다.
+        영화·드라마는 보통 <b>24fps 이상</b>을 씁니다. 프레임률을 높이면 부드럽지만
+        <b>용량도 커집니다</b>. — 교과서 63쪽
+      </p>
+      <div class="baserow" id="fpsRow"><span class="lab">프레임률</span></div>
+      <canvas id="vidCanvas" width="640" height="260" class="imgcanvas"
+              aria-label="프레임률 비교 애니메이션"></canvas>
+      <p class="lvnote" id="fpsNote"></p>
+      <div class="tablescroll">
+        <table class="grid" id="fpsTable">
+          <thead><tr><th style="width:22%">프레임률</th><th style="width:24%">10초 프레임 수</th>
+            <th style="width:28%">전체 비트</th><th style="width:26%">용량</th></tr></thead>
+          <tbody id="fpsBody"></tbody>
+        </table>
+      </div>
+      <p class="check" id="fpsPick"></p>
+    </div>
+
+  </div><!-- /panLearn -->
+
+  <!-- ================= ② 연습문제 ================= -->
+  <div id="panPractice" role="tabpanel" aria-labelledby="tabPractice" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 연습문제 3개</h2>
+      <p class="lead">
+        <b>정답 확인</b>은 몇 번이든 눌러도 되고 <b>힌트</b>도 있습니다. 점수는 기록되지 않습니다.
+      </p>
+      <div class="baserow" id="prKindRow">
+        <span class="lab">무엇을 연습할까요?</span>
+        <button class="btn on" type="button" data-kind="read" aria-pressed="true">격자 → 이진수</button>
+        <button class="btn" type="button" data-kind="draw" aria-pressed="false">이진수 → 격자</button>
+        <button class="btn" type="button" data-kind="size" aria-pressed="false">해상도 → 용량</button>
+        <button class="btn" type="button" data-kind="rgb" aria-pressed="false">색 → 24비트</button>
+      </div>
+      <div class="hint" id="prKindNote"></div>
+      <!-- 문제를 하나씩 넘겨 본다 -->
+      <div class="pagerbar" id="prNav"></div>
+      <div id="prProblems"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="prNew">새 문제 3개</button>
+        <span class="score" id="prScore" style="font-size:22px"></span>
+      </div>
+    </div>
+
+  </div><!-- /panPractice -->
+
+  <!-- ================= ③ 평가 ================= -->
+  <div id="panEval" role="tabpanel" aria-labelledby="tabEval" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 평가 시작</h2>
+      <p class="lead">
+        문제마다 수준을 고르면 문제와 답칸이 나옵니다.
+        <b>세 문제에 두 방향이 모두</b> 들어갑니다 — 그림을 코드로, 코드를 그림으로.
+        문제마다 <b>색상 코드표</b>가 함께 나옵니다.
+      </p>
+      <div class="hint">
+        <b>수준</b> — 하 1점 : <b>4×4 · 1비트</b> 격자를 <b>이진수로</b> ·
+        중 2점 : <b>해상도와 색 깊이</b>로 픽셀 수 · 전체 비트 · 용량 구하기 ·
+        상 3점 : <b>이진수를 보고 4×4 · 2비트 격자를 칠하기</b>(거꾸로).<br>
+        어려운 수준을 고르면 얻을 점수가 커지지만 <b>만점도 함께 커집니다.</b>
+        <b>평가를 시작하면 ① 이미지 변환 · ② 연습문제 탭을 쓸 수 없습니다.</b>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary big" id="evStart">평가 시작</button>
+        <button class="btn ghost" id="evRedo">처음부터 다시</button>
+        <span id="evStartMsg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">2</span> 문제 풀기</h2>
+      <p class="res" id="evPhase"></p>
+      <!-- 문제 하나씩 + 맨 끝에 「전체 확인」 화면 -->
+      <div class="pagerbar" id="evNav"></div>
+      <div id="evProblems"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">3</span> 제출</h2>
+      <p class="lead">
+        <b>제출하면 답안 PDF가 내 기기에 저장됩니다.</b> 그 파일을 선생님께 내세요.
+        학년·반·학번·이름은 <b>제출할 때 한 번만</b> 물어보고 PDF 안에만 들어갑니다.
+      </p>
+      <div class="btnrow">
+        <button class="btn primary big" id="evSubmit">제출하기 (PDF 저장)</button>
+        <button class="btn" id="evAgain" hidden>PDF 다시 받기</button>
+      </div>
+      <p class="res" id="evMsg" hidden></p>
+      <div id="evResult" hidden>
+        <p style="margin:16px 0 6px">점수 : <span class="score" id="evScore"></span></p>
+        <div class="tablescroll">
+          <table class="grid">
+            <thead><tr><th>문제</th><th>수준</th><th>배점</th><th>무엇을</th>
+              <th>내가 쓴 답</th><th>정답</th><th>채점</th></tr></thead>
+            <tbody id="evTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panEval -->
+
+</div>
+
+<script src="js/pdf.js?v=202608192011"></script>
+<script src="js/ui.js?v=202608192011"></script>
+<script src="js/image.js?v=202608192011"></script>
+<script>
+(function () {
+  "use strict";
+  var I = window.ImageCode;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+
+  /* =========================================================
+     탭
+     ========================================================= */
+  var tabs = [$("tabLearn"), $("tabPractice"), $("tabEval")];
+  var panels = { tabLearn: $("panLearn"), tabPractice: $("panPractice"), tabEval: $("panEval") };
+
+  function selectTab(btn) {
+    if (btn.dataset.locked === "1") {
+      $("lockBar").hidden = false;
+      $("lockBar").textContent = "평가 중입니다. " + btn.textContent.trim() +
+        " 탭은 평가를 제출한 뒤에 쓸 수 있습니다.";
+      return;
+    }
+    tabs.forEach(function (t) {
+      var on = (t === btn);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      panels[t.id].hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { selectTab(t); });
+    t.addEventListener("keydown", function (e) {
+      var next = null;
+      if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+      else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (next) { e.preventDefault(); selectTab(next); next.focus(); }
+    });
+  });
+
+  /* =========================================================
+     격자 그리기 — 학습·연습·평가가 함께 쓴다
+       opts.editable : 눌러서 색을 바꿀 수 있게 할까
+       opts.showNum  : 칸 안에 값을 적을까
+       opts.onChange : 칸이 바뀌었을 때 부를 함수
+     ========================================================= */
+  function paintGrid(box, grid, bits, opts) {
+    opts = opts || {};
+    var cols = grid[0].length, rows = grid.length;
+    box.innerHTML = "";
+    box.style.gridTemplateColumns = "repeat(" + cols + ", 1fr)";
+    box.dataset.cols = cols;
+    box._cells = [];
+    for (var r = 0; r < rows; r++) {
+      var line = [];
+      for (var c = 0; c < cols; c++) {
+        line.push(makeCell(box, grid, bits, r, c, opts));
+      }
+      box._cells.push(line);
+    }
+  }
+
+  function makeCell(box, grid, bits, r, c, opts) {
+    var tag = opts.editable ? "button" : "div";
+    var cell = el(tag, "pix", opts.showNum ? "<span></span>" : "");
+    if (opts.editable) {
+      cell.type = "button";
+      cell.addEventListener("click", function () {
+        grid[r][c] = (grid[r][c] + 1) % I.levelsOf(bits);
+        /* **누른 칸만** 다시 그린다 — 격자를 통째로 다시 만들면 키보드 초점과
+           채점 표시(빨간 테두리)가 사라진다. */
+        paintCell(box, grid, bits, r, c, opts);
+        cell.focus();
+        if (opts.onChange) opts.onChange(r, c);
+      });
+    }
+    box.appendChild(cell);
+    paintCell(box, grid, bits, r, c, opts, cell);
+    return cell;
+  }
+
+  function paintCell(box, grid, bits, r, c, opts, known) {
+    var cell = known || (box._cells && box._cells[r] && box._cells[r][c]);
+    if (!cell) return;
+    var v = grid[r][c];
+    cell.style.background = I.shadeOf(v, bits);
+    cell.style.color = I.inkOn(v, bits);
+    if (opts.showNum) {
+      var sp = cell.querySelector("span");
+      if (sp) sp.textContent = I.padLeft(v.toString(2), bits);
+    }
+    if (opts.editable) {
+      cell.setAttribute("aria-label",
+        (r + 1) + "행 " + (c + 1) + "열 값 " + v + " · 누르면 다음 단계");
+    }
+  }
+
+  /* =========================================================
+     ① - 1  비트맵 격자
+     ========================================================= */
+  var gCols = 6, gRows = 6, gBits = 1;
+  var grid = I.blankGrid(gCols, gRows);
+  var bmDir = "toBin";        // "toBin" 그림 → 이진수 · "toPic" 이진수 → 그림
+
+  var FACE = [
+    "011110", "100001", "101101", "100001", "101101", "011110"
+  ];
+
+  /* 이진수 → 그림 보기 — 색 깊이마다 다르다 */
+  var PIC_EXAMPLES = {
+    1: [["0110\n1001\n1001\n0110", "네모난 고리"],
+        ["011110\n100001\n101101\n100001\n101101\n011110", "웃는 얼굴 (교과서 62쪽 활동)"],
+        ["0010\n0110\n1110\n0110", "화살표"]],
+    2: [["01100110\n10011001\n10011001\n01100110", "빨강·초록 무늬"],
+        ["00011011\n01101100\n11000110\n10110001", "네 색 흩뿌리기"]],
+    3: [["001010011100\n100101110001\n011100101010\n110001010011", "무지개 조각"],
+        ["000001010011\n100101110111\n111110101100\n011010001000", "여덟 색 계단"]]
+  };
+
+  function setupRows() {
+    [[4, 4], [6, 6], [8, 8]].forEach(function (s) {
+      var b = el("button", "btn", s[0] + " × " + s[1]);
+      b.type = "button"; b.dataset.s = s[0];
+      b.addEventListener("click", function () {
+        gCols = s[0]; gRows = s[1];
+        grid = I.blankGrid(gCols, gRows);
+        drawBitmap();
+      });
+      $("sizeRow").appendChild(b);
+    });
+    [1, 2, 3].forEach(function (d) {
+      var b = el("button", "btn", I.DEPTHS[d].name);
+      b.type = "button"; b.dataset.d = d;
+      b.addEventListener("click", function () {
+        gBits = d;
+        /* 색 깊이를 줄이면 값이 범위를 넘을 수 있다 → 잘라 맞춘다 */
+        var top = I.maxLevel(gBits);
+        grid = grid.map(function (row) {
+          return row.map(function (v) { return Math.min(v, top); });
+        });
+        applyBmDir();          // 색상 코드표·보기 단추도 색 깊이에 따라 바뀐다
+      });
+      $("depthRow").appendChild(b);
+    });
+  }
+
+  function markRow(rowId, attr, value) {
+    $(rowId).querySelectorAll("[" + attr + "]").forEach(function (b) {
+      var on = (String(b.getAttribute(attr)) === String(value));
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+
+  /* 색상 코드표를 그린다 — 학습 화면과 문제에서 같은 함수를 쓴다 */
+  function paintPalette(box, bits, noteEl) {
+    box.innerHTML = "";
+    I.paletteRows(bits).forEach(function (p) {
+      box.appendChild(el("div", "palcell",
+        "<span class='sw' style='background:" + p.css + ";color:" + p.ink + "'>" + p.bin + "</span>" +
+        "<span class='nm'>" + p.v + " · " + p.name + "</span>"));
+    });
+    if (noteEl) {
+      noteEl.innerHTML = "픽셀 하나를 <b>" + bits + "비트</b>로 적으므로 색은 <b>" +
+        I.levelsOf(bits) + "가지</b>입니다 (값 0 ~ " + I.maxLevel(bits) + ")." +
+        (bits === 1 ? " 교과서 62쪽의 <b>1비트 흑백 이미지</b>와 같습니다." : "");
+    }
+  }
+
+  function applyBmDir() {
+    var toPic = (bmDir === "toPic");
+    $("dirRow").querySelectorAll("[data-dir]").forEach(function (b) {
+      var on = (b.dataset.dir === bmDir);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    $("toPicBox").hidden = !toPic;
+    $("drawBtnRow").hidden = toPic;
+    $("sizeRow").hidden = toPic;          // 크기는 넣은 이진수가 정한다
+    $("bmTitle").textContent = toPic ? "비트맵 — 이진수를 그림으로 되돌리기"
+                                     : "비트맵 — 칸을 눌러 그림을 그려 보세요";
+    $("bmLead").innerHTML = toPic
+      ? "저장된 <b>0과 1</b>을 줄마다 넣으면 <b>그림이 되살아납니다.</b> " +
+        "화면에 그림이 뜨는 것은 컴퓨터가 이 일을 아주 빠르게 하는 것입니다. " +
+        "만든 뒤에도 <b>칸을 눌러 고칠 수 있습니다.</b>"
+      : "<b>비트맵</b>은 그림을 아주 작은 사각형 점인 <b>픽셀</b>로 나누어 나타냅니다. " +
+        "픽셀마다 <b>색을 숫자로</b> 적으면 그림이 <b>0과 1</b>이 됩니다. " +
+        "칸을 누를 때마다 색이 한 단계씩 바뀝니다. — 교과서 62쪽 활동";
+    $("binLead").innerHTML = toPic
+      ? "되살린 그림을 다시 <b>이진수</b>로 적으면 — <b>넣은 것과 같아야 합니다</b> (줄 단위)"
+      : "이 그림을 <b>이진수</b>로 적으면 이렇습니다 (줄 단위)";
+
+    /* 보기 단추 */
+    var row = $("picExRow");
+    row.innerHTML = "";
+    (PIC_EXAMPLES[gBits] || []).forEach(function (e) {
+      var b = el("button", "btn", esc(e[1]));
+      b.type = "button"; b.title = e[0].replace(/\n/g, " / ");
+      b.addEventListener("click", function () { $("picIn").value = e[0]; runToPic(); });
+      row.appendChild(b);
+    });
+    /* 지금 그린 그림을 이진수로 넣어 보는 단추 — 왕복이 한눈에 보인다 */
+    var mine = el("button", "btn primary", "지금 그림의 이진수 넣기");
+    mine.type = "button";
+    mine.addEventListener("click", function () {
+      $("picIn").value = I.gridBins(grid, gBits, false).join("\n");
+      runToPic();
+    });
+    row.appendChild(mine);
+
+    $("picMsg").hidden = true;
+    drawBitmap();
+  }
+
+  function runToPic() {
+    var r = I.parseGrid($("picIn").value, gBits);
+    if (!r.grid) {
+      $("picMsg").hidden = false;
+      $("picMsg").textContent = r.errors[0];
+      return;
+    }
+    /* 값이 색 깊이 범위를 넘으면 안 된다 (parseGrid 가 자리 수로 이미 막지만 확인해 둔다) */
+    var top = I.maxLevel(gBits);
+    r.grid = r.grid.map(function (row) {
+      return row.map(function (v) { return Math.min(top, Math.max(0, v)); });
+    });
+    $("picMsg").hidden = true;
+    grid = r.grid;
+    gCols = r.cols; gRows = r.rows;
+    drawBitmap();
+  }
+
+  function drawBitmap() {
+    markRow("sizeRow", "data-s", gCols);
+    markRow("depthRow", "data-d", gBits);
+    paintPalette($("palRow"), gBits, $("palNote"));
+    /* ⚠ onChange 로 drawBitmap 을 다시 부르면 격자를 통째로 새로 만들어
+       **누른 칸의 키보드 초점이 사라진다.** 표만 다시 쓴다. */
+    paintGrid($("pixGrid"), grid, gBits, {
+      editable: true, showNum: true, onChange: updateBinTables
+    });
+    updateBinTables();
+  }
+
+  /* 격자는 그대로 두고 아래 표·합계만 다시 쓴다 */
+  function updateBinTables() {
+    var tb = $("binBody");
+    tb.innerHTML = "";
+    grid.forEach(function (row, i) {
+      tb.appendChild(el("tr", null,
+        "<td>" + (i + 1) + "줄</td>" +
+        "<td>" + row.map(function (v) { return v + "(" + I.colorName(v, gBits) + ")"; }).join(" ") + "</td>" +
+        "<td style='font-family:Consolas,monospace'><b>" +
+          I.rowBin(row, gBits, gBits > 1) + "</b></td>"));
+    });
+    var sz = I.sizeOf(gCols, gRows, gBits);
+    $("gridAll").innerHTML = "이어 붙인 2진수 : <span style='font-family:Consolas,monospace'>" +
+      I.gridBins(grid, gBits, false).join(" ") + "</span>";
+    $("gridSize").textContent = "픽셀 " + gCols + " × " + gRows + " = " + sz.pixels +
+      "개 · 픽셀마다 " + gBits + "비트 → 전체 " + sz.bitsTotal + "비트 (" +
+      I.humanBytes(sz.bytes) + ")";
+  }
+
+  $("btnFace").addEventListener("click", function () {
+    grid = I.blankGrid(gCols, gRows);
+    var top = I.maxLevel(gBits);
+    for (var r = 0; r < Math.min(gRows, FACE.length); r++) {
+      for (var c = 0; c < Math.min(gCols, FACE[r].length); c++) {
+        grid[r][c] = (FACE[r].charAt(c) === "1") ? top : 0;
+      }
+    }
+    drawBitmap();
+  });
+  $("btnRand").addEventListener("click", function () {
+    grid = I.randomGrid(gCols, gRows, gBits);
+    drawBitmap();
+  });
+  $("btnClearGrid").addEventListener("click", function () {
+    grid = I.blankGrid(gCols, gRows);
+    drawBitmap();
+  });
+  $("dirRow").querySelectorAll("[data-dir]").forEach(function (b) {
+    b.addEventListener("click", function () { bmDir = b.dataset.dir; applyBmDir(); });
+  });
+  $("btnPic").addEventListener("click", runToPic);
+  $("btnPicClear").addEventListener("click", function () {
+    $("picIn").value = "";
+    $("picMsg").hidden = true;
+  });
+
+  /* =========================================================
+     ① - 2  빛의 삼원색 (RGB)
+
+       ①의 팔레트(약속표) 방식과 **색을 적는 또 하나의 방법**을 나란히 둔다.
+       교과서 63쪽이 숫자만 주고 넘어간 「GIF 256개 · JPEG 1,600만 개 색상」의
+       근거(2⁸ · 2²⁴)를 여기서 잇는다.
+     ========================================================= */
+  var rgb = { r: 255, g: 180, b: 0 };
+
+  function setupRgb() {
+    I.RGB_PRESETS.forEach(function (p) {
+      var b = el("button", "btn", esc(p.name));
+      b.type = "button";
+      if (p.why) b.title = p.why;
+      b.addEventListener("click", function () {
+        rgb = { r: p.r, g: p.g, b: p.b };
+        drawRgb();
+      });
+      $("rgbPresetRow").appendChild(b);
+    });
+    ["r", "g", "b"].forEach(function (k) {
+      $(k + "In").addEventListener("input", function () {
+        rgb[k] = parseInt(this.value, 10) || 0;
+        drawRgb();
+      });
+    });
+  }
+
+  var RGB_LABEL = { r: "빨강 (R)", g: "초록 (G)", b: "파랑 (B)" };
+  var RGB_CSS   = { r: "#ef4444", g: "#22c55e", b: "#3b82f6" };
+
+  function drawRgb() {
+    /* 손잡이와 숫자를 값에 맞춘다(단추로 바꿀 때도 함께 움직여야 한다) */
+    ["r", "g", "b"].forEach(function (k) {
+      $(k + "In").value = rgb[k];
+      $(k + "Out").textContent = rgb[k];
+    });
+
+    var css = I.cssRgb(rgb.r, rgb.g, rgb.b);
+    var hex = I.hexOf(rgb.r, rgb.g, rgb.b);
+    var sw = $("rgbSwatch");
+    sw.style.background = css;
+    /* 어두운 색 위에서는 글자를 흰색으로 */
+    var lum = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+    $("rgbHex").style.color = lum > 0.6 ? "#334155" : "#ffffff";
+    $("rgbHex").textContent = hex;
+
+    var tb = $("rgbBody");
+    tb.innerHTML = "";
+    ["r", "g", "b"].forEach(function (k) {
+      tb.appendChild(el("tr", null,
+        "<td><span class='dot' style='background:" + RGB_CSS[k] + "'></span> <b>" +
+          RGB_LABEL[k] + "</b></td>" +
+        "<td><b>" + rgb[k] + "</b> / 255</td>" +
+        "<td class='mono'>" + I.chanBin(rgb[k]) + "<span class='sub'>(2)</span></td>"));
+    });
+
+    var bin24 = I.chanBin(rgb.r) + " " + I.chanBin(rgb.g) + " " + I.chanBin(rgb.b);
+    $("rgb24").innerHTML = "픽셀 하나 = <b>8 + 8 + 8 = 24비트</b> = <b>3바이트</b> → " +
+      "<span class='mono'>" + bin24 + "</span>";
+
+    /* 왜 노랑·하늘·자홍이 되는지 — 지금 값으로 설명해 준다 */
+    var on = [];
+    if (rgb.r > 127) on.push("빨강");
+    if (rgb.g > 127) on.push("초록");
+    if (rgb.b > 127) on.push("파랑");
+    /* 「빨강·초록·파랑」은 모두 받침으로 끝나므로 조사는 늘 '을' 이다 */
+    var why = on.length === 0 ? "세 색을 모두 껐으니 <b>어두운 색</b>입니다."
+            : on.length === 3 ? "세 색을 모두 켰으니 <b>밝은(흰) 색</b>이 됩니다."
+            : "<b>" + on.join(" + ") + "</b>을 켠 색입니다.";
+    $("rgbNote").innerHTML =
+      why + " 빛은 <b>섞을수록 밝아집니다</b>(물감과 반대).<br>" +
+      "채널마다 <b>256단계</b>(2<sup>8</sup>)이므로 만들 수 있는 색은 " +
+      "<b>256 × 256 × 256 = 16,777,216가지</b>입니다. " +
+      "교과서 63쪽이 이 수를 어림하여 <b>「JPEG는 1,600만 개 색상」</b>이라고 적었고, " +
+      "<b>「GIF는 256개 색상」</b>은 픽셀 하나를 <b>8비트</b>로 적는다는 뜻입니다.";
+
+    drawMix();
+  }
+
+  /* 빨강·초록·파랑 빛이 겹치는 그림 — 겹친 곳을 **더 밝게** 그린다(가산혼합) */
+  function drawMix() {
+    var cv = $("mixCanvas");
+    if (!cv || cv.offsetParent === null) return;      /* 안 보이는 탭이면 그리지 않는다 */
+    var g = cv.getContext("2d");
+    g.fillStyle = "#0b1020";
+    g.fillRect(0, 0, cv.width, cv.height);
+    g.save();
+    g.globalCompositeOperation = "lighter";           /* 겹치면 더해진다 = 빛 */
+    var R = 78;
+    [[cv.width / 2,       92,      "#ff0000"],
+     [cv.width / 2 - 68,  186,     "#00ff00"],
+     [cv.width / 2 + 68,  186,     "#0000ff"]].forEach(function (c) {
+      g.beginPath();
+      g.arc(c[0], c[1], R, 0, Math.PI * 2);
+      g.fillStyle = c[2];
+      g.fill();
+    });
+    g.restore();
+    g.font = "bold 15px system-ui, sans-serif";
+    g.fillStyle = "#ffffff";
+    g.textAlign = "center";
+    g.fillText("빨강", cv.width / 2, 24);
+    g.fillText("초록", 34, 246);
+    g.fillText("파랑", cv.width - 34, 246);
+    g.fillStyle = "#111827";
+    g.font = "bold 14px system-ui, sans-serif";
+    g.fillText("흰색", cv.width / 2, 168);
+  }
+
+  /* =========================================================
+     ① - 3  색 깊이와 포스터화
+
+       그림 하나(노을)를 **채널당 비트만 바꿔** 두 번 그린다.
+       ⚠ 소리의 양자화와 같은 계산(`ImageCode.quantChannel`)을 쓴다 — 두 영역이 이어진다.
+     ========================================================= */
+  var chBits = 2;
+
+  function setupDepth() {
+    I.CH_BITS.forEach(function (b) {
+      var btn = el("button", "btn", b + "비트");
+      btn.type = "button"; btn.dataset.cb = b;
+      btn.addEventListener("click", function () { chBits = b; drawDepth(); });
+      $("chBitsRow").appendChild(btn);
+    });
+  }
+
+  /* 캔버스에 노을을 그린다 — cols×rows 로 만들고 캔버스 크기로 **부드럽게 늘리지 않고** 넓힌다 */
+  function paintScene(cv, cols, rows, bits) {
+    var g = cv.getContext("2d");
+    var pix = I.scenePixels(cols, rows, bits);
+    var img = g.createImageData(cols, rows);
+    for (var i = 0; i < pix.length; i++) img.data[i] = pix[i];
+
+    /* 작은 그림을 임시 캔버스에 넣고 그것을 확대해 붙인다(픽셀이 사각형으로 보이게) */
+    var tmp = document.createElement("canvas");
+    tmp.width = cols; tmp.height = rows;
+    tmp.getContext("2d").putImageData(img, 0, 0);
+    g.imageSmoothingEnabled = false;
+    g.clearRect(0, 0, cv.width, cv.height);
+    g.drawImage(tmp, 0, 0, cv.width, cv.height);
+    return pix;
+  }
+
+  function drawDepth() {
+    markRow("chBitsRow", "data-cb", chBits);
+    if ($("depthCard").hidden) return;                /* 안 보이면 그리지 않는다 */
+    $("depthLab").textContent = "채널당 " + chBits + "비트";
+
+    var W = 210, H = 114;                             /* 그림 자체의 픽셀 수 (캔버스 비율에 맞춘다) */
+    var a = paintScene($("depthA"), W, H, 8);
+    var b = paintScene($("depthB"), W, H, chBits);
+    var ua = I.usedColors(a), ub = I.usedColors(b);
+
+    var perPx = chBits * 3;
+    $("depthNote").innerHTML = chBits >= 8
+      ? "지금은 <b>원본과 같습니다</b>(둘 다 채널당 8비트). 비트를 줄여 보세요."
+      : "왼쪽 하늘은 <b>부드럽게</b> 변하는데 오른쪽은 <b>띠</b>로 끊겼습니다 — " +
+        "이것을 <b>포스터화</b>라고 합니다. 이 그림에 실제로 쓰인 색이 " +
+        "<b>" + ua.toLocaleString() + "가지 → " + ub.toLocaleString() + "가지</b>로 줄었습니다.";
+
+    var full = I.sizeOf(1920, 1080, 24);
+    var tb = $("depthBody");
+    tb.innerHTML = "";
+    I.CH_BITS.forEach(function (cb) {
+      var pp = cb * 3;
+      var s = I.sizeOf(1920, 1080, pp);
+      var cls = (cb === chBits) ? " class='mark-ok'" : "";
+      tb.appendChild(el("tr", null,
+        "<td" + cls + "><b>" + cb + "비트</b></td>" +
+        "<td" + cls + ">" + pp + "비트</td>" +
+        "<td>" + I.countText(Math.pow(2, pp)) + "</td>" +
+        "<td><b>" + I.humanBytes(s.bytes) + "</b></td>" +
+        "<td>" + Math.round(s.bytes / full.bytes * 100) + "%</td>"));
+    });
+
+    $("depthLink").innerHTML =
+      "채널당 <b>1비트</b>면 픽셀당 3비트 = <b>8가지</b>입니다. ①탭의 <b>3비트 8색</b>과 색이 다른데, " +
+      "<b>어떤 값이 어떤 색인지는 사람이 정한 약속</b>이라 그렇습니다 — 같은 비트 수라도 약속표가 다르면 색이 달라집니다.<br>" +
+      "<b>소리</b>에서도 양자화 비트를 줄이면 용량이 줄고 원래 소리와 멀어졌습니다. " +
+      "이미지에서는 그 어긋남이 <b>띠</b>로 눈에 보입니다.";
+  }
+
+  /* =========================================================
+     ① - 4  해상도와 용량
+     ========================================================= */
+  /* ⚠ 처음 보이는 해상도를 **80×45** 로 둔다 — 첫 화면에서 계단 현상이 바로 보이게.
+        HD 로 두면 두 그림이 똑같아 보여 "왜 나란히 두었나" 를 알 수 없다. */
+  var resIdx = 1, resBits = 1;
+
+  function setupRes() {
+    I.RESOLUTIONS.forEach(function (r, i) {
+      var b = el("button", "btn", r.name);
+      b.type = "button"; b.dataset.r = i;
+      b.addEventListener("click", function () { resIdx = i; drawRes(); });
+      $("resRow").appendChild(b);
+    });
+    [1, 2, 3, 8, 24].forEach(function (d) {
+      var b = el("button", "btn", d + "비트" + (d === 24 ? " (참색)" : ""));
+      b.type = "button"; b.dataset.rd = d;
+      b.addEventListener("click", function () { resBits = d; drawRes(); });
+      $("resDepthRow").appendChild(b);
+    });
+  }
+
+  /* 같은 그림을 **고른 해상도**와 **320×180** 으로 나란히 — 교과서 63쪽
+     「해상도에 따른 이미지 품질 비교」 그림이 하는 일이다.
+     ⚠ 화면(420px)보다 픽셀이 많아지면 눈으로는 더 이상 달라 보이지 않는다 → 그 사실을 글로 알려 준다. */
+  var REF = { w: 320, h: 180 };      /* 견주는 그림 — 교과서 63쪽 비교 그림의 가운데 값 */
+  var refPainted = false;
+
+  function drawResPics(r) {
+    if ($("resCard").hidden) return;
+    $("resLab").textContent = r.name;
+    /* 고른 해상도의 가로세로 비를 지켜 그린다 — 그림이 찌그러지지 않게.
+       ⚠ 캔버스가 420px 이므로 그보다 많은 픽셀은 **그려도 화면에 나타나지 않는다**(그 사실을 아래 글로 알린다) */
+    var cols = Math.max(2, Math.min(r.w, 420));
+    var rows = Math.max(2, Math.round(cols * r.h / r.w));
+    paintScene($("resCanvasA"), cols, rows, 8);
+    /* 견주는 그림은 늘 같다 → 한 번만 그린다(교실 PC 에서 단추를 누를 때마다 10만 픽셀을 다시 계산하지 않게) */
+    if (!refPainted) { paintScene($("resCanvasB"), REF.w, REF.h, 8); refPainted = true; }
+
+    var big = (r.w > REF.w);
+    $("resStair").innerHTML = big
+      ? "두 그림이 <b>거의 같아 보입니다.</b> " + r.name + " 는 화면에 보이는 것보다 픽셀이 많아 " +
+        "<b>눈으로는 더 이상 차이가 나지 않습니다.</b> 하지만 <b>용량은 아래 표처럼 계속 커집니다</b> — " +
+        "그래서 목적에 맞는 해상도를 골라야 합니다."
+      : (r.w === REF.w
+         ? "지금은 오른쪽과 <b>같은 해상도</b>입니다. 더 낮은 해상도를 눌러 보세요."
+         : "왼쪽은 픽셀이 커서 해와 산의 <b>비스듬한 가장자리가 계단처럼</b> 보입니다 — <b>계단 현상</b>입니다. " +
+           "픽셀 수를 늘리면 계단이 작아져 매끄러워 보이지만 <b>용량이 함께 커집니다</b>.");
+  }
+
+  function drawRes() {
+    markRow("resRow", "data-r", resIdx);
+    markRow("resDepthRow", "data-rd", resBits);
+    var r = I.RESOLUTIONS[resIdx];
+    var sz = I.sizeOf(r.w, r.h, resBits);
+    drawResPics(r);
+    $("resNote").innerHTML = "<b>" + r.name + "</b> · 픽셀마다 <b>" + resBits + "비트</b> → " +
+      "픽셀 수 <b>" + r.w + " × " + r.h + " = " + sz.pixels.toLocaleString() + "개</b> · " +
+      "전체 <b>" + sz.bitsTotal.toLocaleString() + "비트</b> = <b>" + I.humanBytes(sz.bytes) + "</b>" +
+      (resBits === 24 ? " (참색 = 빨강·초록·파랑 각 8비트)" : "");
+
+    var tb = $("resBody");
+    tb.innerHTML = "";
+    I.RESOLUTIONS.forEach(function (rr, i) {
+      var s = I.sizeOf(rr.w, rr.h, resBits);
+      var cls = (i === resIdx) ? " class='mark-ok'" : "";
+      tb.appendChild(el("tr", null,
+        "<td" + cls + "><b>" + rr.name + "</b></td>" +
+        "<td" + cls + ">" + s.pixels.toLocaleString() + "개</td>" +
+        "<td>" + s.bitsTotal.toLocaleString() + "비트</td>" +
+        "<td><b>" + I.humanBytes(s.bytes) + "</b></td>"));
+    });
+  }
+
+  /* =========================================================
+     ① - 3  벡터와 계단 현상
+     ========================================================= */
+  var shape = { kind: "circle", x: 3, y: 3, r: 2, w: 5, h: 2, color: "red" };
+  var zoom = 1;
+
+  function setupVector() {
+    [["circle", "원"], ["rect", "직사각형"]].forEach(function (k) {
+      var b = el("button", "btn", k[1]);
+      b.type = "button"; b.dataset.k = k[0];
+      b.addEventListener("click", function () { shape.kind = k[0]; drawVector(); });
+      $("shapeRow").appendChild(b);
+    });
+    [1, 4, 12].forEach(function (z) {
+      var b = el("button", "btn", z + "배");
+      b.type = "button"; b.dataset.z = z;
+      b.addEventListener("click", function () { zoom = z; drawVector(); });
+      $("zoomRow").appendChild(b);
+    });
+  }
+
+  /* 수식의 숫자를 학생이 바꿔 볼 수 있게 입력칸을 만든다 */
+  function buildVecForm() {
+    var box = $("vecForm");
+    box.innerHTML = "";
+    var fields = (shape.kind === "circle")
+      ? [["x", "중심 x", 0, 6], ["y", "중심 y", 0, 6], ["r", "반지름", 1, 3]]
+      : [["x", "시작 x", 0, 6], ["y", "시작 y", 0, 6], ["w", "너비", 1, 6], ["h", "높이", 1, 6]];
+    fields.forEach(function (f) {
+      var wrap = el("label", "vecfield",
+        "<span>" + f[1] + "</span><input type='number' min='" + f[2] + "' max='" + f[3] +
+        "' step='1' value='" + shape[f[0]] + "'>");
+      var input = wrap.querySelector("input");
+      input.addEventListener("input", function () {
+        var v = Number(input.value);
+        if (!isFinite(v)) return;
+        shape[f[0]] = Math.min(f[3], Math.max(f[2], Math.round(v)));
+        drawVector();
+      });
+      box.appendChild(wrap);
+    });
+    var pick = el("span", "vecfield", "<span>색상</span>");
+    Object.keys(I.COLORS).forEach(function (k) {
+      var b = el("button", "swatch" + (shape.color === k ? " on" : ""), "");
+      b.type = "button";
+      b.style.background = I.COLORS[k].css;
+      b.setAttribute("aria-label", I.COLORS[k].name);
+      b.addEventListener("click", function () { shape.color = k; drawVector(); });
+      pick.appendChild(b);
+    });
+    box.appendChild(pick);
+  }
+
+  /* 벡터 : 수식대로 매끄럽게 그린다 */
+  function drawVectorCanvas(cv) {
+    var g = cv.getContext("2d");
+    var W = cv.width, H = cv.height;
+    var UNIT = 6;                                  // 좌표계는 0~6
+    g.clearRect(0, 0, W, H);
+    g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, H);
+    /* 확대는 가운데를 기준으로 */
+    g.save();
+    g.translate(W / 2, H / 2);
+    g.scale(zoom, zoom);
+    g.translate(-W / 2, -H / 2);
+    var s = W / UNIT;
+    /* 좌표 격자 */
+    g.strokeStyle = "#e2e8f0"; g.lineWidth = 1 / zoom;
+    for (var k = 0; k <= UNIT; k++) {
+      g.beginPath(); g.moveTo(k * s, 0); g.lineTo(k * s, H); g.stroke();
+      g.beginPath(); g.moveTo(0, k * s); g.lineTo(W, k * s); g.stroke();
+    }
+    g.fillStyle = I.COLORS[shape.color].css;
+    if (shape.kind === "circle") {
+      g.beginPath(); g.arc(shape.x * s, shape.y * s, shape.r * s, 0, Math.PI * 2); g.fill();
+    } else {
+      g.fillRect(shape.x * s, shape.y * s, shape.w * s, shape.h * s);
+    }
+    g.restore();
+  }
+
+  /* 비트맵 : 같은 도형을 낮은 해상도 픽셀로 만든 뒤 확대한다 → 계단 현상 */
+  function drawBitmapCanvas(cv) {
+    var g = cv.getContext("2d");
+    var W = cv.width, H = cv.height;
+    var UNIT = 6, N = 24;                          // 24 × 24 픽셀로 찍는다
+    g.clearRect(0, 0, W, H);
+    g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, H);
+    g.save();
+    g.translate(W / 2, H / 2);
+    g.scale(zoom, zoom);
+    g.translate(-W / 2, -H / 2);
+    var cell = W / N;
+    g.strokeStyle = "#e2e8f0"; g.lineWidth = 1 / zoom;
+    for (var k = 0; k <= UNIT; k++) {
+      var s = W / UNIT;
+      g.beginPath(); g.moveTo(k * s, 0); g.lineTo(k * s, H); g.stroke();
+      g.beginPath(); g.moveTo(0, k * s); g.lineTo(W, k * s); g.stroke();
+    }
+    g.fillStyle = I.COLORS[shape.color].css;
+    for (var r = 0; r < N; r++) {
+      for (var c = 0; c < N; c++) {
+        /* 픽셀 가운데가 도형 안에 들어오면 그 픽셀을 칠한다 */
+        var ux = (c + 0.5) / N * UNIT, uy = (r + 0.5) / N * UNIT;
+        var inside = (shape.kind === "circle")
+          ? ((ux - shape.x) * (ux - shape.x) + (uy - shape.y) * (uy - shape.y) <= shape.r * shape.r)
+          : (ux >= shape.x && ux <= shape.x + shape.w && uy >= shape.y && uy <= shape.y + shape.h);
+        if (inside) g.fillRect(c * cell, r * cell, cell + 0.5, cell + 0.5);
+      }
+    }
+    g.restore();
+  }
+
+  function drawVector() {
+    markRow("shapeRow", "data-k", shape.kind);
+    markRow("zoomRow", "data-z", zoom);
+    buildVecForm();
+    $("vecCode").innerHTML = "<span class='big' style='font-family:Consolas,monospace'>" +
+      esc(I.vectorText(shape)) + "</span>";
+    $("vecKo").innerHTML = "우리말로 읽으면 — <b>" + esc(I.vectorKorean(shape)) + "</b>" +
+      " (저장되는 것은 이 <b>숫자 몇 개</b>뿐입니다)";
+    drawVectorCanvas($("vecCanvas"));
+    drawBitmapCanvas($("bmpCanvas"));
+  }
+
+  /* =========================================================
+     ① - 4  동영상과 프레임률
+     ========================================================= */
+  var fps = 12, vidTimer = null, vidFrame = 0;
+  var TICK = 60;                    // 화면을 초당 몇 번 다시 그리나 (프레임률과 다른 값이다)
+
+  function setupFps() {
+    I.FPS_LIST.forEach(function (f) {
+      var b = el("button", "btn", f + " fps");
+      b.type = "button"; b.dataset.f = f;
+      b.addEventListener("click", function () { fps = f; drawFpsInfo(); });
+      $("fpsRow").appendChild(b);
+    });
+  }
+
+  function drawVideoFrame() {
+    /* 다른 하위 탭을 보고 있으면 그릴 필요가 없다 */
+    var host = $("vidCard");
+    if (host && host.hidden) return;
+    var cv = $("vidCanvas");
+    var g = cv.getContext("2d");
+    var W = cv.width, H = cv.height;
+    g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, H);
+    /* 프레임률만큼 위치를 '띄엄띄엄' 계산해서, 낮은 fps 는 뚝뚝 끊겨 보이게 한다.
+       ⚠ 한 바퀴 도는 **시간은 프레임률과 상관없이 같아야** 한다(2초).
+          fps 는 그 2초를 몇 조각으로 나누는지만 정한다.
+          vidFrame 은 초당 TICK 번 늘어나므로 그것을 시계로 쓴다. */
+    var period = 2;                                    // 2초에 한 바퀴
+    var stepsPerCycle = Math.max(2, Math.round(fps * period));
+    var secs = vidFrame / TICK;
+    var k = Math.floor(secs * fps) % stepsPerCycle;
+    var ang = (k / stepsPerCycle) * Math.PI * 2;
+    var cx = W / 2, cy = H / 2, rad = 82;
+    g.strokeStyle = "#e2e8f0"; g.lineWidth = 3;
+    g.beginPath(); g.arc(cx, cy, rad, 0, Math.PI * 2); g.stroke();
+    g.fillStyle = "#4f46e5";
+    g.beginPath();
+    g.arc(cx + Math.cos(ang) * rad, cy + Math.sin(ang) * rad, 20, 0, Math.PI * 2);
+    g.fill();
+    g.fillStyle = "#334155";
+    g.font = "bold 24px 'Malgun Gothic', sans-serif";
+    g.textAlign = "center";
+    g.fillText(fps + " fps · 한 바퀴에 " + stepsPerCycle + "프레임", cx, H - 22);
+  }
+
+  function drawFpsInfo() {
+    markRow("fpsRow", "data-f", fps);
+    var r = I.RESOLUTIONS[resIdx];
+    var tb = $("fpsBody");
+    tb.innerHTML = "";
+    I.FPS_LIST.forEach(function (f) {
+      var v = I.videoSize(r.w, r.h, resBits, f, 10);
+      var cls = (f === fps) ? " class='mark-ok'" : "";
+      tb.appendChild(el("tr", null,
+        "<td" + cls + "><b>" + f + " fps</b></td>" +
+        "<td" + cls + ">" + v.frames.toLocaleString() + "장</td>" +
+        "<td>" + v.bitsTotal.toLocaleString() + "비트</td>" +
+        "<td><b>" + I.humanBytes(v.bytes) + "</b></td>"));
+    });
+    var mine = I.videoSize(r.w, r.h, resBits, fps, 10);
+    $("fpsPick").textContent = "지금 : " + r.name + " · " + resBits + "비트 · " + fps +
+      "fps · 10초 → 프레임 " + mine.frames + "장 · " + I.humanBytes(mine.bytes);
+    $("fpsNote").innerHTML = fps < 24
+      ? "<b>" + fps + "fps</b> 는 움직임이 <b>뚝뚝 끊겨</b> 보입니다. 영화·드라마는 24fps 이상을 씁니다."
+      : "<b>" + fps + "fps</b> 는 움직임이 <b>부드럽습니다</b>. 대신 용량이 커집니다.";
+  }
+
+  /* =========================================================
+     문제 만들기 — 연습·평가가 함께 쓴다
+       kind "read" : 격자를 보고 줄마다 이진수 쓰기
+       kind "draw" : 이진수를 보고 격자 칠하기
+       kind "size" : 해상도·색 깊이로 픽셀 수·전체 비트·용량 구하기
+       kind "rgb"  : 색을 보고 빨강·초록·파랑을 각각 8자리 이진수로 (연습에만 있다)
+     ========================================================= */
+  var LEVELS = {
+    low:  { name: "하", points: 1 },
+    mid:  { name: "중", points: 2 },
+    high: { name: "상", points: 3 }
+  };
+
+  var KIND_LABEL = {
+    read: "격자 → 이진수", draw: "이진수 → 격자", size: "해상도 → 용량",
+    rgb: "색 → 24비트"
+  };
+
+  /* RGB 문제에 쓸 색 — 수준을 **중간값이 몇 개 섞였나**로 나눈다.
+     하 : 0 아니면 255 만 (2진수가 00000000 / 11111111 — 삼원색의 뜻이 바로 보인다)
+     중 : 한 채널만 중간값 · 상 : 세 채널 모두 중간값
+     ⚠ 값은 **모두 사람이 아는 색**으로 골랐다(이름을 함께 보여 주어야 색과 숫자가 이어진다). */
+  var RGB_SETS = {
+    low:  [{ n: "빨강", r: 255, g: 0,   b: 0   }, { n: "초록", r: 0,   g: 255, b: 0   },
+           { n: "파랑", r: 0,   g: 0,   b: 255 }, { n: "노랑", r: 255, g: 255, b: 0   },
+           { n: "하늘", r: 0,   g: 255, b: 255 }, { n: "자홍", r: 255, g: 0,   b: 255 }],
+    mid:  [{ n: "주황", r: 255, g: 128, b: 0   }, { n: "연두", r: 128, g: 255, b: 0   },
+           { n: "보라", r: 128, g: 0,   b: 255 }, { n: "분홍", r: 255, g: 0,   b: 128 },
+           { n: "청록", r: 0,   g: 255, b: 128 }, { n: "하늘빛", r: 0, g: 128, b: 255 }],
+    high: [{ n: "살구", r: 240, g: 170, b: 100 }, { n: "올리브", r: 140, g: 150, b: 60 },
+           { n: "남보라", r: 90,  g: 70,  b: 200 }, { n: "팥죽색", r: 150, g: 60, b: 70 },
+           { n: "회색",  r: 160, g: 160, b: 160 }, { n: "청자색", r: 70, g: 130, b: 140 }]
+  };
+
+  /* 용량 문제에 쓸 해상도 — **수준마다 따로** 둔다(안 나누면 하·상이 같은 문제가 나온다).
+     ⚠ 전체 비트가 8로 나누어져 **바이트가 정수로 딱 맞는 것만** 쓴다.
+        나누어지지 않으면 답이 27.5 처럼 소수가 되어 중1이 쓰기 어렵다. */
+  var SIZE_SETS = {
+    low:  [{ w: 8,  h: 8,  bits: 1 }, { w: 16, h: 8,  bits: 1 }, { w: 8, h: 16, bits: 1 },
+           { w: 32, h: 16, bits: 1 }],
+    mid:  [{ w: 8,  h: 16, bits: 2 }, { w: 20, h: 10, bits: 2 }, { w: 10, h: 12, bits: 2 },
+           { w: 16, h: 12, bits: 2 }],
+    high: [{ w: 16, h: 16, bits: 3 }, { w: 24, h: 16, bits: 3 }, { w: 8, h: 24, bits: 3 },
+           { w: 32, h: 20, bits: 3 }]
+  };
+
+  function makeQuestion(levelKey, kind, avoid) {
+    var q = { level: levelKey, kind: kind, cells: [] };
+    if (kind === "rgb") {
+      var rp = RGB_SETS[levelKey] || RGB_SETS.low;
+      var rpick = rp.filter(function (c) { return !avoid || avoid.indexOf(c.n) === -1; });
+      var pool2 = rpick.length ? rpick : rp;
+      var col = pool2[Math.floor(Math.random() * pool2.length)];
+      q.color = col;
+      q.tag = col.n;
+      ["r", "g", "b"].forEach(function (k) {
+        q.cells.push({ head: RGB_LABEL[k] + " " + col[k], answer: I.chanBin(col[k]),
+                       unit: "0과 1로 8자리" });
+      });
+      return q;
+    }
+    if (kind === "size") {
+      var pool = (SIZE_SETS[levelKey] || SIZE_SETS.low)
+        .filter(function (s) { return (s.w * s.h * s.bits) % 8 === 0; });
+      var pick = pool.filter(function (s) {
+        return !avoid || avoid.indexOf(s.w + "x" + s.h + "x" + s.bits) === -1;
+      });
+      var s = (pick.length ? pick : pool)[Math.floor(Math.random() * (pick.length ? pick.length : pool.length))];
+      q.res = s;
+      q.tag = s.w + "x" + s.h + "x" + s.bits;
+      var sz = I.sizeOf(s.w, s.h, s.bits);
+      q.sz = sz;
+      q.cells.push({ head: "픽셀 수(개)", answer: String(sz.pixels), unit: "숫자만" });
+      q.cells.push({ head: "전체 비트 수", answer: String(sz.bitsTotal), unit: "숫자만" });
+      q.cells.push({ head: "용량(바이트)", answer: String(sz.bytes), unit: "숫자만" });
+      return q;
+    }
+    /* 격자 문제 — 수준마다 크기·색 깊이가 다르다 */
+    var spec = (levelKey === "low")  ? { c: 4, r: 4, bits: 1 }
+             : (levelKey === "mid")  ? { c: 6, r: 6, bits: 1 }
+                                     : { c: 4, r: 4, bits: 2 };
+    q.cols = spec.c; q.rows = spec.r; q.bits = spec.bits;
+    q.grid = I.randomGrid(spec.c, spec.r, spec.bits);
+    q.bins = I.gridBins(q.grid, spec.bits, false);
+    if (kind === "read") {
+      q.bins.forEach(function (b, i) {
+        q.cells.push({ head: (i + 1) + "줄", answer: b,
+                       unit: "0과 1로 " + (spec.c * spec.bits) + "자리" });
+      });
+    } else {
+      /* 이진수 → 격자 : 답칸이 아니라 **빈 격자**를 채운다 */
+      q.answerGrid = q.grid;
+      q.work = I.blankGrid(spec.c, spec.r);
+    }
+    return q;
+  }
+
+  function questionText(q) {
+    if (q.kind === "rgb") {
+      return "아래 색은 <b>빨강 " + q.color.r + " · 초록 " + q.color.g + " · 파랑 " + q.color.b +
+             "</b> 로 만든 색입니다. 세 값을 각각 <b>8자리 이진수</b>로 바꾸시오.";
+    }
+    if (q.kind === "size") {
+      return "해상도 <b>" + q.res.w + " × " + q.res.h + "</b> 이고 픽셀마다 <b>" + q.res.bits +
+             "비트</b>인 이미지의 <b>픽셀 수 · 전체 비트 수 · 용량(바이트)</b> 을 구하시오.";
+    }
+    if (q.kind === "read") {
+      return "아래 비트맵의 <b>줄마다</b> 픽셀 값을 <b>이진수</b>로 이어 쓰시오. " +
+             "(픽셀 하나에 <b>" + q.bits + "비트</b> · 한 줄에 " + (q.cols * q.bits) + "자리)";
+    }
+    return "아래 이진수를 보고 <b>격자를 칠하시오.</b> 칸을 누르면 색이 한 단계씩 바뀝니다. " +
+           "(픽셀 하나에 <b>" + q.bits + "비트</b>)";
+  }
+
+  function answerOf(q) {
+    if (q.kind === "draw") return q.bins.join(" ");
+    return q.cells.map(function (c) { return c.answer; }).join(" ");
+  }
+
+  function judgeCell(cell, typed) {
+    var t = String(typed == null ? "" : typed).trim().replace(/\s+/g, "");
+    if (t === "") return { ok: false, reason: "빈칸" };
+    if (/^[01]+$/.test(cell.answer) && cell.answer.length > 1) {
+      if (!/^[01]+$/.test(t)) return { ok: false, reason: "형식" };
+      if (t.length !== cell.answer.length) return { ok: false, reason: "형식" };
+      return { ok: t === cell.answer };
+    }
+    if (!/^\d+$/.test(t)) return { ok: false, reason: "형식" };
+    return { ok: Number(t) === Number(cell.answer) };
+  }
+
+  function buildAnswerArea(container, q, onEnter) {
+    container.innerHTML = "";
+    if (q.kind === "draw") {
+      /* 문제로 준 이진수 + 칠할 빈 격자 */
+      var list = el("div", "refbox");
+      list.appendChild(el("p", "t", "문제 — 이 이진수대로 칠하세요"));
+      var ul = el("div", "binlist");
+      q.bins.forEach(function (b, i) {
+        ul.appendChild(el("div", "binline",
+          "<span class='no'>" + (i + 1) + "줄</span><span class='bb'>" +
+          (q.bits > 1 ? I.rowBin(q.grid[i], q.bits, true) : b) + "</span>"));
+      });
+      list.appendChild(ul);
+      container.appendChild(list);
+      var wrap = el("div", "gridwrap");
+      var box = el("div", "pixgrid");
+      wrap.appendChild(box);
+      container.appendChild(wrap);
+      q.workBox = box;
+      /* 누른 칸만 다시 그리므로 onChange 로 격자를 다시 만들 필요가 없다.
+         다시 칠할 때 채점 표시(빨간 테두리)만 지운다. */
+      paintGrid(box, q.work, q.bits, {
+        editable: true, showNum: true,
+        onChange: function (r, c) {
+          var cell = box._cells[r][c];
+          if (cell) cell.classList.remove("wrongpix");
+        }
+      });
+      container.appendChild(el("p", "lvnote",
+        "칸을 눌러 값을 " + (q.bits > 1 ? "0 → 1 → … → " + I.maxLevel(q.bits) : "0 ↔ 1") +
+        " 로 바꾸세요. 칸 안의 숫자가 이진수이고, <b>색은 위 색상 코드표</b>와 같습니다."));
+      return;
+    }
+    var row = el("div", "charins");
+    q.inputs = [];
+    q.cells.forEach(function (c) {
+      var isBin = /^[01]+$/.test(c.answer) && c.answer.length > 1;
+      var cell = el("div", "charin" + (isBin ? " wide" : " total"),
+        "<span class='c'>" + esc(c.head) + "</span>" +
+        "<input type='text' class='ans' autocomplete='off' spellcheck='false' " +
+        "aria-label='" + esc(c.head) + " 의 답'>");
+      var input = cell.querySelector("input");
+      if (onEnter) input.addEventListener("keydown", function (e) { if (e.key === "Enter") onEnter(); });
+      q.inputs.push(input);
+      row.appendChild(cell);
+    });
+    container.appendChild(row);
+    container.appendChild(el("p", "lvnote", q.kind === "size"
+      ? "픽셀 수 = 가로 × 세로 · 전체 비트 = 픽셀 수 × 비트 · 바이트 = 비트 ÷ 8"
+      : q.kind === "rgb"
+      ? "0 ~ 255 를 8자리로 적습니다 — 자리값은 128 64 32 16 8 4 2 1 입니다(숫자 변환의 자리값 카드와 같습니다)."
+      : "왼쪽 칸부터 차례대로 이어 쓰세요. 한 줄에 " + (q.cols * q.bits) + "자리입니다."));
+  }
+
+  function judgeQuestion(q) {
+    if (q.kind === "draw") {
+      var wrong = 0, blank = true;
+      var cells = q.workBox.querySelectorAll(".pix");
+      q.work.forEach(function (row, r) {
+        row.forEach(function (v, c) {
+          var ok = (v === q.answerGrid[r][c]);
+          if (!ok) wrong++;
+          if (v !== 0) blank = false;
+          var idx = r * q.cols + c;
+          if (cells[idx]) {
+            cells[idx].classList.toggle("wrongpix", !ok);
+          }
+        });
+      });
+      return {
+        each: [], ok: wrong === 0, wrong: wrong, blank: blank && wrong > 0, bad: false,
+        typed: I.gridBins(q.work, q.bits, false).join(" ")
+      };
+    }
+    var each = q.cells.map(function (c, i) { return judgeCell(c, q.inputs[i].value); });
+    each.forEach(function (r, i) {
+      q.inputs[i].parentNode.classList.toggle("ok", !!r.ok);
+      q.inputs[i].parentNode.classList.toggle("no", !r.ok);
+    });
+    return {
+      each: each,
+      ok: each.every(function (r) { return r.ok; }),
+      wrong: each.filter(function (r) { return !r.ok; }).length,
+      blank: each.some(function (r) { return r.reason === "빈칸"; }),
+      bad: each.some(function (r) { return r.reason === "형식"; }),
+      typed: q.inputs.map(function (x) { return x.value.trim() || "(빈칸)"; }).join(" ")
+    };
+  }
+
+  function hintOf(q) {
+    if (q.kind === "rgb") {
+      var v = q.color.r;
+      return "자리값 <b>128 64 32 16 8 4 2 1</b> 을 큰 것부터 채워 보세요. " +
+        "빨강 <b>" + v + "</b> 은 " +
+        (v === 0 ? "아무 자리도 채우지 않으므로 <b>00000000</b>" :
+         v === 255 ? "여덟 자리를 모두 채우므로 <b>11111111</b>" :
+         "<b>" + I.chanBin(v).split("").map(function (d, i) {
+           return d === "1" ? String(Math.pow(2, 7 - i)) : null;
+         }).filter(Boolean).join(" + ") + " = " + v + "</b> → <b>" + I.chanBin(v) + "</b>") +
+        " 입니다. 초록·파랑도 같은 방법으로 하세요.";
+    }
+    if (q.kind === "size") {
+      return "픽셀 수는 <b>" + q.res.w + " × " + q.res.h + "</b> 입니다. " +
+        "여기에 색 깊이 <b>" + q.res.bits + "비트</b>를 곱하면 전체 비트 수가 되고, " +
+        "그 값을 <b>8로 나누면</b> 바이트가 됩니다.";
+    }
+    if (q.kind === "read") {
+      return "1줄의 픽셀 값은 <b>" + q.grid[0].join(" ") + "</b> 입니다. " +
+        (q.bits > 1
+          ? "값마다 " + q.bits + "자리로 적어 이어 붙이면 <b>" + I.rowBin(q.grid[0], q.bits, true) +
+            "</b> → <b>" + q.bins[0] + "</b> 입니다."
+          : "0은 흰색, 1은 검은색이므로 <b>" + q.bins[0] + "</b> 입니다.");
+    }
+    return "1줄의 이진수 <b>" + (q.bits > 1 ? I.rowBin(q.grid[0], q.bits, true) : q.bins[0]) +
+      "</b> 은 픽셀 값 <b>" + q.grid[0].join(" ") + "</b> 을 뜻합니다. 그만큼 칸을 눌러 보세요.";
+  }
+
+  /* 문제에 붙일 색상 코드표 — **격자 문제에는 반드시 함께** 보여 준다.
+     이 표가 없으면 칸 색이 어떤 값인지 알 수 없어 문제를 풀 수 없다. */
+  function buildQuestionPalette(container, q) {
+    if (q.kind === "size") return;
+    /* RGB 문제는 색상 코드표가 아니라 **그 색 자체**를 크게 보여 준다 */
+    if (q.kind === "rgb") {
+      var c = q.color;
+      var lum = (0.299 * c.r + 0.587 * c.g + 0.114 * c.b) / 255;
+      var sw = el("div", "qswatch",
+        "<span style='color:" + (lum > 0.6 ? "#334155" : "#ffffff") + "'>" + esc(c.n) + "</span>");
+      sw.style.background = I.cssRgb(c.r, c.g, c.b);
+      container.appendChild(sw);
+      return;
+    }
+    var pal = el("div", "palbox");
+    pal.appendChild(el("p", "t", "색상 코드표 — 이 문제의 색과 값"));
+    var row = el("div", "palrow");
+    pal.appendChild(row);
+    var note = el("p", "lvnote");
+    pal.appendChild(note);
+    container.appendChild(pal);
+    paintPalette(row, q.bits, note);
+  }
+
+  /* 문제에 붙일 격자 그림(읽기 문제용) */
+  function buildQuestionGrid(container, q) {
+    container.innerHTML = "";
+    buildQuestionPalette(container, q);
+    if (q.kind !== "read") return;
+    var wrap = el("div", "gridwrap");
+    var box = el("div", "pixgrid");
+    wrap.appendChild(box);
+    container.appendChild(wrap);
+    paintGrid(box, q.grid, q.bits, { editable: false, showNum: false });
+    q.showBox = box;
+    container.appendChild(el("p", "lvnote",
+      "위 <b>색상 코드표</b>에서 칸의 색을 찾아 값을 알아내고, 줄마다 이진수로 이어 쓰세요."));
+  }
+
+  /* =========================================================
+     ② 연습문제
+     ========================================================= */
+  var prKind = "read";
+  var prItems = [];
+
+  function buildPractice() {
+    var area = $("prProblems");
+    area.innerHTML = "";
+    prItems = [];
+    $("prKindNote").innerHTML = prKind === "read"
+      ? "<b>비트맵 읽기</b> — 픽셀의 색을 숫자로 바꿉니다. 이것이 컴퓨터가 그림을 저장하는 방법입니다."
+      : prKind === "draw"
+      ? "<b>거꾸로</b> — 0과 1만 보고 그림을 되살립니다. 컴퓨터가 그림을 화면에 띄우는 쪽입니다."
+      : prKind === "rgb"
+      ? "<b>빛의 삼원색</b> — 색 하나를 빨강·초록·파랑 세 숫자로 적고, 그 숫자를 다시 <b>8자리 이진수</b>로 바꿉니다. " +
+        "셋을 이으면 픽셀 하나가 <b>24비트</b>가 됩니다."
+      : "<b>용량 계산</b> — 해상도와 색 깊이로 파일 크기를 구합니다. (교과서 63쪽)";
+    $("prKindRow").querySelectorAll("[data-kind]").forEach(function (b) {
+      var on = (b.dataset.kind === prKind);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+
+    ["low", "mid", "high"].forEach(function (lv, i) {
+      var q = makeQuestion(lv, prKind, prItems.map(function (x) { return x.q.tag; }));
+      var box = el("div", "q");
+      box.innerHTML =
+        "<div class='qhead'><span class='qno'>문제 " + (i + 1) + "</span>" +
+          "<span class='lvnote'>수준 " + LEVELS[lv].name + " · " + KIND_LABEL[prKind] +
+          (q.kind === "size" ? " · " + q.res.w + "×" + q.res.h + " · " + q.res.bits + "비트"
+           : q.kind === "rgb" ? " · 채널마다 8비트"
+                             : " · " + q.cols + "×" + q.rows + " · " + q.bits + "비트") +
+          "</span></div>" +
+        "<p class='qtext'>" + questionText(q) + "</p>" +
+        "<div class='gwrap'></div>" +
+        "<div class='inwrap'></div>" +
+        "<div class='btnrow'>" +
+          "<button class='btn primary' type='button' data-act='check'>정답 확인</button>" +
+          "<button class='btn' type='button' data-act='hint'>힌트</button>" +
+        "</div>" +
+        "<p class='res' hidden></p>";
+      area.appendChild(box);
+
+      var it = { box: box, q: q, solved: false, fb: box.querySelector(".res") };
+      buildQuestionGrid(box.querySelector(".gwrap"), q);
+      buildAnswerArea(box.querySelector(".inwrap"), q, function () { checkPractice(it); });
+      box.querySelector("[data-act='check']").addEventListener("click", function () { checkPractice(it); });
+      box.querySelector("[data-act='hint']").addEventListener("click", function () {
+        it.fb.hidden = false;
+        it.fb.className = "res";
+        it.fb.style.background = "var(--warn-bg)";
+        it.fb.style.borderLeft = "6px solid var(--warn)";
+        it.fb.innerHTML = "<b>힌트</b> — " + hintOf(it.q);
+      });
+      prItems.push(it);
+    });
+    /* 문제를 하나씩 넘겨 본다 */
+    UI.pager($("prNav"), prItems.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }), { lead: "한 문제씩 풀어 보세요" });
+    updatePrScore();
+  }
+
+  function checkPractice(it) {
+    var r = judgeQuestion(it.q);
+    it.fb.hidden = false;
+    it.fb.style.background = "";
+    it.fb.style.borderLeft = "";
+    if (r.blank) {
+      it.fb.className = "res no";
+      it.fb.textContent = "아직 아무것도 하지 않았습니다.";
+      it.solved = false;
+    } else if (r.bad) {
+      it.fb.className = "res no";
+      it.fb.textContent = "답 형식이 맞지 않은 칸이 있습니다.";
+      it.solved = false;
+    } else if (r.ok) {
+      it.fb.className = "res ok";
+      it.fb.innerHTML = "정답입니다! <b>" + esc(answerOf(it.q)) + "</b>";
+      it.solved = true;
+    } else {
+      it.fb.className = "res no";
+      it.fb.textContent = "아직 아니에요. " + r.wrong +
+        (it.q.kind === "draw" ? "칸이 다릅니다(빨간 테두리)." : "칸이 틀렸습니다(빨간 칸).");
+      it.solved = false;
+    }
+    updatePrScore();
+  }
+
+  function updatePrScore() {
+    var n = prItems.filter(function (x) { return x.solved; }).length;
+    $("prScore").textContent = "맞힌 문제 : " + n + " / " + prItems.length +
+      (n === prItems.length && prItems.length ? "  모두 정답!" : "");
+  }
+
+  $("prKindRow").querySelectorAll("[data-kind]").forEach(function (b) {
+    b.addEventListener("click", function () { prKind = b.dataset.kind; buildPractice(); });
+  });
+  $("prNew").addEventListener("click", buildPractice);
+
+  /* =========================================================
+     ③ 평가
+     ========================================================= */
+  var EV_N = 3;
+  var items = [];
+  var evStarted = false, evSubmitted = false, lastPdf = null;
+
+  /* 세 문제에 **두 방향이 모두** 들어간다 (사용자 지시) —
+     하는 그림 → 이진수, 상은 이진수 → 그림(거꾸로), 중은 용량 계산. */
+  var EVAL_PLAN = {
+    low:  { kind: "read", what: "그림 → 이진수 (4×4 · 1비트)" },
+    mid:  { kind: "size", what: "해상도와 용량" },
+    high: { kind: "draw", what: "이진수 → 그림 (4×4 · 2비트)" }
+  };
+
+  var evPager = null, evCheckBox = null;
+
+  function buildProblems() {
+    var area = $("evProblems");
+    area.innerHTML = "";
+    items = [];
+    for (var i = 0; i < EV_N; i++) items.push(makeProblem(i, area));
+
+    /* 맨 끝에 「전체 확인」 화면 */
+    evCheckBox = el("div", "q");
+    area.appendChild(evCheckBox);
+
+    evPager = UI.pager($("evNav"), items.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }).concat([{ el: evCheckBox, label: "전체 확인", short: "📋 전체 확인" }]), {
+      lead: "한 문제씩 풀고 마지막에 확인하세요",
+      onChange: function (i) { if (i === EV_N) refreshEvCheck(); }
+    });
+  }
+
+  /* 전체 확인 화면 — 이미지는 '칠하기' 문제도 있어 답 상태를 종류별로 본다 */
+  function refreshEvCheck() {
+    if (!evCheckBox) return;
+    var rows = items.map(function (it, i) {
+      var lv = it.level ? LEVELS[it.level].name + " (" + LEVELS[it.level].points + "점)" : "—";
+      var ans = "—", pad = "—", ok = !!it.level;
+      if (it.q) {
+        if (it.q.kind === "draw") {
+          var touched = it.q.work.some(function (row) {
+            return row.some(function (v) { return v !== 0; });
+          });
+          ans = touched ? "칠했습니다" : "아직 안 칠했습니다";
+          if (!touched) ok = false;
+        } else {
+          var blank = it.q.inputs.filter(function (x) { return x.value.trim() === ""; }).length;
+          ans = blank === 0 ? "다 썼습니다" : (blank + "칸 비었습니다");
+          if (blank > 0) ok = false;
+        }
+        pad = it.pad.isEmpty() ? "아직 안 그렸습니다" : "그렸습니다";
+      } else { ok = false; }
+      return "<tr><td>" + (i + 1) + "번</td><td>" + lv + "</td>" +
+        "<td class='" + (ok ? "mark-ok" : "mark-no") + "'>" + ans + "</td>" +
+        "<td>" + pad + "</td>" +
+        "<td>" + (ok ? "<b class='mark-ok'>준비됨</b>" : "<b class='mark-no'>확인 필요</b>") + "</td></tr>";
+    }).join("");
+    var ready = items.every(function (it) {
+      if (!it.level || !it.q) return false;
+      if (it.q.kind === "draw") {
+        return it.q.work.some(function (row) { return row.some(function (v) { return v !== 0; }); });
+      }
+      return it.q.inputs.every(function (x) { return x.value.trim() !== ""; });
+    });
+    evCheckBox.innerHTML =
+      "<div class='qhead'><span class='qno'>전체 확인</span>" +
+      "<span class='lvnote'>제출하기 전에 빠진 것이 없는지 봅니다</span></div>" +
+      "<div class='tablescroll'><table class='grid'><thead><tr>" +
+      "<th style='width:12%'>문제</th><th style='width:20%'>수준</th>" +
+      "<th style='width:26%'>답</th><th style='width:24%'>풀이</th>" +
+      "<th style='width:18%'>상태</th></tr></thead><tbody>" + rows + "</tbody></table></div>" +
+      "<p class='res " + (ready ? "ok" : "no") + "'>" + (ready
+        ? "모두 준비되었습니다. 아래 <b>3. 제출</b> 에서 [제출하기] 를 누르세요."
+        : "아직 <b>확인 필요</b> 인 문제가 있습니다. 위 번호를 눌러 그 문제로 돌아가세요.") + "</p>";
+  }
+
+  function makeProblem(idx, area) {
+    var box = el("div", "q");
+    box.innerHTML =
+      "<div class='qhead'>" +
+        "<span class='qno'>문제 " + (idx + 1) + "</span>" +
+        "<span class='levels'>" +
+          "<button class='btn' type='button' data-lv='low' aria-pressed='false'>" +
+            "하 · 4×4 1비트 → 이진수 (1점)</button>" +
+          "<button class='btn' type='button' data-lv='mid' aria-pressed='false'>" +
+            "중 · 해상도 → 용량 (2점)</button>" +
+          "<button class='btn' type='button' data-lv='high' aria-pressed='false'>" +
+            "상 · 이진수 → 그림 (4×4 2비트 · 3점)</button>" +
+        "</span>" +
+        "<span class='lvnote'>수준을 고르면 문제와 답칸이 나옵니다</span>" +
+      "</div>" +
+      "<p class='qtext empty'>— 상 · 중 · 하 중에서 수준을 먼저 고르세요 —</p>" +
+      "<div class='gwrap'></div>" +
+      "<div class='inwrap'></div>" +
+      "<p class='lead' style='margin:14px 0 0'>풀이 (여기에 손으로 계산 과정을 적으세요)</p>" +
+      "<div class='padwrap'></div>" +
+      "<p class='res' hidden></p>";
+    area.appendChild(box);
+
+    var it = {
+      box: box, level: null, q: null,
+      qText: box.querySelector(".qtext"),
+      gwrap: box.querySelector(".gwrap"),
+      inwrap: box.querySelector(".inwrap"),
+      note: box.querySelector(".lvnote"),
+      fb: box.querySelector(".res"),
+      pad: PdfKit.createPad(box.querySelector(".padwrap"), { height: 360 })
+    };
+
+    box.querySelectorAll("[data-lv]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (!evStarted || evSubmitted) return;
+        var typedSomething = it.q && it.q.inputs &&
+          it.q.inputs.some(function (x) { return x.value.trim() !== ""; });
+        if (it.level && (!it.pad.isEmpty() || typedSomething)) {
+          if (!confirm("수준을 바꾸면 지금 문제와 풀이가 지워집니다. 바꿀까요?")) return;
+        }
+        box.querySelectorAll("[data-lv]").forEach(function (b) {
+          var on = (b === btn);
+          b.classList.toggle("on", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        it.level = btn.dataset.lv;
+        var plan = EVAL_PLAN[it.level];
+        it.q = makeQuestion(it.level, plan.kind,
+          items.filter(function (x) { return x !== it && x.q; }).map(function (x) { return x.q.tag; }));
+        it.qText.className = "qtext";
+        it.qText.innerHTML = questionText(it.q);
+        it.note.textContent = "수준 " + LEVELS[it.level].name + " · " + plan.what;
+        it.fb.hidden = true;
+        it.pad.clear();
+        buildQuestionGrid(it.gwrap, it.q);
+        buildAnswerArea(it.inwrap, it.q);
+      });
+    });
+    return it;
+  }
+
+  function applyPhase() {
+    var running = evStarted && !evSubmitted;
+    $("evStart").disabled = running || evSubmitted;
+    $("evStart").textContent = evSubmitted ? "평가 종료" : (running ? "평가 중" : "평가 시작");
+    $("evSubmit").disabled = !running;
+    items.forEach(function (it) {
+      it.box.querySelectorAll("button").forEach(function (b) { b.disabled = !running; });
+      if (it.q && it.q.inputs) it.q.inputs.forEach(function (x) { x.disabled = !running; });
+    });
+    [$("tabLearn"), $("tabPractice")].forEach(function (t) {
+      t.dataset.locked = running ? "1" : "0";
+      t.setAttribute("aria-disabled", running ? "true" : "false");
+    });
+    if (running) {
+      $("lockBar").hidden = false;
+      $("lockBar").textContent = "평가 중입니다. ① 이미지 변환 · ② 연습문제 탭은 평가를 제출한 뒤에 쓸 수 있습니다.";
+    } else {
+      $("lockBar").hidden = true;
+    }
+    $("evPhase").className = "res " + (running ? "ok" : "");
+    $("evPhase").innerHTML = evSubmitted
+      ? "제출이 끝났습니다. 채점 결과는 아래 <b>3. 제출</b>에서 확인하세요."
+      : (running ? "<b>평가 중입니다.</b> 문제마다 수준을 고르고, 풀이를 적은 뒤 답을 쓰세요."
+                 : "위 <b>[평가 시작]</b>을 누르면 문제가 나옵니다.");
+  }
+
+  $("evStart").addEventListener("click", function () {
+    evStarted = true; evSubmitted = false;
+    buildProblems();
+    applyPhase();
+    $("evStartMsg").innerHTML = "<b>이미지 변환</b> 평가를 시작했습니다.";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+  });
+
+  $("evRedo").addEventListener("click", function () {
+    if (!confirm(evSubmitted ? "새로 풀어서 다시 제출할까요? 이미 낸 PDF 파일은 그대로 남습니다."
+                             : "지금 쓴 내용을 모두 지우고 처음부터 다시 할까요?")) return;
+    evStarted = false; evSubmitted = false; lastPdf = null;
+    $("evProblems").innerHTML = "";
+    $("evNav").innerHTML = "";
+    items = [];
+    evPager = null; evCheckBox = null;
+    $("evStartMsg").textContent = "";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+    applyPhase();
+  });
+
+  $("evSubmit").addEventListener("click", function () {
+    if (!evStarted) { evShow("먼저 [평가 시작]을 눌러 주세요.", "no"); return; }
+    if (evSubmitted) { evShow("이미 제출했습니다.", "no"); return; }
+
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (!it.level) {
+        evShow("문제 " + (i + 1) + "의 수준을 골라 주세요.", "no");
+        if (evPager) evPager.go(i);
+        return;
+      }
+      var r = judgeQuestion(it.q);
+      if (r.blank) {
+        evShow("문제 " + (i + 1) + "에 빈칸이 있습니다. 칸마다 답을 써 주세요.", "no");
+        if (evPager) evPager.go(i);
+        if (it.q.inputs) {
+          var empty = it.q.inputs.filter(function (x) { return x.value.trim() === ""; })[0];
+          if (empty) empty.focus();
+        }
+        return;
+      }
+      if (r.bad) {
+        evShow("문제 " + (i + 1) + "의 답 형식이 맞지 않습니다.", "no");
+        if (evPager) evPager.go(i);
+        return;
+      }
+    }
+    var emptyPads = items.filter(function (it) { return it.pad.isEmpty(); }).length;
+    if (emptyPads > 0 && !confirm("풀이를 적지 않은 문제가 " + emptyPads + "개 있습니다. 그래도 제출할까요?")) return;
+
+    var results = items.map(function (it) {
+      var r = judgeQuestion(it.q);
+      var pts = LEVELS[it.level].points;
+      return { typed: r.typed, correct: answerOf(it.q), ok: r.ok, points: pts, earned: r.ok ? pts : 0 };
+    });
+    var score = results.reduce(function (a, r) { return a + r.earned; }, 0);
+    var total = results.reduce(function (a, r) { return a + r.points; }, 0);
+    var rate = total > 0 ? Math.round(score / total * 100) : 0;
+    var kinds = items.map(function (it) { return it.q.kind; });
+    var kindTag = (kinds.indexOf("size") >= 0 && kinds.indexOf("read") >= 0) ? "mix"
+                : (kinds[0] === "size" ? "size" : "bitmap");
+
+    PdfKit.askStudentInfo({ okText: "PDF 만들기" }, function (info) {
+      var stamp = PdfKit.stamp();
+      var doc = PdfKit.createDoc({
+        title: "이미지 변환 평가",
+        subtitle: "비트맵 · 해상도 · 색 깊이",
+        meta: {
+          grade: info.grade, cls: info.cls, num: info.num, name: info.name,
+          when: stamp.human,
+          right: score + " / " + total + "점 (" + rate + "%)"
+        },
+        footer: "아날로그 → 디지털 변환 학습기 · 자료의 디지털 표현 [9정02-01]"
+      });
+
+      items.forEach(function (it, i) {
+        var r = results[i];
+        var q = it.q;
+        var plan = EVAL_PLAN[it.level];
+        doc.h1("문제 " + (i + 1) + "  (수준 " + LEVELS[it.level].name + " · " + plan.what +
+               " · 배점 " + r.points + "점)");
+        if (q.kind === "size") {
+          doc.p("해상도 " + q.res.w + " × " + q.res.h + " · 픽셀마다 " + q.res.bits +
+                "비트인 이미지의 픽셀 수 · 전체 비트 수 · 용량(바이트)을 구하시오.",
+                { bold: true, size: 25, color: PdfKit.COLORS.ink });
+          doc.table([["항목", "계산", "정답"],
+            ["픽셀 수", q.res.w + " × " + q.res.h, q.sz.pixels + "개"],
+            ["전체 비트", q.sz.pixels + " × " + q.res.bits, q.sz.bitsTotal + "비트"],
+            ["용량", q.sz.bitsTotal + " ÷ 8", q.sz.bytes + "바이트"]], [26, 40, 34]);
+        } else {
+          var isDraw = (q.kind === "draw");
+          doc.p(isDraw
+            ? "아래 이진수를 보고 " + q.cols + " × " + q.rows +
+              " 격자를 칠하시오. (픽셀 하나에 " + q.bits + "비트)"
+            : "아래 비트맵의 줄마다 픽셀 값을 이진수로 이어 쓰시오. (픽셀 하나에 " +
+              q.bits + "비트 · 한 줄에 " + (q.cols * q.bits) + "자리)",
+            { bold: true, size: 25, color: PdfKit.COLORS.ink });
+          /* 색상 코드표를 PDF 에도 넣는다 — 없으면 선생님이 채점할 때 색과 값을 알 수 없다 */
+          doc.table([["색상 코드표", "값", "이진수"]].concat(
+            I.paletteRows(q.bits).map(function (p) { return [p.name, String(p.v), p.bin]; })),
+            [40, 26, 34]);
+          doc.table([[isDraw ? "문제 (이진수)" : "줄", isDraw ? "칠할 값" : "픽셀 값",
+                      isDraw ? "색" : "정답 (이진수)"]].concat(
+            q.grid.map(function (row, k) {
+              return isDraw
+                ? [q.bins[k], row.join(" "),
+                   row.map(function (v) { return I.colorName(v, q.bits); }).join(" ")]
+                : [(k + 1) + "줄", row.join(" "), q.bins[k]];
+            })), isDraw ? [30, 26, 44] : [14, 34, 52]);
+        }
+        doc.mark("내가 쓴 답 : " + r.typed, r.ok, "얻은 점수 " + r.earned + " / " + r.points + "점");
+        doc.box("풀이", "", { minLines: 0 });
+        doc.img(it.pad.canvas, { maxH: 240 });
+        if (i < items.length - 1) doc.gap(8);
+      });
+
+      var blob = PdfKit.buildPdf(doc.finish());
+      var fname = PdfKit.makeFileName("이미지변환평가", info, kindTag + "-" + score + "of" + total);
+      lastPdf = { blob: blob, name: fname };
+      PdfKit.downloadBlob(blob, fname);
+
+      evSubmitted = true;
+      applyPhase();
+      $("evAgain").hidden = false;
+      $("evScore").textContent = score + " / " + total + " 점  (" + rate + "%)";
+      var tb = $("evTbody");
+      tb.innerHTML = "";
+      items.forEach(function (it, i) {
+        var r = results[i];
+        tb.appendChild(el("tr", null,
+          "<td>" + (i + 1) + "번</td>" +
+          "<td>" + LEVELS[it.level].name + "</td>" +
+          "<td>" + r.points + "점</td>" +
+          "<td>" + EVAL_PLAN[it.level].what + "</td>" +
+          "<td style='font-family:Consolas,monospace'>" + esc(r.typed) + "</td>" +
+          "<td style='font-family:Consolas,monospace'>" + esc(r.correct) + "</td>" +
+          "<td class='" + (r.ok ? "mark-ok" : "mark-no") + "'>" +
+            (r.ok ? "○ +" + r.earned + "점" : "× 0점") + "</td>"));
+        it.fb.hidden = false;
+        it.fb.className = "res " + (r.ok ? "ok" : "no");
+        it.fb.innerHTML = (r.ok ? "○ 정답" : "× 정답은 <b>" + esc(r.correct) + "</b>") +
+          " — " + explain(it);
+      });
+      $("evResult").hidden = false;
+      evShow("제출이 끝났습니다. PDF 파일 이름 : " + fname, "ok");
+      PdfKit.toast("PDF를 저장했습니다. 선생님께 이 파일을 내세요.", "ok");
+    });
+  });
+
+  $("evAgain").addEventListener("click", function () {
+    if (!lastPdf) return;
+    PdfKit.downloadBlob(lastPdf.blob, lastPdf.name);
+    PdfKit.toast("PDF를 다시 받았습니다.", "ok");
+  });
+
+  function explain(it) {
+    var q = it.q;
+    if (q.kind === "size") {
+      return "픽셀 " + q.res.w + " × " + q.res.h + " = " + q.sz.pixels + "개 · " +
+        q.sz.pixels + " × " + q.res.bits + "비트 = " + q.sz.bitsTotal + "비트 · " +
+        q.sz.bitsTotal + " ÷ 8 = " + q.sz.bytes + "바이트";
+    }
+    if (q.kind === "draw") {
+      return q.grid.map(function (row, k) {
+        return q.bins[k] + " → " + row.map(function (v) { return I.colorName(v, q.bits); }).join(" ");
+      }).join(" · ");
+    }
+    return q.grid.map(function (row, k) {
+      return (k + 1) + "줄 " + row.join(" ") + " → " + q.bins[k];
+    }).join(" · ");
+  }
+
+  function evShow(text, kind) {
+    $("evMsg").hidden = false;
+    $("evMsg").className = "res " + (kind || "");
+    $("evMsg").textContent = text;
+  }
+
+  /* =========================================================
+     시작
+     ========================================================= */
+  setupRows();
+  setupRgb();
+  setupDepth();
+  setupRes();
+  setupVector();
+  setupFps();
+
+  /* 하위 탭 — 시뮬레이터를 하나씩 보여 준다.
+     ⚠ 캔버스는 **안 보일 때 그리면 크기를 0 으로 읽는다.** 탭을 열 때 다시 그려 준다. */
+  UI.subTabs($("learnSubs"), [
+    { key: "bm",  label: "① 비트맵",       cards: ["bmCard"] },
+    { key: "rgb", label: "② 빛의 삼원색",   cards: ["rgbCard"] },
+    { key: "dep", label: "③ 색 깊이",      cards: ["depthCard"] },
+    { key: "res", label: "④ 해상도와 용량", cards: ["resCard"] },
+    { key: "vec", label: "⑤ 벡터",         cards: ["vecCard"] },
+    { key: "vid", label: "⑥ 동영상",       cards: ["vidCard"] }
+  ], { onChange: function (key) {
+      if (key === "rgb") drawMix();
+      if (key === "dep") drawDepth();
+      if (key === "res") drawResPics(I.RESOLUTIONS[resIdx]);
+      if (key === "vid") drawVideoFrame();
+  }});
+  applyBmDir();          // 방향·색상 코드표·보기 단추를 세우고 격자를 그린다
+  drawRgb();
+  drawDepth();
+  drawRes();
+  drawVector();
+  drawFpsInfo();
+  vidTimer = setInterval(function () { vidFrame++; drawVideoFrame(); }, 1000 / TICK);
+  drawVideoFrame();
+  buildPractice();
+  applyPhase();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>숫자 변환 (진수 변환) · 아날로그 → 디지털</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E01%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" crossorigin href="./assets/app-D0DPNJ5q.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🔢 숫자 변환 (진수 변환)</h1>
+  <span class="badge">자료의 디지털 표현 [9정02-01]</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 처음으로</a>
+  <a class="home" href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <p class="lockbar" id="lockBar" hidden></p>
+
+  <div class="tabs" role="tablist" aria-label="학습과 평가 고르기">
+    <button class="tab" id="tabLearn" role="tab" aria-selected="true"
+            aria-controls="panLearn" tabindex="0">① 변환 학습</button>
+    <button class="tab" id="tabPractice" role="tab" aria-selected="false"
+            aria-controls="panPractice" tabindex="-1">② 연습문제</button>
+    <button class="tab" id="tabEval" role="tab" aria-selected="false"
+            aria-controls="panEval" tabindex="-1">③ 평가</button>
+  </div>
+
+  <!-- ================= ① 변환 학습 ================= -->
+  <div id="panLearn" role="tabpanel" aria-labelledby="tabLearn">
+
+    <!-- 비트와 바이트는 **0️⃣ 아날로그와 디지털**(basic.html) 로 옮겼다 (2026-08-12).
+         이 앱이 다섯 영역이 되면서 「비트가 무엇인가」는 진수 변환의 전제가 아니라
+         **그 앞 단계 전체**가 되었다. 여기서는 안내 한 줄만 남긴다. -->
+    <p class="hint" style="margin:0 0 20px">
+      <b>비트와 바이트</b>(전구를 눌러 보는 화면)는
+      <a href="basic.html">0️⃣ 아날로그와 디지털</a> 의 <b>④ 비트와 바이트</b> 로 옮겼습니다.
+      아직 안 봤다면 먼저 보고 오세요 — 진수 변환은 그 <b>0과 1</b>을 다루는 방법입니다.
+    </p>
+
+    <!-- 시뮬레이터 고르기 — 한 번에 한 화면만 보여 준다 -->
+    <div class="subtabs" id="learnSubs" aria-label="숫자 시뮬레이터 고르기"></div>
+
+    <!-- 화면 ① 진수 변환 : 좌우 두 칸 (왼쪽 고르기·넣기 / 오른쪽 과정·답)
+         ⚠ 하위 탭은 이 **감싸는 div** 만 여닫는다. 안의 simCard·waitCard 는
+            값을 넣었는지에 따라 JS 가 따로 여닫으므로 탭이 건드리면 서로 싸운다. -->
+    <div id="scrConv">
+    <div class="twocol">
+    <div class="colL">
+
+    <div class="card">
+      <h2><span class="step">1</span> 어떤 진수를 어떤 진수로 바꿀까요?</h2>
+      <div class="baserow" id="rowFrom"><span class="lab">변환 전</span></div>
+      <div class="baserow" id="rowTo"><span class="lab">변환 후</span></div>
+      <p class="pickline">
+        <span class="now" id="pickFrom">10진수</span>
+        <span class="arrow">→</span>
+        <span class="now" id="pickTo">2진수</span>
+      </p>
+      <div class="hint" id="methodNote"></div>
+
+      <!-- 10진수 → 다른 진수는 방법이 두 가지다. 골라서 배울 수 있게 한다. -->
+      <div id="methodPick" hidden>
+        <div class="baserow">
+          <span class="lab">방법 고르기</span>
+          <button class="btn" type="button" data-m="divide">① 반복 나누기</button>
+          <button class="btn" type="button" data-m="fill">② 자리값 카드 (쉬운 방법)</button>
+        </div>
+        <!-- 4단계 설명은 접어 둔다 — 펼쳐 두면 왼쪽 칸이 길어져 오른쪽 과정과 눈높이가 어긋난다 -->
+        <details class="howbox" id="fillHow" hidden>
+          <summary>이렇게 하면 나누지 않고도 구할 수 있어요</summary>
+          <ol style="margin:8px 0 0; padding-left:26px; font-size:18px; color:var(--sub)">
+            <li id="howLine1">자리값을 10진수로 적어 <b>카드</b>를 늘어놓는다.</li>
+            <li id="howLine2">큰 자리값부터 <b>몇 번 들어가는지</b> 세어 그 카드에 적는다.</li>
+            <li id="howLine3">쓴 만큼 <b>뺀다</b>. 남은 수로 다음 카드를 본다.</li>
+            <li>남은 수가 <b>0</b>이 되면 끝. 쓰지 못한 카드는 <b>0</b>이다.</li>
+          </ol>
+        </details>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">2</span> 값을 넣어 보세요</h2>
+      <div class="inrow">
+        <input type="text" id="src" autocomplete="off" spellcheck="false" aria-label="변환할 값">
+        <span class="unit" id="srcUnit"></span>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="btnAll">변환하기</button>
+        <button class="btn" id="btnStep">한 단계씩 보기</button>
+        <button class="btn ghost" id="btnRand">예시 넣기</button>
+        <button class="btn ghost" id="btnClear">지우기</button>
+      </div>
+      <p class="res no" id="msg" hidden></p>
+    </div>
+
+    </div><!-- /colL -->
+    <div class="colR">
+
+    <div class="card" id="simCard" hidden>
+      <h2><span class="step">3</span> <span id="simTitle">변환 과정</span></h2>
+      <p class="lead" id="simLead"></p>
+      <div id="simBody"></div>
+      <div class="result" id="resBox" hidden>
+        <p style="margin:0 0 6px">답 : <span class="answer" id="answer"></span>
+          <sub id="answerSub"></sub></p>
+        <p class="check" id="check1"></p>
+        <p class="check" id="check2"></p>
+      </div>
+    </div>
+
+    <!-- 아직 값을 넣지 않았을 때 오른쪽 칸이 비어 보이지 않도록 안내를 둔다 -->
+    <div class="card waitcard" id="waitCard">
+      <p class="lead" style="margin:0">
+        왼쪽에서 <b>진수</b>와 <b>값</b>을 고르고 <b>[변환하기]</b> 를 누르면
+        <b>이 자리에 변환 과정</b>이 나옵니다.<br>
+        <b>[한 단계씩 보기]</b> 를 누르면 한 줄씩 천천히 볼 수 있습니다.
+      </p>
+    </div>
+
+    </div><!-- /colR -->
+    </div><!-- /twocol -->
+
+    </div><!-- /scrConv -->
+
+    <!-- 화면 ② 눌러 보는 자리값 카드 -->
+    <div id="scrCards">
+    <div class="card waitcard" id="cardsNote">
+      <p class="lead" style="margin:0">
+        <b>① 진수 변환</b> 에서 <b>값을 넣으면</b> 이 자리에 자리값 카드가 나옵니다.<br>
+        자리값 카드는 <b>10진수가 한쪽에 있는 변환</b>(10진수 ↔ 2·4·8·16진수)에서 씁니다.
+      </p>
+    </div>
+    <div class="card" id="cardsCard" hidden>
+      <h2><span class="step">4</span> 눌러 보는 자리값 카드 — 두 방향이 같은 그림입니다</h2>
+      <p class="lead" id="cardsLead"></p>
+      <div class="cards" id="cards"></div>
+      <p class="sumline" id="cardSum"></p>
+      <div class="hint">
+        <b>10진수 → 다른 진수</b>는 카드를 <b>채워서 만드는 것</b>이고,
+        <b>다른 진수 → 10진수</b>는 카드를 <b>읽어서 더하는 것</b>입니다. 카드는 하나입니다.
+      </div>
+    </div>
+
+    </div><!-- /scrCards -->
+
+    <!-- 화면 ③ 두 방법 비교 -->
+    <div id="scrCompare">
+    <div class="card waitcard" id="compareNote">
+      <p class="lead" style="margin:0">
+        방법이 두 가지인 것은 <b>10진수 → 다른 진수</b> 변환뿐입니다
+        (① 반복 나누기 · ② 자리값 카드로 채우기).<br>
+        <b>① 진수 변환</b> 에서 <b>변환 전을 10진수</b> 로 골라 보세요.
+      </p>
+    </div>
+    <div class="card" id="compareCard" hidden>
+      <h2><span class="step">6</span> 두 방법 비교</h2>
+      <p class="lead">같은 수를 넣으면 두 방법의 답은 항상 같습니다. 어느 방법이 더 편한지 이야기해 보세요.</p>
+      <div class="tablescroll">
+        <table class="grid">
+          <thead><tr><th style="width:16%"></th><th>① 반복 나누기</th><th>② 자리값 카드로 채우기</th></tr></thead>
+          <tbody>
+            <tr><td>계산</td><td class="left">진수로 계속 나눈다</td><td class="left">큰 자리값부터 몇 번 들어가는지 세어 뺀다</td></tr>
+            <tr><td>읽는 방향</td><td class="left">나머지를 <b>아래에서 위로</b> 거꾸로</td><td class="left">카드를 <b>왼쪽에서 오른쪽으로</b> 그대로</td></tr>
+            <tr><td>좋은 점</td><td class="left">규칙이 정해져 있어 큰 수도 실수가 적다</td><td class="left">익숙해지면 암산으로 빠르고 자리값 감각이 생긴다</td></tr>
+            <tr><td>주의할 점</td><td class="left">거꾸로 읽는 것을 잊기 쉽다</td><td class="left">가장 큰 자리값을 잘못 고르기 쉽다</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    </div><!-- /scrCompare -->
+
+  </div><!-- /panLearn -->
+
+  <!-- ================= ② 연습문제 ================= -->
+  <div id="panPractice" role="tabpanel" aria-labelledby="tabPractice" hidden>
+
+    <div class="card" id="prCard">
+      <h2><span class="step">1</span> 연습문제 3개</h2>
+      <p class="lead" id="prLead"></p>
+      <p class="lvnote">
+        답을 쓰고 <b>정답 확인</b>을 누르세요. 몇 번이든 다시 풀 수 있고 <b>힌트</b>도 있습니다.
+        점수는 기록되지 않습니다. 변환 방향은 <b>① 변환 학습</b> 탭에서 고른 것을 그대로 씁니다.
+      </p>
+      <!-- 문제를 하나씩 넘겨 본다 -->
+      <div class="pagerbar" id="prNav"></div>
+      <div id="prProblems"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="prNew">새 문제 3개</button>
+        <span class="score" id="prScore" style="font-size:22px"></span>
+      </div>
+    </div>
+
+  </div><!-- /panPractice -->
+
+  <!-- ================= ③ 평가 ================= -->
+  <div id="panEval" role="tabpanel" aria-labelledby="tabEval" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 평가 시작</h2>
+      <p class="lead" id="evalWhat"></p>
+      <div class="hint">
+        수준마다 <b>배점이 다릅니다 — 하 1점 · 중 2점 · 상 3점.</b>
+        어려운 수준을 고르면 얻을 점수가 커지지만 <b>만점도 함께 커집니다.</b>
+        <b>평가를 시작하면 ① 변환 학습 · ② 연습문제 탭을 쓸 수 없습니다.</b>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary big" id="evStart">평가 시작</button>
+        <button class="btn ghost" id="evRedo">처음부터 다시</button>
+        <span id="evStartMsg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">2</span> 문제 풀기</h2>
+      <p class="res" id="evPhase"></p>
+      <!-- 문제 하나씩 + 맨 끝에 「전체 확인」 화면 -->
+      <div class="pagerbar" id="evNav"></div>
+      <div id="evProblems"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">3</span> 제출</h2>
+      <p class="lead">
+        <b>제출하면 답안 PDF가 내 기기에 저장됩니다.</b> 그 파일을 선생님께 내세요.
+        학년·반·학번·이름은 <b>제출할 때 한 번만</b> 물어보고 PDF 안에만 들어갑니다.
+      </p>
+      <div class="btnrow">
+        <button class="btn primary big" id="evSubmit">제출하기 (PDF 저장)</button>
+        <button class="btn" id="evAgain" hidden>PDF 다시 받기</button>
+      </div>
+      <p class="res" id="evMsg" hidden></p>
+      <div id="evResult" hidden>
+        <p style="margin:16px 0 6px">점수 : <span class="score" id="evScore"></span></p>
+        <div class="tablescroll">
+          <table class="grid" id="evTable">
+            <thead>
+              <tr><th>문제</th><th>수준</th><th>배점</th><th>문제</th><th>내가 쓴 답</th><th>정답</th><th>채점</th></tr>
+            </thead>
+            <tbody id="evTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panEval -->
+
+</div>
+
+<script src="js/pdf.js?v=202608192011"></script>
+<script src="js/ui.js?v=202608192011"></script>
+<script src="js/convert.js?v=202608192011"></script>
+<script>
+(function () {
+  "use strict";
+  var C = window.Convert;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+
+  /* =========================================================
+     탭 — 평가 중에는 학습 탭으로 못 넘어가게 막는다
+     (disabled 로 두지 않고 눌렀을 때 이유를 알려 준다)
+     ========================================================= */
+  var tabs = [$("tabLearn"), $("tabPractice"), $("tabEval")];
+  var panels = { tabLearn: $("panLearn"), tabPractice: $("panPractice"), tabEval: $("panEval") };
+
+  function selectTab(btn) {
+    if (btn.dataset.locked === "1") {
+      showLockBar("평가 중입니다. " + btn.textContent.trim() + " 탭은 평가를 제출한 뒤에 쓸 수 있습니다.");
+      return;
+    }
+    tabs.forEach(function (t) {
+      var on = (t === btn);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      panels[t.id].hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { selectTab(t); });
+    t.addEventListener("keydown", function (e) {
+      var next = null;
+      if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+      else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (next) { e.preventDefault(); selectTab(next); next.focus(); }
+    });
+  });
+
+  function showLockBar(text) {
+    $("lockBar").hidden = false;
+    $("lockBar").textContent = text;
+  }
+
+  /* =========================================================
+     진수 고르기
+     ========================================================= */
+  var from = 10, to = 2;
+  /* 10진수 → 다른 진수는 방법이 두 가지다(반복 나누기 / 자리값 카드로 채우기).
+     학생이 고른 방법을 여기에 담아 둔다. 다른 조합에서는 쓰이지 않는다. */
+  var learnMethod = "divide";
+
+  function makeBaseButtons(row, which) {
+    C.BASES.forEach(function (b) {
+      var btn = el("button", "btn", C.NAMES[b]);
+      btn.type = "button";
+      btn.dataset.base = String(b);
+      btn.addEventListener("click", function () { setBase(which, b); });
+      row.appendChild(btn);
+    });
+  }
+  makeBaseButtons($("rowFrom"), "from");
+  makeBaseButtons($("rowTo"), "to");
+
+  /* 방법 고르기 */
+  $("methodPick").querySelectorAll("[data-m]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      learnMethod = btn.dataset.m;
+      paintBases();
+      resetSim();
+      hideMsg();
+    });
+  });
+
+  function setBase(which, b) {
+    if (which === "from") from = b; else to = b;
+    paintBases();
+    resetSim();
+    $("src").value = "";
+    hideMsg();
+    updateEvalWhat();
+    buildPractice();          // 변환 방향이 바뀌면 연습문제도 새로 낸다
+  }
+
+  function paintBases() {
+    [["rowFrom", from], ["rowTo", to]].forEach(function (pair) {
+      $(pair[0]).querySelectorAll("button").forEach(function (btn) {
+        var on = Number(btn.dataset.base) === pair[1];
+        btn.classList.toggle("on", on);
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    });
+    $("pickFrom").textContent = C.NAMES[from];
+    $("pickTo").textContent = C.NAMES[to];
+
+    var m = C.methodOf(from, to);
+    var twoWays = (m === "divide");                  // 10진수 → 다른 진수만 방법이 두 가지다
+    $("methodPick").hidden = !twoWays;
+    $("compareCard").hidden = !twoWays;
+    $("compareNote").hidden = twoWays;
+    if (!twoWays) learnMethod = "divide";
+
+    var info = C.METHOD_INFO[twoWays && learnMethod === "fill" ? "fill" : m];
+    $("methodNote").innerHTML = "<b>" + info.name + "</b> 방법을 씁니다. " + info.how;
+
+    /* 방법 단추 칠하기 + '쉬운 방법' 안내 상자 */
+    $("methodPick").querySelectorAll("[data-m]").forEach(function (b) {
+      var on = (b.dataset.m === learnMethod);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    $("fillHow").hidden = !(twoWays && learnMethod === "fill");
+    if (twoWays && learnMethod === "fill") {
+      $("howLine1").innerHTML = C.NAMES[to] + "의 자리값(" +
+        C.placesOf(C.MAX, to).map(function (p) { return p.place; }).slice(-5).reverse().join(", ") +
+        " …)을 10진수로 적어 <b>카드</b>를 늘어놓는다.";
+      $("howLine2").innerHTML = to === 2
+        ? "주어진 수보다 <b>작거나 같은 가장 큰 자리값</b> 카드에 <b>1</b>을 쓴다."
+        : "큰 자리값부터 그 자리값이 <b>몇 번 들어가는지</b> 세어 그 카드에 적는다.";
+      $("howLine3").innerHTML = to === 2
+        ? "주어진 수에서 그 자리값을 <b>뺀다</b>. 남은 수로 2번을 다시 한다."
+        : "쓴 숫자 × 자리값 만큼 <b>뺀다</b>. 남은 수로 다음 카드를 본다.";
+    }
+
+    /* 입력 안내 : 그 진수에서 쓸 수 있는 글자와 자릿수 */
+    var w = C.widthOf(from);
+    var chars = from === 16 ? "0~9 와 A~F" : "0~" + (from - 1);
+    $("srcUnit").textContent = C.NAMES[from] + " · " + chars + " · 최대 " + w + "자리 (값 0~" + C.MAX + ")";
+    $("src").placeholder = C.toBase(13, from);
+    $("src").maxLength = w;
+    $("answerSub").textContent = "(" + to + ")";
+  }
+
+  /* 입력값 읽기 → 값(0~1023). 잘못되면 null 을 돌려주고 이유를 보여 준다. */
+  function readValue() {
+    var raw = $("src").value.trim().toUpperCase();
+    if (raw === "") { showMsg("값을 먼저 넣어 주세요."); return null; }
+    var v = C.fromBase(raw, from);
+    if (v === null) {
+      showMsg(C.NAMES[from] + "에는 " + (from === 16 ? "0~9 와 A~F" : "0~" + (from - 1)) + " 만 쓸 수 있어요.");
+      return null;
+    }
+    if (v > C.MAX) { showMsg("이 학습기는 0부터 " + C.MAX + " 까지 다룹니다."); return null; }
+    return v;
+  }
+  function showMsg(t) { $("msg").hidden = false; $("msg").textContent = t; }
+  function hideMsg() { $("msg").hidden = true; $("msg").textContent = ""; }
+
+  /* =========================================================
+     변환 과정 보여 주기
+       sim.total 만큼의 '단계'가 있고, sim.shown 개까지만 그린다.
+       그리기는 renderSim() 한 곳에서만 한다(단계별·자동이 같은 코드를 쓴다).
+     ========================================================= */
+  var sim = { method: "", total: 0, shown: 0, value: 0, src: "", timer: null };
+
+  function resetSim() {
+    if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
+    sim = { method: "", total: 0, shown: 0, value: 0, src: "", timer: null };
+    $("simCard").hidden = true;
+    $("waitCard").hidden = false;          // 오른쪽 칸이 비지 않게 안내를 다시 띄운다
+    $("simBody").innerHTML = "";
+    $("resBox").hidden = true;
+    $("cardsCard").hidden = true;
+    $("cardsNote").hidden = false;
+    $("btnStep").textContent = "한 단계씩 보기";
+    $("btnStep").disabled = false;
+  }
+
+  function startSim() {
+    var v = readValue();
+    if (v === null) return false;
+    if (from === to) { showMsg("변환 전과 변환 후가 같습니다. 다른 진수를 골라 주세요."); return false; }
+    hideMsg();
+    if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
+
+    /* 10진수 → 다른 진수면 학생이 고른 방법(divide / fill)을 쓴다 */
+    var base = C.methodOf(from, to);
+    sim.method = (base === "divide") ? learnMethod : base;
+    sim.value = v;
+    sim.src = C.toBase(v, from);      // 입력을 정규화(앞의 0·소문자 정리)
+    $("src").value = sim.src;
+    sim.shown = 0;
+    sim.total = totalSteps();
+    $("simCard").hidden = false;
+    $("waitCard").hidden = true;
+    $("resBox").hidden = true;
+    renderSim();
+    return true;
+  }
+
+  function totalSteps() {
+    if (sim.method === "divide") return C.divideSteps(sim.value, to).length;
+    if (sim.method === "fill") return C.fillSteps(sim.value, to).length;
+    if (sim.method === "place") return C.placeSteps(sim.src, from).length;
+    if (sim.method === "group") {
+      return (from === 2) ? C.groupBits(sim.src, C.bitsPer(to)).length
+                          : C.splitDigits(sim.src, from).length;
+    }
+    /* via2 : 쪼개기 단계 + 묶기 단계 */
+    var bin = C.toBase(sim.value, 2);
+    return C.splitDigits(sim.src, from).length + C.groupBits(bin, C.bitsPer(to)).length;
+  }
+
+  /* ---- 방법별 그리기 ---- */
+  function renderSim() {
+    var body = $("simBody");
+    body.innerHTML = "";
+    var m = sim.method;
+    if (m === "divide") { $("simTitle").textContent = "반복 나누기"; renderDivide(body); }
+    else if (m === "fill") { $("simTitle").textContent = "자리값 카드로 채우기"; renderFill(body); }
+    else if (m === "place") { $("simTitle").textContent = "자리값 곱셈"; renderPlace(body); }
+    else if (m === "group") { $("simTitle").textContent = "비트 묶기 · 쪼개기"; renderGroup(body); }
+    else { $("simTitle").textContent = "2진수를 거쳐 두 번에"; renderVia2(body); }
+
+    if (sim.shown >= sim.total) {
+      showResult();
+      $("btnStep").disabled = true;
+      $("btnStep").textContent = "모든 단계 완료";
+    } else {
+      $("btnStep").disabled = false;
+      $("btnStep").textContent = sim.shown === 0 ? "한 단계씩 보기" : "다음 단계 ▶";
+    }
+  }
+
+  /* 값을 그 진수의 '자리 숫자'로 적는다 — 16진수에서 12 는 C 다.
+     헷갈리지 않게 「C (= 12)」처럼 둘 다 보여 준다. */
+  function digitText(v) {
+    var d = C.DIGITS.charAt(v);
+    return (to > 10 && v >= 10) ? d + " (= " + v + ")" : String(v);
+  }
+
+  function renderDivide(body) {
+    var steps = C.divideSteps(sim.value, to);
+    /* 교과서 절차(동아출판 56쪽) — ❶ 나눈다 ❷ 몫과 나머지를 구한다
+       ❸ 몫을 더 나눌 수 없을 때까지 반복(2진수면 몫이 1) ❹ 마지막 몫과 나머지를 역순으로 읽는다 */
+    $("simLead").textContent = sim.value + " 을(를) " + to +
+      " 로 나눕니다. 몫이 " + to + " 보다 작아지면(" + (to === 2 ? "몫이 1" : "한 자리") +
+      ") 멈추고, 마지막 몫과 나머지를 거꾸로 읽습니다.";
+    var t = el("table", "grid");
+    t.innerHTML = "<thead><tr><th style='width:14%'>단계</th><th style='width:36%'>나눗셈</th>" +
+                  "<th style='width:22%'>몫</th><th style='width:28%'>나머지</th></tr></thead>";
+    var tb = el("tbody");
+    for (var i = 0; i < sim.shown; i++) {
+      var s = steps[i];
+      if (s.single) {
+        tb.appendChild(el("tr", null,
+          "<td>—</td><td colspan='3'><b>" + s.value + "</b> 은(는) 이미 " + to +
+          " 보다 작아서 <b>나눌 필요가 없습니다.</b></td>"));
+        continue;
+      }
+      /* 10보다 큰 진수는 나머지·몫을 글자로 적는다 (10 → A … 15 → F) */
+      var extra = (to > 10 && s.remainder >= 10) ? " (= " + s.remainder + ")" : "";
+      var qCell = s.done ? "<b>" + digitText(s.quotient) + "</b>" : String(s.quotient);
+      tb.appendChild(el("tr", null,
+        "<td>" + (i + 1) + "단계</td>" +
+        "<td><b>" + s.value + " ÷ " + to + "</b></td>" +
+        "<td" + (s.done ? " class='mark-ok'>" : ">") + qCell + "</td>" +
+        "<td class='mark-no'><b>" + s.digit + "</b>" + extra + "</td>"));
+    }
+    body.appendChild(el("div", "tablescroll")).appendChild(t);
+    t.appendChild(tb);
+    if (sim.shown > 0) {
+      var last = steps[sim.shown - 1];
+      body.appendChild(el("p", "hint", last.single
+        ? "그대로 <b>" + C.readUp(steps) + "(" + to + ")</b> 입니다."
+        : (last.done
+          ? "몫이 " + to + " 보다 작아져 멈춥니다 (마지막 몫 <b>" + digitText(last.quotient) +
+            "</b>). 마지막 몫을 맨 앞에 쓰고 나머지를 <b>아래에서 위로</b> 읽으면 <b>" +
+            C.readUp(steps.slice(0, sim.shown)) + "(" + to + ")</b> 입니다."
+          : "몫이 아직 커서(<b>" + last.quotient + "</b>) " + to + " 로 더 나눌 수 있습니다. " +
+            "지금까지 나온 나머지 : <b>" + C.readUp(steps.slice(0, sim.shown)) + "</b>")));
+    }
+  }
+
+  /* 쉬운 방법 : 큰 자리값부터 몇 번 들어가는지 세어 카드에 적고 그만큼 뺀다.
+     2진수에서는 몫이 0 또는 1 뿐이라 "쓸 수 있나 / 없나" 판단이 된다. */
+  function renderFill(body) {
+    var steps = C.fillSteps(sim.value, to);
+    var binary = (to === 2);
+    $("simLead").textContent = binary
+      ? sim.value + " 부터 시작합니다. 큰 자리값 카드부터 '쓸 수 있는지' 보고, 쓰면 그만큼 뺍니다."
+      : sim.value + " 부터 시작합니다. 큰 자리값부터 '몇 번 들어가는지' 세어 적고, 그만큼 뺍니다.";
+
+    /* 남은 수 */
+    var rest = sim.shown === 0 ? sim.value : steps[sim.shown - 1].after;
+    body.appendChild(el("p", "rest-view", "남은 수 : <span>" + rest + "</span>"));
+
+    /* 카드 — 아직 보지 않은 자리는 ?, 쓸 수 없는 자리는 × */
+    var row = el("div", "cards");
+    steps.forEach(function (s, i) {
+      var slot = "?", cls = "pcard";
+      if (i < sim.shown) {
+        if (s.tooBig) { slot = "×"; cls += " zero"; }
+        else { slot = s.digit; cls += " on"; }
+      }
+      if (i === sim.shown - 1) cls += " hot";
+      row.appendChild(el("div", cls,
+        "<span class='pv'>" + s.place + "</span>" +
+        "<span class='pw'>" + to + "<sup>" + s.pw + "</sup></span>" +
+        "<span class='slot'>" + slot + "</span>"));
+    });
+    body.appendChild(row);
+
+    /* 진행 표 */
+    var t = el("table", "grid");
+    t.innerHTML = "<thead><tr><th style='width:14%'>단계</th><th style='width:18%'>남은 수</th>" +
+                  "<th style='width:18%'>자리값</th><th style='width:20%'>" +
+                  (binary ? "쓸까?" : "몇 번 들어가나") + "</th>" +
+                  "<th style='width:30%'>빼기</th></tr></thead>";
+    var tb = el("tbody");
+    for (var i = 0; i < sim.shown; i++) {
+      var s = steps[i];
+      var judge = binary
+        ? (s.tooBig ? "<span class='mark-no'>× 쓸 수 없음 → 0</span>" : "<span class='mark-ok'>○ 쓴다 → 1</span>")
+        : (s.tooBig ? "<span class='mark-no'>0번 → 0</span>" : "<span class='mark-ok'>" + s.count + "번 → " + s.digit + "</span>");
+      var calc = s.tooBig ? "그대로 " + s.after
+                          : s.before + " − " + (s.count > 1 ? s.count + "×" + s.place : s.place) + " = " + s.after;
+      tb.appendChild(el("tr", null,
+        "<td>" + (i + 1) + "단계</td>" +
+        "<td>" + s.before + "</td>" +
+        "<td><b>" + s.place + "</b></td>" +
+        "<td>" + judge + "</td>" +
+        "<td>" + calc + "</td>"));
+    }
+    body.appendChild(el("div", "tablescroll")).appendChild(t);
+    t.appendChild(tb);
+
+    if (sim.shown > 0) {
+      var so = steps.slice(0, sim.shown).map(function (s) { return s.tooBig ? "0" : s.digit; }).join("");
+      body.appendChild(el("p", "hint", "여기까지 카드를 왼쪽부터 읽으면 <b>" + so + "</b> 입니다." +
+        (sim.shown < steps.length ? " (남은 카드는 아직 정하지 않았습니다)" : "")));
+    }
+  }
+
+  function renderPlace(body) {
+    var steps = C.placeSteps(sim.src, from);
+    $("simLead").textContent = sim.src + "(" + from + ") 의 각 자리에 자리값을 곱해 더합니다.";
+    var t = el("table", "grid");
+    t.innerHTML = "<thead><tr><th style='width:16%'>자리</th><th style='width:14%'>숫자</th>" +
+                  "<th style='width:26%'>자리값</th><th style='width:22%'>숫자 × 자리값</th>" +
+                  "<th style='width:22%'>여기까지 합</th></tr></thead>";
+    var tb = el("tbody");
+    for (var i = 0; i < sim.shown; i++) {
+      var s = steps[i];
+      var pw = steps.length - 1 - i;
+      tb.appendChild(el("tr", null,
+        "<td>" + (i + 1) + "번째</td>" +
+        "<td><b>" + s.char + "</b></td>" +
+        "<td>" + from + "<sup>" + pw + "</sup> = " + s.place + "</td>" +
+        "<td>" + s.digit + " × " + s.place + " = <b>" + s.product + "</b></td>" +
+        "<td class='mark-ok'><b>" + s.sum + "</b></td>"));
+    }
+    body.appendChild(el("div", "tablescroll")).appendChild(t);
+    t.appendChild(tb);
+    if (sim.shown > 0) {
+      var parts = steps.slice(0, sim.shown).map(function (s) { return s.product; });
+      body.appendChild(el("p", "hint", "여기까지 : " + parts.join(" + ") + " = <b>" +
+        steps[sim.shown - 1].sum + "</b>"));
+    }
+  }
+
+  function renderGroup(body) {
+    var k = C.bitsPer(from === 2 ? to : from);
+    if (from === 2) {
+      /* 2진수 → 4·8·16진수 : 오른쪽부터 k자리씩 묶는다 */
+      var gs = C.groupBits(sim.src, k);
+      $("simLead").textContent = "2진수를 오른쪽부터 " + k + "자리씩 묶으면 묶음 하나가 " +
+                                 C.NAMES[to] + " 한 글자가 됩니다. (앞은 0으로 채웁니다)";
+      var wrap = el("div", "groups");
+      gs.forEach(function (g, i) {
+        var on = i < sim.shown;
+        wrap.appendChild(el("div", "grp",
+          "<span class='bits'>" + g.bits + "</span>" +
+          "<span class='eq'>" + (on ? "= " + g.value : "&nbsp;") + "</span>" +
+          "<span class='ch'>" + (on ? g.digit : "?") + "</span>"));
+      });
+      body.appendChild(wrap);
+    } else {
+      /* 4·8·16진수 → 2진수 : 글자 하나를 k자리 2진수로 쪼갠다 */
+      var ds = C.splitDigits(sim.src, from);
+      $("simLead").textContent = C.NAMES[from] + " 한 글자는 2진수 " + k + "자리와 짝입니다. 글자마다 " +
+                                 k + "자리로 펼치면 됩니다.";
+      var wrap2 = el("div", "groups");
+      ds.forEach(function (d, i) {
+        var on = i < sim.shown;
+        wrap2.appendChild(el("div", "grp",
+          "<span class='ch'>" + d.digit + "</span>" +
+          "<span class='eq'>" + (on ? "= " + d.value : "&nbsp;") + "</span>" +
+          "<span class='bits'>" + (on ? d.bits : "?".repeat(k)) + "</span>"));
+      });
+      body.appendChild(wrap2);
+    }
+  }
+
+  function renderVia2(body) {
+    var kFrom = C.bitsPer(from), kTo = C.bitsPer(to);
+    var ds = C.splitDigits(sim.src, from);
+    var bin = C.toBase(sim.value, 2);
+    var gs = C.groupBits(bin, kTo);
+    $("simLead").textContent = C.NAMES[from] + " 와 " + C.NAMES[to] +
+      " 는 바로 짝이 되지 않으므로 2진수를 거칩니다. 먼저 " + kFrom + "자리씩 펼치고, 다시 " + kTo + "자리씩 묶습니다.";
+
+    var s1 = el("div", "viastep", "<h3>① " + C.NAMES[from] + " → 2진수 (펼치기)</h3>");
+    var w1 = el("div", "groups");
+    ds.forEach(function (d, i) {
+      var on = i < sim.shown;
+      w1.appendChild(el("div", "grp",
+        "<span class='ch'>" + d.digit + "</span>" +
+        "<span class='eq'>" + (on ? "= " + d.value : "&nbsp;") + "</span>" +
+        "<span class='bits'>" + (on ? d.bits : "?".repeat(kFrom)) + "</span>"));
+    });
+    s1.appendChild(w1);
+    if (sim.shown >= ds.length) {
+      s1.appendChild(el("p", "hint", "펼친 2진수 : <b>" + bin + "</b> (앞의 0은 지웠습니다)"));
+    }
+    body.appendChild(s1);
+
+    var s2 = el("div", "viastep", "<h3>② 2진수 → " + C.NAMES[to] + " (묶기)</h3>");
+    if (sim.shown <= ds.length) {
+      s2.appendChild(el("p", "lead", "①이 끝나면 여기서 " + kTo + "자리씩 묶습니다."));
+    } else {
+      var w2 = el("div", "groups");
+      gs.forEach(function (g, i) {
+        var on = i < (sim.shown - ds.length);
+        w2.appendChild(el("div", "grp",
+          "<span class='bits'>" + g.bits + "</span>" +
+          "<span class='eq'>" + (on ? "= " + g.value : "&nbsp;") + "</span>" +
+          "<span class='ch'>" + (on ? g.digit : "?") + "</span>"));
+      });
+      s2.appendChild(w2);
+    }
+    body.appendChild(s2);
+  }
+
+  /* ---- 결과 + 검산(반대 방향으로 확인해 보기) ---- */
+  function showResult() {
+    var ans = C.toBase(sim.value, to);
+    $("answer").textContent = ans;
+    $("resBox").hidden = false;
+
+    var c1 = "", c2 = "";
+    if (sim.method === "divide") {
+      var st = C.placeSteps(ans, to);
+      c1 = "검산 (반대 방향) : " + st.filter(function (s) { return s.digit !== 0; })
+            .map(function (s) { return s.digit + "×" + s.place; }).join(" + ") + " = " + sim.value;
+      c2 = "같은 값을 " + C.NAMES[to] + "로는 " + ans + ", " + C.NAMES[from] + "로는 " + sim.value + " 로 적습니다.";
+    } else if (sim.method === "fill") {
+      var dv2 = C.divideSteps(sim.value, to);
+      c1 = "검산 (다른 방법으로) : " + sim.value + " 을(를) " + to +
+           " 로 나누어 마지막 몫과 나머지를 거꾸로 읽으면 " + C.readUp(dv2) +
+           " → 카드로 만든 답과 같습니다.";
+      c2 = "카드에 적은 숫자를 왼쪽부터 그대로 읽으면 " + C.NAMES[to] + " 표기가 됩니다.";
+    } else if (sim.method === "place") {
+      var dv = C.divideSteps(sim.value, from);
+      c1 = "검산 (반대 방향) : " + sim.value + " 을(를) " + from +
+           " 로 나누어 마지막 몫과 나머지를 거꾸로 읽으면 " + C.readUp(dv) + " → 처음 값과 같습니다.";
+      c2 = "자리값을 모두 더한 값이 10진수입니다.";
+    } else {
+      c1 = "검산 : 두 표기를 10진수로 바꾸면 모두 " + sim.value + " 입니다.";
+      c2 = sim.src + "(" + from + ")" + " = " + ans + "(" + to + ")" + " = " + sim.value + "(10)";
+    }
+    $("check1").textContent = c1;
+    $("check2").textContent = c2;
+
+    /* 10진수가 한쪽에 있는 조합에서는 자리값 카드를 함께 보여 준다 */
+    if (sim.method === "divide" || sim.method === "fill" || sim.method === "place") {
+      buildCards(sim.method === "place" ? from : to, sim.value);
+      $("cardsCard").hidden = false;
+      $("cardsNote").hidden = true;
+    } else {
+      $("cardsCard").hidden = true;
+      $("cardsNote").hidden = false;
+    }
+  }
+
+  /* =========================================================
+     자리값 카드 — 눌러서 숫자를 바꿀 수 있다(양방향 공통 그림)
+     ========================================================= */
+  var cardState = { base: 0, digits: [] };
+
+  function buildCards(base, value) {
+    var w = C.widthOf(base);
+    var s = C.padLeft(C.toBase(value, base), w);
+    cardState.base = base;
+    cardState.digits = s.split("").map(function (ch) { return C.DIGITS.indexOf(ch); });
+
+    $("cardsLead").innerHTML = C.NAMES[base] + " 자리값 카드입니다. 카드를 <b>눌러</b> 숫자를 바꿔 보세요 " +
+      "(0 → 1 → … → " + (base - 1) + " → 0). 아래 합계가 바로 바뀝니다.";
+    paintCards();
+  }
+
+  /* 카드를 처음 그린다. 누를 때는 그 카드 하나만 고쳐서
+     키보드 초점이 사라지지 않게 한다(전체를 다시 그리면 초점이 날아간다). */
+  function paintCards() {
+    var box = $("cards");
+    box.innerHTML = "";
+    var base = cardState.base, n = cardState.digits.length;
+    cardState.digits.forEach(function (d, i) {
+      var pw = n - 1 - i;
+      var place = Math.pow(base, pw);
+      var b = el("button", "pcard",
+        "<span class='pv'>" + place + "</span>" +
+        "<span class='pw'>" + base + "<sup>" + pw + "</sup></span>" +
+        "<span class='slot'></span>");
+      b.type = "button";
+      b.dataset.i = String(i);
+      b.addEventListener("click", function () {
+        cardState.digits[i] = (cardState.digits[i] + 1) % cardState.base;
+        paintOneCard(i);
+        paintCardSum();
+        afterCardChange();
+      });
+      box.appendChild(b);
+      paintOneCard(i);
+    });
+    paintCardSum();
+  }
+
+  function paintOneCard(i) {
+    var b = $("cards").querySelector(".pcard[data-i='" + i + "']");
+    if (!b) return;
+    var base = cardState.base, n = cardState.digits.length;
+    var d = cardState.digits[i];
+    var place = Math.pow(base, n - 1 - i);
+    b.querySelector(".slot").textContent = C.DIGITS.charAt(d);
+    b.classList.toggle("on", d > 0);
+    b.setAttribute("aria-label", place + " 자리, 지금 " + C.DIGITS.charAt(d) + " (눌러서 바꾸기)");
+  }
+
+  function paintCardSum() {
+    var base = cardState.base, n = cardState.digits.length;
+    var parts = [];
+    cardState.digits.forEach(function (d, i) {
+      if (d > 0) parts.push(d + "×" + Math.pow(base, n - 1 - i));
+    });
+    $("cardSum").innerHTML = "합계 : " + (parts.length ? parts.join(" + ") + " = " : "") +
+      "<b>" + cardValue() + "</b> (10진수)  ·  " + C.NAMES[base] + "로는 <b>" +
+      C.trimZero(cardState.digits.map(function (d) { return C.DIGITS.charAt(d); }).join("")) + "</b>";
+  }
+
+  function cardValue() {
+    var base = cardState.base, n = cardState.digits.length, v = 0;
+    cardState.digits.forEach(function (d, i) { v += d * Math.pow(base, n - 1 - i); });
+    return v;
+  }
+
+  /* 카드를 눌러 값을 바꾸면 입력칸도 함께 맞춰 준다(과정 표는 다시 보게 안내) */
+  function afterCardChange() {
+    var v = cardValue();
+    $("src").value = C.toBase(v, from);
+    $("simBody").innerHTML = "";
+    $("resBox").hidden = true;
+    sim.shown = 0;
+    $("btnStep").disabled = false;
+    $("btnStep").textContent = "한 단계씩 보기";
+    $("simLead").innerHTML = "카드를 눌러 값을 <b>" + v + "</b> 로 바꿨습니다. " +
+      "[변환하기]를 누르면 그 값의 변환 과정을 다시 봅니다.";
+  }
+
+  /* =========================================================
+     단추 연결
+     ========================================================= */
+  $("btnAll").addEventListener("click", function () {
+    if (!startSim()) return;
+    sim.timer = setInterval(function () {
+      sim.shown++;
+      renderSim();
+      if (sim.shown >= sim.total) { clearInterval(sim.timer); sim.timer = null; }
+    }, 700);
+  });
+
+  $("btnStep").addEventListener("click", function () {
+    if (sim.timer) {                       // 자동 진행 중이면 멈추고 손으로 넘기게 한다
+      clearInterval(sim.timer); sim.timer = null;
+      renderSim();
+      return;
+    }
+    if (sim.shown === 0 || sim.method === "") { if (!startSim()) return; }
+    if (sim.shown < sim.total) sim.shown++;
+    renderSim();
+  });
+
+  $("btnClear").addEventListener("click", function () { resetSim(); $("src").value = ""; hideMsg(); });
+
+  $("btnRand").addEventListener("click", function () {
+    var v = Math.floor(Math.random() * C.MAX) + 1;
+    $("src").value = C.toBase(v, from);
+    resetSim();
+    hideMsg();
+  });
+
+  $("src").addEventListener("keydown", function (e) { if (e.key === "Enter") $("btnAll").click(); });
+  $("src").addEventListener("input", function () { resetSim(); hideMsg(); });
+
+  /* =========================================================
+     연습문제 3개 — 지금 고른 변환 방향으로 낸다.
+     점수를 기록하지 않고, 정답 확인·힌트를 몇 번이든 쓸 수 있다.
+     ========================================================= */
+  var PR_RANGES = [{ min: 1, max: 31 }, { min: 32, max: 255 }, { min: 256, max: 1023 }];
+  var prItems = [];
+
+  function buildPractice() {
+    var area = $("prProblems");
+    area.innerHTML = "";
+    prItems = [];
+    if (from === to) {
+      $("prLead").innerHTML = "위에서 <b>서로 다른 두 진수</b>를 고르면 연습문제가 나옵니다.";
+      $("prScore").textContent = "";
+      $("prNav").innerHTML = "";
+      return;
+    }
+    $("prLead").innerHTML = "지금 고른 <b>" + C.NAMES[from] + " → " + C.NAMES[to] +
+      "</b> 로 세 문제가 나옵니다(쉬운 것부터). 답을 쓰고 <b>정답 확인</b>을 누르세요. 점수는 기록되지 않습니다.";
+
+    PR_RANGES.forEach(function (range, i) {
+      var v = pickPrValue(range, i);
+      var box = el("div", "q");
+      box.innerHTML =
+        "<div class='qhead'><span class='qno'>문제 " + (i + 1) + "</span>" +
+          "<span class='lvnote'>" + C.NAMES[from] + " → " + C.NAMES[to] + " · " +
+          ["쉬움", "보통", "어려움"][i] + "</span></div>" +
+        "<p class='qtext'>" + C.NAMES[from] + " <b>" + C.toBase(v, from) + "</b> 을(를) " +
+          C.NAMES[to] + "로 나타내면?</p>" +
+        "<div class='ansrow'><label>답</label>" +
+          "<input type='text' class='ans' autocomplete='off' spellcheck='false'>" +
+          "<button class='btn primary' type='button' data-act='check'>정답 확인</button>" +
+          "<button class='btn' type='button' data-act='hint'>힌트</button>" +
+          "<span class='unit'>" + (to === 16 ? "0~9, A~F" : "0~" + (to - 1)) + " 로 답하기</span></div>" +
+        "<p class='res' hidden></p>";
+      area.appendChild(box);
+
+      var it = { box: box, value: v, from: from, to: to, solved: false,
+                 ansInput: box.querySelector(".ans"), fb: box.querySelector(".res") };
+      box.querySelector("[data-act='check']").addEventListener("click", function () { checkPr(it); });
+      box.querySelector("[data-act='hint']").addEventListener("click", function () {
+        it.fb.hidden = false;
+        it.fb.className = "res";
+        it.fb.style.background = "var(--warn-bg)";
+        it.fb.style.borderLeft = "6px solid var(--warn)";
+        it.fb.innerHTML = "<b>힌트</b> — " + prHint(it);
+      });
+      it.ansInput.addEventListener("keydown", function (e) { if (e.key === "Enter") checkPr(it); });
+      prItems.push(it);
+    });
+    /* 문제를 하나씩 넘겨 본다 */
+    UI.pager($("prNav"), prItems.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }), { lead: "한 문제씩 풀어 보세요" });
+    updatePrScore();
+  }
+
+  function pickPrValue(range, idx) {
+    var used = prItems.map(function (x) { return x.value; });
+    var v = 0, tries = 0;
+    do {
+      v = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+      tries++;
+    } while (used.indexOf(v) !== -1 && tries < 200);
+    return v;
+  }
+
+  /* 힌트 — 답을 주지 않고 그 방법의 첫 걸음만 알려 준다 */
+  function prHint(it) {
+    var m = C.methodOf(it.from, it.to);
+    if (m === "divide") {
+      var d = C.divideSteps(it.value, it.to)[0];
+      if (d.single) {
+        return it.value + " 은(는) " + it.to + " 보다 작아서 <b>나눌 필요가 없습니다.</b> 한 자리로 적으세요.";
+      }
+      return it.value + " ÷ " + it.to + " = " + d.quotient + " … 나머지 <b>" + d.digit +
+        "</b> 부터 시작합니다. 몫이 " + it.to + " 보다 작아지면 멈추고 <b>마지막 몫</b>과 나머지를 " +
+        "<b>아래에서 위로</b> 읽으세요. (또는 자리값 카드로 채워도 됩니다)";
+    }
+    if (m === "place") {
+      var ps = C.placeSteps(C.toBase(it.value, it.from), it.from);
+      return "자리값은 왼쪽부터 " + ps.map(function (s) { return s.place; }).join(" · ") +
+        " 입니다. 각 자리 숫자에 자리값을 곱해 모두 더하세요.";
+    }
+    if (m === "group") {
+      var k = C.bitsPer(it.from === 2 ? it.to : it.from);
+      return "2진수 <b>" + k + "자리</b>가 " + C.NAMES[it.from === 2 ? it.to : it.from] +
+        " 한 글자와 짝입니다. " + (it.from === 2 ? "오른쪽부터 " + k + "자리씩 묶으세요." : "글자마다 " + k + "자리로 펼치세요.");
+    }
+    return "바로 바꾸기 어려우면 <b>2진수를 거쳐</b> 두 번에 하세요. 먼저 " +
+      C.bitsPer(it.from) + "자리씩 펼치고, 다시 " + C.bitsPer(it.to) + "자리씩 묶습니다.";
+  }
+
+  function checkPr(it) {
+    var typed = it.ansInput.value.trim().toUpperCase();
+    it.fb.hidden = false;
+    it.fb.style.background = "";
+    it.fb.style.borderLeft = "";
+    if (typed === "") {
+      it.fb.className = "res no";
+      it.fb.textContent = "답을 써 주세요.";
+      it.solved = false;
+    } else if (C.fromBase(typed, it.to) === null) {
+      it.fb.className = "res no";
+      it.fb.textContent = C.NAMES[it.to] + "에는 " +
+        (it.to === 16 ? "0~9 와 A~F" : "0~" + (it.to - 1)) + " 만 쓸 수 있어요.";
+      it.solved = false;
+    } else if (C.fromBase(typed, it.to) === it.value) {
+      it.fb.className = "res ok";
+      it.fb.innerHTML = "정답입니다! " + C.toBase(it.value, it.from) + "(" + it.from + ") = <b>" +
+        C.toBase(it.value, it.to) + "</b>(" + it.to + ")  · 10진수로는 " + it.value;
+      it.solved = true;
+    } else {
+      it.fb.className = "res no";
+      it.fb.textContent = "아직 아니에요. 위 학습 화면에서 같은 값을 넣어 과정을 다시 볼 수 있습니다.";
+      it.solved = false;
+    }
+    updatePrScore();
+  }
+
+  function updatePrScore() {
+    var n = prItems.filter(function (x) { return x.solved; }).length;
+    $("prScore").textContent = prItems.length
+      ? "맞힌 문제 : " + n + " / " + prItems.length + (n === prItems.length ? "  모두 정답!" : "")
+      : "";
+  }
+
+  $("prNew").addEventListener("click", buildPractice);
+
+  /* =========================================================
+     ② 평가 — 지금 고른 변환으로 문제 3개를 낸다
+     ========================================================= */
+  var LEVELS = {
+    low: { name: "하", min: 1, max: 31, points: 1, hint: "2진수 5자리 이하" },
+    mid: { name: "중", min: 32, max: 255, points: 2, hint: "2진수 6~8자리" },
+    high: { name: "상", min: 256, max: 1023, points: 3, hint: "2진수 9자리 이상" }
+  };
+  var EV_N = 3;
+  var items = [];              // [{level, value, pad, ansInput, box, qText, note, fb}]
+  var evStarted = false, evSubmitted = false, lastPdf = null;
+  var evFrom = 10, evTo = 2;   // 평가 시작할 때의 변환 방향을 고정해 둔다
+
+  function updateEvalWhat() {
+    var ok = (from !== to);
+    $("evalWhat").innerHTML = ok
+      ? "지금 고른 변환 <b>" + C.NAMES[from] + " → " + C.NAMES[to] + "</b> 로 문제 3개가 나옵니다. " +
+        "다른 변환으로 평가하려면 ① 학습 탭에서 진수를 먼저 고르세요."
+      : "① 학습 탭에서 <b>서로 다른 두 진수</b>를 먼저 골라 주세요.";
+    $("evStart").disabled = !ok || evStarted || evSubmitted;
+  }
+
+  var evPager = null, evCheckBox = null;
+
+  function buildProblems() {
+    var area = $("evProblems");
+    area.innerHTML = "";
+    items = [];
+    for (var i = 0; i < EV_N; i++) items.push(makeProblem(i, area));
+
+    /* 맨 끝에 「전체 확인」 화면 — 제출 전에 빠진 것을 알려 준다 */
+    evCheckBox = el("div", "q");
+    area.appendChild(evCheckBox);
+
+    evPager = UI.pager($("evNav"), items.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }).concat([{ el: evCheckBox, label: "전체 확인", short: "📋 전체 확인" }]), {
+      lead: "한 문제씩 풀고 마지막에 확인하세요",
+      onChange: function (i) { if (i === EV_N) refreshEvCheck(); }
+    });
+  }
+
+  /* 전체 확인 화면 — 수준을 골랐는지 · 답을 썼는지 · 풀이를 그렸는지 */
+  function refreshEvCheck() {
+    if (!evCheckBox) return;
+    var rows = items.map(function (it, i) {
+      var lv = it.level ? LEVELS[it.level].name + " (" + LEVELS[it.level].points + "점)" : "—";
+      var ans = "—", pad = "—", ok = !!it.level;
+      if (it.value != null) {
+        var v = (it.ansInput.value || "").trim();
+        ans = v === "" ? "아직 안 썼습니다" : "썼습니다 (" + v + ")";
+        if (v === "") ok = false;
+        pad = it.pad.isEmpty() ? "아직 안 그렸습니다" : "그렸습니다";
+      } else { ok = false; }
+      return "<tr><td>" + (i + 1) + "번</td><td>" + lv + "</td>" +
+        "<td class='" + (ok ? "mark-ok" : "mark-no") + "'>" + ans + "</td>" +
+        "<td>" + pad + "</td>" +
+        "<td>" + (ok ? "<b class='mark-ok'>준비됨</b>" : "<b class='mark-no'>확인 필요</b>") + "</td></tr>";
+    }).join("");
+    var ready = items.every(function (it) {
+      return it.level && it.value != null && (it.ansInput.value || "").trim() !== "";
+    });
+    evCheckBox.innerHTML =
+      "<div class='qhead'><span class='qno'>전체 확인</span>" +
+      "<span class='lvnote'>제출하기 전에 빠진 것이 없는지 봅니다</span></div>" +
+      "<div class='tablescroll'><table class='grid'><thead><tr>" +
+      "<th style='width:12%'>문제</th><th style='width:20%'>수준</th>" +
+      "<th style='width:28%'>답</th><th style='width:22%'>풀이</th>" +
+      "<th style='width:18%'>상태</th></tr></thead><tbody>" + rows + "</tbody></table></div>" +
+      "<p class='res " + (ready ? "ok" : "no") + "'>" + (ready
+        ? "모두 준비되었습니다. 아래 <b>3. 제출</b> 에서 [제출하기] 를 누르세요."
+        : "아직 <b>확인 필요</b> 인 문제가 있습니다. 위 번호를 눌러 그 문제로 돌아가세요.") + "</p>";
+  }
+
+  function makeProblem(idx, area) {
+    var box = el("div", "q");
+    box.innerHTML =
+      "<div class='qhead'>" +
+        "<span class='qno'>문제 " + (idx + 1) + "</span>" +
+        "<span class='levels'>" +
+          "<button class='btn' type='button' data-lv='low' aria-pressed='false'>하 (1점)</button>" +
+          "<button class='btn' type='button' data-lv='mid' aria-pressed='false'>중 (2점)</button>" +
+          "<button class='btn' type='button' data-lv='high' aria-pressed='false'>상 (3점)</button>" +
+        "</span>" +
+        "<span class='lvnote'>수준을 고르면 문제가 나옵니다</span>" +
+      "</div>" +
+      "<p class='qtext empty'>— 상 · 중 · 하 중에서 수준을 먼저 고르세요 —</p>" +
+      "<p class='lead' style='margin:0'>풀이 (여기에 손으로 계산 과정을 적으세요)</p>" +
+      "<div class='padwrap'></div>" +
+      "<div class='ansrow'><label>답</label>" +
+        "<input type='text' class='ans' autocomplete='off' spellcheck='false' disabled>" +
+        "<span class='unit ansunit'></span></div>" +
+      "<p class='res' hidden></p>";
+    area.appendChild(box);
+
+    var it = {
+      box: box,
+      level: null,
+      value: null,
+      qText: box.querySelector(".qtext"),
+      note: box.querySelector(".lvnote"),
+      ansInput: box.querySelector(".ans"),
+      ansUnit: box.querySelector(".ansunit"),
+      fb: box.querySelector(".res"),
+      pad: PdfKit.createPad(box.querySelector(".padwrap"), { height: 380 })
+    };
+
+    box.querySelectorAll("[data-lv]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (!evStarted || evSubmitted) return;
+        if (it.level && (!it.pad.isEmpty() || it.ansInput.value.trim() !== "")) {
+          if (!confirm("수준을 바꾸면 지금 문제와 풀이가 지워집니다. 바꿀까요?")) return;
+        }
+        box.querySelectorAll("[data-lv]").forEach(function (b) {
+          var on = (b === btn);
+          b.classList.toggle("on", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        it.level = btn.dataset.lv;
+        it.value = pickValue(LEVELS[it.level], idx);
+        it.qText.className = "qtext";
+        it.qText.innerHTML = C.NAMES[evFrom] + " <b>" + C.toBase(it.value, evFrom) + "</b> 을(를) " +
+                             C.NAMES[evTo] + "로 나타내시오.";
+        it.note.textContent = "수준 " + LEVELS[it.level].name + " · " + LEVELS[it.level].hint;
+        it.ansUnit.textContent = C.NAMES[evTo] + "로 답하기" +
+          (evTo === 16 ? " (0~9, A~F)" : (evTo === 10 ? " (0~9)" : " (0~" + (evTo - 1) + ")"));
+        it.ansInput.disabled = false;
+        it.ansInput.value = "";
+        it.fb.hidden = true;
+        it.pad.clear();
+      });
+    });
+    return it;
+  }
+
+  /* 같은 값이 두 번 나오지 않게 뽑는다 */
+  function pickValue(range, idx) {
+    var used = items.filter(function (x, i) { return i !== idx && x.value != null; })
+                    .map(function (x) { return x.value; });
+    var v = 0, tries = 0;
+    do {
+      v = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+      tries++;
+    } while (used.indexOf(v) !== -1 && tries < 200);
+    return v;
+  }
+
+  function applyEvalPhase() {
+    var running = evStarted && !evSubmitted;
+    $("evStart").disabled = running || evSubmitted || (from === to);
+    $("evStart").textContent = evSubmitted ? "평가 종료" : (running ? "평가 중" : "평가 시작");
+    $("evSubmit").disabled = !running;
+    items.forEach(function (it) {
+      it.box.querySelectorAll("button").forEach(function (b) { b.disabled = !running; });
+      it.ansInput.disabled = !running || !it.level;
+    });
+    /* 평가 중에는 학습·연습 탭을 잠근다(시뮬레이션·연습문제로 답을 구하지 못하게) */
+    [$("tabLearn"), $("tabPractice")].forEach(function (t) {
+      t.dataset.locked = running ? "1" : "0";
+      t.setAttribute("aria-disabled", running ? "true" : "false");
+    });
+    $("prNew").disabled = running;
+    document.querySelectorAll("#prProblems input, #prProblems button").forEach(function (e) { e.disabled = running; });
+    if (running) {
+      showLockBar("평가 중입니다. ① 변환 학습 · ② 연습문제 탭은 평가를 제출한 뒤에 쓸 수 있습니다.");
+      if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
+      resetSim();
+    } else {
+      $("lockBar").hidden = true;
+    }
+    $("evPhase").className = "res " + (running ? "ok" : "");
+    $("evPhase").innerHTML = evSubmitted
+      ? "제출이 끝났습니다. 채점 결과는 아래 <b>3. 제출</b>에서 확인하세요."
+      : (running ? "<b>평가 중입니다.</b> 문제마다 수준을 고르고, 풀이를 손으로 적은 뒤 답을 쓰세요."
+                 : "위 <b>[평가 시작]</b>을 누르면 문제가 나옵니다.");
+  }
+
+  $("evStart").addEventListener("click", function () {
+    if (from === to) return;
+    evFrom = from; evTo = to;
+    evStarted = true; evSubmitted = false;
+    buildProblems();
+    applyEvalPhase();
+    $("evStartMsg").innerHTML = "<b>" + C.NAMES[evFrom] + " → " + C.NAMES[evTo] + "</b> 평가를 시작했습니다.";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+  });
+
+  $("evRedo").addEventListener("click", function () {
+    if (!confirm(evSubmitted ? "새로 풀어서 다시 제출할까요? 이미 낸 PDF 파일은 그대로 남습니다."
+                             : "지금 쓴 내용을 모두 지우고 처음부터 다시 할까요?")) return;
+    evStarted = false; evSubmitted = false; lastPdf = null;
+    $("evProblems").innerHTML = "";
+    $("evNav").innerHTML = "";
+    items = [];
+    evPager = null; evCheckBox = null;
+    $("evStartMsg").textContent = "";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+    applyEvalPhase();
+    updateEvalWhat();
+  });
+
+  /* ---- 제출 : 검사 → 채점 → PDF ---- */
+  $("evSubmit").addEventListener("click", function () {
+    if (!evStarted) { evShow("먼저 [평가 시작]을 눌러 주세요.", "no"); return; }
+    if (evSubmitted) { evShow("이미 제출했습니다.", "no"); return; }
+
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (!it.level) {
+        evShow("문제 " + (i + 1) + "의 수준을 골라 주세요.", "no");
+        if (evPager) evPager.go(i);        /* 숨은 문제로 안내해 준다 */
+        return;
+      }
+      var typed = it.ansInput.value.trim().toUpperCase();
+      if (typed === "") {
+        evShow("문제 " + (i + 1) + "의 답을 써 주세요.", "no");
+        if (evPager) evPager.go(i);
+        it.ansInput.focus();
+        return;
+      }
+      if (C.fromBase(typed, evTo) === null) {
+        evShow("문제 " + (i + 1) + "의 답은 " + C.NAMES[evTo] + "로 써야 합니다.", "no");
+        if (evPager) evPager.go(i);
+        it.ansInput.focus();
+        return;
+      }
+    }
+    var emptyPads = items.filter(function (it) { return it.pad.isEmpty(); }).length;
+    if (emptyPads > 0 && !confirm("풀이를 적지 않은 문제가 " + emptyPads + "개 있습니다. 그래도 제출할까요?")) return;
+
+    /* 채점 (수준별 가중 배점) */
+    var results = items.map(function (it) {
+      var typed = it.ansInput.value.trim().toUpperCase();
+      var correct = C.toBase(it.value, evTo);
+      var pts = LEVELS[it.level].points;
+      var ok = C.fromBase(typed, evTo) === it.value;      // 앞의 0은 정답으로 인정
+      return { typed: typed, correct: correct, ok: ok, points: pts, earned: ok ? pts : 0 };
+    });
+    var score = results.reduce(function (a, r) { return a + r.earned; }, 0);
+    var total = results.reduce(function (a, r) { return a + r.points; }, 0);
+    var rate = total > 0 ? Math.round(score / total * 100) : 0;
+
+    PdfKit.askStudentInfo({ okText: "PDF 만들기" }, function (info) {
+      var stamp = PdfKit.stamp();
+      var dirName = C.NAMES[evFrom] + " → " + C.NAMES[evTo];
+      var doc = PdfKit.createDoc({
+        title: "진수 변환 평가",
+        subtitle: dirName,
+        meta: {
+          grade: info.grade, cls: info.cls, num: info.num, name: info.name,
+          when: stamp.human,
+          right: score + " / " + total + "점 (" + rate + "%)"
+        },
+        footer: "아날로그 → 디지털 변환 학습기 · 자료의 디지털 표현 [9정02-01]"
+      });
+
+      items.forEach(function (it, i) {
+        var r = results[i];
+        doc.h1("문제 " + (i + 1) + "  (수준 " + LEVELS[it.level].name + " · 배점 " + r.points + "점)");
+        doc.p(C.NAMES[evFrom] + " " + C.toBase(it.value, evFrom) + " 을(를) " + C.NAMES[evTo] +
+              "로 나타내시오.", { bold: true, size: 25, color: PdfKit.COLORS.ink });
+        doc.mark("내가 쓴 답 : " + r.typed + "        정답 : " + r.correct, r.ok,
+                 "얻은 점수 " + r.earned + " / " + r.points + "점");
+        doc.box("풀이", "", { minLines: 0 });
+        doc.img(it.pad.canvas, { maxH: 300 });
+        if (i < items.length - 1) doc.gap(8);
+      });
+
+      var pages = doc.finish();
+      var blob = PdfKit.buildPdf(pages);
+      var extra = evFrom + "to" + evTo + "-" + score + "of" + total;
+      var fname = PdfKit.makeFileName("진수변환평가", info, extra);
+      lastPdf = { blob: blob, name: fname };
+      PdfKit.downloadBlob(blob, fname);
+
+      evSubmitted = true;
+      applyEvalPhase();
+      $("evAgain").hidden = false;
+      $("evScore").textContent = score + " / " + total + " 점  (" + rate + "%)";
+      var tb = $("evTbody");
+      tb.innerHTML = "";
+      items.forEach(function (it, i) {
+        var r = results[i];
+        tb.appendChild(el("tr", null,
+          "<td>" + (i + 1) + "번</td>" +
+          "<td>" + LEVELS[it.level].name + "</td>" +
+          "<td>" + r.points + "점</td>" +
+          "<td>" + C.toBase(it.value, evFrom) + "(" + evFrom + ")</td>" +
+          "<td>" + r.typed + "</td>" +
+          "<td>" + r.correct + "</td>" +
+          "<td class='" + (r.ok ? "mark-ok" : "mark-no") + "'>" +
+            (r.ok ? "○ +" + r.earned + "점" : "× 0점") + "</td>"));
+        /* 문제마다 해설을 열어 준다(제출한 뒤에만) */
+        it.fb.hidden = false;
+        it.fb.className = "res " + (r.ok ? "ok" : "no");
+        it.fb.innerHTML = (r.ok ? "○ 정답" : "× 정답은 <b>" + r.correct + "</b>") +
+          " — " + explain(it.value, evFrom, evTo);
+      });
+      $("evResult").hidden = false;
+      evShow("제출이 끝났습니다. PDF 파일 이름 : " + fname, "ok");
+      PdfKit.toast("PDF를 저장했습니다. 선생님께 이 파일을 내세요.", "ok");
+    });
+  });
+
+  $("evAgain").addEventListener("click", function () {
+    if (!lastPdf) return;
+    PdfKit.downloadBlob(lastPdf.blob, lastPdf.name);
+    PdfKit.toast("PDF를 다시 받았습니다.", "ok");
+  });
+
+  /* 채점 뒤 보여 줄 한 줄 해설 — 방법에 맞춰 만든다 */
+  function explain(value, f, t) {
+    var m = C.methodOf(f, t);
+    if (m === "divide") {
+      var dv = C.divideSteps(value, t);
+      return value + " 을(를) " + t + " 로 나누고 <b>마지막 몫과 나머지를 거꾸로</b> 읽으면 " +
+        C.readUp(dv) + "(" + t + ") 입니다.";
+    }
+    if (m === "place") {
+      var ps = C.placeSteps(C.toBase(value, f), f).filter(function (s) { return s.digit !== 0; });
+      return "자리값 곱셈 : " + ps.map(function (s) { return s.digit + "×" + s.place; }).join(" + ") +
+             " = " + value + " 입니다.";
+    }
+    if (m === "group") {
+      var k = C.bitsPer(f === 2 ? t : f);
+      return "2진수 " + k + "자리가 " + C.NAMES[f === 2 ? t : f] + " 한 글자와 짝입니다 (" +
+             C.toBase(value, 2) + "(2) = " + C.toBase(value, t) + "(" + t + ")).";
+    }
+    return "2진수를 거쳐 " + C.toBase(value, 2) + "(2) 가 되고, 다시 묶으면 " +
+           C.toBase(value, t) + "(" + t + ") 입니다.";
+  }
+
+  function evShow(text, kind) {
+    $("evMsg").hidden = false;
+    $("evMsg").className = "res " + (kind || "");
+    $("evMsg").textContent = text;
+  }
+
+  /* 비트와 바이트 화면(전구 · 가지 수 표 · 용량 단위표)은 `basic.html` 로 옮겼다 (2026-08-12).
+     계산 자료(`UNITS`·`BIT_MEAN`)는 `js/basic.js` 에 있다. 여기에 다시 만들지 말 것 —
+     두 곳에 두면 한쪽만 고쳐져 어긋난다. */
+
+  /* =========================================================
+     시작
+     ========================================================= */
+  /* 하위 탭 — 시뮬레이터를 하나씩 보여 준다.
+     ⚠ 감싸는 div 만 여닫는다(안의 카드는 값·진수에 따라 JS 가 따로 여닫는다). */
+  UI.subTabs($("learnSubs"), [
+    { key: "conv",  label: "① 진수 변환",       cards: ["scrConv"] },
+    { key: "cards", label: "② 자리값 카드",     cards: ["scrCards"] },
+    { key: "cmp",   label: "③ 두 방법 비교",    cards: ["scrCompare"] }
+  ]);
+
+  paintBases();
+  buildPractice();
+  updateEvalWhat();
+  applyEvalPhase();
+})();
+</script>
+</body>
+</html>

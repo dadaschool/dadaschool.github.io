@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소리 변환 (표본화 · 양자화 · 부호화) · 아날로그 → 디지털</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='17' text-anchor='middle' fill='%23ffffff'%3E%E2%99%AA%3C/text%3E%3C/svg%3E">
+
+  <link rel="stylesheet" crossorigin href="./assets/app-D0DPNJ5q.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🔊 소리 변환 (표본화 · 양자화 · 부호화)</h1>
+  <span class="badge">자료의 디지털 표현 [9정02-01]</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 처음으로</a>
+  <a class="home" href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <p class="lockbar" id="lockBar" hidden></p>
+
+  <div class="tabs" role="tablist" aria-label="소리 변환 화면 고르기">
+    <button class="tab" id="tabLearn" role="tab" aria-selected="true"
+            aria-controls="panLearn" tabindex="0">① 소리 변환</button>
+    <button class="tab" id="tabPractice" role="tab" aria-selected="false"
+            aria-controls="panPractice" tabindex="-1">② 연습문제</button>
+    <button class="tab" id="tabEval" role="tab" aria-selected="false"
+            aria-controls="panEval" tabindex="-1">③ 평가</button>
+  </div>
+
+  <!-- ================= ① 소리 변환 ================= -->
+  <div id="panLearn" role="tabpanel" aria-labelledby="tabLearn">
+
+    <!-- 시뮬레이터 고르기 — 한 번에 한 화면만 보여 준다(길게 늘어지지 않게).
+         방향 고르기 단추를 없애고 **그 자체를 하위 탭**으로 만들었다. -->
+    <div class="subtabs" id="learnSubs" aria-label="소리 시뮬레이터 고르기"></div>
+
+    <!-- 좌우 두 칸 : 왼쪽 = 고르기와 표 · 오른쪽 = 그래프.
+         위아래로 쌓으면 그래프를 보려고 스크롤해야 한다(2026-08-12). -->
+    <div class="twocol wide">
+    <div class="colL">
+
+    <div class="card" id="setCard">
+      <h2><span class="step">1</span> <span id="topTitle">소리는 원래 아날로그입니다</span></h2>
+      <p class="lead" id="topLead">
+        소리는 <b>끊김 없이 이어지는</b> 파동입니다.
+        컴퓨터는 <b>표본화 → 양자화 → 부호화</b> 로 0과 1로 바꿉니다.
+      </p>
+
+      <!-- A→D 설정 -->
+      <div id="adSetting">
+        <div class="baserow" id="waveRow"><span class="lab">파형 고르기</span></div>
+        <div class="baserow" id="gapRow"><span class="lab">표본화 간격</span></div>
+        <div class="baserow" id="bitRow"><span class="lab">양자화 비트</span></div>
+      </div>
+
+      <!-- D→A 설정 : 저장된 0과 1을 넣는다 -->
+      <div id="daSetting" hidden>
+        <div class="baserow" id="revBitRow"><span class="lab">한 표본의 비트 수</span></div>
+        <div class="inrow">
+          <input type="text" id="revIn" autocomplete="off" spellcheck="false"
+                 aria-label="저장된 이진수" placeholder="111 011 010 010 010 100 110 111 110">
+          <span class="unit">0과 1만 · 빈칸으로 띄어 쓰거나 붙여 써도 됩니다</span>
+        </div>
+        <div class="btnrow">
+          <button class="btn primary" id="btnRev">되살리기</button>
+          <span id="revExRow"></span>
+          <button class="btn ghost" id="btnRevClear">지우기</button>
+        </div>
+        <p class="res no" id="revMsg" hidden></p>
+      </div>
+
+      <div class="hint" id="setNote"></div>
+    </div>
+
+    </div><!-- /colL -->
+    <div class="colR">
+
+    <div class="card" id="stageCard">
+      <h2><span class="step">2</span> <span id="stageTitle">세 단계를 순서대로 보세요</span></h2>
+      <div class="stagerow" id="stageRow"></div>
+      <p class="lead" id="stageLead"></p>
+      <canvas id="wavCanvas" width="960" height="400" class="wavcanvas"
+              aria-label="소리 신호 그래프"></canvas>
+      <div class="btnrow">
+        <button class="btn primary" id="btnNext">다음 단계 ▶</button>
+        <button class="btn ghost" id="btnFirst">처음 단계로</button>
+      </div>
+      <p class="lvnote" id="daNote" hidden></p>
+    </div>
+
+    <div class="card" id="tblCard">
+      <h2><span class="step">3</span> 표로 정리하면 이렇습니다</h2>
+      <p class="lead">
+        교과서 61쪽 활동과 같은 표입니다 —
+        <b>신호 크기</b>(아날로그)를 <b>정숫값</b>으로 바꾸고(양자화), 그것을 <b>이진수</b>로 적습니다(부호화).
+      </p>
+      <div class="tablescroll">
+        <table class="grid" id="sampTable">
+          <thead><tr>
+            <th style="width:16%">시간(초)</th><th style="width:22%" id="thRaw">신호 크기</th>
+            <th style="width:20%">정숫값</th><th style="width:42%">이진수</th>
+          </tr></thead>
+          <tbody id="sampBody"></tbody>
+        </table>
+      </div>
+      <p class="sumline" id="allBitsLine"></p>
+      <p class="check" id="sizeLine"></p>
+    </div>
+
+    </div><!-- /colR -->
+    </div><!-- /twocol -->
+
+    <div class="card" id="gapCard">
+      <h2><span class="step">3</span> 간격을 넓히면 어떻게 될까요?</h2>
+      <p class="lvnote" id="gapBasis"></p>
+      <p class="lead">
+        표본화 간격을 <b>넓히면</b> 저장할 데이터는 <b>줄지만</b> 원래 소리와 <b>달라집니다</b>(손실).
+        <b>좁히면</b> 원래 소리에 가까워지지만 데이터가 <b>늘어납니다</b>. — 교과서 61쪽
+      </p>
+      <div class="tablescroll">
+        <table class="grid" id="gapTable">
+          <thead><tr>
+            <th style="width:18%">표본화 간격</th><th style="width:14%">표본 수</th>
+            <th style="width:24%">데이터 양</th><th style="width:22%">원래 소리와의 차이</th>
+            <th style="width:22%">한마디로</th>
+          </tr></thead>
+          <tbody id="gapBody"></tbody>
+        </table>
+      </div>
+      <p class="lead" style="margin-top:22px">
+        손실이 생기는 <b>두 번째 이유는 양자화</b>입니다. 읽은 값을 정수로 바꿀 때 소수점 아래가 버려집니다.
+        이것은 <b>간격이 아니라 비트 수</b>의 문제입니다 — 비트를 늘리면 단계가 촘촘해져 오차가 줄지만
+        표본마다 비트가 늘어 <b>데이터 양이 커집니다</b>.
+      </p>
+      <div class="tablescroll">
+        <table class="grid" id="quantTable">
+          <thead><tr>
+            <th style="width:18%">양자화 비트</th><th style="width:26%">단계</th>
+            <th style="width:26%">데이터 양</th><th style="width:30%">양자화 오차</th>
+          </tr></thead>
+          <tbody id="quantBody"></tbody>
+        </table>
+      </div>
+      <p class="lvnote">
+        표본화 손실은 <b>간격</b>으로, 양자화 오차는 <b>비트 수</b>로 줄입니다.
+        둘 다 줄이면 소리는 좋아지지만 파일이 커집니다. — 교과서 61쪽
+      </p>
+    </div>
+
+  </div><!-- /panLearn -->
+
+  <!-- ================= ② 연습문제 ================= -->
+  <div id="panPractice" role="tabpanel" aria-labelledby="tabPractice" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 연습문제 3개</h2>
+      <p class="lead">
+        그래프를 보고 <b>표본마다 한 칸씩</b> 답을 쓰세요. <b>정답 확인</b>은 몇 번이든 눌러도 되고
+        <b>힌트</b>도 있습니다. 점수는 기록되지 않습니다.
+      </p>
+      <div class="baserow" id="prStageRow">
+        <span class="lab">어느 단계를 연습할까요?</span>
+        <button class="btn on" type="button" data-stage="quantize" aria-pressed="true">
+          양자화 (그래프 → 정숫값)</button>
+        <button class="btn" type="button" data-stage="encode" aria-pressed="false">
+          부호화 (정숫값 → 이진수)</button>
+        <button class="btn" type="button" data-stage="decode" aria-pressed="false">
+          복호화 (이진수 → 정숫값)</button>
+      </div>
+      <div class="hint" id="prStageNote"></div>
+      <p class="lvnote">수준은 <b>표본 수와 비트 수</b>로 나뉩니다 — 하 3개·2비트 · 중 4개·3비트 · 상 6개·3비트.</p>
+      <!-- 문제를 하나씩 넘겨 본다 (한 화면에 세 문제를 쌓지 않는다) -->
+      <div class="pagerbar" id="prNav"></div>
+      <div id="prProblems"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="prNew">새 문제 3개</button>
+        <span class="score" id="prScore" style="font-size:22px"></span>
+      </div>
+    </div>
+
+  </div><!-- /panPractice -->
+
+  <!-- ================= ③ 평가 ================= -->
+  <div id="panEval" role="tabpanel" aria-labelledby="tabEval" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 평가 시작</h2>
+      <p class="lead">
+        문제마다 수준을 고르면 그래프와 답칸이 나옵니다.
+        <b>세 문제에 두 방향이 모두</b> 들어갑니다 —
+        저장하는 쪽(아날로그 → 디지털)과 들려주는 쪽(디지털 → 아날로그).
+      </p>
+      <div class="hint">
+        <b>수준</b> — 하 1점 : <b>표본 3개를 정숫값</b>으로(2비트 · 양자화) ·
+        중 2점 : <b>표본 4개를 이진수</b>로(3비트 · 부호화) ·
+        상 3점 : <b>이진수 6개를 정숫값</b>으로 되돌리고(복호화) <b>전체 비트 수</b>까지.<br>
+        어려운 수준을 고르면 얻을 점수가 커지지만 <b>만점도 함께 커집니다.</b>
+        <b>평가를 시작하면 ① 소리 변환 · ② 연습문제 탭을 쓸 수 없습니다.</b>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary big" id="evStart">평가 시작</button>
+        <button class="btn ghost" id="evRedo">처음부터 다시</button>
+        <span id="evStartMsg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">2</span> 문제 풀기</h2>
+      <p class="res" id="evPhase"></p>
+      <!-- 문제 하나씩 + 맨 끝에 「전체 확인」 화면 -->
+      <div class="pagerbar" id="evNav"></div>
+      <div id="evProblems"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">3</span> 제출</h2>
+      <p class="lead">
+        <b>제출하면 답안 PDF가 내 기기에 저장됩니다.</b> 그 파일을 선생님께 내세요.
+        학년·반·학번·이름은 <b>제출할 때 한 번만</b> 물어보고 PDF 안에만 들어갑니다.
+      </p>
+      <div class="btnrow">
+        <button class="btn primary big" id="evSubmit">제출하기 (PDF 저장)</button>
+        <button class="btn" id="evAgain" hidden>PDF 다시 받기</button>
+      </div>
+      <p class="res" id="evMsg" hidden></p>
+      <div id="evResult" hidden>
+        <p style="margin:16px 0 6px">점수 : <span class="score" id="evScore"></span></p>
+        <div class="tablescroll">
+          <table class="grid">
+            <thead><tr><th>문제</th><th>수준</th><th>배점</th><th>단계</th>
+              <th>내가 쓴 답</th><th>정답</th><th>채점</th></tr></thead>
+            <tbody id="evTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panEval -->
+
+</div>
+
+<script src="js/pdf.js?v=202608192011"></script>
+<script src="js/ui.js?v=202608192011"></script>
+<script src="js/sound.js?v=202608192011"></script>
+<script>
+(function () {
+  "use strict";
+  var S = window.SoundCode;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+
+  /* =========================================================
+     탭 — 평가 중에는 학습·연습 탭을 막는다
+     ========================================================= */
+  var tabs = [$("tabLearn"), $("tabPractice"), $("tabEval")];
+  var panels = { tabLearn: $("panLearn"), tabPractice: $("panPractice"), tabEval: $("panEval") };
+
+  function selectTab(btn) {
+    if (btn.dataset.locked === "1") {
+      $("lockBar").hidden = false;
+      $("lockBar").textContent = "평가 중입니다. " + btn.textContent.trim() +
+        " 탭은 평가를 제출한 뒤에 쓸 수 있습니다.";
+      return;
+    }
+    tabs.forEach(function (t) {
+      var on = (t === btn);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      panels[t.id].hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { selectTab(t); });
+    t.addEventListener("keydown", function (e) {
+      var next = null;
+      if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+      else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (next) { e.preventDefault(); selectTab(next); next.focus(); }
+    });
+  });
+
+  /* =========================================================
+     그래프 그리기 — 학습·연습·평가가 모두 이 함수를 쓴다.
+       opts.samples  : 표본 목록 [{t, raw, level, bin}]
+       opts.bits     : 양자화 비트 수 (세로축이 0 ~ 2ᵇⁱᵗˢ−1)
+       opts.curve    : 이어진 파형 점 목록(없으면 곡선을 안 그린다)
+       opts.stage    : 0 아날로그 · 1 표본화 · 2 양자화 · 3 부호화
+       opts.showRaw  : 신호 크기 숫자를 보여 줄까 (연습에서 숨긴다)
+       opts.showLevel: 정숫값을 보여 줄까
+     ========================================================= */
+  function drawGraph(canvas, opts) {
+    var g = canvas.getContext("2d");
+    var W = canvas.width, H = canvas.height;
+    var top = S.maxLevel(opts.bits);
+    var L = 78, R = 26, T = 26, B = 66;                 // 여백
+    var iw = W - L - R, ih = H - T - B;
+    var n = opts.samples.length;
+    var stage = opts.stage == null ? 3 : opts.stage;
+
+    g.clearRect(0, 0, W, H);
+    g.fillStyle = "#ffffff";
+    g.fillRect(0, 0, W, H);
+
+    /* x : 표본 번호(1..n) → 화면. 곡선은 0..n+1 범위의 좌표를 쓴다 */
+    function px(i) { return L + iw * (i + 0.5) / (n + 1); }
+    function py(v) { return T + ih * (1 - v / top); }
+
+    /* 가로 격자 = 정수 단계. 학생이 값을 읽는 기준선이다 */
+    g.font = "20px 'Malgun Gothic', sans-serif";
+    for (var v = 0; v <= top; v++) {
+      var y = py(v);
+      g.strokeStyle = (v === 0) ? "#94a3b8" : "#e2e8f0";
+      g.lineWidth = (v === 0) ? 2 : 1;
+      g.beginPath(); g.moveTo(L, y); g.lineTo(W - R, y); g.stroke();
+      g.fillStyle = "#64748b";
+      g.textAlign = "right"; g.textBaseline = "middle";
+      g.fillText(String(v), L - 12, y);
+    }
+    /* 세로축·가로축 이름 */
+    g.strokeStyle = "#94a3b8"; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(L, T - 6); g.lineTo(L, H - B); g.stroke();
+    g.fillStyle = "#475569";
+    g.textAlign = "left"; g.textBaseline = "top";
+    g.fillText("신호 크기", 6, 4);
+    g.textAlign = "right";
+    g.fillText("시간(초) →", W - R, H - 30);
+
+    /* 아날로그 파형 */
+    if (opts.curve && opts.curve.length) {
+      g.strokeStyle = "#4f46e5";
+      g.lineWidth = 3;
+      g.beginPath();
+      opts.curve.forEach(function (p, k) {
+        var x = px(p.x), y = py(Math.min(top, Math.max(0, p.y)));
+        if (k === 0) g.moveTo(x, y); else g.lineTo(x, y);
+      });
+      g.stroke();
+    }
+
+    /* 표본화 : 세로 점선 + 시간 이름표 */
+    if (stage >= 1) {
+      opts.samples.forEach(function (s, i) {
+        var x = px(i);
+        g.strokeStyle = "#cbd5e1";
+        g.lineWidth = 2;
+        g.setLineDash([6, 6]);
+        g.beginPath(); g.moveTo(x, T - 6); g.lineTo(x, H - B); g.stroke();
+        g.setLineDash([]);
+        g.fillStyle = "#475569";
+        g.textAlign = "center"; g.textBaseline = "top";
+        g.fillText(String(s.t), x, H - B + 8);
+      });
+    }
+
+    /* 양자화 : 아날로그 값 → 정수 값으로 옮기는 화살표 */
+    if (stage >= 2) {
+      opts.samples.forEach(function (s, i) {
+        var x = px(i);
+        if (Math.abs(s.raw - s.level) < 0.01) return;
+        g.strokeStyle = "#f59e0b";
+        g.lineWidth = 3;
+        g.beginPath(); g.moveTo(x, py(s.raw)); g.lineTo(x, py(s.level)); g.stroke();
+      });
+    }
+
+    /* 표본 점 — 아날로그 값(파랑)과 정숫값(초록) */
+    if (stage >= 1) {
+      opts.samples.forEach(function (s, i) {
+        var x = px(i);
+        if (stage < 2 || opts.showRaw) {
+          g.fillStyle = "#4f46e5";
+          g.beginPath(); g.arc(x, py(s.raw), 8, 0, Math.PI * 2); g.fill();
+        }
+        if (stage >= 2) {
+          g.fillStyle = "#16a34a";
+          g.beginPath(); g.arc(x, py(s.level), 10, 0, Math.PI * 2); g.fill();
+          g.strokeStyle = "#ffffff"; g.lineWidth = 2; g.stroke();
+        }
+        /* 숫자 이름표 */
+        g.textAlign = "center"; g.textBaseline = "bottom";
+        g.font = "bold 21px 'Malgun Gothic', sans-serif";
+        if (opts.showRaw && stage >= 1) {
+          g.fillStyle = "#4f46e5";
+          g.fillText(s.raw.toFixed(2), x, py(s.raw) - 14);
+        }
+        if (opts.showLevel && stage >= 2) {
+          g.fillStyle = "#15803d";
+          g.fillText(String(s.level), x, py(s.level) - 16);
+        }
+        if (stage >= 3) {
+          g.fillStyle = "#0f172a";
+          g.font = "bold 19px Consolas, monospace";
+          g.textBaseline = "top";
+          g.fillText(s.bin, x, H - B + 32);
+        }
+        g.font = "20px 'Malgun Gothic', sans-serif";
+      });
+    }
+  }
+
+  /* =========================================================
+     ① 학습 — 고정된 파형을 간격·비트를 바꿔 가며 세 단계로 본다
+     ========================================================= */
+  var waveKey = "a", gap = 1, bits = 3, stage = 0;
+  var learnDir = "ad";          // "ad" 아날로그→디지털 · "da" 디지털→아날로그
+  var revBits = 3;              // D→A 에서 한 표본이 몇 비트인가
+  var revData = null;           // 되살린 결과 (S.decodeBits 의 결과)
+
+  var GAPS = [0.5, 1, 2];
+
+  /* D→A 보기 — 첫 번째는 **교과서 60쪽 그림 Ⅱ-9 의 그 비트열**이다
+     (양자화 값 7 3 2 2 2 4 6 7 6 을 3비트로 부호화한 것). */
+  var REV_EXAMPLES = {
+    2: [["01 10 11 11 10 01 00 01", "오르내리는 소리"], ["00 00 11 11 00 00", "뚝뚝 끊긴 소리"]],
+    3: [["111 011 010 010 010 100 110 111 110", "교과서 60쪽 그림"],
+        ["000 001 010 011 100 101 110 111", "점점 커지는 소리"]],
+    4: [["0000 0100 1000 1100 1111 1100 1000 0100", "산 모양 소리"],
+        ["1111 0000 1111 0000", "번갈아 뛰는 소리"]]
+  };
+
+  function buildRows() {
+    Object.keys(S.WAVES).forEach(function (k) {
+      var b = el("button", "btn", S.WAVES[k].short || S.WAVES[k].name);
+      b.type = "button"; b.dataset.w = k;
+      b.addEventListener("click", function () { waveKey = k; stage = 0; redrawLearn(); });
+      $("waveRow").appendChild(b);
+    });
+    GAPS.forEach(function (v) {
+      var b = el("button", "btn", v + "초마다");
+      b.type = "button"; b.dataset.g = v;
+      b.addEventListener("click", function () { gap = v; stage = Math.min(stage, 1); redrawLearn(); });
+      $("gapRow").appendChild(b);
+    });
+    [2, 3, 4].forEach(function (v) {
+      var b = el("button", "btn", v + "비트");
+      b.type = "button"; b.dataset.b = v;
+      b.addEventListener("click", function () { bits = v; redrawLearn(); });
+      $("bitRow").appendChild(b);
+    });
+    [2, 3, 4].forEach(function (v) {
+      var b = el("button", "btn", v + "비트");
+      b.type = "button"; b.dataset.rb = v;
+      b.addEventListener("click", function () {
+        revBits = v; revData = null; stage = 0;
+        $("revIn").value = "";
+        applyDir();
+      });
+      $("revBitRow").appendChild(b);
+    });
+    S.STAGES.forEach(function (st, i) {
+      var b = el("button", "btn stagebtn",
+        "<span class='no'>" + (i + 1) + "</span><span class='nm'>" + st.name + "</span>");
+      b.type = "button"; b.dataset.s = (i + 1);
+      b.addEventListener("click", function () { stage = i + 1; redrawLearn(); });
+      $("stageRow").appendChild(b);
+    });
+  }
+
+  /* D→A 의 세 단계 이름 (A→D 와 짝을 이룬다 : 부호화 ↔ 복호화 …) */
+  var DA_STAGES = [
+    { name: "코드 나누기", what: "이어진 0과 1을 한 표본씩 끊는다" },
+    { name: "복호화",     what: "각 조각을 정수로 되돌린다 (부호화의 반대)" },
+    { name: "소리 되살리기", what: "정수를 점으로 찍고 이어서 파형을 만든다" }
+  ];
+
+  function applyDir() {
+    var da = (learnDir === "da");
+    $("revBitRow").querySelectorAll("[data-rb]").forEach(function (b) {
+      var on = (Number(b.dataset.rb) === revBits);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    $("adSetting").hidden = da;
+    $("daSetting").hidden = !da;
+    $("daNote").hidden = !da;
+    /* ⚠ gapCard(간격·비트 비교)는 이제 **하위 탭이 따로 있는 화면**이다.
+       여기서 hidden 을 건드리면 탭이 고른 것과 싸운다. */
+
+    $("topTitle").textContent = da ? "저장된 0과 1을 다시 소리로" : "소리는 원래 아날로그입니다";
+    $("topLead").innerHTML = da
+      ? "저장된 <b>0과 1을 다시 소리로</b> 되돌립니다. " +
+        "<b>코드 나누기 → 복호화 → 소리 되살리기</b> — 저장할 때와 <b>반대</b> 순서입니다."
+      : "소리는 <b>끊김 없이 이어지는</b> 파동입니다. " +
+        "컴퓨터는 <b>표본화 → 양자화 → 부호화</b> 로 0과 1로 바꿉니다.";
+    $("stageTitle").textContent = da ? "되돌리는 세 단계를 보세요" : "세 단계를 순서대로 보세요";
+    /* 되돌리는 쪽에서는 '신호 크기'가 정숫값과 같다(소수점은 이미 버려졌다) */
+    $("thRaw").textContent = da ? "되살린 크기" : "신호 크기";
+
+    /* 단계 단추 이름을 방향에 맞게 바꾼다 */
+    $("stageRow").querySelectorAll("[data-s]").forEach(function (b, i) {
+      var st = da ? DA_STAGES[i] : S.STAGES[i];
+      b.querySelector(".nm").textContent = st.name;
+    });
+
+    /* D→A 보기 단추 */
+    var row = $("revExRow");
+    row.innerHTML = "";
+    (REV_EXAMPLES[revBits] || []).forEach(function (e) {
+      var b = el("button", "btn", esc(e[1]));
+      b.type = "button"; b.title = e[0];
+      b.addEventListener("click", function () { $("revIn").value = e[0]; runReverse(); });
+      row.appendChild(b);
+    });
+    /* 지금 A→D 로 만든 코드를 그대로 되돌려 보는 단추 — 왕복이 한눈에 보인다 */
+    var mine = el("button", "btn primary", "방금 만든 코드 넣기");
+    mine.type = "button";
+    mine.addEventListener("click", function () {
+      var sm = S.sampleWave(waveKey, revBits, gap);
+      $("revIn").value = sm.map(function (s) { return s.bin; }).join(" ");
+      runReverse();
+    });
+    mine.title = "① 아날로그 → 디지털 에서 만든 비트열";
+    row.appendChild(mine);
+
+    stage = 0;
+    if (da) { revData = null; renderReverse(); } else { redrawLearn(); }
+  }
+
+  function markRow(rowId, attr, value) {
+    $(rowId).querySelectorAll("[" + attr + "]").forEach(function (b) {
+      var on = (String(b.getAttribute(attr)) === String(value));
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+
+  function redrawLearn() {
+    markRow("waveRow", "data-w", waveKey);
+    markRow("gapRow", "data-g", gap);
+    markRow("bitRow", "data-b", bits);
+    $("stageRow").querySelectorAll("[data-s]").forEach(function (b) {
+      var k = Number(b.dataset.s);
+      b.classList.toggle("on", k === stage);
+      b.classList.toggle("done", k < stage);
+      b.setAttribute("aria-pressed", k === stage ? "true" : "false");
+    });
+
+    var samples = S.sampleWave(waveKey, bits, gap);
+    var curve = [];
+    /* 학습에서는 **원래 파형**을 촘촘히 그린다(간격과 무관해야 손실을 보여 줄 수 있다).
+       ⚠ x 좌표는 **표본 번호와 같은 단위**다 — 표본 i 는 t = i × gap 에 있으므로 x = t / gap 이다.
+          전에 `-0.5` 를 빼서 곡선이 표본 간격의 절반만큼 왼쪽으로 밀려 있었다
+          (점이 곡선 위에 있지 않고 봉우리도 어긋나 보였다). 절대 offset 을 넣지 말 것. */
+    var secs = S.WAVES[waveKey].secs;
+    var n = samples.length;
+    for (var k = 0; k <= 600; k++) {
+      var t = secs * k / 600;
+      curve.push({ x: t / gap, y: S.waveAt(t, waveKey, bits) });
+    }
+
+    $("setNote").innerHTML = "<b>" + S.WAVES[waveKey].name + "</b> 을(를) <b>" + gap +
+      "초마다</b> 끊어 읽고, <b>" + bits + "비트</b>(0 ~ " + S.maxLevel(bits) +
+      " 의 " + S.levelsOf(bits) + "단계)로 나타냅니다. → 표본 <b>" + n + "개</b>";
+
+    var st = stage === 0 ? null : S.STAGES[stage - 1];
+    $("stageLead").innerHTML = stage === 0
+      ? "지금은 <b>아날로그</b> 소리입니다. 값이 끊김 없이 이어져서 컴퓨터가 그대로 저장할 수 없습니다. " +
+        "아래 <b>[다음 단계 ▶]</b> 를 누르세요."
+      : "<b>" + stage + "단계 · " + st.name + "</b> — " + st.what +
+        (stage === 1 ? " (파란 점이 읽은 값입니다)"
+         : stage === 2 ? " (주황 화살표만큼 값이 <b>바뀝니다</b> = 오차)"
+         : " (그래프 아래 0과 1이 실제로 저장되는 값입니다)");
+
+    drawGraph($("wavCanvas"), {
+      samples: samples, bits: bits, curve: curve, stage: stage,
+      showRaw: stage >= 1, showLevel: stage >= 2
+    });
+
+    $("btnNext").disabled = (stage >= 3);
+    $("btnNext").textContent = stage >= 3 ? "모든 단계 완료" : (stage === 0 ? "1단계 : 표본화 ▶" : "다음 단계 ▶");
+
+    /* 표 */
+    var tb = $("sampBody");
+    tb.innerHTML = "";
+    samples.forEach(function (s) {
+      tb.appendChild(el("tr", null,
+        "<td>" + s.t + "</td>" +
+        "<td>" + (stage >= 1 ? s.raw.toFixed(3) : "—") + "</td>" +
+        "<td class='mark-ok'>" + (stage >= 2 ? "<b>" + s.level + "</b>" : "—") + "</td>" +
+        "<td style='font-family:Consolas,monospace'>" +
+          (stage >= 3 ? "<b>" + s.bin + "</b>" : "—") + "</td>"));
+    });
+    var total = S.dataBits(samples.length, bits);
+    $("allBitsLine").innerHTML = stage >= 3
+      ? "이어 붙인 2진수 : <span style='font-family:Consolas,monospace'>" +
+        samples.map(function (s) { return s.bin; }).join(" ") + "</span>"
+      : "3단계 <b>부호화</b>까지 오면 여기에 이어 붙인 2진수가 나옵니다.";
+    $("sizeLine").textContent = "데이터 양 : 표본 " + samples.length + "개 × " + bits +
+      "비트 = " + total + "비트 (" + (total / 8).toFixed(1) + "바이트)";
+
+    /* 간격 비교표 */
+    var gb = $("gapBody");
+    gb.innerHTML = "";
+    /* ⚠ '원래 소리와의 차이' 는 **표본화만의 손실**(sampleLoss)이다.
+       양자화 오차를 함께 재면 2비트·느린 파형에서 숫자가 커지지 않아
+       교과서 61쪽의 결론이 화면에서 사라진다(실제로 그랬다). 두 원인은 아래에서 따로 보여 준다. */
+    var errs = GAPS.map(function (gv) { return S.sampleLoss(waveKey, bits, gv); });
+    var worst = Math.max.apply(null, errs.map(function (e) { return e.mean; }));
+    GAPS.forEach(function (gv, i) {
+      var sm = S.sampleWave(waveKey, bits, gv);
+      var tot = S.dataBits(sm.length, bits);
+      var cls = (gv === gap) ? " class='mark-ok'" : "";
+      var rel = errs[i].mean / (worst || 1);
+      gb.appendChild(el("tr", null,
+        "<td" + cls + "><b>" + gv + "초마다</b></td>" +
+        "<td" + cls + ">" + sm.length + "개</td>" +
+        "<td>" + tot + "비트 (" + (tot / 8).toFixed(1) + "바이트)</td>" +
+        "<td>평균 <b>" + errs[i].mean.toFixed(2) + "</b> · 가장 클 때 " + errs[i].max.toFixed(2) + "</td>" +
+        "<td>" + (rel < 0.5 ? "원래 소리에 가깝다"
+                 : rel < 0.9 ? "조금 다르다" : "많이 다르다 (손실 큼)") + "</td>"));
+    });
+
+    /* 양자화 오차는 **비트 수**의 문제다 — 간격 표와 섞지 않고 따로 보여 준다.
+       ⚠ 오차를 '0.5 이하' 같은 절대값으로 적으면 비트를 늘려도 숫자가 줄지 않는다
+          (단계 사이 간격이 늘 1이므로 반올림 오차는 언제나 0.5 이하다).
+          비트를 늘린 효과는 **전체 범위(0 ~ 최댓값) 대비 몇 %인가** 로 나타난다. */
+    var qb = $("quantBody");
+    qb.innerHTML = "";
+    [2, 3, 4].forEach(function (bv) {
+      var sm = S.sampleWave(waveKey, bv, gap);
+      var qe = S.quantError(sm);
+      var tot = S.dataBits(sm.length, bv);
+      var top = S.maxLevel(bv);
+      var cls = (bv === bits) ? " class='mark-ok'" : "";
+      qb.appendChild(el("tr", null,
+        "<td" + cls + "><b>" + bv + "비트</b></td>" +
+        "<td" + cls + ">" + S.levelsOf(bv) + "단계 (0 ~ " + top + ")</td>" +
+        "<td>" + tot + "비트 (" + (tot / 8).toFixed(1) + "바이트)</td>" +
+        "<td>가장 클 때 " + qe.max.toFixed(2) + " → 전체 " + top +
+          " 중 <b>" + (qe.max / top * 100).toFixed(1) + "%</b></td>"));
+    });
+  }
+
+  /* =========================================================
+     ① - 2  디지털 → 아날로그 (복호화 · 되살리기)
+       저장할 때와 **반대 순서**로 간다 : 코드 나누기 → 복호화 → 소리 되살리기
+     ========================================================= */
+  function runReverse() {
+    var r = S.decodeBits($("revIn").value, revBits, 1);
+    if (r.errors.length) {
+      $("revMsg").hidden = false;
+      $("revMsg").textContent = r.errors[0];
+      revData = null;
+      renderReverse();
+      return;
+    }
+    if (r.levels.length > 24) {
+      $("revMsg").hidden = false;
+      $("revMsg").textContent = "표본이 " + r.levels.length + "개입니다. 24개까지만 그릴 수 있습니다.";
+      return;
+    }
+    $("revMsg").hidden = true;
+    revData = r;
+    stage = 1;                     // 넣자마자 1단계(코드 나누기)부터 보여 준다
+    renderReverse();
+  }
+
+  function renderReverse() {
+    $("stageRow").querySelectorAll("[data-s]").forEach(function (b) {
+      var k = Number(b.dataset.s);
+      b.classList.toggle("on", k === stage);
+      b.classList.toggle("done", k < stage);
+      b.setAttribute("aria-pressed", k === stage ? "true" : "false");
+      b.disabled = !revData;
+    });
+    $("btnNext").disabled = !revData || stage >= 3;
+    $("btnNext").textContent = !revData ? "먼저 이진수를 넣어 주세요"
+      : (stage >= 3 ? "모든 단계 완료" : (stage <= 1 ? "2단계 : 복호화 ▶" : "다음 단계 ▶"));
+
+    if (!revData) {
+      $("setNote").innerHTML = "저장된 <b>0과 1</b>을 넣고 <b>[되살리기]</b> 를 누르세요. " +
+        "한 표본이 <b>" + revBits + "비트</b>라고 보고 끊습니다.";
+      $("stageLead").innerHTML = "아직 넣은 코드가 없습니다. 위의 보기 단추를 눌러 봐도 됩니다.";
+      var g0 = $("wavCanvas").getContext("2d");
+      g0.fillStyle = "#ffffff";
+      g0.fillRect(0, 0, $("wavCanvas").width, $("wavCanvas").height);
+      $("sampBody").innerHTML = "";
+      $("allBitsLine").textContent = "";
+      $("sizeLine").textContent = "";
+      $("daNote").innerHTML = "";
+      return;
+    }
+
+    var sm = revData.samples;
+    var top = S.maxLevel(revBits);
+    var st = DA_STAGES[Math.max(0, stage - 1)];
+    $("setNote").innerHTML = "비트 <b>" + revData.bitCount + "개</b>를 <b>" + revBits +
+      "자리씩</b> 끊어 표본 <b>" + sm.length + "개</b>로 읽었습니다 (한 표본이 0 ~ " + top + ").";
+    $("stageLead").innerHTML = "<b>" + stage + "단계 · " + st.name + "</b> — " + st.what +
+      (stage === 1 ? " (아래 표의 <b>이진수</b> 칸)"
+       : stage === 2 ? " (아래 표의 <b>정숫값</b> 칸 — 부호화의 반대다)"
+       : " (점을 이어 만든 파형입니다)");
+
+    /* 3단계에서만 점을 이어 파형을 그린다 */
+    drawGraph($("wavCanvas"), {
+      samples: sm, bits: revBits,
+      curve: (stage >= 3) ? S.curveThrough(sm, 26) : null,
+      stage: (stage >= 2) ? 2 : 1,
+      showRaw: false,
+      showLevel: stage >= 2
+    });
+
+    /* 표 — A→D 와 같은 표를 쓰되 **읽는 순서가 오른쪽에서 왼쪽**이다 */
+    var tb = $("sampBody");
+    tb.innerHTML = "";
+    sm.forEach(function (s) {
+      tb.appendChild(el("tr", null,
+        "<td>" + s.t + "</td>" +
+        "<td>" + (stage >= 3 ? s.level.toFixed(1) : "—") + "</td>" +
+        "<td class='mark-ok'>" + (stage >= 2 ? "<b>" + s.level + "</b>" : "—") + "</td>" +
+        "<td style='font-family:Consolas,monospace'><b>" + s.bin + "</b></td>"));
+    });
+    $("allBitsLine").innerHTML = "넣은 2진수 : <span style='font-family:Consolas,monospace'>" +
+      sm.map(function (s) { return s.bin; }).join(" ") + "</span>";
+    $("sizeLine").textContent = "데이터 양 : 표본 " + sm.length + "개 × " + revBits +
+      "비트 = " + revData.bitCount + "비트 (" + (revData.bitCount / 8).toFixed(1) + "바이트)";
+
+    $("daNote").innerHTML = stage >= 3
+      ? "⚠ 되살린 소리는 <b>원래 소리와 똑같지 않습니다.</b> 표본 <b>사이</b>의 값은 저장되지 않았으므로 " +
+        "점을 이어서 <b>짐작한</b> 것입니다. 그래서 <b>표본화 간격이 촘촘할수록</b> 원래 소리에 가까워집니다."
+      : "저장할 때와 <b>반대 순서</b>로 갑니다 — 부호화의 반대가 <b>복호화</b>입니다.";
+  }
+
+  $("btnRev").addEventListener("click", runReverse);
+  $("revIn").addEventListener("keydown", function (e) { if (e.key === "Enter") runReverse(); });
+  $("btnRevClear").addEventListener("click", function () {
+    $("revIn").value = "";
+    revData = null;
+    stage = 0;
+    $("revMsg").hidden = true;
+    renderReverse();
+  });
+  /* 하위 탭 — 시뮬레이터를 하나씩 보여 준다. 방향 고르기가 곧 탭이 되었다. */
+  var learnSubs = UI.subTabs($("learnSubs"), [
+    { key: "ad",  label: "① 아날로그 → 디지털", cards: ["setCard", "stageCard", "tblCard"] },
+    { key: "da",  label: "② 디지털 → 아날로그", cards: ["setCard", "stageCard", "tblCard"] },
+    { key: "cmp", label: "③ 간격·비트와 손실",   cards: ["gapCard"] }
+  ], {
+    onChange: function (key) {
+      if (key === "ad" || key === "da") {
+        if (learnDir !== key) { learnDir = key; applyDir(); }
+      } else {
+        /* 비교표는 ①에서 고른 파형·비트를 기준으로 만든 것이다 — 무엇을 기준으로 했는지 밝힌다 */
+        $("gapBasis").innerHTML = "아래 표는 <b>① 아날로그 → 디지털</b> 에서 고른 " +
+          "<b>" + S.WAVES[waveKey].name + " · " + bits + "비트</b> 를 기준으로 만든 것입니다.";
+      }
+    }
+  });
+
+  $("btnNext").addEventListener("click", function () {
+    if (stage < 3) {
+      stage++;
+      if (learnDir === "da") renderReverse(); else redrawLearn();
+    }
+  });
+  $("btnFirst").addEventListener("click", function () {
+    stage = learnDir === "da" ? (revData ? 1 : 0) : 0;
+    if (learnDir === "da") renderReverse(); else redrawLearn();
+  });
+
+  /* =========================================================
+     문제 만들기 — 연습·평가가 함께 쓴다
+       칸(cell) 마다 { kind, head, answer } 를 두어 판정을 한 곳에서 한다.
+         kind "level" : 그래프를 읽어 정숫값 쓰기 (양자화)
+         kind "bin"   : 정숫값을 이진수로 쓰기 (부호화)
+         kind "total" : 전체 비트 수 (표본 수 × 비트 수)
+     ========================================================= */
+  var LEVELS = {
+    low:  { key: "low",  name: "하", points: 1, count: 3, bits: 2 },
+    mid:  { key: "mid",  name: "중", points: 2, count: 4, bits: 3 },
+    high: { key: "high", name: "상", points: 3, count: 6, bits: 3 }
+  };
+  var STAGE_LABEL = {
+    quantize: "양자화 (그래프 → 정숫값)",
+    encode: "부호화 (정숫값 → 이진수)",
+    decode: "복호화 (이진수 → 정숫값)"
+  };
+  /* 방향 표시 — 아날로그→디지털 / 디지털→아날로그 */
+  var STAGE_DIR = { quantize: "아날로그 → 디지털", encode: "아날로그 → 디지털", decode: "디지털 → 아날로그" };
+
+  function makeQuestion(levelKey, stageKey, withTotal) {
+    var L = LEVELS[levelKey];
+    var samples = S.makeSamples(L.count, L.bits, 1);
+    var q = {
+      level: levelKey, stage: stageKey, bits: L.bits, count: L.count,
+      samples: samples, curve: S.curveThrough(samples, 26),
+      withTotal: !!withTotal, cells: []
+    };
+    samples.forEach(function (s) {
+      if (stageKey === "quantize") {
+        q.cells.push({ kind: "level", head: s.t + "초", answer: String(s.level) });
+      } else if (stageKey === "decode") {
+        /* 되돌리기 : 이진수를 보여 주고 정숫값을 묻는다 */
+        q.cells.push({ kind: "level", head: s.bin, answer: String(s.level) });
+      } else {
+        q.cells.push({ kind: "bin", head: "정숫값 " + s.level, answer: s.bin });
+      }
+    });
+    if (withTotal) {
+      q.cells.push({ kind: "total", head: "전체 비트 수",
+                     answer: String(S.dataBits(L.count, L.bits)) });
+    }
+    return q;
+  }
+
+  function questionText(q) {
+    if (q.stage === "quantize") {
+      return "그래프에서 <b>표본 " + q.count + "개</b>의 신호 크기를 읽어 <b>가까운 정숫값</b>으로 쓰시오. " +
+             "(" + q.bits + "비트 = 0 ~ " + S.maxLevel(q.bits) + " 단계)";
+    }
+    if (q.stage === "decode") {
+      return "저장된 <b>이진수 " + q.count + "개</b>를 <b>정숫값</b>으로 되돌리시오 (복호화). " +
+             "(" + q.bits + "비트 = 0 ~ " + S.maxLevel(q.bits) + ")" +
+             (q.withTotal ? " 마지막 칸에는 <b>전체 비트 수</b>를 쓰시오." : "");
+    }
+    return "각 표본의 <b>정숫값</b>을 <b>이진수 " + q.bits + "자리</b>로 나타내시오." +
+           (q.withTotal ? " 마지막 칸에는 <b>전체 비트 수</b>를 쓰시오." : "");
+  }
+
+  /* 답 한 칸 판정 — 앞의 0과 빈칸을 인정한다 */
+  function judgeCell(cell, q, typed) {
+    var t = String(typed == null ? "" : typed).trim().replace(/\s+/g, "");
+    if (t === "") return { ok: false, reason: "빈칸" };
+    if (cell.kind === "bin") {
+      if (!/^[01]+$/.test(t)) return { ok: false, reason: "형식" };
+      if (t.length > q.bits) return { ok: false, reason: "형식" };
+      return { ok: parseInt(t, 2) === parseInt(cell.answer, 2) };
+    }
+    if (!/^\d+$/.test(t)) return { ok: false, reason: "형식" };
+    return { ok: Number(t) === Number(cell.answer) };
+  }
+
+  function unitOf(kind, q) {
+    if (kind === "bin") return "0과 1로 " + q.bits + "자리";
+    if (kind === "total") return "숫자만";
+    return "0 ~ " + S.maxLevel(q.bits) + " 사이의 정수";
+  }
+
+  function answerOf(q) {
+    return q.cells.map(function (c) { return c.answer; }).join(" ");
+  }
+
+  function buildCells(container, q, onEnter) {
+    container.innerHTML = "";
+    var row = el("div", "charins");
+    q.inputs = [];
+    q.cells.forEach(function (c) {
+      var cell = el("div", "charin" + (c.kind === "bin" ? " wide" : "") +
+                            (c.kind === "total" ? " total" : ""),
+        "<span class='c'>" + esc(c.head) + "</span>" +
+        "<input type='text' class='ans' autocomplete='off' spellcheck='false' " +
+        "aria-label='" + esc(c.head) + " 의 답'>");
+      var input = cell.querySelector("input");
+      if (onEnter) input.addEventListener("keydown", function (e) { if (e.key === "Enter") onEnter(); });
+      q.inputs.push(input);
+      row.appendChild(cell);
+    });
+    container.appendChild(row);
+    container.appendChild(el("p", "lvnote",
+      q.stage === "quantize"
+        ? "격자 가로선이 <b>정수 단계</b>입니다. 점이 어느 선에 가장 가까운지 보세요."
+      : q.stage === "decode"
+        ? "자리값 " +
+          Array.from({ length: q.bits }, function (_, i) { return Math.pow(2, q.bits - 1 - i); }).join(" · ") +
+          " 을 이용해 <b>10진수</b>로 되돌리세요." + (q.withTotal ? " 마지막 칸은 <b>전체 비트 수</b>입니다." : "")
+        : "이진수는 <b>" + q.bits + "자리</b>로 자리를 맞춰 쓰세요 (예 " +
+          S.encode(1, q.bits) + ")." + (q.withTotal ? " 마지막 칸만 <b>숫자</b>로 쓰세요." : "")));
+  }
+
+  function judgeQuestion(q) {
+    var each = q.cells.map(function (c, i) { return judgeCell(c, q, q.inputs[i].value); });
+    each.forEach(function (r, i) {
+      q.inputs[i].parentNode.classList.toggle("ok", !!r.ok);
+      q.inputs[i].parentNode.classList.toggle("no", !r.ok);
+    });
+    return {
+      each: each,
+      ok: each.every(function (r) { return r.ok; }),
+      blank: each.some(function (r) { return r.reason === "빈칸"; }),
+      bad: each.some(function (r) { return r.reason === "형식"; }),
+      typed: q.inputs.map(function (x) { return x.value.trim() || "(빈칸)"; }).join(" ")
+    };
+  }
+
+  function hintOf(q) {
+    var s = q.samples[0];
+    var places = Array.from({ length: q.bits }, function (_, i) { return Math.pow(2, q.bits - 1 - i); });
+    if (q.stage === "quantize") {
+      return "첫 표본은 가로선 <b>" + s.level + "</b> 과 <b>" +
+        (s.raw > s.level ? s.level + 1 : s.level - 1) + "</b> 사이에 있고 <b>" + s.level +
+        "</b> 쪽에 더 가깝습니다. 이렇게 <b>가까운 정수</b>를 고르면 됩니다.";
+    }
+    if (q.stage === "decode") {
+      var on = Array.from(s.bin).map(function (c, i) { return c === "1" ? places[i] : null; })
+        .filter(function (v) { return v !== null; });
+      return "첫 코드 <b>" + s.bin + "</b> 은 자리값 " + places.join(" · ") + " 중 " +
+        (on.length ? on.join(" + ") + " = <b>" + s.level + "</b>" : "켜진 자리가 없어 <b>0</b>") +
+        " 입니다." + (q.withTotal ? " 전체 비트 수는 <b>표본 수 × 비트 수</b> 입니다." : "");
+    }
+    return "첫 표본의 정숫값 <b>" + s.level + "</b> 을(를) " + q.bits + "자리 이진수로 쓰면 <b>" +
+      s.bin + "</b> 입니다. 자리값 " + places.join(" · ") +
+      " 를 이용하세요." + (q.withTotal ? " 전체 비트 수는 <b>표본 수 × 비트 수</b> 입니다." : "");
+  }
+
+  /* 복호화 문제는 그래프를 그리지 않는다 — 그래프에 정숫값이 보이면 답을 알려 주는 셈이다 */
+  function needsGraph(q) { return q.stage !== "decode"; }
+
+  /* 문제마다 캔버스를 만들어 그린다 */
+  function drawQuestion(canvas, q) {
+    if (!canvas || !needsGraph(q)) return;
+    drawGraph(canvas, {
+      samples: q.samples, bits: q.bits, curve: q.curve,
+      stage: q.stage === "quantize" ? 1 : 2,
+      showRaw: false,                          // 값을 알려 주면 그래프를 읽을 필요가 없다
+      showLevel: q.stage === "encode"          // 부호화 문제는 정숫값을 보여 준다
+    });
+  }
+
+  /* =========================================================
+     ② 연습문제
+     ========================================================= */
+  var prStage = "quantize";
+  var prItems = [];
+
+  function buildPractice() {
+    var area = $("prProblems");
+    area.innerHTML = "";
+    prItems = [];
+    $("prStageNote").innerHTML = prStage === "quantize"
+      ? "<b>양자화</b> 연습입니다 (아날로그 → 디지털) — 그래프에서 읽은 값을 <b>가까운 정수</b>로 바꿉니다. " +
+        "(교과서 61쪽 : \"정숫값으로 표현할 때는 가까운 정숫값을 선택한다\")"
+      : prStage === "decode"
+      ? "<b>복호화</b> 연습입니다 (<b>디지털 → 아날로그</b>) — 저장된 <b>이진수를 정숫값으로</b> 되돌립니다. " +
+        "이어폰으로 소리가 나올 때 컴퓨터가 하는 일입니다."
+      : "<b>부호화</b> 연습입니다 (아날로그 → 디지털) — 정숫값을 <b>이진수</b>로 바꿉니다. 자리를 맞춰 씁니다.";
+    $("prStageRow").querySelectorAll("[data-stage]").forEach(function (b) {
+      var on = (b.dataset.stage === prStage);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+
+    ["low", "mid", "high"].forEach(function (lv, i) {
+      var L = LEVELS[lv];
+      var q = makeQuestion(lv, prStage, false);
+      var box = el("div", "q");
+      box.innerHTML =
+        "<div class='qhead'><span class='qno'>문제 " + (i + 1) + "</span>" +
+          "<span class='lvnote'>수준 " + L.name + " · 표본 " + L.count + "개 · " +
+          L.bits + "비트 · " + STAGE_LABEL[prStage] + " · " + STAGE_DIR[prStage] + "</span></div>" +
+        "<p class='qtext'>" + questionText(q) + "</p>" +
+        (needsGraph(q) ? "<canvas width='960' height='400' class='wavcanvas'></canvas>" : "") +
+        "<div class='inwrap'></div>" +
+        "<div class='btnrow'>" +
+          "<button class='btn primary' type='button' data-act='check'>정답 확인</button>" +
+          "<button class='btn' type='button' data-act='hint'>힌트</button>" +
+        "</div>" +
+        "<p class='res' hidden></p>";
+      area.appendChild(box);
+
+      var it = { box: box, q: q, solved: false, fb: box.querySelector(".res") };
+      drawQuestion(box.querySelector("canvas"), q);
+      buildCells(box.querySelector(".inwrap"), q, function () { checkPractice(it); });
+      box.querySelector("[data-act='check']").addEventListener("click", function () { checkPractice(it); });
+      box.querySelector("[data-act='hint']").addEventListener("click", function () {
+        it.fb.hidden = false;
+        it.fb.className = "res";
+        it.fb.style.background = "var(--warn-bg)";
+        it.fb.style.borderLeft = "6px solid var(--warn)";
+        it.fb.innerHTML = "<b>힌트</b> — " + hintOf(it.q);
+      });
+      prItems.push(it);
+    });
+    /* 문제를 하나씩 넘겨 본다 */
+    UI.pager($("prNav"), prItems.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }), { lead: "한 문제씩 풀어 보세요" });
+    updatePrScore();
+  }
+
+  function checkPractice(it) {
+    var r = judgeQuestion(it.q);
+    it.fb.hidden = false;
+    it.fb.style.background = "";
+    it.fb.style.borderLeft = "";
+    if (r.blank) {
+      it.fb.className = "res no";
+      it.fb.textContent = "빈칸이 있습니다. 표본마다 답을 써 주세요.";
+      it.solved = false;
+    } else if (r.bad) {
+      it.fb.className = "res no";
+      it.fb.textContent = "답 형식이 맞지 않은 칸이 있습니다 (" +
+        unitOf(it.q.stage === "quantize" ? "level" : "bin", it.q) + ").";
+      it.solved = false;
+    } else if (r.ok) {
+      it.fb.className = "res ok";
+      it.fb.innerHTML = "정답입니다! <b>" + answerOf(it.q) + "</b>";
+      it.solved = true;
+    } else {
+      var wrong = r.each.filter(function (x) { return !x.ok; }).length;
+      it.fb.className = "res no";
+      it.fb.textContent = "아직 아니에요. " + wrong + "칸이 틀렸습니다(빨간 칸). " +
+        (it.q.stage === "quantize" ? "점이 어느 가로선에 더 가까운지 다시 보세요."
+                                   : "자리값을 하나씩 확인해 보세요.");
+      it.solved = false;
+    }
+    updatePrScore();
+  }
+
+  function updatePrScore() {
+    var n = prItems.filter(function (x) { return x.solved; }).length;
+    $("prScore").textContent = "맞힌 문제 : " + n + " / " + prItems.length +
+      (n === prItems.length && prItems.length ? "  모두 정답!" : "");
+  }
+
+  $("prStageRow").querySelectorAll("[data-stage]").forEach(function (b) {
+    b.addEventListener("click", function () { prStage = b.dataset.stage; buildPractice(); });
+  });
+  $("prNew").addEventListener("click", buildPractice);
+
+  /* =========================================================
+     ③ 평가 — 세 문제에 표본화·양자화·부호화가 모두 들어간다
+     ========================================================= */
+  var EV_N = 3;
+  var items = [];
+  var evStarted = false, evSubmitted = false, lastPdf = null;
+
+  /* 세 문제에 **두 방향이 모두** 들어간다 (사용자 지시) —
+     하·중은 아날로그 → 디지털(저장하는 쪽), 상은 디지털 → 아날로그(들려주는 쪽). */
+  var EVAL_PLAN = {
+    low:  { stage: "quantize", withTotal: false, what: "양자화 · 정숫값 읽기 (A→D)" },
+    mid:  { stage: "encode",   withTotal: false, what: "부호화 · 이진수로 (A→D)" },
+    high: { stage: "decode",   withTotal: true,  what: "복호화 + 데이터 양 (D→A)" }
+  };
+
+  var evPager = null, evCheckBox = null;
+
+  function buildProblems() {
+    var area = $("evProblems");
+    area.innerHTML = "";
+    items = [];
+    for (var i = 0; i < EV_N; i++) items.push(makeProblem(i, area));
+
+    /* 맨 끝에 「전체 확인」 화면 — 제출 전에 빠진 것을 알려 준다 */
+    evCheckBox = el("div", "q");
+    area.appendChild(evCheckBox);
+
+    evPager = UI.pager($("evNav"), items.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }).concat([{ el: evCheckBox, label: "전체 확인", short: "📋 전체 확인" }]), {
+      lead: "한 문제씩 풀고 마지막에 확인하세요",
+      onChange: function (i) { if (i === EV_N) refreshEvCheck(); }
+    });
+  }
+
+  /* 전체 확인 화면 — 수준을 골랐는지 · 답을 다 썼는지 · 풀이를 그렸는지 */
+  function refreshEvCheck() {
+    if (!evCheckBox) return;
+    var rows = items.map(function (it, i) {
+      var lv = it.level ? LEVELS[it.level].name + " (" + LEVELS[it.level].points + "점)" : "—";
+      var ans = "—", pad = "—", ok = !!it.level;
+      if (it.q) {
+        var blank = it.q.inputs.filter(function (x) { return x.value.trim() === ""; }).length;
+        ans = blank === 0 ? "다 썼습니다" : (blank + "칸 비었습니다");
+        if (blank > 0) ok = false;
+        pad = it.pad.isEmpty() ? "아직 안 그렸습니다" : "그렸습니다";
+      } else { ok = false; }
+      return "<tr>" +
+        "<td>" + (i + 1) + "번</td><td>" + lv + "</td>" +
+        "<td class='" + (it.q && ans === "다 썼습니다" ? "mark-ok" : "mark-no") + "'>" + ans + "</td>" +
+        "<td>" + pad + "</td>" +
+        "<td>" + (ok ? "<b class='mark-ok'>준비됨</b>" : "<b class='mark-no'>확인 필요</b>") + "</td></tr>";
+    }).join("");
+    var ready = items.every(function (it) {
+      return it.level && it.q && it.q.inputs.every(function (x) { return x.value.trim() !== ""; });
+    });
+    evCheckBox.innerHTML =
+      "<div class='qhead'><span class='qno'>전체 확인</span>" +
+      "<span class='lvnote'>제출하기 전에 빠진 것이 없는지 봅니다</span></div>" +
+      "<div class='tablescroll'><table class='grid'><thead><tr>" +
+      "<th style='width:12%'>문제</th><th style='width:20%'>수준</th>" +
+      "<th style='width:26%'>답</th><th style='width:24%'>풀이</th>" +
+      "<th style='width:18%'>상태</th></tr></thead><tbody>" + rows + "</tbody></table></div>" +
+      "<p class='res " + (ready ? "ok" : "no") + "'>" + (ready
+        ? "모두 준비되었습니다. 아래 <b>3. 제출</b> 에서 [제출하기] 를 누르세요."
+        : "아직 <b>확인 필요</b> 인 문제가 있습니다. 위 번호를 눌러 그 문제로 돌아가세요.") + "</p>";
+  }
+
+  function makeProblem(idx, area) {
+    var box = el("div", "q");
+    box.innerHTML =
+      "<div class='qhead'>" +
+        "<span class='qno'>문제 " + (idx + 1) + "</span>" +
+        "<span class='levels'>" +
+          "<button class='btn' type='button' data-lv='low' aria-pressed='false'>" +
+            "하 · 표본 3개 → 정숫값 (1점)</button>" +
+          "<button class='btn' type='button' data-lv='mid' aria-pressed='false'>" +
+            "중 · 표본 4개 → 이진수 (2점)</button>" +
+          "<button class='btn' type='button' data-lv='high' aria-pressed='false'>" +
+            "상 · 이진수 → 정숫값 + 데이터 양 (3점)</button>" +
+        "</span>" +
+        "<span class='lvnote'>수준을 고르면 그래프와 답칸이 나옵니다</span>" +
+      "</div>" +
+      "<p class='qtext empty'>— 상 · 중 · 하 중에서 수준을 먼저 고르세요 —</p>" +
+      "<div class='cvwrap'></div>" +
+      "<div class='inwrap'></div>" +
+      "<p class='lead' style='margin:14px 0 0'>풀이 (여기에 손으로 계산 과정을 적으세요)</p>" +
+      "<div class='padwrap'></div>" +
+      "<p class='res' hidden></p>";
+    area.appendChild(box);
+
+    var it = {
+      box: box, level: null, q: null,
+      qText: box.querySelector(".qtext"),
+      cv: box.querySelector(".cvwrap"),
+      inwrap: box.querySelector(".inwrap"),
+      note: box.querySelector(".lvnote"),
+      fb: box.querySelector(".res"),
+      pad: PdfKit.createPad(box.querySelector(".padwrap"), { height: 360 })
+    };
+
+    box.querySelectorAll("[data-lv]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (!evStarted || evSubmitted) return;
+        var typedSomething = it.q && it.q.inputs.some(function (x) { return x.value.trim() !== ""; });
+        if (it.level && (!it.pad.isEmpty() || typedSomething)) {
+          if (!confirm("수준을 바꾸면 지금 문제와 풀이가 지워집니다. 바꿀까요?")) return;
+        }
+        box.querySelectorAll("[data-lv]").forEach(function (b) {
+          var on = (b === btn);
+          b.classList.toggle("on", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        it.level = btn.dataset.lv;
+        var L = LEVELS[it.level];
+        var plan = EVAL_PLAN[it.level];
+        it.q = makeQuestion(it.level, plan.stage, plan.withTotal);
+        it.qText.className = "qtext";
+        it.qText.innerHTML = questionText(it.q);
+        it.note.textContent = "수준 " + L.name + " · 표본 " + L.count + "개 · " +
+          L.bits + "비트 · " + plan.what;
+        it.fb.hidden = true;
+        it.pad.clear();
+        it.cv.innerHTML = "";
+        it.canvas = null;
+        if (needsGraph(it.q)) {
+          var cv = el("canvas", "wavcanvas");
+          cv.width = 960; cv.height = 400;
+          it.cv.appendChild(cv);
+          it.canvas = cv;
+          drawQuestion(cv, it.q);
+        }
+        buildCells(it.inwrap, it.q);
+      });
+    });
+    return it;
+  }
+
+  function applyPhase() {
+    var running = evStarted && !evSubmitted;
+    $("evStart").disabled = running || evSubmitted;
+    $("evStart").textContent = evSubmitted ? "평가 종료" : (running ? "평가 중" : "평가 시작");
+    $("evSubmit").disabled = !running;
+    items.forEach(function (it) {
+      it.box.querySelectorAll("button").forEach(function (b) { b.disabled = !running; });
+      if (it.q) it.q.inputs.forEach(function (x) { x.disabled = !running; });
+    });
+    [$("tabLearn"), $("tabPractice")].forEach(function (t) {
+      t.dataset.locked = running ? "1" : "0";
+      t.setAttribute("aria-disabled", running ? "true" : "false");
+    });
+    if (running) {
+      $("lockBar").hidden = false;
+      $("lockBar").textContent = "평가 중입니다. ① 소리 변환 · ② 연습문제 탭은 평가를 제출한 뒤에 쓸 수 있습니다.";
+    } else {
+      $("lockBar").hidden = true;
+    }
+    $("evPhase").className = "res " + (running ? "ok" : "");
+    $("evPhase").innerHTML = evSubmitted
+      ? "제출이 끝났습니다. 채점 결과는 아래 <b>3. 제출</b>에서 확인하세요."
+      : (running ? "<b>평가 중입니다.</b> 문제마다 수준을 고르고, 그래프를 읽어 풀이를 적은 뒤 답을 쓰세요."
+                 : "위 <b>[평가 시작]</b>을 누르면 문제가 나옵니다.");
+  }
+
+  $("evStart").addEventListener("click", function () {
+    evStarted = true; evSubmitted = false;
+    buildProblems();
+    applyPhase();
+    $("evStartMsg").innerHTML = "<b>소리 변환</b> 평가를 시작했습니다.";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+  });
+
+  $("evRedo").addEventListener("click", function () {
+    if (!confirm(evSubmitted ? "새로 풀어서 다시 제출할까요? 이미 낸 PDF 파일은 그대로 남습니다."
+                             : "지금 쓴 내용을 모두 지우고 처음부터 다시 할까요?")) return;
+    evStarted = false; evSubmitted = false; lastPdf = null;
+    $("evProblems").innerHTML = "";
+    $("evNav").innerHTML = "";
+    items = [];
+    evPager = null; evCheckBox = null;
+    $("evStartMsg").textContent = "";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+    applyPhase();
+  });
+
+  $("evSubmit").addEventListener("click", function () {
+    if (!evStarted) { evShow("먼저 [평가 시작]을 눌러 주세요.", "no"); return; }
+    if (evSubmitted) { evShow("이미 제출했습니다.", "no"); return; }
+
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (!it.level) {
+        evShow("문제 " + (i + 1) + "의 수준을 골라 주세요.", "no");
+        if (evPager) evPager.go(i);
+        return;
+      }
+      var r = judgeQuestion(it.q);
+      if (r.blank) {
+        evShow("문제 " + (i + 1) + "에 빈칸이 있습니다. 칸마다 답을 써 주세요.", "no");
+        /* 숨어 있는 칸에 초점을 주면 아무 일도 안 보인다 → 그 문제로 먼저 넘긴다 */
+        if (evPager) evPager.go(i);
+        it.q.inputs.filter(function (x) { return x.value.trim() === ""; })[0].focus();
+        return;
+      }
+      if (r.bad) {
+        evShow("문제 " + (i + 1) + "의 답 형식이 맞지 않습니다.", "no");
+        if (evPager) evPager.go(i);
+        return;
+      }
+    }
+    var emptyPads = items.filter(function (it) { return it.pad.isEmpty(); }).length;
+    if (emptyPads > 0 && !confirm("풀이를 적지 않은 문제가 " + emptyPads + "개 있습니다. 그래도 제출할까요?")) return;
+
+    var results = items.map(function (it) {
+      var r = judgeQuestion(it.q);
+      var pts = LEVELS[it.level].points;
+      return { typed: r.typed, correct: answerOf(it.q), ok: r.ok, points: pts, earned: r.ok ? pts : 0 };
+    });
+    var score = results.reduce(function (a, r) { return a + r.earned; }, 0);
+    var total = results.reduce(function (a, r) { return a + r.points; }, 0);
+    var rate = total > 0 ? Math.round(score / total * 100) : 0;
+    /* 어느 단계가 나왔는지로 종류표를 정한다(파일 이름에 들어간다).
+       두 방향이 함께 나오면 `pcm`(= 표본화·양자화·부호화 한 벌)으로 적는다. */
+    var stages = items.map(function (it) { return it.q.stage; });
+    var uniq = stages.filter(function (v, i) { return stages.indexOf(v) === i; });
+    var kindTag = uniq.length > 1 ? "pcm"
+                : (uniq[0] === "quantize" ? "quant" : uniq[0] === "decode" ? "decode" : "encode");
+
+    PdfKit.askStudentInfo({ okText: "PDF 만들기" }, function (info) {
+      var stamp = PdfKit.stamp();
+      var doc = PdfKit.createDoc({
+        title: "소리 변환 평가",
+        subtitle: "표본화 · 양자화 · 부호화",
+        meta: {
+          grade: info.grade, cls: info.cls, num: info.num, name: info.name,
+          when: stamp.human,
+          right: score + " / " + total + "점 (" + rate + "%)"
+        },
+        footer: "아날로그 → 디지털 변환 학습기 · 자료의 디지털 표현 [9정02-01]"
+      });
+
+      items.forEach(function (it, i) {
+        var r = results[i];
+        var L = LEVELS[it.level];
+        var plan = EVAL_PLAN[it.level];
+        doc.h1("문제 " + (i + 1) + "  (수준 " + L.name + " · " + plan.what + " · 배점 " + r.points + "점)");
+        doc.p(it.q.stage === "quantize"
+          ? "그래프에서 표본 " + it.q.count + "개의 신호 크기를 읽어 가까운 정숫값으로 쓰시오. (" +
+            it.q.bits + "비트 = 0 ~ " + S.maxLevel(it.q.bits) + ")"
+          : it.q.stage === "decode"
+          ? "저장된 이진수 " + it.q.count + "개를 정숫값으로 되돌리시오 (복호화). (" +
+            it.q.bits + "비트 = 0 ~ " + S.maxLevel(it.q.bits) + ")" +
+            (it.q.withTotal ? " 마지막 칸에는 전체 비트 수를 쓰시오." : "")
+          : "각 표본의 정숫값을 이진수 " + it.q.bits + "자리로 나타내시오." +
+            (it.q.withTotal ? " 마지막 칸에는 전체 비트 수를 쓰시오." : ""),
+          { bold: true, size: 25, color: PdfKit.COLORS.ink });
+        if (it.canvas) doc.img(it.canvas, { maxH: 250 });
+        /* 복호화 문제는 이진수가 '문제', 정숫값이 '정답' 이므로 열 순서를 뒤집는다 */
+        if (it.q.stage === "decode") {
+          doc.table([["문제 (이진수 " + it.q.bits + "자리)", "자리값 계산", "정답 (정숫값)"]].concat(
+            it.q.samples.map(function (s) {
+              var pl = Array.from(s.bin).map(function (c, k) {
+                return c === "1" ? Math.pow(2, it.q.bits - 1 - k) : null;
+              }).filter(function (v) { return v !== null; });
+              return [s.bin, (pl.length ? pl.join(" + ") : "켜진 자리 없음"), String(s.level)];
+            })), [30, 40, 30]);
+        } else {
+          doc.table([["시간(초)", "신호 크기", "정숫값", "이진수 " + it.q.bits + "자리"]].concat(
+            it.q.samples.map(function (s) {
+              return [String(s.t), s.raw.toFixed(2), String(s.level), s.bin];
+            })), [20, 26, 20, 34]);
+        }
+        if (it.q.withTotal) {
+          doc.p("전체 비트 수 = 표본 " + it.q.count + "개 × " + it.q.bits + "비트 = " +
+                S.dataBits(it.q.count, it.q.bits) + "비트", { size: 23 });
+        }
+        doc.mark("내가 쓴 답 : " + r.typed, r.ok, "얻은 점수 " + r.earned + " / " + r.points + "점");
+        doc.box("풀이", "", { minLines: 0 });
+        doc.img(it.pad.canvas, { maxH: 240 });
+        if (i < items.length - 1) doc.gap(8);
+      });
+
+      var blob = PdfKit.buildPdf(doc.finish());
+      var fname = PdfKit.makeFileName("소리변환평가", info, kindTag + "-" + score + "of" + total);
+      lastPdf = { blob: blob, name: fname };
+      PdfKit.downloadBlob(blob, fname);
+
+      evSubmitted = true;
+      applyPhase();
+      $("evAgain").hidden = false;
+      $("evScore").textContent = score + " / " + total + " 점  (" + rate + "%)";
+      var tb = $("evTbody");
+      tb.innerHTML = "";
+      items.forEach(function (it, i) {
+        var r = results[i];
+        tb.appendChild(el("tr", null,
+          "<td>" + (i + 1) + "번</td>" +
+          "<td>" + LEVELS[it.level].name + "</td>" +
+          "<td>" + r.points + "점</td>" +
+          "<td>" + EVAL_PLAN[it.level].what + "</td>" +
+          "<td>" + esc(r.typed) + "</td>" +
+          "<td>" + esc(r.correct) + "</td>" +
+          "<td class='" + (r.ok ? "mark-ok" : "mark-no") + "'>" +
+            (r.ok ? "○ +" + r.earned + "점" : "× 0점") + "</td>"));
+        it.fb.hidden = false;
+        it.fb.className = "res " + (r.ok ? "ok" : "no");
+        it.fb.innerHTML = (r.ok ? "○ 정답" : "× 정답은 <b>" + esc(r.correct) + "</b>") +
+          " — " + explain(it);
+      });
+      $("evResult").hidden = false;
+      evShow("제출이 끝났습니다. PDF 파일 이름 : " + fname, "ok");
+      PdfKit.toast("PDF를 저장했습니다. 선생님께 이 파일을 내세요.", "ok");
+    });
+  });
+
+  $("evAgain").addEventListener("click", function () {
+    if (!lastPdf) return;
+    PdfKit.downloadBlob(lastPdf.blob, lastPdf.name);
+    PdfKit.toast("PDF를 다시 받았습니다.", "ok");
+  });
+
+  function explain(it) {
+    var q = it.q;
+    var each = q.samples.map(function (s) {
+      return q.stage === "quantize" ? s.t + "초 " + s.raw.toFixed(2) + " → " + s.level
+           : q.stage === "decode"   ? s.bin + "(2) → " + s.level
+           : s.level + " → " + s.bin + "(2)";
+    }).join(" · ");
+    return each + (q.withTotal
+      ? " · 전체 " + q.count + " × " + q.bits + " = " + S.dataBits(q.count, q.bits) + "비트" : "");
+  }
+
+  function evShow(text, kind) {
+    $("evMsg").hidden = false;
+    $("evMsg").className = "res " + (kind || "");
+    $("evMsg").textContent = text;
+  }
+
+  /* =========================================================
+     시작
+     ========================================================= */
+  buildRows();
+  applyDir();                 // 방향에 맞게 화면을 세우고 그린다 (안에서 redrawLearn 을 부른다)
+  buildPractice();
+  applyPhase();
+})();
+</script>
+</body>
+</html>

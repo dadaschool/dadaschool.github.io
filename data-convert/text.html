@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>글자 변환 (아스키코드 · 유니코드) · 아날로그 → 디지털</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='17' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3EA%3C/text%3E%3C/svg%3E">
+
+  <link rel="stylesheet" crossorigin href="./assets/app-D0DPNJ5q.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🔤 글자 변환 (아스키코드 · 유니코드)</h1>
+  <span class="badge">자료의 디지털 표현 [9정02-01]</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 처음으로</a>
+  <a class="home" href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <p class="lockbar" id="lockBar" hidden></p>
+
+  <div class="tabs" role="tablist" aria-label="글자 변환 화면 고르기">
+    <button class="tab" id="tabLearn" role="tab" aria-selected="true"
+            aria-controls="panLearn" tabindex="0">① 글자 변환</button>
+    <button class="tab" id="tabPractice" role="tab" aria-selected="false"
+            aria-controls="panPractice" tabindex="-1">② 연습문제</button>
+    <button class="tab" id="tabEval" role="tab" aria-selected="false"
+            aria-controls="panEval" tabindex="-1">③ 평가</button>
+  </div>
+
+  <!-- ================= ① 글자 변환 ================= -->
+  <div id="panLearn" role="tabpanel" aria-labelledby="tabLearn">
+
+    <!-- 시뮬레이터 고르기 — 방향 고르기가 곧 하위 탭이 되었다 -->
+    <div class="subtabs" id="learnSubs" aria-label="글자 시뮬레이터 고르기"></div>
+
+    <!-- 화면 ①② 글자↔코드 : 안의 카드는 방향·진행에 따라 JS 가 따로 여닫는다 -->
+    <div id="scrConv">
+    <!-- 좌우 두 칸 : 왼쪽 = 넣는 곳 · 오른쪽 = 코드표와 결과 -->
+    <div class="twocol wide">
+    <div class="colL">
+    <div class="card">
+      <h2><span class="step">1</span> <span id="inTitle">글자를 넣어 보세요</span></h2>
+      <p class="lead">
+        컴퓨터는 글자도 <b>숫자(코드)</b>로 바꾸어 저장합니다.
+        <b>영어·기호는 아스키코드</b>, <b>한글은 유니코드</b>를 씁니다.
+      </p>
+
+      <!-- 코드를 넣는 방향일 때만 나온다 : 넣는 코드가 몇 진수인지 -->
+      <div class="baserow" id="codeBaseRow" hidden>
+        <span class="lab">코드의 진수</span>
+        <button class="btn on" type="button" data-cb="bin" aria-pressed="true">2진수</button>
+        <button class="btn" type="button" data-cb="quad" aria-pressed="false">4진수</button>
+        <button class="btn" type="button" data-cb="hex" aria-pressed="false">16진수</button>
+      </div>
+      <div class="hint" id="dirNote"></div>
+
+      <div class="inrow">
+        <!-- 글자를 넣는 칸(한 줄) -->
+        <input type="text" id="src" maxlength="8" autocomplete="off" spellcheck="false"
+               aria-label="변환할 글자" placeholder="Hi 또는 한글">
+        <!-- 코드를 넣는 칸 — 코드 8개면 63자까지 되므로 **줄바꿈되는 칸**을 따로 둔다 -->
+        <textarea id="srcCode" class="codein" rows="2" spellcheck="false" hidden
+                  aria-label="변환할 코드" placeholder="1000001 1000010"></textarea>
+        <span class="unit" id="srcUnit">최대 8글자 · 영어와 한글을 섞어도 됩니다</span>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="btnGo">변환하기</button>
+        <span id="exRow"></span>
+        <button class="btn ghost" id="btnClear">지우기</button>
+      </div>
+      <p class="res no" id="msg" hidden></p>
+      <p class="res" id="decOut" hidden></p>
+    </div>
+
+    </div><!-- /colL -->
+    <div class="colR">
+
+    <!-- 코드 → 글자 : **찾아보는 곳.** 답을 바로 주지 않고 코드표·자모표를 먼저 준다. -->
+    <div class="card" id="findCard" hidden>
+      <h2><span class="step">2</span> 코드표에서 찾아보세요</h2>
+      <p class="lead">
+        코드를 <b>4진수</b>로 바꾸었습니다(4진수 한 자리 = 2비트라 <b>나누지 않아도</b> 됩니다).
+        이제 <b>아래 표에서 그 값을 찾으면</b> 글자가 나옵니다.
+        찾은 뒤에 <b>[답 보기]</b> 를 눌러 맞는지 확인하세요.
+      </p>
+      <div id="findBody"></div>
+      <div class="btnrow">
+        <button class="btn primary big" id="btnReveal">답 보기</button>
+        <span class="lvnote" id="revealNote"></span>
+      </div>
+    </div>
+
+    <div class="card" id="listCard" hidden>
+      <h2><span class="step" id="stepList">2</span> <span id="listTitle">글자마다 이렇게 바뀝니다</span></h2>
+      <p class="lead">글자를 누르면 아래에서 자세히 볼 수 있습니다.
+        <b>어느 방향으로 왔든 같은 표</b>입니다 — 글자와 코드는 한 짝이기 때문입니다.</p>
+      <div class="tablescroll">
+        <table class="grid" id="charTable">
+          <thead>
+            <tr>
+              <th style="width:11%">글자</th>
+              <th style="width:24%">종류</th>
+              <th style="width:17%">4진수</th>
+              <th style="width:13%">16진수</th>
+              <th style="width:25%">2진수</th>
+              <th style="width:10%">크기</th>
+            </tr>
+          </thead>
+          <tbody id="charBody"></tbody>
+        </table>
+      </div>
+      <p class="sumline" id="allBits"></p>
+    </div>
+
+    <div class="card" id="oneCard" hidden>
+      <h2><span class="step" id="stepOne">3</span> 한 글자 자세히 보기</h2>
+      <div class="charhead">
+        <span class="bigchar" id="bigChar"></span>
+        <span class="charmeta" id="charMeta"></span>
+      </div>
+      <p class="lead" id="bitLead"></p>
+      <div class="cards" id="bitCards"></div>
+      <p class="bytemark" id="byteMark"></p>
+      <p class="sumline" id="bitSum"></p>
+      <div id="hanBox" hidden>
+        <h3 style="font-size:22px;margin:22px 0 4px">한글은 자모로 계산됩니다</h3>
+        <p class="lead">
+          한글 완성형 글자의 코드값은 <b>초성·중성·종성 번호로 계산</b>됩니다.
+          그래서 11,172자를 표로 외우지 않아도 됩니다.
+        </p>
+        <div class="formula" id="hanFormula"></div>
+        <div class="tablescroll">
+          <table class="grid" id="hanTable">
+            <thead><tr><th style="width:22%">자리</th><th style="width:20%">자모</th>
+              <th style="width:20%">번호</th><th style="width:38%">계산에 쓰이는 값</th></tr></thead>
+            <tbody id="hanBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    </div><!-- /colR -->
+    </div><!-- /twocol -->
+    </div><!-- /scrConv -->
+
+    <!-- 화면 ③ 한글 자모 계산 -->
+    <div id="scrJamo">
+    <div class="card">
+      <h2><span class="step">3</span> 한글은 표가 아니라 계산입니다</h2>
+      <p class="lead">
+        한글 완성형은 <b>가(44032)부터 힣(55203)까지 11,172자</b>라서 표로 외울 수 없습니다.
+        대신 <b>초성·중성·종성 번호로 계산</b>합니다. 아래에서 눌러 만들어 보세요.
+      </p>
+      <div class="formula">
+        <span class="big">코드값 = 44032 + (초성번호 × 588) + (중성번호 × 28) + 종성번호</span><br>
+        <span style="font-size:19px;color:var(--sub)">
+          588 = 21 × 28 (중성 21개 × 종성 28개) · 종성이 없으면 0번
+        </span>
+      </div>
+      <div class="hint" id="makeBox"></div>
+      <p class="groupname">초성 19개 (번호 0~18)</p>
+      <div class="jamogrid" id="choGrid"></div>
+      <p class="groupname">중성 21개 (번호 0~20)</p>
+      <div class="jamogrid" id="jungGrid"></div>
+      <p class="groupname">종성 28개 (번호 0~27 · 0번은 종성 없음)</p>
+      <div class="jamogrid" id="jongGrid"></div>
+      <div class="warnbox" style="margin-top:20px">
+        <b>바이트 수 이야기</b> — 여기서 다루는 것은 글자의 <b>코드값(번호)</b>입니다.
+        실제로 저장할 때는 방식에 따라 크기가 달라집니다 — 한글 한 글자는
+        <b>UTF-16이면 2바이트, UTF-8이면 3바이트</b>입니다. 영어는 둘 다 1바이트입니다.
+      </div>
+    </div>
+
+    </div><!-- /scrJamo -->
+
+  </div><!-- /panLearn -->
+
+  <!-- ================= ② 연습문제 ================= -->
+  <div id="panPractice" role="tabpanel" aria-labelledby="tabPractice" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 연습문제 3개</h2>
+      <p class="lead">
+        문제마다 <b>그 문제에 필요한 코드표만</b> 함께 나옵니다. 표를 보고
+        <b>한 칸씩</b> 답을 쓰세요. <b>정답 확인</b>은 몇 번이든 눌러도 되고
+        <b>힌트</b>도 있습니다. 점수는 기록되지 않습니다.
+      </p>
+      <!-- ⚠ 방향 선택 단추를 없앴다(2026-08-12 사용자 지시) —
+           **평가와 똑같은 3문항 구성**을 쓴다. 방향은 수준이 정한다(하·중 = 글자→코드, 상 = 되돌리기). -->
+      <div class="baserow" id="prKindRow">
+        <span class="lab">무엇을 연습할까요?</span>
+        <button class="btn on" type="button" data-kind="en" aria-pressed="true">🔤 영어 (아스키코드)</button>
+        <button class="btn" type="button" data-kind="ko" aria-pressed="false">🇰🇷 한글 (유니코드)</button>
+      </div>
+      <div class="hint" id="prKindNote"></div>
+      <!-- 문제를 하나씩 넘겨 본다 -->
+      <div class="pagerbar" id="prNav"></div>
+      <div id="prProblems"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="prNew">새 문제 3개</button>
+        <span class="score" id="prScore" style="font-size:22px"></span>
+      </div>
+    </div>
+
+  </div><!-- /panPractice -->
+
+  <!-- ================= ③ 평가 ================= -->
+  <div id="panEval" role="tabpanel" aria-labelledby="tabEval" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 평가 시작</h2>
+      <p class="lead">
+        문제마다 수준을 고르면 <b>필요한 코드표가 문제 아래에 함께</b> 나옵니다.
+        코드를 외우는 것이 아니라 <b>표에서 찾아 진수로 바꾸는 것</b>이 이 평가의 목표입니다.
+      </p>
+
+      <!-- 영어 평가 · 한글 평가를 **따로** 본다 (2026-08-12 사용자 지시) -->
+      <div class="baserow" id="evKindRow">
+        <span class="lab">어느 평가를?</span>
+        <button class="btn on big" type="button" data-ek="en" aria-pressed="true">
+          🔤 영어 평가 (아스키코드)</button>
+        <button class="btn big" type="button" data-ek="ko" aria-pressed="false">
+          🇰🇷 한글 평가 (유니코드)</button>
+      </div>
+      <div class="hint" id="evKindNote"></div>
+
+      <div class="btnrow">
+        <button class="btn primary big" id="evStart">평가 시작</button>
+        <button class="btn ghost" id="evRedo">처음부터 다시</button>
+        <span id="evStartMsg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">2</span> 문제 풀기</h2>
+      <p class="res" id="evPhase"></p>
+      <!-- 문제 하나씩 + 맨 끝에 「전체 확인」 화면 -->
+      <div class="pagerbar" id="evNav"></div>
+      <div id="evProblems"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">3</span> 제출</h2>
+      <p class="lead">
+        <b>제출하면 답안 PDF가 내 기기에 저장됩니다.</b> 그 파일을 선생님께 내세요.
+        학년·반·학번·이름은 <b>제출할 때 한 번만</b> 물어보고 PDF 안에만 들어갑니다.
+      </p>
+      <div class="btnrow">
+        <button class="btn primary big" id="evSubmit">제출하기 (PDF 저장)</button>
+        <button class="btn" id="evAgain" hidden>PDF 다시 받기</button>
+      </div>
+      <p class="res" id="evMsg" hidden></p>
+      <div id="evResult" hidden>
+        <p style="margin:16px 0 6px">점수 : <span class="score" id="evScore"></span></p>
+        <div class="tablescroll">
+          <table class="grid">
+            <thead><tr><th>문제</th><th>수준</th><th>배점</th><th>글자</th><th>코드</th>
+              <th>내가 쓴 답</th><th>정답</th><th>채점</th></tr></thead>
+            <tbody id="evTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panEval -->
+
+</div>
+
+<script src="js/pdf.js?v=202608192011"></script>
+<script src="js/ui.js?v=202608192011"></script>
+<script src="js/text.js?v=202608192011"></script>
+<script>
+(function () {
+  "use strict";
+  var T = window.TextCode;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+
+  /* =========================================================
+     탭 — 평가 중에는 학습·코드표 탭을 막는다
+     ========================================================= */
+  var tabs = [$("tabLearn"), $("tabPractice"), $("tabEval")];
+  var panels = { tabLearn: $("panLearn"), tabPractice: $("panPractice"), tabEval: $("panEval") };
+
+  function selectTab(btn) {
+    if (btn.dataset.locked === "1") {
+      $("lockBar").hidden = false;
+      $("lockBar").textContent = "평가 중입니다. " + btn.textContent.trim() +
+        " 탭은 평가를 제출한 뒤에 쓸 수 있습니다.";
+      return;
+    }
+    tabs.forEach(function (t) {
+      var on = (t === btn);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      panels[t.id].hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { selectTab(t); });
+    t.addEventListener("keydown", function (e) {
+      var next = null;
+      if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+      else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (next) { e.preventDefault(); selectTab(next); next.focus(); }
+    });
+  });
+
+  /* =========================================================
+     ① 글자 변환
+     ========================================================= */
+  var list = [];        // 지금 보고 있는 글자 정보 목록
+  var pickIdx = 0;      // 자세히 보고 있는 글자
+  var learnDir = "encode";   // "encode" 글자 → 코드 · "decode" 코드 → 글자
+  var codeBase = "bin";      // decode 일 때 넣는 코드의 진수
+
+  /* 지금 쓰는 입력칸 — 글자는 한 줄 칸, 코드는 줄바꿈되는 칸 */
+  function inputEl() { return learnDir === "decode" ? $("srcCode") : $("src"); }
+
+  /* 코드 칸을 **내용 높이에 맞춰 늘린다.**
+     좁은 화면(휴대폰 375px)에서는 코드 8개가 세 줄이 되어 2줄짜리 칸으로는 잘렸다. */
+  function fitCodeBox() {
+    var ta = $("srcCode");
+    if (ta.hidden) return;
+    ta.style.height = "auto";
+    ta.style.height = (ta.scrollHeight + 6) + "px";
+  }
+
+  /* 방향·진수마다 보기 단추가 다르다.
+     되돌리기 예시는 **교과서·지도서에 실제로 나오는 값**을 그대로 쓴다. */
+  var EXAMPLES = {
+    encode: [["Hi", "Hi"], ["AI", "AI"], ["가", "가"], ["한글", "한글"]],
+    /* ⚠ 되돌리기 보기 단추의 이름에 **답을 적지 않는다** —
+       "사랑해 (지도서 예시답안)" 처럼 적어 두면 눌러 보기도 전에 답을 알려 준다(2026-08-12 지적).
+       어떤 코드인지만 알려 준다. 값 자체는 교과서·지도서에 나오는 것 그대로다. */
+    decode: {
+      bin: [["1000001", "교과서 59쪽 코드 (영어 1글자)"],
+            ["1001100 1001111 1010110 1000101", "지도서 예시 (영어 4글자)"],
+            ["1001000 1001001", "영어 2글자"]],
+      quad: [["1001", "영어 1글자"], ["22300000", "한글 1글자"],
+             ["30002230 23132101 31111310", "지도서 예시 (한글 3글자)"]],
+      hex: [["0041", "교과서 59쪽 코드 (영어 1글자)"],
+            ["C0AC B791 D574", "지도서 예시 (한글 3글자)"],
+            ["AC00", "한글 1글자"]]
+    }
+  };
+
+  function applyLearnDir() {
+    $("codeBaseRow").querySelectorAll("[data-cb]").forEach(function (b) {
+      var on = (b.dataset.cb === codeBase);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    var decode = (learnDir === "decode");
+    $("codeBaseRow").hidden = !decode;
+    $("inTitle").textContent = decode ? "코드를 넣어 보세요" : "글자를 넣어 보세요";
+    $("listTitle").textContent = decode ? "찾아낸 글자를 자세히 보면" : "글자마다 이렇게 바뀝니다";
+    /* 코드 → 글자 방향에는 「코드표에서 찾아보세요」 카드가 ② 로 끼어든다 → 뒤 번호를 하나씩 밀어 준다 */
+    $("stepList").textContent = decode ? "3" : "2";
+    $("stepOne").textContent = decode ? "4" : "3";
+
+    /* 넣는 것에 따라 **칸을 바꿔 끼운다** —
+       글자는 한 줄 칸(`#src`), 코드는 줄바꿈되는 칸(`#srcCode`)이다.
+       한 줄 칸에 코드를 넣으면 63자가 잘려 보인다(2026-08-12 사용자 지적). */
+    var src = inputEl();
+    $("src").hidden = decode;
+    $("srcCode").hidden = !decode;
+    $("src").classList.toggle("charsin", !decode);
+    if (decode) {
+      var bn = T.NAMES_KO[codeBase];
+      $("dirNote").innerHTML = "코드를 넣으면 <b>어떤 글자인지</b> 찾아 줍니다. " +
+        "친구가 보낸 <b>" + bn + " 코드를 읽어 내는</b> 쪽입니다 (교과서 59쪽 활동의 오른쪽). " +
+        "코드 여러 개는 <b>빈칸으로 띄어</b> 쓰세요.";
+      src.maxLength = 90;
+      src.placeholder = codeBase === "bin" ? "1000001 1000010"
+                      : codeBase === "hex" ? "C0AC B791 D574" : "65 66";
+      src.setAttribute("aria-label", bn + " 코드 넣기");
+      $("srcUnit").innerHTML = "최대 8개 · <b>" + bn + "</b>로 쓰세요 (" +
+        T.BASE_UNIT[codeBase] + ")" + (codeBase === "hex" ? " · <b>U+AC00</b> 처럼 써도 됩니다" : "");
+    } else {
+      $("dirNote").innerHTML = "글자를 넣으면 <b>코드값과 2진수·16진수</b>를 보여 줍니다. " +
+        "친구에게 <b>보낼 코드를 만드는</b> 쪽입니다 (교과서 59쪽 활동의 왼쪽).";
+      src.maxLength = 8;
+      src.placeholder = "Hi 또는 한글";
+      src.setAttribute("aria-label", "변환할 글자");
+      $("srcUnit").textContent = "최대 8글자 · 영어와 한글을 섞어도 됩니다";
+    }
+
+    /* 보기 단추 다시 만들기 */
+    var row = $("exRow");
+    row.innerHTML = "";
+    var exs = decode ? EXAMPLES.decode[codeBase] : EXAMPLES.encode;
+    exs.forEach(function (e) {
+      var b = el("button", "btn", esc(e[1]));
+      b.type = "button";
+      b.title = e[0];
+      b.addEventListener("click", function () { inputEl().value = e[0]; fitCodeBox(); run(); });
+      row.appendChild(b);
+    });
+
+    /* 방향을 바꾸면 앞의 결과는 지운다(섞이면 헷갈린다) — 두 칸을 모두 비운다 */
+    $("src").value = "";
+    $("srcCode").value = "";
+    list = [];
+    decInfo = null;
+    decRevealed = false;
+    $("listCard").hidden = true;
+    $("oneCard").hidden = true;
+    $("decOut").hidden = true;
+    $("findCard").hidden = true;
+    hideMsg();
+    fitCodeBox();
+  }
+
+  /* =========================================================
+     코드 → 글자 : **찾아보는 표를 먼저 주고, 답은 뒤로 미룬다**
+       (2026-08-12 사용자 지적 — 코드표 없이 글자를 바로 알려 주고 있었다)
+
+       영어(아스키) : 그 코드가 속한 **아스키 코드표 묶음**을 준다.
+                     표 안에 답이 다른 글자들과 섞여 있으므로 학생이 찾아야 한다.
+                     (교과서 59쪽 "아스키 코드표를 참고하여 …" 활동)
+       한글(유니코드) : 11,172자를 표로 줄 수 없다(교과서도 표를 내려받아 Ctrl+F 로 찾는다).
+                     대신 **44032를 빼고 588·28로 나누어** 초성·중성·종성 **번호**를 구하고,
+                     초성19·중성21·종성28 표에서 그 번호를 찾아 조립하게 한다.
+     ========================================================= */
+  var decInfo = null;        // 지금 넣은 코드의 해석 결과
+  var decRevealed = false;   // 답을 공개했는가
+
+  function buildFindTables(items) {
+    var body = $("findBody");
+    body.innerHTML = "";
+
+    /* ① 넣은 코드 → **4진수** (여기까지는 답이 아니다).
+       4진수 한 자리 = 2비트라서 2진수는 2비트씩 묶고, 16진수는 한 자리를 2자리로 펼치면 된다.
+       10진수로 바꾸면 49324 같은 큰 수가 되어 학생이 손으로 못 한다(2026-08-12 사용자 지시). */
+    var wrap = el("div", "refbox");
+    wrap.appendChild(el("p", "t", "① 넣은 코드를 4진수로 바꾸면"));
+    var t1 = el("table", "grid");
+    t1.innerHTML = "<thead><tr><th style='width:12%'>번째</th>" +
+      "<th style='width:28%'>넣은 코드</th><th style='width:22%'>4진수</th>" +
+      "<th style='width:38%'>바꾸는 방법 · 찾을 곳</th></tr></thead>";
+    var tb1 = el("tbody");
+    items.forEach(function (x, i) {
+      var han = (x.code >= T.HAN_BASE && x.code <= T.HAN_END);
+      var info = T.infoOf(String.fromCharCode(x.code));
+      var how = codeBase === "bin" ? "2비트씩 묶기"
+              : codeBase === "hex" ? "16진수 한 자리 → 4진수 두 자리"
+              : codeBase === "quad" ? "그대로" : "4로 나누기";
+      tb1.appendChild(el("tr", null,
+        "<td>" + (i + 1) + "</td>" +
+        "<td style='font-family:Consolas,monospace'><b>" + esc(T.notate(x.text, codeBase)) + "</b></td>" +
+        "<td class='mark-ok' style='font-family:Consolas,monospace'><b>" + info.quad + "</b></td>" +
+        "<td>" + how + " → " + (han ? "<b>한글 글자표</b>" : "<b>아스키 코드표</b>") + "</td>"));
+    });
+    t1.appendChild(tb1);
+    wrap.appendChild(el("div", "tablescroll")).appendChild(t1);
+    wrap.appendChild(quadLegend({ key: codeBase === "hex" ? "uni" : "ascii" }));
+    body.appendChild(wrap);
+
+    /* ② 아스키 코드표 — 나온 코드가 속한 묶음만 붙인다 */
+    var asciiCodes = items.filter(function (x) { return x.code >= 32 && x.code <= 126; });
+    if (asciiCodes.length) {
+      var keys = [];
+      asciiCodes.forEach(function (x) {
+        var g = T.groupOfChar(String.fromCharCode(x.code));
+        if (g && keys.indexOf(g.key) === -1) keys.push(g.key);
+      });
+      var box = el("div", "refbox");
+      box.appendChild(el("p", "t", "② 아스키 코드표 (4진수) — 위 4진수를 여기서 찾으세요"));
+      keys.forEach(function (k) {
+        var g = T.asciiGroup(k);
+        box.appendChild(el("p", "groupname", g.name));
+        var grid = el("div", "codegrid");
+        g.rows.forEach(function (o) {
+          grid.appendChild(el("div", "codecell",
+            "<span class='ch'>" + esc(o.ch === " " ? "␣" : o.ch) + "</span>" +
+            "<span class='dec quad'>" + o.quad + "</span>"));
+        });
+        box.appendChild(grid);
+      });
+      box.appendChild(el("p", "lvnote",
+        "표에서 <b>4진수가 같은 칸</b>을 찾으면 그 위의 글자가 답입니다."));
+      body.appendChild(box);
+    }
+
+    /* ③ 한글 — 자모 번호를 계산해 주고 자모표에서 찾게 한다 */
+    var hanCodes = items.filter(function (x) {
+      return x.code >= T.HAN_BASE && x.code <= T.HAN_END;
+    });
+    if (hanCodes.length) {
+      /* 한글은 11,172자라 표 전체를 줄 수 없다.
+         ⚠ 예전에는 `− 44032 → ÷588 → ÷28` 로 자모 번호를 구하게 했는데,
+            그 나누기는 **10진수(49324 같은 큰 수)** 라야 되고 중1이 손으로 하기 무겁다.
+            그래서 4진수 코드가 적힌 **후보 글자표**를 준다(2026-08-12 사용자 지시).
+            자모 계산은 「글자 → 코드」 방향과 ④ 카드에서 그대로 배운다. */
+      var want = hanCodes.map(function (x) { return String.fromCharCode(x.code); }).join("");
+      var pool = T.candidates(want, 9);
+      var hbox = el("div", "refbox");
+      hbox.appendChild(el("p", "t", "③ 한글 글자표 (4진수) — 위 4진수를 여기서 찾으세요"));
+      var grid = el("div", "codegrid");
+      pool.forEach(function (c) {
+        var o = T.infoOf(c);
+        grid.appendChild(el("div", "codecell",
+          "<span class='ch'>" + esc(c) + "</span><span class='dec quad'>" + o.quad + "</span>"));
+      });
+      hbox.appendChild(grid);
+      hbox.appendChild(el("p", "lvnote",
+        "한글은 <b>11,172자</b>라 표를 다 실을 수 없습니다 — 여기서는 <b>몇 글자만</b> 골라 놓았고 " +
+        "<b>답이 아닌 글자도 섞여 있습니다.</b> 실제로는 유니코드 표에서 찾습니다."));
+      body.appendChild(hbox);
+    }
+  }
+
+  function showReveal() {
+    decRevealed = true;
+    /* 찾기가 끝났으므로 코드표는 접는다 — 표·자세히 카드가 열리면서 화면이 너무 길어진다.
+       다시 보려면 [변환하기] 를 눌러 처음부터 하면 된다. */
+    $("findCard").hidden = true;
+    var r = decInfo;
+    list = T.infoList(r.chars);
+    $("decOut").className = "res ok";
+    /* 중간 값도 **4진수**로 적는다(10진수는 쓰지 않는다) */
+    $("decOut").innerHTML = "찾은 글자는 <b style='font-size:38px'>" + esc(r.chars) +
+      "</b> 입니다. &nbsp;(" + r.items.map(function (x) {
+        var q = T.infoOf(x.ch).quad;
+        return T.notate(x.text, codeBase) +
+          (codeBase === "quad" ? "" : " = " + T.notate(q, "quad")) + " → " + esc(x.ch);
+      }).join(" · ") + ")";
+    $("revealNote").innerHTML = "표에서 찾은 것과 같은가요? 아래에서 <b>자세히</b> 볼 수 있습니다.";
+    $("btnReveal").disabled = true;
+    $("btnReveal").textContent = "답을 보았습니다";
+    drawList();
+    pickIdx = 0;
+    drawOne();
+    $("listCard").hidden = false;
+    $("oneCard").hidden = false;
+  }
+
+  function run() {
+    var raw = inputEl().value;
+    $("decOut").hidden = true;
+    $("findCard").hidden = true;
+    if (!raw.trim()) {
+      showMsg(learnDir === "decode" ? "코드를 먼저 넣어 주세요." : "글자를 먼저 넣어 주세요.");
+      return;
+    }
+    if (learnDir === "decode") {
+      var r = T.parseCodes(raw, codeBase);
+      if (r.errors.length) { showMsg(r.errors[0]); return; }
+      if (!r.chars.length) { showMsg("코드를 먼저 넣어 주세요."); return; }
+      if (r.items.length > 8) { showMsg("코드는 한 번에 8개까지만 넣어 주세요."); return; }
+      hideMsg();
+      /* ⚠ 여기서 글자를 보여 주지 않는다. 코드표를 주고 학생이 찾게 한다. */
+      decInfo = r;
+      decRevealed = false;
+      list = [];
+      $("listCard").hidden = true;
+      $("oneCard").hidden = true;
+      $("decOut").hidden = false;
+      $("decOut").className = "res";
+      $("decOut").innerHTML = "코드 <b>" + r.items.length + "개</b>를 넣었습니다 — 4진수로는 <b>" +
+        r.items.map(function (x) { return T.infoOf(String.fromCharCode(x.code)).quad; }).join(" · ") +
+        "</b> 입니다. <b>아래 코드표에서 찾아보세요.</b>";
+      $("findCard").hidden = false;
+      $("btnReveal").disabled = false;
+      $("btnReveal").textContent = "답 보기";
+      $("revealNote").textContent = "";
+      buildFindTables(r.items);
+      return;
+    }
+    list = T.infoList(raw);
+    if (!list.length) { showMsg("아무것도 찾지 못했습니다."); return; }
+    hideMsg();
+    drawList();
+    pickIdx = 0;
+    drawOne();
+    $("listCard").hidden = false;
+    $("oneCard").hidden = false;
+  }
+
+  $("btnReveal").addEventListener("click", function () {
+    if (decInfo && !decRevealed) showReveal();
+  });
+
+  function showMsg(t) { $("msg").hidden = false; $("msg").textContent = t; }
+  function hideMsg() { $("msg").hidden = true; }
+
+  /* 하위 탭 — 방향 고르기가 곧 시뮬레이터 고르기다 */
+  UI.subTabs($("learnSubs"), [
+    { key: "encode", label: "① 글자 → 코드",   cards: ["scrConv"] },
+    { key: "decode", label: "② 코드 → 글자",   cards: ["scrConv"] },
+    { key: "jamo",   label: "③ 한글 자모 계산", cards: ["scrJamo"] }
+  ], {
+    onChange: function (key) {
+      if (key === "encode" || key === "decode") {
+        if (learnDir !== key) { learnDir = key; applyLearnDir(); }
+      }
+    }
+  });
+  $("codeBaseRow").querySelectorAll("[data-cb]").forEach(function (b) {
+    b.addEventListener("click", function () { codeBase = b.dataset.cb; applyLearnDir(); });
+  });
+
+  function drawList() {
+    var tb = $("charBody");
+    tb.innerHTML = "";
+    list.forEach(function (it, i) {
+      var tr = el("tr", null,
+        "<td><button class='btn' type='button' style='min-height:44px;padding:6px 14px;font-size:24px;font-weight:bold'>" +
+          esc(it.ch === " " ? "␣" : it.ch) + "</button></td>" +
+        "<td>" + it.kindName + "</td>" +
+        "<td style='font-family:Consolas,monospace'><b>" + it.quad + "</b></td>" +
+        "<td>" + it.hex + "</td>" +
+        "<td style='font-family:Consolas,monospace'>" + it.bin + "</td>" +
+        "<td>" + it.bytes + "바이트</td>");
+      tr.querySelector("button").addEventListener("click", function () { pickIdx = i; drawOne(); });
+      tb.appendChild(tr);
+    });
+    /* 전체를 2진수로 이어 붙이면 얼마나 되는지 (코드 자체의 비트 수와 저장 크기를 따로 적는다) */
+    var codeBits = list.reduce(function (a, it) { return a + it.bits; }, 0);
+    var storeBytes = list.reduce(function (a, it) { return a + it.storeBits / 8; }, 0);
+    $("allBits").innerHTML = "글자 " + list.length + "개 = 코드 <b>" + codeBits + "비트</b> · " +
+      "저장하면 <b>" + storeBytes + "바이트</b> · 이어 붙인 2진수 : " +
+      "<span style='font-family:Consolas,monospace'>" +
+      list.map(function (it) { return it.binRaw; }).join(" ") + "</span>";
+  }
+
+  function drawOne() {
+    var it = list[pickIdx];
+    if (!it) return;
+    $("bigChar").textContent = (it.ch === " " ? "␣" : it.ch);
+    $("charMeta").innerHTML = it.kindName + "<br>4진수 <b>" + T.notate(it.quad, "quad") +
+      "</b> · 16진수 <b>" + T.notate(it.hex, "hex") + "</b> · <b>" + it.bits + "비트</b>";
+    $("bitLead").innerHTML = "4진수 <b>" + it.quad + "</b> 을(를) <b>자리마다 2비트</b>로 펼치면 " +
+      "아래 2진수가 됩니다 (" +
+      T.QUAD_BITS.map(function (x) { return x.q + "→" + x.b; }).join(" · ") + ")." +
+      (it.bits === 7 ? " 8자리가 되므로 <b>앞의 0 하나를 떼면</b> 7자리 아스키 코드입니다." : "");
+
+    /* 비트 카드 — 자리값이 보이는 카드로 그린다 */
+    var box = $("bitCards");
+    box.className = "cards" + (it.bits > 8 ? " tight" : "");
+    box.innerHTML = "";
+    var bits = it.binRaw;
+    var parts = [];
+    for (var i = 0; i < bits.length; i++) {
+      var pw = bits.length - 1 - i;
+      var place = Math.pow(2, pw);
+      var on = bits.charAt(i) === "1";
+      if (on) parts.push(String(place));
+      box.appendChild(el("div", "pcard" + (on ? " on" : " zero"),
+        "<span class='pv'>" + place + "</span>" +
+        "<span class='pw'>2<sup>" + pw + "</sup></span>" +
+        "<span class='slot'>" + bits.charAt(i) + "</span>"));
+    }
+    $("byteMark").innerHTML = it.bits === 7
+      ? "아스키코드는 <b>7비트</b>로 128(2<sup>7</sup>)개의 글자를 나타냅니다. " +
+        "저장할 때는 앞에 0을 하나 더 붙여 <b>1바이트(8비트)</b>에 담습니다 — " +
+        "<span style='font-family:Consolas,monospace'>" + it.storeBin + "</span>"
+      : "유니코드는 <b>16비트 = 2바이트</b>로 최대 65,536(2<sup>16</sup>)개의 글자를 나타냅니다.";
+    /* 4진수 2자리를 묶으면 16진수 한 자리가 되는 것을 그대로 보여 준다 */
+    var pairs = [];
+    for (var k = 0; k + 1 < it.quad.length; k += 2) {
+      pairs.push(it.quad.substr(k, 2) + "→" + parseInt(it.quad.substr(k, 2), 4).toString(16).toUpperCase());
+    }
+    $("bitSum").innerHTML = "묶어 보기 : 4진수 <b>" + it.quad + "</b> 를 2자리씩 묶으면 " +
+      pairs.join(" · ") + " → <b>" + T.notate(it.quad.length === 4 ? it.uniHex.slice(2) : it.uniHex, "hex") +
+      "</b>" + (it.bits === 16 ? " (유니코드는 <b>U+" + it.uniHex + "</b> 이라고도 씁니다)" : "");
+
+    /* 한글이면 자모 분해까지 보여 준다 */
+    if (it.hangul) {
+      var h = it.hangul;
+      $("hanBox").hidden = false;
+      $("hanFormula").innerHTML = "<span class='big'>" + esc(it.ch) + " = " + h.formula + "</span><br>" +
+        "<span style='font-size:19px;color:var(--sub)'>초성 " + esc(h.cho) + "(" + h.choIdx +
+        "번) · 중성 " + esc(h.jung) + "(" + h.jungIdx + "번) · 종성 " +
+        esc(h.jong) + "(" + h.jongIdx + "번)</span>";
+      var hb = $("hanBody");
+      hb.innerHTML = "";
+      [["초성", h.cho, h.choIdx, h.choIdx + " × 588 = " + (h.choIdx * 588)],
+       ["중성", h.jung, h.jungIdx, h.jungIdx + " × 28 = " + (h.jungIdx * 28)],
+       ["종성", h.jong, h.jongIdx, h.jongIdx + " (그대로 더한다)"]].forEach(function (r) {
+        hb.appendChild(el("tr", null, "<td>" + r[0] + "</td><td style='font-size:26px'><b>" + esc(r[1]) +
+          "</b></td><td><b>" + r[2] + "</b>번</td><td>" + r[3] + "</td>"));
+      });
+      hb.appendChild(el("tr", null, "<td colspan='3'><b>합계</b></td><td><b>44032 + " +
+        (h.choIdx * 588) + " + " + (h.jungIdx * 28) + " + " + h.jongIdx + " = " + h.code + "</b></td>"));
+    } else {
+      $("hanBox").hidden = true;
+    }
+  }
+
+  $("btnGo").addEventListener("click", run);
+  $("src").addEventListener("keydown", function (e) { if (e.key === "Enter") run(); });
+  /* 코드 칸은 여러 줄이지만 줄바꿈은 뜻이 없다(빈칸과 똑같이 나눈다) →
+     Enter 로 바로 변환하고, 줄을 나누고 싶으면 Shift+Enter 를 쓴다. */
+  $("srcCode").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); run(); }
+  });
+  $("srcCode").addEventListener("input", fitCodeBox);
+  /* 화면 폭이 바뀌면 줄 수가 달라진다 → 높이를 다시 맞춘다 */
+  window.addEventListener("resize", fitCodeBox);
+  $("btnClear").addEventListener("click", function () {
+    $("src").value = "";
+    $("srcCode").value = "";
+    list = [];
+    decInfo = null;
+    decRevealed = false;
+    $("listCard").hidden = true;
+    $("oneCard").hidden = true;
+    $("decOut").hidden = true;
+    $("findCard").hidden = true;
+    hideMsg();
+  });
+  applyLearnDir();
+
+  /* =========================================================
+     문제에 필요한 코드표만 구성해서 붙인다  ← 사용자 요청
+       - 전체 코드표를 따로 보여 주지 않는다.
+       - 표에는 **4진수만** 적는다(2026-08-12 사용자 지시). 16진수·2진수는 학생이 구해야 하는 답이고,
+         10진수는 한글에서 49324 처럼 커져 손으로 바꿀 수 없다.
+         4진수는 **한 자리 = 2비트**라 묶기·펼치기만으로 바뀐다.
+     ========================================================= */
+  /* 4진수 한 자리 = 2비트 — 이 대응표가 있으면 나누기 없이 바꿀 수 있다.
+     코드표를 붙이는 곳마다 함께 붙인다(2026-08-12 사용자 지시로 10진수 → 4진수). */
+  function quadLegend(mode) {
+    var p = el("p", "lvnote",
+      "<b>4진수 한 자리 = 2비트</b> — " +
+      T.QUAD_BITS.map(function (x) { return "<b>" + x.q + "</b> → " + x.b; }).join(" · ") +
+      (mode && mode.key === "uni"
+        ? " · <b>4진수 2자리 = 16진수 1자리</b> (예 30 → 1100 → C)"
+        : " · 이어 붙이면 2진수가 됩니다"));
+    return p;
+  }
+
+  function buildRefTable(container, q) {
+    container.innerHTML = "";
+    var wrap = el("div", "refbox");
+    var m = q.mode;
+    /* 코드 → 글자 문제는 **후보 글자**를 코드값 순으로 늘어놓는다(정답 표시 없음).
+       글자 → 코드 문제는 문제에 나온 글자만, 나온 순서대로 놓는다. */
+    var decode = (q.dir === "decode");
+    var chars = decode ? q.pool : q.infos.map(function (o) { return o.ch; });
+    var rows = chars.map(function (c) { return T.infoOf(c); });
+    var hasKo = rows.some(function (o) { return o.kind === "hangul"; });
+    var codeName = rows.every(function (o) { return o.kind === "hangul"; }) ? "유니코드"
+                 : (hasKo ? "아스키코드 + 유니코드" : "아스키코드");
+
+    wrap.appendChild(el("p", "t", decode
+      ? "참고 — 코드값을 찾아볼 글자표 (4진수) · " + codeName
+      : "참고 — 이 문제에 나온 글자의 코드값 (4진수) · " + codeName));
+
+    var grid = el("div", "codegrid");
+    rows.forEach(function (o) {
+      /* decode 에서는 어느 글자가 정답인지 알 수 없게 hit 표시를 붙이지 않는다 */
+      grid.appendChild(el("div", "codecell" + (decode ? "" : " hit"),
+        "<span class='ch'>" + esc(o.ch === " " ? "␣" : o.ch) + "</span>" +
+        "<span class='dec quad'>" + o.quad + "</span>"));
+    });
+    wrap.appendChild(grid);
+    wrap.appendChild(quadLegend(m));
+
+    wrap.appendChild(el("p", "lvnote", decode
+      ? "표에는 <b>4진수만</b> 있습니다. 문제의 " + m.baseName +
+        " 코드를 <b>4진수로 바꾼 뒤</b> 표에서 같은 값을 찾으세요. " +
+        "<b>표의 글자 중에 답이 아닌 것도 섞여 있습니다.</b>"
+      : "표의 <b>4진수</b>를 글자마다 <b>" + m.baseName + "</b> " + m.digits + "자리로 바꾸어 쓰세요 — " +
+        (m.key === "uni" ? "<b>2자리씩 묶으면</b> 됩니다(나누지 않아도 됩니다)."
+                         : "<b>자리마다 2비트로 펼치고</b> 앞의 0 하나를 떼면 7자리입니다.")));
+    container.appendChild(wrap);
+  }
+
+  /* 자모 표 — 눌러서 글자를 만들어 본다 (학습 탭) */
+  var pickJamo = { cho: 0, jung: 0, jong: 0 };
+
+  function drawJamo() {
+    [["choGrid", T.CHO, "cho"], ["jungGrid", T.JUNG, "jung"], ["jongGrid", T.JONG, "jong"]].forEach(function (spec) {
+      var box = $(spec[0]);
+      box.innerHTML = "";
+      spec[1].forEach(function (j, i) {
+        var cell = el("button", "jamocell" + (pickJamo[spec[2]] === i ? " hit" : ""),
+          "<span class='j'>" + esc(j) + "</span><span class='n'>" + i + "</span>");
+        cell.type = "button";
+        cell.addEventListener("click", function () {
+          pickJamo[spec[2]] = i;
+          drawJamo();
+          drawMake();
+        });
+        box.appendChild(cell);
+      });
+    });
+  }
+
+  function drawMake() {
+    var ch = T.compose(pickJamo.cho, pickJamo.jung, pickJamo.jong);
+    var it = T.infoOf(ch);
+    var h = it.hangul;
+    $("makeBox").innerHTML =
+      "<span style='font-size:44px;font-weight:bold'>" + esc(ch) + "</span> &nbsp; " +
+      "초성 " + esc(T.CHO[pickJamo.cho]) + "(" + pickJamo.cho + ") · 중성 " +
+      esc(T.JUNG[pickJamo.jung]) + "(" + pickJamo.jung + ") · 종성 " +
+      esc(T.JONG[pickJamo.jong]) + "(" + pickJamo.jong + ")<br>" +
+      "<b>" + h.formula + "</b><br>" +
+      "이 값을 코드표에는 <b>4진수</b>로 적습니다 — <b>" + T.notate(it.quad, "quad") +
+      "</b> · 16진수 <b>" + T.notate(it.hex, "hex") + "</b> (<b>U+" + it.uniHex + "</b>) · 2진수 " +
+      "<span style='font-family:Consolas,monospace'>" + it.bin + "</span>";
+  }
+
+  drawJamo();
+  drawMake();
+
+  /* =========================================================
+     수준 정의 — **글자 수**로 나눈다 (2026-08-12 사용자 지시)
+       하 1글자 · 중 2~3글자 · 상 4~5글자
+     답의 진수는 **글자 종류가 정한다**(아래 MODES) — 영어는 아스키 2진수, 한글은 유니코드 16진수.
+     연습문제와 평가가 이 정의를 함께 쓴다.
+     ========================================================= */
+  var LEVELS = {
+    low:  { key: "low",  name: "하", points: 1, min: 1, max: 1, lenLabel: "1글자" },
+    mid:  { key: "mid",  name: "중", points: 2, min: 2, max: 3, lenLabel: "2글자 이상" },
+    high: { key: "high", name: "상", points: 3, min: 4, max: 5, lenLabel: "4글자 이상" }
+  };
+  /* ---------------------------------------------------------
+     어떤 코드로 답하게 할지 — **교과서를 그대로 따른다**(동아출판 59쪽)
+       영어  → 아스키 코드  : 2진수 **7자리**  ('A' = 1000001(2))
+       한글  → 유니코드     : 16진수 **4자리** (사 = C0AC(16))
+       섞임  → 유니코드로 통일 : 16진수 4자리  ('A' 도 유니코드로는 0041(16))
+     10진수는 어디에도 쓰지 않는다 — 코드표는 **4진수**이고, 답은 2진수·16진수다.
+     (코드표와 답이 같은 진수면 변환이 아니라 베끼기가 된다.)
+     --------------------------------------------------------- */
+  var MODES = {
+    ascii: { key: "ascii", codeName: "아스키 코드", baseName: "2진수", base: "bin",
+             digits: 7, unit: "0과 1로 7자리", hint: "128 · 64 · 32 · 16 · 8 · 4 · 2 · 1" },
+    uni:   { key: "uni",   codeName: "유니코드",   baseName: "16진수", base: "hex",
+             digits: 4, unit: "0~9, A~F로 4자리", hint: "4096 · 256 · 16 · 1" }
+  };
+  /* 문제의 글자 종류가 코드 방식을 정한다 */
+  function modeFor(kind) { return kind === "en" ? MODES.ascii : MODES.uni; }
+
+  /* 문제 방향 — 교과서 59쪽 활동이 양방향이다
+     ("전달할 문자 → 전달할 아스키 코드" / "전달받은 아스키 코드 → 전달받은 문자") */
+  var DIRS = {
+    encode: { key: "encode", name: "글자 → 코드" },
+    decode: { key: "decode", name: "코드 → 글자" }
+  };
+
+  /* 글자 하나의 정답 문자열 */
+  function correctText(info, mode) {
+    return mode.key === "ascii" ? info.binRaw : info.uniHex;
+  }
+
+  /* 한 글자 답 판정
+       글자 → 코드 : 대소문자·빈칸·앞의 0을 인정한다.
+         아스키 2진수는 **7자리(교과서)와 8자리(1바이트 저장) 모두 정답**으로 본다.
+         16진수는 U+AC00 · 0xAC00 처럼 써도 정답으로 본다.
+       코드 → 글자 : 글자 그대로 비교한다. */
+  function judgeAnswer(info, q, typed) {
+    var raw = String(typed == null ? "" : typed);
+    if (q.dir === "decode") {
+      var c = raw.trim();
+      if (c === "") return { ok: false, reason: "빈칸" };
+      if (Array.from(c).length !== 1) return { ok: false, reason: "형식" };
+      return { ok: c === info.ch };
+    }
+    var t = raw.trim().toUpperCase().replace(/\s+/g, "").replace(/^(U\+|0X)/, "");
+    if (t === "") return { ok: false, reason: "빈칸" };
+    if (q.mode.key === "ascii") {
+      if (!/^[01]+$/.test(t)) return { ok: false, reason: "형식" };
+      if (t.length !== 7 && t.length !== 8) return { ok: false, reason: "형식" };
+      return { ok: parseInt(t, 2) === info.code };
+    }
+    if (!/^[0-9A-F]+$/.test(t)) return { ok: false, reason: "형식" };
+    return { ok: parseInt(t, 16) === info.code };
+  }
+
+  /* 문제 하나(낱말)를 만든다.
+       kind : "en" | "ko" | "mix"      dir : "encode" | "decode" */
+  function makeQuestion(level, kind, avoid, dir) {
+    var L = LEVELS[level];
+    var word = "", tries = 0;
+    do {
+      word = (kind === "mix") ? T.pickMixed(L.min, L.max) : T.pickWord(kind, L.min, L.max);
+      tries++;
+    } while (avoid && avoid.indexOf(word) !== -1 && tries < 60);
+    var infos = T.infoList(word);
+    var q = {
+      level: level, kind: kind, dir: dir || "encode",
+      mode: modeFor(kind), word: word, infos: infos
+    };
+    /* 코드 → 글자 문제는 표에 후보 글자를 함께 놓는다(정답이 어느 것인지 표에 표시하지 않는다) */
+    if (q.dir === "decode") q.pool = T.candidates(word, Math.max(4, 9 - infos.length));
+    return q;
+  }
+
+  /* 문제 한 줄로 읽어 주는 문장 */
+  function questionText(q) {
+    var m = q.mode;
+    if (q.dir === "decode") {
+      return "다음 <b>" + m.codeName + "</b>(" + m.baseName + ")가 나타내는 <b>글자</b>를 쓰시오.";
+    }
+    return "<b style='font-size:34px'>" + esc(q.word) + "</b> 의 각 글자를 <b>" + m.codeName +
+           "</b>(" + m.baseName + " " + m.digits + "자리)로 나타내시오.";
+  }
+
+  /* 문제 전체 정답 (글자마다 띄어 쓴다) */
+  function answerOf(q) {
+    if (q.dir === "decode") return q.word.split("").join(" ");
+    return q.infos.map(function (o) { return correctText(o, q.mode); }).join(" ");
+  }
+
+  /* 글자마다 답을 적는 칸을 만든다 — 방향에 따라 위에 놓는 것이 바뀐다 */
+  function buildCharInputs(container, q, onEnter) {
+    container.innerHTML = "";
+    var row = el("div", "charins");
+    q.inputs = [];
+    q.infos.forEach(function (o) {
+      var head = (q.dir === "decode")
+        ? T.notate(correctText(o, q.mode), q.mode.base)     // 코드를 보여 주고 글자를 묻는다
+        : (o.ch === " " ? "␣" : o.ch);                       // 글자를 보여 주고 코드를 묻는다
+      var cell = el("div", "charin" + (q.dir === "decode" ? " wide" : ""),
+        "<span class='c'>" + esc(head) + "</span>" +
+        "<input type='text' class='ans' autocomplete='off' spellcheck='false'" +
+        (q.dir === "decode" ? " maxlength='1'" : "") +
+        " aria-label='" + esc(head) + " 의 " +
+        (q.dir === "decode" ? "글자" : q.mode.baseName) + "'>");
+      var input = cell.querySelector("input");
+      if (onEnter) input.addEventListener("keydown", function (e) { if (e.key === "Enter") onEnter(); });
+      q.inputs.push(input);
+      row.appendChild(cell);
+    });
+    container.appendChild(row);
+    container.appendChild(el("p", "lvnote", q.dir === "decode"
+      ? "코드 아래 칸에 <b>글자 하나씩</b> 쓰세요. 아래 표에서 코드값이 같은 글자를 찾으면 됩니다."
+      : "글자마다 한 칸씩 <b>" + q.mode.baseName + "</b>로 쓰세요 (" + q.mode.unit + ")."));
+  }
+
+  /* 문제 전체 채점 — 글자마다 판정하고 모두 맞으면 정답 */
+  function judgeQuestion(q) {
+    var each = q.infos.map(function (o, i) {
+      return judgeAnswer(o, q, q.inputs[i].value);
+    });
+    each.forEach(function (r, i) {
+      q.inputs[i].parentNode.classList.toggle("ok", !!r.ok);
+      q.inputs[i].parentNode.classList.toggle("no", !r.ok);
+    });
+    return {
+      each: each,
+      ok: each.every(function (r) { return r.ok; }),
+      blank: each.some(function (r) { return r.reason === "빈칸"; }),
+      bad: each.some(function (r) { return r.reason === "형식"; }),
+      /* 코드 → 글자 문제는 글자를 그대로 보여 준다(대문자로 바꾸면 답이 달라 보인다) */
+      typed: q.inputs.map(function (x) {
+        var v = x.value.trim();
+        if (v === "") return "(빈칸)";
+        return (q.dir === "decode") ? v : v.toUpperCase();
+      }).join(" ")
+    };
+  }
+
+  /* 힌트 — 답을 바로 주지 않고 첫 글자(또는 첫 코드)로 방법만 보여 준다 */
+  /* 힌트도 4진수 기준이다 — 나누기 없이 자리 묶기·펼치기로 풀린다 */
+  function hintOf(q) {
+    var o = q.infos[0];
+    var m = q.mode;
+    if (q.dir === "decode") {
+      if (m.key === "uni") {
+        return "첫 코드 <b>" + T.notate(o.uniHex, "hex") + "</b> 의 16진수 <b>한 자리를 4진수 두 자리</b>로 " +
+          "펼치면 <b>" + o.quad + "</b> 입니다. 이 값을 아래 표에서 찾으면 글자가 나옵니다. " +
+          "(A → 22 · B → 23 · C → 30 · D → 31 · E → 32 · F → 33)";
+      }
+      return "첫 코드 <b>" + T.notate(o.binRaw, "bin") + "</b> 를 <b>2비트씩 묶으면</b> 4진수 <b>" +
+        o.quad + "</b> 입니다(앞에 0을 하나 붙여 8자리로 만든 뒤 묶으세요). " +
+        "이 값을 아래 표에서 찾으세요.";
+    }
+    var head = "첫 글자 " + esc(o.ch) + " 의 코드값은 4진수로 <b>" + o.quad + "</b> 입니다. ";
+    if (m.key === "ascii") {
+      return head + "자리마다 <b>2비트로 펼치면</b>(" +
+        T.QUAD_BITS.map(function (x) { return x.q + "→" + x.b; }).join(" · ") + ") " +
+        "8자리가 되고, <b>앞의 0 하나를 떼면</b> 7자리 아스키 코드입니다.";
+    }
+    return head + "<b>2자리씩 묶어</b> 16진수 한 자리로 바꾸면 됩니다 " +
+      "(22 → A · 23 → B · 30 → C · 31 → D · 32 → E · 33 → F). 나누지 않아도 됩니다.";
+  }
+
+  /* =========================================================
+     문제 구성표 — **연습문제와 평가가 이 표 하나를 함께 쓴다** (2026-08-12 사용자 지시).
+       "연습에서도 방향 선택을 없애고 평가와 똑같은 3문항 구성으로 맞춰라"
+       → 한 곳만 고치면 두 탭이 같이 따라오므로 서로 어긋날 수 없다.
+
+     평가는 **영어 평가 · 한글 평가로 나뉜다**.
+     ⚠ 그전 지시는 "평가는 영어와 한글이 섞여 나와야 해"(같은 날 오전)였는데
+        사용자가 **따로 구분**하는 쪽으로 바꿨다. 섞는 코드(`T.pickMixed`)는 남겨 두었다.
+     한 평가 안에서 코드 방식이 하나뿐이라 헷갈리지 않고, **두 방향은 그대로 다** 들어간다.
+     교과서 59쪽 활동 두 가지가 각 평가 안에 모두 담긴다 —
+       하·중 : "전달할 문자 → 전달할 코드"   ·   상 : "전달받은 코드 → 전달받은 문자"
+     ========================================================= */
+  var PLANS = {
+    en: {
+      name: "영어 평가", codeName: "아스키코드", answer: "2진수 7자리", tag: "ascii",
+      low:  { kind: "en", dir: "encode", what: "영어 1글자 → 아스키 코드" },
+      mid:  { kind: "en", dir: "encode", what: "영어 2~3글자 → 아스키 코드" },
+      high: { kind: "en", dir: "decode", what: "아스키 코드 → 글자 (되돌리기)" }
+    },
+    ko: {
+      name: "한글 평가", codeName: "유니코드", answer: "16진수 4자리", tag: "hangul",
+      low:  { kind: "ko", dir: "encode", what: "한글 1글자 → 유니코드" },
+      mid:  { kind: "ko", dir: "encode", what: "한글 2~3글자 → 유니코드" },
+      high: { kind: "ko", dir: "decode", what: "유니코드 → 글자 (되돌리기)" }
+    }
+  };
+  function planOf(kind, level) { return PLANS[kind][level]; }
+  var evKind = "en";                 // "en" 영어 평가 · "ko" 한글 평가
+
+  /* =========================================================
+     ② 연습문제 — **영어 / 한글을 나눠서** 연습한다 (사용자 지시)
+        하(1글자) · 중(2~3글자) · 상(4~5글자) 한 문제씩. 점수는 기록하지 않는다.
+     ========================================================= */
+  var prKind = "en";                 // "en" | "ko" — 평가의 종류 고르기와 같은 뜻이다
+  var prItems = [];
+
+  function buildPractice() {
+    var area = $("prProblems");
+    area.innerHTML = "";
+    prItems = [];
+    var P = PLANS[prKind];
+    /* 연습 안내문도 **평가와 같은 표**에서 만든다 → 두 탭이 어긋나지 않는다 */
+    $("prKindNote").innerHTML = (prKind === "en"
+      ? "<b>영어는 아스키코드</b>를 씁니다 — <b>7비트</b>로 128개의 글자를 나타내고 " +
+        "<b>2진수 7자리</b>로 적습니다. (교과서 : 'A' = 1000001(2))"
+      : "<b>한글은 유니코드</b>를 씁니다 — <b>16비트(2바이트)</b>로 최대 65,536개를 나타내고 " +
+        "<b>16진수 4자리</b>로 적습니다. (교과서 : 사 = C0AC(16))") +
+      "<br><b>③ " + P.name + "</b>와 <b>똑같은 3문항 구성</b>입니다 — " +
+      "하 : <b>" + P.low.what + "</b> · 중 : <b>" + P.mid.what + "</b> · 상 : <b>" + P.high.what + "</b>." +
+      " 점수는 기록되지 않으니 몇 번이든 풀어 보세요.";
+    $("prKindRow").querySelectorAll("[data-kind]").forEach(function (b) {
+      var on = (b.dataset.kind === prKind);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+
+    ["low", "mid", "high"].forEach(function (lv, i) {
+      var L = LEVELS[lv];
+      var plan = planOf(prKind, lv);
+      var q = makeQuestion(lv, plan.kind, prItems.map(function (x) { return x.q.word; }), plan.dir);
+      var box = el("div", "q");
+      box.innerHTML =
+        "<div class='qhead'><span class='qno'>문제 " + (i + 1) + "</span>" +
+          "<span class='lvnote'>수준 " + L.name + " · " + L.lenLabel + " · " +
+          plan.what + "</span></div>" +
+        "<p class='qtext'>" + questionText(q) + "</p>" +
+        "<div class='refwrap'></div>" +
+        "<div class='inwrap'></div>" +
+        "<div class='btnrow'>" +
+          "<button class='btn primary' type='button' data-act='check'>정답 확인</button>" +
+          "<button class='btn' type='button' data-act='hint'>힌트</button>" +
+        "</div>" +
+        "<p class='res' hidden></p>";
+      area.appendChild(box);
+
+      var it = { box: box, q: q, solved: false, fb: box.querySelector(".res") };
+      buildRefTable(box.querySelector(".refwrap"), q);
+      buildCharInputs(box.querySelector(".inwrap"), q, function () { checkPractice(it); });
+      box.querySelector("[data-act='check']").addEventListener("click", function () { checkPractice(it); });
+      box.querySelector("[data-act='hint']").addEventListener("click", function () {
+        it.fb.hidden = false;
+        it.fb.className = "res";
+        it.fb.style.background = "var(--warn-bg)";
+        it.fb.style.borderLeft = "6px solid var(--warn)";
+        it.fb.innerHTML = "<b>힌트</b> — " + hintOf(it.q);
+      });
+      prItems.push(it);
+    });
+    /* 문제를 하나씩 넘겨 본다 */
+    UI.pager($("prNav"), prItems.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }), { lead: "한 문제씩 풀어 보세요" });
+    updatePrScore();
+  }
+
+  function checkPractice(it) {
+    var r = judgeQuestion(it.q);
+    it.fb.hidden = false;
+    it.fb.style.background = "";
+    it.fb.style.borderLeft = "";
+    if (r.blank) {
+      it.fb.className = "res no";
+      it.fb.textContent = "빈칸이 있습니다. 글자마다 답을 써 주세요.";
+      it.solved = false;
+    } else if (r.bad) {
+      it.fb.className = "res no";
+      it.fb.textContent = it.q.dir === "decode"
+        ? "글자 하나씩만 쓸 수 있습니다. 칸마다 한 글자를 써 주세요."
+        : "답 형식이 맞지 않은 칸이 있습니다 (" + it.q.mode.unit + ").";
+      it.solved = false;
+    } else if (r.ok) {
+      it.fb.className = "res ok";
+      it.fb.innerHTML = "정답입니다! " + (it.q.dir === "decode"
+        ? "코드가 나타낸 글자는 <b style='font-size:26px'>" + esc(it.q.word) + "</b> 입니다."
+        : "<b>" + esc(it.q.word) + "</b> → <b>" + answerOf(it.q) + "</b>") +
+        " (코드값 4진수 " + it.q.infos.map(function (o) { return o.quad; }).join(" · ") + ")";
+      it.solved = true;
+    } else {
+      var wrong = r.each.filter(function (x) { return !x.ok; }).length;
+      it.fb.className = "res no";
+      it.fb.textContent = "아직 아니에요. " + wrong + "칸이 틀렸습니다(빨간 칸). " + (it.q.dir === "decode"
+        ? "코드를 4진수로 바꾼 값을 표에서 다시 찾아 보세요."
+        : "표에서 코드값을 다시 확인하고 " + it.q.mode.baseName + "로 바꿔 보세요.");
+      it.solved = false;
+    }
+    updatePrScore();
+  }
+
+  function updatePrScore() {
+    var n = prItems.filter(function (x) { return x.solved; }).length;
+    $("prScore").textContent = "맞힌 문제 : " + n + " / " + prItems.length +
+      (n === prItems.length && prItems.length ? "  모두 정답!" : "");
+  }
+
+  $("prKindRow").querySelectorAll("[data-kind]").forEach(function (b) {
+    b.addEventListener("click", function () { prKind = b.dataset.kind; buildPractice(); });
+  });
+  $("prNew").addEventListener("click", buildPractice);
+  buildPractice();
+  var EV_N = 3;
+  var items = [];
+  var evStarted = false, evSubmitted = false, lastPdf = null;
+
+  function evPlan(level) { return PLANS[evKind][level]; }
+
+  function applyEvKind() {
+    $("evKindRow").querySelectorAll("[data-ek]").forEach(function (b) {
+      var on = (b.dataset.ek === evKind);
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    var P = PLANS[evKind];
+    $("evKindNote").innerHTML =
+      "<b>" + P.name + "</b> — 세 문제 모두 " + (evKind === "en" ? "영어" : "한글") +
+      "이고 <b>" + P.codeName + "</b>(" + P.answer + ")를 씁니다.<br>" +
+      "<b>수준은 글자 수로 나뉩니다</b> — 하 1점 : <b>" + P.low.what + "</b> · " +
+      "중 2점 : <b>" + P.mid.what + "</b> · 상 3점 : <b>" + P.high.what + "</b>.<br>" +
+      "어려운 수준을 고르면 얻을 점수가 커지지만 <b>만점도 함께 커집니다.</b> " +
+      "<b>평가를 시작하면 ① 글자 변환 · ② 연습문제 탭을 쓸 수 없습니다.</b>";
+  }
+
+  var evPager = null, evCheckBox = null;
+
+  function buildProblems() {
+    var area = $("evProblems");
+    area.innerHTML = "";
+    items = [];
+    for (var i = 0; i < EV_N; i++) items.push(makeProblem(i, area));
+
+    /* 맨 끝에 「전체 확인」 화면 */
+    evCheckBox = el("div", "q");
+    area.appendChild(evCheckBox);
+
+    evPager = UI.pager($("evNav"), items.map(function (x, i) {
+      return { el: x.box, label: "문제 " + (i + 1), short: String(i + 1) };
+    }).concat([{ el: evCheckBox, label: "전체 확인", short: "📋 전체 확인" }]), {
+      lead: "한 문제씩 풀고 마지막에 확인하세요",
+      onChange: function (i) { if (i === EV_N) refreshEvCheck(); }
+    });
+  }
+
+  /* 전체 확인 화면 */
+  function refreshEvCheck() {
+    if (!evCheckBox) return;
+    var rows = items.map(function (it, i) {
+      var lv = it.level ? LEVELS[it.level].name + " (" + LEVELS[it.level].points + "점)" : "—";
+      var ans = "—", pad = "—", ok = !!it.level;
+      if (it.q) {
+        var blank = it.q.inputs.filter(function (x) { return x.value.trim() === ""; }).length;
+        ans = blank === 0 ? "다 썼습니다" : (blank + "칸 비었습니다");
+        if (blank > 0) ok = false;
+        pad = it.pad.isEmpty() ? "아직 안 그렸습니다" : "그렸습니다";
+      } else { ok = false; }
+      return "<tr><td>" + (i + 1) + "번</td><td>" + lv + "</td>" +
+        "<td class='" + (ok ? "mark-ok" : "mark-no") + "'>" + ans + "</td>" +
+        "<td>" + pad + "</td>" +
+        "<td>" + (ok ? "<b class='mark-ok'>준비됨</b>" : "<b class='mark-no'>확인 필요</b>") + "</td></tr>";
+    }).join("");
+    var ready = items.every(function (it) {
+      return it.level && it.q && it.q.inputs.every(function (x) { return x.value.trim() !== ""; });
+    });
+    evCheckBox.innerHTML =
+      "<div class='qhead'><span class='qno'>전체 확인</span>" +
+      "<span class='lvnote'>제출하기 전에 빠진 것이 없는지 봅니다</span></div>" +
+      "<div class='tablescroll'><table class='grid'><thead><tr>" +
+      "<th style='width:12%'>문제</th><th style='width:20%'>수준</th>" +
+      "<th style='width:26%'>답</th><th style='width:24%'>풀이</th>" +
+      "<th style='width:18%'>상태</th></tr></thead><tbody>" + rows + "</tbody></table></div>" +
+      "<p class='res " + (ready ? "ok" : "no") + "'>" + (ready
+        ? "모두 준비되었습니다. 아래 <b>3. 제출</b> 에서 [제출하기] 를 누르세요."
+        : "아직 <b>확인 필요</b> 인 문제가 있습니다. 위 번호를 눌러 그 문제로 돌아가세요.") + "</p>";
+  }
+
+  function makeProblem(idx, area) {
+    var box = el("div", "q");
+    box.innerHTML =
+      "<div class='qhead'>" +
+        "<span class='qno'>문제 " + (idx + 1) + "</span>" +
+        /* 단추 이름은 고른 평가(영어/한글)에 맞게 만든다 */
+        "<span class='levels'>" +
+          ["low", "mid", "high"].map(function (lv) {
+            return "<button class='btn' type='button' data-lv='" + lv + "' aria-pressed='false'>" +
+              LEVELS[lv].name + " · " + evPlan(lv).what + " (" + LEVELS[lv].points + "점)</button>";
+          }).join("") +
+        "</span>" +
+        "<span class='lvnote'>수준을 고르면 문제와 코드표가 나옵니다</span>" +
+      "</div>" +
+      "<p class='qtext empty'>— 상 · 중 · 하 중에서 수준을 먼저 고르세요 —</p>" +
+      "<div class='refwrap'></div>" +
+      "<div class='inwrap'></div>" +
+      "<p class='lead' style='margin:14px 0 0'>풀이 (여기에 손으로 계산 과정을 적으세요)</p>" +
+      "<div class='padwrap'></div>" +
+      "<p class='res' hidden></p>";
+    area.appendChild(box);
+
+    var it = {
+      box: box, level: null, q: null,
+      qText: box.querySelector(".qtext"),
+      ref: box.querySelector(".refwrap"),
+      inwrap: box.querySelector(".inwrap"),
+      note: box.querySelector(".lvnote"),
+      fb: box.querySelector(".res"),
+      pad: PdfKit.createPad(box.querySelector(".padwrap"), { height: 360 })
+    };
+
+    box.querySelectorAll("[data-lv]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (!evStarted || evSubmitted) return;
+        var typedSomething = it.q && it.q.inputs.some(function (x) { return x.value.trim() !== ""; });
+        if (it.level && (!it.pad.isEmpty() || typedSomething)) {
+          if (!confirm("수준을 바꾸면 지금 문제와 풀이가 지워집니다. 바꿀까요?")) return;
+        }
+        box.querySelectorAll("[data-lv]").forEach(function (b) {
+          var on = (b === btn);
+          b.classList.toggle("on", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        it.level = btn.dataset.lv;
+        var L = LEVELS[it.level];
+        var plan = evPlan(it.level);
+        it.q = makeQuestion(it.level, plan.kind,
+          items.filter(function (x) { return x !== it && x.q; }).map(function (x) { return x.q.word; }),
+          plan.dir);
+        it.qText.className = "qtext";
+        it.qText.innerHTML = questionText(it.q);
+        it.note.textContent = "수준 " + L.name + " · " + L.lenLabel + " · " + plan.what;
+        it.fb.hidden = true;
+        it.pad.clear();
+        buildRefTable(it.ref, it.q);
+        buildCharInputs(it.inwrap, it.q);
+      });
+    });
+    return it;
+  }
+
+  function applyPhase() {
+    var running = evStarted && !evSubmitted;
+    $("evStart").disabled = running || evSubmitted;
+    $("evStart").textContent = evSubmitted ? "평가 종료" : (running ? "평가 중" : "평가 시작");
+    $("evSubmit").disabled = !running;
+    items.forEach(function (it) {
+      it.box.querySelectorAll("button").forEach(function (b) { b.disabled = !running; });
+      if (it.q) it.q.inputs.forEach(function (x) { x.disabled = !running; });
+    });
+    /* 평가 종류(영어/한글)는 **시작한 뒤에는 바꿀 수 없다** —
+       바꾸면 이미 고른 문제와 어긋난다. 제출한 뒤에도 잠가 둔다(`처음부터 다시` 로 풀린다). */
+    $("evKindRow").querySelectorAll("[data-ek]").forEach(function (b) {
+      b.disabled = running || evSubmitted;
+    });
+    [$("tabLearn"), $("tabPractice")].forEach(function (t) {
+      t.dataset.locked = running ? "1" : "0";
+      t.setAttribute("aria-disabled", running ? "true" : "false");
+    });
+    if (running) {
+      $("lockBar").hidden = false;
+      $("lockBar").textContent = "평가 중입니다. ① 글자 변환 · ② 연습문제 탭은 평가를 제출한 뒤에 쓸 수 있습니다.";
+    } else {
+      $("lockBar").hidden = true;
+    }
+    $("evPhase").className = "res " + (running ? "ok" : "");
+    $("evPhase").innerHTML = evSubmitted
+      ? "제출이 끝났습니다. 채점 결과는 아래 <b>3. 제출</b>에서 확인하세요."
+      : (running ? "<b>평가 중입니다.</b> 문제마다 수준을 고르고, 코드표에서 찾아 풀이를 적은 뒤 답을 쓰세요."
+                 : "위 <b>[평가 시작]</b>을 누르면 문제가 나옵니다.");
+  }
+
+  $("evKindRow").querySelectorAll("[data-ek]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (evStarted || evSubmitted) return;      // 평가 중에는 바꿀 수 없다
+      evKind = b.dataset.ek;
+      applyEvKind();
+    });
+  });
+
+  $("evStart").addEventListener("click", function () {
+    evStarted = true; evSubmitted = false;
+    buildProblems();
+    applyPhase();
+    $("evStartMsg").innerHTML = "<b>" + PLANS[evKind].name + "</b>를 시작했습니다.";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+  });
+
+  $("evRedo").addEventListener("click", function () {
+    if (!confirm(evSubmitted ? "새로 풀어서 다시 제출할까요? 이미 낸 PDF 파일은 그대로 남습니다."
+                             : "지금 쓴 내용을 모두 지우고 처음부터 다시 할까요?")) return;
+    evStarted = false; evSubmitted = false; lastPdf = null;
+    $("evProblems").innerHTML = "";
+    $("evNav").innerHTML = "";
+    items = [];
+    evPager = null; evCheckBox = null;
+    $("evStartMsg").textContent = "";
+    $("evResult").hidden = true;
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+    applyPhase();
+  });
+
+  $("evSubmit").addEventListener("click", function () {
+    if (!evStarted) { evShow("먼저 [평가 시작]을 눌러 주세요.", "no"); return; }
+    if (evSubmitted) { evShow("이미 제출했습니다.", "no"); return; }
+
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (!it.level) {
+        evShow("문제 " + (i + 1) + "의 수준을 골라 주세요.", "no");
+        if (evPager) evPager.go(i);
+        return;
+      }
+      var r = judgeQuestion(it.q);
+      if (r.blank) {
+        evShow("문제 " + (i + 1) + "에 빈칸이 있습니다. 글자마다 답을 써 주세요.", "no");
+        if (evPager) evPager.go(i);
+        it.q.inputs.filter(function (x) { return x.value.trim() === ""; })[0].focus();
+        return;
+      }
+      if (r.bad) {
+        evShow("문제 " + (i + 1) + "의 답 형식이 맞지 않습니다 (" + (it.q.dir === "decode"
+          ? "칸마다 글자 하나" : it.q.mode.unit) + ").", "no");
+        return;
+      }
+    }
+    var emptyPads = items.filter(function (it) { return it.pad.isEmpty(); }).length;
+    if (emptyPads > 0 && !confirm("풀이를 적지 않은 문제가 " + emptyPads + "개 있습니다. 그래도 제출할까요?")) return;
+
+    var results = items.map(function (it) {
+      var r = judgeQuestion(it.q);
+      var pts = LEVELS[it.level].points;
+      return { typed: r.typed, correct: answerOf(it.q), ok: r.ok, points: pts, earned: r.ok ? pts : 0 };
+    });
+    var score = results.reduce(function (a, r) { return a + r.earned; }, 0);
+    var total = results.reduce(function (a, r) { return a + r.points; }, 0);
+    var rate = total > 0 ? Math.round(score / total * 100) : 0;
+    /* 문제에 어떤 글자가 섞였는지로 종류표를 정한다(파일 이름에 들어간다) */
+    /* 파일 이름의 종류표 — 고른 평가가 곧 종류다(`ascii` 영어 · `hangul` 한글).
+       교사 도구가 이 표로 「글자 · 영어(아스키)」/「글자 · 한글(유니코드)」로 갈라 준다. */
+    var kindTag = PLANS[evKind].tag;
+
+    PdfKit.askStudentInfo({ okText: "PDF 만들기" }, function (info) {
+      var stamp = PdfKit.stamp();
+      var doc = PdfKit.createDoc({
+        title: "글자 변환 평가 · " + PLANS[evKind].name,
+        subtitle: (evKind === "en" ? "영어 — 아스키코드" : "한글 — 유니코드") +
+                  " (" + PLANS[evKind].answer + ") · 코드표는 4진수",
+        meta: {
+          grade: info.grade, cls: info.cls, num: info.num, name: info.name,
+          when: stamp.human,
+          right: score + " / " + total + "점 (" + rate + "%)"
+        },
+        footer: "아날로그 → 디지털 변환 학습기 · 자료의 디지털 표현 [9정02-01]"
+      });
+
+      items.forEach(function (it, i) {
+        var r = results[i];
+        var L = LEVELS[it.level];
+        var m = it.q.mode;
+        var decode = (it.q.dir === "decode");
+        doc.h1("문제 " + (i + 1) + "  (수준 " + L.name + " · " + L.lenLabel + " · 배점 " + r.points + "점)");
+        doc.p(decode
+          ? "다음 " + m.codeName + "(" + m.baseName + " " + m.digits + "자리)가 나타내는 글자를 쓰시오."
+          : "\"" + it.q.word + "\" 의 각 글자를 " + m.codeName + "(" + m.baseName + " " +
+            m.digits + "자리)로 나타내시오.",
+          { bold: true, size: 25, color: PdfKit.COLORS.ink });
+        /* 방향에 따라 무엇이 문제이고 무엇이 정답인지 뒤바뀐다 */
+        doc.table([decode
+          ? ["문제 코드(" + m.baseName + ")", "종류", "코드값(4진수)", "정답(글자)"]
+          : ["글자", "종류", "코드값(4진수)", "정답(" + m.baseName + ")"]].concat(
+          it.q.infos.map(function (o) {
+            var code = T.notate(correctText(o, m), m.base);
+            var kindName = (o.kind === "hangul" ? "한글" : "영어");
+            return decode ? [code, kindName, o.quad, o.ch]
+                          : [o.ch, kindName, o.quad, code];
+          })), decode ? [34, 14, 22, 30] : [14, 16, 24, 46]);
+        doc.mark("내가 쓴 답 : " + r.typed, r.ok, "얻은 점수 " + r.earned + " / " + r.points + "점");
+        doc.box("풀이", "", { minLines: 0 });
+        doc.img(it.pad.canvas, { maxH: 260 });
+        if (i < items.length - 1) doc.gap(8);
+      });
+
+      var blob = PdfKit.buildPdf(doc.finish());
+      var fname = PdfKit.makeFileName("글자변환평가", info, kindTag + "-" + score + "of" + total);
+      lastPdf = { blob: blob, name: fname };
+      PdfKit.downloadBlob(blob, fname);
+
+      evSubmitted = true;
+      applyPhase();
+      $("evAgain").hidden = false;
+      $("evScore").textContent = score + " / " + total + " 점  (" + rate + "%)";
+      var tb = $("evTbody");
+      tb.innerHTML = "";
+      items.forEach(function (it, i) {
+        var r = results[i];
+        tb.appendChild(el("tr", null,
+          "<td>" + (i + 1) + "번</td>" +
+          "<td>" + LEVELS[it.level].name + "</td>" +
+          "<td>" + r.points + "점</td>" +
+          "<td style='font-size:22px'><b>" + esc(it.q.word) + "</b></td>" +
+          "<td style='font-family:Consolas,monospace'>" + it.q.infos.map(function (o) { return o.quad; }).join(" ") + "</td>" +
+          "<td>" + esc(r.typed) + "</td>" +
+          "<td>" + r.correct + "</td>" +
+          "<td class='" + (r.ok ? "mark-ok" : "mark-no") + "'>" +
+            (r.ok ? "○ +" + r.earned + "점" : "× 0점") + "</td>"));
+        it.fb.hidden = false;
+        it.fb.className = "res " + (r.ok ? "ok" : "no");
+        it.fb.innerHTML = (r.ok ? "○ 정답" : "× 정답은 <b>" + r.correct + "</b>") + " — " + explain(it);
+      });
+      $("evResult").hidden = false;
+      evShow("제출이 끝났습니다. PDF 파일 이름 : " + fname, "ok");
+      PdfKit.toast("PDF를 저장했습니다. 선생님께 이 파일을 내세요.", "ok");
+    });
+  });
+
+  $("evAgain").addEventListener("click", function () {
+    if (!lastPdf) return;
+    PdfKit.downloadBlob(lastPdf.blob, lastPdf.name);
+    PdfKit.toast("PDF를 다시 받았습니다.", "ok");
+  });
+
+  function explain(it) {
+    var m = it.q.mode;
+    return it.q.infos.map(function (o) {
+      var code = T.notate(correctText(o, m), m.base);
+      return (it.q.dir === "decode")
+        ? code + " = 4진수 " + o.quad + " → " + esc(o.ch)
+        : esc(o.ch) + " = 4진수 " + o.quad + " → " + code;
+    }).join(" · ");
+  }
+
+  function evShow(text, kind) {
+    $("evMsg").hidden = false;
+    $("evMsg").className = "res " + (kind || "");
+    $("evMsg").textContent = text;
+  }
+
+  applyEvKind();
+  applyPhase();
+})();
+</script>
+</body>
+</html>

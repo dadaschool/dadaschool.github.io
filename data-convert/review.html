@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>단원 정리 · 복습 (용어 · 자기점검 · 종합평가)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Crect x='8' y='7' width='16' height='18' rx='2' fill='%23ffffff'/%3E%3Crect x='11' y='11' width='10' height='2' fill='%234f46e5'/%3E%3Crect x='11' y='15' width='10' height='2' fill='%23a5b4fc'/%3E%3Crect x='11' y='19' width='6' height='2' fill='%23a5b4fc'/%3E%3C/svg%3E">
+  <link rel="stylesheet" crossorigin href="./assets/app-D0DPNJ5q.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>📋 단원 정리 · 복습</h1>
+  <span class="badge">자료의 디지털 표현 [9정02-01]</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 처음으로</a>
+  <a class="home" href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <p class="lockbar" id="lockBar" hidden></p>
+
+  <div class="tabs" role="tablist" aria-label="화면 고르기">
+    <button class="tab" id="tabLearn" role="tab" aria-selected="true"
+            aria-controls="panLearn" tabindex="0">① 핵심 용어</button>
+    <button class="tab" id="tabPractice" role="tab" aria-selected="false"
+            aria-controls="panPractice" tabindex="-1">② 스스로 점검</button>
+    <button class="tab" id="tabEval" role="tab" aria-selected="false"
+            aria-controls="panEval" tabindex="-1">③ 단원 종합평가</button>
+  </div>
+
+  <!-- ================= ① 핵심 용어 (플래시카드) ================= -->
+  <div id="panLearn" role="tabpanel" aria-labelledby="tabLearn">
+
+    <div class="card">
+      <h2><span class="step">1</span> 핵심 용어 카드</h2>
+      <p class="lead">
+        카드를 <b>눌러서 뒤집어</b> 뜻을 확인하세요. 확인한 뒤 <b>알아요 / 헷갈려요</b> 를 고르면
+        마지막에 <b>헷갈리는 것만 다시</b> 볼 수 있습니다. — 교과서 52 ~ 63쪽
+      </p>
+      <div class="baserow" id="areaRow"><span class="lab">영역</span></div>
+      <div class="pagerbar" id="cardNav"></div>
+
+      <div class="flashwrap">
+        <button class="flashcard" id="flash" type="button" aria-live="polite">
+          <span class="side" id="flashFront"></span>
+        </button>
+      </div>
+
+      <div class="btnrow" id="knowRow">
+        <button class="btn ok" type="button" id="btnKnow">✓ 알아요</button>
+        <button class="btn warn" type="button" id="btnHazy">? 헷갈려요</button>
+        <button class="btn ghost" type="button" id="btnFlip">뒤집기</button>
+        <span class="spacer"></span>
+        <button class="btn" type="button" id="btnShuffle">섞기</button>
+        <button class="btn" type="button" id="btnOnlyHazy">헷갈리는 것만</button>
+        <button class="btn ghost" type="button" id="btnResetCards">처음부터</button>
+      </div>
+      <p class="check" id="cardScore"></p>
+    </div>
+
+  </div><!-- /panLearn -->
+
+  <!-- ================= ② 스스로 점검 ================= -->
+  <div id="panPractice" role="tabpanel" aria-labelledby="tabPractice" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 나는 이것을 할 수 있는가?</h2>
+      <p class="lead">
+        솔직하게 표시하세요. <b>아직인 항목은 그 자리에서 복습</b>할 수 있습니다 —
+        <b>복습하기 ▸</b> 를 누르면 그 시뮬레이터가 바로 열립니다.
+      </p>
+      <div class="progwrap">
+        <div class="progbar"><span id="progFill"></span></div>
+        <p class="check" id="progText"></p>
+      </div>
+      <div class="btnrow">
+        <button class="btn" type="button" id="btnAllYes">모두 «할 수 있다»</button>
+        <button class="btn ghost" type="button" id="btnResetChecks">모두 지우기</button>
+      </div>
+      <div id="checkList"></div>
+      <div class="hint" id="checkAdvice"></div>
+    </div>
+
+  </div><!-- /panPractice -->
+
+  <!-- ================= ③ 단원 종합평가 ================= -->
+  <div id="panEval" role="tabpanel" aria-labelledby="tabEval" hidden>
+
+    <div class="card">
+      <h2><span class="step">1</span> 평가 시작</h2>
+      <p class="lead">
+        중단원 <b>「디지털 데이터의 표현 방법」</b> 전체에서 <b>12문항</b>이 나옵니다.
+        수준을 고르지 않고 <b>모두 1점</b>이며, 끝나면 <b>영역별로 어디가 약한지</b> 알려 줍니다.
+      </p>
+      <div class="hint" id="planNote"></div>
+      <div class="btnrow">
+        <button class="btn primary big" id="evStart">평가 시작</button>
+        <button class="btn ghost" id="evRedo">처음부터 다시</button>
+        <span id="evStartMsg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">2</span> 문제 풀기</h2>
+      <p class="res" id="evPhase"></p>
+      <div class="pagerbar" id="evNav"></div>
+      <div id="evProblems"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="step">3</span> 제출</h2>
+      <p class="lead">
+        <b>제출하면 답안 PDF가 내 기기에 저장됩니다.</b> 그 파일을 선생님께 내세요.
+        학년·반·학번·이름은 <b>제출할 때 한 번만</b> 물어보고 PDF 안에만 들어갑니다.
+      </p>
+      <div id="padArea" hidden>
+        <p class="lead" style="margin:14px 0 0">어려웠던 문제의 풀이를 적어 보세요 (안 적어도 됩니다)</p>
+        <div class="padwrap" id="padWrap"></div>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary big" id="evSubmit">제출하기 (PDF 저장)</button>
+        <button class="btn" id="evAgain" hidden>PDF 다시 받기</button>
+      </div>
+      <p class="res" id="evMsg" hidden></p>
+
+      <div id="evResult" hidden>
+        <p style="margin:16px 0 6px">점수 : <span class="score" id="evScore"></span></p>
+        <h3 style="margin:22px 0 8px">영역별 분석 — 어디를 더 봐야 할까요?</h3>
+        <div id="areaChart"></div>
+        <div class="hint" id="areaAdvice"></div>
+        <h3 style="margin:22px 0 8px">문항별 채점</h3>
+        <div class="tablescroll">
+          <table class="grid">
+            <thead><tr><th>번호</th><th>영역</th><th>무엇을</th>
+              <th>내가 쓴 답</th><th>정답</th><th>채점</th></tr></thead>
+            <tbody id="evTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /panEval -->
+
+</div>
+
+<script src="js/pdf.js?v=202608192011"></script>
+<script src="js/ui.js?v=202608192011"></script>
+<script src="js/basic.js?v=202608192011"></script>
+<script src="js/convert.js?v=202608192011"></script>
+<script src="js/text.js?v=202608192011"></script>
+<script src="js/image.js?v=202608192011"></script>
+<script src="js/sound.js?v=202608192011"></script>
+<script src="js/review.js?v=202608192011"></script>
+<script>
+(function () {
+  "use strict";
+  var R = window.Review, I = window.ImageCode, T = window.TextCode;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function markRow(rowId, attr, value) {
+    $(rowId).querySelectorAll("[" + attr + "]").forEach(function (b) {
+      var on = (String(b.getAttribute(attr)) === String(value));
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+  function areaOf(key) {
+    return R.AREAS.filter(function (a) { return a.key === key; })[0] || { name: key, icon: "" };
+  }
+
+  /* =========================================================
+     큰 탭
+     ========================================================= */
+  var TABS = [["tabLearn", "panLearn"], ["tabPractice", "panPractice"], ["tabEval", "panEval"]];
+
+  function selectTab(btn) {
+    if (btn.getAttribute("aria-disabled") === "true") return;
+    TABS.forEach(function (t) {
+      var on = (t[0] === btn.id);
+      $(t[0]).setAttribute("aria-selected", on ? "true" : "false");
+      $(t[0]).tabIndex = on ? 0 : -1;
+      $(t[1]).hidden = !on;
+    });
+    btn.focus();
+  }
+  TABS.forEach(function (t) {
+    $(t[0]).addEventListener("click", function () { selectTab(this); });
+    $(t[0]).addEventListener("keydown", function (e) {
+      var i = TABS.findIndex(function (x) { return x[0] === e.currentTarget.id; });
+      if (e.key === "ArrowRight") selectTab($(TABS[(i + 1) % TABS.length][0]));
+      if (e.key === "ArrowLeft") selectTab($(TABS[(i + TABS.length - 1) % TABS.length][0]));
+    });
+  });
+
+  /* =========================================================
+     ① 핵심 용어 플래시카드
+
+       ⚠ 카드 넘기기는 `UI.pager` 를 쓰지 않는다. 저 부품은 **미리 만들어 둔 요소들**을
+         여닫는 방식이라 카드가 25장이면 요소도 25개가 된다. 여기서는 **한 장을 다시 그린다.**
+       ⚠ 「알아요/헷갈려요」 는 **아무 데도 저장하지 않는다**(개인정보 규칙 · 새로고침하면 사라진다).
+     ========================================================= */
+  var deck = [], pos = 0, flipped = false, area = "all", know = {};
+
+  function buildAreaRow() {
+    var list = [{ key: "all", icon: "📋", name: "전체" }].concat(R.AREAS);
+    list.forEach(function (a) {
+      var b = el("button", "btn", a.icon + " " + a.name);
+      b.type = "button"; b.dataset.a = a.key;
+      b.addEventListener("click", function () { area = a.key; buildDeck(); });
+      $("areaRow").appendChild(b);
+    });
+  }
+
+  function buildDeck(onlyHazy) {
+    markRow("areaRow", "data-a", area);
+    deck = R.TERMS.filter(function (t) {
+      if (area !== "all" && t.area !== area) return false;
+      if (onlyHazy && know[t.t] !== "hazy") return false;
+      return true;
+    });
+    if (!deck.length) {
+      deck = R.TERMS.filter(function (t) { return area === "all" || t.area === area; });
+      if (onlyHazy) window.PdfKit.toast("헷갈린다고 표시한 카드가 없습니다. 전체를 다시 봅니다.");
+    }
+    pos = 0; flipped = false;
+    drawNav();
+    drawCard();
+  }
+
+  function drawNav() {
+    var bar = $("cardNav");
+    bar.innerHTML = "";
+    var prev = el("button", "btn pagerbtn", "◀ 이전");
+    prev.type = "button";
+    prev.disabled = (pos === 0);
+    prev.addEventListener("click", function () { go(pos - 1); });
+    bar.appendChild(prev);
+
+    bar.appendChild(el("span", "pagerlead", "<b>" + (pos + 1) + "</b> / " + deck.length + " 장"));
+
+    var next = el("button", "btn pagerbtn", "다음 ▶");
+    next.type = "button";
+    next.disabled = (pos >= deck.length - 1);
+    next.addEventListener("click", function () { go(pos + 1); });
+    bar.appendChild(next);
+  }
+
+  function go(i) {
+    if (i < 0 || i >= deck.length) return;
+    pos = i; flipped = false;
+    drawNav(); drawCard();
+  }
+
+  function drawCard() {
+    var t = deck[pos];
+    var box = $("flash");
+    if (!t) { box.innerHTML = "<span class='side'>카드가 없습니다.</span>"; return; }
+    var st = know[t.t];
+    box.className = "flashcard" + (flipped ? " back" : "") +
+      (st === "know" ? " known" : st === "hazy" ? " hazy" : "");
+    box.innerHTML = flipped
+      ? "<span class='side'>" +
+          "<span class='tag'>" + areaOf(t.area).icon + " " + areaOf(t.area).name +
+            " · 교과서 " + t.page + "쪽</span>" +
+          "<span class='def'>" + t.d + "</span>" +
+          "<span class='more'>다시 누르면 앞면으로</span>" +
+        "</span>"
+      : "<span class='side'>" +
+          "<span class='tag'>" + areaOf(t.area).icon + " " + areaOf(t.area).name +
+            " · 교과서 " + t.page + "쪽</span>" +
+          "<span class='term'>" + esc(t.t) + "</span>" +
+          "<span class='more'>눌러서 뜻 보기</span>" +
+        "</span>";
+    /* 복습 링크는 카드 밖에 둔다 — 카드 안에 넣으면 카드를 누를 때 같이 눌린다 */
+    var old = document.getElementById("goStudy");
+    if (old) old.remove();
+    var link = el("a", "btn", "복습하기 ▸ " + areaOf(t.area).icon + " " + areaOf(t.area).name);
+    link.id = "goStudy";
+    link.href = t.where;
+    $("knowRow").appendChild(link);
+    drawScore();
+  }
+
+  function drawScore() {
+    var all = R.TERMS.length;
+    var k = Object.keys(know).filter(function (x) { return know[x] === "know"; }).length;
+    var h = Object.keys(know).filter(function (x) { return know[x] === "hazy"; }).length;
+    $("cardScore").innerHTML = "전체 " + all + "개 중 — <b>알아요 " + k + "</b> · " +
+      "<b>헷갈려요 " + h + "</b> · 아직 안 본 것 " + (all - k - h) +
+      (h ? "  <b>[헷갈리는 것만]</b> 을 눌러 다시 보세요." : "");
+  }
+
+  $("flash").addEventListener("click", function () { flipped = !flipped; drawCard(); });
+  $("btnFlip").addEventListener("click", function () { flipped = !flipped; drawCard(); });
+  $("btnKnow").addEventListener("click", function () {
+    if (deck[pos]) know[deck[pos].t] = "know";
+    if (pos < deck.length - 1) go(pos + 1); else drawCard();
+  });
+  $("btnHazy").addEventListener("click", function () {
+    if (deck[pos]) know[deck[pos].t] = "hazy";
+    if (pos < deck.length - 1) go(pos + 1); else drawCard();
+  });
+  $("btnShuffle").addEventListener("click", function () {
+    for (var i = deck.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp;
+    }
+    pos = 0; flipped = false; drawNav(); drawCard();
+  });
+  $("btnOnlyHazy").addEventListener("click", function () { buildDeck(true); });
+  $("btnResetCards").addEventListener("click", function () { know = {}; buildDeck(); });
+
+  /* =========================================================
+     ② 스스로 점검
+       ⚠ 표시는 화면에만 있고 어디에도 저장하지 않는다(루트 규칙).
+     ========================================================= */
+  var checkState = [];
+
+  function buildChecks() {
+    var box = $("checkList");
+    box.innerHTML = "";
+    checkState = R.CHECKS.map(function (c) { return { c: c, done: false }; });
+
+    R.AREAS.forEach(function (a) {
+      var mine = checkState.filter(function (s) { return s.c.area === a.key; });
+      if (!mine.length) return;
+      var group = el("div", "checkgroup");
+      group.appendChild(el("p", "groupname", a.icon + " " + a.name));
+      mine.forEach(function (st) {
+        var row = el("label", "checkrow",
+          "<input type='checkbox'><span class='q'>" + st.c.q + "</span>");
+        var link = el("a", "btn small", "복습하기 ▸");
+        link.href = st.c.where;
+        /* 라벨 안의 링크를 누르면 체크박스가 같이 눌린다 → 막는다 */
+        link.addEventListener("click", function (e) { e.stopPropagation(); });
+        /* 글 안에 이어 붙인다 — 옆에 두면 글이 좁아져 줄 수가 늘어난다 */
+        row.querySelector(".q").appendChild(link);
+        row.querySelector("input").addEventListener("change", function () {
+          st.done = this.checked;
+          row.classList.toggle("done", st.done);
+          drawProgress();
+        });
+        st.row = row;
+        st.input = row.querySelector("input");
+        group.appendChild(row);
+      });
+      box.appendChild(group);
+    });
+    drawProgress();
+  }
+
+  function drawProgress() {
+    var n = checkState.filter(function (s) { return s.done; }).length;
+    var all = checkState.length;
+    var pct = all ? Math.round(n / all * 100) : 0;
+    $("progFill").style.width = pct + "%";
+    $("progText").innerHTML = "<b>" + all + "개 중 " + n + "개</b> 확인 (" + pct + "%)";
+    var left = checkState.filter(function (s) { return !s.done; });
+    $("checkAdvice").innerHTML = left.length === 0
+      ? "모두 확인했습니다. <b>③ 단원 종합평가</b> 로 넘어가 보세요."
+      : "아직 <b>" + left.length + "개</b>가 남았습니다 — 가장 먼저 볼 것 : <b>" +
+        left.slice(0, 2).map(function (s) {
+          return areaOf(s.c.area).icon + " " + s.c.q.replace(/<[^>]+>/g, "");
+        }).join("</b> · <b>") + "</b>";
+  }
+
+  $("btnAllYes").addEventListener("click", function () {
+    checkState.forEach(function (s) { s.done = true; s.input.checked = true; s.row.classList.add("done"); });
+    drawProgress();
+  });
+  $("btnResetChecks").addEventListener("click", function () {
+    checkState.forEach(function (s) { s.done = false; s.input.checked = false; s.row.classList.remove("done"); });
+    drawProgress();
+  });
+
+  /* =========================================================
+     ③ 단원 종합평가 (12문항)
+     ========================================================= */
+  var exam = [], evStarted = false, evSubmitted = false, lastPdf = null;
+  var evPager = null, evCheckBox = null, pad = null;
+
+  function showPlan() {
+    var c = R.areaCounts();
+    $("planNote").innerHTML = "<b>문항 배분</b> — " + R.AREAS.map(function (a) {
+      return a.icon + " " + a.name + " <b>" + c[a.key] + "문항</b>";
+    }).join(" · ") + " (모두 12문항 · 12점)<br>" +
+      "<b>평가를 시작하면 ① 핵심 용어 · ② 스스로 점검 탭을 쓸 수 없습니다.</b>";
+  }
+
+  /* 문제에 함께 줘야 하는 자료를 그린다 (코드표·격자 …) */
+  function buildAid(container, q) {
+    container.innerHTML = "";
+    if (!q.aid) return;
+    if (q.aid.kind === "ascii") {
+      var box = el("div", "refbox");
+      box.appendChild(el("p", "t", "아스키 코드표 (10진수)"));
+      var rows = q.aid.chars.map(function (ch) {
+        return "<tr><td><b>" + esc(ch) + "</b></td><td>" + T.codeOf(ch) + "</td></tr>";
+      }).join("");
+      var sc = el("div", "tablescroll");
+      sc.innerHTML = "<table class='grid'><thead><tr><th style='width:34%'>글자</th>" +
+        "<th>10진수 코드</th></tr></thead><tbody>" + rows + "</tbody></table>";
+      box.appendChild(sc);
+      box.appendChild(el("p", "lvnote",
+        "이 값을 <b>2진수 7자리</b>로 바꾸세요 (자리값 64 32 16 8 4 2 1)."));
+      container.appendChild(box);
+      return;
+    }
+    if (q.aid.kind === "quad") {
+      var b2 = el("div", "refbox");
+      b2.appendChild(el("p", "t", "4진수 → 16진수 바꾸는 법"));
+      b2.appendChild(el("p", "lvnote",
+        "4진수 <b>한 자리 = 2비트</b> 입니다. <b>두 자리씩 묶으면</b> 16진수 한 자리가 됩니다 — " +
+        "<span style='font-family:Consolas,monospace;font-size:22px'>" +
+        q.aid.quad.replace(/(..)/g, "$1 ").trim() + "</span>"));
+      container.appendChild(b2);
+      return;
+    }
+    if (q.aid.kind === "grid") {
+      var b3 = el("div", "refbox");
+      b3.appendChild(el("p", "t", "색상 코드표 — 이 문제의 색과 값"));
+      var pal = el("div", "palrow");
+      I.paletteRows(q.aid.bits).forEach(function (p) {
+        pal.appendChild(el("div", "palcell",
+          "<span class='sw' style='background:" + p.css + ";color:" + p.ink + "'>" + p.bin + "</span>" +
+          "<span class='nm'>" + p.v + " · " + p.name + "</span>"));
+      });
+      b3.appendChild(pal);
+      container.appendChild(b3);
+
+      var wrap = el("div", "gridwrap");
+      var g = el("div", "pixgrid");
+      g.style.setProperty("--cols", q.aid.grid[0].length);
+      q.aid.grid.forEach(function (row) {
+        row.forEach(function (v) {
+          var cell = el("div", "pix");
+          cell.style.background = I.shadeOf(v, q.aid.bits);
+          wrapCell(cell);
+          g.appendChild(cell);
+        });
+      });
+      wrap.appendChild(g);
+      container.appendChild(wrap);
+    }
+  }
+  function wrapCell(c) { c.setAttribute("aria-hidden", "true"); }
+
+  function buildAnswers(container, q) {
+    container.innerHTML = "";
+    if (q.choose) {
+      var row = el("div", "btnrow");
+      q.picked = null;
+      q.choose.forEach(function (name) {
+        var b = el("button", "btn big", name);
+        b.type = "button"; b.dataset.pick = name;
+        b.addEventListener("click", function () {
+          if (evSubmitted) return;
+          q.picked = name;
+          row.querySelectorAll("[data-pick]").forEach(function (x) {
+            var on = (x.dataset.pick === name);
+            x.classList.toggle("on", on);
+            x.setAttribute("aria-pressed", on ? "true" : "false");
+          });
+          refreshEvCheck();
+        });
+        row.appendChild(b);
+      });
+      container.appendChild(row);
+      return;
+    }
+    var ins = el("div", "charins");
+    q.inputs = [];
+    q.cells.forEach(function (c) {
+      var isBin = /^[01]+$/.test(c.answer) && c.answer.length > 1;
+      var cell = el("div", "charin" + (isBin ? " wide" : " total"),
+        "<span class='c'>" + esc(c.head) + "</span>" +
+        "<input type='text' class='ans' autocomplete='off' spellcheck='false' " +
+        "aria-label='" + esc(c.head) + " 의 답'>");
+      var input = cell.querySelector("input");
+      input.addEventListener("input", refreshEvCheck);
+      q.inputs.push(input);
+      ins.appendChild(cell);
+    });
+    container.appendChild(ins);
+  }
+
+  function judgeCell(cell, typed) {
+    var t = String(typed == null ? "" : typed).trim().replace(/[\s,]+/g, "").toUpperCase();
+    if (t === "") return { ok: false, reason: "빈칸" };
+    var ans = String(cell.answer).toUpperCase();
+    if (/^[01]+$/.test(ans) && ans.length > 1) {
+      if (!/^[01]+$/.test(t)) return { ok: false, reason: "형식" };
+      if (t.length !== ans.length) return { ok: false, reason: "형식" };
+      return { ok: t === ans };
+    }
+    if (/^\d+$/.test(ans)) {
+      if (!/^\d+$/.test(t)) return { ok: false, reason: "형식" };
+      return { ok: Number(t) === Number(ans) };
+    }
+    return { ok: t === ans };            /* 16진수 등 */
+  }
+
+  function judge(q) {
+    if (q.choose) {
+      if (!q.picked) return { ok: false, blank: true, typed: "(안 고름)", correct: q.answerChoice };
+      return { ok: q.picked === q.answerChoice, blank: false, typed: q.picked, correct: q.answerChoice };
+    }
+    var each = q.cells.map(function (c, i) { return judgeCell(c, q.inputs[i].value); });
+    each.forEach(function (r, i) {
+      q.inputs[i].parentNode.classList.toggle("ok", !!r.ok);
+      q.inputs[i].parentNode.classList.toggle("no", !r.ok);
+    });
+    return {
+      ok: each.every(function (r) { return r.ok; }),
+      blank: each.some(function (r) { return r.reason === "빈칸"; }),
+      typed: q.inputs.map(function (x) { return x.value.trim() || "(빈칸)"; }).join(" "),
+      correct: q.cells.map(function (c) { return c.answer; }).join(" ")
+    };
+  }
+
+  function buildProblems() {
+    var host = $("evProblems");
+    host.innerHTML = "";
+    exam = R.makeExam();
+
+    exam.forEach(function (q) {
+      var box = el("div", "q");
+      box.innerHTML =
+        "<div class='qhead'><span class='qno'>문제 " + q.no + " / 12</span>" +
+          "<span class='lvnote'>" + areaOf(q.area).icon + " " + areaOf(q.area).name +
+          " · " + q.what + " · 1점</span></div>" +
+        "<p class='qtext'>" + q.text + "</p>" +
+        "<div class='gwrap'></div>" +
+        "<div class='inwrap'></div>" +
+        "<p class='res' hidden></p>";
+      host.appendChild(box);
+      q.box = box;
+      q.fb = box.querySelector(".res");
+      buildAid(box.querySelector(".gwrap"), q);
+      buildAnswers(box.querySelector(".inwrap"), q);
+    });
+
+    evCheckBox = el("div", "q");
+    host.appendChild(evCheckBox);
+
+    evPager = UI.pager($("evNav"),
+      exam.map(function (q) { return { el: q.box, label: "문제 " + q.no, short: String(q.no) }; })
+        .concat([{ el: evCheckBox, label: "전체 확인", short: "📋 전체 확인" }]),
+      { lead: "한 문제씩 풀고 마지막에 확인하세요", onChange: function (i) {
+          if (i === exam.length) refreshEvCheck();
+      }});
+    refreshEvCheck();
+  }
+
+  function refreshEvCheck() {
+    if (!evCheckBox) return;
+    var left = exam.filter(function (q) {
+      return q.choose ? !q.picked
+                      : (q.inputs || []).some(function (x) { return x.value.trim() === ""; });
+    });
+    evCheckBox.innerHTML =
+      "<div class='qhead'><span class='qno'>전체 확인</span>" +
+        "<span class='lvnote'>빈칸이 있는 문제를 알려 줍니다</span></div>" +
+      "<div class='numgrid'>" + exam.map(function (q) {
+        var empty = q.choose ? !q.picked
+                             : (q.inputs || []).some(function (x) { return x.value.trim() === ""; });
+        return "<button class='numcell " + (empty ? "no" : "ok") + "' type='button' " +
+               "data-go='" + (q.no - 1) + "'>" + q.no + "</button>";
+      }).join("") + "</div>" +
+      "<p class='res " + (left.length ? "no" : "ok") + "'>" +
+      (left.length
+        ? "빈칸이 있는 문제 <b>" + left.length + "개</b> : " +
+          left.map(function (q) { return q.no + "번"; }).join(" · ") + " — 위 번호를 눌러 가세요."
+        : "12문항을 모두 풀었습니다. 아래 <b>제출하기</b> 를 누르세요.") + "</p>";
+    evCheckBox.querySelectorAll("[data-go]").forEach(function (b) {
+      b.addEventListener("click", function () { if (evPager) evPager.go(+b.dataset.go); });
+    });
+  }
+
+  function applyPhase() {
+    var lock = evStarted && !evSubmitted;
+    ["tabLearn", "tabPractice"].forEach(function (id) {
+      $(id).setAttribute("aria-disabled", lock ? "true" : "false");
+      $(id).classList.toggle("locked", lock);
+    });
+    $("lockBar").hidden = !lock;
+    if (lock) $("lockBar").innerHTML =
+      "🔒 <b>평가 중</b>입니다 — 제출하면 ① 핵심 용어 · ② 스스로 점검 탭이 다시 열립니다.";
+    $("evPhase").textContent = !evStarted ? "아직 시작하지 않았습니다."
+      : evSubmitted ? "제출이 끝났습니다." : "12문항을 하나씩 풀어 보세요.";
+    $("evStart").disabled = evStarted && !evSubmitted;
+    $("evResult").hidden = !evSubmitted;
+    $("padArea").hidden = !evStarted;
+  }
+
+  $("evStart").addEventListener("click", function () {
+    if (evStarted && !evSubmitted) return;
+    evStarted = true; evSubmitted = false; lastPdf = null;
+    buildProblems();
+    if (!pad) pad = PdfKit.createPad($("padWrap"), { height: 300 });
+    $("evStartMsg").textContent = "";
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+    applyPhase();
+  });
+
+  $("evRedo").addEventListener("click", function () {
+    evStarted = false; evSubmitted = false; lastPdf = null;
+    exam = [];
+    $("evProblems").innerHTML = "";
+    $("evNav").innerHTML = "";
+    evPager = null; evCheckBox = null;
+    if (pad) pad.clear();
+    $("evStartMsg").textContent = "";
+    $("evMsg").hidden = true;
+    $("evAgain").hidden = true;
+    applyPhase();
+  });
+
+  function evShow(text, kind) {
+    $("evMsg").hidden = false;
+    $("evMsg").className = "res " + (kind || "");
+    $("evMsg").textContent = text;
+  }
+
+  $("evSubmit").addEventListener("click", function () {
+    if (!evStarted) { evShow("먼저 [평가 시작]을 눌러 주세요.", "no"); return; }
+    if (evSubmitted) { evShow("이미 제출했습니다.", "no"); return; }
+
+    for (var i = 0; i < exam.length; i++) {
+      var r0 = judge(exam[i]);
+      if (r0.blank) {
+        evShow("문제 " + exam[i].no + " 이(가) 비어 있습니다.", "no");
+        if (evPager) evPager.go(i);
+        if (exam[i].inputs) {
+          var empty = exam[i].inputs.filter(function (x) { return x.value.trim() === ""; })[0];
+          if (empty) empty.focus();
+        }
+        return;
+      }
+    }
+
+    var results = exam.map(function (q) { return judge(q); });
+    var score = results.filter(function (r) { return r.ok; }).length;
+    var total = exam.length;
+    var rate = Math.round(score / total * 100);
+
+    /* 영역별 분석 */
+    var by = {};
+    R.AREAS.forEach(function (a) { by[a.key] = { got: 0, all: 0 }; });
+    exam.forEach(function (q, i) {
+      by[q.area].all++;
+      if (results[i].ok) by[q.area].got++;
+    });
+
+    PdfKit.askStudentInfo({ okText: "PDF 만들기" }, function (info) {
+      var stamp = PdfKit.stamp();
+      var doc = PdfKit.createDoc({
+        title: "단원 종합평가",
+        subtitle: "디지털 데이터의 표현 방법 (12문항)",
+        meta: {
+          grade: info.grade, cls: info.cls, num: info.num, name: info.name,
+          when: stamp.human,
+          right: score + " / " + total + "점 (" + rate + "%)"
+        },
+        footer: "아날로그 → 디지털 변환 학습기 · 자료의 디지털 표현 [9정02-01]"
+      });
+
+      doc.h1("영역별 분석");
+      doc.table([["영역", "맞힌 문항", "정답률", "더 볼 곳"]].concat(
+        R.AREAS.map(function (a) {
+          var b = by[a.key];
+          var pct = b.all ? Math.round(b.got / b.all * 100) : 0;
+          return [a.name, b.got + " / " + b.all, pct + "%",
+                  (b.got === b.all) ? "—" : a.page];
+        })), [30, 20, 16, 34]);
+      doc.gap(10);
+
+      exam.forEach(function (q, i) {
+        var r = results[i];
+        doc.h2("문제 " + q.no + "  [" + areaOf(q.area).name + " · " + q.what + "]");
+        doc.p(q.text.replace(/<[^>]+>/g, ""), { size: 24, color: PdfKit.COLORS.ink });
+        doc.mark("내가 쓴 답 : " + r.typed, r.ok, r.ok ? "+1점" : "0점");
+        doc.p("정답 : " + r.correct + "   —   " + q.why.replace(/<[^>]+>/g, ""),
+              { size: 21, color: PdfKit.COLORS.sub });
+        if (i < exam.length - 1) doc.gap(6);
+      });
+
+      if (pad && !pad.isEmpty()) {
+        doc.h1("내가 적은 풀이");
+        doc.img(pad.canvas, { maxH: 280 });
+      }
+
+      var blob = PdfKit.buildPdf(doc.finish());
+      var fname = PdfKit.makeFileName("종합평가", info, "all12-" + score + "of" + total);
+      lastPdf = { blob: blob, name: fname };
+      PdfKit.downloadBlob(blob, fname);
+
+      evSubmitted = true;
+      applyPhase();
+      $("evAgain").hidden = false;
+      $("evScore").textContent = score + " / " + total + " 점  (" + rate + "%)";
+
+      /* 화면의 영역별 막대 */
+      var chart = $("areaChart");
+      chart.innerHTML = "";
+      R.AREAS.forEach(function (a) {
+        var b = by[a.key];
+        var pct = b.all ? Math.round(b.got / b.all * 100) : 0;
+        var row = el("div", "arearow",
+          "<span class='nm'>" + a.icon + " " + a.name + "</span>" +
+          "<span class='bar'><span style='width:" + pct + "%' class='" +
+            (pct === 100 ? "full" : pct >= 50 ? "half" : "low") + "'></span></span>" +
+          "<span class='num'>" + b.got + " / " + b.all + "</span>");
+        if (b.got < b.all) {
+          var link = el("a", "btn small", "복습하기 ▸");
+          link.href = a.page;
+          row.appendChild(link);
+        }
+        chart.appendChild(row);
+      });
+      var weak = R.AREAS.filter(function (a) { return by[a.key].got < by[a.key].all; });
+      $("areaAdvice").innerHTML = weak.length === 0
+        ? "모든 영역을 맞혔습니다. 아주 잘했습니다!"
+        : "<b>더 볼 영역</b> : " + weak.map(function (a) {
+            return a.icon + " " + a.name + " (" + by[a.key].got + "/" + by[a.key].all + ")";
+          }).join(" · ") + " — 위 <b>복습하기 ▸</b> 를 누르면 그 화면이 열립니다.";
+
+      var tb = $("evTbody");
+      tb.innerHTML = "";
+      exam.forEach(function (q, i) {
+        var r = results[i];
+        tb.appendChild(el("tr", null,
+          "<td>" + q.no + "번</td>" +
+          "<td>" + areaOf(q.area).icon + " " + areaOf(q.area).name + "</td>" +
+          "<td>" + esc(q.what) + "</td>" +
+          "<td style='font-family:Consolas,monospace'>" + esc(r.typed) + "</td>" +
+          "<td style='font-family:Consolas,monospace'>" + esc(r.correct) + "</td>" +
+          "<td class='" + (r.ok ? "mark-ok" : "mark-no") + "'>" + (r.ok ? "○" : "×") + "</td>"));
+        q.fb.hidden = false;
+        q.fb.className = "res " + (r.ok ? "ok" : "no");
+        q.fb.innerHTML = (r.ok ? "○ 정답" : "× 정답은 <b>" + esc(r.correct) + "</b>") + " — " + q.why;
+      });
+      evShow("제출이 끝났습니다. PDF 를 선생님께 내세요 : " + fname, "ok");
+    });
+  });
+
+  $("evAgain").addEventListener("click", function () {
+    if (lastPdf) PdfKit.downloadBlob(lastPdf.blob, lastPdf.name);
+  });
+
+  /* =========================================================
+     시작
+     ========================================================= */
+  buildAreaRow();
+  buildDeck();
+  buildChecks();
+  showPlan();
+  applyPhase();
+})();
+</script>
+</body>
+</html>

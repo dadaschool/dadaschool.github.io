@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>선생님용 · 제출물 정리 (아날로그 → 디지털 변환)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23334155'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='16' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3ET%3C/text%3E%3C/svg%3E">
+<style>
+  /* 교사 화면만 색을 달리해 학생 화면과 구별한다 */
+  .top { background: #334155; }
+  .card > h2 .step { background: #334155; }
+  tr.other td { color: var(--faint); background: #f8fafc; }
+</style>
+  <link rel="stylesheet" crossorigin href="./assets/app-D0DPNJ5q.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>🗂 제출물 정리</h1>
+  <span class="badge">아날로그 → 디지털 변환 · 선생님용</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">← 학생 화면</a>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2><span class="step">1</span> 제출 파일 불러오기</h2>
+    <p class="lead">
+      학생들이 낸 PDF 를 한 폴더에 모아 두고 아래 단추를 누르세요.
+      <b>파일 이름만 읽어</b> 학년·반·학번·이름·변환 종류·점수·제출 시각을 표로 정리합니다.
+      영역은 <b>기초 · 숫자(진수) · 글자 · 이미지 · 소리</b> 다섯이고, 여기에 <b>단원 종합평가</b>(12문항)가 더 있습니다.
+    </p>
+    <div class="hint">
+      <b>파일 내용은 열지 않고, 아무것도 인터넷으로 보내지 않습니다</b>(인터넷 연결 불필요).
+      이 화면은 무엇도 저장하지 않으므로 새로고침하면 목록이 사라집니다.<br>
+      파일 이름 형식 (<b>다섯 영역 + 종합평가</b> 를 모두 읽습니다) :<br>
+      · <b>종합평가</b>…<b>_all12-9of12_</b>… (단원 전체 12문항)<br>
+      · <b>진수변환평가_학년-반-학번_이름_2to10-4of6_날짜_시각.pdf</b>
+      (<b>2to10</b> = 2진수에서 10진수로, <b>4of6</b> = 6점 만점에 4점)<br>
+      · <b>기초변환평가</b>…<b>_mix-4of6_</b>… (<b>kinds</b> 비트와 가지 수 · <b>unit</b> 용량 단위 ·
+      <b>restore</b> 잡음에서 되살리기)<br>
+      · <b>글자변환평가</b>…<b>_ascii-4of6_</b>… (<b>ascii</b> 영어 · <b>hangul</b> 한글 · <b>mixed</b> 섞음)<br>
+      · <b>소리변환평가</b>…<b>_pcm-5of6_</b>… (<b>quant</b> 양자화 · <b>encode</b> 부호화 · <b>pcm</b> 둘 다)<br>
+      · <b>이미지변환평가</b>…<b>_mix-2of6_</b>… (<b>bitmap</b> 비트맵 · <b>size</b> 용량 · <b>mix</b> 둘 다)
+    </div>
+    <div class="btnrow">
+      <button class="btn primary" id="btnFiles">파일 고르기</button>
+      <button class="btn" id="btnFolder">폴더 고르기</button>
+      <button class="btn ghost" id="btnClear">목록 비우기</button>
+      <input type="file" id="fileInput" multiple accept="application/pdf,.pdf" hidden>
+      <input type="file" id="folderInput" webkitdirectory directory multiple hidden>
+    </div>
+    <p class="res" id="readMsg" hidden></p>
+    <div class="warnbox" id="badBox" hidden></div>
+  </div>
+
+  <div class="card" id="sumCard" hidden>
+    <h2><span class="step">2</span> 요약</h2>
+    <div id="sumBody"></div>
+  </div>
+
+  <div class="card" id="listCard" hidden>
+    <h2><span class="step">3</span> 제출 목록</h2>
+    <div class="btnrow">
+      <label>종류
+        <select id="fKind"><option value="">전체</option></select>
+      </label>
+      <label>학년
+        <select id="fGrade"><option value="">전체</option></select>
+      </label>
+      <label>반
+        <select id="fClass"><option value="">전체</option></select>
+      </label>
+      <label>기준
+        <select id="fBasis">
+          <option value="last">최종 제출만</option>
+          <option value="first">최초 제출만</option>
+          <option value="all">전부 보기</option>
+        </select>
+      </label>
+      <button class="btn" id="btnCsv">CSV 내려받기</button>
+    </div>
+    <p class="res" id="listMsg" hidden></p>
+    <div class="tablescroll">
+      <table class="grid" id="listTable">
+        <thead>
+          <tr>
+            <th data-sort="who">학년-반</th>
+            <th data-sort="num">학번</th>
+            <th data-sort="name">이름</th>
+            <th data-sort="kind">종류</th>
+            <th data-sort="score">점수</th>
+            <th data-sort="rate">획득률</th>
+            <th data-sort="when">제출 시각</th>
+            <th data-sort="tries">횟수</th>
+            <th>파일 이름</th>
+          </tr>
+        </thead>
+        <tbody id="listBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">4</span> 여러 번 낸 학생 처리</h2>
+    <p class="lead">
+      학생 화면에는 <b>제출 횟수 제한이 없습니다</b>(학생 기기가 개인 소유라 원격으로 잠금을 풀 방법이 없어
+      제한을 두지 않았습니다). 대신 여러 번 낸 학생은 이 목록에서 그대로 드러납니다.
+    </p>
+    <div class="hint">
+      같은 학생 + 같은 변환의 제출을 모아 <b>횟수</b>와 <b>제출 시각</b>을 보여 줍니다.
+      위 <b>기준</b>에서 <b>최초 제출만</b> 또는 <b>최종 제출만</b>을 골라 채점 기준을 정하세요.
+      요약의 평균도 고른 기준으로 계산됩니다.
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+  function show(el, text, kind) {
+    el.hidden = false;
+    el.className = "res " + (kind || "");
+    el.innerHTML = text;
+  }
+
+  /* 파일 이름 형식 — 영역마다 접두어와 종류 표시가 다르다
+       진수변환평가_1-3-07_홍길동_2to10-4of6_20260729_2230.pdf   (2진수 → 10진수)
+       글자변환평가_1-3-07_홍길동_ascii-4of6_20260812_1030.pdf   (영어 / 한글 / 섞음)
+     (브라우저가 같은 파일을 두 번 내려받을 때 붙이는 " (1)" 도 받아들인다) */
+  var NAME_RE = /^(종합평가|기초변환평가|진수변환평가|글자변환평가|소리변환평가|이미지변환평가)_(\d)-(\d{1,2})-(\d{1,3})_(.+?)_([A-Za-z0-9]+)-(\d+)of(\d+)_(\d{8})_(\d{4})(?:\s*\(\d+\))?\.pdf$/i;
+
+  /* 종류 표시를 사람이 읽는 말로 바꾼다.
+     ⚠ 새 영역을 만들면 위 NAME_RE 의 접두어 목록과 아래 표에 한 줄씩 추가하면 된다. */
+  var KIND_LABEL = {
+    종합평가: { all12: "단원 종합 (12문항)" },
+    기초변환평가: { kinds: "기초 · 비트와 가지 수", unit: "기초 · 용량 단위",
+                    restore: "기초 · 잡음에서 되살리기", mix: "기초 · 세 가지 함께" },
+    글자변환평가: { ascii: "글자 · 영어(아스키)", hangul: "글자 · 한글(유니코드)", mixed: "글자 · 영어+한글" },
+    소리변환평가: { quant: "소리 · 양자화", encode: "소리 · 부호화",
+                    decode: "소리 · 복호화(되돌리기)", pcm: "소리 · 두 방향 함께" },
+    이미지변환평가: { bitmap: "이미지 · 비트맵 읽기", size: "이미지 · 해상도와 용량", mix: "이미지 · 비트맵+용량" }
+  };
+  var AREA_NAME = { 종합평가: "종합", 기초변환평가: "기초", 진수변환평가: "진수", 글자변환평가: "글자",
+                    소리변환평가: "소리", 이미지변환평가: "이미지" };
+
+  function kindLabel(prefix, tag) {
+    if (prefix === "진수변환평가") {
+      var m = tag.match(/^(\d+)to(\d+)$/);
+      return m ? ("진수 · " + m[1] + "진수 → " + m[2] + "진수") : ("진수 · " + tag);
+    }
+    var table = KIND_LABEL[prefix] || {};
+    return table[tag.toLowerCase()] || ((AREA_NAME[prefix] || prefix) + " · " + tag);
+  }
+
+  var rows = [], bad = [];
+  var sortKey = "who", sortAsc = true;
+
+  function parseName(fn) {
+    var m = fn.match(NAME_RE);
+    if (!m) return null;
+    var d = m[9], t = m[10];
+    var score = Number(m[7]), total = Number(m[8]);
+    return {
+      grade: Number(m[2]), cls: Number(m[3]), num: Number(m[4]), name: m[5],
+      area: m[1], tag: m[6].toLowerCase(),
+      /* ⚠ 종류 필터의 열쇠는 **영역 + 종류** 다. 종류만 쓰면 겹친다 —
+         기초변환평가의 `mix`(세 가지 함께)와 이미지변환평가의 `mix`(비트맵+용량)가 같은 글자다.
+         2026-08-12 종합평가를 넣으면서 실제로 기초 종류가 목록에서 사라졌다. */
+      filterKey: m[1] + "|" + m[6].toLowerCase(),
+      kind: kindLabel(m[1], m[6]),
+      score: score, total: total,
+      rate: total > 0 ? Math.round(score / total * 100) : 0,
+      when: d.slice(0, 4) + "-" + d.slice(4, 6) + "-" + d.slice(6, 8) + " " + t.slice(0, 2) + ":" + t.slice(2, 4),
+      sortWhen: d + t,
+      filename: fn
+    };
+  }
+
+  function readFiles(list) {
+    var added = 0, dup = 0;
+    var seenFile = {}, seenSubmit = {};
+    rows.forEach(function (r) {
+      seenFile[r.filename] = 1;
+      seenSubmit[r.grade + "-" + r.cls + "-" + r.num + "@" + r.tag + "@" + r.sortWhen] = 1;
+    });
+    Array.prototype.forEach.call(list, function (f) {
+      var fn = f.name;
+      if (!/\.pdf$/i.test(fn)) return;                       // 폴더를 고르면 다른 파일도 섞여 온다
+      if (seenFile[fn]) { dup++; return; }
+      var p = parseName(fn);
+      if (!p) { if (bad.indexOf(fn) === -1) bad.push(fn); return; }
+      var key = p.grade + "-" + p.cls + "-" + p.num + "@" + p.tag + "@" + p.sortWhen;
+      if (seenSubmit[key]) { dup++; return; }                // 같은 제출물의 복사본
+      rows.push(p);
+      seenFile[fn] = 1;
+      seenSubmit[key] = 1;
+      added++;
+    });
+    markTries();
+    drawAll();
+    show($("readMsg"),
+      added + "건을 읽었습니다. (전체 " + rows.length + "건" +
+      (dup ? " · 같은 제출물의 복사본 " + dup + "건은 건너뜀" : "") +
+      (bad.length ? " · 이름 형식이 달라 읽지 못한 파일 " + bad.length + "건" : "") + ")",
+      added ? "ok" : "");
+  }
+
+  /* 같은 학생 + 같은 종류끼리 묶어 최초·최종을 표시한다 */
+  function markTries() {
+    var groups = {};
+    rows.forEach(function (r) {
+      var k = r.grade + "-" + r.cls + "-" + r.num + "@" + r.tag;
+      (groups[k] = groups[k] || []).push(r);
+    });
+    Object.keys(groups).forEach(function (k) {
+      var g = groups[k].sort(function (a, b) { return b.sortWhen.localeCompare(a.sortWhen); });
+      g.forEach(function (r, i) {
+        r.tries = g.length;
+        r.isLast = (i === 0);
+        r.isFirst = (i === g.length - 1);
+      });
+    });
+  }
+
+  function basisRows() {
+    var b = $("fBasis").value;
+    return rows.filter(function (r) { return b === "first" ? r.isFirst : r.isLast; });
+  }
+
+  function visibleRows() {
+    var k = $("fKind").value, g = $("fGrade").value, c = $("fClass").value, b = $("fBasis").value;
+    return rows.filter(function (r) {
+      if (k && r.filterKey !== k) return false;
+      if (g && String(r.grade) !== g) return false;
+      if (c && String(r.cls) !== c) return false;
+      if (b === "last" && !r.isLast) return false;
+      if (b === "first" && !r.isFirst) return false;
+      return true;
+    }).sort(function (a, z) {
+      var x = 0;
+      if (sortKey === "who") x = (a.grade - z.grade) || (a.cls - z.cls) || (a.num - z.num);
+      else if (sortKey === "num") x = a.num - z.num;
+      else if (sortKey === "name") x = a.name.localeCompare(z.name, "ko");
+      else if (sortKey === "kind") x = a.kind.localeCompare(z.kind, "ko");
+      else if (sortKey === "score") x = a.score - z.score;
+      else if (sortKey === "rate") x = a.rate - z.rate;
+      else if (sortKey === "when") x = a.sortWhen.localeCompare(z.sortWhen);
+      else if (sortKey === "tries") x = a.tries - z.tries;
+      return sortAsc ? x : -x;
+    });
+  }
+
+  function drawAll() {
+    fillFilters();
+    drawList();
+    drawSummary();
+    drawBad();
+    $("listCard").hidden = rows.length === 0;
+    $("sumCard").hidden = rows.length === 0;
+  }
+
+  function keepSelect(sel, values, label) {
+    var before = sel.value;
+    sel.innerHTML = "<option value=''>전체</option>";
+    values.forEach(function (v) {
+      var op = document.createElement("option");
+      op.value = String(v.value);
+      op.textContent = v.text;
+      sel.appendChild(op);
+    });
+    sel.value = before;
+    if (sel.value !== before) sel.value = "";
+  }
+
+  function fillFilters() {
+    var kinds = {}, grades = {}, classes = {};
+    rows.forEach(function (r) {
+      kinds[r.filterKey] = r.kind;
+      grades[r.grade] = 1;
+      classes[r.cls] = 1;
+    });
+    keepSelect($("fKind"), Object.keys(kinds).sort().map(function (k) {
+      return { value: k, text: kinds[k] };
+    }));
+    keepSelect($("fGrade"), Object.keys(grades).map(Number).sort(function (a, b) { return a - b; })
+      .map(function (g) { return { value: g, text: g + "학년" }; }));
+    keepSelect($("fClass"), Object.keys(classes).map(Number).sort(function (a, b) { return a - b; })
+      .map(function (c) { return { value: c, text: c + "반" }; }));
+  }
+
+  function drawList() {
+    var list = visibleRows();
+    var basisFirst = $("fBasis").value === "first";
+    var tb = $("listBody");
+    tb.innerHTML = "";
+    list.forEach(function (r) {
+      var tr = document.createElement("tr");
+      if (basisFirst ? !r.isFirst : !r.isLast) tr.className = "other";
+      var cls = r.rate === 100 ? "mark-ok" : (r.score === 0 ? "mark-no" : "");
+      tr.innerHTML =
+        "<td>" + r.grade + "-" + r.cls + "</td>" +
+        "<td>" + r.num + "</td>" +
+        "<td>" + esc(r.name) + "</td>" +
+        "<td>" + r.kind + "</td>" +
+        "<td class='" + cls + "'>" + r.score + " / " + r.total + "</td>" +
+        "<td class='" + cls + "'>" + r.rate + "%</td>" +
+        "<td>" + r.when + "</td>" +
+        "<td>" + (r.tries > 1 ? r.tries + "회" + (r.isLast ? " (최종)" : (r.isFirst ? " (최초)" : " (중간)")) : "1회") + "</td>" +
+        "<td class='left' style='font-size:16px'>" + esc(r.filename) + "</td>";
+      tb.appendChild(tr);
+    });
+    var many = {};
+    rows.forEach(function (r) { if (r.tries > 1) many[r.grade + "-" + r.cls + "-" + r.num] = 1; });
+    var manyN = Object.keys(many).length;
+    show($("listMsg"),
+      list.length + ($("fBasis").value === "all" ? "건" : "명") + " 표시 중 (기준 : " +
+      $("fBasis").selectedOptions[0].textContent + ") · 표 머리글을 누르면 정렬됩니다" +
+      (manyN ? "  ⚠ 여러 번 낸 학생 " + manyN + "명 — '전부 보기'로 확인하세요." : ""),
+      list.length ? "ok" : "");
+  }
+
+  function drawSummary() {
+    var base = basisRows();
+    var byKind = {};
+    base.forEach(function (r) { (byKind[r.kind] = byKind[r.kind] || []).push(r); });
+    var html = "<div class='lessons'>";
+    Object.keys(byKind).sort().forEach(function (k) {
+      var g = byKind[k];
+      var sum = g.reduce(function (a, r) { return a + r.score; }, 0);
+      var tot = g.reduce(function (a, r) { return a + r.total; }, 0);
+      var avg = g.reduce(function (a, r) { return a + r.rate; }, 0) / g.length;
+      var full = g.filter(function (r) { return r.rate === 100; }).length;
+      html += "<div class='lesson' style='cursor:default'>" +
+        "<span class='no'>" + k + "</span>" +
+        "<h3>" + g.length + "명 제출</h3>" +
+        "<p>평균 획득률 <b>" + avg.toFixed(1) + "%</b><br>점수 합계 " + sum + " / " + tot + "점<br>" +
+        "만점 " + full + "명</p></div>";
+    });
+    html += "</div>";
+    $("sumBody").innerHTML = Object.keys(byKind).length ? html : "<p class='lead'>아직 없습니다.</p>";
+  }
+
+  function drawBad() {
+    var box = $("badBox");
+    if (!bad.length) { box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = "<b>읽지 못한 파일 " + bad.length + "건</b> — 이름 형식이 달라 자동 정리에서 빠졌습니다. " +
+      "직접 열어 확인하세요.<ul><li>" + bad.map(esc).join("</li><li>") + "</li></ul>";
+  }
+
+  /* ---- 단추 ---- */
+  $("btnFiles").addEventListener("click", function () { $("fileInput").click(); });
+  $("btnFolder").addEventListener("click", function () { $("folderInput").click(); });
+  $("fileInput").addEventListener("change", function (e) { readFiles(e.target.files); e.target.value = ""; });
+  $("folderInput").addEventListener("change", function (e) { readFiles(e.target.files); e.target.value = ""; });
+  $("btnClear").addEventListener("click", function () {
+    rows = []; bad = [];
+    drawAll();
+    show($("readMsg"), "목록을 비웠습니다.", "");
+  });
+  ["fKind", "fGrade", "fClass"].forEach(function (id) {
+    $(id).addEventListener("change", drawList);
+  });
+  $("fBasis").addEventListener("change", function () { drawList(); drawSummary(); });
+  document.querySelectorAll("#listTable th[data-sort]").forEach(function (th) {
+    th.style.cursor = "pointer";
+    th.addEventListener("click", function () {
+      var k = th.dataset.sort;
+      if (sortKey === k) sortAsc = !sortAsc; else { sortKey = k; sortAsc = true; }
+      drawList();
+    });
+  });
+
+  $("btnCsv").addEventListener("click", function () {
+    var list = visibleRows();
+    if (!list.length) { show($("listMsg"), "내보낼 자료가 없습니다.", "no"); return; }
+    var lines = ["학년,반,학번,이름,변환,점수,만점,획득률(%),제출시각,제출횟수,기준,파일명"];
+    list.forEach(function (r) {
+      lines.push([r.grade, r.cls, r.num, r.name, r.kind, r.score, r.total, r.rate, r.when, r.tries,
+        (r.isLast ? "최종" : (r.isFirst ? "최초" : "중간")), r.filename]
+        .map(function (v) {
+          var s = String(v == null ? "" : v);
+          return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+        }).join(","));
+    });
+    /* 엑셀에서 한글이 깨지지 않도록 BOM 을 붙인다 */
+    var blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "진수변환평가_제출목록.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    show($("listMsg"), list.length + "건을 CSV로 내려받았습니다.", "ok");
+  });
+})();
+</script>
+</body>
+</html>
