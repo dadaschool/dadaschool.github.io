@@ -329,7 +329,8 @@
       var s = graded ? score() : null;
       var doc = PdfKit.createDoc({
         title: spec.title + (graded ? "  (채점본)" : ""),
-        subtitle: spec.subtitle + "  ·  " + spec.standard,
+        /* 성취기준은 학생 화면·학생이 받는 PDF 에 넣지 않는다 (루트 규칙) */
+        subtitle: spec.subtitle,
         meta: {
           grade: info.grade, cls: info.cls, num: info.num, name: info.name, when: info.when,
           right: graded ? ("자동 채점 " + s.ok + " / " + s.all) : "제출본 (채점 전)"
