@@ -238,7 +238,9 @@
           "<h1>" + esc(opt.title || "활동지") + "</h1>" +
           (opt.subtitle ? '<p class="st">' + esc(opt.subtitle) + "</p>" : "") +
           '<div class="who">' + nameRow + "</div>" +
-          (opt.standard ? '<p class="std">' + esc(opt.standard) + "</p>" : "") +
+          /* ⚠ `standard` 는 받아도 **찍지 않는다** — 인쇄물은 학생이 받는 것이므로
+             성취기준을 넣지 않는다(루트 규칙 2026-08-19). 옵션은 남겨 두어
+             기존 호출부가 깨지지 않게 한다. */
           (opt.note ? '<p class="nt">' + rich(opt.note) + "</p>" : "") +
         "</header>" +
         secs +

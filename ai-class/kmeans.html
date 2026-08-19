@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>K-Means 실험실 — 4·5차시</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css">
 <style>
   .lab { display: grid; grid-template-columns: 1fr 380px; gap: 20px; align-items: start; }
   @media (max-width: 900px) { .lab { grid-template-columns: 1fr; } }
@@ -46,13 +47,12 @@
   @media (max-width: 780px) { .two { grid-template-columns: 1fr; } }
   .cmp-h { font-size: 20px; margin: 0 0 8px; font-weight: bold; }
 </style>
-  <link rel="stylesheet" crossorigin href="./assets/app-BXwmtZnC.css">
 </head>
 <body>
 
 <header class="top">
   <h1>🎯 K-Means 실험실</h1>
-  <span class="badge">4·5차시 · [9정04-02]</span>
+  <span class="badge">4·5차시</span>
   <span class="spacer"></span>
   <!-- 학습지는 새 창으로 — 실험실 창을 잃지 않고 나란히 쓸 수 있게 한다.
        창 이름이 같아서 여러 번 눌러도 창이 하나만 생긴다. -->
@@ -181,7 +181,7 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608192105"></script>
+<script src="js/pdf.js"></script>
 <script>
 "use strict";
 
@@ -676,7 +676,7 @@ document.getElementById("btnPdf").addEventListener("click", function () {
 
     var doc = PdfKit.createDoc({
       title: "K-Means 실험 기록",
-      subtitle: "4·5차시 · [9정04-02] 데이터의 중요성과 분류",
+      subtitle: "4·5차시 · 데이터의 중요성과 분류",
       meta: { grade: info.grade, cls: info.cls, num: info.num, name: info.name, when: info.when,
               right: "K = " + K },
       footer: "K-Means 실험실"

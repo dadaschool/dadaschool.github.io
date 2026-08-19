@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI 판별 트레이너 — 1차시</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8D%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css">
 <style>
   .qrow {
     border: 2px solid var(--line); border-radius: 12px; background: #fff;
@@ -56,13 +57,12 @@
   .lockbar .sc { font-weight: bold; font-size: 23px; }
   .qrow.lock input, .clip.lock input, .clip.lock textarea { background: #f3f4f6; color: var(--sub); }
 </style>
-  <link rel="stylesheet" crossorigin href="./assets/app-BXwmtZnC.css">
 </head>
 <body>
 
 <header class="top">
   <h1>🔍 AI 판별 트레이너</h1>
-  <span class="badge">1차시 · [9정04-01] · 학습지 ①②</span>
+  <span class="badge">1차시 · 학습지 ①②</span>
   <span class="spacer"></span>
   <a class="home" href="index.html">← 처음으로</a>
 </header>
@@ -146,8 +146,8 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608192105"></script>
-<script src="js/sheet1.js?v=202608192105"></script>
+<script src="js/pdf.js"></script>
+<script src="js/sheet1.js"></script>
 <script>
 "use strict";
 
@@ -446,7 +446,7 @@ document.getElementById("btnPdf").addEventListener("click", function () {
 
     var doc = PdfKit.createDoc({
       title: "1차시 학습지 ① ②",
-      subtitle: "AI 판별 트레이너 · [9정04-01] 인공지능의 개념과 특성, 인공지능 소프트웨어 구별",
+      subtitle: "AI 판별 트레이너 · 인공지능의 개념과 특성, 인공지능 소프트웨어 구별",
       meta: {
         grade: info.grade, cls: info.cls, num: info.num, name: info.name, when: info.when,
         right: "자동 채점 " + (ok1 + ok2) + " / " + (R1.length + R2.length)

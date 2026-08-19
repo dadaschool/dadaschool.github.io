@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>인공지능의 이해와 활용 — 수업 자료</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css">
 <style>
   /* 이 페이지에서만 쓰는 스타일 */
   .picker { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
@@ -58,7 +59,7 @@
     background: var(--band); padding: 18px 20px;
   }
   .nowbox .nowhead { font-size: 23px; font-weight: bold; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .nowbox .nowstd { font-size: 17px; color: var(--sub); margin: 8px 0 0; }
+  /* `.nowstd`(성취기준 줄)는 2026-08-19 에 없앴다 — 학생 화면에 성취기준을 보이지 않는다 */
   .nowbox .nowtools { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
   .nowbox .nowtools a.tool {
     font-size: 20px; font-weight: bold; text-decoration: none;
@@ -94,7 +95,6 @@
   .save-bar .note { font-size: 17px; color: var(--sub); flex: 1 1 260px; }
   td input { border-width: 1px; padding: 8px 10px; font-size: 18px; }
 </style>
-  <link rel="stylesheet" crossorigin href="./assets/app-BXwmtZnC.css">
 </head>
 <body>
 
@@ -140,8 +140,8 @@
   <button type="button" class="btn primary big" id="btnPdf">PDF로 저장하기</button>
 </div>
 
-<script src="js/pdf.js?v=202608192105"></script>
-<script src="js/sheets.js?v=202608192105"></script>
+<script src="js/pdf.js"></script>
+<script src="js/sheets.js"></script>
 <script>
 "use strict";
 
@@ -156,7 +156,8 @@
 var LESSON1 = {
   label: "1차시 · 학습지 ①②",
   title: "AI 개념과 윤리 — AI도 틀릴 수 있다",
-  standard: "[9정04-01] 인공지능의 개념과 특성을 설명하고 인공지능 소프트웨어를 구별한다.",
+  /* ⚠ `standard`(성취기준)는 넣지 않는다 — 학생 화면에 보이면 안 되고(루트 규칙 2026-08-19)
+     이제 그리는 곳도 없다. 교사 화면은 `js/sheets.js` 의 것을 읽는다. */
   tool: { href: "ai-or-not.html", name: "AI 판별 트레이너" },
   ext: "AutoDraw · AI 고양이 생성기 · 퀴즈앤도 함께 씁니다.",
   inTool: true                     // 학습지를 도구 안에서 쓴다는 뜻
@@ -234,7 +235,6 @@ function renderLessonNow(n) {
   box.innerHTML =
     '<div class="nowbox">' +
       '<div class="nowhead"><span class="step">' + m.label + '</span>' + m.title + '</div>' +
-      '<p class="nowstd">' + m.standard + '</p>' +
       '<div class="nowtools">' + tools + '</div>' +
       (m.ext ? '<p class="nowext">함께 쓰는 것 : ' + m.ext + '</p>' : '') +
       (m.tool ? '<p class="nowext"><b>새 창</b>으로 열립니다. 두 창을 나란히 놓고 쓰세요.</p>' : '') +
@@ -786,7 +786,8 @@ function makePdf(info) {
 
   var doc = PdfKit.createDoc({
     title: sheet.label,
-    subtitle: sheet.title + "  ·  " + sheet.standard,
+    /* 성취기준은 학생 화면·학생이 받는 PDF 에 넣지 않는다 (루트 규칙) */
+    subtitle: sheet.title,
     meta: {
       grade: info.grade, cls: info.cls, num: info.num, name: info.name, when: info.when,
       right: all > 0 ? ("자동 채점 " + ok + " / " + all) : ""

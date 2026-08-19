@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>스마트하우스, 선 없이 잇기 — micro:bit 무선통신</title>
-<link rel="stylesheet" href="css/app.css?v=202608192135">
+<link rel="stylesheet" href="css/app.css">
 <style>
   .hero { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff;
           border-radius: var(--radius); padding: 30px 32px; margin: 0 0 24px; }
@@ -166,18 +166,15 @@
   <section class="card">
     <h2>📚 무엇을 배우나</h2>
     <div class="tablescroll">
+      <!-- ⚠ 성취기준 열은 없앴다 (2026-08-19 사용자 지시) — 학생 화면에 보이지 않게 한다.
+           성취기준은 교사용(`teacher.html`)에만 둔다. 루트 CLAUDE.md 의 [교육적 요구] 참고. -->
       <table class="grid">
-        <tr><th>성취기준</th><th>내용</th><th>담당하는 단계</th></tr>
-        <tr><td><b>[9정01-02]</b></td>
-            <td class="left">피지컬 컴퓨팅의 개념을 이해하고 생활 속 적용 사례로 가치를 판단한다</td><td>1 · 5</td></tr>
-        <tr><td><b>[9정01-03]</b></td>
-            <td class="left">문제 해결 목적에 맞는 피지컬 컴퓨팅 구성요소를 선택해 시스템을 구상한다</td><td>2~5</td></tr>
-        <tr><td><b>[9정03-06]</b></td>
-            <td class="left">논리 연산과 중첩 제어 구조를 활용해 문제를 해결하는 프로그램을 작성한다</td><td>2 · 4</td></tr>
-        <tr><td><b>[9정03-08]</b></td>
-            <td class="left">실생활의 문제를 탐색해 발견하고 프로그래밍으로 해결한다</td><td>4 · 5</td></tr>
-        <tr><td><b>[9정03-09]</b></td>
-            <td class="left">다양한 분야의 문제 해결을 위해 협력하여 소프트웨어를 개발한다</td><td>모둠 활동 전체</td></tr>
+        <tr><th>무엇을 배우나</th><th>담당하는 단계</th></tr>
+        <tr><td class="left">피지컬 컴퓨팅이 무엇인지 알고 생활 속에서 쓰이는 곳을 찾아본다</td><td>1 · 5</td></tr>
+        <tr><td class="left">문제에 맞는 부품(센서·통신)을 골라 시스템을 구상한다</td><td>2~5</td></tr>
+        <tr><td class="left">논리 연산과 중첩 제어 구조로 프로그램을 만든다</td><td>2 · 4</td></tr>
+        <tr><td class="left">생활 속 문제를 찾아 프로그래밍으로 해결한다</td><td>4 · 5</td></tr>
+        <tr><td class="left">모둠이 협력해 소프트웨어를 만든다</td><td>모둠 활동 전체</td></tr>
       </table>
     </div>
   </section>
@@ -200,8 +197,8 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608192135"></script>
-<script src="js/slides.js?v=202608192135"></script>
+<script src="js/pdf.js"></script>
+<script src="js/slides.js"></script>
 <script>
   Slides.strip("slidesIntro", [1, 2, 3], { title: "수업 열기" });
   Slides.strip("slidesCheck", [15], { title: "실습 점검 체크리스트" });
