@@ -110,7 +110,10 @@ window.SPEC1 = {
           {
             "k": "draw",
             "q": "작은 화면 안에 들어갈 스마트워치 화면을 픽토그램으로 그려 보세요. (글자는 최소한으로)",
-            "height": 470
+            "width": 900,
+            "height": 760,
+            "maxWidth": 620,
+            "pdfMaxH": 760
           },
           {
             "k": "choice",

@@ -236,7 +236,19 @@
         var wrap2 = el("div", "padwrap");
         box.appendChild(wrap2);
         /* 손글씨는 용량이 커서 임시 보관하지 않는다(다른 앱과 같은 판단) */
-        var pad = PdfKit.createPad(wrap2, { height: item.height || 460, label: item.q });
+        var padW = item.width || 1400;
+        var padH = item.height || 460;
+        var pad = PdfKit.createPad(wrap2, { width: padW, height: padH, label: item.q });
+
+        /* ⚠ css/app.css 의 `canvas.pad { aspect-ratio: 1400/420 }` 가 화면 높이를 **고정**한다.
+           그래서 height 를 올려도 그리는 칸은 그대로 납작했다(순서도를 그릴 수 없었다).
+           여기서 캔버스 실제 크기로 비율을 덮어써서 height 가 진짜로 먹게 한다. */
+        pad.canvas.style.aspectRatio = padW + " / " + padH;
+        if (item.maxWidth) {
+          pad.canvas.style.maxWidth = item.maxWidth + "px";
+          pad.canvas.style.margin = "0 auto";
+        }
+
         ctrl.pad = pad;
         ctrl.gradable = false;
         ctrl.answerText = function () { return pad.isEmpty() ? "" : "(그림)"; };
@@ -347,7 +359,8 @@
           var c = ctrls.filter(function (x) { return x.no === n; })[0];
           doc.h2(n + ". " + item.q);
           if (c.pad) {
-            doc.img(c.pad.canvas, { maxH: 420 });
+            /* 세로로 긴 그림(순서도)은 420 으로 자르면 절반 크기로 줄어든다 */
+            doc.img(c.pad.canvas, { maxH: item.pdfMaxH || 420 });
           } else {
             doc.box("내 답", c.answerText(), { minLines: c.gradable ? 1 : 3 });
             if (graded && c.gradable) {
