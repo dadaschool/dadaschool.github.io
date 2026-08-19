@@ -96,7 +96,39 @@
 
   var plan = save.plan ? save.plan.slice() : [];
 
+  /* ---------------------------------------------------------
+     ①② 패널 접기
+
+     맞히면 저절로 접는다. 접지 않으면 오른쪽 칸이 길어져서
+     아래의 ③ 수행 작업과 «▶ 로봇 실행» 단추가 화면 밖으로 밀려
+     로봇이 움직이는 것을 아예 못 보게 된다(실제로 그런 문제가 있었다).
+     제목을 누르면 다시 펼쳐진다 — 고른 답을 확인하거나 바꾸고 싶을 때를 위해서다.
+     --------------------------------------------------------- */
+  function setFold(panel, folded) {
+    panel.classList.toggle("folded", folded);
+    var head = panel.querySelector(".foldhead");
+    if (head) head.setAttribute("aria-expanded", folded ? "false" : "true");
+  }
+
+  function foldSummary(panel, list, idx) {
+    var sum = panel.querySelector(".foldsum");
+    if (!sum) return;
+    sum.innerHTML = "✅ <b>" + "①②③".charAt(idx) + "</b> " + list[idx].t +
+      '<span class="again">제목을 누르면 다시 고를 수 있어요</span>';
+  }
+
+  /* 제목을 눌러 여닫기 (키보드 Enter·Space 도 받는다) */
+  document.querySelectorAll(".foldable .foldhead").forEach(function (head) {
+    var panel = head.closest(".foldable");
+    function toggle() { setFold(panel, !panel.classList.contains("folded")); }
+    head.addEventListener("click", toggle);
+    head.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+    });
+  });
+
   function drawQ(host, list, savedKey, okKey) {
+    var panel = host.closest(".foldable");
     host.innerHTML = "";
     list.forEach(function (o, i) {
       var b = el("button", "opt");
@@ -115,11 +147,25 @@
           ? "<b>맞습니다 👍</b>" + (savedKey === "q1" ? "문제가 시작되는 지금 모습을 정확히 적었습니다." : "여기에 닿으면 멈춰도 된다 — 그 기준이 분명합니다.")
           : "<b>다시 생각해 볼까요</b>" + o.why;
         host.parentNode.appendChild(v);
-        if (o.ok) stamp("✅");
         keep();
+
+        if (o.ok) {
+          stamp("✅");
+          foldSummary(panel, list, i);
+          /* 「맞습니다」를 읽을 틈을 주고 나서 접는다 */
+          setTimeout(function () { setFold(panel, true); }, 900);
+        } else {
+          setFold(panel, false);      /* 틀렸으면 펼친 채로 두어 다시 고르게 한다 */
+        }
       });
       host.appendChild(b);
     });
+
+    /* 새로고침해도 맞힌 것은 접힌 채로 되살린다 */
+    if (save[okKey] && save[savedKey] != null) {
+      foldSummary(panel, list, save[savedKey]);
+      setFold(panel, true);
+    }
   }
   drawQ($("q1"), Q1, "q1", "q1ok");
   drawQ($("q2"), Q2, "q2", "q2ok");
@@ -361,6 +407,14 @@
     $("binVerdict").innerHTML = "";
     $("binLog").innerHTML = "";
     resetScene();
+
+    /* ⚠ 무대를 화면 가운데로 끌어온다.
+       오른쪽 칸(①②③)이 길어서 ▶ 단추는 페이지 한참 아래에 있다. 거기까지 스크롤하면
+       왼쪽 캔버스가 화면 위로 밀려나 **로봇이 움직이는 것을 못 본다.**
+       ①② 를 접어도 300px 남짓만 줄어들어 근본적으로 해결되지 않는다.
+       그래서 실행하는 순간 무대로 데려간다. */
+    $("binStage").scrollIntoView({ behavior: "smooth", block: "center" });
+    await wait(420);          /* 스크롤이 끝난 뒤 움직이기 시작해야 첫 장면을 놓치지 않는다 */
 
     var didCheck = false, didSort = false, problems = [];
 

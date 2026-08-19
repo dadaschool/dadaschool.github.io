@@ -147,3 +147,51 @@
   .cmp-row { grid-template-columns: 108px 1fr 42px; font-size: 14px; }
   .infolist { grid-template-columns: 1fr; }
 }
+
+/* ---------------------------------------------------------
+   접히는 패널 (①초기 상태 · ②목표 상태)
+
+   왜 접는가 : 맞힌 뒤에도 보기 3개가 계속 펼쳐져 있으면 오른쪽 칸이 길어져서
+   아래에 있는 ③ 수행 작업과 ▶ 로봇 실행 단추가 **화면 밖으로 밀린다.**
+   실제로 로봇이 움직이는 것을 못 보는 문제가 있었다.
+   그래서 정답을 고르면 저절로 접고, 제목을 누르면 다시 펼친다.
+   --------------------------------------------------------- */
+.foldable .foldhead {
+  cursor: pointer;
+  user-select: none;
+  border-radius: 8px;
+  margin: -4px -6px 4px;
+  padding: 4px 6px;
+  transition: background .15s ease;
+}
+.foldable .foldhead > span:first-child { flex: 1 1 auto; }
+.foldable .foldhead:hover { background: var(--brand-soft); }
+.foldable .foldhead:focus-visible { outline: 3px solid color-mix(in srgb, var(--brand) 42%, #fff); }
+.foldable .foldmark {
+  flex: none;
+  font-size: 17px;
+  color: var(--faint);
+  transition: transform .2s ease;
+}
+.foldable.folded .foldmark { transform: rotate(-90deg); }
+.foldable.folded .foldbody { display: none; }
+
+/* 접혔을 때만 보이는 «내가 고른 답» 요약 */
+.foldsum { display: none; }
+.foldable.folded .foldsum {
+  display: block;
+  margin: 0;
+  padding: 9px 13px;
+  border-radius: 10px;
+  background: var(--ok-bg);
+  border-left: 5px solid var(--ok);
+  font-size: 16px;
+  color: var(--ink);
+  animation: pop .22s ease;
+}
+.foldable.folded .foldsum .again {
+  display: block;
+  margin-top: 3px;
+  font-size: 14px;
+  color: var(--sub);
+}

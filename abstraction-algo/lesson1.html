@@ -60,14 +60,28 @@
         </div>
 
         <div>
-          <div class="panel">
-            <h3>① 초기 상태 <span class="mini">— 어디서 시작하나요?</span></h3>
-            <div class="opts" id="q1"></div>
+          <!-- ①② 는 맞히면 저절로 접힌다(제목을 누르면 다시 펼쳐진다).
+               접지 않으면 오른쪽 칸이 길어져서 아래의 ▶ 로봇 실행 단추가 화면 밖으로 밀린다. -->
+          <div class="panel foldable" id="panel1">
+            <h3 class="foldhead" role="button" tabindex="0" aria-expanded="true" aria-controls="q1">
+              <span>① 초기 상태 <span class="mini">— 어디서 시작하나요?</span></span>
+              <span class="foldmark" aria-hidden="true">▾</span>
+            </h3>
+            <p class="foldsum" id="sum1"></p>
+            <div class="foldbody">
+              <div class="opts" id="q1"></div>
+            </div>
           </div>
 
-          <div class="panel">
-            <h3>② 목표 상태 <span class="mini">— 어떻게 되면 끝인가요?</span></h3>
-            <div class="opts" id="q2"></div>
+          <div class="panel foldable" id="panel2">
+            <h3 class="foldhead" role="button" tabindex="0" aria-expanded="true" aria-controls="q2">
+              <span>② 목표 상태 <span class="mini">— 어떻게 되면 끝인가요?</span></span>
+              <span class="foldmark" aria-hidden="true">▾</span>
+            </h3>
+            <p class="foldsum" id="sum2"></p>
+            <div class="foldbody">
+              <div class="opts" id="q2"></div>
+            </div>
           </div>
 
           <div class="panel">
