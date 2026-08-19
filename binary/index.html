@@ -415,7 +415,8 @@
     <p class="msg" id="convMsg"></p>
 
     <table id="stepTable" class="hidden">
-      <caption>몫이 0이 될 때까지 2로 계속 나누고, <strong>나머지</strong>를 적습니다.</caption>
+      <caption>몫이 <strong>1</strong>이 될 때까지 2로 나누고,
+        <strong>마지막 몫</strong>과 <strong>나머지</strong>를 거꾸로 읽습니다.</caption>
       <thead>
         <tr>
           <th style="width:15%">단계</th>
@@ -671,27 +672,36 @@ tabButtons.forEach(function (btn, idx) {
 /* =========================================================
    핵심 로직 1 : 10진수를 2로 반복해서 나누는 과정 만들기
    - 각 단계마다 (나눌 수, 몫, 나머지)를 순서대로 저장한다.
-   - 몫이 0이 되면 나누기를 멈춘다.
+   - **몫이 1이 되면 멈추고, 마지막 몫과 나머지를 거꾸로 읽는다.**
+     동아출판 교과서 56쪽 [그림 Ⅱ-6]의 절차를 그대로 따른 것이다.
+     (예전에는 몫이 0이 될 때까지 나누고 나머지만 읽었다 — 답은 같지만 절차가 교과서와 달랐다)
    ========================================================= */
 function makeSteps(n) {
   const steps = [];
   if (n === 0) {                       // 0은 나눌 것이 없으므로 한 줄만 만든다
-    steps.push({ value: 0, quotient: 0, remainder: 0 });
+    steps.push({ value: 0, quotient: 0, remainder: null, single: true });
     return steps;
   }
   let value = n;
-  while (value > 0) {
+  while (value >= 2) {                 // 교과서 : 몫이 1이 될 때까지 반복한다
     const quotient  = Math.floor(value / 2);   // 몫  : 소수점 아래를 버린다
     const remainder = value % 2;               // 나머지 : 0 또는 1
     steps.push({ value: value, quotient: quotient, remainder: remainder });
     value = quotient;                          // 몫을 다음 단계의 나눌 수로
   }
+  if (steps.length === 0) {            // 1은 이미 2보다 작아 나눌 필요가 없다
+    steps.push({ value: n, quotient: n, remainder: null, single: true });
+  }
   return steps;
 }
 
-/* 나머지를 거꾸로(아래에서 위로) 이어 붙이면 2진수가 된다 */
+/* 교과서대로 읽는다 — **마지막 몫**을 먼저 쓰고, 나머지를 아래에서 위로 이어 붙인다.
+   (동아출판 56쪽 : "마지막으로 구한 몫과 각 단계에서 구한 나머지들을 역순으로 읽는다") */
 function stepsToBinary(steps) {
-  let bits = "";
+  if (!steps.length) return "";
+  const last = steps[steps.length - 1];
+  if (last.single) return String(last.quotient);
+  let bits = String(last.quotient);              // 마지막 몫 = 맨 앞 자리
   for (let i = steps.length - 1; i >= 0; i--) {
     bits += steps[i].remainder;
   }
@@ -733,11 +743,17 @@ function showMsg(text, type) {
 function addRow(index) {
   const s = steps[index];
   const tr = document.createElement("tr");
-  tr.innerHTML =
-    "<td>" + (index + 1) + "단계</td>" +
-    "<td class='expr'>" + s.value + " ÷ 2</td>" +
-    "<td>" + s.quotient + "</td>" +
-    "<td class='rest'>" + s.remainder + "</td>";
+  if (s.single) {                      // 0과 1은 나눌 것이 없다
+    tr.innerHTML = "<td>—</td><td class='expr' colspan='3'>" + s.value +
+      " 은(는) 이미 2보다 작아 <strong>나눌 필요가 없습니다.</strong></td>";
+  } else {
+    const lastQ = s.quotient < 2;      // 몫이 1이면 여기서 멈춘다 → 그 몫이 맨 앞 자리
+    tr.innerHTML =
+      "<td>" + (index + 1) + "단계</td>" +
+      "<td class='expr'>" + s.value + " ÷ 2</td>" +
+      "<td>" + (lastQ ? "<strong>" + s.quotient + "</strong>" : s.quotient) + "</td>" +
+      "<td class='rest'>" + s.remainder + "</td>";
+  }
   stepBody.appendChild(tr);
 }
 
@@ -778,7 +794,8 @@ function convertAll() {
   resetView();
   steps = makeSteps(n);
   stepTable.classList.remove("hidden");
-  showMsg(n + "을(를) 2로 나누는 과정입니다.", "info");
+  showMsg(n < 2 ? n + " 은(는) 이미 2보다 작아 나눌 필요가 없습니다."
+                : n + "을(를) 2로 나누는 과정입니다. 몫이 1이 되면 멈춥니다.", "info");
 
   let i = 0;
   timerId = setInterval(function () {
@@ -815,7 +832,7 @@ function convertOneStep() {
   }
   if (shown === steps.length) {
     showResult();
-    showMsg("몫이 0이 되었으니 나누기를 멈춥니다.", "info");
+    showMsg("몫이 1이 되었으니 나누기를 멈춥니다. 마지막 몫과 나머지를 아래에서 위로 읽습니다.", "info");
   }
   updateStepButton();
 }
