@@ -24,7 +24,7 @@ window.CONFIG = {
      drive/설치안내.md 를 따라 배포하면 이런 주소를 받는다 —
        https://script.google.com/macros/s/AKfycb.../exec
      쓰지 않으면 비워 둔다. */
-  DRIVE: "",
+  DRIVE: "https://script.google.com/macros/s/AKfycbxoHb5uFyCg0Knli0qmR7owKhaCfKqluyg2KV-xIl5eKkLqm1rXkjjJUQ66R3Nf1HNH/exec",
 
   /* 활동지 목록·PDF 를 **어디서** 가져오나
        "notion" — 노션 「과제제출」 표 (반·마감·PDF)
@@ -37,7 +37,7 @@ window.CONFIG = {
        "both"   — 둘 다 (노션이 기준, 드라이브 실패는 따로 알려 준다)
      ⚠ SOURCE 가 "drive" 면 TARGET 도 "drive" 여야 한다.
        활동지 id 가 드라이브 파일 id 라서 노션이 확인할 수 없기 때문이다. */
-  TARGET: "notion",
+  TARGET: "drive",
 
   /* 학교 이름 — 제출 파일 이름과 노션 댓글에 들어간다 */
   SCHOOL: "거제중학교",
