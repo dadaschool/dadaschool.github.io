@@ -11,7 +11,6 @@
 
 <header class="top">
   <h1>🔢 숫자 변환 (진수 변환)</h1>
-  <span class="badge">자료의 디지털 표현 [9정02-01]</span>
   <span class="spacer"></span>
   <a class="home" href="index.html">← 처음으로</a>
   <a class="home" href="teacher.html">선생님용 ▸</a>
@@ -33,14 +32,9 @@
   <!-- ================= ① 변환 학습 ================= -->
   <div id="panLearn" role="tabpanel" aria-labelledby="tabLearn">
 
-    <!-- 비트와 바이트는 **0️⃣ 아날로그와 디지털**(basic.html) 로 옮겼다 (2026-08-12).
-         이 앱이 다섯 영역이 되면서 「비트가 무엇인가」는 진수 변환의 전제가 아니라
-         **그 앞 단계 전체**가 되었다. 여기서는 안내 한 줄만 남긴다. -->
-    <p class="hint" style="margin:0 0 20px">
-      <b>비트와 바이트</b>(전구를 눌러 보는 화면)는
-      <a href="basic.html">0️⃣ 아날로그와 디지털</a> 의 <b>④ 비트와 바이트</b> 로 옮겼습니다.
-      아직 안 봤다면 먼저 보고 오세요 — 진수 변환은 그 <b>0과 1</b>을 다루는 방법입니다.
-    </p>
+    <!-- 비트와 바이트는 **0️⃣ 아날로그와 디지털**(basic.html) 의 ④ 탭으로 옮겼다 (2026-08-12).
+         ⚠ 여기 있던 «옮겼습니다» 안내 문구는 없앴다 (2026-08-19 사용자 지시) —
+           학생에게는 «옮겼다» 는 개발 사정이 필요 없고, 홈에서 0️⃣ 부터 차례로 들어온다. -->
 
     <!-- 시뮬레이터 고르기 — 한 번에 한 화면만 보여 준다 -->
     <div class="subtabs" id="learnSubs" aria-label="숫자 시뮬레이터 고르기"></div>
@@ -270,9 +264,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608192128"></script>
-<script src="js/ui.js?v=202608192128"></script>
-<script src="js/convert.js?v=202608192128"></script>
+<script src="js/pdf.js?v=202608192142"></script>
+<script src="js/ui.js?v=202608192142"></script>
+<script src="js/convert.js?v=202608192142"></script>
 <script>
 (function () {
   "use strict";
@@ -1377,7 +1371,7 @@
           when: stamp.human,
           right: score + " / " + total + "점 (" + rate + "%)"
         },
-        footer: "아날로그 → 디지털 변환 학습기 · 자료의 디지털 표현 [9정02-01]"
+        footer: "아날로그 → 디지털 변환 학습기"
       });
 
       items.forEach(function (it, i) {
