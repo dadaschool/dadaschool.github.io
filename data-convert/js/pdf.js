@@ -546,7 +546,8 @@
       setEraser: function (on) { tool.eraser = !!on; },
       undo: function () { strokes.pop(); redraw(); if (opt.onChange) opt.onChange(); },
       clear: function () { strokes.length = 0; redraw(); if (opt.onChange) opt.onChange(); },
-      isEmpty: function () { return strokes.length === 0; }
+      isEmpty: function () { return strokes.length === 0; },
+      isEraser: function () { return tool.eraser; }        // 지우개가 켜져 있는지
     };
 
     /* 도구 단추 줄 + 캔버스를 한 번에 붙인다 */
@@ -562,39 +563,72 @@
       tools.appendChild(b);
       return b;
     }
+    /* ---- 펜 색 · 굵기 · 지우개 ----------------------------------------
+       🔴 지우개는 **토글**이다. 한 번 더 누르면 쓰던 색 펜으로 돌아온다.
+
+       예전에는 지우개를 켜는 길만 있고 끄는 길이 없었다.
+       유일한 탈출구가 색 동그라미였는데, 지우개를 켜면 색 표시가 전부 꺼져서
+       그것이 탈출구인 줄 알 수 없었다. 게다가 굵기 단추는 지우개를 끄지 않아
+       「지우개 + 굵게」 가 함께 켜진 채로 계속 지워졌다.
+       → "지우개를 선택하고 해제가 안 된다" 는 신고가 실제로 들어왔다(2026-08-20).
+
+       지금은 상태를 `eraserOn`·`curColor` 두 값으로만 들고 있고,
+       화면 표시는 `showMode()` 한 곳에서만 바꾼다(어긋날 자리를 없앴다). */
+    var curColor = "#111111";      // 지우개를 끌 때 돌아갈 색
+    var eraserOn = false;
+    var colorBtns = [];
+    var eraseBtn = null;
+
+    function showMode() {
+      colorBtns.forEach(function (x) {
+        x.classList.toggle("on", !eraserOn && x.dataset.col === curColor);
+      });
+      if (eraseBtn) {
+        eraseBtn.classList.toggle("on", eraserOn);
+        eraseBtn.setAttribute("aria-pressed", eraserOn ? "true" : "false");
+      }
+    }
+
     ["#111111", "#1d4ed8", "#dc2626"].forEach(function (col) {
       var b = document.createElement("button");
       b.type = "button";
       b.className = "pad-color";
+      b.dataset.col = col;
       b.style.background = col;
-      b.title = "색 바꾸기";
+      b.title = "이 색으로 그리기";
       b.setAttribute("aria-label", "펜 색 " + col);
       b.addEventListener("click", function () {
-        pad.setColor(col);
-        tools.querySelectorAll(".pad-color").forEach(function (x) { x.classList.remove("on"); });
-        b.classList.add("on");
-        eraseBtn.classList.remove("on");
+        curColor = col;
+        eraserOn = false;              // 색을 고르면 지우개는 꺼진다
+        pad.setColor(col);             // setColor 안에서도 eraser 를 끈다
+        showMode();
       });
       tools.appendChild(b);
-      if (col === "#111111") b.classList.add("on");
+      colorBtns.push(b);
     });
+
+    /* 굵기는 펜과 지우개에 모두 적용된다(지우개를 끄지 않는다 — 굵은 지우개가 필요하다) */
     [["얇게", 3], ["보통", 6], ["굵게", 11]].forEach(function (w) {
-      var b = btn(w[0], "펜 굵기", function () {
+      var b = btn(w[0], "펜·지우개 굵기", function () {
         pad.setWidth(w[1]);
         tools.querySelectorAll(".pad-btn.w").forEach(function (x) { x.classList.remove("on"); });
         b.classList.add("on");
       }, "w");
       if (w[1] === 6) b.classList.add("on");
     });
-    var eraseBtn = btn("지우개", "지우개로 바꾸기", function () {
-      pad.setEraser(true);
-      tools.querySelectorAll(".pad-color").forEach(function (x) { x.classList.remove("on"); });
-      eraseBtn.classList.add("on");
+
+    eraseBtn = btn("지우개", "지우개 켜기 · 한 번 더 누르면 펜으로 돌아갑니다", function () {
+      eraserOn = !eraserOn;                       // ← 토글
+      pad.setEraser(eraserOn);
+      if (!eraserOn) pad.setColor(curColor);      // 끄면 쓰던 색으로 복귀
+      showMode();
     });
     btn("되돌리기", "마지막 획 지우기", function () { pad.undo(); });
     btn("전체 지우기", "모두 지우기", function () {
       if (confirm("그린 것을 모두 지울까요?")) pad.clear();
     });
+
+    showMode();          // 첫 상태 : 검정 펜 · 지우개 꺼짐
 
     wrap.appendChild(tools);
     wrap.appendChild(canvas);
