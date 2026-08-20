@@ -29,6 +29,19 @@
   /* 제출물이 어디에 쌓이나 — js/config.js 의 TARGET */
   function 드라이브인가() { return window.API.target() === "drive"; }
 
+  /* 조사 붙이기 — 「활동지 을 올렸습니다」 처럼 어긋나던 것을 고쳤다.
+     앞 글자에 종성이 있으면 «을/은/이», 없으면 «를/는/가».
+     활동지 이름은 교사가 적는 것이라 무엇으로 끝날지 알 수 없다. */
+  function josa(w, pair) {
+    var 짝 = { "을": ["을", "를"], "은": ["은", "는"], "이": ["이", "가"] };
+    var p = 짝[pair] || 짝["을"];
+    var t = String(w == null ? "" : w).trim();
+    if (!t) return p[1];
+    var c = t.charCodeAt(t.length - 1);
+    if (!(c >= 0xac00 && c <= 0xd7a3)) return p[1];     /* 한글이 아니면 «를» */
+    return ((c - 0xac00) % 28) ? p[0] : p[1];
+  }
+
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
@@ -122,6 +135,13 @@
        「반 폴더 미리 만들기」는 드라이브에만 있는 기능이다. */
   function 저장소에맞추기() {
     var d = 드라이브인가();
+
+    /* 「활동지 바로 올리기」 는 **드라이브 주소가 있어야** 된다.
+       ⚠ 제출을 어디로 받는지(TARGET)와는 무관하다 — 노션으로 제출을 받아도
+         활동지를 드라이브에 바로 올려 나눠 줄 수 있고, 학생 화면이 그것을
+         합쳐서 보여 준다(js/api.js 의 tasks 참고). */
+    var up = $("upBox");
+    if (up) up.style.display = window.API.canDrive() ? "" : "none";
     /* 「제출」 표 만들기는 **노션에만** 있는 기능이라 드라이브일 때는 감춘다.
        ⚠ previousElementSibling 로 구분선을 찾지 말 것 — HTML 구조를 고치면 깨진다.
          그래서 id(setupLine)를 붙여 두었다. */
@@ -148,7 +168,14 @@
     var box = $("tasks");
     box.innerHTML = "";
     if (!tasks.length) {
-      box.innerHTML = '<div class="hint warn">노션 「과제제출」 표에 글이 없습니다.</div>';
+      /* ⚠ 어디서 받아 오는지에 따라 안내가 달라야 한다.
+         드라이브인데 «노션 표에 글이 없습니다» 라고 하면 엉뚱한 곳을 찾게 된다. */
+      box.innerHTML = window.API.source() === "drive"
+        ? '<div class="hint warn">드라이브 <b>활동지 폴더</b>에 열려 있는 PDF 가 없습니다.<br>' +
+          '<small>폴더 <b>바로 아래</b>에 두면 전체 반에 보이고, 반 이름 폴더' +
+          '(<code>1-1</code>) 안에 두면 그 반에만 보입니다. ' +
+          '파일 이름의 <code>~마감</code> 이 지난 것은 목록에 나오지 않습니다.</small></div>'
+        : '<div class="hint warn">노션 「과제제출」 표에 글이 없습니다.</div>';
       return;
     }
     tasks.forEach(function (t) {
@@ -158,7 +185,19 @@
       var sub = document.createElement("span");
       sub.className = "due";
       var bits = [];
-      bits.push(t.classes && t.classes.length ? t.classes.join(" · ") + "반" : "반 미지정 (학생에게 안 보임)");
+      /* 배분 반 표시.
+         ⚠ 드라이브 활동지는 **폴더 뿌리에 두면 전체 반**이다(2026-08-19 사용자 지시).
+           예전에는 반 폴더만 읽어서 뿌리에 둔 파일이 «반 미지정» 으로 보였다 —
+           그것이 「활동지 배분반이 없다」 로 나타난 증상이다. */
+      if (t.all) {
+        bits.push(t.classes && t.classes.length
+          ? "🌐 전체 반 (" + t.classes.join(" · ") + ")"
+          : "🌐 전체 반");
+      } else if (t.classes && t.classes.length) {
+        bits.push(t.classes.join(" · ") + "반");
+      } else {
+        bits.push("반 미지정 (학생에게 안 보임)");
+      }
       bits.push(t.hasFile ? "파일 있음" : "파일 없음 (학생에게 안 보임)");
       bits.push(t.closed ? "마감됨" : (t.due ? "마감 " + t.due : "마감 없음"));
       sub.textContent = bits.join("  ·  ");
@@ -378,7 +417,7 @@
 
     $("printPdf").disabled = true;
     note($("printMsg"), '활동지를 받는 중 <span class="spin"></span>', "");
-    window.API.pdf(current.id, 반).then(function (bytes) {
+    window.API.pdf(current.id, 반, current.origin).then(function (bytes) {
       var 이름 = current.title.replace(/[\\\/:*?"<>|]+/g, "") + "_인쇄용.pdf";
       var size = window.Ink.download(bytes, 이름);
       note($("printMsg"),
@@ -389,6 +428,69 @@
       note($("printMsg"), esc(e.message), "bad");
       $("printPdf").disabled = false;
     });
+  }
+
+  /* ---------------------------------------------------------
+     📤 활동지 바로 올리기 (2026-08-19 사용자 지시)
+
+     교사가 수업 중에 파일을 즉석에서 나눠 준다.
+     드라이브 활동지 폴더의 **뿌리**에 저장되므로 «전체 반» 에 보이고,
+     파일 이름의 `~마감` 때문에 정해진 시간이 지나면 저절로 사라진다.
+     → 사라지게 하는 **별도 장치가 없다.** 새 상태를 만들지 않는 것이 이 설계의 핵심이다.
+     --------------------------------------------------------- */
+
+  /* 파일을 고르면 이름 칸을 파일 이름으로 채워 준다 (그대로 눌러도 되게) */
+  $("upFile").addEventListener("change", function () {
+    var f = this.files && this.files[0];
+    if (!f) return;
+    if (!$("upTitle").value.trim()) {
+      $("upTitle").value = f.name.replace(/\.pdf$/i, "").replace(/_+/g, " ").trim().slice(0, 80);
+    }
+    note($("upMsg"), "고른 파일 : <b>" + esc(f.name) + "</b> · " +
+                     Math.round(f.size / 1024) + " KB", "");
+  });
+
+  function 바로올리기() {
+    var f = $("upFile").files && $("upFile").files[0];
+    if (!f) { note($("upMsg"), "올릴 PDF 를 먼저 고르세요.", "warn"); return; }
+    if (!/\.pdf$/i.test(f.name)) { note($("upMsg"), "PDF 파일만 올릴 수 있습니다.", "bad"); return; }
+    if (f.size > 20 * 1024 * 1024) {
+      note($("upMsg"), "파일이 너무 큽니다 (" + Math.round(f.size / 1024 / 1024) +
+                       "MB). 20MB 까지 됩니다.", "bad");
+      return;
+    }
+    var 제목 = $("upTitle").value.trim();
+    if (!제목) { note($("upMsg"), "활동지 이름을 적어 주세요.", "warn"); return; }
+    var 시간 = parseInt($("upHours").value, 10) || 1;
+
+    $("upGo").disabled = true;
+    note($("upMsg"), '올리는 중 <span class="spin"></span>', "");
+
+    var fr = new FileReader();
+    fr.onerror = function () {
+      $("upGo").disabled = false;
+      note($("upMsg"), "파일을 읽지 못했습니다.", "bad");
+    };
+    fr.onload = function () {
+      var bytes = new Uint8Array(fr.result);
+      window.API.uploadTask(key, 제목, bytes, 시간).then(function (r) {
+        $("upGo").disabled = false;
+        var 반들 = (r.classes && r.classes.length) ? r.classes.join(" · ") + "반" : "전체 반";
+        note($("upMsg"),
+          "✅ <b>" + esc(r.title) + "</b>" + josa(r.title, "을") + " 올렸습니다.<br>" +
+          "· <b>" + esc(반들) + "</b> 학생에게 지금 보입니다<br>" +
+          "· <b>" + r.hours + "시간</b> 뒤에 저절로 사라집니다" +
+          (r.replaced ? "<br>· 같은 이름으로 먼저 올린 것 " + r.replaced + "개를 대신했습니다" : "") +
+          "<br><small>학생이 화면을 새로 고치면 목록에 나타납니다.</small>", "good");
+        $("upFile").value = "";
+        $("upTitle").value = "";
+        load();                                  /* 활동지 목록 다시 읽기 */
+      }).catch(function (e) {
+        $("upGo").disabled = false;
+        note($("upMsg"), esc(e.message), "bad");
+      });
+    };
+    fr.readAsArrayBuffer(f);
   }
 
   /* ---------------------------------------------------------
@@ -404,4 +506,5 @@
   $("setup").onclick = setup;
   $("prepare").onclick = prepare;
   $("printPdf").onclick = 인쇄용받기;
+  $("upGo").onclick = 바로올리기;
 })();

@@ -9,7 +9,7 @@
      · 학번·이름은 sessionStorage 에 넣지 않는다.
    ========================================================= */
 
-import { createViewer } from "./viewer.js?v=202608192055";
+import { createViewer } from "./viewer.js?v=202608201835";
 
 const $ = (id) => document.getElementById(id);
 
@@ -202,7 +202,9 @@ async function openTask(t) {
   task = t;
   busy("활동지를 받는 중…", '<span class="spin"></span>');
   try {
-    srcBytes = await window.API.pdf(t.id, klass);
+    /* t.origin — 노션 목록에 드라이브의 「바로 올린 활동지」 가 섞여 있어서
+       어디서 받을지 활동지마다 따로 알려 줘야 한다 */
+    srcBytes = await window.API.pdf(t.id, klass, t.origin);
   } catch (e) {
     busy("활동지를 받지 못했습니다", esc(e.message), true);
     return;

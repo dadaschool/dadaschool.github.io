@@ -253,21 +253,62 @@
     },
 
     /* 그 반에게 열려 있는 활동지 목록.
-       ⚠ 닫힌 것·마감된 것은 중계 서버가 아예 보내지 않는다. */
+       ⚠ 닫힌 것·마감된 것은 중계 서버가 아예 보내지 않는다.
+
+       ⚠ **활동지를 노션에서 받더라도 「바로 올린 활동지」 는 함께 보여 준다**
+         (2026-08-19 사용자 지시). 교사가 수업 중에 파일을 바로 올리면 학생에게
+         곧바로 보여야 하는데, SOURCE 가 notion 이면 드라이브를 아예 보지 않아
+         «올렸는데 안 보인다» 가 된다. 그래서 드라이브 주소가 설정돼 있으면
+         **뿌리(전체 반) 목록만** 한 번 더 받아 합친다.
+         드라이브 쪽이 실패해도 노션 목록은 그대로 보여 준다(조용히 넘긴다). */
     tasks: function (klass) {
       if (source() === "drive") {
-        return postDrive("tasks", { klass: klass }).then(function (d) { return d.tasks || []; });
+        return postDrive("tasks", { klass: klass }).then(function (d) {
+          return (d.tasks || []).map(function (t) { t.origin = "drive"; return t; });
+        });
       }
-      return postNotion("tasks", { klass: klass }).then(function (d) { return d.tasks || []; });
+      var 노션 = postNotion("tasks", { klass: klass }).then(function (d) {
+        return (d.tasks || []).map(function (t) { t.origin = "notion"; return t; });
+      });
+      if (!canDrive()) return 노션;
+
+      var 바로 = postDrive("tasksNow", {}).then(function (d) {
+        return (d.tasks || []).map(function (t) { t.origin = "drive"; return t; });
+      }).catch(function () { return []; });
+
+      return Promise.all([노션, 바로]).then(function (r) {
+        var out = r[0].slice();
+        /* 제목이 같으면 노션 것을 남긴다(교사가 정식으로 배포한 쪽) */
+        var 본것 = {};
+        out.forEach(function (t) { 본것[t.title] = 1; });
+        r[1].forEach(function (t) { if (!본것[t.title]) out.push(t); });
+        return out;
+      });
     },
 
-    /* 활동지 PDF 받기 */
-    pdf: function (taskId, klass) {
-      if (source() === "drive") {
+    /* 활동지 PDF 받기.
+       ⚠ `origin` 을 보고 받을 곳을 정한다 — 노션 목록에 드라이브 활동지가
+         섞여 들어오므로 SOURCE 만 보고 판단하면 엉뚱한 곳에 물어보게 된다. */
+    pdf: function (taskId, klass, origin) {
+      var 어디 = origin || source();
+      if (어디 === "drive") {
         return postDrive("pdf", { task: taskId, klass: klass })
           .then(function (d) { return fromBase64(d.pdf); });
       }
       return postNotion("pdf", { task: taskId, klass: klass }).then(function (d) { return d.bytes; });
+    },
+
+    /* 교사가 활동지 파일을 **바로** 올린다 (드라이브 전용 · 선생님 코드 필요).
+       활동지 폴더 **뿌리**에 저장되므로 전체 반에 보이고,
+       파일 이름의 `~마감` 때문에 정해진 시간이 지나면 저절로 사라진다. */
+    uploadTask: function (teacherKey, title, bytes, hours) {
+      if (!canDrive()) {
+        return Promise.reject(new Error("구글 드라이브 주소(DRIVE)가 설정되지 않았습니다."));
+      }
+      return postDrive("upload", {
+        key: teacherKey, title: title, hours: hours || undefined,
+        pdf: toBase64(bytes)
+      });
     },
 
     /* 이미 낸 것이 있는지 — 있다/없다와 몇 번째인지만 돌려준다.

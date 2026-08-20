@@ -755,3 +755,33 @@ table.report td.miss { color: var(--no); font-weight: 700; }
 .storepick .tbtn { min-height: 48px; font-size: 18px; }
 .storepick .tbtn.on { border-color: var(--brand); background: var(--band); color: var(--brand-dark); font-weight: 700; }
 .storepick .why { font-size: 16px; color: var(--sub); flex: 1 1 100%; margin: 2px 0 0; }
+
+/* ---------------------------------------------------------
+   📤 활동지 바로 올리기 (교사 화면)
+   교사가 수업 중에 파일을 즉석에서 나눠 줄 때 쓴다.
+   드라이브 활동지 폴더 뿌리에 저장 → 전체 반 · 정해진 시간 뒤 자동 소멸.
+   --------------------------------------------------------- */
+.upbox {
+  margin: 18px 0 26px;
+  padding: 20px 22px;
+  border: 2px dashed var(--line);
+  border-radius: 16px;
+  background: #fbfdff;
+}
+.uprow {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  margin: 12px 0;
+}
+.uprow label { font-size: 18px; font-weight: 700; min-width: 96px; }
+.uprow input[type="text"],
+.uprow select {
+  font-family: inherit; font-size: 19px; padding: 11px 13px;
+  border: 2px solid var(--line); border-radius: 10px;
+  flex: 1 1 220px; min-width: 0;
+}
+.uprow input[type="file"] { font-size: 17px; flex: 1 1 260px; }
+.uprow input[type="text"]:focus, .uprow select:focus { outline: 0; border-color: var(--brand); }
+.upbox code {
+  padding: 1px 5px; border-radius: 5px; background: #eef2f8;
+  font-family: Consolas, "D2Coding", monospace; font-size: .92em;
+}
