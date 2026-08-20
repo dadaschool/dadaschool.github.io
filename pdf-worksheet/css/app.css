@@ -708,6 +708,12 @@ input[type="checkbox"] { width: 24px; height: 24px; vertical-align: -4px; margin
 .sheet label { font-size: 19px; min-width: 76px; color: var(--sub); }
 .sheet input[type=text] { font-size: 22px; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; flex: 1 1 160px; font-family: inherit; }
 .sheet input[type=text]:focus { outline: none; border-color: var(--brand); }
+/* 제출 창의 «반» 고르는 칸 — 이 값이 제출 폴더를 정한다(2026-08-20) */
+.sheet select {
+  font-size: 22px; padding: 12px 14px; border: 2px solid var(--line);
+  border-radius: 10px; flex: 1 1 160px; font-family: inherit; background: #fff;
+}
+.sheet select:focus { outline: none; border-color: var(--brand); }
 .sheet .btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; flex-wrap: wrap; }
 
 /* 진행 표시 */

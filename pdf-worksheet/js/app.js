@@ -9,7 +9,7 @@
      · 학번·이름은 sessionStorage 에 넣지 않는다.
    ========================================================= */
 
-import { createViewer } from "./viewer.js?v=202608201835";
+import { createViewer } from "./viewer.js?v=202608201914";
 
 const $ = (id) => document.getElementById(id);
 
@@ -22,12 +22,18 @@ let viewer = null;
 /* ---------------------------------------------------------
    화면 바꾸기
    --------------------------------------------------------- */
+/* 반을 고르지 않고 바로 들어왔나 — 그러면 ①② 단계를 감춘다.
+   지나가지도 않은 단계가 목록에 남아 있으면 학생이 «뭔가 빠뜨렸나» 하고 헷갈린다. */
+let 반없이왔다 = false;
+
 function step(n) {
   [1, 2, 3].forEach((i) => $("p" + i).classList.toggle("on", i === n));
   [1, 2, 3, 4].forEach((i) => {
     const li = $("s" + i);
     li.classList.toggle("on", i === n);
     li.classList.toggle("done", i < n);
+    /* 건너뛴 단계는 아예 감춘다 (①=반 고르기, ②=활동지 고르기) */
+    if (i <= 2) li.style.display = (반없이왔다 && i <= (n >= 3 ? 2 : 0)) ? "none" : "";
   });
   window.scrollTo(0, 0);
 }
@@ -138,6 +144,55 @@ async function start() {
   }
   저장소단추그리기();
   $("classes").innerHTML = '<p>불러오는 중 <span class="spin"></span></p>';
+
+  /* ─────────────────────────────────────────────────────────
+     ⓪ 반을 고를 필요가 없는 활동지가 있나 (2026-08-20 사용자 지시)
+
+     교사가 「바로 올리기」 로 **전체 반**에 준 활동지는 반을 몰라도 열 수 있다.
+     그래서 반 고르기·활동지 고르기를 건너뛰고 **곧바로 답 쓰기**로 간다.
+
+     ⚠ 이것이 없으면 «올렸는데 학생이 못 본다» 가 된다 — 실제로 그랬다.
+       노션에 열린 활동지가 없으면 **반 목록이 비어서** 학생이 첫 화면에
+       갇히고, 다음으로 넘어갈 방법이 아예 없었다.
+
+     제출 폴더는 낼 때 고른 반으로 정해지므로 미리 알 필요가 없다.
+     ───────────────────────────────────────────────────────── */
+  /* ⚠ 「처음으로」 로 돌아온 학생은 **자동으로 열지 않는다**(`?pick=1`).
+     그러지 않으면 같은 활동지가 다시 열려서 다른 활동지로 갈 방법이 없다.
+     주소에만 담고 기기에 저장하지 않는다(아무것도 저장하지 않는 규칙). */
+  const 골라서보기 = /[?&]pick=1/.test(location.search);
+
+  let 바로열것 = [];
+  if (!골라서보기) {
+    try {
+      바로열것 = await window.API.openTasks();
+    } catch (e) {
+      바로열것 = [];                   /* 실패하면 아래 반 고르기로 간다 */
+    }
+  }
+
+  if (바로열것.length === 1) {
+    반없이왔다 = true;
+    showDemoBar();
+    await openTask(바로열것[0]);
+    return;
+  }
+  if (바로열것.length > 1) {
+    반없이왔다 = true;
+    showDemoBar();
+    klass = null;
+    $("klassName").textContent = "지금 열려 있는";
+    그리기활동지(바로열것);
+    step(2);
+    return;
+  }
+
+  await 반고르기화면();
+}
+
+/* ① 반 고르기 화면을 채운다. start() 와 「◀ 반 다시 고르기」 가 함께 쓴다. */
+async function 반고르기화면() {
+  $("classes").innerHTML = '<p>불러오는 중 <span class="spin"></span></p>';
   try {
     const list = await window.API.classes();
     showDemoBar();
@@ -145,7 +200,9 @@ async function start() {
     box.innerHTML = "";
     if (!list.length) {
       note($("setupHint"),
-        "지금 열려 있는 활동지가 없습니다. 선생님이 노션에서 <strong>반을 고르면</strong> 여기에 나타납니다.", "warn");
+        "지금 열려 있는 활동지가 없습니다.<br>" +
+        "선생님이 활동지를 올리면 여기에 나타납니다. " +
+        "<strong>잠시 뒤 새로 고쳐</strong> 보세요.", "warn");
       return;
     }
     list.forEach((c) => {
@@ -164,6 +221,25 @@ async function start() {
 /* ---------------------------------------------------------
    ② 활동지 고르기
    --------------------------------------------------------- */
+
+/* 활동지 단추들을 그린다.
+   ⚠ 두 곳이 쓴다 — 반을 고른 뒤(pickClass)와, 반 없이 바로 들어올 때(start). */
+function 그리기활동지(list) {
+  const box = $("tasks");
+  box.innerHTML = "";
+  list.forEach((t) => {
+    const b = document.createElement("button");
+    b.className = "taskbtn";
+    const due = document.createElement("span");
+    due.className = "due" + (t.dueMin !== undefined && t.dueMin < 60 ? " soon" : "");
+    due.textContent = t.due ? "마감 " + t.due : "마감 시각 없음";
+    b.textContent = t.title;
+    b.appendChild(due);
+    b.onclick = () => openTask(t);
+    box.appendChild(b);
+  });
+}
+
 async function pickClass(c) {
   klass = c;
   badge(c + "반");
@@ -173,23 +249,12 @@ async function pickClass(c) {
   box.innerHTML = '<p>불러오는 중 <span class="spin"></span></p>';
   try {
     const list = await window.API.tasks(c);
-    box.innerHTML = "";
     if (!list.length) {
       box.innerHTML = '<div class="hint warn">지금 <strong>' + esc(c) +
         '반</strong>에 열려 있는 활동지가 없습니다. 선생님께 확인해 주세요.</div>';
       return;
     }
-    list.forEach((t) => {
-      const b = document.createElement("button");
-      b.className = "taskbtn";
-      const due = document.createElement("span");
-      due.className = "due" + (t.dueMin !== undefined && t.dueMin < 60 ? " soon" : "");
-      due.textContent = t.due ? "마감 " + t.due : "마감 시각 없음";
-      b.textContent = t.title;
-      b.appendChild(due);
-      b.onclick = () => openTask(t);
-      box.appendChild(b);
-    });
+    그리기활동지(list);
   } catch (e) {
     box.innerHTML = '<div class="hint bad">활동지 목록을 받지 못했습니다.<br>' + esc(e.message) + "</div>";
   }
@@ -218,7 +283,7 @@ async function openTask(t) {
      숨어 있는 상태에서는 stage.clientWidth 가 0 이라 «화면 폭에 맞추기» 가
      0 으로 계산되고, 쪽이 240px 짜리 우표만큼 작게 나온다(실제로 그랬다). */
   step(3);
-  badge(klass + "반 · " + t.title);
+  badge((klass ? klass + "반 · " : "") + t.title);
 
   try {
     viewer = await createViewer({
@@ -295,7 +360,9 @@ function 저장이름() {
   const stamp = d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) +
                 "_" + p(d.getHours()) + p(d.getMinutes());
   const safe = (x) => String(x).replace(/[\\/:*?"<>|\s]+/g, "").slice(0, 20);
-  return safe(task.title) + "_" + klass + "_작성중_" + stamp + ".pdf";
+  /* ⚠ 반을 아직 안 골랐을 수 있다(전체 반 활동지를 바로 열었을 때).
+     그때 klass 를 그대로 넣으면 «…_null_작성중…» 이 된다. */
+  return safe(task.title) + (klass ? "_" + klass : "") + "_작성중_" + stamp + ".pdf";
 }
 
 async function pdf저장() {
@@ -318,16 +385,79 @@ function openSubmit() {
     busy("아직 아무것도 쓰지 않았습니다", "펜으로 답을 쓴 뒤에 내 주세요.", true);
     return;
   }
-  $("subKlass").textContent = klass + "반";
+  반칸채우기();
   저장소단추그리기();
   $("subMsg").style.display = "none";
   $("subVeil").classList.add("on");
-  $("subNo").focus();
+  /* 반을 아직 안 골랐으면 반부터, 골랐으면 학번부터 */
+  (klass ? $("subNo") : ($("subKlass").style.display === "none" ? $("subKlassText") : $("subKlass"))).focus();
+}
+
+/* 제출 창의 «반» 칸을 채운다.
+   ⚠ 이 값이 **제출 폴더를 정한다**(2026-08-20 사용자 지시).
+     그래서 목록은 «내는 곳(TARGET)» 에 물어본다 — 활동지를 어디서 받았는지와 무관하다.
+     목록을 받지 못하면 글자 칸으로 바꿔 준다(반을 못 고르면 낼 수가 없으므로). */
+let 반목록받았나 = false;
+function 반칸채우기() {
+  const sel = $("subKlass"), txt = $("subKlassText");
+  if (반목록받았나) { if (klass) 반고르기(klass); return; }
+
+  sel.innerHTML = '<option value="">불러오는 중…</option>';
+  sel.style.display = ""; txt.style.display = "none";
+
+  window.API.submitClasses().then((list) => {
+    반목록받았나 = true;
+    if (!list.length) {
+      /* 반 목록이 없으면 직접 적게 한다 — 그래야 제출이 막히지 않는다 */
+      sel.style.display = "none";
+      txt.style.display = "";
+      if (klass) txt.value = klass;
+      return;
+    }
+    sel.innerHTML = "";
+    const first = document.createElement("option");
+    first.value = ""; first.textContent = "— 내 반을 고르세요 —";
+    sel.appendChild(first);
+    list.forEach((c) => {
+      const o = document.createElement("option");
+      o.value = c; o.textContent = c + "반";
+      sel.appendChild(o);
+    });
+    반고르기(klass);
+  });
+}
+
+function 반고르기(c) {
+  if (!c) return;
+  const sel = $("subKlass");
+  if ([...sel.options].some((o) => o.value === c)) sel.value = c;
+  else $("subKlassText").value = c;
+}
+
+/* 학생이 고른(또는 적은) 반 */
+function 낼반() {
+  const sel = $("subKlass"), txt = $("subKlassText");
+  const v = (txt.style.display === "none" ? sel.value : txt.value) || "";
+  return v.trim();
 }
 
 async function doSubmit() {
   const no = parseInt($("subNo").value.trim(), 10);
   const name = $("subName").value.trim();
+
+  /* ⚠ 반을 **여기서** 정한다 — 이 값이 제출 폴더가 된다(2026-08-20 사용자 지시).
+     예전에는 맨 앞에서 고른 반을 그대로 썼다. */
+  const 반 = 낼반();
+  if (!반) {
+    note($("subMsg"), "내 반을 고르세요.", "bad");
+    return;
+  }
+  if (!/^[0-9A-Za-z가-힣]+(-[0-9A-Za-z가-힣]+)*$/.test(반) || 반.length > 8) {
+    /* 폴더 이름이 되므로 이상한 글자를 막는다 */
+    note($("subMsg"), "반은 <b>1-3</b> 처럼 적어 주세요.", "bad");
+    return;
+  }
+  klass = 반;                      /* 화면 표시·파일 이름도 이 값으로 맞춘다 */
 
   if (!isFinite(no) || no < 1 || no > window.CONFIG.MAX_NUMBER) {
     note($("subMsg"), "학번을 1~" + window.CONFIG.MAX_NUMBER + " 사이 숫자로 적어 주세요.", "bad");
@@ -437,11 +567,20 @@ function pickOne(list, on) {
   list.forEach((el) => el.classList.toggle("on", el === on));
 }
 
-$("backTo1").onclick = () => { step(1); badge("반을 고르세요"); };
+/* ⚠ 반 없이 바로 들어왔으면 ① 화면이 **비어 있다**(반 목록을 받지 않았다).
+   그래서 그냥 step(1) 하면 빈 화면이 나온다 — 목록을 받아서 그려 준다. */
+$("backTo1").onclick = async () => {
+  반없이왔다 = false;
+  badge("반을 고르세요");
+  step(1);
+  if (!$("classes").querySelector(".pick")) await 반고르기화면();
+};
 $("restart").onclick = (e) => {
   e.preventDefault();
   if (store && !store.isEmpty() && !confirm("쓰던 글씨가 사라집니다. 처음으로 돌아갈까요?")) return;
-  location.reload();
+  /* ⚠ 그냥 새로 고치면 **같은 활동지가 또 자동으로 열린다.**
+     `?pick=1` 을 붙여 «고르는 화면» 으로 돌아가게 한다. */
+  location.href = location.pathname + "?pick=1";
 };
 
 $("pPrev").onclick = () => viewer.prev();

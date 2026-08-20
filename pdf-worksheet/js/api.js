@@ -72,7 +72,15 @@
   }
 
   function driveBase() {
-    return String(cfg("DRIVE", "")).replace(/\/+$/, "");
+    var d = cfg("DRIVE", "");
+    if (d) return String(d).replace(/\/+$/, "");
+    /* 설정이 비어 있고 localhost 에서 열었다면 **같은 서버**를 쓴다.
+       server.py 의 시험 모드가 드라이브 쪽도 흉내 내므로, Apps Script 설정을
+       하기 전에도 「바로 올리기」 까지 그대로 확인할 수 있다.
+       (notionBase() 와 같은 규칙 — 한쪽만 되면 드라이브 흐름을 시험할 방법이 없다) */
+    var h = global.location && global.location.hostname;
+    if (h === "localhost" || h === "127.0.0.1") return global.location.origin;
+    return "";
   }
 
   /* http 로는 보내지 않는다 — 학생 이름이 평문으로 흐르지 않게.
@@ -284,6 +292,36 @@
         r[1].forEach(function (t) { if (!본것[t.title]) out.push(t); });
         return out;
       });
+    },
+
+    /* 반을 고르지 않고도 열 수 있는 활동지 — 드라이브 활동지 폴더 «뿌리» 에 있는 것.
+       교사가 「바로 올리기」 로 준 것이 여기로 온다.
+
+       ⚠ 왜 필요한가 (2026-08-20 사용자 지시)
+         교사가 파일을 올렸는데 학생은 **반 고르기 화면에 갇혀 있었다.**
+         노션에 열린 활동지가 없으면 반 목록이 비어서 다음으로 넘어갈 수가 없었다.
+         전체 반에 준 활동지는 반을 몰라도 열 수 있어야 한다 —
+         제출 폴더는 **낼 때 고른 반**으로 정해지므로 미리 알 필요가 없다. */
+    openTasks: function () {
+      if (!canDrive()) return Promise.resolve([]);
+      return postDrive("tasksNow", {}).then(function (d) {
+        return (d.tasks || []).map(function (t) { t.origin = "drive"; return t; });
+      }).catch(function () { return []; });
+    },
+
+    /* 제출을 받을 수 있는 반 목록 — **내는 곳(TARGET)** 에 물어본다.
+       ⚠ `classes()` 는 «활동지를 어디서 받나(SOURCE)» 를 본다. 둘이 다를 수 있다 —
+         활동지는 노션에서 받고 제출은 드라이브로 낼 때, 제출 폴더 이름은
+         드라이브가 아는 반이어야 한다. */
+    submitClasses: function () {
+      var t = target();
+      if (t === "drive" || t === "both") {
+        if (!canDrive()) return Promise.resolve([]);
+        return postDrive("classes", {}).then(function (d) { return d.classes || []; })
+          .catch(function () { return []; });
+      }
+      return postNotion("classes", {}).then(function (d) { return d.classes || []; })
+        .catch(function () { return []; });
     },
 
     /* 활동지 PDF 받기.
