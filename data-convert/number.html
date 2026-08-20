@@ -36,13 +36,10 @@
          ⚠ 여기 있던 «옮겼습니다» 안내 문구는 없앴다 (2026-08-19 사용자 지시) —
            학생에게는 «옮겼다» 는 개발 사정이 필요 없고, 홈에서 0️⃣ 부터 차례로 들어온다. -->
 
-    <!-- 시뮬레이터 고르기 — 한 번에 한 화면만 보여 준다 -->
-    <div class="subtabs" id="learnSubs" aria-label="숫자 시뮬레이터 고르기"></div>
-
-    <!-- 화면 ① 진수 변환 : 좌우 두 칸 (왼쪽 고르기·넣기 / 오른쪽 과정·답)
-         ⚠ 하위 탭은 이 **감싸는 div** 만 여닫는다. 안의 simCard·waitCard 는
-            값을 넣었는지에 따라 JS 가 따로 여닫으므로 탭이 건드리면 서로 싸운다. -->
-    <div id="scrConv">
+    <!-- ===== 설정 화면 : 카드 1(진수 고르기) · 카드 2(값 넣기) 를 좌우 나란히 =====
+         2026-08-19 사용자 지시로 하위 탭을 없애고 두 화면으로 나눴다.
+         [변환하기] 를 누르면 이 화면이 숨고 아래 #resultScreen 이 전체 폭으로 나온다. -->
+    <div id="setupScreen">
     <div class="twocol">
     <div class="colL">
 
@@ -54,35 +51,24 @@
     <div class="card">
       <h2><span class="step">1</span> 어떤 진수를 어떤 진수로 바꿀까요?</h2>
 
-      <!-- 접었을 때 보이는 요약 줄 -->
-      <div class="foldbar" id="pickBar" hidden>
-        <span class="sum" id="pickSum"></span>
-        <button class="btn small" type="button" id="btnPickOpen"
-                aria-expanded="false" aria-controls="pickBody">▾ 바꾸기</button>
-      </div>
+      <div class="baserow" id="rowFrom"><span class="lab">변환 전</span></div>
+      <div class="baserow" id="rowTo"><span class="lab">변환 후</span></div>
+      <p class="pickline">
+        <span class="now" id="pickFrom">10진수</span>
+        <span class="arrow">→</span>
+        <span class="now" id="pickTo">2진수</span>
+      </p>
+      <div class="hint" id="methodNote"></div>
 
-      <div id="pickBody">
-        <div class="baserow" id="rowFrom"><span class="lab">변환 전</span></div>
-        <div class="baserow" id="rowTo"><span class="lab">변환 후</span></div>
-        <p class="pickline">
-          <span class="now" id="pickFrom">10진수</span>
-          <span class="arrow">→</span>
-          <span class="now" id="pickTo">2진수</span>
-        </p>
-        <div class="hint" id="methodNote"></div>
-        <div class="btnrow" id="pickFoldRow" hidden>
-          <button class="btn ghost small" type="button" id="btnPickClose"
-                  aria-expanded="true" aria-controls="pickBody">▴ 접어 두기</button>
-        </div>
-      </div>
-
-      <!-- 10진수 → 2진수만 방법이 두 가지다. 골라서 배울 수 있게 한다.
-           (10 → 4·8·16 은 2진수를 거치므로 고를 방법이 없다 — 2026-08-19) -->
+      <!-- 방법 고르기 — 2026-08-19 사용자 지시로 **하위 탭 3개를 여기로 옮겼다.**
+           고를 수 있는 것이 방향마다 달라서 단추를 **`paintBases()` 가 만든다.**
+             conv  진수 변환    : 그 방향의 기본 방법(반복 나누기·자리값 곱셈·묶기·2진수 경유)
+             fill  자리값 카드  : 카드를 채워서 만들기 + 눌러 보는 카드 (10진수가 한쪽에 있을 때)
+             step2 2단계 처리   : 10 → 2 → 4·8·16 (2진수를 거쳐서)
+           ⚠ 단추를 HTML 에 박아 두지 말 것 — 방향에 따라 두 개일 때도, 세 개일 때도, 하나일 때도 있다. -->
       <div id="methodPick" hidden>
-        <div class="baserow">
+        <div class="baserow" id="methodRow">
           <span class="lab">방법 고르기</span>
-          <button class="btn" type="button" data-m="divide">① 반복 나누기</button>
-          <button class="btn" type="button" data-m="fill">② 자리값 카드 (쉬운 방법)</button>
         </div>
         <!-- 4단계 설명은 접어 둔다 — 펼쳐 두면 왼쪽 칸이 길어져 오른쪽 과정과 눈높이가 어긋난다 -->
         <details class="howbox" id="fillHow" hidden>
@@ -97,6 +83,8 @@
       </div>
     </div>
 
+    </div><!-- /colL -->
+    <div class="colR">
     <div class="card">
       <h2><span class="step">2</span> 값을 넣어 보세요</h2>
       <div class="inrow">
@@ -104,16 +92,30 @@
         <span class="unit" id="srcUnit"></span>
       </div>
       <div class="btnrow">
-        <button class="btn primary" id="btnAll">변환하기</button>
-        <button class="btn" id="btnStep">한 단계씩 보기</button>
+        <button class="btn primary big" id="btnAll">변환하기 ▶</button>
         <button class="btn ghost" id="btnRand">예시 넣기</button>
         <button class="btn ghost" id="btnClear">지우기</button>
       </div>
       <p class="res no" id="msg" hidden></p>
     </div>
 
-    </div><!-- /colL -->
-    <div class="colR">
+    </div><!-- /colR -->
+    </div><!-- /twocol -->
+
+    </div><!-- /setupScreen -->
+
+
+    <!-- ===== 결과 화면 : 전체 폭 =====
+         ⚠ 오른쪽 600px 칸에서는 자리값 카드(카드 5~10장)와 2단계 처리(표+묶음)가
+           너무 작아 보기 힘들었다(사용자 지적). 그래서 전체 폭으로 뺐다.
+         ⚠ 설정 화면이 숨으므로 **돌아가는 탭**이 반드시 있어야 한다. -->
+    <div id="resultScreen" hidden>
+      <div class="foldbar" id="resultBar">
+        <button class="btn small" type="button" id="btnBackSetup">◀ 진수 설정으로</button>
+        <span class="sum" id="resultSum"></span>
+        <span class="spacer" style="flex:1 1 auto"></span>
+        <button class="btn small" type="button" id="btnStep">한 단계씩 보기</button>
+      </div>
 
     <div class="card" id="simCard" hidden>
       <h2><span class="step">3</span> <span id="simTitle">변환 과정</span></h2>
@@ -127,28 +129,7 @@
       </div>
     </div>
 
-    <!-- 아직 값을 넣지 않았을 때 오른쪽 칸이 비어 보이지 않도록 안내를 둔다 -->
-    <div class="card waitcard" id="waitCard">
-      <p class="lead" style="margin:0">
-        왼쪽에서 <b>진수</b>와 <b>값</b>을 고르고 <b>[변환하기]</b> 를 누르면
-        <b>이 자리에 변환 과정</b>이 나옵니다.<br>
-        <b>[한 단계씩 보기]</b> 를 누르면 한 줄씩 천천히 볼 수 있습니다.
-      </p>
-    </div>
 
-    </div><!-- /colR -->
-    </div><!-- /twocol -->
-
-    </div><!-- /scrConv -->
-
-    <!-- 화면 ② 눌러 보는 자리값 카드 -->
-    <div id="scrCards">
-    <div class="card waitcard" id="cardsNote">
-      <p class="lead" style="margin:0">
-        <b>① 진수 변환</b> 에서 <b>값을 넣으면</b> 이 자리에 자리값 카드가 나옵니다.<br>
-        자리값 카드는 <b>10진수가 한쪽에 있는 변환</b>(10진수 ↔ 2·4·8·16진수)에서 씁니다.
-      </p>
-    </div>
     <div class="card" id="cardsCard" hidden>
       <h2><span class="step">4</span> 눌러 보는 자리값 카드 — 두 방향이 같은 그림입니다</h2>
       <p class="lead" id="cardsLead"></p>
@@ -160,23 +141,9 @@
       </div>
     </div>
 
-    </div><!-- /scrCards -->
 
-    <!-- 화면 ③ 두 방법 비교 -->
-    <div id="scrCompare">
-    <!-- ⚠ 이 안내문은 «지금 고른 방향» 에 맞춰 `paintBases()` 가 다시 쓴다.
-         10 → 4 는 10진수에서 출발하는데도 비교표가 없으므로(2진수를 거치므로)
-         "10진수를 고르세요" 라고만 적어 두면 학생이 헷갈린다. -->
-    <!-- ③ 2단계 처리 — 2026-08-19 사용자 지시로 「두 방법 비교」 표를 이것으로 바꿨다.
-         ⚠ ①탭(반복 나누기 / 자리값 카드)과 ②탭(자리값 카드)은 **그대로 둔다.**
-           이 탭은 «10진수를 4·8·16진수로 바꿀 때 2진수를 거치는 길» 을 따로 보여 주는 곳이다.
-         ⚠ ① 단계는 **자리값 카드에서 빼는 쉬운 방법**(`C.fillSteps(값, 2)`)을 쓴다(사용자 지시).
-           2진수는 «쓸 수 있나 / 없나» 만 판단하면 되어 나눗셈보다 쉽다. -->
-    <div class="card waitcard" id="stepNote">
-      <p class="lead" style="margin:0" id="stepNoteText"></p>
-    </div>
     <div class="card" id="stepCard" hidden>
-      <h2><span class="step">6</span> 2단계 처리 — 2진수를 거쳐서</h2>
+      <h2><span class="step">3</span> 2단계 처리 — 2진수를 거쳐서</h2>
       <p class="lead" id="stepLead"></p>
 
       <div class="viastep">
@@ -204,7 +171,8 @@
       <div class="hint" id="stepWhy"></div>
     </div>
 
-    </div><!-- /scrCompare -->
+    </div><!-- /resultScreen -->
+
 
   </div><!-- /panLearn -->
 
@@ -283,9 +251,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608201827"></script>
-<script src="js/ui.js?v=202608201827"></script>
-<script src="js/convert.js?v=202608201827"></script>
+<script src="js/pdf.js?v=202608201901"></script>
+<script src="js/ui.js?v=202608201901"></script>
+<script src="js/convert.js?v=202608201901"></script>
 <script>
 (function () {
   "use strict";
@@ -341,6 +309,28 @@
      학생이 고른 방법을 여기에 담아 둔다. 다른 조합에서는 쓰이지 않는다. */
   var learnMethod = "divide";
 
+  /* =========================================================
+     방법 고르기 — 2026-08-19 사용자 지시로 하위 탭 3개를 여기로 옮겼다.
+
+       conv  진수 변환   : 그 방향의 기본 방법으로 변환 과정을 보여 준다
+       fill  자리값 카드 : 카드를 채워서 만들고, **눌러 보는 카드**도 함께 보여 준다
+       step2 2단계 처리  : 10 → 2 → 4·8·16 (2진수를 거쳐서)
+
+     ⚠ 방향마다 고를 수 있는 것이 다르다. `pickList()` 한 곳에서만 정한다 —
+       두 곳에 두면 «단추는 있는데 화면이 안 나오는» 어긋남이 생긴다.
+     ========================================================= */
+  var PICK_NAME = { conv: "진수 변환", fill: "자리값 카드", step2: "2단계 처리" };
+  var learnPick = "conv";
+
+  function pickList() {
+    var m = C.methodOf(from, to);
+    var out = ["conv"];
+    /* 자리값 카드는 **10진수가 한쪽에 있을 때**만 뜻이 있다 (채우기 / 읽어서 더하기) */
+    if (m === "divide" || m === "place") out.push("fill");
+    if (canStep2()) out.push("step2");
+    return out;
+  }
+
   function makeBaseButtons(row, which) {
     C.BASES.forEach(function (b) {
       var btn = el("button", "btn", C.NAMES[b]);
@@ -353,20 +343,8 @@
   makeBaseButtons($("rowFrom"), "from");
   makeBaseButtons($("rowTo"), "to");
 
-  /* 방법 고르기 */
-  $("methodPick").querySelectorAll("[data-m]").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      learnMethod = btn.dataset.m;
-      paintBases();
-      resetSim();
-      hideMsg();
-      setPickFold(pickFolded);   // 요약 줄의 «방법» 을 새로 고른 것으로 고쳐 준다
-    });
-  });
-
   function setBase(which, b) {
     if (which === "from") from = b; else to = b;
-    setPickFold(false);        // 진수를 바꾸면 펼친다 — 접힌 채 바뀌면 무엇이 바뀌었는지 모른다
     paintBases();
     resetSim();
     $("src").value = "";
@@ -388,38 +366,37 @@
 
     var m = C.methodOf(from, to);
     var twoWays = (m === "divide");                  // 10진수 → 다른 진수만 방법이 두 가지다
-    $("methodPick").hidden = !twoWays;
-    if (!twoWays) learnMethod = "divide";
 
-    /* ③ 2단계 처리 탭은 «10 → 4·8·16» 에서만 뜻이 있다.
-       ⚠ ①탭의 방법 고르기(twoWays)와는 **다른 조건**이다 — 섞지 말 것.
-         10→2 는 방법이 두 가지지만 2단계는 필요 없고,
-         10→16 은 방법이 두 가지이면서 2단계도 쓸 수 있다. */
-    $("stepCard").hidden = !canStep2();
-    $("stepNote").hidden = canStep2();
+    /* 이 방향에서 고를 수 있는 것들을 만든다 (방법 고르기 단추) */
+    var picks = pickList();
+    $("methodPick").hidden = (picks.length < 2);     // 하나뿐이면 고를 것이 없다
+    if (picks.indexOf(learnPick) === -1) learnPick = picks[0];
+    learnMethod = (learnPick === "fill") ? "fill" : "divide";   // 변환 과정에 쓰는 방법
 
-    /* ③ 2단계 처리 탭 — 쓸 수 있는 방향인지 알려 준다.
-       10 → 4·8·16 에서만 뜻이 있다(2진수로 바꾼 뒤 묶을 수 있어야 한다). */
-    if (!canStep2()) {
-      $("stepNoteText").innerHTML = (from === 10 && to === 2)
-        ? "<b>10진수 → 2진수</b>는 <b>한 번에 끝나므로</b> 2단계가 필요 없습니다.<br>" +
-          "<b>① 진수 변환</b> 에서 변환 후를 <b>4진수 · 8진수 · 16진수</b> 로 골라 보세요."
-        : "2단계 처리는 <b>10진수 → 4진수 · 8진수 · 16진수</b> 에서 쓰는 방법입니다 " +
-          "(2진수를 거쳐 갑니다).<br>" +
-          "<b>① 진수 변환</b> 에서 <b>변환 전을 10진수</b>, 변환 후를 <b>4 · 8 · 16진수</b> 로 골라 보세요.";
-    }
+    var row = $("methodRow");
+    row.querySelectorAll("button").forEach(function (b) { b.remove(); });
+    picks.forEach(function (k, i) {
+      var b = el("button", "btn" + (k === learnPick ? " on" : ""),
+        "①②③".charAt(i) + " " + PICK_NAME[k]);
+      b.type = "button";
+      b.dataset.pick = k;
+      b.setAttribute("aria-pressed", k === learnPick ? "true" : "false");
+      b.addEventListener("click", function () {
+        if (learnPick === k) return;
+        learnPick = k;
+        paintBases();
+        resetSim();
+        hideMsg();
+      });
+      row.appendChild(b);
+    });
 
-    var info = C.METHOD_INFO[twoWays && learnMethod === "fill" ? "fill" : m];
+    var info = C.METHOD_INFO[learnPick === "fill" ? "fill"
+                           : learnPick === "step2" ? "dec2" : m];
     $("methodNote").innerHTML = "<b>" + info.name + "</b> 방법을 씁니다. " + info.how;
 
-    /* 방법 단추 칠하기 + '쉬운 방법' 안내 상자 */
-    $("methodPick").querySelectorAll("[data-m]").forEach(function (b) {
-      var on = (b.dataset.m === learnMethod);
-      b.classList.toggle("on", on);
-      b.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-    $("fillHow").hidden = !(twoWays && learnMethod === "fill");
-    if (twoWays && learnMethod === "fill") {
+    $("fillHow").hidden = !(twoWays && learnPick === "fill");
+    if (twoWays && learnPick === "fill") {
       $("howLine1").innerHTML = C.NAMES[to] + "의 자리값(" +
         C.placesOf(C.MAX, to).map(function (p) { return p.place; }).slice(-5).reverse().join(", ") +
         " …)을 10진수로 적어 <b>카드</b>를 늘어놓는다.";
@@ -465,15 +442,14 @@
   function resetSim() {
     if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
     sim = { method: "", total: 0, shown: 0, value: 0, src: "", timer: null };
-    $("simCard").hidden = true;
-    $("waitCard").hidden = false;          // 오른쪽 칸이 비지 않게 안내를 다시 띄운다
     $("simBody").innerHTML = "";
     $("resBox").hidden = true;
-    $("cardsCard").hidden = true;
-    $("cardsNote").hidden = false;
     $("btnStep").textContent = "한 단계씩 보기";
     $("btnStep").disabled = false;
-    renderStep2();               // ③ 2단계 처리 탭도 «값을 넣으세요» 로 되돌린다
+    /* ⚠ 카드를 여닫지 않는다 — 무엇을 보여 줄지는 `showScreen("result")` 한 곳에서만 정한다.
+       예전에는 여기서도, `showResult()` 에서도, `renderStep2()` 에서도 각자 여닫아
+       세 곳이 어긋났다(그래서 «비었는데 카드만 남는» 화면이 나왔다). */
+    renderStep2();
   }
 
   /* =========================================================
@@ -483,34 +459,40 @@
      ⚠ **방법 고르기(`#methodPick`)는 접지 않는다** — ①②를 오가며 배우는 곳이다.
      ⚠ 진수를 바꾸면(`setBase`) 저절로 펼친다 — 접힌 채로 바뀌면 무엇이 바뀌었는지 모른다.
      ========================================================= */
-  var pickFolded = false;
+  /* =========================================================
+     두 화면 오가기 (2026-08-19 사용자 지시)
+       설정 화면 : 카드 1(진수 고르기) · 카드 2(값 넣기) 를 좌우 나란히
+       결과 화면 : [변환하기] 를 누르면 **전체 폭**으로 크게 나온다
 
-  function setPickFold(folded) {
-    pickFolded = folded;
-    $("pickBody").hidden = folded;
-    $("pickBar").hidden = !folded;
-    /* 펼친 상태에서만 「접어 두기」 단추를 보여 준다 — 처음 한 번은 고르고 나서 접게 */
-    $("pickFoldRow").hidden = folded;
-    $("btnPickOpen").setAttribute("aria-expanded", folded ? "false" : "true");
-    /* ⚠ 요약 줄에는 **짧은 이름**을 쓴다. `METHOD_INFO.fill.name`
-       (「자리값 카드로 채우기 (쉬운 방법)」)을 그대로 넣으면 줄이 세 줄이 되어
-       접은 뜻이 없어진다(실제로 그랬다). */
-    var SHORT = { divide: "반복 나누기", fill: "자리값 카드" };
-    $("pickSum").innerHTML =
+     ⚠ 왜 나눴나 — 오른쪽 600px 칸에서는 자리값 카드(카드 5~10장)와
+       2단계 처리(표 + 묶음)가 너무 작아 보기 힘들었다(사용자 지적).
+     ⚠ 결과 화면에는 **「◀ 진수 설정으로」** 가 반드시 있어야 한다 — 설정이 숨기 때문이다.
+     ========================================================= */
+  function showScreen(which) {
+    var result = (which === "result");
+    $("setupScreen").hidden = result;
+    $("resultScreen").hidden = !result;
+    if (!result) return;
+    /* 요약 줄 — 짧은 이름을 쓴다(길면 두 줄이 되어 자리를 먹는다) */
+    $("resultSum").innerHTML =
       "<b>" + C.NAMES[from] + "</b> <span class='arrow'>→</span> <b>" + C.NAMES[to] + "</b>" +
-      (($("methodPick").hidden) ? ""
-        : " · " + SHORT[learnMethod === "fill" ? "fill" : "divide"]);
+      " · " + PICK_NAME[learnPick];
+    /* 고른 것만 보여 준다 — 셋을 한꺼번에 쌓으면 다시 길어진다 */
+    $("simCard").hidden = (learnPick === "step2");
+    $("cardsCard").hidden = (learnPick !== "fill");
+    $("stepCard").hidden = (learnPick !== "step2");
+    /* 「한 단계씩 보기」 는 변환 과정에만 뜻이 있다 */
+    $("btnStep").hidden = (learnPick === "step2");
   }
 
-  $("btnPickOpen").addEventListener("click", function () { setPickFold(false); });
-  $("btnPickClose").addEventListener("click", function () { setPickFold(true); });
+  $("btnBackSetup").addEventListener("click", function () { showScreen("setup"); });
 
   function startSim() {
     var v = readValue();
     if (v === null) return false;
     if (from === to) { showMsg("변환 전과 변환 후가 같습니다. 다른 진수를 골라 주세요."); return false; }
     hideMsg();
-    setPickFold(true);          // 고르기가 끝났으니 접는다
+    showScreen("result");       // 고르기가 끝났으니 결과 화면으로
     if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
 
     /* 10진수 → 2진수면 학생이 고른 방법(divide / fill)을 쓴다 */
@@ -521,8 +503,6 @@
     $("src").value = sim.src;
     sim.shown = 0;
     sim.total = totalSteps();
-    $("simCard").hidden = false;
-    $("waitCard").hidden = true;
     $("resBox").hidden = true;
     renderSim();
     return true;
@@ -552,7 +532,7 @@
     else if (m === "group") { $("simTitle").textContent = "비트 묶기 · 쪼개기"; renderGroup(body); }
     else { $("simTitle").textContent = "2진수를 거쳐 두 번에"; renderVia2(body); }
 
-    /* ③ 2단계 처리 탭도 같은 값으로 다시 그린다(그 탭을 보고 있지 않아도 준비해 둔다) */
+    /* ③ 2단계 처리도 같은 값으로 다시 그린다(고르지 않았어도 준비해 둔다) */
     renderStep2();
 
     if (sim.shown >= sim.total) {
@@ -787,14 +767,14 @@
   /* =========================================================
      ③ 2단계 처리 — 10진수 → 2진수 → 4·8·16진수  (2026-08-19 사용자 지시)
 
-       「두 방법 비교」 표가 있던 자리를 이것으로 바꿨다.
+       예전 「두 방법 비교」 표가 있던 자리를 이것으로 바꿨다.
          ① 10진수 → 2진수 : **자리값 카드에서 빼는 쉬운 방법**(`C.fillSteps(값, 2)`)
             2진수는 «쓸 수 있나 / 없나» 만 판단하면 되어 나눗셈보다 쉽다(사용자 지시).
          ② 2진수 → B진수 : 오른쪽부터 `bitsPer(B)` 자리씩 **묶기**
             4진수 2자리 · 8진수 3자리 · 16진수 4자리.
 
-       ⚠ **①탭·②탭은 건드리지 않는다.** ①탭은 예전처럼 반복 나누기 / 자리값 카드를 쓰고
-         ②탭도 그대로다. 이 탭은 «또 하나의 길» 을 따로 보여 주는 곳이다.
+       ⚠ **①「진수 변환」·②「자리값 카드」는 건드리지 않는다.** ① 은 예전처럼 반복 나누기를,
+         ② 는 예전 자리값 카드를 그대로 쓴다. ③ 은 «또 하나의 길» 을 따로 보여 주는 곳이다.
        ⚠ 이 화면은 **단계 애니메이션이 없다** — 전체 길을 한눈에 보는 곳이라 늘 다 보여 준다.
      ========================================================= */
   function canStep2() {
@@ -808,16 +788,7 @@
     /* 값이 아직 없으면 안내만 하고 카드는 접어 둔다.
        ⚠ `sim.value` 로 판단하면 안 된다 — 0 을 넣은 것과 «안 넣은 것» 이 구별되지 않는다.
          `resetSim()` 은 `src` 를 빈 문자열로 만들고, 변환하면 "0" 이라도 들어간다. */
-    if (sim.src === "") {
-      $("stepCard").hidden = true;
-      $("stepNote").hidden = false;
-      $("stepNoteText").innerHTML =
-        "<b>① 진수 변환</b> 에서 값을 넣고 <b>[변환하기]</b> 를 누르면, " +
-        "여기에 <b>10진수 → 2진수 → " + C.NAMES[to] + "</b> 두 단계가 나옵니다.";
-      return;
-    }
-    $("stepCard").hidden = false;
-    $("stepNote").hidden = true;
+    if (sim.src === "") return;   // 값이 없으면 그릴 것이 없다(카드는 숨은 채로 둔다)
 
     var v = sim.value;
     var bin = C.toBase(v, 2);
@@ -866,8 +837,11 @@
         "<span class='eq'>= " + g.value + "</span>" +
         "<span class='ch'>" + g.digit + "</span>"));
     });
+    /* ⚠ 조사는 `UI.josa` 로 붙인다 — 「16 로」·「8 로」 처럼 손으로 적으면 어긋난다.
+       숫자를 읽었을 때의 끝소리로 판단한다(16 = 십육 → 으로, 8 = 팔 → 로). */
     $("step2Out").innerHTML = "묶음을 왼쪽부터 읽으면 <b>" + ans + "(" + to + ")</b> 입니다 — " +
-      "①탭에서 " + to + " 로 나누어 얻은 답과 <b>같습니다</b>.";
+      "<b>① 진수 변환</b>에서 " + UI.withJosa(String(to), "으로로") +
+      " 나누어 얻은 답과 <b>같습니다</b>.";
 
     $("stepWhy").innerHTML =
       "<b>왜 2진수를 거치나요?</b> " + C.NAMES[to] + " 한 자리는 <b>2진수 " + k + "자리</b>와 짝입니다" +
@@ -906,15 +880,9 @@
     $("check1").textContent = c1;
     $("check2").textContent = c2;
 
-    /* 10진수가 한쪽에 있는 조합에서는 자리값 카드를 함께 보여 준다 */
-    if (sim.method === "divide" || sim.method === "fill" || sim.method === "place") {
-      buildCards(sim.method === "place" ? from : to, sim.value);
-      $("cardsCard").hidden = false;
-      $("cardsNote").hidden = true;
-    } else {
-      $("cardsCard").hidden = true;
-      $("cardsNote").hidden = false;
-    }
+    /* 눌러 보는 자리값 카드 — **「자리값 카드」를 골랐을 때만** 함께 그린다.
+       ⚠ 여닫기는 `showScreen()` 이 이미 했다. 여기서 또 여닫으면 두 곳이 어긋난다. */
+    if (learnPick === "fill") buildCards(sim.method === "place" ? from : to, sim.value);
   }
 
   /* =========================================================
@@ -1514,16 +1482,24 @@
   /* =========================================================
      시작
      ========================================================= */
-  /* 하위 탭 — 시뮬레이터를 하나씩 보여 준다.
-     ⚠ 감싸는 div 만 여닫는다(안의 카드는 값·진수에 따라 JS 가 따로 여닫는다). */
-  UI.subTabs($("learnSubs"), [
-    { key: "conv",  label: "① 진수 변환",       cards: ["scrConv"] },
-    { key: "cards", label: "② 자리값 카드",     cards: ["scrCards"] },
-    { key: "cmp",   label: "③ 2단계 처리",      cards: ["scrCompare"] }
-  ]);
+  /* 주소로 방법 지정 — `review.html` 의 「복습하기 ▸」 가 `number.html#sim=cards` 로 온다.
+     ⚠ 하위 탭이 없어졌으니(`UI.subTabs` 를 쓰지 않는다) 여기서 직접 읽어야 한다.
+       예전 탭 키를 그대로 받는다 — 복습 화면의 링크를 고치지 않아도 되게. */
+  var HASH_PICK = { conv: "conv", cards: "fill", fill: "fill", cmp: "step2", step2: "step2" };
+  function pickFromHash() {
+    var m = String(location.hash || "").match(/sim=([A-Za-z0-9_-]+)/);
+    var want = m && HASH_PICK[m[1]];
+    if (!want) return;
+    if (pickList().indexOf(want) === -1) return;   // 이 방향에서 못 고르는 것이면 무시
+    learnPick = want;
+    paintBases();
+    showScreen("setup");
+    $("src").focus();
+  }
 
   paintBases();
-  setPickFold(false);        // 처음엔 펼쳐 둔다 — 무엇을 고르는지 먼저 보여 준다
+  pickFromHash();
+  window.addEventListener("hashchange", pickFromHash);
   buildPractice();
   updateEvalWhat();
   applyEvalPhase();
