@@ -382,9 +382,21 @@
     w.document.open();
     w.document.write(html);
     w.document.close();
-    /* 글꼴·레이아웃이 잡힌 뒤에 인쇄 대화상자를 띄운다 */
-    w.onload = function () { try { w.focus(); w.print(); } catch (e) {} };
-    setTimeout(function () { try { w.focus(); w.print(); } catch (e) {} }, 700);
+    /* 글꼴·레이아웃이 잡힌 뒤에 인쇄 대화상자를 띄운다.
+
+       두 갈래로 부르는 까닭 : document.write 로 만든 창은 브라우저에 따라
+       onload 가 아예 안 뜬다(이미 '다 불렸다'고 보기 때문). 그래서 타이머를 함께 둔다.
+
+       ⚠ 그런데 둘 다 부르면 **인쇄 창이 두 번 뜬다.** 한 번 닫으면 또 뜬다는 신고가 있었다
+         (2026-08-20). 먼저 도착한 쪽만 인쇄하도록 문패를 하나 둔다. 지우지 말 것. */
+    var printed = false;
+    function askPrint() {
+      if (printed) return;
+      printed = true;
+      try { w.focus(); w.print(); } catch (e) {}
+    }
+    w.onload = askPrint;
+    setTimeout(askPrint, 700);
     return w;
   }
 
