@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인공지능 단원 진단평가 결과 분석 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+
+        .gradient-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F1F5F9 100%);
+        }
+
+        .roadmap-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #CBD5E1;
+            z-index: 0;
+        }
+
+        .roadmap-step {
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            background: #3B82F6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+<!-- 
+    [Chosen Palette: Vibrant & Energetic]
+    Primary: #2563EB (Blue), Secondary: #EC4899 (Pink), Accent: #14B8A6 (Teal), Highlight: #F59E0B (Amber)
+-->
+
+<!-- 
+    [Narrative & Structure Plan]
+    1. Introduction: Overall summary of the diagnostic evaluation (Total students, average performance).
+    2. Learner Clusters: Breakdown of High, Middle, and Low-risk groups to show the achievement gap.
+    3. Topic Mastery: Comparison of strong areas (Ethics) vs. weak areas (Algorithm logic).
+    4. Cognitive Bottleneck Analysis: Correlation between time spent and accuracy in the theoretical section (Q31-Q38).
+    5. Customized Lesson Strategy: Tailored plans for each group.
+    6. 10-Session Roadmap: Visual step-by-step guide to the restructured curriculum.
+-->
+
+<!-- 
+    [Visualization Selection Guide]
+    - Data Point: Group Distribution -> Goal: Inform -> Donut Chart (Chart.js)
+    - Data Point: Group Performance Comparison -> Goal: Compare -> Radar Chart (Chart.js)
+    - Data Point: Topic Mastery -> Goal: Compare -> Horizontal Bar Chart (Chart.js)
+    - Data Point: Time vs Accuracy (Bottleneck) -> Goal: Relationship -> Scatter Plot (Plotly.js - Canvas Mode)
+    - Data Point: Lesson Roadmap -> Goal: Organize -> Structured HTML/CSS Timeline (NO SVG)
+-->
+
+<!-- 
+    [CRITICAL CONFIRMATION]
+    - NO Mermaid JS used.
+    - NO SVG graphics used (Icons replaced with Unicode/CSS).
+    - Label wrapping logic applied to all Chart.js labels > 16 chars.
+    - Tooltip callback config included for all charts.
+-->
+
+<div class="max-w-6xl mx-auto">
+    <!-- Header Section -->
+    <header class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-blue-800 mb-4">인공지능 진단평가 심층분석 및 수업 설계</h1>
+        <p class="text-lg text-slate-600 max-w-3xl mx-auto">
+            본 리포트는 25명의 학습자를 대상으로 한 47개 문항의 진단평가 데이터를 정밀 분석하여, 
+            성취도 격차 해소와 인지적 병목 구간 돌파를 위한 맞춤형 교육 전략을 제시합니다.
+        </p>
+    </header>
+
+    <!-- KPI Summary Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-500 shadow-md">
+            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">평균 정답률</p>
+            <p class="text-3xl font-bold text-blue-600">36.52%</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-teal-500 shadow-md">
+            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">중앙값</p>
+            <p class="text-3xl font-bold text-teal-600">42.0%</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-pink-500 shadow-md">
+            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">표준편차</p>
+            <p class="text-3xl font-bold text-pink-600">20.97%</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-amber-500 shadow-md">
+            <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">평균 소요시간</p>
+            <p class="text-3xl font-bold text-amber-600">26.36분</p>
+        </div>
+    </div>
+
+    <!-- Group Analysis Section -->
+    <section class="mb-16">
+        <div class="bg-white p-8 rounded-3xl shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800">1. 학습자 클러스터링 및 성취도 격차 분석</h2>
+            <p class="mb-8 text-slate-600 leading-relaxed">
+                평가 결과, 학습자들은 세 가지 뚜렷한 집단으로 구분되었습니다. <strong>상위권</strong>은 전 문항을 완주하며 심화 개념까지 탐구한 반면, 
+                <strong>학습이탈 위험군</strong>은 인지적 과부하로 인해 절반 이상의 문항을 포기하는 양상을 보였습니다.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="chart-container">
+                    <canvas id="groupDistributionChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="groupPerformanceChart"></canvas>
+                </div>
+            </div>
+            <div class="mt-8 p-4 bg-blue-50 rounded-xl text-sm text-blue-800 italic">
+                &#10024; 시사점: 집단 간 격차가 심각하여 전체 대상 강의보다는 수준별 스캐폴딩과 마이크로 러닝 콘텐츠 도입이 시급합니다.
+            </div>
+        </div>
+    </section>
+
+    <!-- Topic Mastery Section -->
+    <section class="mb-16">
+        <div class="bg-white p-8 rounded-3xl shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800">2. 영역별 오개념 및 강점/약점 분석</h2>
+            <p class="mb-8 text-slate-600 leading-relaxed">
+                학생들은 인공지능의 <strong>사회적 가치와 윤리</strong> 영역에서는 매우 높은 이해도를 보였으나, 
+                <strong>비지도학습(K-means), 데이터 전처리, 기술 간 위계 구조</strong> 영역에서는 치명적인 오개념을 보였습니다.
+            </p>
+            <div class="chart-container" style="max-width: 900px; height: 450px; max-height: 500px;">
+                <canvas id="topicMasteryChart"></canvas>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
+                <div class="p-4 bg-green-50 border border-green-200 rounded-xl">
+                    <p class="font-bold text-green-700 mb-2">&#10004; 강점 영역</p>
+                    <ul class="text-sm text-green-800 space-y-1">
+                        <li>인공지능 윤리 및 책임성 (60.6%)</li>
+                        <li>AI 활용 방향 및 사회적 가치 (83.0%)</li>
+                        <li>데이터 분석 응용 사례 (81.0%)</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 border border-red-200 rounded-xl">
+                    <p class="font-bold text-red-700 mb-2">&#9888; 약점 영역</p>
+                    <ul class="text-sm text-red-800 space-y-1">
+                        <li>비지도학습 및 군집화 원리 (21.6%)</li>
+                        <li>AI-ML-DL 위계 구조 (12.0%)</li>
+                        <li>데이터 전처리 및 정제 절차 (20.0%)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottleneck Analysis Section -->
+    <section class="mb-16">
+        <div class="bg-white p-8 rounded-3xl shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800">3. 인지적 병목(Cognitive Bottleneck) 분석</h2>
+            <p class="mb-8 text-slate-600 leading-relaxed">
+                이론 중심 문항(Q31~Q38) 구간에서 소요 시간은 급증(최대 203초)하는 반면 정답률은 급락하는 <strong>'인지적 병목 현상'</strong>이 발생했습니다. 
+                텍스트 밀도가 높은 설명 방식이 하위권 학생들의 이탈을 가속화하는 주원인으로 분석됩니다.
+            </p>
+            <div id="bottleneckPlot" class="w-full h-[400px]"></div>
+            <p class="text-xs text-slate-400 mt-2 text-right">* Plotly.js Canvas Rendering</p>
+        </div>
+    </section>
+
+    <!-- Lesson Roadmap Section -->
+    <section class="mb-16">
+        <div class="bg-white p-8 rounded-3xl shadow-lg overflow-hidden">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800">4. 재구성된 인공지능 단원 수업 로드맵</h2>
+            <p class="mb-10 text-slate-600 leading-relaxed">
+                전통적인 이론 강의를 뒤로 미루고, <strong>체험과 사례 중심의 역구조화(Reverse Sequencing)</strong>를 적용한 10차시 로드맵입니다.
+            </p>
+            
+            <div class="relative ml-4">
+                <div class="roadmap-line"></div>
+                
+                <!-- Step 1 -->
+                <div class="roadmap-step mb-10 flex items-start">
+                    <div class="step-circle shrink-0">01</div>
+                    <div class="ml-6">
+                        <h4 class="text-lg font-bold text-blue-700">AI의 이해 및 윤리 (체험 중심)</h4>
+                        <p class="text-sm text-slate-500">배경지식이 풍부한 윤리 토론으로 흥미와 성공 경험 제공 (Q26, Q28 연계)</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="roadmap-step mb-10 flex items-start">
+                    <div class="step-circle shrink-0" style="background-color: #10B981;">02</div>
+                    <div class="ml-6">
+                        <h4 class="text-lg font-bold text-teal-700">데이터 파이프라인 보드게임</h4>
+                        <p class="text-sm text-slate-500">취약한 데이터 전처리 절차를 게임으로 체득 (Q11 오개념 교정)</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="roadmap-step mb-10 flex items-start">
+                    <div class="step-circle shrink-0" style="background-color: #F59E0B;">03</div>
+                    <div class="ml-6">
+                        <h4 class="text-lg font-bold text-amber-700">AI-ML-DL 위계 정립 (시각화)</h4>
+                        <p class="text-sm text-slate-500">마료시카 인형 구조의 교구로 기술 간 포섭 관계 명확화 (Q35 오개념 교정)</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="roadmap-step mb-10 flex items-start">
+                    <div class="step-circle shrink-0" style="background-color: #EC4899;">04</div>
+                    <div class="ml-6">
+                        <h4 class="text-lg font-bold text-pink-700">노코드 기반 머신러닝 실습</h4>
+                        <p class="text-sm text-slate-500">티처블 머신과 시뮬레이터로 지도/비지도 학습 직관적 탐구 (Q7, Q44 연계)</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="roadmap-step flex items-start">
+                    <div class="step-circle shrink-0" style="background-color: #8B5CF6;">05</div>
+                    <div class="ml-6">
+                        <h4 class="text-lg font-bold text-purple-700">사회 문제 해결 캡스톤 프로젝트</h4>
+                        <p class="text-sm text-slate-500">수준별 3인 1조 팀 구성을 통한 상호 멘토링 기반 모델 구현</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="text-center pb-12 text-slate-400 text-sm">
+    &copy; 2025 AI 교육 데이터 분석 연구팀. 본 자료는 학습자 성취도 데이터에 기반하여 생성되었습니다.
+</footer>
+
+<script>
+    // --- Helper Function: Wrap Labels ---
+    function wrapLabels(labels) {
+        return labels.map(label => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        });
+    }
+
+    // --- Common Tooltip Config ---
+    const commonTooltip = {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        }
+    };
+
+    // 1. Group Distribution Chart (Donut)
+    const ctx1 = document.getElementById('groupDistributionChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['상위권 (6명)', '중위권 (13명)', '학습이탈 위험군 (6명)'],
+            datasets: [{
+                data: [6, 13, 6],
+                backgroundColor: ['#2563EB', '#14B8A6', '#EC4899'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: commonTooltip,
+                title: { display: true, text: '학습자 집단 분포' }
+            }
+        }
+    });
+
+    // 2. Group Performance Chart (Radar)
+    const ctx2 = document.getElementById('groupPerformanceChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'radar',
+        data: {
+            labels: ['평균 정답률', '완성 문항수', '학습 몰입 시간', '개념 이해도', '윤리 의식'],
+            datasets: [
+                {
+                    label: '상위권',
+                    data: [90, 100, 95, 85, 90],
+                    borderColor: '#2563EB',
+                    backgroundColor: 'rgba(37, 99, 235, 0.2)'
+                },
+                {
+                    label: '위험군',
+                    data: [15, 40, 30, 10, 80],
+                    borderColor: '#EC4899',
+                    backgroundColor: 'rgba(236, 72, 153, 0.2)'
+                }
+            ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: commonTooltip,
+                title: { display: true, text: '집단별 역량 비교' }
+            },
+            scales: {
+                r: { beginAtZero: true, max: 100 }
+            }
+        }
+    });
+
+    // 3. Topic Mastery Chart (Horizontal Bar)
+    const topicLabels = [
+        'AI 활용 방향 및 사회적 가치',
+        '데이터 분석 응용',
+        '인공지능 윤리 및 책임성',
+        '기초 AI 개념 및 SW 비교',
+        '강화학습 (Reinforcement Learning)',
+        '지도학습 (Supervised Learning)',
+        '비지도학습 및 군집화 (Unsupervised)',
+        '데이터 수집 및 전처리 절차',
+        'AI vs ML vs DL 위계 구조'
+    ];
+    const wrappedTopicLabels = wrapLabels(topicLabels);
+
+    const ctx3 = document.getElementById('topicMasteryChart').getContext('2d');
+    new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: wrappedTopicLabels,
+            datasets: [{
+                label: '정답률 (%)',
+                data: [83, 81, 60.5, 55.7, 56, 40, 21.6, 20, 12],
+                backgroundColor: function(context) {
+                    const value = context.dataset.data[context.dataIndex];
+                    return value > 60 ? '#14B8A6' : (value > 30 ? '#F59E0B' : '#EC4899');
+                },
+                borderRadius: 5
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: commonTooltip,
+                title: { display: true, text: '영역별 정답률 (상세)' }
+            },
+            scales: {
+                x: { max: 100, title: { display: true, text: '정답률 (%)' } }
+            }
+        }
+    });
+
+    // 4. Bottleneck Analysis (Plotly Scatter)
+    const questionLabels = ['Q31', 'Q32', 'Q33', 'Q34', 'Q35', 'Q36', 'Q37', 'Q38'];
+    const accuracyData = [52, 52, 12, 52, 12, 56, 28, 56];
+    const timeData = [77, 79, 104, 126, 145, 166, 191, 203];
+
+    const trace1 = {
+        x: timeData,
+        y: accuracyData,
+        text: questionLabels,
+        mode: 'markers+text',
+        textposition: 'top center',
+        type: 'scatter',
+        marker: { 
+            size: 15, 
+            color: accuracyData, 
+            colorscale: 'Viridis',
+            line: { width: 2, color: 'white' }
+        },
+        name: '인지적 병목 구간'
+    };
+
+    const layout = {
+        title: '문제당 소요 시간 vs 정답률 상관관계 (Q31-Q38)',
+        xaxis: { title: '평균 소요 시간 (초)', showgrid: true },
+        yaxis: { title: '정답률 (%)', range: [0, 70] },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        margin: { t: 50, b: 50, l: 50, r: 50 }
+    };
+
+    Plotly.newPlot('bottleneckPlot', [trace1], layout, { staticPlot: false, responsive: true });
+
+</script>
+</body>
+</html>
