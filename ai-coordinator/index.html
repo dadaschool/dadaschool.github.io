@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI교육 코디네이터 업무 관리 — 내려받기</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23103b6f'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E%E2%98%B0%3C/text%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 56px 24px 80px;
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+    color: #1b2430;
+    line-height: 1.7;
+    background: linear-gradient(170deg, #eaf1fb 0%, #f6f9fd 45%, #eef3fa 100%);
+    background-attachment: fixed;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; }
+
+  /* ===== 머리말 ===== */
+  header { text-align: center; margin-bottom: 34px; }
+  h1 {
+    font-size: 32px; font-weight: 800; letter-spacing: -1.2px;
+    margin: 0 0 10px; color: #0e2f59;
+  }
+  header .sub { margin: 0; font-size: 17px; color: #7286a0; letter-spacing: -.3px; }
+  .home { display: inline-block; margin-bottom: 22px; font-size: 15px; color: #7286a0; }
+  .home a { color: #2563eb; }
+
+  /* ===== 카드 ===== */
+  .card {
+    background: #fff; border: 1px solid #e2eaf5; border-radius: 20px;
+    padding: 26px 26px 24px; margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(16, 59, 111, .05);
+  }
+  .card h2 {
+    display: flex; align-items: center; gap: 10px;
+    margin: 0 0 14px; font-size: 21px; font-weight: 800;
+    letter-spacing: -.6px; color: #0e2f59;
+  }
+  .card h2 .ico { font-size: 22px; }
+  .card p { margin: 0 0 10px; font-size: 16.5px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ===== 내려받기 ===== */
+  .dl { text-align: center; padding: 30px 26px; }
+  .dl .btn {
+    display: inline-block; margin: 6px 0 12px;
+    padding: 18px 40px; border-radius: 14px;
+    background: #1d4ed8; color: #fff; text-decoration: none;
+    font-size: 21px; font-weight: 800; letter-spacing: -.5px;
+    box-shadow: 0 6px 18px rgba(29, 78, 216, .28);
+    transition: background .16s ease, transform .16s ease;
+  }
+  .dl .btn:hover { background: #1741b6; transform: translateY(-1px); }
+  .dl .meta { font-size: 15px; color: #7286a0; }
+
+  /* ===== 단계 ===== */
+  ol.steps { margin: 0; padding-left: 0; list-style: none; counter-reset: s; }
+  ol.steps > li {
+    position: relative; padding: 0 0 16px 44px; counter-increment: s;
+    font-size: 16.5px;
+  }
+  ol.steps > li:last-child { padding-bottom: 0; }
+  ol.steps > li::before {
+    content: counter(s);
+    position: absolute; left: 0; top: 1px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #e8f0fc; color: #16375f;
+    font-size: 15px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  ol.steps b { color: #0e2f59; }
+
+  /* ===== 알림 상자 ===== */
+  .note {
+    border-radius: 12px; padding: 14px 18px; margin: 14px 0 0;
+    font-size: 15.5px;
+  }
+  .note.info { background: #eff6ff; border-left: 5px solid #2563eb; }
+  .note.warn { background: #fffbeb; border-left: 5px solid #b45309; }
+  .note.ok   { background: #ecfdf5; border-left: 5px solid #15803d; }
+  .note b { display: block; margin-bottom: 3px; }
+
+  ul.plain { margin: 8px 0 0; padding-left: 22px; font-size: 16px; }
+  ul.plain li { margin: 5px 0; }
+
+  code {
+    background: #0f172a; color: #fff; padding: 2px 8px; border-radius: 6px;
+    font-size: 15px; font-family: Consolas, "D2Coding", monospace;
+  }
+
+  table.spec { width: 100%; border-collapse: collapse; font-size: 16px; margin-top: 6px; }
+  table.spec th, table.spec td { padding: 9px 10px; border-bottom: 1px solid #eef2f8; text-align: left; }
+  table.spec th { width: 150px; color: #5b6c85; font-weight: 700; }
+
+  footer { text-align: center; margin-top: 34px; font-size: 14px; color: #a7b6c9; }
+  footer a { color: #7286a0; }
+
+  @media (max-width: 640px) {
+    body { padding: 34px 16px 60px; }
+    h1 { font-size: 26px; }
+    .card { padding: 20px 18px; }
+    .dl .btn { display: block; padding: 16px 20px; font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div style="text-align:center"><span class="home"><a href="../">← 수업용 웹앱 모음</a></span></div>
+
+  <header>
+    <h1>AI교육 코디네이터 업무 관리</h1>
+    <p class="sub">작업 요청 · 활동 기록 · 복무 점검 · 교육청 제출 서식까지 한 곳에서</p>
+  </header>
+
+  <!-- ================= 내려받기 ================= -->
+  <div class="card dl">
+    <a class="btn" href="AI코디네이터_설치.exe" download>⬇ 설치 파일 내려받기</a>
+    <div class="meta">
+      Windows 10 · 11 &nbsp;|&nbsp; 약 33MB &nbsp;|&nbsp; 2026-08-19 판<br>
+      Node.js 설치 · 관리자 권한 <b>필요 없습니다</b>
+    </div>
+  </div>
+
+  <!-- ================= 어떤 프로그램인가 ================= -->
+  <div class="card">
+    <h2><span class="ico">📌</span>어떤 프로그램인가요?</h2>
+    <p>
+      학교에 채용한 <b>AI교육 코디네이터(디지털튜터)</b>의 업무를 관리하는 프로그램입니다.
+      선생님이 작업을 요청하면 코디네이터가 처리하고, 정보부장님이 점검·서명하면
+      <b>활동일지 · 출근기록부 · 결과보고서 및 정산서</b>가 교육청 서식대로 자동으로 만들어집니다.
+    </p>
+    <ul class="plain">
+      <li><b>선생님</b> — 수업 지원·자료 제작 등을 요청하고 진행 상황을 봅니다</li>
+      <li><b>코디네이터</b> — 요청을 수락·조절하고, 그날의 활동과 출퇴근을 기록합니다</li>
+      <li><b>정보부장</b> — 기록을 점검·서명하고, 예산 집행과 제출 서식을 관리합니다</li>
+    </ul>
+    <div class="note info">
+      <b>주 15시간 미만 원칙을 프로그램이 지켜 줍니다</b>
+      업무편람의 근로시간 규정(타 학교 근무시간 합산)을 넘기면 저장 자체가 되지 않습니다.
+      수행 제한 범위(단독 수업·평가·생활지도 등)도 접수되지 않습니다.
+    </div>
+  </div>
+
+  <!-- ================= 설치 방법 ================= -->
+  <div class="card">
+    <h2><span class="ico">🚀</span>설치하고 시작하기</h2>
+    <ol class="steps">
+      <li>
+        위 <b>[설치 파일 내려받기]</b> 를 눌러 받은 파일을 <b>더블클릭</b>합니다.<br>
+        서버로 쓸 PC 한 대에만 설치하면 됩니다. (보통 <b>정보부장 선생님 PC</b>)
+      </li>
+      <li>
+        설치가 끝나면 브라우저가 저절로 열립니다.<br>
+        <b>[관리자 코드 정하기]</b> 칸에 <b>쓰고 싶은 숫자 4~12자리</b>를 넣고 [시작하기].<br>
+        <span style="color:#b91c1c;font-weight:700">미리 정해진 비밀번호가 없습니다. 지금 넣은 숫자가 코드가 되니 적어 두세요.</span>
+      </li>
+      <li>
+        프로그램 폴더의 <code>방화벽_허용.bat</code> 을
+        <b>마우스 오른쪽 클릭 → [관리자 권한으로 실행]</b> 합니다.<br>
+        다른 선생님 PC에서 접속할 수 있게 하는 단계입니다. (처음 한 번만)
+      </li>
+      <li>
+        <b>[설정]</b> 탭에서 ① 명단 엑셀 올리기 ② 학교명·계약정보·업무시간 ③ 예산 편성 을 넣습니다.<br>
+        명단 서식은 프로그램 안에서 내려받을 수 있습니다.
+      </li>
+      <li>
+        검은 창에 나온 <b>접속 주소</b>를 선생님들께 알립니다.<br>
+        폴더에 만들어진 <code>선생님께_보낼_바로가기.url</code> 파일을 보내시면 더 쉽습니다.
+      </li>
+    </ol>
+    <div class="note warn">
+      <b>선생님들은 아무것도 설치하지 않습니다</b>
+      주소만 누르면 됩니다. 휴대폰·태블릿에서도 됩니다.
+      무선에서 접속할 때는 <b>컴퓨터 이름이 아니라 IP 주소</b>를 쓰셔야 합니다.
+    </div>
+  </div>
+
+  <!-- ================= 알아 두실 것 ================= -->
+  <div class="card">
+    <h2><span class="ico">🔒</span>개인정보와 자료 보관</h2>
+    <p>
+      모든 자료는 <b>설치한 그 PC의 <code>data</code> 폴더에만</b> 저장됩니다.
+      인터넷이나 클라우드로 아무것도 보내지 않고, 학교 내부망에서만 접속됩니다.
+    </p>
+    <ul class="plain">
+      <li>인증코드는 <b>암호화(pbkdf2 12만 회)</b>되어 저장되며 다시 볼 수 없습니다</li>
+      <li>학생 개인정보는 <b>저장하지 않습니다</b> (학급명만 받습니다)</li>
+      <li><b>[설정] → 자료 백업</b> 에서 파일 하나로 백업하고, 새 PC에서 되돌릴 수 있습니다</li>
+    </ul>
+    <div class="note ok">
+      <b>다른 PC로 옮기실 때</b>
+      옮기기 전에 [설정] → [자료 백업] → [백업 파일 내려받기] 로 <code>.zip</code> 을 받아 두시고,
+      새 PC에 설치한 뒤 [백업에서 되돌리기] 하시면 명단·기록·예산이 그대로 이어집니다.
+    </div>
+  </div>
+
+  <!-- ================= 사양 ================= -->
+  <div class="card">
+    <h2><span class="ico">🧰</span>필요한 것</h2>
+    <table class="spec">
+      <tr><th>운영체제</th><td>Windows 10 또는 11</td></tr>
+      <tr><th>설치 권한</th><td>필요 없음 (내 계정 폴더에 설치됩니다)</td></tr>
+      <tr><th>Node.js</th><td>필요 없음 (프로그램에 포함되어 있습니다)</td></tr>
+      <tr><th>인터넷</th><td>필요 없음 (학교 내부망만 있으면 됩니다)</td></tr>
+      <tr><th>서버 PC</th><td>근무일에 켜 두어야 다른 분이 접속할 수 있습니다</td></tr>
+    </table>
+    <div class="note info">
+      <b>문제가 생기면</b>
+      설치 폴더의 <code>사용설명서.txt</code> 9번을 보세요.
+      무선에서 접속이 안 될 때는 <code>접속진단_실행.bat</code> 이 원인을 가려 줍니다.
+    </div>
+  </div>
+
+  <footer>
+    경상남도교육청 「AI교육 코디네이터 업무편람 가이드」와 서식 모음을 따라 만들었습니다.<br>
+    학교 실정에 맞게 고쳐 쓰실 수 있습니다. · <a href="../">다른 웹앱 보기</a>
+  </footer>
+
+</div>
+</body>
+</html>
