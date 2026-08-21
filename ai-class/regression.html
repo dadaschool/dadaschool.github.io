@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회귀 실험실 — 7차시</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E">
+<style>
+  /* ---- 하위 탭 : 시뮬레이터를 한 번에 하나만 보여 준다 ----
+     data-convert 에서 배운 것이다 — 카드를 세로로 이어 붙이면
+     문서가 너무 길어져 학생이 무엇을 볼지 모른다. */
+  .subtabs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin: 0 0 18px; padding: 12px; background: var(--band);
+    border-radius: var(--radius);
+  }
+  .subtabs button {
+    font: inherit; font-size: 19px; font-weight: bold;
+    padding: 12px 16px; min-height: 58px;
+    border: 2px solid var(--line); border-radius: 10px;
+    background: #fff; color: var(--sub); cursor: pointer;
+  }
+  .subtabs button:hover { border-color: var(--brand); }
+  .subtabs button.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .panel[hidden] { display: none; }
+
+  canvas.chart {
+    width: 100%; border: 1px solid var(--line); border-radius: 10px;
+    background: #fff; touch-action: none;
+  }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .two, .three { grid-template-columns: 1fr; } }
+
+  /* 손잡이(슬라이더) 줄 */
+  .knobs { display: grid; gap: 12px; margin: 14px 0 0; }
+  .knobs .row { display: grid; grid-template-columns: 190px 1fr 110px; gap: 12px; align-items: center; }
+  .knobs .nm { font-size: 18px; font-weight: bold; }
+  .knobs input[type="range"] { width: 100%; height: 40px; }
+  .knobs .val { text-align: right; font-size: 21px; font-weight: bold; color: var(--brand); }
+  @media (max-width: 620px) { .knobs .row { grid-template-columns: 130px 1fr 84px; } }
+
+  /* 큰 숫자 판 */
+  .scorebar { display: flex; gap: 14px; flex-wrap: wrap; margin: 14px 0 0; }
+  .score {
+    flex: 1 1 180px; background: #fff; border: 2px solid var(--line);
+    border-radius: 12px; padding: 12px 14px;
+  }
+  .score .lb { font-size: 16px; color: var(--sub); font-weight: bold; }
+  .score .nb { font-size: 32px; font-weight: bold; color: var(--ink); line-height: 1.15; }
+  .score.good { border-color: var(--ok); background: var(--ok-bg); }
+  .score.good .nb { color: var(--ok); }
+  .score.bad { border-color: var(--no); background: var(--no-bg); }
+  .score.bad .nb { color: var(--no); }
+  .score.brand { border-color: var(--brand); }
+  .score.brand .nb { color: var(--brand); }
+
+  /* 계산표 */
+  .formula {
+    background: #0f172a; color: #fde68a; border-radius: 12px;
+    padding: 16px 18px; margin: 14px 0 0;
+    font-size: 21px; font-weight: bold; line-height: 1.7; overflow-x: auto;
+  }
+  .formula .t { color: #5eead4; }
+  .formula .n { color: #fff; }
+  .formula small { display: block; color: #94a3b8; font-size: 15px; font-weight: normal; margin-top: 8px; }
+
+  /* ① 분류/회귀 게임 */
+  .qcards { display: grid; gap: 12px; margin: 14px 0 0; }
+  .qcard {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center;
+    border: 2px solid var(--line); border-radius: 12px; padding: 12px 14px; background: #fff;
+  }
+  .qcard .q { font-size: 19px; }
+  .qcard .tag { font-size: 15px; color: var(--faint); }
+  .qcard button { font: inherit; font-size: 17px; font-weight: bold; min-height: 54px; padding: 8px 14px;
+    border: 2px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer; white-space: nowrap; }
+  .qcard button:hover { border-color: var(--brand); }
+  .qcard.ok { border-color: var(--ok); background: var(--ok-bg); }
+  .qcard.no { border-color: var(--no); background: var(--no-bg); }
+  .qcard .mk { font-size: 26px; font-weight: bold; }
+  @media (max-width: 720px) { .qcard { grid-template-columns: 1fr; } .qcard button { width: 100%; } }
+
+  table.mini { border-collapse: collapse; width: 100%; font-size: 18px; }
+  table.mini th, table.mini td { border: 1px solid var(--line); padding: 8px 10px; text-align: center; }
+  table.mini th { background: #f3f4f6; }
+  table.mini td.left, table.mini th.left { text-align: left; }
+
+  .steprow { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 0; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0 0; font-size: 17px; color: var(--sub); }
+  .legend span { display: flex; align-items: center; gap: 7px; }
+  .legend i { width: 18px; height: 18px; border-radius: 50%; display: inline-block; }
+  .legend i.bar { border-radius: 3px; width: 26px; height: 6px; }
+</style>
+  <link rel="stylesheet" crossorigin href="./assets/app-BXwmtZnC.css">
+</head>
+<body>
+
+<header class="top">
+  <h1>📈 회귀 실험실</h1>
+  <span class="badge">7차시</span>
+  <span class="spacer"></span>
+  <!-- 학습지는 새 창으로 — 실험실 창을 잃지 않고 나란히 쓸 수 있게 한다. -->
+  <a class="home" href="index.html?n=7" target="ai-class-worksheet" data-win>7차시 학습지 ↗</a>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>무엇을 알아볼까요?</h2>
+    <p class="lead">
+      6차시에 우리가 합쳐 둔 표 — <b>시각 · 기온 · 습도 · 소비전력량</b> 기록
+      <b id="rowCount">300</b>개가 여기 들어 있습니다.
+      이 데이터로 <b>「지금 몇 시, 몇 도면 전기를 몇 kWh 쓸까?」</b> 를 맞히는 AI를 만들어 봅시다.
+    </p>
+    <div class="hint">
+      이 실험실의 데이터는 <b>씨앗 번호</b>로 만듭니다. 새로 고쳐도 숫자가 바뀌지 않으니
+      학습지에 적은 값과 화면이 어긋나지 않습니다.
+    </div>
+  </div>
+
+  <!-- ===================== 하위 탭 ===================== -->
+  <div class="subtabs" id="subtabs"></div>
+
+  <!-- =========================================================
+       ① 분류인가 회귀인가
+       ========================================================= -->
+  <section class="panel" id="p-game" hidden>
+    <div class="card">
+      <h2><span class="step">①</span>이 문제는 분류일까, 회귀일까?</h2>
+      <p class="lead">
+        AI가 푸는 문제는 크게 두 가지입니다.
+        <b>이름표</b>를 맞히는 문제(분류)와 <b>숫자</b>를 맞히는 문제(회귀).
+        열 개를 골라 봅시다.
+      </p>
+      <div class="two">
+        <div class="hint">
+          <b>🏷 분류</b> — 정해진 것 중 <b>하나를 고르는</b> 문제.<br>
+          답이 <b>딱딱 끊어집니다.</b> (스파게티 / 제육볶음)<br>
+          2차시에 만든 가위·바위·보 이미지 분류기가 이것입니다.
+        </div>
+        <div class="hint">
+          <b>🔢 회귀</b> — <b>숫자를 맞히는</b> 문제.<br>
+          답이 <b>끊어지지 않고 이어집니다.</b> (87개 · 91.5개 · 4.3kWh)<br>
+          오늘 만드는 것이 이것입니다.
+        </div>
+      </div>
+      <div class="qcards" id="qcards"></div>
+      <div class="scorebar">
+        <div class="score brand"><div class="lb">고른 문제</div><div class="nb" id="gmDone">0 / 10</div></div>
+        <div class="score good"><div class="lb">맞힌 개수</div><div class="nb" id="gmOk">0</div></div>
+      </div>
+      <div class="res" id="gmRes" hidden></div>
+      <div class="btnrow"><button type="button" class="btn" id="gmReset">다시 하기</button></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ② 직선 긋기 놀이터
+       ========================================================= -->
+  <section class="panel" id="p-line" hidden>
+    <div class="card">
+      <h2><span class="step">②</span>직선 긋기 놀이터 — AI보다 잘 그을 수 있을까?</h2>
+      <p class="lead">
+        <b>여름철 수업 시간</b>(학교 운영중 · 기온 18도 이상) 기록만 뽑아 왔습니다.
+        점들 사이로 직선을 그어 <b>오차 합</b>을 가장 작게 만들어 보세요.
+        오차는 <b>점에서 직선까지의 거리</b>입니다.
+      </p>
+      <div class="two">
+        <div>
+          <canvas class="chart" id="cvLine" width="640" height="440"></canvas>
+          <div class="legend">
+            <span><i style="background:#0d9488"></i> 실제 기록</span>
+            <span><i class="bar" style="background:#4f46e5"></i> 내가 그은 직선</span>
+            <span><i class="bar" style="background:#dc2626"></i> 오차(점↔직선)</span>
+          </div>
+        </div>
+        <div>
+          <div class="knobs">
+            <div class="row">
+              <span class="nm">직선의 기울기</span>
+              <input type="range" id="lnSlope" min="-0.1" max="0.35" step="0.005" value="0.02">
+              <span class="val" id="lnSlopeV">0.02</span>
+            </div>
+            <div class="row">
+              <span class="nm">직선의 높이</span>
+              <input type="range" id="lnBias" min="-1" max="6" step="0.05" value="3.5">
+              <span class="val" id="lnBiasV">3.50</span>
+            </div>
+          </div>
+          <div class="scorebar">
+            <div class="score bad"><div class="lb">지금 오차 합</div><div class="nb" id="lnNow">–</div></div>
+            <div class="score brand"><div class="lb">내 최고 기록</div><div class="nb" id="lnBest">–</div></div>
+          </div>
+          <div class="btnrow">
+            <button type="button" class="btn on" id="lnShowErr">오차선 보이기</button>
+            <button type="button" class="btn primary big" id="lnAi">🤖 AI에게 맡기기</button>
+          </div>
+          <div class="res" id="lnRes" hidden></div>
+        </div>
+      </div>
+
+      <h2 style="margin-top:26px"><span class="step">손실률</span>AI가 오차를 줄여 가는 모습</h2>
+      <p class="lead">
+        AI는 직선을 조금씩 기울여 보고 올려 보며 <b>오차가 줄어드는 쪽</b>으로만 갑니다.
+        그래프가 내려가면 <b>배우는 중</b>, 평평해지면 <b>학습 끝</b>입니다.
+      </p>
+      <canvas class="chart" id="cvLoss" width="900" height="240"></canvas>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ③ 직선으로 읽기
+       ========================================================= -->
+  <section class="panel" id="p-read" hidden>
+    <div class="card">
+      <h2><span class="step">③</span>직선으로 예측하기 — 자 하나로 읽는다</h2>
+      <p class="lead">
+        AI가 찾아낸 직선이 이미 그려져 있습니다. 예측은 <b>자를 대고 읽는 것</b>과 같습니다.
+        기온 손잡이를 움직여 보세요.
+      </p>
+      <div class="two">
+        <div>
+          <canvas class="chart" id="cvRead" width="640" height="440"></canvas>
+          <div class="legend">
+            <span><i style="background:#0d9488"></i> 실제 기록</span>
+            <span><i class="bar" style="background:#4f46e5"></i> AI가 찾은 직선</span>
+            <span><i class="bar" style="background:#d97706"></i> 읽는 길</span>
+          </div>
+        </div>
+        <div>
+          <div class="knobs">
+            <div class="row">
+              <span class="nm">알고 싶은 기온</span>
+              <input type="range" id="rdTemp" min="18" max="38" step="0.5" value="33">
+              <span class="val" id="rdTempV">33도</span>
+            </div>
+          </div>
+          <div class="scorebar">
+            <div class="score good"><div class="lb">예측 전력량</div><div class="nb" id="rdOut">–</div></div>
+          </div>
+          <ol style="font-size:19px;color:var(--sub);line-height:1.8;padding-left:24px">
+            <li>가로축에서 <b id="rdS1">33도</b>를 찾는다</li>
+            <li>거기서 <b>위로</b> 쭉 올라간다</li>
+            <li>직선과 만나는 곳에서 <b>옆으로</b> 꺾는다</li>
+            <li>세로축에서 숫자를 읽는다 → <b id="rdS4">–</b></li>
+          </ol>
+          <div class="res" id="rdRes"></div>
+        </div>
+      </div>
+      <div class="hint" style="margin-top:16px">
+        <b>이것이 예측입니다.</b> 우리 데이터에 그 기온인 날이 <b>하루도 없어도</b> 괜찮습니다.
+        직선이 있으니 그 사이 값을 읽을 수 있습니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ④ 산점도 3개에서 비밀 찾기
+       ========================================================= -->
+  <section class="panel" id="p-find" hidden>
+    <div class="card">
+      <h2><span class="step">④</span>데이터에게 물어보자 — 산점도 세 개</h2>
+      <p class="lead">
+        기록 <b id="findN">300</b>개를 셋으로 나눠 그렸습니다.
+        각각 <b>직선을 맞춰</b> 보고, <b>구간 평균</b>을 켜서 모양을 확인해 봅시다.
+        <b>평균 오차</b>가 줄어들지 않으면 그 단서로는 배울 것이 없다는 뜻입니다.
+      </p>
+      <div class="btnrow">
+        <button type="button" class="btn" id="fdFit">📐 셋 다 직선 맞추기</button>
+        <button type="button" class="btn" id="fdMean">📊 구간 평균 보이기</button>
+        <button type="button" class="btn" id="fdReset">되돌리기</button>
+      </div>
+      <div class="three" id="fdBox" style="margin-top:16px"></div>
+      <div class="res" id="fdRes" hidden></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ⑤ 단서 바꾸기 (피처 엔지니어링)
+       ========================================================= -->
+  <section class="panel" id="p-fix" hidden>
+    <div class="card">
+      <h2><span class="step">⑤</span>비밀 무기 — U자를 직선으로 펴기</h2>
+      <p class="lead">
+        AI를 바꾸지 않습니다. <b>우리가 단서를 바꿔 줍니다.</b>
+        기온을 그대로 주는 대신 <b>「쾌적한 18도에서 얼마나 멀어졌나」</b> 를 줍니다.
+        단추를 차례로 눌러 보세요.
+      </p>
+      <div class="steprow">
+        <button type="button" class="btn on" data-fix="0">① 원래 기온 (U자)</button>
+        <button type="button" class="btn" data-fix="1">② 접기 |기온−18|</button>
+        <button type="button" class="btn" data-fix="2">③ 직선 하나 긋기</button>
+        <button type="button" class="btn" data-fix="3">④ 학교 운영중까지 나누기</button>
+      </div>
+      <canvas class="chart" id="cvFix" width="900" height="470" style="margin-top:14px"></canvas>
+      <div class="legend">
+        <span><i style="background:#4f46e5"></i> 학교 운영중 (8~17시)</span>
+        <span><i style="background:#9ca3af"></i> 학교가 빈 시간</span>
+      </div>
+      <div class="scorebar">
+        <div class="score" id="fxCard"><div class="lb" id="fxLb">지금 상태</div><div class="nb" id="fxNb">–</div></div>
+        <div class="score brand"><div class="lb">평균 오차 (kWh)</div><div class="nb" id="fxErr">–</div></div>
+      </div>
+      <div class="res" id="fxRes"></div>
+
+      <table class="mini" style="margin-top:20px">
+        <thead><tr><th>상황</th><th>실제 기온</th><th>냉난방 필요도 = |기온 − 18|</th></tr></thead>
+        <tbody>
+          <tr><td>한여름</td><td>33 도</td><td><b>|33 − 18| = 15</b></td></tr>
+          <tr><td>봄 · 가을</td><td>18 도</td><td><b>|18 − 18| = 0</b></td></tr>
+          <tr><td>한겨울</td><td>−5 도</td><td><b>|−5 − 18| = 23</b></td></tr>
+        </tbody>
+      </table>
+      <div class="hint" style="margin-top:14px">
+        이제 <b>더울 때도 추울 때도 숫자가 커집니다.</b> U자가 펴졌습니다.
+        그리고 ④를 누르면 직선이 <b>두 줄로 갈라집니다</b> — 그 간격을 설명하는 것이
+        나머지 단서 <b>「학교 운영중」</b> 입니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ⑥ 점수 계산표 예측기
+       ========================================================= -->
+  <section class="panel" id="p-table" hidden>
+    <div class="card">
+      <h2><span class="step">⑥</span>AI가 만든 점수 계산표로 예측하기</h2>
+      <p class="lead">
+        단서가 여러 개면 AI는 <b>점수 계산표</b>를 만듭니다.
+        곱하는 숫자가 <b>그 단서의 중요도</b>입니다. 손잡이를 움직여 보세요.
+      </p>
+      <div class="two">
+        <div>
+          <div class="knobs">
+            <div class="row">
+              <span class="nm">지금 몇 시?</span>
+              <input type="range" id="tbHour" min="0" max="23" step="1" value="14">
+              <span class="val" id="tbHourV">14시</span>
+            </div>
+            <div class="row">
+              <span class="nm">바깥 몇 도?</span>
+              <input type="range" id="tbTemp" min="-8" max="37" step="1" value="33">
+              <span class="val" id="tbTempV">33도</span>
+            </div>
+          </div>
+          <table class="mini" style="margin-top:16px">
+            <thead><tr><th>단서</th><th>지금 값</th><th>곱하는 숫자</th><th>점수</th></tr></thead>
+            <tbody id="tbRows"></tbody>
+          </table>
+        </div>
+        <div>
+          <div class="formula" id="tbFormula"></div>
+          <div class="scorebar">
+            <div class="score good"><div class="lb">단서 4개 AI 예측</div><div class="nb" id="tbP4">–</div></div>
+            <div class="score bad"><div class="lb">단서 2개 AI 예측</div><div class="nb" id="tbP2">–</div></div>
+            <div class="score"><div class="lb">참 규칙(정답)</div><div class="nb" id="tbTrue">–</div></div>
+          </div>
+          <div class="res" id="tbRes"></div>
+        </div>
+      </div>
+
+      <h2 style="margin-top:26px"><span class="step">시험</span>네 가지 시나리오 — 누가 맞힐까?</h2>
+      <p class="lead">
+        단서 <b>2개(시각·기온)</b>만 배운 AI와 단서 <b>4개</b>를 배운 AI를 나란히 시험해 봅니다.
+      </p>
+      <div class="steprow" id="tbScBtns"></div>
+      <canvas class="chart" id="cvScen" width="900" height="360" style="margin-top:14px"></canvas>
+      <div class="legend">
+        <span><i class="bar" style="background:#1e1b4b"></i> 실제 사용량</span>
+        <span><i class="bar" style="background:#dc2626"></i> 단서 2개 AI</span>
+        <span><i class="bar" style="background:#14b8a6"></i> 단서 4개 AI</span>
+      </div>
+      <div class="tablescroll" style="margin-top:16px">
+        <table class="mini" id="tbScTable"></table>
+      </div>
+      <div class="res ok" style="margin-top:16px">
+        <b>오늘의 결론</b> — AI를 똑똑하게 만든 것은 <b>더 센 컴퓨터가 아니라 더 좋은 단서</b>였습니다.
+        같은 데이터, 같은 AI인데 <b>단서를 어떻게 만들어 줬는지</b>만 바꿨습니다.
+      </div>
+    </div>
+  </section>
+
+  <div class="card">
+    <h2>다음은 학습지</h2>
+    <p class="lead">
+      실험실에서 찾은 것을 <b>7차시 학습지</b>에 적고 PDF로 내면 됩니다.
+      학습지에서 이 실험실의 <b>오차 합 · 계산표 숫자</b>를 물어봅니다.
+    </p>
+    <div class="btnrow">
+      <a class="btn primary big" href="index.html?n=7" target="ai-class-worksheet" data-win
+         style="text-decoration:none;display:inline-flex;align-items:center">7차시 학습지 열기 ↗</a>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/regress-model.js?v=202608211831"></script>
+<script src="js/regress.js?v=202608211831"></script>
+</body>
+</html>
