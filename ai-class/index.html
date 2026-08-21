@@ -136,7 +136,7 @@
   }
   td input { border-width: 1px; padding: 8px 10px; font-size: 18px; }
 </style>
-  <link rel="stylesheet" crossorigin href="./assets/app-BvRPxJBB.css">
+  <link rel="stylesheet" crossorigin href="./assets/app-C2OXexaM.css">
 </head>
 <body>
 
@@ -182,8 +182,8 @@
   <button type="button" class="btn primary big" id="btnPdf">PDF로 저장하기</button>
 </div>
 
-<script src="js/pdf.js?v=202608211937"></script>
-<script src="js/sheets.js?v=202608211937"></script>
+<script src="js/pdf.js?v=202608212044"></script>
+<script src="js/sheets.js?v=202608212044"></script>
 <script>
 "use strict";
 
@@ -765,7 +765,9 @@ function renderItem(item, id, box, num) {
     var padWrap = document.createElement("div");
     box.appendChild(padWrap);
     var pad = PdfKit.createPad(padWrap, {
-      height: 520,
+      /* 흐름도·산점도를 그리는 칸이라 세로가 넉넉해야 한다(사용자 요청 · 2026-08-21).
+         1400 × 900 → 카드 폭 1095px 에서 화면 높이 약 700px. */
+      height: 900,
       label: item.q,
       enabled: function () { return !submitted; }   // 제출 뒤에는 그릴 수 없다
     });
@@ -775,7 +777,7 @@ function renderItem(item, id, box, num) {
       set: function () {},
       forPdf: function (doc) {
         doc.h2(item.q);
-        doc.img(pad.canvas, { maxH: 620 });
+        doc.img(pad.canvas, { maxH: 780 });   /* 그림판이 커진 만큼 종이에서도 크게 */
       }
     };
   }

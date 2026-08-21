@@ -92,7 +92,7 @@
   .legend i { width: 18px; height: 18px; border-radius: 50%; display: inline-block; }
   .legend i.bar { border-radius: 3px; width: 26px; height: 6px; }
 </style>
-  <link rel="stylesheet" crossorigin href="./assets/app-BvRPxJBB.css">
+  <link rel="stylesheet" crossorigin href="./assets/app-C2OXexaM.css">
 </head>
 <body>
 
@@ -351,7 +351,7 @@
           <div class="formula" id="tbFormula"></div>
           <div class="scorebar">
             <div class="score good"><div class="lb">단서 4개 AI 예측</div><div class="nb" id="tbP4">–</div></div>
-            <div class="score bad"><div class="lb">단서 2개 AI 예측</div><div class="nb" id="tbP2">–</div></div>
+            <div class="score bad"><div class="lb">기온만 아는 AI 예측</div><div class="nb" id="tbP1">–</div></div>
             <div class="score"><div class="lb">참 규칙(정답)</div><div class="nb" id="tbTrue">–</div></div>
           </div>
           <div class="res" id="tbRes"></div>
@@ -360,13 +360,14 @@
 
       <h2 style="margin-top:26px"><span class="step">시험</span>네 가지 시나리오 — 누가 맞힐까?</h2>
       <p class="lead">
-        단서 <b>2개(시각·기온)</b>만 배운 AI와 단서 <b>4개</b>를 배운 AI를 나란히 시험해 봅니다.
+        <b>기온 하나만</b> 아는 AI(탭 ②에서 맞춘 직선 <b>0.1 × 기온 + 1.0</b>)와
+        단서 <b>4개</b>를 배운 AI를 나란히 시험해 봅니다.
       </p>
       <div class="steprow" id="tbScBtns"></div>
       <canvas class="chart" id="cvScen" width="900" height="360" style="margin-top:14px"></canvas>
       <div class="legend">
         <span><i class="bar" style="background:#1e1b4b"></i> 실제 사용량</span>
-        <span><i class="bar" style="background:#dc2626"></i> 단서 2개 AI</span>
+        <span><i class="bar" style="background:#dc2626"></i> 기온만 아는 AI</span>
         <span><i class="bar" style="background:#14b8a6"></i> 단서 4개 AI</span>
       </div>
       <div class="tablescroll" style="margin-top:16px">
@@ -393,7 +394,7 @@
 
 </div>
 
-<script src="js/regress-model.js?v=202608211937"></script>
-<script src="js/regress.js?v=202608211937"></script>
+<script src="js/regress-model.js?v=202608212044"></script>
+<script src="js/regress.js?v=202608212044"></script>
 </body>
 </html>
