@@ -254,9 +254,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608221629"></script>
-<script src="js/ui.js?v=202608221629"></script>
-<script src="js/convert.js?v=202608221629"></script>
+<script src="js/pdf.js?v=202608221646"></script>
+<script src="js/ui.js?v=202608221646"></script>
+<script src="js/convert.js?v=202608221646"></script>
 <script>
 (function () {
   "use strict";
@@ -322,8 +322,17 @@
      ⚠ 방향마다 고를 수 있는 것이 다르다. `pickList()` 한 곳에서만 정한다 —
        두 곳에 두면 «단추는 있는데 화면이 안 나오는» 어긋남이 생긴다.
      ========================================================= */
-  var PICK_NAME = { conv: "진수 변환", fill: "자리값 카드", step2: "2단계 처리" };
+  var PICK_NAME = { conv: "진수 변환", fill: "자리값 카드", step2: "2단계 처리", bits: "2진수 활용" };
   var learnPick = "conv";
+
+  /* 10진수가 **양쪽 어디에도 없는** 방향인가 — `2↔·4·8·16` 과 `4·8·16` 끼리.
+     이 방향들은 지금까지 «묶기·쪼개기» 하나만 보여 주었는데, 그것은 **2가 밑이라서 되는 요령**이다.
+     2026-08-22 사용자 지시로 **원리(10진수를 거치는 수학적 방법)** 를 ① 로 두고
+     요령을 ② 「2진수 활용」 으로 옮겼다. */
+  function canBits() {
+    var m = C.methodOf(from, to);
+    return m === "group" || m === "via2";
+  }
 
   function pickList() {
     var m = C.methodOf(from, to);
@@ -331,6 +340,7 @@
     /* 자리값 카드는 **10진수가 한쪽에 있을 때**만 뜻이 있다 (채우기 / 읽어서 더하기) */
     if (m === "divide" || m === "place") out.push("fill");
     if (canStep2()) out.push("step2");
+    if (canBits()) out.push("bits");
     return out;
   }
 
@@ -394,8 +404,14 @@
       row.appendChild(b);
     });
 
-    var info = C.METHOD_INFO[learnPick === "fill" ? "fill"
-                           : learnPick === "step2" ? "dec2" : m];
+    /* 고른 것에 맞는 설명을 찾는다.
+       ⚠ `conv` 는 방향마다 다른 방법을 뜻한다 — 10진수가 어디에도 없으면 **`dec10`**(10진수 경유)이고,
+         그 밖에는 `methodOf` 가 돌려준 그 방법이다. */
+    var infoKey = learnPick === "fill" ? "fill"
+                : learnPick === "step2" ? "dec2"
+                : learnPick === "bits" ? m
+                : canBits() ? "dec10" : m;
+    var info = C.METHOD_INFO[infoKey];
     $("methodNote").innerHTML = isPickMode()
       ? "<b>1인 카드 눌러 자리값 모으기</b> — 카드를 먼저 다 보여 줍니다. " +
         "주어진 2진수에서 <b>1</b>인 자리의 카드를 눌러 자리값을 모으고, 모은 것을 다 더하세요. " +
@@ -519,9 +535,19 @@
     showScreen("result");       // 고르기가 끝났으니 결과 화면으로
     if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
 
-    /* 10진수 → 2진수면 학생이 고른 방법(divide / fill)을 쓴다 */
+    /* 학생이 고른 것에 맞춰 계산 방법을 정한다.
+       ⚠ `learnPick`(고른 것)과 `sim.method`(계산)는 이름이 다르다 —
+         10진수가 한쪽에 있으면 `fill`, 어디에도 없으면 `bits` 가 갈림길이다. */
     var base = C.methodOf(from, to);
-    sim.method = (base === "divide") ? learnMethod : base;
+    if (base === "divide") {
+      sim.method = learnMethod;                       // divide / fill
+    } else if (base === "group" || base === "via2") {
+      /* ① 진수 변환 = **10진수를 거치는 수학적 방법**(dec10)
+         ② 2진수 활용 = 예전 묶기·쪼개기(group / via2) */
+      sim.method = (learnPick === "bits") ? base : "dec10";
+    } else {
+      sim.method = base;                              // place
+    }
     sim.value = v;
     sim.src = C.toBase(v, from);      // 입력을 정규화(앞의 0·소문자 정리)
     $("src").value = sim.src;
@@ -534,6 +560,10 @@
   }
 
   function totalSteps() {
+    /* 진수 변환(10진수 경유) : ① 자리값 곱셈 + ② 반복 나누기 */
+    if (sim.method === "dec10") {
+      return C.placeSteps(sim.src, from).length + C.divideSteps(sim.value, to).length;
+    }
     if (sim.method === "divide") return C.divideSteps(sim.value, to).length;
     if (sim.method === "fill") return C.fillSteps(sim.value, to).length;
     if (sim.method === "place") return C.placeSteps(sim.src, from).length;
@@ -557,6 +587,7 @@
       if (isPickMode()) { $("simTitle").textContent = "1인 카드 눌러 자리값 모으기"; renderPickAdd(body); }
       else { $("simTitle").textContent = "자리값 곱셈"; renderPlace(body); }
     }
+    else if (m === "dec10") { $("simTitle").textContent = "10진수를 거쳐 두 번에"; renderDec10(body); }
     else if (m === "group") { $("simTitle").textContent = "비트 묶기 · 쪼개기"; renderGroup(body); }
     else { $("simTitle").textContent = "2진수를 거쳐 두 번에"; renderVia2(body); }
 
@@ -875,6 +906,63 @@
     }
   }
 
+  /* =========================================================
+     ① 진수 변환 — **10진수를 거쳐 두 번에** (2026-08-22 사용자 지시)
+       `2진수 → 4진수` 처럼 10진수가 양쪽에 없는 방향의 **수학적인 방법**이다.
+         ① 자리값 곱셈으로 **10진수를 구하고** (`placeSteps`)
+         ② 그 10진수를 목표 진수로 **반복 나눈다** (`divideSteps`)
+     ⚠ 「② 2진수 활용」(묶기·쪼개기)은 **2가 밑이라서 되는 요령**이다. 이쪽이 원리다.
+     ⚠ 두 단계를 이어서 애니메이션한다 — ①이 다 나오면 ②가 시작된다.
+       `totalSteps()` 도 두 단계의 합이어야 한다(한쪽만 고치면 답이 안 열린다).
+     ========================================================= */
+  function renderDec10(body) {
+    var ps = C.placeSteps(sim.src, from);
+    var ds = C.divideSteps(sim.value, to);
+    var n1 = ps.length;
+
+    $("simLead").innerHTML =
+      "<b>" + C.NAMES[from] + "</b>와 <b>" + C.NAMES[to] + "</b>는 바로 바꾸는 셈이 없으므로 " +
+      "<b>우리가 아는 10진수</b>를 거칩니다. ① 자리값을 곱해 더해 10진수를 구하고, " +
+      "② 그 10진수를 " + UI.withJosa(String(to), "으로로") + " 나눕니다.";
+
+    /* ── ① from → 10 (자리값 곱셈) ── */
+    var s1 = el("div", "viastep",
+      "<h3>① " + C.NAMES[from] + " → 10진수 (자리값 곱셈)</h3>");
+    var t1 = el("table", "grid");
+    t1.innerHTML = "<thead><tr><th style='width:16%'>자리</th><th style='width:14%'>숫자</th>" +
+                   "<th style='width:26%'>자리값</th><th style='width:22%'>숫자 × 자리값</th>" +
+                   "<th style='width:22%'>여기까지 합</th></tr></thead>";
+    var b1 = el("tbody");
+    for (var i = 0; i < Math.min(sim.shown, n1); i++) {
+      var p = ps[i], pw = n1 - 1 - i;
+      b1.appendChild(el("tr", null,
+        "<td>" + (i + 1) + "번째</td>" +
+        "<td><b>" + p.char + "</b></td>" +
+        "<td>" + from + "<sup>" + pw + "</sup> = " + p.place + "</td>" +
+        "<td>" + p.digit + " × " + p.place + " = <b>" + p.product + "</b></td>" +
+        "<td class='mark-ok'><b>" + p.sum + "</b></td>"));
+    }
+    s1.appendChild(el("div", "tablescroll")).appendChild(t1);
+    t1.appendChild(b1);
+    if (sim.shown >= n1) {
+      s1.appendChild(el("p", "hint", "10진수로는 <b>" + sim.value + "</b> 입니다 — " +
+        ps.filter(function (x) { return x.digit !== 0; })
+          .map(function (x) { return x.digit + "×" + x.place; }).join(" + ") + " = " + sim.value));
+    }
+    body.appendChild(s1);
+
+    /* ── ② 10 → to (반복 나누기) ── */
+    var s2 = el("div", "viastep",
+      "<h3>② 10진수 → " + C.NAMES[to] + " (반복 나누기)</h3>");
+    if (sim.shown <= n1) {
+      s2.appendChild(el("p", "lead", "①이 끝나면 그 10진수를 " +
+        UI.withJosa(String(to), "으로로") + " 나눕니다."));
+    } else {
+      divideBlock(s2, to, ds, sim.shown - n1);
+    }
+    body.appendChild(s2);
+  }
+
   function renderVia2(body) {
     var kFrom = C.bitsPer(from), kTo = C.bitsPer(to);
     var ds = C.splitDigits(sim.src, from);
@@ -1152,7 +1240,11 @@
     renderSim();
   }
   $("btnStep").addEventListener("click", stepOnce);
-  $("btnStep1").addEventListener("click", stepOnce);
+  /* 설정 화면의 단추는 **늘 처음부터** 시작한다.
+     ⚠ `stepOnce` 를 그대로 붙이면 앞 문제를 끝까지 본 뒤(`sim.shown === sim.total`)
+       같은 값으로 다시 누를 때 **아무 일도 일어나지 않는다**(화면도 안 바뀐다).
+       값을 고치면 `input` 듣기가 `resetSim()` 을 부르지만, 안 고치면 그 길이 없다. */
+  $("btnStep1").addEventListener("click", function () { resetSim(); stepOnce(); });
 
   $("btnClear").addEventListener("click", function () { resetSim(); $("src").value = ""; hideMsg(); });
 
@@ -1255,13 +1347,18 @@
         /* 학습 화면에서 본 말과 같아야 한다 — 2진수는 곱하지 않고 «1인 자리만 모으면» 된다 */
         (it.from === 2 ? " (2진수는 <b>1인 자리의 자리값만</b> 더하면 됩니다)" : "");
     }
+    /* 10진수가 어디에도 없는 방향 — 두 길을 **둘 다** 알려 준다(학습 화면에 둘 다 있으므로).
+       ⚠ 「① 진수 변환」(10진수 경유)을 먼저 적는다. 그것이 원리이고 요령은 그다음이다. */
+    var dec10 = "<b>10진수를 거쳐</b> 두 번에 할 수 있습니다 — 자리값을 곱해 더해 10진수를 구한 뒤 " +
+      UI.withJosa(String(it.to), "으로로") + " 나누세요.";
     if (m === "group") {
       var k = C.bitsPer(it.from === 2 ? it.to : it.from);
-      return "2진수 <b>" + k + "자리</b>가 " + C.NAMES[it.from === 2 ? it.to : it.from] +
-        " 한 글자와 짝입니다. " + (it.from === 2 ? "오른쪽부터 " + k + "자리씩 묶으세요." : "글자마다 " + k + "자리로 펼치세요.");
+      return dec10 + " 또는 <b>2진수 " + k + "자리</b>가 " + C.NAMES[it.from === 2 ? it.to : it.from] +
+        " 한 글자와 짝인 것을 이용해 " +
+        (it.from === 2 ? "오른쪽부터 " + k + "자리씩 묶으세요." : "글자마다 " + k + "자리로 펼치세요.");
     }
-    return "바로 바꾸기 어려우면 <b>2진수를 거쳐</b> 두 번에 하세요. 먼저 " +
-      C.bitsPer(it.from) + "자리씩 펼치고, 다시 " + C.bitsPer(it.to) + "자리씩 묶습니다.";
+    return dec10 + " 또는 <b>2진수를 거쳐</b> " + C.bitsPer(it.from) + "자리씩 펼치고 " +
+      C.bitsPer(it.to) + "자리씩 묶으세요.";
   }
 
   function checkPr(it) {
