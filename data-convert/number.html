@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>숫자 변환 (진수 변환) · 아날로그 → 디지털</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E01%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" crossorigin href="./assets/app-D1P4shmf.css">
+  <link rel="stylesheet" crossorigin href="./assets/app-CBFajw4Y.css">
 </head>
 <body>
 
@@ -254,9 +254,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608221614"></script>
-<script src="js/ui.js?v=202608221614"></script>
-<script src="js/convert.js?v=202608221614"></script>
+<script src="js/pdf.js?v=202608221622"></script>
+<script src="js/ui.js?v=202608221622"></script>
+<script src="js/convert.js?v=202608221622"></script>
 <script>
 (function () {
   "use strict";
@@ -754,7 +754,9 @@
         "<span class='pv'>" + place + "</span>" +
         "<span class='pw'>2<sup>" + (pick.places.length - 1 - i) + "</sup></span>" +
         "<span class='slot'>" + pick.bits.charAt(i) + "</span>" +
-        "<span class='got'>" + (pick.on[i] ? "+ " + place : (one ? "누르기" : "0")) + "</span>");
+        /* 맨 아래 줄 = «이 카드가 더하는 값». 0 자리도 `+ 0` 으로 적어 준다 —
+           그냥 `0` 이라고만 두면 바로 위 배지의 0 과 겹쳐 보인다. */
+        "<span class='got'>" + (pick.on[i] ? "+ " + place : (one ? "누르기" : "+ 0")) + "</span>");
       b.type = "button";
       b.dataset.i = String(i);
       b.setAttribute("aria-pressed", pick.on[i] ? "true" : "false");
