@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>숫자 변환 (진수 변환) · 아날로그 → 디지털</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E01%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" crossorigin href="./assets/app-DtK5NWlx.css">
+  <link rel="stylesheet" crossorigin href="./assets/app-D1P4shmf.css">
 </head>
 <body>
 
@@ -254,9 +254,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608221556"></script>
-<script src="js/ui.js?v=202608221556"></script>
-<script src="js/convert.js?v=202608221556"></script>
+<script src="js/pdf.js?v=202608221614"></script>
+<script src="js/ui.js?v=202608221614"></script>
+<script src="js/convert.js?v=202608221614"></script>
 <script>
 (function () {
   "use strict";
@@ -397,33 +397,36 @@
     var info = C.METHOD_INFO[learnPick === "fill" ? "fill"
                            : learnPick === "step2" ? "dec2" : m];
     $("methodNote").innerHTML = isPickMode()
-      ? "<b>자리값 카드 눌러 더하기</b> — 카드를 먼저 다 보여 줍니다. " +
-        "<b>1</b>로 켤 카드를 눌러 자리값을 더해 그 수를 만들어 보세요."
+      ? "<b>1인 카드 눌러 자리값 모으기</b> — 카드를 먼저 다 보여 줍니다. " +
+        "주어진 2진수에서 <b>1</b>인 자리의 카드를 눌러 자리값을 모으고, 모은 것을 다 더하세요. " +
+        "2진수는 <b>곱하지 않아도</b> 됩니다."
       : "<b>" + info.name + "</b> 방법을 씁니다. " + info.how;
 
-    $("fillHow").hidden = !(twoWays && learnPick === "fill");
+    /* 4단계 설명 — 10 → B 의 «채우기» 와 2 → 10 의 «모으기» 둘 다 보여 준다 */
+    $("fillHow").hidden = !((twoWays || isPickMode()) && learnPick === "fill");
     /* 2단계 처리는 전체 길을 한눈에 보는 화면이라 «단계»가 없다 → 입구도 숨긴다.
-       10 → 2 의 «눌러서 더하기» 도 마찬가지다. */
+       2 → 10 의 «눌러서 모으기» 도 마찬가지다. */
     $("btnStep1").hidden = (learnPick === "step2" || isPickMode());
+    if (isPickMode()) {
+      $("fillHow").querySelector("summary").textContent = "이렇게 누르면 곱하지 않고도 구할 수 있어요";
+      $("howLine1").innerHTML = "2진수의 자리값(1, 2, 4, 8, 16 …)을 적은 <b>카드</b>를 늘어놓는다.";
+      $("howLine2").innerHTML = "카드마다 주어진 2진수의 <b>그 자리 숫자</b>를 본다.";
+      $("howLine3").innerHTML = "숫자가 <b>1</b>인 카드를 눌러 <b>자리값을 모은다</b>. " +
+        "(0인 자리는 <b>0 × 자리값 = 0</b> 이라 더할 것이 없다)";
+      $("howLine4").innerHTML = "모은 자리값을 <b>모두 더하면</b> 10진수다.";
+    }
     if (twoWays && learnPick === "fill") {
-      var pv = C.placesOf(C.MAX, to).map(function (p) { return p.place; })
-                .slice(-5).reverse().join(", ");
-      /* ⚠ 4단계 설명은 **화면이 하는 일과 같아야** 한다.
-         10 → 2 는 «카드를 눌러 더하기», 10 → 4·8·16 은 «몇 번 들어가나 세어 빼기» 다.
-         예전에는 두 경우 모두 «빼기» 로 적혀 있어 2진수 화면과 어긋났다. */
-      if (isPickMode()) {
-        $("fillHow").querySelector("summary").textContent = "이렇게 누르면 나누지 않고도 구할 수 있어요";
-        $("howLine1").innerHTML = "2진수의 자리값(" + pv + " …)을 적은 <b>카드</b>를 늘어놓는다.";
-        $("howLine2").innerHTML = "만들 수보다 <b>작거나 같은 가장 큰 카드</b>를 눌러 <b>1</b>로 켠다.";
-        $("howLine3").innerHTML = "켠 카드의 자리값을 <b>더해</b> 만들 수와 견준다. 부족하면 다음 카드를 켠다.";
-        $("howLine4").innerHTML = "합이 만들 수와 <b>같아지면</b> 끝. 켠 카드는 <b>1</b>, 끈 카드는 <b>0</b>이다.";
-      } else {
-        $("fillHow").querySelector("summary").textContent = "이렇게 하면 나누지 않고도 구할 수 있어요";
-        $("howLine1").innerHTML = C.NAMES[to] + "의 자리값(" + pv + " …)을 10진수로 적어 <b>카드</b>를 늘어놓는다.";
-        $("howLine2").innerHTML = "큰 자리값부터 그 자리값이 <b>몇 번 들어가는지</b> 세어 그 카드에 적는다.";
-        $("howLine3").innerHTML = "쓴 숫자 × 자리값 만큼 <b>뺀다</b>. 남은 수로 다음 카드를 본다.";
-        $("howLine4").innerHTML = "남은 수가 <b>0</b>이 되면 끝. 쓰지 못한 카드는 <b>0</b>이다.";
-      }
+      $("fillHow").querySelector("summary").textContent = "이렇게 하면 나누지 않고도 구할 수 있어요";
+      $("howLine4").innerHTML = "남은 수가 <b>0</b>이 되면 끝. 쓰지 못한 카드는 <b>0</b>이다.";
+      $("howLine1").innerHTML = C.NAMES[to] + "의 자리값(" +
+        C.placesOf(C.MAX, to).map(function (p) { return p.place; }).slice(-5).reverse().join(", ") +
+        " …)을 10진수로 적어 <b>카드</b>를 늘어놓는다.";
+      $("howLine2").innerHTML = to === 2
+        ? "주어진 수보다 <b>작거나 같은 가장 큰 자리값</b> 카드에 <b>1</b>을 쓴다."
+        : "큰 자리값부터 그 자리값이 <b>몇 번 들어가는지</b> 세어 그 카드에 적는다.";
+      $("howLine3").innerHTML = to === 2
+        ? "주어진 수에서 그 자리값을 <b>뺀다</b>. 남은 수로 2번을 다시 한다."
+        : "쓴 숫자 × 자리값 만큼 <b>뺀다</b>. 남은 수로 다음 카드를 본다.";
     }
 
     /* 입력 안내 : 그 진수에서 쓸 수 있는 글자와 자릿수 */
@@ -497,12 +500,12 @@
       " · " + PICK_NAME[learnPick];
     /* 고른 것만 보여 준다 — 셋을 한꺼번에 쌓으면 다시 길어진다 */
     $("simCard").hidden = (learnPick === "step2");
-    /* «눌러 보는 자리값 카드» 는 «눌러서 더하기» 와 **하는 일이 겹친다** —
-       10 → 2 에서는 위 카드가 이미 눌러서 만드는 카드이므로 아래를 숨긴다. */
+    /* «눌러 보는 자리값 카드» 는 «눌러서 모으기» 와 **하는 일이 겹친다** —
+       2 → 10 에서는 위 카드가 이미 눌러서 더하는 카드이므로 아래를 숨긴다. */
     $("cardsCard").hidden = (learnPick !== "fill") || isPickMode();
     $("stepCard").hidden = (learnPick !== "step2");
     /* 「한 단계씩 보기」 는 변환 과정에만 뜻이 있다.
-       «눌러서 더하기» 도 단계가 없다(학생이 카드를 누르는 것이 곧 진행이다). */
+       «눌러서 모으기» 도 단계가 없다(학생이 카드를 누르는 것이 곧 진행이다). */
     $("btnStep").hidden = (learnPick === "step2" || isPickMode());
   }
 
@@ -525,7 +528,7 @@
     sim.shown = 0;
     sim.total = totalSteps();
     $("resBox").hidden = true;
-    if (isPickMode()) resetPick();      // 카드를 모두 끈 상태에서 시작한다
+    if (isPickMode()) resetPick();      // 아무것도 모으지 않은 상태에서 시작한다
     renderSim();
     return true;
   }
@@ -549,18 +552,18 @@
     body.innerHTML = "";
     var m = sim.method;
     if (m === "divide") { $("simTitle").textContent = "반복 나누기"; renderDivide(body); }
-    else if (m === "fill") {
-      if (isPickMode()) { $("simTitle").textContent = "자리값 카드 눌러 더하기"; renderPickAdd(body); }
-      else { $("simTitle").textContent = "자리값 카드로 채우기"; renderFill(body); }
+    else if (m === "fill") { $("simTitle").textContent = "자리값 카드로 채우기"; renderFill(body); }
+    else if (m === "place") {
+      if (isPickMode()) { $("simTitle").textContent = "1인 카드 눌러 자리값 모으기"; renderPickAdd(body); }
+      else { $("simTitle").textContent = "자리값 곱셈"; renderPlace(body); }
     }
-    else if (m === "place") { $("simTitle").textContent = "자리값 곱셈"; renderPlace(body); }
     else if (m === "group") { $("simTitle").textContent = "비트 묶기 · 쪼개기"; renderGroup(body); }
     else { $("simTitle").textContent = "2진수를 거쳐 두 번에"; renderVia2(body); }
 
     /* ③ 2단계 처리도 같은 값으로 다시 그린다(고르지 않았어도 준비해 둔다) */
     renderStep2();
 
-    /* «눌러서 더하기» 는 **단계가 없다** — 학생이 맞히면 `renderPickAdd` 가 답을 연다.
+    /* «눌러서 모으기» 는 **단계가 없다** — 학생이 다 모으면 `renderPickAdd` 가 답을 연다.
        ⚠ 아래 단계 셈법을 그대로 지나가면 `sim.total` 과 견주어 답이 곧바로 열린다. */
     if (isPickMode()) return;
 
@@ -636,119 +639,10 @@
     divideBlock(body, to, steps, sim.shown);
   }
 
-  /* =========================================================
-     자리값 카드 — 두 가지가 있다
-       ① **눌러서 더하기** (10진수 → 2진수 · 2026-08-22 사용자 지시)
-          카드를 먼저 다 보여 주고 **학생이 1로 켤 카드를 누른다.**
-          켠 자리값이 더해지고 합이 목표와 같아지면 답이 열린다.
-       ② **몇 번 들어가나 세어 채우기** (10진수 → 4·8·16진수)
-          한 카드에 0~B-1 이 들어가므로 «누르면 1» 이 성립하지 않는다. 예전 방식 그대로.
-     ⚠ ② 를 ① 로 바꾸지 말 것 — 4진수 카드에 «3» 을 넣으려면 세 번 눌러야 하고,
-       그러면 «눌러서 더하기» 가 아니라 «돌려서 맞추기» 가 된다(그건 아래 «눌러 보는 카드» 몫이다).
-     ========================================================= */
-
-  /* 지금 «눌러서 더하기» 를 쓰는 상황인가 — 화면을 그리기 전에도 알아야 하므로
-     `sim.method` 가 아니라 **고른 것과 진수**로 판단한다(`showScreen` 이 `startSim` 보다 먼저다). */
-  function isPickMode() { return learnPick === "fill" && from === 10 && to === 2; }
-
-  var pick = { places: [], on: [], target: 0, done: false };
-
-  function resetPick() {
-    pick.target = sim.value;
-    pick.places = C.placesOf(sim.value, 2).map(function (p) { return p.place; });
-    pick.on = pick.places.map(function () { return false; });
-    pick.done = false;
-  }
-
-  function pickSum() {
-    var v = 0;
-    pick.places.forEach(function (p, i) { if (pick.on[i]) v += p; });
-    return v;
-  }
-
-  /* 켠 카드를 왼쪽부터 읽은 2진수 */
-  function pickBits() {
-    return pick.on.map(function (b) { return b ? "1" : "0"; }).join("");
-  }
-
-  function renderPickAdd(body) {
-    $("simLead").innerHTML =
-      "자리값 카드가 모두 놓여 있습니다. <b>1</b>로 켤 카드를 <b>눌러</b> 보세요 — " +
-      "켠 카드의 자리값이 더해집니다. 합이 <b>" + pick.target + "</b>" +
-      UI.josa(String(pick.target), "이가") + " 되면 끝입니다.";
-
-    /* 만들 수 */
-    body.appendChild(el("p", "rest-view",
-      "만들 수 : <span>" + pick.target + "</span>"));
-
-    /* 카드 — 처음부터 모두 보인다(예전에는 `?` 로 가려 두었다) */
-    var row = el("div", "cards");
-    pick.places.forEach(function (place, i) {
-      var b = el("button", "pcard" + (pick.on[i] ? " on" : ""),
-        "<span class='pv'>" + place + "</span>" +
-        "<span class='pw'>2<sup>" + (pick.places.length - 1 - i) + "</sup></span>" +
-        "<span class='slot'>" + (pick.on[i] ? "1" : "0") + "</span>");
-      b.type = "button";
-      b.dataset.i = String(i);
-      b.setAttribute("aria-pressed", pick.on[i] ? "true" : "false");
-      b.setAttribute("aria-label", place + " 자리값, 지금 " + (pick.on[i] ? "1 (켜짐)" : "0 (꺼짐)"));
-      b.addEventListener("click", function () {
-        pick.on[i] = !pick.on[i];
-        renderSim();                       // 합·판정이 함께 바뀌므로 다시 그린다
-        var again = $("simBody").querySelector(".pcard[data-i='" + i + "']");
-        if (again) again.focus();          // 다시 그려도 초점을 잃지 않게
-      });
-      row.appendChild(b);
-    });
-    body.appendChild(row);
-
-    /* 더한 식 */
-    var sum = pickSum();
-    var parts = [];
-    pick.places.forEach(function (p, i) { if (pick.on[i]) parts.push(String(p)); });
-    body.appendChild(el("p", "sumline",
-      "켠 카드 : " + (parts.length ? parts.join(" + ") + " = " : "") + "<b>" + sum + "</b>"));
-
-    /* 판정 — 부족한지 넘었는지 숫자로 알려 준다(답은 알려 주지 않는다) */
-    var gap = pick.target - sum;
-    var msg, cls;
-    if (gap > 0) {
-      msg = "아직 <b>" + gap + "</b>" + UI.josa(String(gap), "이가") + " 부족합니다. " +
-            UI.withJosa(String(gap), "을를") + " 넘지 않는 가장 큰 카드를 찾아보세요.";
-      cls = "hint";
-    } else if (gap < 0) {
-      msg = "<b>" + (-gap) + "</b>만큼 넘었습니다. 켠 카드 중 하나를 다시 눌러 꺼 보세요.";
-      cls = "hint warn";
-    } else {
-      msg = "맞았습니다! 카드를 왼쪽부터 읽으면 <b>" + pickBits() + "(2)</b> 입니다 — " +
-            "켠 카드는 <b>1</b>, 끈 카드는 <b>0</b>입니다.";
-      cls = "hint ok";
-    }
-    body.appendChild(el("p", cls, msg));
-
-    /* 모두 끄기 */
-    var btnRow = el("div", "btnrow");
-    var clear = el("button", "btn ghost small", "카드 모두 끄기");
-    clear.type = "button";
-    clear.addEventListener("click", function () {
-      pick.on = pick.places.map(function () { return false; });
-      renderSim();
-    });
-    btnRow.appendChild(clear);
-    body.appendChild(btnRow);
-
-    /* 맞혔을 때만 답·검산을 연다 */
-    if (gap === 0) { pick.done = true; showResult(); }
-    else { pick.done = false; $("resBox").hidden = true; }
-  }
-
   /* 쉬운 방법 : 큰 자리값부터 몇 번 들어가는지 세어 카드에 적고 그만큼 뺀다.
-     ⚠ 이제 **4·8·16진수만** 이 방식을 쓴다(2진수는 위 «눌러서 더하기»). */
+     2진수에서는 몫이 0 또는 1 뿐이라 "쓸 수 있나 / 없나" 판단이 된다. */
   function renderFill(body) {
     var steps = C.fillSteps(sim.value, to);
-    /* ⚠ `binary` 갈래는 지금은 **닿지 않는다** — 10 → 2 는 `renderPickAdd` 가 맡는다
-       (`isPickMode()` 를 느슨하게 바꾸면 다시 살아난다. 그래서 지우지 않고 남겨 둔다).
-       2진수 «빼기» 절차 자체는 ③ 2단계 처리의 ①단계(`renderStep2`)에서 그대로 쓴다. */
     var binary = (to === 2);
     $("simLead").textContent = binary
       ? sim.value + "부터 시작합니다. 큰 자리값 카드부터 '쓸 수 있는지' 보고, 쓰면 그만큼 뺍니다."
@@ -803,6 +697,120 @@
       body.appendChild(el("p", "hint", "여기까지 카드를 왼쪽부터 읽으면 <b>" + so + "</b> 입니다." +
         (sim.shown < steps.length ? " (남은 카드는 아직 정하지 않았습니다)" : "")));
     }
+  }
+
+  /* =========================================================
+     자리값 카드 — 방향에 따라 두 가지다
+       ① **1인 카드를 눌러 모으기** (2진수 → 10진수 · 2026-08-22 사용자 지시)
+          카드를 먼저 다 보여 주고, 카드마다 **주어진 2진수의 그 자리 숫자**를 적어 둔다.
+          학생은 **1 이 적힌 카드를 눌러** 그 자리값을 모으고, 모은 것을 다 더하면 10진수다.
+       ② **몇 번 들어가나 세어 채우기** (10진수 → 4·8·16진수) — `renderFill`
+     ⚠ 4·8·16 → 10 은 ① 을 쓰지 않는다. 한 자리가 0~15 라서 `숫자 × 자리값` 을 곱해야 한다.
+     ⚠ 0 인 카드도 **누를 수 있게** 둔다 — 누르면 「0 × 32 = 0 이라 더할 것이 없습니다」 라고
+       알려 준다. 못 누르게 막으면 학생은 앱이 고장 난 줄 안다(그리고 그 설명이 이 단원의 핵심이다).
+     ========================================================= */
+
+  /* 지금 «눌러서 모으기» 를 쓰는 상황인가 — 화면을 그리기 전에도 알아야 하므로
+     `sim.method` 가 아니라 **고른 것과 진수**로 판단한다(`showScreen` 이 `startSim` 보다 먼저다). */
+  function isPickMode() { return learnPick === "fill" && from === 2 && to === 10; }
+
+  var pick = { bits: "", places: [], on: [], msg: "" };
+
+  function resetPick() {
+    pick.bits = sim.src;                       // 정규화된 2진수 (앞의 0 정리됨)
+    var n = pick.bits.length;
+    pick.places = pick.bits.split("").map(function (ch, i) { return Math.pow(2, n - 1 - i); });
+    pick.on = pick.bits.split("").map(function () { return false; });
+    pick.msg = "";
+  }
+
+  function pickSum() {
+    var v = 0;
+    pick.places.forEach(function (p, i) { if (pick.on[i]) v += p; });
+    return v;
+  }
+
+  /* 아직 모으지 않은 «1» 자리가 몇 곳인가 — 0 이면 다 모은 것이다.
+     ⚠ 0 인 카드는 켜지지 않으므로 «남은 1 이 0곳» = «합이 곧 답» 이다(다른 길이 없다). */
+  function pickLeft() {
+    var k = 0;
+    pick.bits.split("").forEach(function (ch, i) { if (ch === "1" && !pick.on[i]) k++; });
+    return k;
+  }
+
+  function renderPickAdd(body) {
+    $("simLead").innerHTML =
+      "주어진 2진수는 <b>" + pick.bits + "(2)</b> 입니다. 자리값 카드에 그 자리 숫자를 적어 두었습니다 — " +
+      "<b>1</b>이 적힌 카드를 <b>눌러</b> 자리값을 모으세요. 모은 자리값을 <b>다 더하면</b> 10진수입니다.";
+
+    /* 카드 — 처음부터 모두 보인다. 슬롯에는 **주어진 2진수의 그 자리 숫자**가 있다.
+       ⚠ `collect` 를 붙여야 색이 바뀐다 — CSS 가 그 이름 안에서만 색을 준다
+         (그러지 않으면 「눌러 보는 자리값 카드」까지 초록이 된다). */
+    var row = el("div", "cards collect");
+    pick.places.forEach(function (place, i) {
+      var one = (pick.bits.charAt(i) === "1");
+      var cls = "pcard" + (pick.on[i] ? " on" : "") + (one ? "" : " zero");
+      var b = el("button", cls,
+        "<span class='pv'>" + place + "</span>" +
+        "<span class='pw'>2<sup>" + (pick.places.length - 1 - i) + "</sup></span>" +
+        "<span class='slot'>" + pick.bits.charAt(i) + "</span>" +
+        "<span class='got'>" + (pick.on[i] ? "+ " + place : (one ? "누르기" : "0")) + "</span>");
+      b.type = "button";
+      b.dataset.i = String(i);
+      b.setAttribute("aria-pressed", pick.on[i] ? "true" : "false");
+      b.setAttribute("aria-label", place + " 자리값, 이 자리 숫자 " + pick.bits.charAt(i) +
+        (one ? (pick.on[i] ? ", 모았음" : ", 눌러서 모으기") : ", 0 이므로 더할 것 없음"));
+      b.addEventListener("click", function () {
+        if (one) { pick.on[i] = !pick.on[i]; pick.msg = ""; }
+        else {
+          /* 0 인 자리를 누른 경우 — 이 단원의 핵심을 그 자리에서 알려 준다 */
+          pick.msg = "이 자리의 숫자는 <b>0</b> 입니다. <b>0 × " + place + " = 0</b> 이므로 " +
+                     "더할 것이 없습니다. <b>1</b>이 적힌 카드만 모으세요.";
+        }
+        renderSim();
+        var again = $("simBody").querySelector(".pcard[data-i='" + i + "']");
+        if (again) again.focus();          // 다시 그려도 초점을 잃지 않게
+      });
+      row.appendChild(b);
+    });
+    body.appendChild(row);
+
+    /* 모은 식 */
+    var sum = pickSum();
+    var parts = [];
+    pick.places.forEach(function (p, i) { if (pick.on[i]) parts.push(String(p)); });
+    body.appendChild(el("p", "sumline",
+      "모은 자리값 : " + (parts.length ? parts.join(" + ") + " = " : "") + "<b>" + sum + "</b>"));
+
+    /* 0 인 카드를 누른 안내가 있으면 그것을 먼저 보여 준다 */
+    if (pick.msg) body.appendChild(el("p", "hint warn", pick.msg));
+
+    /* 판정 — 답을 알려 주지 않고 «몇 곳 남았나» 만 말한다 */
+    var left = pickLeft();
+    if (left > 0) {
+      body.appendChild(el("p", "hint",
+        "아직 <b>1</b>이 적힌 카드가 <b>" + left + "곳</b> 남았습니다. 눌러서 자리값을 모으세요."));
+    } else {
+      body.appendChild(el("p", "hint ok",
+        "맞았습니다! 모은 자리값을 다 더하면 <b>" + sum + "</b> 입니다 — 이것이 10진수입니다. " +
+        "2진수는 자리 숫자가 <b>0 아니면 1</b>이라 <b>곱하지 않고</b> 1인 자리의 자리값만 더하면 됩니다."));
+    }
+
+    /* 다시 하기 */
+    var btnRow = el("div", "btnrow");
+    var clear = el("button", "btn ghost small", "모은 것 비우기");
+    clear.type = "button";
+    clear.addEventListener("click", function () {
+      pick.on = pick.places.map(function () { return false; });
+      pick.msg = "";
+      renderSim();
+    });
+    btnRow.appendChild(clear);
+    body.appendChild(btnRow);
+
+    /* 다 모았을 때만 답·검산을 연다 */
+    if (left === 0) showResult();
+    else $("resBox").hidden = true;
   }
 
   function renderPlace(body) {
@@ -1012,10 +1020,7 @@
            UI.withJosa(String(to), "으로로") +
            " 나누어 마지막 몫과 나머지를 거꾸로 읽으면 " + C.readUp(dv2) +
            " → 카드로 만든 답과 같습니다.";
-      /* «눌러서 더하기» 에서는 «적은» 이 아니라 «켠» 이다 — 화면에서 한 일과 같은 말을 쓴다 */
-      c2 = (isPickMode() ? "켠 카드는 1, 끈 카드는 0으로 두고 왼쪽부터 읽으면 "
-                         : "카드에 적은 숫자를 왼쪽부터 그대로 읽으면 ") +
-           C.NAMES[to] + " 표기가 됩니다.";
+      c2 = "카드에 적은 숫자를 왼쪽부터 그대로 읽으면 " + C.NAMES[to] + " 표기가 됩니다.";
     } else if (sim.method === "place") {
       var dv = C.divideSteps(sim.value, from);
       c1 = "검산 (반대 방향) : " + UI.withJosa(String(sim.value), "을를") + " " +
@@ -1123,7 +1128,7 @@
      ========================================================= */
   $("btnAll").addEventListener("click", function () {
     if (!startSim()) return;
-    /* «눌러서 더하기» 는 학생이 누르는 화면이다 — 자동으로 진행하면 답을 대신 맞혀 버린다 */
+    /* «눌러서 모으기» 는 학생이 누르는 화면이다 — 자동으로 진행하면 답을 대신 맞혀 버린다 */
     if (isPickMode()) return;
     sim.timer = setInterval(function () {
       sim.shown++;
@@ -1239,15 +1244,14 @@
       }
       return it.value + " ÷ " + it.to + " = " + d.quotient + " … 나머지 <b>" + d.digit +
         "</b>부터 시작합니다. 몫이 " + it.to + "보다 작아지면 멈추고 <b>마지막 몫</b>과 나머지를 " +
-        "<b>아래에서 위로</b> 읽으세요. " +
-        /* 학습 화면에서 본 말과 같아야 한다 — 2진수 카드는 «채우기» 가 아니라 «켜서 더하기» 다 */
-        (it.to === 2 ? "(또는 자리값 카드를 <b>켜서 더해도</b> 됩니다)"
-                     : "(또는 자리값 카드로 <b>채워도</b> 됩니다)");
+        "<b>아래에서 위로</b> 읽으세요. (또는 자리값 카드로 채워도 됩니다)";
     }
     if (m === "place") {
       var ps = C.placeSteps(C.toBase(it.value, it.from), it.from);
       return "자리값은 왼쪽부터 " + ps.map(function (s) { return s.place; }).join(" · ") +
-        " 입니다. 각 자리 숫자에 자리값을 곱해 모두 더하세요.";
+        " 입니다. 각 자리 숫자에 자리값을 곱해 모두 더하세요." +
+        /* 학습 화면에서 본 말과 같아야 한다 — 2진수는 곱하지 않고 «1인 자리만 모으면» 된다 */
+        (it.from === 2 ? " (2진수는 <b>1인 자리의 자리값만</b> 더하면 됩니다)" : "");
     }
     if (m === "group") {
       var k = C.bitsPer(it.from === 2 ? it.to : it.from);
