@@ -254,9 +254,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608221554"></script>
-<script src="js/ui.js?v=202608221554"></script>
-<script src="js/convert.js?v=202608221554"></script>
+<script src="js/pdf.js?v=202608221556"></script>
+<script src="js/ui.js?v=202608221556"></script>
+<script src="js/convert.js?v=202608221556"></script>
 <script>
 (function () {
   "use strict";
@@ -398,7 +398,7 @@
                            : learnPick === "step2" ? "dec2" : m];
     $("methodNote").innerHTML = isPickMode()
       ? "<b>자리값 카드 눌러 더하기</b> — 카드를 먼저 다 보여 줍니다. " +
-        "<b>1</b> 로 켤 카드를 눌러 자리값을 더해 그 수를 만들어 보세요."
+        "<b>1</b>로 켤 카드를 눌러 자리값을 더해 그 수를 만들어 보세요."
       : "<b>" + info.name + "</b> 방법을 씁니다. " + info.how;
 
     $("fillHow").hidden = !(twoWays && learnPick === "fill");
@@ -414,9 +414,9 @@
       if (isPickMode()) {
         $("fillHow").querySelector("summary").textContent = "이렇게 누르면 나누지 않고도 구할 수 있어요";
         $("howLine1").innerHTML = "2진수의 자리값(" + pv + " …)을 적은 <b>카드</b>를 늘어놓는다.";
-        $("howLine2").innerHTML = "만들 수보다 <b>작거나 같은 가장 큰 카드</b>를 눌러 <b>1</b> 로 켠다.";
+        $("howLine2").innerHTML = "만들 수보다 <b>작거나 같은 가장 큰 카드</b>를 눌러 <b>1</b>로 켠다.";
         $("howLine3").innerHTML = "켠 카드의 자리값을 <b>더해</b> 만들 수와 견준다. 부족하면 다음 카드를 켠다.";
-        $("howLine4").innerHTML = "합이 만들 수와 <b>같아지면</b> 끝. 켠 카드는 <b>1</b>, 끈 카드는 <b>0</b> 이다.";
+        $("howLine4").innerHTML = "합이 만들 수와 <b>같아지면</b> 끝. 켠 카드는 <b>1</b>, 끈 카드는 <b>0</b>이다.";
       } else {
         $("fillHow").querySelector("summary").textContent = "이렇게 하면 나누지 않고도 구할 수 있어요";
         $("howLine1").innerHTML = C.NAMES[to] + "의 자리값(" + pv + " …)을 10진수로 적어 <b>카드</b>를 늘어놓는다.";
@@ -673,8 +673,9 @@
 
   function renderPickAdd(body) {
     $("simLead").innerHTML =
-      "자리값 카드가 모두 놓여 있습니다. <b>1</b> 로 켤 카드를 <b>눌러</b> 보세요 — " +
-      "켠 카드의 자리값이 더해집니다. 합이 <b>" + pick.target + "</b> 이 되면 끝입니다.";
+      "자리값 카드가 모두 놓여 있습니다. <b>1</b>로 켤 카드를 <b>눌러</b> 보세요 — " +
+      "켠 카드의 자리값이 더해집니다. 합이 <b>" + pick.target + "</b>" +
+      UI.josa(String(pick.target), "이가") + " 되면 끝입니다.";
 
     /* 만들 수 */
     body.appendChild(el("p", "rest-view",
@@ -720,7 +721,7 @@
       cls = "hint warn";
     } else {
       msg = "맞았습니다! 카드를 왼쪽부터 읽으면 <b>" + pickBits() + "(2)</b> 입니다 — " +
-            "켠 카드는 <b>1</b>, 끈 카드는 <b>0</b> 입니다.";
+            "켠 카드는 <b>1</b>, 끈 카드는 <b>0</b>입니다.";
       cls = "hint ok";
     }
     body.appendChild(el("p", cls, msg));
@@ -1011,7 +1012,10 @@
            UI.withJosa(String(to), "으로로") +
            " 나누어 마지막 몫과 나머지를 거꾸로 읽으면 " + C.readUp(dv2) +
            " → 카드로 만든 답과 같습니다.";
-      c2 = "카드에 적은 숫자를 왼쪽부터 그대로 읽으면 " + C.NAMES[to] + " 표기가 됩니다.";
+      /* «눌러서 더하기» 에서는 «적은» 이 아니라 «켠» 이다 — 화면에서 한 일과 같은 말을 쓴다 */
+      c2 = (isPickMode() ? "켠 카드는 1, 끈 카드는 0으로 두고 왼쪽부터 읽으면 "
+                         : "카드에 적은 숫자를 왼쪽부터 그대로 읽으면 ") +
+           C.NAMES[to] + " 표기가 됩니다.";
     } else if (sim.method === "place") {
       var dv = C.divideSteps(sim.value, from);
       c1 = "검산 (반대 방향) : " + UI.withJosa(String(sim.value), "을를") + " " +
