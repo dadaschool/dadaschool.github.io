@@ -122,8 +122,9 @@
   <div class="card dl">
     <a class="btn" href="AI코디네이터_설치.exe" download>⬇ 설치 파일 내려받기</a>
     <div class="meta">
-      Windows 10 · 11 &nbsp;|&nbsp; 약 33MB &nbsp;|&nbsp; 2026-08-19 판<br>
-      Node.js 설치 · 관리자 권한 <b>필요 없습니다</b>
+      Windows 10 · 11 &nbsp;|&nbsp; 약 33MB &nbsp;|&nbsp; <b>처음 설치하실 때</b><br>
+      Node.js 설치 · 관리자 권한 <b>필요 없습니다</b><br>
+      <span id="exeNote"></span>
     </div>
   </div>
 
@@ -181,6 +182,42 @@
     </div>
   </div>
 
+  <!-- ================= 업그레이드 ================= -->
+  <div class="card">
+    <h2><span class="ico">⬆</span>다음부터는 프로그램 안에서 업그레이드됩니다</h2>
+    <p>
+      고쳐진 새 판이 나오면 <b>설치 파일을 다시 받지 않아도</b> 됩니다.
+      프로그램 안에서 바로 받습니다.
+    </p>
+    <ol>
+      <li><b>[점검·설정]</b> 화면을 엽니다 (정보부장님 화면입니다)</li>
+      <li>맨 아래 <b>⬆ 업그레이드</b> 칸에서 <b>[🔎 새 판이 있는지 확인]</b></li>
+      <li>새 판이 있으면 <b>[⬆ 지금 받기]</b> → <b>[🔄 새 판으로 다시 시작]</b></li>
+    </ol>
+    <p class="note info">
+      <b>근무기록·명단·서명·사진은 그대로 남습니다.</b> 프로그램 파일만 바뀝니다.
+      받기 전에 자료를 한 번 더 백업하고, 예전 프로그램도 되돌릴 수 있게 보관합니다.<br>
+      받는 크기는 약 <b>150KB</b> 입니다(설치 파일은 33MB 입니다).
+    </p>
+    <p class="note warn">
+      ⚠ <b>아주 예전 판(1.0.x)에는 이 기능이 없습니다.</b>
+      화면 맨 위 학교 이름 옆에 <b>판 번호</b>가 보이지 않으면 그 판입니다.
+      그때는 아래 <b>업데이트 꾸러미</b>를 내려받아 설치 폴더에 풀어 덮어쓰시면 됩니다
+      (학교 방화벽이 인터넷을 막고 있을 때도 이 방법을 씁니다).
+    </p>
+
+    <div id="latestBox" class="note">최신 판을 확인하는 중…</div>
+
+    <p class="note">
+      <b>꾸러미로 손수 올리는 방법</b><br>
+      ① 서버를 끕니다(검은 창 닫기) &nbsp;
+      ② 바탕화면 바로가기 <b>우클릭 → 파일 위치 열기</b> &nbsp;
+      ③ 내려받은 zip 을 그 폴더에 <b>풀어 덮어씁니다</b> &nbsp;
+      ④ 서버를 다시 켜고 판 번호를 확인합니다<br>
+      꾸러미에는 <code>data</code> 폴더가 없으므로 <b>근무기록·명단·서명은 덮이지 않습니다.</b>
+    </p>
+  </div>
+
   <!-- ================= 알아 두실 것 ================= -->
   <div class="card">
     <h2><span class="ico">🔒</span>개인정보와 자료 보관</h2>
@@ -223,5 +260,43 @@
   </footer>
 
 </div>
+
+<script>
+/* 「update/latest.json」 을 읽어 최신 판과 꾸러미 링크를 스스로 채운다.
+   이렇게 해 두면 판이 올라가도 이 페이지를 고칠 일이 없다.
+   같은 폴더의 파일이라 다른 곳에 요청하지 않는다. */
+(function () {
+  var box = document.getElementById('latestBox');
+  var exe = document.getElementById('exeNote');
+  fetch('update/latest.json?t=' + Date.now())
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) {
+      if (!j || !j.version) {
+        box.className = 'note warn';
+        box.innerHTML = '업데이트 꾸러미가 아직 올라오지 않았습니다. 설치 파일로 설치해 주세요.';
+        return;
+      }
+      var kb = j.size ? Math.round(j.size / 1024).toLocaleString('ko-KR') + ' KB' : '';
+      var notes = (j.notes || []).map(function (n) {
+        return '<li>' + String(n).replace(/[<>&]/g, '') + '</li>';
+      }).join('');
+      box.className = 'note info';
+      box.innerHTML =
+        '<b>최신 판 ' + j.version + '</b>' + (j.date ? ' (' + j.date + ')' : '') +
+        ' &nbsp;<a href="update/' + encodeURIComponent(j.zip) + '" download>' +
+        '⬇ 업데이트 꾸러미 내려받기' + (kb ? ' (' + kb + ')' : '') + '</a>' +
+        (notes ? '<ul style="margin:8px 0 0 18px">' + notes + '</ul>' : '');
+      if (exe) {
+        exe.innerHTML =
+          '설치 파일은 <b>처음 배포한 판</b>입니다. 설치한 뒤 프로그램 안의 ' +
+          '<b>[⬆ 업그레이드]</b> 로 최신 판(' + j.version + ')을 받으세요.';
+      }
+    })
+    .catch(function () {
+      box.className = 'note warn';
+      box.innerHTML = '업데이트 정보를 읽지 못했습니다.';
+    });
+})();
+</script>
 </body>
 </html>
