@@ -46,7 +46,16 @@
   .card p:last-child { margin-bottom: 0; }
 
   /* ===== 내려받기 ===== */
-  .dl { text-align: center; padding: 30px 26px; }
+  .dl { text-align: center; padding: 30px 26px; display: flex; gap: 26px; flex-wrap: wrap; }
+  /* 두 칸(처음 설치 / 이미 설치함)이 나란히 선다. 좁으면 저절로 위아래로 쌓인다. */
+  .dl-half { flex: 1 1 300px; min-width: 0; }
+  .dl-half + .dl-half { border-left: 1px solid #e6ecf5; padding-left: 26px; }
+  .dl-when { font-size: 15px; font-weight: 800; color: #7286a0; letter-spacing: -.3px; }
+  .dl .btn.ghost {
+    background: #eef3fb; color: #1d4ed8; box-shadow: none;
+    border: 2px solid #c9dbf5; font-size: 18px; padding: 15px 26px;
+  }
+  .dl .btn.ghost:hover { background: #dfeaf9; }
   .dl .btn {
     display: inline-block; margin: 6px 0 12px;
     padding: 18px 40px; border-radius: 14px;
@@ -104,7 +113,12 @@
     body { padding: 34px 16px 60px; }
     h1 { font-size: 26px; }
     .card { padding: 20px 18px; }
+    .dl { display: block; }
     .dl .btn { display: block; padding: 16px 20px; font-size: 19px; }
+    .dl-half + .dl-half {
+      border-left: 0; padding-left: 0;
+      border-top: 1px solid #e6ecf5; margin-top: 22px; padding-top: 22px;
+    }
   }
 </style>
 </head>
@@ -120,11 +134,28 @@
 
   <!-- ================= 내려받기 ================= -->
   <div class="card dl">
-    <a class="btn" href="https://github.com/dadaschool/dadaschool.github.io/releases/latest">⬇ 설치 파일 내려받기</a>
-    <div class="meta">
-      Windows 10 · 11 &nbsp;|&nbsp; 약 33MB &nbsp;|&nbsp; <b>처음 설치하실 때</b><br>
-      Node.js 설치 · 관리자 권한 <b>필요 없습니다</b><br>
-      <span id="exeNote"></span>
+    <div class="dl-half">
+      <div class="dl-when">처음 설치하실 때</div>
+      <!-- 🔴 Releases **페이지**가 아니라 **파일**을 바로 가리킨다.
+           페이지로 보내면 영어 화면 + 긴 안내문 아래에 파일 목록이 묻혀 못 찾는다
+           (2026-08-25 사용자 신고). 주소에 판 번호가 없으므로 새 판을 내도 여기를 고칠 일이 없다. -->
+      <a class="btn" href="https://github.com/dadaschool/dadaschool.github.io/releases/latest/download/aicodi-setup.exe">⬇ 설치 파일 내려받기</a>
+      <div class="meta">
+        Windows 10 · 11 &nbsp;|&nbsp; 약 33MB<br>
+        Node.js 설치 · 관리자 권한 <b>필요 없습니다</b><br>
+        <span id="exeNote"></span>
+      </div>
+    </div>
+
+    <div class="dl-half">
+      <div class="dl-when">이미 설치하셨다면</div>
+      <a class="btn ghost" id="zipBtn" href="update/latest.json">⬆ 업그레이드 꾸러미 내려받기</a>
+      <div class="meta">
+        <b>보통은 이 파일이 필요 없습니다</b> — 프로그램 안에서<br>
+        [점검·설정] → <b>⬆ 업그레이드</b> 로 받으시면 됩니다.<br>
+        <span id="zipNote">학교 인터넷이 막혀 프로그램이 못 받을 때만 이 파일을 받아
+        <b>📁 파일로 업그레이드</b> 에 올려 주세요.</span>
+      </div>
     </div>
   </div>
 
@@ -198,6 +229,7 @@
       <b>근무기록·명단·서명·사진은 그대로 남습니다.</b> 프로그램 파일만 바뀝니다.
       받기 전에 자료를 한 번 더 백업하고, 예전 프로그램도 되돌릴 수 있게 보관합니다.<br>
       받는 크기는 약 <b>160KB</b> 입니다(설치 파일은 33MB 입니다).
+      맨 위 <b>[⬆ 업그레이드 꾸러미 내려받기]</b> 로도 받으실 수 있습니다.
     </p>
     <p class="note warn">
       ⚠ <b>아주 예전 판(1.0.x)에는 이 기능이 없습니다.</b>
@@ -288,11 +320,17 @@
         (notes ? '<ul style="margin:8px 0 0 18px">' + notes + '</ul>' : '');
       if (exe) {
         /* 설치 파일은 GitHub Releases 에 둔다(저장소 역사에 33MB 씩 쌓이지 않게).
-           단추가 Releases 목록으로 가므로, 거기서 판을 확인하라고 안내한다. */
+           단추가 **파일을 바로** 가리키므로 «어디서 찾으세요» 안내가 필요 없다.
+           판 번호만 글자로 알려 준다. */
         exe.innerHTML =
-          '단추를 누르면 <b>GitHub Releases</b> 로 갑니다. 그 페이지 아래 <b>Assets</b> 의 ' +
-          '<code>aicodi-setup-' + j.version + '.exe</code> 를 눌러 받으세요.<br>' +
-          '(깃허브가 파일 이름에 한글을 넣지 못해 영문 이름입니다)';
+          '받으시는 파일 : <code>aicodi-setup.exe</code> · 최신 판 <b>' + j.version + '</b><br>' +
+          '<a href="https://github.com/dadaschool/dadaschool.github.io/releases">지난 판 · 바뀐 내용 보기</a>';
+      }
+      var zip = document.getElementById('zipBtn');
+      if (zip && j.zip) {
+        zip.setAttribute('href', 'update/' + encodeURIComponent(j.zip));
+        zip.setAttribute('download', '');
+        zip.textContent = '⬆ 업그레이드 꾸러미' + (j.size ? ' (' + Math.round(j.size / 1024).toLocaleString('ko-KR') + ' KB)' : '');
       }
     })
     .catch(function () {
