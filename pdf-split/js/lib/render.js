@@ -13,14 +13,23 @@ const FONTS = new URL('../vendor/standard_fonts/', import.meta.url).href;
 /** pdf.js 문서 열기.
     ⚠ pdf.js 는 넘겨받은 버퍼를 가져가 버린다(detach). 반드시 복사본을 준다 —
       그러지 않으면 같은 파일을 pdf-lib 이 다시 읽을 때 빈 버퍼가 된다. */
-export function openDoc(buf) {
+export function openDoc(buf, { password } = {}) {
   return pdfjsLib.getDocument({
     data: buf.slice(0),
     worker: sharedWorker(),
+    password,                       // 암호가 걸린 PDF 를 열 때만 쓴다(🔓 암호 풀기 탭)
     cMapUrl: CMAP, cMapPacked: true,
     standardFontDataUrl: FONTS,
     isEvalSupported: false          // 필요 없는 기능은 끈다(안전)
   }).promise;
+}
+
+/** 암호 때문에 못 연 것인지 가려낸다. (틀린 암호인지 / 암호가 필요한지) */
+export function passwordProblem(err) {
+  const name = String(err?.name || '');
+  const code = err?.code;                       // 1 = 암호 필요, 2 = 암호 틀림
+  if (name !== 'PasswordException') return null;
+  return code === 2 ? 'wrong' : 'need';
 }
 
 /* 🔴 일꾼(worker)을 «하나만» 만들어 돌려 쓴다.

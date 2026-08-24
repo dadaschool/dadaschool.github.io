@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PDF 도구 — 자르기 · 붙이기 · 용량 줄이기 · 변환</title>
-<meta name="description" content="브라우저 안에서만 처리하는 PDF 도구 — 쪽 자르기, 여러 파일 붙이기, 용량 줄이기, JPG·PNG·PPT 변환">
+<title>PDF 도구 — 구성 · 변환 · 편집 · 보안</title>
+<meta name="description" content="브라우저 안에서만 처리하는 PDF 도구 — 자르기·붙이기·페이지 구성·사진→PDF·그림/PPT 변환·텍스트 추출·페이지 번호·워터마크·서명·용량 줄이기·검열·암호 풀기">
 <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
 <header class="top">
   <h1>📕 PDF 도구</h1>
-  <p class="sub">자르기 · 붙이기 · 용량 줄이기 · 변환</p>
+  <p class="sub">구성 · 변환 · 편집 · 보안</p>
   <p class="safe" title="파일이 서버로 전송되지 않습니다">🔒 이 브라우저 안에서만 처리됩니다</p>
 </header>
 
+<nav class="groups" id="groups" role="tablist"></nav>
 <nav class="tabs" id="tabs" role="tablist"></nav>
 
 <main class="panels" id="panels"></main>
@@ -45,6 +46,7 @@
 <script src="js/vendor/pdf-lib.min.js"></script>
 <script src="js/vendor/jszip.min.js"></script>
 <script src="js/vendor/pptxgen.bundle.js"></script>
+<script src="js/vendor/fontkit.umd.min.js"></script>
 <script type="module" src="js/main.js"></script>
 </body>
 </html>

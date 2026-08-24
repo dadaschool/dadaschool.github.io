@@ -315,3 +315,108 @@ input[type=range]{width:100%; accent-color:var(--main)}
   .prev-frame{min-height:150px}
   .res-list{max-height:120px}
 }
+
+/* ===================================================================
+   2026-08-24 에 늘어난 도구들 (구성 · 사진→PDF · 번호 · 워터마크 · 서명 · 검열 · 글자 · 암호)
+=================================================================== */
+
+/* 큰 묶음 단추 — 작은 탭 위에 한 줄 */
+.groups{
+  width:100%; max-width:1240px; margin:0 auto 8px;
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+.group{
+  display:flex; align-items:center; gap:7px;
+  padding:8px 18px; font:inherit; font-size:16px; font-weight:800;
+  color:var(--ink); background:var(--card);
+  border:2px solid var(--line); border-radius:11px; cursor:pointer;
+}
+.group:hover{background:var(--main-soft)}
+.group.on{border-color:var(--main); background:var(--main-soft); color:var(--main)}
+.group .g-ico{font-size:17px}
+.tabs .tab{padding:7px 15px; font-size:15px}
+
+/* 여러 줄로 늘어놓는 단추 묶음(번호 위치 6개 등) */
+.segmented.wrap .seg{flex:1 1 30%}
+.field.row2{display:flex; gap:12px; flex-wrap:wrap}
+.field.row2 label{display:flex; align-items:center; gap:6px; font-size:14px; color:var(--dim)}
+.sel{padding:7px 10px; font:inherit; font-size:14px; border:2px solid var(--line); border-radius:8px; background:#fff}
+.col{width:46px; height:32px; padding:2px; border:2px solid var(--line); border-radius:8px; background:#fff}
+.file-lbl{display:inline-block; cursor:pointer}
+
+/* 오른쪽을 넓게 쓰는 두 칸(서명·검열·글자 뽑기) */
+.two-col.wide-right{grid-template-columns:340px 1fr}
+
+/* 페이지 구성 */
+.org-tools{
+  flex:none; display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+  padding-bottom:9px; margin-bottom:9px; border-bottom:1px solid var(--line2);
+}
+.thumbs.org{grid-template-columns:repeat(auto-fill, minmax(150px, 1fr))}
+.thumb.org{cursor:grab}
+.thumb.org.dragging{opacity:.4}
+.thumb.org.over{border-color:var(--main); box-shadow:0 0 0 3px #d7e4fb}
+.org-btns{display:flex; gap:4px; justify-content:center; margin-top:4px}
+
+/* 사진 → PDF */
+.img-opts{
+  flex:none; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  padding-bottom:9px; margin-bottom:9px; border-bottom:1px solid var(--line2);
+}
+.img-list{display:block}
+
+/* 쪽 위에 네모 그리기(서명·검열 공용) */
+.board{display:flex; flex-direction:column; height:100%; min-height:0}
+.board-bar{
+  flex:none; display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+  padding-bottom:7px; margin-bottom:7px; border-bottom:1px solid var(--line2);
+}
+.board-no{font-weight:700; font-size:14px}
+.board-stage{flex:1 1 auto; min-height:0; overflow:auto; display:flex; justify-content:center; padding:4px}
+.board-wrap{position:relative; align-self:flex-start; box-shadow:0 2px 10px rgba(20,40,80,.15)}
+.board-page{display:block; max-width:100%; height:auto}
+.board-layer{position:absolute; inset:0; cursor:crosshair; touch-action:none}
+.board-box{position:absolute; border:1px solid rgba(255,255,255,.7)}
+.board-box.temp{opacity:.6}
+.board-x{
+  position:absolute; top:-9px; right:-9px; width:19px; height:19px;
+  display:grid; place-items:center; cursor:pointer;
+  background:#fff; color:var(--warn); border:1px solid var(--warn);
+  border-radius:50%; font-size:11px; font-weight:700;
+}
+
+/* 서명판 */
+.sign-pad{position:relative; border:2px dashed var(--line); border-radius:10px; background:#fff}
+.sign-canvas{display:block; width:100%; height:auto; touch-action:none; cursor:crosshair}
+.sign-hint{position:absolute; inset:0; display:grid; place-items:center; pointer-events:none}
+
+/* 글자 뽑기 */
+.txt-out{
+  width:100%; height:calc(100% - 60px); min-height:200px; resize:none;
+  padding:10px 12px; font:inherit; font-size:14px; line-height:1.6;
+  border:2px solid var(--line); border-radius:9px; background:#fff; white-space:pre-wrap;
+}
+
+/* 암호 풀기 — 책임 안내 */
+.agree-card{
+  flex:none; margin-bottom:10px; padding:12px 16px;
+  background:var(--warn-bg); border:2px solid #f0b4ae; border-radius:12px;
+}
+.agree-card h3{margin:0 0 7px; font-size:16px; color:var(--warn)}
+.agree-card ul{margin:0 0 9px; padding-left:20px; font-size:13.5px; line-height:1.6}
+.agree-card li{margin:2px 0}
+.agree-check{display:flex; align-items:center; gap:7px; font-size:14.5px; font-weight:700; cursor:pointer}
+.dz-mount.locked{opacity:.4; pointer-events:none}
+.pw-msg{margin-top:6px}
+.pw-msg.good{color:var(--ok); font-weight:700}
+.pw-msg.bad{color:var(--warn); font-weight:700}
+
+@media (max-width:1000px){
+  .two-col.wide-right{grid-template-columns:1fr}
+}
+@media (min-width:1001px) and (max-height:700px){
+  .groups{margin-bottom:6px}
+  .group{padding:6px 14px; font-size:15px}
+  .agree-card{padding:9px 13px}
+  .agree-card ul{font-size:12.5px}
+}
