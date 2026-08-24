@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>에듀폼2 — 준비 중</title>
+<title>에듀폼2 — 교내 서버판</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23103b6f'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E%E2%98%B0%3C/text%3E%3C/svg%3E">
 <style>
   body {
@@ -27,6 +27,18 @@
   }
   .notice b { color: #103b6f; }
   h2 { font-size: 19px; margin: 32px 0 12px; color: #103b6f; }
+  .go {
+    display: inline-block;
+    margin: 0 8px 8px 0;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: #103b6f;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .go.alt { background: #fff; color: #103b6f; border: 2px solid #103b6f; }
   ul { list-style: none; margin: 0; padding: 0; }
   ul li {
     background: #fff;
@@ -44,26 +56,37 @@
 <body>
 <div class="wrap">
   <h1>에듀폼2</h1>
-  <p class="lead">학교 내부 서버에서 운영하는 판입니다.</p>
-
+  <p class="lead">학교 안 컴퓨터에서 운영하는 판입니다. 학생 자료가 학교 밖으로 나가지 않습니다.</p>
   <div class="notice">
-    <b>준비 중입니다.</b><br>
-    내부 서버 구축이 끝나면 이 자리에 접속 주소를 안내합니다.
-    교내망에서만 접속할 수 있습니다.
+    <b>접속 주소는 서버를 세운 뒤 이 자리에 안내합니다.</b><br>
+    교내망에서만 열립니다. 학교 밖에서는 접속되지 않습니다.
   </div>
+
+  <h2>설치하기</h2>
+  <p class="lead" style="margin:0 0 14px">설치 파일과 절차가 깃허브에 있습니다.</p>
+  <a class="go" href="https://github.com/dadaschool/eduform2">깃허브에서 받기</a>
+  <a class="go alt" href="https://github.com/dadaschool/eduform2/blob/main/SELFHOST.md">설치 안내서 보기</a>
+
+  <h2>무엇으로 돌아가나</h2>
+  <ul>
+    <li><b>윈도우 프로그램만 씁니다.</b> Postgres · PostgREST · Node.js —
+      리눅스도 Docker 도 필요 없습니다.</li>
+    <li><b>전부 무료입니다.</b> 라이선스 비용이 없습니다.</li>
+    <li><b>상시 켜두는 컴퓨터 한 대</b>로 충분합니다. 메모리 4GB 면 됩니다.</li>
+  </ul>
 
   <h2>에듀폼과 무엇이 다른가</h2>
   <ul>
     <li><b>기능은 같습니다.</b> 평가 · 과제 · 관찰기록 · 배지 · 쪽지 · 생활기록부 초안.</li>
-    <li><b>학생 정보가 학교 안에 남습니다.</b> 외부 클라우드에 저장하지 않고
-      학교 서버에 둡니다.</li>
+    <li><b>학생 정보가 학교 안에 남습니다.</b> 외부 클라우드에 저장하지 않습니다.</li>
     <li><b>교내망에서만 접속합니다.</b> 외부에서는 열리지 않습니다.</li>
     <li><b>여러 교사가 함께 씁니다.</b> 전체 관리자가 교사 계정을 만들고 관리합니다.</li>
+    <li><b>AI 기능만</b> 바깥 인터넷을 씁니다. 막혀 있으면 그 기능만 안 됩니다.</li>
+    <li><b>쪽지 알림이 15초 간격</b>입니다. 실시간 알림 서버는 윈도우 빌드가 없습니다.</li>
   </ul>
 
-  <!-- 내부 서버 주소가 정해지면 위 .notice 를 아래 형태의 접속 버튼으로 교체한다.
+  <!-- 내부 서버 주소가 정해지면 위 .notice 를 접속 버튼으로 교체한다.
        <a class="go" href="http://내부서버주소:3000/login">에듀폼2 접속하기</a> -->
-
   <a class="back" href="../">← 수업용 웹앱 모음으로</a>
 </div>
 </body>
