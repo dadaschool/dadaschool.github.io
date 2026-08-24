@@ -120,7 +120,7 @@
 
   <!-- ================= 내려받기 ================= -->
   <div class="card dl">
-    <a class="btn" href="AI코디네이터_설치.exe" download>⬇ 설치 파일 내려받기</a>
+    <a class="btn" href="https://github.com/dadaschool/dadaschool.github.io/releases/latest">⬇ 설치 파일 내려받기</a>
     <div class="meta">
       Windows 10 · 11 &nbsp;|&nbsp; 약 33MB &nbsp;|&nbsp; <b>처음 설치하실 때</b><br>
       Node.js 설치 · 관리자 권한 <b>필요 없습니다</b><br>
@@ -197,7 +197,7 @@
     <p class="note info">
       <b>근무기록·명단·서명·사진은 그대로 남습니다.</b> 프로그램 파일만 바뀝니다.
       받기 전에 자료를 한 번 더 백업하고, 예전 프로그램도 되돌릴 수 있게 보관합니다.<br>
-      받는 크기는 약 <b>150KB</b> 입니다(설치 파일은 33MB 입니다).
+      받는 크기는 약 <b>160KB</b> 입니다(설치 파일은 33MB 입니다).
     </p>
     <p class="note warn">
       ⚠ <b>아주 예전 판(1.0.x)에는 이 기능이 없습니다.</b>
@@ -287,9 +287,11 @@
         '⬇ 업데이트 꾸러미 내려받기' + (kb ? ' (' + kb + ')' : '') + '</a>' +
         (notes ? '<ul style="margin:8px 0 0 18px">' + notes + '</ul>' : '');
       if (exe) {
+        /* 설치 파일은 GitHub Releases 에 둔다(저장소 역사에 33MB 씩 쌓이지 않게).
+           단추가 Releases 목록으로 가므로, 거기서 판을 확인하라고 안내한다. */
         exe.innerHTML =
-          '설치 파일은 <b>처음 배포한 판</b>입니다. 설치한 뒤 프로그램 안의 ' +
-          '<b>[⬆ 업그레이드]</b> 로 최신 판(' + j.version + ')을 받으세요.';
+          '단추를 누르면 <b>GitHub Releases</b> 로 갑니다. 그 페이지 아래 ' +
+          '<b>AI코디네이터_설치.exe</b> 를 눌러 받으세요 (지금 최신 판 ' + j.version + ').';
       }
     })
     .catch(function () {
