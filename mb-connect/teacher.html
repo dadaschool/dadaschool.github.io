@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>선생님용 — 마이크로비트 연결 문제 만들기</title>
-<link rel="stylesheet" href="css/app.css?v=202608241823">
+<link rel="stylesheet" href="css/app.css?v=202608241923">
 </head>
 <body>
 
@@ -47,10 +47,19 @@
       <div id="codeList"></div>
     </div>
 
+    <!-- 문제를 «쓸 곳» 이 아직 없을 때. PC 에서 서버를 켜라고 하지 않는다 —
+         한 번만 해 두면 되는 설정을 안내한다(2026-08-24 사용자 지시). -->
     <div class="note red" id="noServer" hidden>
-      <b>지금은 문제 목록을 볼 수 없습니다.</b> 이 화면을 파일로 직접 열었거나(더블클릭)
-      웹에 올린 것을 보고 있습니다. 문제를 만들고 고치려면 교사 PC 에서
-      <code>python server.py</code> 로 켜고 <code>http://localhost:8900/teacher.html</code> 로 들어오세요.
+      <b>아직 문제를 담을 곳이 정해지지 않았습니다.</b>
+      <b>한 번만</b> 설정해 두면 그 뒤로는 이 화면에서 바로 만들고 고치고 지울 수 있습니다
+      (교사 PC 에서 아무것도 켜지 않아도 됩니다).
+      <br><br>
+      → 앱 폴더의 <code>worker/설치안내.md</code> 를 따라 <b>Cloudflare Worker</b> 를 만들고(약 10분),
+      <code>js/config.js</code> 의 <code>WORKER</code> 에 주소를 넣은 뒤
+      <code>python tools/사이트에_올리기.py --push</code> 를 한 번 돌립니다.
+      <br><br>
+      <span class="pm">급할 때는 교사 PC 에서 <code>python server.py</code> 로 켜고
+      <code>http://localhost:8900/teacher.html</code> 로 들어와도 똑같이 됩니다.</span>
     </div>
 
     <div class="card" id="teacherNote"></div>
@@ -188,15 +197,16 @@
   </div><!-- /#mainWrap -->
 </div>
 
-<script src="js/lock.js?v=202608241823"></script>
-<script src="js/locked.js?v=202608241823"></script>
-<script src="js/parts.js?v=202608241823"></script>
-<script src="js/board.js?v=202608241823"></script>
-<script src="js/judge.js?v=202608241823"></script>
-<script src="js/code.js?v=202608241823"></script>
-<script src="js/print.js?v=202608241823"></script>
-<script src="js/sheet.js?v=202608241823"></script>
-<script src="js/teacher.js?v=202608241823"></script>
+<script src="js/lock.js?v=202608241923"></script>
+<script src="js/locked.js?v=202608241923"></script>
+<script src="js/config.js?v=202608241923"></script>
+<script src="js/parts.js?v=202608241923"></script>
+<script src="js/board.js?v=202608241923"></script>
+<script src="js/judge.js?v=202608241923"></script>
+<script src="js/code.js?v=202608241923"></script>
+<script src="js/print.js?v=202608241923"></script>
+<script src="js/sheet.js?v=202608241923"></script>
+<script src="js/teacher.js?v=202608241923"></script>
 <script>Teacher.boot();</script>
 </body>
 </html>

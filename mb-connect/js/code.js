@@ -126,33 +126,71 @@
 
   /* ── 6자리 숫자 코드 ────────────────────────────────────────
      긴 코드(MBC1.eyJ2Ijox…)를 학생에게 불러 주는 것이 너무 어려웠다(사용자 지적).
-     6자리에는 문제를 담을 수 없으므로 **문제는 서버에 두고 번호만 부른다.**
+     6자리에는 문제를 담을 수 없으므로 **문제를 어딘가에 두고 번호만 부른다.**
 
-     ⚠ 그래서 이 기능은 **서버로 열었을 때만** 된다(`python server.py`).
-       더블클릭(file://)이나 GitHub Pages 에서는 `ping()` 이 실패하고
-       화면이 코드 칸을 스스로 숨긴다. 주소·붙여넣기 코드·파일은 그대로 쓸 수 있다.
-     ⚠ 주소는 반드시 **상대 주소**('api/…')로 둔다. 하위 폴더에 올라가면
-       그 폴더 아래를 찾아 404 가 되고, 그것이 «서버 없음» 판정이 된다. */
+     ── 그 «어딘가» 가 세 군데다 (순서대로 본다) ──────────────
+       ① `js/config.js` 의 **Worker**  — 채워져 있으면 늘 이쪽. 사이트에서도 쓰기가 된다
+       ② 지금 페이지의 **server.py**   — 교사 PC 에서 켤 때
+       ③ 사이트에 함께 올려 둔 **파일**(`q/NNNNNN.json`) — 읽기만
+
+     🔴 ①②의 API 모양이 **같다.** 그래서 화면 코드는 어느 쪽인지 몰라도 된다.
+     🔴 ① 을 채우면 **교사가 PC 에서 아무것도 하지 않아도** 사이트에서 문제를 만들고
+        고치고 지운다(2026-08-24 사용자 지시). 만드는 방법은 `worker/설치안내.md`.
+     ⚠ ①이 비어 있으면 주소는 **상대 주소**('api/…')가 된다. 하위 폴더에 올라가면
+       그 폴더 아래를 찾아 404 가 되고, 그것이 «쓸 곳 없음» 판정이 된다. */
 
   /* 교사 코드 — 화면이 열릴 때 한 번 받아 **메모리에만** 들고 있다.
      저장하지 않는다(새로고침하면 다시 넣는다) — `mb-bluetooth` 와 같은 판단이다.
-     쓰기 요청(만들기·고치기·지우기)에 머리글로 붙는다. 서버가 그것을 본다. */
-  var teacherCode = "";
-  function setTeacher(code) { teacherCode = String(code || ""); }
+
+     🔴 **평문이 아니라 해시(SHA-256)를 머리글로 보낸다.** 이유가 둘이다.
+       ① HTTP 머리글에는 **ASCII 만** 넣을 수 있다. 교사 코드에 한글이 한 자라도 있으면
+          브라우저가 요청을 아예 만들지 못한다(`Cannot convert argument to a ByteString`).
+          검사(`verify_worker.mjs`)가 이 오류로 실제로 걸렸다.
+       ② 평문이 네트워크를 오가지 않는다.
+     서버·Worker 는 저장해 둔 해시와 **그대로** 견준다(다시 해시하지 않는다).
+     ⚠ 머리글 이름이 `X-Teacher-Hash` 다 — 예전 이름(`X-Teacher-Code`)과 다르다.
+       한쪽만 고치면 **조용히 통과하는 대신 403 으로 막힌다**(그러라고 이름을 바꿨다). */
+  var teacherHashP = null;
+
+  function sha256hex(s) {
+    var enc = new TextEncoder().encode(s);
+    return crypto.subtle.digest("SHA-256", enc).then(function (buf) {
+      var b = new Uint8Array(buf), out = "";
+      for (var i = 0; i < b.length; i++) out += ("0" + b[i].toString(16)).slice(-2);
+      return out;
+    });
+  }
+
+  function setTeacher(code) {
+    var s = String(code || "");
+    teacherHashP = s ? sha256hex(s) : null;
+    return teacherHashP;
+  }
+
+  /* 어디에 물을까 —
+       ① `js/config.js` 의 `WORKER` 가 채워져 있으면 **그 Worker**
+          (GitHub Pages 에서도 문제를 만들고 고칠 수 있게 하는 길)
+       ② 아니면 지금 페이지가 있는 곳(교사 PC 의 `server.py`)
+     🔴 두 곳의 API 모양이 **같다.** 그래서 화면 코드는 어느 쪽인지 몰라도 된다. */
+  function base() {
+    var w = (g.CONFIG && g.CONFIG.WORKER) || "";
+    return w ? w.replace(/\/+$/, "") + "/" : "";
+  }
 
   function jfetch(path, opt, done) {
     if (!g.fetch) { done(null, "이 브라우저에서는 쓸 수 없습니다"); return; }
     opt = opt || {};
-    if (teacherCode) {
-      opt.headers = Object.assign({}, opt.headers || {}, { "X-Teacher-Code": teacherCode });
-    }
-    g.fetch("api/" + path, opt)
+    (teacherHashP || Promise.resolve("")).then(function (hash) {
+      if (hash) opt.headers = Object.assign({}, opt.headers || {}, { "X-Teacher-Hash": hash });
+      return g.fetch(base() + "api/" + path, opt);
+    })
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (x) { done(x.ok ? x.j : null, x.ok ? "" : (x.j && x.j.error) || "오류"); })
       .catch(function () { done(null, "서버에 연결할 수 없습니다"); });
   }
 
-  /* 서버가 있는지 한 번만 물어 두고 기억한다 (`null` = 아직 모른다) */
+  /* 문제를 «쓸 곳» 이 있는지 한 번만 물어 두고 기억한다 (`null` = 아직 모른다).
+     Worker 가 설정되어 있으면 사이트에서도 참이 된다 — 그때는 PC 서버가 필요 없다. */
   var serverOk = null;
   function ping(done) {
     if (serverOk !== null) { done(serverOk); return; }
@@ -182,8 +220,17 @@
   function byCode(code, done) {
     var c = String(code || "").replace(/\D/g, "");
     if (c.length !== 6) { done(null, "6자리 숫자를 넣어 주세요"); return; }
-    plain("q/" + c + ".json", function (o) {
-      done(o ? fill(o) : null, "그 번호의 문제를 찾을 수 없습니다");
+    plain(base() + "q/" + c + ".json", function (o) {
+      if (o) { done(fill(o), ""); return; }
+      /* Worker 를 쓰는데 그 번호가 없으면, 예전에 사이트에 함께 올려 둔 파일도 찾아본다.
+         (Worker 를 쓰기 전에 만든 문제가 아직 남아 있을 수 있다) */
+      if (base()) {
+        plain("q/" + c + ".json", function (o2) {
+          done(o2 ? fill(o2) : null, "그 번호의 문제를 찾을 수 없습니다");
+        });
+        return;
+      }
+      done(null, "그 번호의 문제를 찾을 수 없습니다");
     });
   }
 

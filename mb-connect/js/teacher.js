@@ -314,10 +314,10 @@
       /* 사이트(GitHub Pages)에서는 목록을 만들 수 없다 — 서버가 없다.
          빈 칸으로 두면 «문제가 하나도 없나» 로 읽히므로 왜 그런지 적어 준다. */
       $("codeList").innerHTML =
-        '<p class="hint">문제 목록은 <b>교사 PC 의 서버</b>에서만 보입니다(아래 안내 참고).<br>' +
+        '<p class="hint">문제를 담을 곳이 아직 정해지지 않았습니다 — 아래 안내를 한 번만 따라 주세요.<br>' +
         "학생에게 이미 알려 준 6자리 번호는 이 사이트에서 그대로 씁니다.</p>";
       $("btnNew").disabled = true;
-      $("btnNew").title = "문제를 만들려면 교사 PC 에서 python server.py 로 켜세요";
+      $("btnNew").title = "worker/설치안내.md 를 한 번만 따라 하면 여기서 바로 만들 수 있습니다";
       return;
     }
     $("btnNew").disabled = false;
