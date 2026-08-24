@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마이크로비트 연결 시뮬레이터</title>
+<link rel="stylesheet" href="css/app.css?v=202608241755">
+</head>
+<body>
+
+<header class="top">
+  <h1 id="title">마이크로비트 연결 시뮬레이터</h1>
+  <span class="badge">확장보드에 센서 연결하기</span>
+  <span class="sp"></span>
+  <a href="teacher.html">선생님용 ▸</a>
+</header>
+
+<div class="wrap">
+
+  <!-- ── 시작 화면 : 주소로 들어오면 이것만 보인다 ─────────────────
+       6자리 숫자를 넣으면 그 문제로 들어간다. 문제를 받기 전에 보드·부품을
+       미리 보여 주면 학생이 «무엇을 해야 하는지» 헷갈린다(그래서 감춰 둔다). -->
+  <div class="card startcard" id="startCard">
+    <h2>선생님이 알려 준 <b>6자리 숫자</b>를 넣으세요</h2>
+    <div class="row">
+      <input type="text" id="code6" class="big6" inputmode="numeric" maxlength="7"
+             placeholder="- - - - - -" aria-label="6자리 숫자 코드" autocomplete="off">
+      <button id="btnGo6" class="pri big">시작하기 ▶</button>
+    </div>
+    <p class="hint" id="code6msg">여섯 자리를 다 넣으면 저절로 시작합니다.</p>
+    <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
+    <div class="row">
+      <span class="hint">번호가 없으면 먼저 연습해 볼 수 있습니다.</span>
+      <button id="btnDemo">🔰 보기 문제로 연습하기</button>
+    </div>
+  </div>
+
+  <!-- ── 문제를 받은 뒤 보이는 것 전부 ───────────────────────── -->
+  <div id="playWrap" hidden>
+
+    <div class="card">
+      <div class="scorebar">
+        <span id="score">이은 선 <b>0</b></span>
+        <span class="sp" style="flex:1"></span>
+        <span class="hint">부품의 핀을 누르고 → 보드의 구멍을 누르면 선이 생깁니다.
+          번호 동그라미를 누르면 지워집니다.</span>
+      </div>
+      <p class="hint" style="margin:0">준비물 — <span id="prep"></span></p>
+    </div>
+
+    <!-- 선 색 안내 + 단추 -->
+    <div class="card">
+      <div class="row">
+        <b>선 색</b>
+        <div class="picks" id="picks"></div>
+        <span class="pm">색은 앱이 정해 줍니다</span>
+        <span style="flex:1"></span>
+        <button id="btnHint">💡 힌트</button>
+        <button id="btnUndo">↶ 되돌리기</button>
+        <button id="btnClear">🧹 선 지우기</button>
+        <button id="btnCheck" class="pri big">확인하기</button>
+      </div>
+      <p class="hint" id="tip" style="margin:8px 0 0">&nbsp;</p>
+    </div>
+
+    <!-- 무대 -->
+    <div class="card">
+      <div class="stagescroll">
+        <div class="stage" id="stage">
+          <svg class="wires" id="wires" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="parts" id="parts"></div>
+          <div id="boardHost"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 완성 알림 · 확장프로그램 -->
+    <div id="doneBox"></div>
+
+    <!-- 연결표 — 늘 보인다. 이 표를 보고 실물에 꽂는다 -->
+    <div class="card">
+      <div class="row" style="margin-bottom:8px">
+        <h2 style="margin:0">연결표 <span class="pm">— 이 표를 보고 실물에 꽂습니다</span></h2>
+        <span style="flex:1"></span>
+        <button id="btnPrintTable" disabled>🖨 연결표 인쇄</button>
+      </div>
+      <div id="tableBox"></div>
+    </div>
+
+    <!-- 채점 결과 -->
+    <div class="card">
+      <h2>확인 결과</h2>
+      <div class="res" id="res"></div>
+    </div>
+
+    <!-- 기억할 것 -->
+    <div class="card">
+      <h2>기억할 것 네 가지</h2>
+      <table class="tb">
+        <tr><th class="c" style="width:74px">줄</th><th>무엇을 꽂는 자리인가</th></tr>
+        <tr><td class="c"><span class="swatch" style="background:#f5c116"></span><b>S</b></td>
+            <td><b>신호</b> — 센서가 읽은 값이 오가는 선. <b>핀 번호가 중요하다</b>(코드에서 정한 번호와 같아야 한다)</td></tr>
+        <tr><td class="c"><span class="swatch" style="background:#d63c3c"></span><b>V</b></td>
+            <td><b>전원(+)</b> — 어느 번호든 된다. 단, <b>3V3 인지 5V 인지</b>가 중요하다</td></tr>
+        <tr><td class="c"><span class="swatch" style="background:#2b3a52"></span><b>G</b></td>
+            <td><b>접지(−)</b> — 어느 번호든 된다</td></tr>
+        <tr><td class="c"><b>IIC</b></td>
+            <td>I2C 부품 전용 자리. <b>SDA 는 19번, SCL 은 20번</b>으로 정해져 있어 바꿀 수 없다</td></tr>
+      </table>
+      <p class="hint">선 색은 사람이 알아보기 위한 약속이다 — <b>빨강 = 전원, 검정 = 접지</b>, 신호는 다른 색.</p>
+    </div>
+
+    <!-- 다른 문제 열기 — 6자리 숫자만 쓴다 (긴 코드·파일은 쓰지 않는다) -->
+    <div class="card">
+      <div class="row">
+        <b>다른 문제 열기</b>
+        <input type="text" id="code6b" class="mid6" inputmode="numeric" maxlength="7"
+               placeholder="6자리 숫자" aria-label="다른 문제의 6자리 숫자 코드" autocomplete="off">
+        <button id="btnGo6b" class="pri">열기 ▶</button>
+        <span class="hint" id="code6bmsg"></span>
+        <span style="flex:1"></span>
+        <button id="btnBackStart" class="gh">처음 화면으로</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/parts.js?v=202608241755"></script>
+<script src="js/board.js?v=202608241755"></script>
+<script src="js/judge.js?v=202608241755"></script>
+<script src="js/code.js?v=202608241755"></script>
+<script src="js/app.js?v=202608241755"></script>
+<script>App.boot();</script>
+</body>
+</html>

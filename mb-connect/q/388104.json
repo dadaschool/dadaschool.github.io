@@ -1,0 +1,34 @@
+{
+  "v": 1,
+  "t": "불꽃·미세먼지 회로도",
+  "v1": "5V",
+  "v2": "3V3",
+  "usb": true,
+  "color": true,
+  "ext": [
+    "SONAR"
+  ],
+  "parts": [
+    {
+      "id": "hcsr04",
+      "pin": {
+        "Trig": 0,
+        "Echo": 1
+      }
+    },
+    {
+      "id": "flame",
+      "pin": {
+        "DO": 2,
+        "AO": ""
+      }
+    },
+    {
+      "id": "dust",
+      "pin": {
+        "LED": 3,
+        "Vo": 4
+      }
+    }
+  ]
+}

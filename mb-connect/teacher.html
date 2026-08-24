@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>선생님용 — 마이크로비트 연결 문제 만들기</title>
+<link rel="stylesheet" href="css/app.css?v=202608241755">
+</head>
+<body>
+
+<header class="top">
+  <h1>선생님용 — 연결 문제 만들기</h1>
+  <span class="badge">중학교 정보 · 피지컬 컴퓨팅</span>
+  <span class="sp"></span>
+  <a href="index.html">◀ 학생 화면</a>
+</header>
+
+<div class="wrap">
+
+  <!-- ① 제목 -->
+  <div class="card">
+    <h2>① 제목</h2>
+    <input type="text" class="wide" id="t" placeholder="예 : 초음파센서 회로도">
+    <p class="hint">학생 화면 맨 위와 인쇄용 활동지의 제목이 됩니다.</p>
+  </div>
+
+  <!-- ② 부품 -->
+  <div class="card">
+    <h2>② 사용할 센서·부품 <span class="pm">— 하나 이상, 몇 개든 담을 수 있습니다</span></h2>
+    <div class="chosen" id="chosen"></div>
+
+    <h3>담을 부품 고르기 <span class="pm">— 학교 키트(Keyestudio 37-in-1) 42개</span></h3>
+    <div id="palette"></div>
+
+    <div class="row" style="margin-top:12px">
+      <button id="btnCustom" class="gh">＋ 목록에 없는 부품 직접 만들기 ▾</button>
+    </div>
+
+    <div id="customBox" hidden style="margin-top:12px;border:1px dashed var(--line);border-radius:12px;padding:14px">
+      <div class="row">
+        <label>이름 <input type="text" id="cname" placeholder="예 : 기울기 센서" style="width:200px"></label>
+        <label>모델 <input type="text" id="cmodel" placeholder="예 : SW-520D" style="width:160px"></label>
+        <label>필요한 전원
+          <select id="cpower"><option value="3V3">3V3 (기본)</option><option value="5V">5V — 꼭 필요할 때만</option></select>
+        </label>
+        <label>확장프로그램 <input type="text" id="cext" placeholder="없으면 비워 두세요" style="width:170px"></label>
+      </div>
+      <p class="hint" style="margin:10px 0 4px">핀 목록 — 이름과 «무슨 핀인지»를 정합니다. 이것이 채점 규칙을 정합니다.</p>
+      <div id="cpins"></div>
+      <div class="row">
+        <button id="btnPinAdd" class="gh">＋ 핀 추가</button>
+        <span style="flex:1"></span>
+        <input type="text" id="cnote" class="wide" placeholder="학생에게 보여 줄 한 줄 설명 (선택)" style="flex:1;min-width:200px">
+        <button id="btnCustomAdd" class="pri">이 부품 담기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 보드 설정 -->
+  <div class="card">
+    <h2>③ 보드 설정</h2>
+    <div class="row">
+      <label>점퍼 <b>V1</b> (왼쪽 핀열)
+        <select id="v1"><option value="3V3">3V3</option><option value="5V">5V</option></select></label>
+      <label>점퍼 <b>V2</b> (오른쪽·IIC·SPI)
+        <select id="v2"><option value="3V3">3V3</option><option value="5V">5V</option></select></label>
+      <label class="ck"><input type="checkbox" id="ckUsb"> 보조배터리(micro USB) 자리 보이기</label>
+    </div>
+    <p class="hint">
+      <b>모든 부품의 기본 전원은 3V3</b> 입니다. 마이크로비트 핀이 3.3V 까지만 견디기 때문입니다.
+      <b>5V</b> 로 표시된 부품(초음파 · 인체 감지 · MQ-3 · 미세먼지 · 서보 · LCD · 블루투스)만
+      5V 를 씁니다 — 전원 없이는 아예 돌지 않는 부품들입니다.
+    </p>
+    <div class="note">
+      <b>점퍼가 왜 중요한가</b> — <code>V</code> 줄에 3V3 이 나오는지 5V 가 나오는지는 이 점퍼가 정합니다.
+      점퍼를 <b>3V3</b> 으로 두면 5V 가 필요한 센서(초음파·LCD·서보 등)의 전원선은
+      <b><code>5V 단자</code>에 꽂아야 정답</b>이 됩니다 — 보내 주신 회로도에서 빨간 선이
+      핀열이 아니라 오른쪽 아래 <code>5V</code> 로 간 이유가 이것입니다.
+    </div>
+    <div id="warn"></div>
+  </div>
+
+  <!-- ④ 확장프로그램 -->
+  <div class="card">
+    <h2>④ 확장프로그램 <span class="pm">— 넣지 않아도 됩니다</span></h2>
+    <p class="hint">고른 부품에 필요한 것을 자동으로 제안합니다. 눌러서 켜고 끕니다.</p>
+    <div class="chips" id="extchips" style="margin-bottom:10px"></div>
+    <div class="row">
+      <input type="text" id="extIn" placeholder="직접 적기 (예 : SONAR)" style="width:220px">
+      <button id="btnExtAdd">추가</button>
+    </div>
+  </div>
+
+  <!-- ⑤ 6자리 코드 -->
+  <div class="card codecard" id="mkCode">
+    <h2>⑤ 학생에게 알려 줄 <b>6자리 숫자</b> 만들기 <span class="pm">— 가장 쉬운 방법</span></h2>
+    <p class="hint">
+      숫자만 불러 주면 됩니다. 학생은 <b>같은 주소</b>로 들어와 그 숫자를 넣습니다
+      (칸을 채우면 저절로 시작합니다).
+    </p>
+    <div class="row" id="code6bar"></div>
+    <div class="row" style="margin-top:10px"><span id="code6out"></span></div>
+    <h3>지난에 만든 문제 <span class="pm">— 「✏️ 불러와 고치기」 로 고쳐 같은 번호에 저장할 수 있습니다</span></h3>
+    <div id="codeList"></div>
+  </div>
+
+  <div class="note red" id="noServer" hidden>
+    <b>지금은 6자리 코드를 쓸 수 없습니다.</b> 이 화면을 파일로 직접 열었거나(더블클릭)
+    웹에 올린 것을 보고 있습니다. 코드를 쓰려면 교사 PC 에서
+    <code>python server.py</code> 로 켜고 <code>http://localhost:8900/teacher.html</code> 로 들어오세요.
+    아래의 <b>주소·긴 코드·파일</b> 세 방법은 그대로 쓸 수 있습니다.
+  </div>
+
+  <!-- ⑥ 내보내기 -->
+  <div class="card">
+    <h2>⑥ 다른 방법으로 주기</h2>
+    <p class="hint" id="sum"></p>
+    <div class="row">
+      <button id="btnPreview" class="pri big">▶ 미리보기 (학생 화면으로 열기)</button>
+      <button id="btnCopyUrl">🔗 학생용 주소 복사</button>
+      <button id="btnCopyCode">📋 문제 코드 복사</button>
+      <button id="btnFile">💾 문제 파일 내려받기</button>
+      <label class="ck">이어서 고치기 : <input type="file" id="fileIn" accept=".json,application/json"></label>
+    </div>
+    <h3>학생용 주소</h3>
+    <div class="out" id="out"></div>
+    <h3>붙여넣기용 문제 코드</h3>
+    <div class="out" id="outCode"></div>
+    <p class="hint">주소·코드·파일 세 가지는 모두 같은 문제를 담고 있습니다. 편한 것으로 나눠 주세요.</p>
+  </div>
+
+  <!-- ⑦ 인쇄 -->
+  <div class="card">
+    <h2>⑦ 인쇄</h2>
+    <div class="row">
+      <button id="btnSheet" class="pri big">🖨 인쇄용 활동지 내려받기</button>
+      <button id="btnKey">🖨 교사용 정답표</button>
+    </div>
+    <p class="hint">
+      활동지는 학생이 화면에서 하는 것과 <b>같은 일</b>을 종이에서 하게 만든 것입니다 —
+      연결표를 채우고 회로도를 직접 그립니다. <b>정답은 들어 있지 않습니다.</b>
+      인쇄 창에서 「PDF 로 저장」 을 고르면 파일로도 받을 수 있습니다.
+    </p>
+    <div class="note">태블릿이 모자란 반·인터넷이 막힌 교실·결석생 보충에 씁니다.</div>
+  </div>
+
+  <!-- 운영 안내 -->
+  <div class="card">
+    <h2>수업에서 쓰는 방법</h2>
+    <ol>
+      <li><b>실물을 꽂기 전에</b> 화면에서 먼저 잇게 합니다. 잘못 꽂아 부품이 타는 일을 줄입니다.</li>
+      <li>학생이 <b>확인하기</b> 를 누르면 틀린 선마다 <b>왜 틀렸는지</b>가 나옵니다. 교사가 돌아다니며 볼 필요가 없습니다.</li>
+      <li>다 맞히면 <b>연결표</b>가 만들어집니다. 그 표를 보며 실물에 꽂게 합니다.</li>
+      <li>같은 부품으로 <b>핀 번호만 바꿔</b> 반마다 다른 문제를 낼 수 있습니다(난이도는 같습니다).</li>
+    </ol>
+
+    <h3>채점 규칙 (학생에게 그대로 알려 주어도 됩니다)</h3>
+    <table class="tb">
+      <tr><th>핀</th><th>정답 기준</th><th>왜</th></tr>
+      <tr><td class="c"><b>전원(+)</b></td><td><code>V</code> 줄 아무 번호, 또는 <code>5V</code>·<code>3V3</code> 단자<br>단, <b>필요한 전압이 맞아야</b> 한다</td>
+          <td>전원은 어느 구멍이나 같은 줄로 이어져 있다</td></tr>
+      <tr><td class="c"><b>접지(−)</b></td><td><code>G</code> 줄 아무 번호</td><td>위와 같다</td></tr>
+      <tr><td class="c"><b>신호</b></td><td>정해진 번호의 <code>S</code> 구멍만</td>
+          <td>코드에서 정한 핀 번호와 같아야 값이 오간다</td></tr>
+      <tr><td class="c"><b>I2C</b></td><td><code>SDA</code>=19번 · <code>SCL</code>=20번 고정</td>
+          <td>보드에 그 두 핀으로만 배선되어 있다</td></tr>
+      <tr><td class="c"><b>선 색</b></td><td>틀림이 아니라 <b>주의(⚠)</b> 로만 알려 준다</td>
+          <td>색은 사람이 알아보기 위한 약속이다</td></tr>
+    </table>
+
+    <h3>관련 성취기준 <span class="pm">(2022 개정 · 중학교 정보)</span></h3>
+    <table class="tb">
+      <tr><th class="c" style="width:120px">기준</th><th>내용</th></tr>
+      <tr><td class="c"><b>[9정01-02]</b></td><td>피지컬 컴퓨팅의 개념을 이해하고 생활 속 적용 사례로 가치를 판단한다</td></tr>
+      <tr><td class="c"><b>[9정01-03]</b></td><td>문제 해결 목적에 맞는 피지컬 컴퓨팅 구성요소를 선택해 시스템을 구상한다</td></tr>
+      <tr><td class="c"><b>[9정03-06]</b></td><td>논리 연산과 중첩 제어 구조를 활용해 문제를 해결하는 프로그램을 작성한다</td></tr>
+    </table>
+    <p class="hint">성취기준은 <b>이 화면에만</b> 있습니다. 학생 화면·인쇄용 활동지에는 넣지 않습니다.</p>
+  </div>
+
+</div>
+
+<script src="js/parts.js?v=202608241755"></script>
+<script src="js/board.js?v=202608241755"></script>
+<script src="js/judge.js?v=202608241755"></script>
+<script src="js/code.js?v=202608241755"></script>
+<script src="js/print.js?v=202608241755"></script>
+<script src="js/sheet.js?v=202608241755"></script>
+<script src="js/teacher.js?v=202608241755"></script>
+<script>Teacher.boot();</script>
+</body>
+</html>
