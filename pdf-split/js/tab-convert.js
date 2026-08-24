@@ -16,6 +16,15 @@ export function makeConvertTab(panel) {
       <h2>🔄 변환</h2>
       <p>쪽마다 <b>PNG</b>·<b>JPG</b> 그림 또는 <b>PPT 슬라이드</b>로 바꿉니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li>교과서 한 쪽을 <b>PNG</b> 로 → 한글(HWP)·PPT 에 그림으로 붙여넣기</li>
+        <li>문제지 3쪽을 <b>PPT 슬라이드</b>로 → 수업 화면에 바로 띄우기</li>
+        <li>메신저로 빨리 보낼 때는 <b>JPG · 낮은 DPI(72~96)</b></li>
+        <li>인쇄해서 쓸 그림이면 <b>200~300 DPI</b>. 화면에서만 볼 거면 150 이면 넉넉합니다.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>
@@ -39,6 +48,10 @@ export function makeConvertTab(panel) {
             <label class="radio"><input type="radio" name="cv" value="all" checked> 전체 <span class="all-n muted"></span></label>
             <label class="radio"><input type="radio" name="cv" value="some"> 골라서</label>
             <input type="text" class="ranges" placeholder="예) 1-5, 8, 10-12" autocomplete="off" spellcheck="false" disabled>
+            <ul class="help">
+              <li><code>5</code> 5쪽</li><li><code>5-12</code> 5~12쪽</li>
+              <li><code>20-</code> 끝까지</li><li><code>-3</code> 처음부터</li>
+            </ul>
           </div>
 
           <div class="field">

@@ -20,6 +20,15 @@ export function makeWatermarkTab(panel) {
       <h2>💧 워터마크</h2>
       <p>모든 쪽에 글자나 그림을 얹습니다. <b>한글도 됩니다.</b></p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li><b>「교사용」</b> 을 비스듬히 → 학생 배부본과 섞이지 않게</li>
+        <li><b>「복사 금지」·「검토용」</b> 처럼 문서의 성격을 알릴 때</li>
+        <li>학교 <b>로고·도장 그림</b>을 연하게 깔 때 (배경이 비치는 PNG 가 예쁩니다)</li>
+        <li>글자가 본문을 가리면 <b>진하기를 10~20%</b> 로 낮추세요</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>

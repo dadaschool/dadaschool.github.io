@@ -19,6 +19,15 @@ export function makeUnlockTab(panel) {
       <h2>🔓 암호 풀기</h2>
       <p><b>아는 암호</b>를 넣어 열고, 잠금 없는 PDF 로 다시 만듭니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li>받은 공문에 <b>암호가 걸려</b> 다른 편집 도구에서 열리지 않을 때</li>
+        <li><b>내가 예전에 걸어 둔</b> 암호를 풀어 보관용으로 남길 때</li>
+        <li>⚠ <b>암호를 아는 문서만</b> 됩니다. 암호를 찾아 주지는 않습니다.</li>
+        <li>풀고 나면 글자가 그림이 되므로, <b>글자 검색이 필요하면</b> 원본을 함께 보관하세요.</li>
+      </ul>
+    </details>
 
     <div class="agree-card">
       <h3>🚨 쓰기 전에 꼭 확인하세요</h3>

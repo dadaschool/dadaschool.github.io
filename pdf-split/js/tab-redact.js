@@ -20,6 +20,15 @@ export function makeRedactTab(panel) {
       <h2>⬛ 검열</h2>
       <p>가릴 자리를 끌어서 정하면, <b>그 쪽을 그림으로 다시 그려</b> 밑의 글자까지 없앱니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li>학생 <b>이름·학번이 든 명단</b>을 예시 자료로 쓸 때</li>
+        <li>공문에서 <b>개인 연락처</b>만 지우고 동료에게 공유할 때</li>
+        <li>성적표 <b>양식만 남기고</b> 점수를 지울 때</li>
+        <li>🔴 그림판에서 검은 칠을 하는 것과 다릅니다 — 여기서는 <b>밑의 글자까지 파일에서 사라집니다.</b></li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>

@@ -23,6 +23,15 @@ export function makeImagesTab(panel) {
       <h2>🖼 사진 → PDF</h2>
       <p>JPG·PNG 여러 장을 <b>순서대로</b> PDF 한 개로 만듭니다. 끌어 옮겨 순서를 바꾸세요.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li><b>칠판을 찍은 사진 5장</b> → 수업 정리 PDF 한 개로</li>
+        <li>종이 유인물을 휴대폰으로 찍어 <b>A4에 맞춰</b> 배부할 때</li>
+        <li>출장 영수증·증빙 사진을 <b>한 파일로 묶어</b> 제출할 때</li>
+        <li>사진이 잘리는 게 싫으면 <b>여백</b>을 키우세요. 비율은 늘 그대로 지킵니다.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="img-opts">

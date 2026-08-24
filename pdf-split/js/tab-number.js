@@ -23,6 +23,15 @@ export function makeNumberTab(panel) {
       <h2>🔢 페이지 번호</h2>
       <p>유인물 묶음에 쪽 번호를 찍습니다. 위치·모양·시작 번호를 고를 수 있습니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li>학습지 여러 장을 붙인 뒤 번호를 넣어 <b>「3쪽 펴세요」</b> 라고 말할 수 있게</li>
+        <li><b>표지에는 번호를 빼고</b> 싶을 때 → 「몇 쪽부터」 를 <code>2</code> 로</li>
+        <li>결재 서류에는 <b><code>3 / 12</code></b> 모양이 깔끔합니다</li>
+        <li>양면 인쇄할 거면 위치를 <b>아래 가운데</b> 로 두는 것이 무난합니다</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>

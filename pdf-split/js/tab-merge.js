@@ -14,6 +14,15 @@ export function makeMergeTab(panel) {
       <h2>🔗 붙이기</h2>
       <p>PDF 를 여러 개 넣고 <b>순서를 바꾼 뒤</b> 하나로 합칩니다. 끌어 옮기거나 ▲▼ 를 누르세요.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li><b>표지 + 본문 + 붙임 서류</b>를 한 파일로 묶어 결재 올릴 때</li>
+        <li><b>여러 번 나눠 스캔한</b> 문서를 순서대로 이어 붙일 때</li>
+        <li>학년별 가정통신문 3개를 <b>한 파일로</b> 모아 홈페이지에 올릴 때</li>
+        <li>순서가 헷갈리면 목록에서 <b>끌어 옮기거나 ▲▼</b> 를 누르세요. 왼쪽 작은 그림이 1쪽입니다.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="merge-wrap hidden">
       <div class="merge-list"></div>

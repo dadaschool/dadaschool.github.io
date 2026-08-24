@@ -19,6 +19,16 @@ export function makeCutTab(panel) {
       <h2>✂️ 자르기</h2>
       <p>쪽을 <b>골라 한 파일로</b> 모으거나, <b>범위별로 나눠</b> 여러 파일로 저장합니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li><b>교과서에서 3단원만</b> 뽑아 나눠 줄 때 → 「골라 한 파일로」 · <code>58-72</code></li>
+        <li><b>표지를 빼고</b> 줄 때 → <code>2-</code> (2쪽부터 끝까지)</li>
+        <li><b>학습지 묶음을 차시별로</b> 나눌 때 → 「범위별로 나누기」 · <code>1-4, 5-8, 9-12</code></li>
+        <li><b>양면 스캔에서 뒷면만</b> 필요할 때 → 「짝수 쪽」 단추</li>
+        <li>어디를 자를지 헷갈리면 <b>왼쪽 썸네일을 눌러</b> 고르세요. 쪽 번호가 저절로 적힙니다.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>

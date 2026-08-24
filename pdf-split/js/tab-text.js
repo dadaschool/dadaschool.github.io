@@ -16,6 +16,15 @@ export function makeTextTab(panel) {
       <h2>📝 글자 뽑기</h2>
       <p>PDF 안의 글자를 <b>TXT</b>·<b>마크다운</b>으로 뽑습니다. 스캔한 그림 PDF 에는 글자가 없습니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li><b>공문에서 문장만 뽑아</b> 기안문·메일에 붙여넣을 때</li>
+        <li>지도서 해설을 <b>글자로 뽑아</b> 학습지에 옮길 때</li>
+        <li>회의록 PDF 에서 <b>필요한 대목만</b> 찾아 복사할 때</li>
+        <li>⚠ <b>스캔한 그림 PDF 에는 글자가 없습니다.</b> 0자가 나오면 그런 파일입니다.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>
@@ -33,6 +42,10 @@ export function makeTextTab(panel) {
             <label class="radio"><input type="radio" name="tx" value="all" checked> 전체 <span class="all-n muted"></span></label>
             <label class="radio"><input type="radio" name="tx" value="some"> 골라서</label>
             <input type="text" class="ranges" placeholder="예) 1-5, 8" autocomplete="off" spellcheck="false" disabled>
+            <ul class="help">
+              <li><code>5</code> 5쪽</li><li><code>5-12</code> 5~12쪽</li>
+              <li><code>20-</code> 끝까지</li><li><code>-3</code> 처음부터</li>
+            </ul>
           </div>
           <label class="radio"><input type="checkbox" class="brk" checked> 줄바꿈 살리기 (끄면 문단으로 이어 붙임)</label>
           <button type="button" class="btn big run">글자 뽑기</button>

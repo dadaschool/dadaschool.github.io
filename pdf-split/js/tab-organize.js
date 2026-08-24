@@ -18,6 +18,15 @@ export function makeOrganizeTab(panel) {
       <h2>🔃 페이지 구성</h2>
       <p>쪽을 <b>끌어 옮겨</b> 순서를 바꾸고, <b>돌리고</b>, <b>뺍니다</b>. 글자는 그대로 남습니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li><b>거꾸로 스캔된 쪽</b>만 골라 180° 돌릴 때</li>
+        <li>자동급지로 스캔해 <b>순서가 섞인</b> 것을 바로잡을 때</li>
+        <li>양면 스캔에서 딸려 온 <b>빈 뒷면</b>을 뺄 때</li>
+        <li><b>✂️ 자르기와 다른 점</b> : 여기서는 순서·회전·삭제를 <b>한 번에</b> 하고, 글자는 그대로 남습니다.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>

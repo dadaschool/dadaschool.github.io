@@ -27,6 +27,15 @@ export function makeCompressTab(panel) {
       <h2>🗜️ 용량 줄이기</h2>
       <p><b>이미지 재압축</b>은 스캔·사진 문서에 효과가 크고, <b>구조 최적화</b>는 글자(검색)를 그대로 지킵니다.</p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li>메일 첨부 한도(보통 10~25MB)를 <b>넘어서 안 보내질 때</b></li>
+        <li>스캔한 유인물 50쪽처럼 <b>사진이 많은</b> 파일 → 「이미지 재압축」</li>
+        <li><b>글자 검색이 살아 있어야</b> 하면 → 「구조 최적화」 (대신 조금만 줄어듭니다)</li>
+        <li>결과가 오히려 커지면 <b>원본을 그대로 쓰세요.</b> 화면이 그렇게 알려 줍니다.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>

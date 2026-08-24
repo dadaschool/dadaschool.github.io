@@ -18,6 +18,15 @@ export function makeSignTab(panel) {
       <h2>✍️ 서명 · 도장</h2>
       <p>서명을 그리거나 그림으로 올린 뒤, 쪽 위에서 <b>끌어서 자리를 정합니다.</b></p>
     </div>
+    <details class="tip">
+      <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
+      <ul>
+        <li>가정통신문 <b>확인란에 도장</b>을 찍어 배부할 때</li>
+        <li>교내 문서 아래에 <b>담당자 서명</b>을 넣을 때</li>
+        <li>미리 만들어 둔 <b>도장 그림 파일</b>이 있으면 「그림 올리기」</li>
+        <li>🚨 <b>공인인증서 전자서명이 아닙니다.</b> 대외 제출 문서는 전자문서시스템을 쓰세요.</li>
+      </ul>
+    </details>
     <div class="dz-mount"></div>
     <div class="work hidden">
       <div class="filebar"></div>
