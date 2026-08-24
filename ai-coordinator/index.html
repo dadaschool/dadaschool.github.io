@@ -290,8 +290,9 @@
         /* 설치 파일은 GitHub Releases 에 둔다(저장소 역사에 33MB 씩 쌓이지 않게).
            단추가 Releases 목록으로 가므로, 거기서 판을 확인하라고 안내한다. */
         exe.innerHTML =
-          '단추를 누르면 <b>GitHub Releases</b> 로 갑니다. 그 페이지 아래 ' +
-          '<b>AI코디네이터_설치.exe</b> 를 눌러 받으세요 (지금 최신 판 ' + j.version + ').';
+          '단추를 누르면 <b>GitHub Releases</b> 로 갑니다. 그 페이지 아래 <b>Assets</b> 의 ' +
+          '<code>aicodi-setup-' + j.version + '.exe</code> 를 눌러 받으세요.<br>' +
+          '(깃허브가 파일 이름에 한글을 넣지 못해 영문 이름입니다)';
       }
     })
     .catch(function () {
