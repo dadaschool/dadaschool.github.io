@@ -134,9 +134,19 @@
      ⚠ 주소는 반드시 **상대 주소**('api/…')로 둔다. 하위 폴더에 올라가면
        그 폴더 아래를 찾아 404 가 되고, 그것이 «서버 없음» 판정이 된다. */
 
+  /* 교사 코드 — 화면이 열릴 때 한 번 받아 **메모리에만** 들고 있다.
+     저장하지 않는다(새로고침하면 다시 넣는다) — `mb-bluetooth` 와 같은 판단이다.
+     쓰기 요청(만들기·고치기·지우기)에 머리글로 붙는다. 서버가 그것을 본다. */
+  var teacherCode = "";
+  function setTeacher(code) { teacherCode = String(code || ""); }
+
   function jfetch(path, opt, done) {
     if (!g.fetch) { done(null, "이 브라우저에서는 쓸 수 없습니다"); return; }
-    g.fetch("api/" + path, opt || {})
+    opt = opt || {};
+    if (teacherCode) {
+      opt.headers = Object.assign({}, opt.headers || {}, { "X-Teacher-Code": teacherCode });
+    }
+    g.fetch("api/" + path, opt)
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (x) { done(x.ok ? x.j : null, x.ok ? "" : (x.j && x.j.error) || "오류"); })
       .catch(function () { done(null, "서버에 연결할 수 없습니다"); });
@@ -208,6 +218,7 @@
     TAG: TAG, encode: encode, decode: decode, part: part, fill: fill,
     fromUrl: fromUrl, url: url, download: download, readFile: readFile, demo: demo,
     ping: ping, byCode: byCode, makeCode: makeCode, saveCode: saveCode,
+    setTeacher: setTeacher,
     codes: codes, delCode: delCode
   };
 })(window);

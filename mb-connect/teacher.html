@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>선생님용 — 마이크로비트 연결 문제 만들기</title>
-<link rel="stylesheet" href="css/app.css?v=202608241800">
+<link rel="stylesheet" href="css/app.css?v=202608241817">
 </head>
 <body>
 
@@ -16,6 +16,55 @@
 </header>
 
 <div class="wrap">
+
+  <!-- ══ 교사 코드 잠금 ═══════════════════════════════════════
+       🔴 이 화면은 **교사 코드**로 열린다. 코드는 `js/locked.js` 안의 암호문을
+          여는 열쇠이며, 서버의 «만들기·고치기·지우기» 도 같은 코드를 요구한다.
+          코드는 code-manager 앱에서 관리한다(여기에 적지 않는다). -->
+  <div class="card startcard" id="gate">
+    <h2>🔒 선생님용 화면</h2>
+    <p class="hint">교사 코드를 넣으세요. 학생 화면은 코드 없이 씁니다.</p>
+    <div class="row">
+      <input type="text" id="tcode" class="wide" placeholder="교사 코드"
+             autocomplete="off" spellcheck="false" style="max-width:320px;font-size:20px">
+      <button id="btnGate" class="pri big">열기</button>
+    </div>
+    <p class="hint" id="gateMsg"></p>
+    <p class="hint">코드를 잊었으면 <b>code-manager</b> 앱(교사 PC · <code>node server.js</code>)에서 확인·변경합니다.</p>
+  </div>
+
+  <div id="mainWrap" hidden>
+
+  <!-- ══ 문제 목록 (교사 화면의 첫 화면) ═══════════════════════ -->
+  <div id="listWrap">
+    <div class="card">
+      <div class="row">
+        <h2 style="margin:0">지금까지 만든 문제</h2>
+        <span style="flex:1"></span>
+        <button id="btnNew" class="pri big">＋ 새 문제 만들기</button>
+      </div>
+      <p class="hint">학생에게 <b>6자리 숫자</b>만 불러 주면 됩니다. 고치면 <b>같은 번호</b>가 유지됩니다.</p>
+      <div id="codeList"></div>
+    </div>
+
+    <div class="note red" id="noServer" hidden>
+      <b>지금은 문제 목록을 볼 수 없습니다.</b> 이 화면을 파일로 직접 열었거나(더블클릭)
+      웹에 올린 것을 보고 있습니다. 문제를 만들고 고치려면 교사 PC 에서
+      <code>python server.py</code> 로 켜고 <code>http://localhost:8900/teacher.html</code> 로 들어오세요.
+    </div>
+
+    <div class="card" id="teacherNote"></div>
+  </div>
+
+  <!-- ══ 문제 만들기·고치기 ═══════════════════════════════════ -->
+  <div id="editWrap" hidden>
+  <div class="card">
+    <div class="row">
+      <button id="btnBackList" class="gh">◀ 문제 목록으로</button>
+      <span style="flex:1"></span>
+      <span class="hint" id="editWhat"></span>
+    </div>
+  </div>
 
   <!-- ① 제목 -->
   <div class="card">
@@ -100,15 +149,6 @@
     </p>
     <div class="row" id="code6bar"></div>
     <div class="row" style="margin-top:10px"><span id="code6out"></span></div>
-    <h3>지난에 만든 문제 <span class="pm">— 「✏️ 불러와 고치기」 로 고쳐 같은 번호에 저장할 수 있습니다</span></h3>
-    <div id="codeList"></div>
-  </div>
-
-  <div class="note red" id="noServer" hidden>
-    <b>지금은 6자리 코드를 쓸 수 없습니다.</b> 이 화면을 파일로 직접 열었거나(더블클릭)
-    웹에 올린 것을 보고 있습니다. 코드를 쓰려면 교사 PC 에서
-    <code>python server.py</code> 로 켜고 <code>http://localhost:8900/teacher.html</code> 로 들어오세요.
-    아래의 <b>주소·긴 코드·파일</b> 세 방법은 그대로 쓸 수 있습니다.
   </div>
 
   <!-- ⑥ 내보내기 -->
@@ -144,49 +184,19 @@
     <div class="note">태블릿이 모자란 반·인터넷이 막힌 교실·결석생 보충에 씁니다.</div>
   </div>
 
-  <!-- 운영 안내 -->
-  <div class="card">
-    <h2>수업에서 쓰는 방법</h2>
-    <ol>
-      <li><b>실물을 꽂기 전에</b> 화면에서 먼저 잇게 합니다. 잘못 꽂아 부품이 타는 일을 줄입니다.</li>
-      <li>학생이 <b>확인하기</b> 를 누르면 틀린 선마다 <b>왜 틀렸는지</b>가 나옵니다. 교사가 돌아다니며 볼 필요가 없습니다.</li>
-      <li>다 맞히면 <b>연결표</b>가 만들어집니다. 그 표를 보며 실물에 꽂게 합니다.</li>
-      <li>같은 부품으로 <b>핀 번호만 바꿔</b> 반마다 다른 문제를 낼 수 있습니다(난이도는 같습니다).</li>
-    </ol>
-
-    <h3>채점 규칙 (학생에게 그대로 알려 주어도 됩니다)</h3>
-    <table class="tb">
-      <tr><th>핀</th><th>정답 기준</th><th>왜</th></tr>
-      <tr><td class="c"><b>전원(+)</b></td><td><code>V</code> 줄 아무 번호, 또는 <code>5V</code>·<code>3V3</code> 단자<br>단, <b>필요한 전압이 맞아야</b> 한다</td>
-          <td>전원은 어느 구멍이나 같은 줄로 이어져 있다</td></tr>
-      <tr><td class="c"><b>접지(−)</b></td><td><code>G</code> 줄 아무 번호</td><td>위와 같다</td></tr>
-      <tr><td class="c"><b>신호</b></td><td>정해진 번호의 <code>S</code> 구멍만</td>
-          <td>코드에서 정한 핀 번호와 같아야 값이 오간다</td></tr>
-      <tr><td class="c"><b>I2C</b></td><td><code>SDA</code>=19번 · <code>SCL</code>=20번 고정</td>
-          <td>보드에 그 두 핀으로만 배선되어 있다</td></tr>
-      <tr><td class="c"><b>선 색</b></td><td>틀림이 아니라 <b>주의(⚠)</b> 로만 알려 준다</td>
-          <td>색은 사람이 알아보기 위한 약속이다</td></tr>
-    </table>
-
-    <h3>관련 성취기준 <span class="pm">(2022 개정 · 중학교 정보)</span></h3>
-    <table class="tb">
-      <tr><th class="c" style="width:120px">기준</th><th>내용</th></tr>
-      <tr><td class="c"><b>[9정01-02]</b></td><td>피지컬 컴퓨팅의 개념을 이해하고 생활 속 적용 사례로 가치를 판단한다</td></tr>
-      <tr><td class="c"><b>[9정01-03]</b></td><td>문제 해결 목적에 맞는 피지컬 컴퓨팅 구성요소를 선택해 시스템을 구상한다</td></tr>
-      <tr><td class="c"><b>[9정03-06]</b></td><td>논리 연산과 중첩 제어 구조를 활용해 문제를 해결하는 프로그램을 작성한다</td></tr>
-    </table>
-    <p class="hint">성취기준은 <b>이 화면에만</b> 있습니다. 학생 화면·인쇄용 활동지에는 넣지 않습니다.</p>
-  </div>
-
+  </div><!-- /#editWrap -->
+  </div><!-- /#mainWrap -->
 </div>
 
-<script src="js/parts.js?v=202608241800"></script>
-<script src="js/board.js?v=202608241800"></script>
-<script src="js/judge.js?v=202608241800"></script>
-<script src="js/code.js?v=202608241800"></script>
-<script src="js/print.js?v=202608241800"></script>
-<script src="js/sheet.js?v=202608241800"></script>
-<script src="js/teacher.js?v=202608241800"></script>
+<script src="js/lock.js?v=202608241817"></script>
+<script src="js/locked.js?v=202608241817"></script>
+<script src="js/parts.js?v=202608241817"></script>
+<script src="js/board.js?v=202608241817"></script>
+<script src="js/judge.js?v=202608241817"></script>
+<script src="js/code.js?v=202608241817"></script>
+<script src="js/print.js?v=202608241817"></script>
+<script src="js/sheet.js?v=202608241817"></script>
+<script src="js/teacher.js?v=202608241817"></script>
 <script>Teacher.boot();</script>
 </body>
 </html>

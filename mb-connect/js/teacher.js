@@ -22,21 +22,96 @@
   }
 
   function boot() {
-    var got = Code.fromUrl();
-    if (got) prob = got;
-    else addPart("hcsr04");     /* 처음 열면 회로도 예시로 시작한다 */
+    /* 🔴 교사 코드로 열지 않으면 아무것도 보이지 않는다.
+       코드는 `js/locked.js` 의 암호문을 여는 열쇠이고, 서버의 쓰기 API 도 같은 코드를 본다.
+       ⚠ 코드를 저장하지 않는다 — 새로고침하면 다시 넣는다(`mb-bluetooth` 와 같은 판단). */
+    $("btnGate").onclick = openGate;
+    $("tcode").onkeydown = function (ev) { if (ev.key === "Enter") openGate(); };
+    $("tcode").focus();
+  }
 
+  function openGate() {
+    var code = ($("tcode").value || "").trim();
+    if (!code) { $("gateMsg").textContent = "코드를 넣어 주세요."; return; }
+    if (!window.Lock || !Lock.available()) {
+      $("gateMsg").textContent = "이 브라우저에서는 잠금을 열 수 없습니다(https 또는 localhost 로 열어 주세요).";
+      return;
+    }
+    $("btnGate").disabled = true;
+    $("btnGate").textContent = "여는 중…";
+    $("gateMsg").textContent = "";
+    Lock.open(window.LOCKED && LOCKED.teacher, code).then(function (val) {
+      notes = val;
+      Code.setTeacher(code);          /* 쓰기 요청에 붙는다 */
+      $("gate").hidden = true;
+      $("mainWrap").hidden = false;
+      afterGate();
+    }).catch(function (e) {
+      $("btnGate").disabled = false;
+      $("btnGate").textContent = "열기";
+      $("gateMsg").textContent = "❌ " + (e && e.message ? e.message : "코드가 맞지 않습니다.");
+      $("tcode").select();
+    });
+  }
+
+  var notes = null;   /* 교사 코드로 열린 자료 */
+
+  function afterGate() {
+    addPart("hcsr04");              /* 새 문제를 만들 때 쓸 기본값 */
     paintPalette();
     bind();
     paintAll();
+    paintNotes();
+    showList();
 
-    /* 서버가 없으면 6자리 코드 카드를 숨기고 왜 안 되는지 알려 준다 */
     Code.ping(function (ok) {
       hasServer = ok;
       $("mkCode").hidden = !ok;
       $("noServer").hidden = ok;
       if (ok) { paintCodeBar(); paintCodeList(); }
     });
+
+    /* 주소에 문제가 담겨 왔으면(미리보기에서 돌아온 경우) 곧바로 편집으로 */
+    var got = Code.fromUrl();
+    if (got) { prob = got; editing = null; paintAll(); showEdit("주소로 받은 문제"); }
+  }
+
+  /* ── 목록 ↔ 편집 ─────────────────────────────────────────
+     교사 화면의 **첫 화면은 목록**이다(2026-08-24 사용자 지시).
+     문제를 만들거나 고칠 때만 편집 화면으로 들어간다. */
+  function showList() {
+    $("listWrap").hidden = false;
+    $("editWrap").hidden = true;
+    if (hasServer) paintCodeList();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function showEdit(what) {
+    $("listWrap").hidden = true;
+    $("editWrap").hidden = false;
+    $("editWhat").innerHTML = what || "";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* 교사 코드로 열린 자료를 그린다 — 운영 메모·채점 기준·성취기준 */
+  function paintNotes() {
+    if (!notes) { $("teacherNote").hidden = true; return; }
+    var h = "<h2>" + esc(notes["제목"] || "선생님용 자료") + "</h2>";
+    h += "<h3>수업에서 쓰는 방법</h3><ol>" +
+      (notes["운영"] || []).map(function (x) { return "<li>" + rich(x) + "</li>"; }).join("") + "</ol>";
+    h += '<h3>채점 기준 <span class="pm">— 학생에게 그대로 알려 주어도 됩니다</span></h3>' +
+      '<table class="tb"><tr><th>핀</th><th>정답 기준</th><th>왜</th></tr>' +
+      (notes["채점기준"] || []).map(function (r) {
+        return "<tr><td class='c'><b>" + esc(r[0]) + "</b></td><td>" + rich(r[1]) + "</td><td>" + rich(r[2]) + "</td></tr>";
+      }).join("") + "</table>";
+    h += "<h3>많이 나오는 실수</h3><ul>" +
+      (notes["실수"] || []).map(function (x) { return "<li>" + rich(x) + "</li>"; }).join("") + "</ul>";
+    h += '<h3>관련 성취기준 <span class="pm">(2022 개정 · 중학교 정보)</span></h3>' +
+      '<table class="tb"><tr><th class="c" style="width:120px">기준</th><th>내용</th></tr>' +
+      (notes["성취기준"] || []).map(function (r) {
+        return "<tr><td class='c'><b>" + esc(r[0]) + "</b></td><td>" + esc(r[1]) + "</td></tr>";
+      }).join("") + "</table>";
+    h += (notes["주의"] || []).map(function (x) { return '<p class="hint">⚠ ' + rich(x) + "</p>"; }).join("");
+    $("teacherNote").innerHTML = h;
   }
 
   /* ── 부품 고르기 판 ────────────────────────────────────
@@ -240,19 +315,20 @@
         $("codeList").innerHTML = '<p class="hint">아직 만든 코드가 없습니다.</p>';
         return;
       }
-      $("codeList").innerHTML = '<table class="tb"><tr><th class="c">코드</th><th>제목</th>' +
+      $("codeList").innerHTML = '<table class="tb"><tr><th class="c">6자리 코드</th><th>제목</th>' +
         '<th class="c">부품</th><th class="c">만든 때</th><th class="c">하기</th></tr>' +
         list.map(function (x) {
-          var on = editing === x.code;
-          return '<tr' + (on ? ' class="editing"' : "") + '><td class="c"><b class="codeno">' +
-            esc(x.code) + "</b></td><td>" + esc(x.title) +
-            (on ? ' <span class="pm">← 지금 고치는 중</span>' : "") +
-            '</td><td class="c">' + x.parts + "개</td>" +
+          return '<tr><td class="c"><b class="codeno">' + esc(x.code) + "</b></td>" +
+            "<td>" + esc(x.title) + "</td>" +
+            '<td class="c">' + x.parts + "개</td>" +
             '<td class="c pm">' + when(x.at) + "</td>" +
-            '<td class="c"><button type="button" data-edit6="' + esc(x.code) + '">✏️ 불러와 고치기</button> ' +
-            '<button type="button" data-open6="' + esc(x.code) + '">👁 학생 화면</button> ' +
-            '<button type="button" data-del6="' + esc(x.code) + '">🗑</button></td></tr>';
-        }).join("") + "</table>";
+            '<td class="c nowrap">' +
+              '<button type="button" data-edit6="' + esc(x.code) + '">✏️ 수정</button> ' +
+              '<button type="button" data-open6="' + esc(x.code) + '">👁 학생 화면</button> ' +
+              '<button type="button" data-del6="' + esc(x.code) + '">🗑 삭제</button>' +
+            "</td></tr>";
+        }).join("") + "</table>" +
+        '<p class="hint">「✏️ 수정」 으로 고치면 <b>같은 6자리 번호</b>가 유지됩니다 — 학생에게 다시 불러 줄 필요가 없습니다.</p>';
     });
   }
 
@@ -272,7 +348,9 @@
       editing = code;
       extra = [];
       paintAll();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      $("code6out").innerHTML = '<span class="bigcode">' + esc(code) + "</span>" +
+        '<span class="hint" style="margin-left:12px">고친 뒤 <b>이 번호로 저장</b>하면 그대로 쓸 수 있습니다</span>';
+      showEdit("<b>" + esc(code) + "</b> 문제를 고치고 있습니다");
     });
   }
 
@@ -305,6 +383,7 @@
         '<span class="hint" style="margin-left:12px">학생에게 이 숫자를 불러 주세요</span>';
       paintCodeBar();
       paintCodeList();
+      $("editWhat").innerHTML = "<b>" + esc(code) + "</b> 문제를 고치고 있습니다";
     });
   }
 
@@ -342,12 +421,23 @@
       paintAll();
     });
 
+    /* 목록 ↔ 편집 */
+    $("btnNew").onclick = function () {
+      prob = { v: 1, t: "새 문제", v1: "3V3", v2: "3V3", usb: true, color: true, ext: [], parts: [] };
+      editing = null;
+      addPart("hcsr04");
+      paintAll();
+      $("code6out").innerHTML = "";
+      showEdit("<b>새 문제</b> 를 만들고 있습니다");
+    };
+    $("btnBackList").onclick = showList;
+
     /* 6자리 코드 단추는 paintCodeBar() 가 만들고 이어 준다 */
     $("codeList").addEventListener("click", function (ev) {
       var d = ev.target.dataset || {};
       if (d.edit6) edit6(d.edit6);
       if (d.open6) window.open("index.html#code=" + d.open6, "_blank");
-      if (d.del6 && confirm(d.del6 + " 코드를 지울까요?")) {
+      if (d.del6 && confirm(d.del6 + " 문제를 지울까요? 학생이 그 번호를 넣으면 «없는 번호» 가 됩니다.")) {
         Code.delCode(d.del6, function () {
           if (editing === d.del6) editing = null;
           paintCodeBar(); paintCodeList();

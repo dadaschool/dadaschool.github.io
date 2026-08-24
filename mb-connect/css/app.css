@@ -283,7 +283,8 @@ input.mid6 {
   font-size: 22px; font-weight: 700; letter-spacing: 5px; text-align: center;
   width: 160px; padding: 4px 8px; font-family: Consolas, "D2Coding", monospace;
 }
-.codeno { font-size: 21px; letter-spacing: 2px; font-family: Consolas, "D2Coding", monospace; }
+.codeno { font-size: 22px; letter-spacing: 2px; font-family: Consolas, "D2Coding", monospace; color: var(--pri); }
+td.nowrap { white-space: nowrap; }
 table.tb tr.editing { background: #fff8e1; outline: 2px solid var(--warn); outline-offset: -2px; }
 .bigcode {
   font-size: 46px; font-weight: 700; letter-spacing: 10px;
