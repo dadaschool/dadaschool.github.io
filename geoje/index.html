@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>학교폭력 예방 수업 · 영상 자료 다섯 편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --ink:#12211D;
+    --ink-soft:#40544E;
+    --ink-faint:#7A8B85;
+    --paper:#DCE3E0;
+    --card:#F5F7F6;
+    --pine:#245043;
+    --mustard:#B78A16;
+    --line:#BFCAC6;
+    --rule:20;      /* 수업 목표 시간(분) */
+    --scale:26;     /* 막대 기준 최대치(분) */
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.7;
+    word-break:keep-all;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+
+  /* ── 머리말 ── */
+  header{padding:72px 0 40px}
+  .eyebrow{
+    font-size:12px;letter-spacing:.22em;font-weight:600;
+    color:var(--pine);text-transform:uppercase;margin:0 0 20px
+  }
+  h1{
+    font-family:'Gowun Batang',serif;
+    font-weight:700;
+    font-size:clamp(30px,6.4vw,46px);
+    line-height:1.32;
+    letter-spacing:-.01em;
+    margin:0 0 22px;
+  }
+  h1 em{font-style:normal;display:block;color:var(--pine)}
+  .lede{max-width:52ch;color:var(--ink-soft);margin:0}
+
+  /* ── 시간 안내 ── */
+  .legend{
+    margin:44px 0 8px;padding:16px 18px;
+    background:var(--card);border:1px solid var(--line);
+    display:flex;gap:20px;flex-wrap:wrap;align-items:center;
+    font-size:13px;color:var(--ink-soft)
+  }
+  .legend b{color:var(--ink);font-weight:600}
+  .key{display:flex;align-items:center;gap:7px}
+  .key i{display:block;height:10px;width:10px;flex:none}
+  .key .fill{background:var(--pine)}
+  .key .over{background:var(--mustard)}
+
+  /* ── 목록 ── */
+  ol{list-style:none;margin:0;padding:0}
+  li.item{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-top:none;
+    padding:30px 26px 26px;
+  }
+  li.item:first-child{border-top:1px solid var(--line)}
+  li.item:focus-within{outline:2px solid var(--pine);outline-offset:-2px}
+
+  .when{
+    font-size:12.5px;font-weight:600;letter-spacing:.02em;
+    color:var(--pine);margin:0 0 10px
+  }
+  .title{
+    font-family:'Gowun Batang',serif;font-weight:700;
+    font-size:clamp(21px,4.4vw,27px);line-height:1.4;
+    margin:0 0 6px;
+  }
+  .title a{color:var(--ink);text-decoration:none;border-bottom:2px solid transparent}
+  .title a:hover,.title a:focus-visible{border-bottom-color:var(--pine);color:var(--pine)}
+  .title a:focus-visible{outline:2px solid var(--pine);outline-offset:4px;border-radius:2px}
+  .source{font-size:13.5px;color:var(--ink-faint);margin:0 0 18px}
+  .note{margin:0 0 20px;color:var(--ink-soft);font-size:15px}
+
+  /* ── 러닝타임 막대(시그니처) ── */
+  .bar{position:relative;height:26px;border-bottom:1px solid var(--line)}
+  .bar .fill{
+    position:absolute;left:0;bottom:0;height:9px;background:var(--pine);
+    transform-origin:left;
+  }
+  .bar .fill.over{background:var(--mustard)}
+  .bar .mark{
+    position:absolute;bottom:0;top:0;width:1px;background:var(--ink);
+    left:calc(var(--rule) / var(--scale) * 100%);
+  }
+  .bar .mark::after{
+    content:"20분";position:absolute;top:-2px;left:6px;
+    font-size:11px;letter-spacing:.04em;color:var(--ink);white-space:nowrap
+  }
+  .runtime{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-top:9px;font-size:13px;color:var(--ink-soft)
+  }
+  .runtime b{
+    font-variant-numeric:tabular-nums;font-weight:600;font-size:17px;color:var(--ink)
+  }
+  .delta{font-size:12.5px}
+  .delta.over{color:var(--mustard);font-weight:600}
+
+  /* ── 꼬리말 ── */
+  footer{padding:48px 0 90px;font-size:14px;color:var(--ink-soft)}
+  footer h2{
+    font-family:'Gowun Batang',serif;font-size:18px;margin:0 0 12px;color:var(--ink)
+  }
+  footer p{margin:0 0 14px;max-width:60ch}
+  footer a{color:var(--pine)}
+  .before{
+    margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
+    font-size:13.5px
+  }
+
+  @media (max-width:520px){
+    header{padding:52px 0 32px}
+    li.item{padding:26px 20px 22px}
+    .wrap{padding:0 18px}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .bar .fill{animation:grow .8s cubic-bezier(.2,.8,.3,1) both}
+    @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">중학교 · 학교폭력 예방 수업</p>
+  <h1>야차룰 다음에<em>무엇을 보여줄까</em></h1>
+  <p class="lede">한 차시 안에 소화할 20분 전후의 영상 다섯 편입니다. 모두 교육청·경찰청·푸른나무재단이 만든 자료라 언어와 수위가 안전합니다. 학급 상황에 맞는 한 편을 고르세요.</p>
+</header>
+
+<div class="legend">
+  <span class="key"><i class="fill"></i> <b>20분 이내</b></span>
+  <span class="key"><i class="over"></i> <b>20분 초과</b> — 시간 여유 확인</span>
+  <span>막대는 실제 재생시간입니다.</span>
+</div>
+
+<ol>
+
+  <li class="item">
+    <p class="when">무난하게 한 차시를 채우고 싶다면</p>
+    <h2 class="title"><a href="https://www.youtube.com/watch?v=XHCDlaTXaZM" target="_blank" rel="noopener">비밀전학</a></h2>
+    <p class="source">전남·광주교육1TV · 학교폭력예방영화</p>
+    <p class="note">학교폭력 사건의 진실을 밝혀나가는 과정에서 학생들과 교사가 함께 성장하는 이야기. 야차룰 자료에서 다룬 ‘증거’와 ‘드러나기까지의 시간’이 서사로 이어집니다.</p>
+    <div class="bar"><span class="fill over" style="width:89.8%"></span><span class="mark"></span></div>
+    <p class="runtime"><b>23:21</b> <span class="delta over">20분에서 3분 21초 초과</span></p>
+  </li>
+
+  <li class="item">
+    <p class="when">구경하고 촬영한 아이들을 이야기하고 싶다면</p>
+    <h2 class="title"><a href="https://www.youtube.com/watch?v=yC5uWSR8tTo" target="_blank" rel="noopener">단짝</a></h2>
+    <p class="source">전라남도교육청 제작지원 · 2025년</p>
+    <p class="note">방관자의 처지와 심리를 정면으로 다룹니다. 둘러서서 구경하고 영상을 찍는 행동이 왜 폭력의 일부인지 짚기에 가장 잘 맞고, 다섯 편 중 가장 최근 자료입니다.</p>
+    <div class="bar"><span class="fill" style="width:74.9%"></span><span class="mark"></span></div>
+    <p class="runtime"><b>19:29</b> <span class="delta">20분 안에 들어옴</span></p>
+  </li>
+
+  <li class="item">
+    <p class="when">“거절하면 겁쟁이가 된다”는 구조를 보여주려면</p>
+    <h2 class="title"><a href="https://www.youtube.com/watch?v=eSg7_bloOeU" target="_blank" rel="noopener">우리다리</a></h2>
+    <p class="source">푸른나무재단 · 투게더 프로젝트 단편영화</p>
+    <p class="note">전학 온 혜지가 따돌림당하는 준희와 가까워지지만, 친구들이 따돌림에 동참하라고 종용하면서 갈등합니다. 또래 압력이 어떻게 ‘합의’처럼 보이게 되는지를 정확히 보여줍니다.</p>
+    <div class="bar"><span class="fill over" style="width:99.9%"></span><span class="mark"></span></div>
+    <p class="runtime"><b>25:59</b> <span class="delta over">20분에서 5분 59초 초과</span></p>
+  </li>
+
+  <li class="item">
+    <p class="when">이야기 대신 사실 정보를 한 번 더 다지려면</p>
+    <h2 class="title"><a href="https://www.youtube.com/watch?v=ovn4YmZYItU" target="_blank" rel="noopener">사례로 보는 학교폭력의 유형</a></h2>
+    <p class="source">경기남부경찰청 · 중·고등학생용 교육자료</p>
+    <p class="note">드라마가 아니라 사례 중심 설명 자료입니다. 앞의 야차룰 인터뷰도 정보 전달형이라 성격이 겹칠 수 있으니, 학급이 이미 사건을 겪은 뒤 절차를 정확히 알려야 할 때 고르세요.</p>
+    <div class="bar"><span class="fill over" style="width:99.4%"></span><span class="mark"></span></div>
+    <p class="runtime"><b>25:50</b> <span class="delta over">20분에서 5분 50초 초과</span></p>
+  </li>
+
+  <li class="item">
+    <p class="when">학급에 피해 경험 학생이 있다면</p>
+    <h2 class="title"><a href="https://www.youtube.com/watch?v=37Zvs2qgEZs" target="_blank" rel="noopener">그날, 아무도 없었다</a></h2>
+    <p class="source">푸른나무재단 · 2025년 중등용 애니메이션</p>
+    <p class="note">중학생용으로 명시 제작된 애니메이션입니다. 실사 재연이 아니라 재트라우마 위험이 가장 낮습니다. 20분보다 짧으니 남는 5분은 토의에 쓰세요.</p>
+    <div class="bar"><span class="fill" style="width:55.8%"></span><span class="mark"></span></div>
+    <p class="runtime"><b>14:30</b> <span class="delta">20분에서 5분 30초 여유</span></p>
+  </li>
+
+</ol>
+
+<footer>
+  <h2>상영 전에</h2>
+  <p>다섯 편 모두 제작처와 재생시간을 확인했지만 전편을 시청해 검증하지는 않았습니다. 도입부와 마지막 5분은 직접 확인해 주세요. 학교폭력 소재 영상은 결말 처리에서 메시지가 갈립니다.</p>
+  <p>보고 난 뒤에는 “지금 겪고 있다면 어디에 말하면 되는지”를 반드시 짚어 주세요. 이야기 속 해결이 현실의 절차를 대신하지 못합니다. 학교폭력 신고는 <b>117</b>입니다.</p>
+  <p class="before">선행 자료 · <a href="https://www.youtube.com/watch?v=Gufuy2aZg1Q" target="_blank" rel="noopener">“애들 싸움이라고요?” 야차룰의 법적 진실</a> (KBS진주, 변호사 인터뷰) — 학생에게는 앞부분 4분까지만 발췌해 보여주는 편을 권합니다.</p>
+</footer>
+
+</div>
+</body>
+</html>

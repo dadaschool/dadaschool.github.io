@@ -1,0 +1,21 @@
+# GitHub Pages(Jekyll) 설정 — 이 저장소는 빌드 도구를 쓰지 않는다.
+# 이 파일의 목적은 하나뿐이다 : «개발용 문서를 웹으로 내보내지 않는 것».
+#
+# ⚠ exclude 를 적으면 Jekyll 의 «기본 제외 목록»이 통째로 덮어써진다.
+#   그래서 기본값도 아래에 그대로 다시 적어 둔다. 지우지 말 것.
+# ⚠ 앱 폴더 안의 .nojekyll 파일들은 아무 일도 하지 않는다
+#   (GitHub Pages 는 저장소 «루트»의 .nojekyll 만 본다). 헷갈리지 말 것.
+
+exclude:
+  # 개발용 문서 — 웹에 발행하지 않는다
+  - CLAUDE.md
+  - HANDOFF.md
+  - geoje/README.md
+  # 아래는 Jekyll 기본 제외 목록 (위에서 덮어쓰지 않도록 다시 적은 것)
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
