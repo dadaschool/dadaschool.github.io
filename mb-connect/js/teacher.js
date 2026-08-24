@@ -68,7 +68,8 @@
       hasServer = ok;
       $("mkCode").hidden = !ok;
       $("noServer").hidden = ok;
-      if (ok) { paintCodeBar(); paintCodeList(); }
+      paintCodeBar();
+      paintCodeList();          /* 서버가 없으면 왜 없는지 알려 준다 */
     });
 
     /* 주소에 문제가 담겨 왔으면(미리보기에서 돌아온 경우) 곧바로 편집으로 */
@@ -309,7 +310,17 @@
   var editing = null;   /* 지금 고치고 있는 코드 (없으면 새 문제) */
 
   function paintCodeList() {
-    if (!hasServer) return;
+    if (!hasServer) {
+      /* 사이트(GitHub Pages)에서는 목록을 만들 수 없다 — 서버가 없다.
+         빈 칸으로 두면 «문제가 하나도 없나» 로 읽히므로 왜 그런지 적어 준다. */
+      $("codeList").innerHTML =
+        '<p class="hint">문제 목록은 <b>교사 PC 의 서버</b>에서만 보입니다(아래 안내 참고).<br>' +
+        "학생에게 이미 알려 준 6자리 번호는 이 사이트에서 그대로 씁니다.</p>";
+      $("btnNew").disabled = true;
+      $("btnNew").title = "문제를 만들려면 교사 PC 에서 python server.py 로 켜세요";
+      return;
+    }
+    $("btnNew").disabled = false;
     Code.codes(function (list) {
       if (!list.length) {
         $("codeList").innerHTML = '<p class="hint">아직 만든 코드가 없습니다.</p>';
