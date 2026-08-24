@@ -5,7 +5,7 @@
 import { $, $$, html, esc, fmtSize, overlay, showResult, note, readErr, breathe, makeDrop } from './lib/ui.js';
 import { openDoc } from './lib/render.js';
 import { makeBoard, toPdfRect } from './lib/pageboard.js';
-import { baseName } from './lib/ranges.js';
+import { parseRanges, baseName } from './lib/ranges.js';
 
 const { PDFDocument, degrees } = PDFLib;
 
@@ -16,13 +16,15 @@ export function makeSignTab(panel) {
   panel.innerHTML = `
     <div class="intro">
       <h2>✍️ 서명 · 도장</h2>
-      <p>서명을 그리거나 그림으로 올린 뒤, 쪽 위에서 <b>끌어서 자리를 정합니다.</b></p>
+      <p>서명을 그리거나 그림으로 올린 뒤, 쪽 위에서 <b>끌어서 자리를 정합니다.</b>
+         그 자리를 <b>한 쪽에만</b> 넣을지 <b>모든 쪽</b>에 넣을지 고를 수 있습니다.</p>
     </div>
     <details class="tip">
       <summary>❓ 이럴 때 씁니다 · 예시 보기</summary>
       <ul>
         <li>가정통신문 <b>확인란에 도장</b>을 찍어 배부할 때</li>
         <li>교내 문서 아래에 <b>담당자 서명</b>을 넣을 때</li>
+        <li><b>모든 쪽 아래에 서명</b>을 넣을 때 → 자리를 한 번 그리고 「넣을 쪽」 을 <b>모든 쪽</b> 으로</li>
         <li>미리 만들어 둔 <b>도장 그림 파일</b>이 있으면 「그림 올리기」</li>
         <li>🚨 <b>공인인증서 전자서명이 아닙니다.</b> 대외 제출 문서는 전자문서시스템을 쓰세요.</li>
       </ul>
@@ -45,6 +47,19 @@ export function makeSignTab(panel) {
               </label>
               <span class="sign-state muted small">아직 서명이 없습니다</span>
             </div>
+          </div>
+          <div class="field">
+            <div class="field-label">넣을 쪽</div>
+            <label class="radio"><input type="radio" name="sg" value="drawn" checked> <b>자리를 그린 쪽에만</b></label>
+            <label class="radio"><input type="radio" name="sg" value="all"> <b>모든 쪽</b> <span class="all-n muted"></span></label>
+            <label class="radio"><input type="radio" name="sg" value="some"> <b>골라서</b></label>
+            <input type="text" class="ranges sg-range" placeholder="예) 1, 5-8" autocomplete="off" spellcheck="false" disabled>
+            <ul class="help">
+              <li><code>5</code> 5쪽</li><li><code>5-12</code> 5~12쪽</li>
+              <li><code>20-</code> 끝까지</li><li><code>-3</code> 처음부터</li>
+            </ul>
+            <div class="muted small">「모든 쪽」·「골라서」는 <b>그린 자리를 다른 쪽에도 같은 위치로</b> 옮겨 찍습니다.
+              쪽 크기가 달라도 <b>비율로</b> 맞춥니다.</div>
           </div>
           <p class="warn small">🚨 이것은 <b>그림을 얹는 것</b>입니다. 공인인증서로 하는
              <b>전자서명이 아닙니다</b> — 법적 효력이 필요한 문서에는 쓰지 마세요.</p>
@@ -133,12 +148,41 @@ export function makeSignTab(panel) {
     state();
   }
 
+  /* ---------------- 넣을 쪽 고르기 ---------------- */
+  const elRange = $('.sg-range', panel);
+  const mode = () => $('input[name="sg"]:checked', panel).value;
+
+  $$('input[name="sg"]', panel).forEach(r => r.addEventListener('change', () => {
+    elRange.disabled = mode() !== 'some';
+    if (!elRange.disabled) elRange.focus();
+    state();
+  }));
+  elRange.addEventListener('input', state);
+
+  /** 서명을 찍을 쪽 목록. 「그린 쪽에만」 이면 null(쪽마다 따로 처리한다). */
+  function targetPages() {
+    if (!src) return { pages: null, errors: [] };
+    if (mode() === 'drawn') return { pages: null, errors: [] };
+    if (mode() === 'all') return { pages: Array.from({ length: src.total }, (_, i) => i + 1), errors: [] };
+    const p = parseRanges(elRange.value, src.total);
+    if (!p.ok) return { pages: [], errors: p.errors.length ? p.errors : ['넣을 쪽을 적어 주세요.'] };
+    return { pages: p.pages, errors: [] };
+  }
+
   function state() {
     const boxes = board?.count() || 0;
-    $('.sign-state', panel).textContent = signPng
-      ? (boxes ? `서명 준비됨 · 놓을 자리 ${boxes}곳` : '서명 준비됨 · 쪽 위에서 끌어 자리를 정하세요')
-      : '아직 서명이 없습니다';
-    elRun.disabled = !(src && signPng && boxes);
+    const el = $('.sign-state', panel);
+
+    if (!signPng) { el.textContent = '아직 서명이 없습니다'; elRun.disabled = true; return; }
+    if (!boxes)   { el.textContent = '서명 준비됨 · 쪽 위에서 끌어 자리를 정하세요'; elRun.disabled = true; return; }
+
+    const { pages, errors } = targetPages();
+    if (errors.length) { el.textContent = '⚠ ' + errors[0]; elRun.disabled = true; return; }
+
+    el.textContent = pages
+      ? `자리 ${boxes}곳 × ${pages.length}쪽 = 모두 ${boxes * pages.length}군데`
+      : `자리 ${boxes}곳 · 그린 쪽에만 넣습니다`;
+    elRun.disabled = !src;
   }
 
   /* ---------------- 파일 ---------------- */
@@ -157,6 +201,8 @@ export function makeSignTab(panel) {
         <span class="badge soft">${fmtSize(src.size)}</span>
         <button type="button" class="btn sub small change">다른 파일</button>`;
       $('.change', panel).addEventListener('click', reset);
+      $('.all-n', panel).textContent = `(${src.total}쪽)`;
+      elRange.placeholder = `예) 1, 5-${Math.min(8, src.total)}`;
       board = makeBoard($('.board-col', panel), doc, { onChange: state, color: 'rgba(47,107,216,.30)' });
       state();
     } catch (e) { console.error(e); alert(readErr(e)); reset(); }
@@ -175,6 +221,9 @@ export function makeSignTab(panel) {
 
   async function run() {
     if (!src || !signPng || !board.count()) return;
+    const { pages: targets, errors } = targetPages();
+    if (errors.length) { note(elResult, errors[0]); return; }
+
     overlay.show('서명을 넣는 중…');
     elResult.innerHTML = '';
     try {
@@ -182,31 +231,67 @@ export function makeSignTab(panel) {
       const img = await out.embedPng(signPng.bytes);
       const pages = out.getPages();
       const spots = board.all();
-      let done = 0, skipped = [];
+      const skipped = [];
+      let done = 0;
 
-      for (const [pageNo, list] of spots) {
-        const page = pages[pageNo - 1];
-        if (!page) continue;
-        for (const b of list) {
-          const rect = toPdfRect(page, b);
-          if (!rect) { skipped.push(pageNo); continue; }   // 돌아간 쪽은 좌표가 어긋난다 → 건너뛰고 알린다
-          // 상자 안에 «비율을 지켜» 넣는다
-          const k = Math.min(rect.width / signPng.w, rect.height / signPng.h);
-          const w = signPng.w * k, h = signPng.h * k;
-          page.drawImage(img, { x: rect.x + (rect.width - w) / 2, y: rect.y + (rect.height - h) / 2, width: w, height: h });
-          done++;
+      /* 「모든 쪽」·「골라서」 는 그린 자리를 다른 쪽으로 옮겨야 한다.
+         ⚠ 쪽 크기가 다를 수 있으므로 **비율**(0~1)로 바꿔 두었다가 대상 쪽 크기에 맞춘다.
+           절대 좌표로 옮기면 A4 에 그린 자리가 가로쪽에서는 종이 밖으로 나간다. */
+      const ratios = [];
+      if (targets) {
+        for (const [pageNo, list] of spots) {
+          const p = pages[pageNo - 1];
+          if (!p) continue;
+          const rot = ((p.getRotation().angle % 360) + 360) % 360;
+          if (rot !== 0) { skipped.push(pageNo); continue; }     // 그린 쪽이 돌아가 있으면 기준을 못 잡는다
+          const { width: W, height: H } = p.getSize();
+          list.forEach(b => ratios.push({ x: b.x / W, y: b.y / H, w: b.w / W, h: b.h / H }));
         }
-        overlay.step(done, board.count(), `${done} / ${board.count()}곳`);
-        await breathe();
+      }
+
+      // 어디에 무엇을 찍을지 목록으로 먼저 만든다(그래야 진행 표시가 정확하다)
+      const jobs = [];
+      if (targets) {
+        for (const no of targets) for (const r of ratios) jobs.push({ no, ratio: r });
+      } else {
+        for (const [no, list] of spots) for (const b of list) jobs.push({ no, box: b });
+      }
+
+      for (let i = 0; i < jobs.length; i++) {
+        const job = jobs[i];
+        const page = pages[job.no - 1];
+        if (!page) continue;
+
+        let rect;
+        if (job.box) {
+          rect = toPdfRect(page, job.box);
+        } else {
+          const rot = ((page.getRotation().angle % 360) + 360) % 360;
+          if (rot !== 0) { skipped.push(job.no); continue; }
+          const { width: W, height: H } = page.getSize();
+          rect = toPdfRect(page, { x: job.ratio.x * W, y: job.ratio.y * H, w: job.ratio.w * W, h: job.ratio.h * H });
+        }
+        if (!rect) { skipped.push(job.no); continue; }   // 돌아간 쪽은 좌표가 어긋난다 → 건너뛰고 알린다
+
+        // 상자 안에 «비율을 지켜» 넣는다
+        const k = Math.min(rect.width / signPng.w, rect.height / signPng.h);
+        const w = signPng.w * k, h = signPng.h * k;
+        page.drawImage(img, { x: rect.x + (rect.width - w) / 2, y: rect.y + (rect.height - h) / 2, width: w, height: h });
+        done++;
+
+        overlay.step(i + 1, jobs.length, `${i + 1} / ${jobs.length}군데`);
+        if (i % 10 === 9) await breathe();
       }
 
       if (skipped.length) {
-        note(elResult, `⚠ ${[...new Set(skipped)].join(', ')}쪽은 돌아가 있어(회전) 자리를 정확히 맞출 수 없어 건너뛰었습니다. ` +
+        note(elResult, `⚠ ${[...new Set(skipped)].sort((a, b) => a - b).join(', ')}쪽은 돌아가 있어(회전) ` +
+                       `자리를 정확히 맞출 수 없어 건너뛰었습니다. ` +
                        `「🔃 페이지 구성」에서 똑바로 돌린 뒤 다시 해 주세요.`);
       }
       const box = html('<div></div>');
       elResult.appendChild(box);
-      showResult(box, [{ name: `${baseName(src.name)}_서명.pdf`, note: `${done}곳`, bytes: await out.save() }]);
+      const where = targets ? `${targets.length}쪽 · 모두 ${done}군데` : `${done}곳`;
+      showResult(box, [{ name: `${baseName(src.name)}_서명.pdf`, note: where, bytes: await out.save() }]);
     } catch (e) {
       console.error(e);
       note(elResult, readErr(e));
