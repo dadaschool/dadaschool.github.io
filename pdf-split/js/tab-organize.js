@@ -89,13 +89,15 @@ export function makeOrganizeTab(panel) {
   /* ---------------- 그리기 ---------------- */
   function paint() {
     thumbs?.stop();
-    thumbs = makeThumbLoader(src.doc, { width: 168 });
+    // 🔴 회전은 «그릴 때» 반영한다. CSS transform 으로 돌리면 내용만 돌고 칸은 세로 그대로라
+    //    가로가 된 쪽이 잘려 보인다(사용자 신고). data-turn 을 읽어 그 각도로 그린다.
+    thumbs = makeThumbLoader(src.doc, { width: 168, turnOf: el => Number(el.dataset.turn) || 0 });
     elThumbs.innerHTML = '';
 
     items.forEach((it, i) => {
       const card = html(`
         <div class="thumb org" draggable="true" data-i="${i}">
-          <div class="thumb-box" data-page="${it.page}"><div class="skel"></div></div>
+          <div class="thumb-box" data-page="${it.page}" data-turn="${it.rot}"><div class="skel"></div></div>
           <div class="thumb-no">원본 ${it.page}쪽${it.rot ? ` · ${it.rot}°` : ''}</div>
           <div class="org-btns">
             <button type="button" class="btn icon" data-left  title="왼쪽으로 돌리기">↺</button>
@@ -104,10 +106,7 @@ export function makeOrganizeTab(panel) {
           </div>
         </div>`);
 
-      // 돌린 만큼 화면에서도 돌려 보여 준다(결과와 눈이 맞아야 한다)
       const bx = $('.thumb-box', card);
-      bx.style.transform = `rotate(${it.rot}deg)`;
-      bx.style.transition = 'transform .15s';
 
       $('[data-left]', card).addEventListener('click', e => { e.stopPropagation(); it.rot = (it.rot + 270) % 360; paint(); });
       $('[data-right]', card).addEventListener('click', e => { e.stopPropagation(); it.rot = (it.rot + 90) % 360; paint(); });

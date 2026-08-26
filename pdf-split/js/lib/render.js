@@ -42,14 +42,23 @@ function sharedWorker() {
   return _worker;
 }
 
-/** 쪽 하나를 캔버스에 그린다. width 를 주면 그 너비에 맞추고, dpi 를 주면 그 해상도로 그린다. */
-export async function drawPage(doc, pageNo, { width, dpi } = {}) {
+/** 쪽 하나를 캔버스에 그린다.
+    width 를 주면 그 너비에 맞추고, dpi 를 주면 그 해상도로 그린다.
+    turn 을 주면 원본 회전에 그만큼 **더해서** 그린다(90·180·270 · 🔃 페이지 구성의 미리보기). */
+export async function drawPage(doc, pageNo, { width, dpi, turn = 0 } = {}) {
   const page = await doc.getPage(pageNo);
-  // ⚠ rotation 을 넘기지 말 것. 넘기면 원본 쪽의 회전(/Rotate)을 «무시» 해서
-  //   눕혀 스캔한 문서가 옆으로 누운 채 나온다. 기본값이 «원본 그대로» 다.
-  const base = page.getViewport({ scale: 1 });
+
+  /* ⚠ rotation 을 «그냥» 넘기지 말 것. 넘긴 값이 원본 쪽의 회전(/Rotate)을 **대신**하므로
+       0 을 넘기면 눕혀 스캔한 문서가 옆으로 누운 채 나온다.
+     ⚠ 돌려서 보여 줄 때도 CSS transform 으로 돌리면 안 된다 — 그건 «내용만» 돌리고
+       칸 모양은 그대로라 가로가 된 쪽이 세로 칸에 잘린다(실제로 그랬다).
+       여기서 «돌린 크기 그대로» 그려야 미리보기와 결과가 같아진다. */
+  const extra = ((turn % 360) + 360) % 360;
+  const spin = extra ? { rotation: (page.rotate + extra) % 360 } : {};
+
+  const base = page.getViewport({ scale: 1, ...spin });
   const scale = width ? width / base.width : (dpi || 96) / 72;
-  const viewport = page.getViewport({ scale });
+  const viewport = page.getViewport({ scale, ...spin });
 
   const canvas = document.createElement('canvas');
   canvas.width  = Math.max(1, Math.round(viewport.width));
@@ -99,7 +108,7 @@ export async function pageToImage(doc, pageNo, { dpi = 150, type = 'image/png', 
 /* ------------------------------------------------------------------
    썸네일 — 쪽이 많은 교과서에서도 빠르도록 «보이는 것만» 그린다
 ------------------------------------------------------------------ */
-export function makeThumbLoader(doc, { width = 132 } = {}) {
+export function makeThumbLoader(doc, { width = 132, turnOf = null } = {}) {
   const queue = [];
   let running = false;
 
@@ -110,7 +119,8 @@ export function makeThumbLoader(doc, { width = 132 } = {}) {
       const job = queue.shift();
       if (job.canceled || !job.el.isConnected) continue;
       try {
-        const { canvas } = await drawPage(doc, job.pageNo, { width });
+        // turnOf 를 주면 그 쪽을 돌린 채로 그린다(🔃 페이지 구성)
+        const { canvas } = await drawPage(doc, job.pageNo, { width, turn: turnOf ? turnOf(job.el) : 0 });
         if (job.canceled || !job.el.isConnected) { canvas.width = canvas.height = 0; continue; }
         job.el.innerHTML = '';
         canvas.classList.add('thumb-img');
