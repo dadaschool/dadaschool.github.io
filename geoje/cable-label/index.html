@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>라벨 만들기</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- ⚠ 머리말과 안내 띠를 **한 덩어리로 묶어** 늘 위에 둔다.
+     예전에는 「작업 저장·불러오기」 가 왼쪽 칸 맨 아래에 있어 **화면에 안 보였다**(사용자 신고).
+     ⚠ 안내 띠에 `top: 59px` 같은 숫자를 주지 말 것 — 창이 좁으면 머리말이 두 줄이 되어 겹친다. -->
+<div class="topwrap">
+  <header class="top">
+    <h1>🏷️ 라벨 만들기</h1>
+    <span class="badge">교사 업무용 · 어떤 라벨지든</span>
+    <span class="grow"></span>
+    <div class="filebar">
+      <button class="btn sm" id="btnNewWork">🆕 새로 시작</button>
+      <button class="btn sm" id="btnSaveWork">💾 저장</button>
+      <button class="btn sm" id="btnLoadWork">📂 불러오기</button>
+      <input type="file" id="workFile" accept=".json,application/json" hidden>
+    </div>
+  </header>
+  <p class="workbar" id="workMsg" hidden></p>
+</div>
+
+<main class="wrap">
+
+  <!-- ── 왼쪽 : 조작 ─────────────────────────────────────────
+       ⚠ 설정은 «이름 | 조작» 두 칸 표(`.form`)로 줄을 맞춘다. 한때 서로 관계없는 설정을
+         좌우로 짝지어 놓았다가 «디자인이 이상해졌다» 는 신고를 받았다.
+         짝지어 두는 것은 «같은 종류» 일 때만 한다(각 줄 N장 · 시작 칸 N번). -->
+  <section class="panel">
+
+    <details class="card cardfold" id="sheetCard">
+      <summary><b>⓿ 라벨 시트</b> <span class="pick" id="sheetPick"></span></summary>
+      <div class="form">
+        <span class="lb">쓰는 시트</span>
+        <span class="ctl"><select id="sheet"></select></span>
+      </div>
+      <p class="help" id="sheetInfo"></p>
+      <details class="fold" id="editFold">
+        <summary>✏️ 이 시트 규격 고치기 — <b>인쇄해 보니 자리가 안 맞을 때</b></summary>
+        <p class="help">
+          숫자를 고치면 <b>오른쪽 미리보기가 곧바로 바뀝니다.</b>
+          라벨 <b>하나의 크기와 간격</b>을 고치는 곳입니다 —
+          종이 전체가 통째로 밀렸다면 「③ 인쇄 위치 맞추기」를 쓰세요.
+        </p>
+        <div id="editHost"></div>
+      </details>
+      <details class="fold" id="detectFold">
+        <summary>🔍 다른 라벨 시트 쓰기 — <b>원본 파일로 규격 알아내기</b></summary>
+        <p class="help">
+          <b>아무것도 쓰지 않은 빈 라벨 시트</b>를 스캔해서 넣으면 라벨의 크기와 자리를 스스로 찾아냅니다.
+          스캔 PDF 또는 그림(PNG·JPG)을 넣으세요.
+          <b>색이 있는 라벨</b>은 색으로, <b>흰 라벨지</b>는 라벨을 떼는 <b>윤곽선(칼선)</b>으로 찾습니다.
+        </p>
+        <input type="file" id="srcFile" accept=".pdf,image/png,image/jpeg">
+        <div class="row" id="srcTools" hidden>
+          <button class="btn ghost sm" id="btnRot">↻ 90° 돌리기</button>
+          <label class="num">종이
+            <select id="paper">
+              <option value="297x210">A4 가로</option>
+              <option value="210x297">A4 세로</option>
+              <option value="custom">직접 입력</option>
+            </select>
+          </label>
+        </div>
+        <div class="row" id="paperCustom" hidden>
+          <label class="num">가로 <input type="number" id="paperW" min="50" max="1000" step="0.1" value="297"> mm</label>
+          <label class="num">세로 <input type="number" id="paperH" min="50" max="1000" step="0.1" value="210"> mm</label>
+        </div>
+        <div class="row" id="srcGo" hidden>
+          <button class="btn" id="btnDetect">🔍 규격 알아내기</button>
+        </div>
+        <p class="msg" id="detMsg"></p>
+        <div id="detOut" hidden>
+          <div class="overlay">
+            <canvas id="detCanvas"></canvas>
+            <svg id="detSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+          <p class="help">
+            빨간 네모가 앱이 찾은 라벨입니다. <b>스캔한 라벨과 겹쳐 보이면 맞습니다.</b>
+            어긋나 보이면 「↻ 90° 돌리기」나 종이 크기를 고쳐 다시 해 보세요.
+          </p>
+          <table class="nums" id="detTable"></table>
+          <details class="fold" id="detEditFold">
+            <summary>✏️ 숫자를 손으로 고치기 — <b>빨간 네모가 조금 어긋날 때</b></summary>
+            <p class="help">고치면 <b>위 그림의 빨간 네모가 곧바로 움직입니다.</b> 겹쳐 보일 때까지 맞추세요.</p>
+            <div id="detEditHost"></div>
+          </details>
+          <div class="row">
+            <input type="text" id="detName" placeholder="이 시트의 이름 (예 : 케이블타이 40장)" maxlength="40">
+            <button class="btn" id="btnUseSpec">이 규격으로 쓰기</button>
+          </div>
+        </div>
+      </details>
+    </details>
+
+    <div class="card" id="textCard">
+      <h2>① 라벨에 넣을 글자</h2>
+      <textarea id="texts" rows="7" spellcheck="false"
+        placeholder="거제중&#10;무궁화&#10;USB LAN&#10;전원 *4"></textarea>
+      <div class="row">
+        <button class="btn ghost sm" id="btnSample">예시 채우기</button>
+        <button class="btn ghost sm" id="btnClear">비우기</button>
+        <span class="grow"></span>
+        <span class="count" id="count">0장</span>
+      </div>
+      <div class="form">
+        <span class="lb">장수 표기</span>
+        <span class="ctl"><label class="chk"><input type="checkbox" id="star" checked>
+          줄 끝의 <code>*3</code> 을 3장으로</label></span>
+
+        <span class="lb">장수·시작</span>
+        <span class="ctl">각 줄 <input type="number" id="each" min="1" max="300" value="1"> <i>장</i>
+          <span class="sep">·</span>
+          <span title="쓰다 남은 시트를 다시 쓸 때. 미리보기에서 칸을 눌러도 바뀝니다.">시작</span>
+          <input type="number" id="start" min="1" max="30" value="1"> <i>번</i></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>② 글자와 배경</h2>
+      <div class="form">
+        <span class="lb">글자 크기</span>
+        <span class="ctl">
+          <input type="range" id="sizeR" min="3" max="12" step="0.1" value="8.5">
+          <input type="number" id="size" min="3" max="12" step="0.1" value="8.5"> <i>mm</i>
+        </span>
+
+        <span class="lb">맞춤</span>
+        <span class="ctl"><select id="align">
+          <option value="center">가운데</option>
+          <option value="left">왼쪽</option>
+        </select></span>
+
+        <span class="lb">두 번 찍기</span>
+        <span class="ctl"><label class="chk" title="머리를 반 접어 케이블에 붙이면 앞뒤 양면에 글자가 보입니다.">
+          <input type="checkbox" id="both" checked> 한 칸에 위·아래 같은 글자</label></span>
+
+        <span class="lb" id="whichLb" hidden>글자 자리</span>
+        <span class="ctl" id="whichWrap" hidden><select id="which">
+          <option value="middle">칸 가운데 (접지 않는 라벨)</option>
+          <option value="top">위쪽 반</option>
+          <option value="bottom">아래쪽 반</option>
+        </select></span>
+
+        <span class="lb">거꾸로</span>
+        <span class="ctl"><label class="chk" title="기본은 꺼짐 — 손으로 쓴 견본이 두 줄 모두 똑바로였습니다.">
+          <input type="checkbox" id="flip"> 아래쪽 줄만 거꾸로</label></span>
+      </div>
+
+      <details class="fold" id="bgFold">
+        <summary>🎨 라벨 배경 그림 — <b>칸 크기에 저절로 맞춥니다</b></summary>
+        <p class="help">
+          그림(PNG·JPG)을 넣으면 <b>글자가 들어간 칸</b>의 배경이 됩니다.
+          비율을 지키면서 칸 크기에 맞추므로 찌그러지지 않습니다.
+        </p>
+        <input type="file" id="bgFile" accept="image/png,image/jpeg">
+        <div id="bgTools" hidden>
+          <div class="row">
+            <span class="bgthumb"><img id="bgThumb" alt="배경 그림"></span>
+            <span class="grow"></span>
+            <button class="btn ghost sm" id="btnBgClear">✕ 배경 없애기</button>
+          </div>
+          <div class="form">
+            <span class="lb">맞추는 법</span>
+            <span class="ctl"><select id="bgFit">
+              <option value="cover">칸을 꽉 채우기 (넘치면 잘림)</option>
+              <option value="contain">칸 안에 다 보이게 (여백 생김)</option>
+            </select></span>
+
+            <span class="lb">진하기</span>
+            <span class="ctl">
+              <input type="range" id="bgOpacityR" min="5" max="100" step="5" value="100">
+              <input type="number" id="bgOpacity" min="5" max="100" step="5" value="100"> <i>%</i>
+            </span>
+          </div>
+          <p class="help">글자가 잘 보이지 않으면 <b>진하기</b>를 낮추세요.</p>
+        </div>
+      </details>
+    </div>
+
+    <details class="card cardfold" id="calibCard">
+      <summary><b>③ 인쇄 위치 맞추기</b> <span class="pick" id="calibPick"></span></summary>
+      <p class="help">
+        처음 한 번만 하면 됩니다. <b>윤곽선</b>을 켜고 <b>빈 종이</b>에 뽑아 라벨 시트와 겹쳐 보고,
+        어긋난 만큼 아래 숫자를 옮기세요. 이 값은 이 컴퓨터에 저장됩니다.
+      </p>
+      <div class="form">
+        <span class="lb">윤곽선</span>
+        <span class="ctl"><label class="chk" title="빈 종이에 뽑아 라벨 시트와 겹쳐 보면 어긋난 만큼을 알 수 있습니다.">
+          <input type="checkbox" id="outline"> 라벨 윤곽선도 함께 인쇄</label></span>
+
+        <span class="lb">밀기</span>
+        <span class="ctl">가로 <input type="number" id="offx" step="0.1" value="0"> <i>mm</i>
+          <span class="sep">·</span>
+          세로 <input type="number" id="offy" step="0.1" value="0"> <i>mm</i>
+          <button class="btn ghost sm" id="btnOff0">0 으로</button></span>
+      </div>
+      <p class="warn">
+        🖨 인쇄 창에서 <b>배율을 「실제 크기」 · 「100%」</b> 로 두세요.
+        「용지에 맞추기」로 두면 라벨이 조금 줄어들어 글자가 칸을 벗어납니다.
+      </p>
+    </details>
+
+    <div class="card go">
+      <button class="btn big" id="btnPdf">⬇ PDF 내려받기</button>
+      <button class="btn big alt" id="btnPrint">🖨 인쇄</button>
+      <p class="msg" id="msg"></p>
+    </div>
+
+  </section>
+
+  <!-- ── 오른쪽 : 미리보기 ───────────────────────────────── -->
+  <section class="stage">
+    <div class="stagebar">
+      <b>미리보기</b>
+      <span class="dim" id="specName"></span>
+      <span class="grow"></span>
+      <button class="btn ghost sm" id="pgPrev">◀</button>
+      <span class="pg" id="pgNow">1 / 1</span>
+      <button class="btn ghost sm" id="pgNext">▶</button>
+    </div>
+    <div id="paperView" class="paper"></div>
+    <p class="legend" id="legend"></p>
+  </section>
+
+</main>
+
+<script src="js/vendor/pdf-lib.min.js"></script>
+<script src="js/vendor/fontkit.umd.min.js"></script>
+<script src="js/sheet.js"></script>
+<script src="js/text.js"></script>
+<script src="js/font.js"></script>
+<script src="js/preview.js"></script>
+<script src="js/parse.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/source.js"></script>
+<script src="js/detect.js"></script>
+<script src="js/bg.js"></script>
+<script src="js/work.js"></script>
+<script src="js/specedit.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+/* 케이블타이 라벨 만들기 — 화면 꾸미기
+   ⚠ 위쪽의 색·머리말·카드·단추 규칙은 code-manager / launcher 와 같은 얼개다
+     (앱 폴더가 자기 완결이어야 해서 복제했다). 「미리보기」 아래만 이 앱 전용이다. */
+
+:root{
+  --bg:#f6f7fb; --card:#fff; --line:#dfe3ee; --band:#eef2ff;
+  --ink:#1f2430; --dim:#6b7280; --key:#3b5bdb; --key2:#1e40af;
+  --warn:#b45309; --warnbg:#fffbeb; --ok:#15803d;
+}
+*{box-sizing:border-box}
+/* 🔴 **`hidden` 을 못 박아 둔다.** 브라우저 기본 규칙 `[hidden]{display:none}` 은
+     우리가 쓴 `display:flex` 같은 규칙에 **밀린다.** 그래서 `.row`·`.form .ctl` 에
+     `hidden` 을 걸어도 그대로 보이고 있었다(«자리» 칸·종이 크기 칸이 늘 보였다).
+     `hidden` 은 «지금 쓸 것이 아니다» 라는 뜻이므로 언제나 이겨야 한다. */
+[hidden]{display:none !important}
+/* 🔴 «조작은 한 화면에» (프로젝트 공통 규칙) — 화면을 앱 셸로 짠다.
+     머리말은 위에 고정, 왼쪽 «조작» 칸과 오른쪽 «미리보기» 칸이 **각자** 스크롤한다.
+     그래서 글자 크기를 만지는 동안에도 미리보기가 늘 보인다.
+   ⚠ 창이 좁아지면(1100px 미만) 두 칸이 위아래로 쌓이므로 **보통 문서처럼** 되돌린다 —
+     그때 body 를 100vh 로 묶어 두면 아래쪽 칸이 잘려 아무것도 못 본다. */
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.6 "맑은 고딕","Malgun Gothic",system-ui,sans-serif;
+}
+
+
+
+code{background:var(--band); padding:.05em .35em; border-radius:4px; font-size:.95em}
+
+/* 머리말 — ⚠ 늘 붙어 있게 둔다(파일 단추가 스크롤해도 보여야 한다).
+   ⚠ 머리말과 안내 띠를 **감싸는 칸**에 sticky 를 준다. 안내 띠에 따로 `top: 59px` 같은
+     숫자를 주면 창이 좁아 머리말이 두 줄이 될 때 겹친다. */
+.topwrap{position:sticky; top:0; z-index:20; box-shadow:0 1px 6px rgba(15,23,42,.08)}
+.top{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:12px 22px; background:#fff; border-bottom:2px solid var(--line);
+}
+.top h1{margin:0; font-size:24px; letter-spacing:-.5px}
+.filebar{display:flex; gap:8px; flex-wrap:wrap}
+.filebar .btn{padding:7px 12px; font-size:14.5px}
+
+/* 파일 단추가 낸 안내 — 단추 바로 아래에 붙어 보인다 */
+.workbar{
+  margin:0; padding:9px 22px; font-size:14.5px; font-weight:700;
+  background:var(--band); color:var(--key2); border-bottom:1px solid var(--line);
+}
+.workbar.err{background:#fef2f2; color:#b91c1c; border-color:#fecaca}
+.workbar.ok{background:#f0fdf4; color:var(--ok); border-color:#bbf7d0}
+.badge{
+  background:var(--band); color:var(--key2); border:1px solid #c7d2fe;
+  padding:4px 12px; border-radius:999px; font-size:14px; font-weight:700;
+}
+
+/* 두 칸 배치 */
+.wrap{display:grid; grid-template-columns:minmax(380px,450px) 1fr; gap:18px; padding:18px 22px 40px}
+@media (max-width:1100px){ .wrap{grid-template-columns:1fr} }
+
+.panel{display:flex; flex-direction:column; gap:14px; min-width:0}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 16px}
+.card h2{margin:0 0 6px; font-size:17px}
+.help{margin:0 0 8px; color:var(--dim); font-size:13.5px}
+.dim{color:var(--dim); font-weight:400}
+
+textarea{
+  width:100%; resize:vertical; padding:10px 12px;
+  border:1px solid var(--line); border-radius:8px;
+  font:18px/1.7 "맑은 고딕",monospace; background:#fdfdff;
+}
+textarea:focus,input:focus,select:focus{outline:3px solid #c7d2fe; outline-offset:1px}
+
+.row{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:8px}
+.grow{flex:1}
+.count{font-weight:700; color:var(--key2)}
+
+label.chk{display:flex; align-items:center; gap:7px; margin-top:6px; font-size:15px; cursor:pointer}
+label.chk input{width:18px; height:18px}
+label.num{display:flex; align-items:center; gap:8px; margin-top:6px; font-size:15px}
+label.num.sub{margin-left:26px}
+
+/* «이름 | 조작» 두 칸 표 — 설정의 줄을 맞춘다.
+   ⚠ 서로 관계없는 설정을 좌우로 짝지어 놓지 말 것(«디자인이 이상해졌다» 는 신고를 받았다).
+     짝지어 두는 것은 «같은 종류» 일 때만 — 한 `.ctl` 안에 나란히 넣는다. */
+.form{display:grid; grid-template-columns:5.4em 1fr; gap:7px 10px; align-items:center; margin:2px 0 0}
+.form .lb{color:var(--dim); font-size:14px; text-align:right; white-space:nowrap}
+.form .ctl{display:flex; align-items:center; gap:7px; min-width:0; flex-wrap:wrap}
+.form .ctl input[type=number]{width:4.4em}
+.form .ctl input[type=range]{flex:1 1 90px; min-width:70px}
+.form .ctl select{max-width:100%}
+.form .ctl i{color:var(--dim); font-style:normal; font-size:13.5px}
+.form .ctl label.chk{margin:0}
+.form .sep{color:var(--line)}
+input[type=number]{width:5.5em; padding:6px 8px; border:1px solid var(--line); border-radius:8px; font-size:16px}
+input[type=range]{flex:1; min-width:90px}
+select{padding:6px 10px; border:1px solid var(--line); border-radius:8px; font-size:16px; background:#fff}
+
+.warn{
+  margin:10px 0 0; padding:8px 10px; font-size:14px;
+  background:var(--warnbg); color:var(--warn); border:1px solid #fde68a; border-radius:8px;
+}
+
+/* 단추 */
+.btn{
+  border:1px solid var(--line); background:#fff; color:var(--ink);
+  padding:8px 14px; border-radius:9px; font-size:15px; font-weight:700; cursor:pointer;
+}
+.btn:hover{background:var(--band)}
+.btn.sm{padding:4px 10px; font-size:14px}
+.card.go{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.btn.big{
+  flex:1 1 40%; padding:12px; font-size:18px;
+  background:var(--key); border-color:var(--key); color:#fff;
+}
+.card.go .msg{flex-basis:100%; margin:0}
+.btn.big:hover{background:var(--key2)}
+.btn.big.alt{background:#fff; color:var(--key2); border-color:#c7d2fe}
+.btn.big.alt:hover{background:var(--band)}
+.btn:disabled{opacity:.5; cursor:progress}
+.card.go{position:sticky; bottom:0}
+.msg{margin:4px 0 0; min-height:1.3em; font-size:14px; color:var(--dim)}
+.msg.err{color:#b91c1c; font-weight:700}
+.msg.ok{color:var(--ok); font-weight:700}
+
+/* 제목만 남기고 접히는 카드 (⓿ 라벨 시트 · ③ 인쇄 위치) */
+details.cardfold{padding:0}
+details.cardfold>summary{
+  padding:12px 16px; cursor:pointer; font-size:17px; list-style:none;
+  display:flex; align-items:center; gap:10px; border-radius:12px;
+}
+details.cardfold>summary::-webkit-details-marker{display:none}
+details.cardfold>summary::before{content:'▸'; color:var(--dim); font-size:13px}
+details.cardfold[open]>summary::before{content:'▾'}
+details.cardfold>summary:hover{background:var(--band)}
+details.cardfold[open]>summary{border-bottom:1px solid var(--line)}
+details.cardfold>*:not(summary){margin-left:16px; margin-right:16px}
+details.cardfold>*:last-child{margin-bottom:14px}
+details.cardfold>summary>b{flex:none}
+.pick{color:var(--key2); font-size:14px; font-weight:700; overflow:hidden;
+  text-overflow:ellipsis; white-space:nowrap; min-width:0}
+
+/* 제목을 눌러 펼치는 칸 */
+details.fold{margin-top:10px; border:1px solid var(--line); border-radius:9px; background:#fbfcff}
+details.fold>summary{
+  padding:9px 12px; cursor:pointer; font-size:15px; font-weight:700; color:var(--key2);
+  border-radius:9px;
+}
+details.fold>summary:hover{background:var(--band)}
+details.fold[open]>summary{border-bottom:1px solid var(--line)}
+details.fold>*:not(summary){margin-left:12px; margin-right:12px}
+details.fold>*:last-child{margin-bottom:12px}
+input[type=file]{
+  width:calc(100% - 24px); margin-top:8px; padding:8px; font-size:14px;
+  border:1px dashed var(--line); border-radius:8px; background:#fff;
+}
+input[type=text]{flex:1; min-width:8em; padding:7px 10px; border:1px solid var(--line); border-radius:8px; font-size:15px}
+
+/* 찾은 라벨을 스캔 그림 위에 겹쳐 보여 주는 칸 */
+.overlay{position:relative; margin-top:10px; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#fff}
+.overlay canvas{display:block; width:100%; height:auto}
+.overlay svg{position:absolute; inset:0; width:100%; height:100%}
+.overlay svg rect{fill:none; stroke:#dc2626; stroke-width:.4}
+.overlay svg rect.t{stroke:#f59e0b; stroke-width:.3}
+
+/* 배경 그림 작은 미리보기 */
+.bgthumb{display:inline-flex; width:62px; height:44px; border:1px solid var(--line); border-radius:6px;
+  overflow:hidden; background:#fff; align-items:center; justify-content:center}
+.bgthumb img{max-width:100%; max-height:100%; display:block}
+
+/* 규격을 손으로 고치는 칸 */
+.specedit{margin-top:8px}
+.specgrid{display:grid; grid-template-columns:1fr; gap:5px; margin:8px 0}
+.specrow{display:grid; grid-template-columns:1fr 6.5em 2em; align-items:center; gap:6px; font-size:14px}
+.specrow input{width:100%; padding:5px 7px; border:1px solid var(--line); border-radius:7px; font-size:15px}
+.specrow i{color:var(--dim); font-style:normal; font-size:13px}
+.specnote{font-size:13.5px; color:var(--dim); font-weight:700}
+.specnote.err{color:#b91c1c}
+
+table.nums{width:calc(100% - 24px); margin-top:10px; border-collapse:collapse; font-size:14px}
+table.nums th,table.nums td{border:1px solid var(--line); padding:4px 8px; text-align:left}
+table.nums th{background:var(--band); width:46%; font-weight:700}
+table.nums td{font-variant-numeric:tabular-nums}
+
+/* ── 미리보기 (이 앱 전용) ───────────────────────────────── */
+.stage{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; min-width:0}
+.stagebar{display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap}
+.pg{font-variant-numeric:tabular-nums; font-weight:700; min-width:4em; text-align:center}
+.paper{
+  background:#e9ecf5; border:1px solid var(--line); border-radius:8px; padding:10px;
+  overflow:auto;
+}
+.legend{margin:10px 0 0; color:var(--dim); font-size:13.5px}
+
+/* 종이 : viewBox 가 mm 그대로(297×210)이므로 폭만 맞추면 비율이 지켜진다 */
+svg.sheet{display:block; width:100%; height:auto; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.18)}
+svg.sheet .head{fill:#f1f3f9; stroke:#c3c9d9; stroke-width:.25}
+svg.sheet .tail{fill:#f7f8fc; stroke:#d6dbe8; stroke-width:.22}
+svg.sheet .fold{stroke:#dfe3ee; stroke-width:.2; stroke-dasharray:1.2 1.2}
+svg.sheet .no{fill:#b3b9c9; font-size:2.4px; font-family:sans-serif}
+svg.sheet .ink{fill:#111}
+svg.sheet .memo{fill:#8b91a2}
+svg.sheet .hit{fill:transparent; cursor:pointer}
+svg.sheet .slot.filled .head{fill:#fffbe6; stroke:#e8d67a}
+svg.sheet .slot:hover .head{fill:#e0e7ff; stroke:var(--key)}
+svg.sheet .slot.start .head{stroke:var(--key); stroke-width:.5}
+
+/* ══════════════════════════════════════════════════════════════
+   🔴 **화면 크기에 따른 규칙은 파일 «맨 아래» 에 둔다.**
+   한때 이 두 덩어리가 파일 위쪽(기본 규칙보다 앞)에 있었다. `@media` 는
+   특이도를 높여 주지 않으므로, 아래에 있는 같은 이름의 기본 규칙
+   (`.card{padding:13px 16px}` · `.panel{gap:14px}`)이 **이겨 버렸다.**
+   그래서 «낮은 화면에서 여백 좁히기» 가 **하나도 듣지 않고 있었다** —
+   `#textCard` 처럼 id 로 쓴 것만 들어서 «반쯤 듣는» 상태라 알아채기 어려웠다.
+   ⚠ 새 규칙을 넣을 때 이 아래에 두지 말 것(그러면 화면 크기 규칙을 다시 덮는다).
+   ══════════════════════════════════════════════════════════════ */
+
+@media (min-width:1101px){
+  html,body{height:100%}
+  body{display:flex; flex-direction:column; overflow:hidden}
+  .topwrap{flex:none; position:static}
+  .wrap{flex:1; min-height:0; padding-bottom:18px}
+  /* 🔴 `overflow-y:auto` 를 빼지 말 것. `body` 가 `overflow:hidden` 이므로 이것이 없으면
+       넘친 내용이 **잘린 채 스크롤도 안 된다**(실제로 한 번 지웠다가 사용자 신고를 받았다).
+       ⓿ 라벨 시트를 펼치면 왼쪽 칸이 한 화면을 넘는 것이 정상이다 — 그때 스크롤이 필요하다. */
+  .panel{overflow-y:auto; min-height:0; padding-right:4px; gap:10px}
+  .stage{overflow-y:auto; min-height:0}
+
+  /* 🔴 «조작은 한 화면에» — 다른 칸은 제 높이만 쓰고, **글자 목록이 남는 자리를 먹는다.**
+       그래서 어떤 창 높이에서도 ①②③ 과 단추가 스크롤 없이 다 보인다.
+     ⚠ 목록 칸을 고정 높이로 두면(예전 rows=10) 창이 조금만 낮아도 아래가 잘려
+       «글자 크기를 만지려는데 미리보기가 안 보인다» 가 된다(사용자 신고). */
+  .panel>*{flex:none}
+  #textCard{flex:1 1 auto; min-height:200px; display:flex; flex-direction:column}
+  /* 🔴 `resize:none` — 높이를 flex 가 정하므로 **끌어도 움직이지 않는다.** 손잡이를 남겨 두면
+       «작동하지 않는 단추» 로 보인다(사용자 신고). 대신 기본 높이를 넉넉히 준다. */
+  #textCard textarea{flex:1 1 auto; min-height:120px; height:auto; resize:none}
+  .panel>.card.go{position:static}
+}
+
+/* 화면이 낮은 노트북(대개 768px)에서도 «조작은 한 화면에» 를 지키려고 더 좁힌다.
+   ⚠ 글자 크기를 줄이지는 않는다 — 교실·교무실에서 보는 화면이라 읽히는 것이 먼저다.
+     대신 여백과 카드 사이 틈만 줄인다. */
+@media (min-width:1101px) and (max-height:850px){
+  #textCard{min-height:150px}
+  #textCard textarea{min-height:78px}
+  .form{gap:5px 10px}
+  .wrap{padding:10px 16px 10px; gap:12px}
+  .panel{gap:6px}
+  .card{padding:9px 13px}
+  .card h2{margin:0 0 4px}
+  details.cardfold>summary{padding:9px 13px}
+  label.chk,label.num{margin-top:4px}
+  .help{margin:0 0 5px}
+  details.fold{margin-top:6px}
+  details.fold>summary{padding:7px 11px}
+  .btn.big{padding:10px; font-size:17px}
+}
