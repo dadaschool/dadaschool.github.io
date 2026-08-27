@@ -223,15 +223,18 @@ svg.sheet .slot.start .head{stroke:var(--key); stroke-width:.5}
   .panel{overflow-y:auto; min-height:0; padding-right:4px; gap:10px}
   .stage{overflow-y:auto; min-height:0}
 
-  /* 🔴 «조작은 한 화면에» — 다른 칸은 제 높이만 쓰고, **글자 목록이 남는 자리를 먹는다.**
-       그래서 어떤 창 높이에서도 ①②③ 과 단추가 스크롤 없이 다 보인다.
-     ⚠ 목록 칸을 고정 높이로 두면(예전 rows=10) 창이 조금만 낮아도 아래가 잘려
-       «글자 크기를 만지려는데 미리보기가 안 보인다» 가 된다(사용자 신고). */
+  /* 🔴 «조작은 한 화면에» — 모든 칸이 **제 내용 높이만** 쓰고, 넘치면 왼쪽 칸이 스크롤한다.
+     🚨 예전에는 `#textCard` 에 `flex:1` 을 주어 «글자 목록이 남는 자리를 먹게» 했다.
+       그런데 창이 낮으면(≲850px) 그 칸에 든 내용(제목+입력칸+단추줄+«장수 표기» 표)이
+       flex 가 정한 높이를 **넘쳐서** ① `.form`(장수 표기)이 ② 카드 뒤로 숨고
+       ② 넘친 만큼이 `.panel` 스크롤 범위에 안 잡혀 **③·PDF 단추까지 스크롤로도 닿지 않았다**
+       (사용자 신고 — «1,2,3 토글이 안 됨»). flex 로 늘이지 않으면 `.panel{overflow-y:auto}`
+       가 정상 동작해 1280×620 에서 폴드를 다 펴도 모든 칸에 닿는다(재어서 확인).
+     ⚠ 넓은 창에서는 입력칸이 안 늘어나 아래에 여백만 조금 생긴다 — 무해하다. */
   .panel>*{flex:none}
-  #textCard{flex:1 1 auto; min-height:200px; display:flex; flex-direction:column}
-  /* 🔴 `resize:none` — 높이를 flex 가 정하므로 **끌어도 움직이지 않는다.** 손잡이를 남겨 두면
-       «작동하지 않는 단추» 로 보인다(사용자 신고). 대신 기본 높이를 넉넉히 준다. */
-  #textCard textarea{flex:1 1 auto; min-height:120px; height:auto; resize:none}
+  /* 입력칸은 손잡이로 높이를 바꿀 수 있다(`resize:vertical`). flex 가 높이를 정하지
+     않으므로 손잡이가 실제로 동작한다 — 예전의 «작동 안 하는 손잡이» 문제는 없다. */
+  #textCard textarea{height:150px}
   .panel>.card.go{position:static}
 }
 
@@ -239,8 +242,7 @@ svg.sheet .slot.start .head{stroke:var(--key); stroke-width:.5}
    ⚠ 글자 크기를 줄이지는 않는다 — 교실·교무실에서 보는 화면이라 읽히는 것이 먼저다.
      대신 여백과 카드 사이 틈만 줄인다. */
 @media (min-width:1101px) and (max-height:850px){
-  #textCard{min-height:150px}
-  #textCard textarea{min-height:78px}
+  #textCard textarea{height:112px}     /* 낮은 화면에서는 입력칸을 줄여 스크롤을 아낀다 */
   .form{gap:5px 10px}
   .wrap{padding:10px 16px 10px; gap:12px}
   .panel{gap:6px}
