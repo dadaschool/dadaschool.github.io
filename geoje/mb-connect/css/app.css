@@ -1,0 +1,438 @@
+/* ============================================================
+   마이크로비트 연결 시뮬레이터 — 공통 스타일
+   교실 TV·전자칠판에서 보이도록 글자와 구멍을 크게 잡았다.
+   ============================================================ */
+:root {
+  --ink: #1b2430;
+  --sub: #5b6875;
+  --line: #d8dee6;
+  --band: #eef2ff;
+  --pri: #2f5fd0;
+  --ok: #2f9e44;
+  --no: #e03131;
+  --warn: #e8a90c;
+  --pcb: #14181f;
+  --pcb2: #1d232c;
+  --sy: #f5c116;   /* S 줄 노랑 */
+  --sv: #d63c3c;   /* V 줄 빨강 */
+  --sg: #2b3a52;   /* G 줄 검정 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+  color: var(--ink);
+  background: #f6f8fb;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+a { color: var(--pri); }
+
+/* ── 머리글 ────────────────────────────────────────────── */
+header.top {
+  background: linear-gradient(135deg, #21375f, #2f5fd0);
+  color: #fff;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+header.top h1 { margin: 0; font-size: 27px; letter-spacing: -.5px; }
+header.top .badge {
+  background: rgba(255, 255, 255, .18);
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 15px;
+}
+header.top .sp { flex: 1; }
+header.top a { color: #fff; font-size: 15px; }
+
+.wrap { max-width: 1500px; margin: 0 auto; padding: 18px; }
+
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(20, 30, 50, .05);
+}
+.card > h2 { margin: 0 0 10px; font-size: 21px; }
+.card > h3 { margin: 16px 0 8px; font-size: 18px; }
+.hint { color: var(--sub); font-size: 15px; margin: 6px 0; }
+
+/* ── 단추 ──────────────────────────────────────────────── */
+button, .btn {
+  font-family: inherit;
+  font-size: 17px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+}
+button:hover, .btn:hover { background: #f2f5fa; }
+button.pri { background: var(--pri); border-color: var(--pri); color: #fff; font-weight: 700; }
+button.pri:hover { background: #24519f; }
+button.big { font-size: 20px; padding: 12px 24px; }
+button.gh { background: transparent; }
+button:disabled { opacity: .45; cursor: default; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+/* ============================================================
+   무대 — 왼쪽 부품 · 오른쪽 확장보드 · 위에 선을 그리는 층
+   ============================================================ */
+/* 가로로 넘칠 때는 겉을 굴린다. 선을 그리는 SVG 는 «굴러가는 안쪽» 에 있어야
+   스크롤해도 선이 구멍에서 떨어지지 않는다 — 겉에 두면 어긋난다. */
+.stagescroll { overflow-x: auto; padding: 10px 4px 6px; }
+/* 부품과 보드 사이의 넓은 틈은 **선이 지나가는 통로**다.
+   좁게 두면 선이 꺾일 자리가 없어 번호 배지와 선이 구멍 위에 얹힌다
+   (26px 이었을 때 실제로 그랬다). 선생님이 주신 회로도처럼 넓게 벌려 둔다. */
+.stage {
+  position: relative;
+  display: flex;
+  gap: 140px;
+  align-items: flex-start;
+  width: max-content;
+  min-width: 100%;
+}
+@media (max-width: 900px) { .stage { gap: 96px; } }
+/* 🔴 선을 그리는 층은 **확장보드보다 위**에 있어야 한다.
+   `.board` 가 `position:relative` 이고 DOM 에서 이 SVG 보다 **뒤**에 있어서,
+   z-index 를 주지 않으면 보드가 선을 덮는다 — 「확장보드 위에서는 선이 안 보인다」는
+   신고가 실제로 있었다(2026-08-24). `z-index` 를 지우지 말 것.
+   ⚠ 그래서 «선을 눌러 지우기» 는 쓸 수 없다 — 선을 누르는 넓은 판이 보드 구멍의
+     클릭을 가로챈다. 지우기는 **번호 배지**(`g.tagno`)가 맡는다. */
+.stage .wires {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: visible;
+}
+.stage .wires g.tagno { pointer-events: auto; cursor: pointer; }
+.stage .wires g.tagno:hover circle { stroke: #ffd43b; stroke-width: 3px; }
+/* 🔴 `fill:none` 을 **모든 path 에** 못 박는다.
+   `path.hit` 에만 빠뜨렸더니 SVG 기본값(검정)으로 **칠해져서** 선이 안 보였다
+   (사용자 신고 : 커다란 검은 덩어리가 선을 덮었다). 이 줄을 지우지 말 것. */
+.stage .wires path { fill: none; }
+/* 흰 테두리(피복) — 어두운 보드 위에서 색이 또렷하게 보이게 한다.
+   보드 위를 지나는 선이 구멍과 섞이지 않도록 넉넉히 준다 */
+.stage .wires path.case { stroke: #fff; stroke-width: 11px; opacity: .95; }
+.stage .wires path.w { stroke-linecap: round; stroke-linejoin: round; stroke-width: 5.5px; }
+.stage .wires .glow { stroke-width: 13px; opacity: .3; }
+.stage .wires circle.end { stroke: #fff; stroke-width: 2px; }
+.stage .wires g.tagno text {
+  font-family: "Malgun Gothic", sans-serif; font-size: 12px; font-weight: 700;
+  fill: #fff; text-anchor: middle; dominant-baseline: central;
+}
+.stage .wires g.tagno circle { stroke: #fff; stroke-width: 2px; }
+
+/* ── 부품 카드 ─────────────────────────────────────────── */
+.parts { display: flex; flex-direction: column; gap: 14px; min-width: 340px; }
+.part {
+  background: var(--pcb2);
+  color: #e9edf3;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+.part .face { width: 92px; height: 56px; flex: none; }
+.part .pinfo { flex: 1; min-width: 0; }
+.part .pname { font-weight: 700; font-size: 17px; }
+.part .pmodel { font-size: 13px; color: #9fb0c4; }
+.part .ppower {
+  display: inline-block; font-size: 12.5px; margin-top: 3px;
+  border-radius: 999px; padding: 1px 8px;
+  background: rgba(230, 60, 60, .2); border: 1px solid rgba(230, 60, 60, .5); color: #ffc9c9;
+}
+.part .ppower.any { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .25); color: #cfd8e3; }
+.part .ppins { display: flex; flex-direction: column; gap: 4px; flex: none; }
+.ppin { display: flex; align-items: center; gap: 7px; justify-content: flex-end; }
+.ppin .plab { font-size: 13.5px; text-align: right; white-space: nowrap; }
+.ppin .plab b { font-size: 15px; }
+.ppin .plab i { font-style: normal; color: #9fb0c4; font-size: 12px; display: block; line-height: 1.1; }
+.ppin.done .plab { color: #9fb0c4; }
+
+/* ── 구멍 ──────────────────────────────────────────────── */
+.ho {
+  width: 24px; height: 24px; flex: none;
+  border-radius: 5px;
+  border: 2px solid rgba(0, 0, 0, .4);
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  background: #8a95a3;
+}
+.ho::after {
+  content: ""; position: absolute; inset: 0; margin: auto;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #14181f;
+}
+.ho:hover { outline: 3px solid #74c0fc; outline-offset: 1px; }
+.ho.s { background: var(--sy); }
+.ho.v { background: var(--sv); }
+.ho.g { background: var(--sg); }
+.ho.g::after { background: #0b1220; }
+.ho.nc { background: #4b5563; cursor: not-allowed; opacity: .55; }
+.ho.pad5, .ho.pad3 { width: 26px; height: 26px; border-radius: 50%; background: #2ea36b; }
+.ho.pad3 { background: #1f8fbf; }
+.ho.usb { width: 54px; height: 22px; border-radius: 4px; background: #b9c2cd; }
+.ho.usb.off { opacity: .3; cursor: not-allowed; }
+.ho.sel { outline: 4px solid #ffd43b; outline-offset: 2px; animation: pulse .9s infinite alternate; }
+.ho.busy { box-shadow: 0 0 0 3px rgba(255, 255, 255, .85) inset; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.16); } }
+.ho.judge-ok  { outline: 4px solid var(--ok); outline-offset: 2px; }
+.ho.judge-bad { outline: 4px solid var(--no); outline-offset: 2px; }
+
+/* ── 확장보드 ──────────────────────────────────────────── */
+.board {
+  position: relative;
+  width: 500px; height: 530px; flex: none;
+  background: linear-gradient(160deg, #171c24, #0f1319);
+  border-radius: 16px;
+  border: 1px solid #2b3340;
+  box-shadow: 0 6px 20px rgba(10, 18, 30, .35);
+  color: #cfd8e3;
+  font-size: 12px;
+}
+.board .edge {
+  position: absolute; left: 16px; right: 16px; top: 12px; height: 28px;
+  background: repeating-linear-gradient(90deg, #d7ba5a 0 5px, #1b2029 5px 9px);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+.board .edge span {
+  background: rgba(15, 19, 25, .82); color: #e9edf3;
+  font-size: 12px; padding: 1px 10px; border-radius: 999px;
+}
+.board .silk {
+  position: absolute; left: 128px; top: 66px;
+  color: #d7ba5a; font-size: 16px; font-weight: 700; letter-spacing: .5px;
+}
+.board .blk { position: absolute; }
+.pos-l   { left: 14px;  top: 56px; }
+.pos-r   { left: 258px; top: 56px; }
+.pos-iic { left: 372px; top: 56px; }
+.pos-spi { left: 372px; top: 196px; }
+.pos-pwr { left: 250px; top: 352px; }
+.pos-usb { left: 22px;  top: 448px; display: flex; align-items: center; gap: 8px; }
+.pos-dc  { left: 150px; top: 444px; display: flex; align-items: center; gap: 8px; }
+
+.hdr { display: flex; flex-direction: column; gap: 3px; }
+.hrow { display: flex; align-items: center; gap: 4px; }
+.hrow .num { width: 26px; text-align: center; color: #9fb0c4; font-size: 12.5px; }
+.hrow.hlab { margin-bottom: 2px; }
+.hrow.hlab .cl {
+  width: 24px; text-align: center; font-weight: 700; font-size: 12px; letter-spacing: -.5px;
+}
+.hrow.hlab .cl.s { color: var(--sy); }
+.hrow.hlab .cl.v { color: #ff8787; }
+.hrow.hlab .cl.g { color: #91a7c7; }
+.board .bname {
+  color: #d7ba5a; font-size: 12.5px; font-weight: 700; margin-bottom: 2px; text-align: center;
+}
+.board .pads { display: flex; align-items: flex-end; gap: 8px; }
+.board .pad { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.board .jmp {
+  display: flex; flex-direction: column; align-items: center;
+  border: 1px dashed #4b5563; border-radius: 6px; padding: 2px 5px;
+}
+.board .jmp .jt { color: #9fb0c4; font-size: 11px; }
+.board .jmp .jv { font-size: 12.5px; font-weight: 700; color: #74c0fc; }
+.board .jmp .jv.hi { color: #69db7c; }
+.board .jnote { margin: 6px 0 0; font-size: 11.5px; color: #9fb0c4; }
+.board .dcjack {
+  display: inline-block; width: 34px; height: 24px; border-radius: 4px;
+  background: #0b0e13; border: 2px solid #3a434f;
+}
+
+/* ── 색 안내 (학생이 고르지 않는다 — 앱이 정한다) ────────── */
+.picks { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.leg { display: inline-flex; align-items: center; gap: 6px; font-size: 15.5px; }
+.leg .dot {
+  width: 20px; height: 20px; border-radius: 50%;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--line);
+}
+.leg i { font-style: normal; color: var(--sub); font-size: 13.5px; }
+
+/* ── 6자리 코드 넣는 칸 ────────────────────────────────── */
+.codecard { border: 2px solid var(--pri); background: #f3f7ff; }
+.codecard h2 { margin: 0 0 10px; }
+/* 시작 화면 — 주소만 열면 이것만 보인다. 넉넉하게 둔다 */
+.startcard {
+  border: 2px solid var(--pri); background: #f3f7ff;
+  max-width: 680px; margin: 40px auto 16px; padding: 26px 28px;
+}
+.startcard h2 { margin: 0 0 14px; font-size: 23px; }
+input.big6 {
+  font-size: 38px; font-weight: 700; letter-spacing: 10px; text-align: center;
+  width: 260px; padding: 8px 10px; font-family: Consolas, "D2Coding", monospace;
+}
+input.mid6 {
+  font-size: 22px; font-weight: 700; letter-spacing: 5px; text-align: center;
+  width: 160px; padding: 4px 8px; font-family: Consolas, "D2Coding", monospace;
+}
+.codeno { font-size: 22px; letter-spacing: 2px; font-family: Consolas, "D2Coding", monospace; color: var(--pri); }
+td.nowrap { white-space: nowrap; }
+table.tb tr.editing { background: #fff8e1; outline: 2px solid var(--warn); outline-offset: -2px; }
+.bigcode {
+  font-size: 46px; font-weight: 700; letter-spacing: 10px;
+  font-family: Consolas, "D2Coding", monospace; color: var(--pri);
+  background: #fff; border: 2px dashed var(--pri); border-radius: 12px;
+  padding: 6px 18px; display: inline-block;
+}
+
+/* ── 채점 결과 ─────────────────────────────────────────── */
+.res { display: flex; flex-direction: column; gap: 8px; }
+.rline {
+  display: flex; gap: 10px; align-items: flex-start;
+  border: 1px solid var(--line); border-left-width: 6px; border-radius: 10px;
+  padding: 9px 12px; background: #fff;
+}
+.rline.ok   { border-left-color: var(--ok); background: #f4fcf6; }
+.rline.bad  { border-left-color: var(--no); background: #fff5f5; }
+.rline.warn { border-left-color: var(--warn); background: #fffbe9; }
+.rline .mk { font-size: 20px; line-height: 1.2; flex: none; width: 26px; text-align: center; }
+.rline .rt { flex: 1; }
+.rline .rt b { font-size: 16.5px; }
+.rline .rt p { margin: 3px 0 0; font-size: 15px; color: #3d4a58; }
+.rline code {
+  background: #eef2ff; border-radius: 5px; padding: 0 5px; font-size: 15px;
+  font-family: Consolas, "D2Coding", monospace;
+}
+
+.scorebar {
+  display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  background: var(--band); border-radius: 12px; padding: 10px 16px; margin-bottom: 12px;
+}
+.scorebar b { font-size: 19px; }
+.done {
+  background: linear-gradient(135deg, #d3f9d8, #c5f6fa);
+  border: 2px solid var(--ok); border-radius: 14px; padding: 16px 20px; margin-bottom: 14px;
+}
+.done h2 { margin: 0 0 6px; font-size: 23px; color: #1a7f37; }
+
+.extcard {
+  border: 2px dashed var(--pri); border-radius: 12px; padding: 14px 18px;
+  background: #f3f7ff; margin-bottom: 14px;
+}
+.extcard .tagx {
+  display: inline-block; background: var(--pri); color: #fff; border-radius: 8px;
+  padding: 3px 12px; font-weight: 700; margin-right: 8px; font-size: 17px;
+}
+
+table.tb { border-collapse: collapse; width: 100%; font-size: 16px; }
+table.tb th, table.tb td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; }
+table.tb th { background: var(--band); }
+table.tb td.c, table.tb th.c { text-align: center; }
+
+/* 연결표 — 화면의 선 위 배지 번호와 같은 번호를 붙인다 */
+table.tb.wire td, table.tb.wire th { padding: 6px 9px; }
+table.tb.wire tr.ro { background: #f4fcf6; }
+table.tb.wire tr.rb { background: #fff5f5; }
+table.tb.wire tr.rw { background: #fffbe9; }
+.wno {
+  display: inline-block; min-width: 24px; height: 24px; line-height: 24px;
+  border-radius: 50%; color: #fff; font-weight: 700; font-size: 14px; text-align: center;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--line);
+}
+
+.swatch {
+  display: inline-block; width: 15px; height: 15px; border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, .3); vertical-align: -2px; margin-right: 5px;
+}
+
+/* ── 교사 화면 ─────────────────────────────────────────── */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 1100px) { .grid2 { grid-template-columns: 1fr; } }
+
+/* 부품 42개를 묶음별로 나눠 놓는다 («자주 쓰는 것» 이 맨 위) */
+h3.gh {
+  margin: 16px 0 8px; font-size: 16.5px; padding-bottom: 4px;
+  border-bottom: 2px solid var(--band);
+}
+h3.gh:first-child { margin-top: 0; }
+/* 고르는 화면은 **그림 + 이름만.** 모델명·전원을 함께 넣었더니 글자가 엉켜 보였다 */
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(172px, 1fr)); gap: 8px; }
+.pbtn {
+  display: flex; align-items: center; gap: 10px; text-align: left;
+  border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px; background: #fff;
+  min-height: 50px;
+}
+.pbtn .face { width: 46px; height: 30px; flex: none; }
+.pbtn .pn { font-size: 15.5px; font-weight: 700; line-height: 1.25; }
+.pm { font-size: 12.5px; color: var(--sub); }
+.pbtn:hover { border-color: var(--pri); background: #f3f7ff; }
+
+.chosen { display: flex; flex-direction: column; gap: 12px; }
+.crow { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: #fbfcfe; }
+.crow .ch { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.crow .ch b { font-size: 17px; }
+.crow .ch .sp { flex: 1; }
+/* 🔴 그림은 **작게**. 이 화면의 주인공은 그림이 아니라 «핀 설정» 이다(사용자 지시).
+   크기를 안 주면 SVG 가 칸을 가득 채워 **화면 하나만큼 커진다** — 실제로 그랬다. */
+.crow .ch .face { width: 40px; height: 26px; flex: none; }
+
+/* 핀 설정 — 한 핀에 한 줄. 신호핀 줄만 파랗게 해 «정할 것» 을 눈에 띄게 한다 */
+.pintable { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.pinrow {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px;
+}
+.pinrow.sig { background: #f3f8ff; border-color: #bcd4f0; }
+.pinrow .pinname { font-weight: 700; font-size: 16.5px; min-width: 54px; }
+.pinrow .pinrole { font-size: 14px; color: var(--sub); min-width: 100px; }
+.pinrow .free { font-size: 14.5px; color: var(--sub); }
+.pinrow select { font-size: 16.5px; padding: 5px 10px; font-weight: 700; }
+
+/* 공식 문서에서 온 한 줄 사양 — 핀 설정 바로 아래 */
+p.spec {
+  margin: 10px 0 0; font-size: 15px; color: #33445c;
+  background: var(--band); border-radius: 8px; padding: 7px 12px;
+}
+p.spec code { background: #fff; }
+.crow .fix { font-size: 14px; color: var(--sub); }
+.crow .fix.five {
+  color: #b02a2a; background: #fff0f0; border: 1px solid #f3bcbc;
+  border-radius: 999px; padding: 1px 10px;
+}
+select, input[type="text"], input[type="number"], textarea {
+  font-family: inherit; font-size: 16px; padding: 6px 9px;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink);
+}
+input.wide { width: 100%; }
+textarea { width: 100%; min-height: 70px; }
+label.ck { display: inline-flex; align-items: center; gap: 6px; font-size: 16px; }
+label.ck input { width: 18px; height: 18px; }
+
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px;
+  background: #fff; font-size: 15.5px;
+}
+.chip.on { background: var(--pri); border-color: var(--pri); color: #fff; font-weight: 700; }
+
+.out {
+  font-family: Consolas, "D2Coding", monospace; font-size: 13px;
+  background: #0f1319; color: #a5d8ff; border-radius: 10px; padding: 10px 12px;
+  word-break: break-all; max-height: 120px; overflow: auto;
+}
+.note {
+  border-left: 5px solid var(--warn); background: #fffbe9;
+  border-radius: 8px; padding: 10px 14px; font-size: 15.5px; margin: 10px 0;
+}
+.note.red { border-left-color: var(--no); background: #fff5f5; }
+
+/* ── 인쇄에서는 화면용 단추를 숨긴다 ────────────────────── */
+@media print { .noprint { display: none !important; } }

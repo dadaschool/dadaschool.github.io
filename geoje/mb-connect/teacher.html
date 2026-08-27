@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>선생님용 — 마이크로비트 연결 문제 만들기</title>
+<link rel="stylesheet" href="css/app.css?v=202608272012">
+</head>
+<body>
+
+<header class="top">
+  <h1>선생님용 — 연결 문제 만들기</h1>
+  <span class="badge">중학교 정보 · 피지컬 컴퓨팅</span>
+  <span class="sp"></span>
+  <a href="index.html">◀ 학생 화면</a>
+</header>
+
+<div class="wrap">
+
+  <!-- ══ 교사 코드 잠금 ═══════════════════════════════════════
+       🔴 이 화면은 **교사 코드**로 열린다. 코드는 `js/locked.js` 안의 암호문을
+          여는 열쇠이며, 서버의 «만들기·고치기·지우기» 도 같은 코드를 요구한다.
+          코드는 code-manager 앱에서 관리한다(여기에 적지 않는다). -->
+  <div class="card startcard" id="gate">
+    <h2>🔒 선생님용 화면</h2>
+    <p class="hint">교사 코드를 넣으세요. 학생 화면은 코드 없이 씁니다.</p>
+    <div class="row">
+      <input type="text" id="tcode" class="wide" placeholder="교사 코드"
+             autocomplete="off" spellcheck="false" style="max-width:320px;font-size:20px">
+      <button id="btnGate" class="pri big">열기</button>
+    </div>
+    <p class="hint" id="gateMsg"></p>
+    <p class="hint">코드를 잊었으면 <b>code-manager</b> 앱(교사 PC · <code>node server.js</code>)에서 확인·변경합니다.</p>
+  </div>
+
+  <div id="mainWrap" hidden>
+
+  <!-- ══ 문제 목록 (교사 화면의 첫 화면) ═══════════════════════ -->
+  <div id="listWrap">
+    <div class="card">
+      <div class="row">
+        <h2 style="margin:0">지금까지 만든 문제</h2>
+        <span style="flex:1"></span>
+        <button id="btnNew" class="pri big">＋ 새 문제 만들기</button>
+      </div>
+      <p class="hint">학생에게 <b>6자리 숫자</b>만 불러 주면 됩니다. 고치면 <b>같은 번호</b>가 유지됩니다.</p>
+      <div id="codeList"></div>
+    </div>
+
+    <!-- 문제를 «쓸 곳» 이 아직 없을 때. PC 에서 서버를 켜라고 하지 않는다 —
+         한 번만 해 두면 되는 설정을 안내한다(2026-08-24 사용자 지시). -->
+    <div class="note red" id="noServer" hidden>
+      <b>아직 문제를 담을 곳이 정해지지 않았습니다.</b>
+      <b>한 번만</b> 설정해 두면 그 뒤로는 이 화면에서 바로 만들고 고치고 지울 수 있습니다
+      (교사 PC 에서 아무것도 켜지 않아도 됩니다).
+      <br><br>
+      → 앱 폴더의 <code>worker/설치안내.md</code> 를 따라 <b>Cloudflare Worker</b> 를 만들고(약 10분),
+      <code>js/config.js</code> 의 <code>WORKER</code> 에 주소를 넣은 뒤
+      <code>python tools/사이트에_올리기.py --push</code> 를 한 번 돌립니다.
+      <br><br>
+      <span class="pm">급할 때는 교사 PC 에서 <code>python server.py</code> 로 켜고
+      <code>http://localhost:8900/teacher.html</code> 로 들어와도 똑같이 됩니다.</span>
+    </div>
+
+    <div class="card" id="teacherNote"></div>
+  </div>
+
+  <!-- ══ 문제 만들기·고치기 ═══════════════════════════════════ -->
+  <div id="editWrap" hidden>
+  <div class="card">
+    <div class="row">
+      <button id="btnBackList" class="gh">◀ 문제 목록으로</button>
+      <span style="flex:1"></span>
+      <span class="hint" id="editWhat"></span>
+    </div>
+  </div>
+
+  <!-- ① 제목 -->
+  <div class="card">
+    <h2>① 제목</h2>
+    <input type="text" class="wide" id="t" placeholder="예 : 초음파센서 회로도">
+    <p class="hint">학생 화면 맨 위와 인쇄용 활동지의 제목이 됩니다.</p>
+  </div>
+
+  <!-- ② 부품 -->
+  <div class="card">
+    <h2>② 사용할 센서·부품 <span class="pm">— 하나 이상, 몇 개든 담을 수 있습니다</span></h2>
+    <div class="chosen" id="chosen"></div>
+
+    <h3>담을 부품 고르기 <span class="pm">— 학교 키트(Keyestudio 37-in-1) 42개</span></h3>
+    <div id="palette"></div>
+
+    <div class="row" style="margin-top:12px">
+      <button id="btnCustom" class="gh">＋ 목록에 없는 부품 직접 만들기 ▾</button>
+    </div>
+
+    <div id="customBox" hidden style="margin-top:12px;border:1px dashed var(--line);border-radius:12px;padding:14px">
+      <div class="row">
+        <label>이름 <input type="text" id="cname" placeholder="예 : 기울기 센서" style="width:200px"></label>
+        <label>모델 <input type="text" id="cmodel" placeholder="예 : SW-520D" style="width:160px"></label>
+        <label>필요한 전원
+          <select id="cpower"><option value="3V3">3V3 (기본)</option><option value="5V">5V — 꼭 필요할 때만</option></select>
+        </label>
+        <label>확장프로그램 <input type="text" id="cext" placeholder="없으면 비워 두세요" style="width:170px"></label>
+      </div>
+      <p class="hint" style="margin:10px 0 4px">핀 목록 — 이름과 «무슨 핀인지»를 정합니다. 이것이 채점 규칙을 정합니다.</p>
+      <div id="cpins"></div>
+      <div class="row">
+        <button id="btnPinAdd" class="gh">＋ 핀 추가</button>
+        <span style="flex:1"></span>
+        <input type="text" id="cnote" class="wide" placeholder="학생에게 보여 줄 한 줄 설명 (선택)" style="flex:1;min-width:200px">
+        <button id="btnCustomAdd" class="pri">이 부품 담기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 보드 설정 -->
+  <div class="card">
+    <h2>③ 보드 설정</h2>
+    <div class="row">
+      <label>점퍼 <b>V1</b> (왼쪽 핀열)
+        <select id="v1"><option value="3V3">3V3</option><option value="5V">5V</option></select></label>
+      <label>점퍼 <b>V2</b> (오른쪽·IIC·SPI)
+        <select id="v2"><option value="3V3">3V3</option><option value="5V">5V</option></select></label>
+      <label class="ck"><input type="checkbox" id="ckUsb"> 보조배터리(micro USB) 자리 보이기</label>
+    </div>
+    <p class="hint">
+      <b>모든 부품의 기본 전원은 3V3</b> 입니다. 마이크로비트 핀이 3.3V 까지만 견디기 때문입니다.
+      <b>5V</b> 로 표시된 부품(초음파 · 인체 감지 · MQ-3 · 미세먼지 · 서보 · LCD · 블루투스)만
+      5V 를 씁니다 — 전원 없이는 아예 돌지 않는 부품들입니다.
+    </p>
+    <div class="note">
+      <b>점퍼가 왜 중요한가</b> — <code>V</code> 줄에 3V3 이 나오는지 5V 가 나오는지는 이 점퍼가 정합니다.
+      점퍼를 <b>3V3</b> 으로 두면 5V 가 필요한 센서(초음파·LCD·서보 등)의 전원선은
+      <b><code>5V 단자</code>에 꽂아야 정답</b>이 됩니다 — 보내 주신 회로도에서 빨간 선이
+      핀열이 아니라 오른쪽 아래 <code>5V</code> 로 간 이유가 이것입니다.
+    </div>
+    <div id="warn"></div>
+  </div>
+
+  <!-- ④ 확장프로그램 -->
+  <div class="card">
+    <h2>④ 확장프로그램 <span class="pm">— 넣지 않아도 됩니다</span></h2>
+    <p class="hint">고른 부품에 필요한 것을 자동으로 제안합니다. 눌러서 켜고 끕니다.</p>
+    <div class="chips" id="extchips" style="margin-bottom:10px"></div>
+    <div class="row">
+      <input type="text" id="extIn" placeholder="직접 적기 (예 : SONAR)" style="width:220px">
+      <button id="btnExtAdd">추가</button>
+    </div>
+  </div>
+
+  <!-- ⑤ 6자리 코드 -->
+  <div class="card codecard" id="mkCode">
+    <h2>⑤ 학생에게 알려 줄 <b>6자리 숫자</b> 만들기 <span class="pm">— 가장 쉬운 방법</span></h2>
+    <p class="hint">
+      숫자만 불러 주면 됩니다. 학생은 <b>같은 주소</b>로 들어와 그 숫자를 넣습니다
+      (칸을 채우면 저절로 시작합니다).
+    </p>
+    <div class="row" id="code6bar"></div>
+    <div class="row" style="margin-top:10px"><span id="code6out"></span></div>
+  </div>
+
+  <!-- ⑥ 내보내기 -->
+  <div class="card">
+    <h2>⑥ 다른 방법으로 주기</h2>
+    <p class="hint" id="sum"></p>
+    <div class="row">
+      <button id="btnPreview" class="pri big">▶ 미리보기 (학생 화면으로 열기)</button>
+      <button id="btnCopyUrl">🔗 학생용 주소 복사</button>
+      <button id="btnCopyCode">📋 문제 코드 복사</button>
+      <button id="btnFile">💾 문제 파일 내려받기</button>
+      <label class="ck">이어서 고치기 : <input type="file" id="fileIn" accept=".json,application/json"></label>
+    </div>
+    <h3>학생용 주소</h3>
+    <div class="out" id="out"></div>
+    <h3>붙여넣기용 문제 코드</h3>
+    <div class="out" id="outCode"></div>
+    <p class="hint">주소·코드·파일 세 가지는 모두 같은 문제를 담고 있습니다. 편한 것으로 나눠 주세요.</p>
+  </div>
+
+  <!-- ⑦ 인쇄 -->
+  <div class="card">
+    <h2>⑦ 인쇄</h2>
+    <div class="row">
+      <button id="btnSheet" class="pri big">🖨 인쇄용 활동지 내려받기</button>
+      <button id="btnKey">🖨 교사용 정답표</button>
+    </div>
+    <p class="hint">
+      활동지는 학생이 화면에서 하는 것과 <b>같은 일</b>을 종이에서 하게 만든 것입니다 —
+      연결표를 채우고 회로도를 직접 그립니다. <b>정답은 들어 있지 않습니다.</b>
+      인쇄 창에서 「PDF 로 저장」 을 고르면 파일로도 받을 수 있습니다.
+    </p>
+    <div class="note">태블릿이 모자란 반·인터넷이 막힌 교실·결석생 보충에 씁니다.</div>
+  </div>
+
+  </div><!-- /#editWrap -->
+  </div><!-- /#mainWrap -->
+</div>
+
+<script src="js/lock.js?v=202608272012"></script>
+<script src="js/locked.js?v=202608272012"></script>
+<script src="js/config.js?v=202608272012"></script>
+<script src="js/parts.js?v=202608272012"></script>
+<script src="js/board.js?v=202608272012"></script>
+<script src="js/judge.js?v=202608272012"></script>
+<script src="js/code.js?v=202608272012"></script>
+<script src="js/print.js?v=202608272012"></script>
+<script src="js/sheet.js?v=202608272012"></script>
+<script src="js/teacher.js?v=202608272012"></script>
+<script>Teacher.boot();</script>
+</body>
+</html>
