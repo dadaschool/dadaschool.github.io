@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>선생님용 — 스마트 소음 경보등</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%82%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css?v=202608271339">
+<style>
+  .filters { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
+  .filters label { display:flex; flex-direction:column; gap:6px; font-size:17px; font-weight:bold; }
+  .filters select, .filters input { min-width:130px; }
+
+  table.list { width:100%; border-collapse:collapse; font-size:18px; }
+  table.list th, table.list td { border:1px solid var(--line); padding:9px 10px; text-align:center; }
+  table.list th { background:var(--band); cursor:pointer; user-select:none; white-space:nowrap; }
+  table.list th:hover { background:#e0e7ff; }
+  table.list td.left { text-align:left; }
+  table.list tr.dim td { color:var(--faint); background:#fafafa; }
+
+  .sum { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; }
+  .sumcard { border:2px solid var(--line); border-radius:12px; padding:14px 16px; background:#fff; }
+  .sumcard .big { font-size:32px; font-weight:bold; color:var(--brand); }
+  .sumcard .lb { font-size:17px; color:var(--sub); }
+
+  .bad { font-size:17px; color:var(--no); }
+  ul.badlist { margin:8px 0 0; padding-left:22px; font-size:17px; color:var(--sub); }
+  ul.tips { margin:0; padding-left:22px; line-height:1.9; font-size:18px; color:var(--sub); }
+  ul.tips b { color:var(--ink); }
+  .prnrow { display:flex; gap:10px; flex-wrap:wrap; margin:16px 0; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>🗂️ 선생님용</h1>
+  <span class="badge">스마트 소음 경보등 · 무선 데이터 통신</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">🏠 처음</a>
+  <a class="home" href="sim.html">🔊 실험실</a>
+  <a class="home" href="worksheet.html">📝 학습지</a>
+</header>
+
+<div class="wrap">
+
+  <!-- ======================= 운영 안내 ======================= -->
+  <div class="card">
+    <h2>이 실험실을 언제 쓰나</h2>
+    <p class="lead">
+      이 앱은 <b>실물 micro:bit 실습을 대신하지 않습니다.</b> 실습을 <b>받쳐 주는</b> 도구입니다.
+      가장 크게 도움이 되는 자리는 아래 세 곳입니다.
+    </p>
+    <div class="tablescroll">
+      <table class="grid">
+        <thead><tr><th style="width:22%">언제</th><th>무엇을</th><th style="width:16%">화면</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="left"><b>연결이 안 되는 학생</b></td>
+            <td class="left">페어링이 안 되어 45분을 놀게 두는 대신, 실험실에서 <b>같은 개념</b>을 진행시킵니다.
+              나중에 연결되면 그대로 실물로 옮겨 가면 됩니다.</td>
+            <td class="left">①③④</td>
+          </tr>
+          <tr>
+            <td class="left"><b>기준값을 정할 때</b> ★</td>
+            <td class="left">실물로는 소음을 400번 재 볼 수 없습니다. 여기서는 <b>기준선을 끌면
+              헛경보와 놓침이 실시간으로 바뀝니다.</b> 「60·120은 정답이 아니다」를 숫자로 보여 줍니다.</td>
+            <td class="left">②</td>
+          </tr>
+          <tr>
+            <td class="left"><b>경계값 · 조건 순서</b></td>
+            <td class="left">120 을 정확히 내는 소리는 낼 수 없습니다. 값을 손으로 넣어
+              <b>59·60·119·120</b> 이 어디로 가는지 봅니다. 조건 순서를 바꾸면 색 띠가 통째로 달라집니다.</td>
+            <td class="left">③</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hint">
+      <b>추천 진행</b> — ① 실물로 연결하고 값이 들어오는 것을 확인 → ② <b>실험실 ②로 기준값 설계</b>
+      (모둠별로 다른 값이 나오는 것이 정상입니다) → ③ 정한 값으로 실물 코딩 →
+      ④ 다 된 모둠은 <b>실험실 ⑤</b> 로 확장 미션.
+    </div>
+    <div class="warnbox">
+      <b>실험실의 소음값은 «시뮬레이터의 기본 교실»</b> 입니다(조용 30 · 대화 75 · 박수 130 · 큰 소리 180).
+      실제 교실·기기·거리에 따라 값이 다르므로, <b>실물로 잰 값이 있으면 그쪽을 기준으로</b> 삼게 하세요.
+      실험실은 «기준값을 어떻게 고르는가» 를 연습하는 곳입니다.
+    </div>
+  </div>
+
+  <!-- ======================= 수업 전 점검 ======================= -->
+  <div class="card">
+    <h2>✅ 수업 전 점검</h2>
+    <ul class="tips">
+      <li><b>micro:bit 가 V2 인지 확인</b> — 소리 센서는 V2 부터 있습니다. V1 으로는 이 수업을 할 수 없습니다.</li>
+      <li><b>엔트리 하드웨어 연결 방법을 미리 한 번 해 보기</b> — 학교 기기·OS 에 따라 절차가 다릅니다.</li>
+      <li><b>여러 대를 동시에 연결해 보기</b> — 「연결이 되는가」보다 <b>「30대가 동시에 유지되는가」</b>가 문제입니다.</li>
+      <li><b>블록 이름을 실제 화면에서 확인</b> — 엔트리 판올림에 따라 블록 이름이 달라질 수 있습니다.
+        학습지와 실험실의 블록 그림은 <b>수업자료 기준</b>으로 그린 것입니다.</li>
+      <li><b>실제 소음값 범위를 미리 재 보기</b> — 60 / 120 을 그대로 쓸지 정하세요.</li>
+      <li><b>연결 실패 대비</b> — 이 실험실 주소를 미리 띄워 두거나, 아래 <b>인쇄용 활동지</b>를 뽑아 두세요.</li>
+    </ul>
+  </div>
+
+  <!-- ======================= 인쇄용 활동지 =======================
+       루트 CLAUDE.md 의 [인쇄용 활동지 규칙].
+       문항의 출처는 js/sheet-spec.js 하나이므로 화면과 어긋날 수 없다.
+       ⚠ 이 앱의 문항에는 정답(ans)과 해설(why)이 평문으로 있다.
+         js/print.js 가 ans 는 지우고 why 는 hints 를 줄 때만 찍는다
+         → **hints: true 를 주지 말 것.** -->
+  <div class="card">
+    <h2>🖨 인쇄용 활동지</h2>
+    <p class="lead">
+      화면 학습지와 <b>똑같은 23문항</b>을 종이로 낼 수 있습니다.
+      답 칸은 손으로 쓰도록 비어 있고 <b>정답과 해설은 들어가지 않습니다.</b>
+    </p>
+
+    <div class="prnrow">
+      <button type="button" class="btn primary big" id="prnAll">🖨 학습지 전체 (23문항)</button>
+      <button type="button" class="btn primary big" id="prnRec">🖨 소음 측정 기록표</button>
+    </div>
+
+    <p class="lead" style="margin:0 0 8px"><b>단계만 따로 뽑기</b> — 차시를 나눠 진행할 때 씁니다.</p>
+    <div class="prnrow" id="prnSteps"></div>
+
+    <ul class="tips">
+      <li>단추를 누르면 <b>새 창</b>에 인쇄용 문서가 열리고 인쇄 대화상자가 뜹니다.</li>
+      <li><b>PDF 파일로 받으려면</b> 그 대화상자의 「대상(프린터)」을 <b>「PDF로 저장」</b> 으로 바꿉니다.</li>
+      <li><b>양면 인쇄</b>를 켜면 종이가 절반으로 줄어듭니다.</li>
+      <li><b>소음 측정 기록표</b>는 실물 micro:bit 로 실제 교실을 잴 때 씁니다
+        (수업자료 12쪽의 표를 종이로 옮긴 것입니다).</li>
+      <li>단계만 따로 뽑으면 <b>문항 번호가 1번부터</b> 다시 매겨집니다. 화면 학습지의 번호와 다릅니다.</li>
+      <li>종이로 받은 학습지는 <b>자동 채점이 되지 않습니다</b> — 화면 학습지로 답을 확인하세요.</li>
+    </ul>
+  </div>
+
+  <!-- ======================= 제출물 정리 ======================= -->
+  <div class="card">
+    <h2>1. 모은 PDF 를 불러오세요</h2>
+    <p class="lead">학생이 낸 PDF 를 한 폴더에 모아 두고 <b>[폴더 고르기]</b> 를 누르세요.</p>
+    <div class="hint">
+      이 페이지는 <b>파일 이름만</b> 읽습니다. PDF 를 열지 않고, 아무것도 서버로 보내지 않으며,
+      <b>학생 정보를 저장하지 않습니다.</b> 새로고침하면 목록은 사라집니다.
+    </div>
+
+    <div class="btnrow">
+      <input type="file" id="fileInput" multiple accept="application/pdf" hidden>
+      <input type="file" id="dirInput" webkitdirectory directory multiple hidden>
+      <button type="button" class="btn primary big" id="btnDir">폴더 고르기</button>
+      <button type="button" class="btn" id="btnFiles">파일 고르기</button>
+      <button type="button" class="btn ghost" id="btnClear">목록 비우기</button>
+    </div>
+
+    <p id="readMsg" class="lead" style="margin-top:14px"></p>
+    <div id="badBox" hidden>
+      <p class="bad"><b>읽지 못한 파일</b> — 이름 형식이 달라 정보를 뽑을 수 없었습니다.</p>
+      <ul class="badlist" id="badList"></ul>
+    </div>
+  </div>
+
+  <div class="card" id="cardSum" hidden>
+    <h2>2. 요약</h2>
+    <div class="sum" id="sum"></div>
+  </div>
+
+  <div class="card" id="cardList" hidden>
+    <h2>3. 제출 목록</h2>
+    <div class="filters" style="margin-bottom:16px">
+      <label>종류 <select id="fKind"><option value="">전체</option></select></label>
+      <label>학년 <select id="fGrade"><option value="">전체</option></select></label>
+      <label>반 <select id="fCls"><option value="">전체</option></select></label>
+      <label>여러 번 낸 경우
+        <select id="fDup">
+          <option value="last">최종 제출만</option>
+          <option value="first">최초 제출만</option>
+          <option value="all">전부 보기</option>
+        </select>
+      </label>
+      <button type="button" class="btn" id="btnCsv">CSV 내려받기</button>
+    </div>
+    <p class="lead" id="dupMsg"></p>
+    <div class="tablescroll"><table class="list" id="list"></table></div>
+  </div>
+
+  <!-- ======================= 정답·기준 ======================= -->
+  <div class="card">
+    <h2>📋 채점 참고</h2>
+    <div class="tablescroll">
+      <table class="grid">
+        <thead><tr><th style="width:30%">항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td class="left"><b>문항 수</b></td>
+              <td class="left">23문항 · <b>자동 채점 17문항</b>(객관식 12 · O/X 4 · 숫자 1).
+                나머지 6문항은 서술 4 · 표 1 · 손글씨 그림 1 로 <b>선생님이 읽는 부분</b>입니다.</td></tr>
+          <tr><td class="left"><b>자동 채점 결과</b></td>
+              <td class="left">PDF <b>첫 쪽 오른쪽</b>에 <code>자동 채점 n / 17</code> 로 찍힙니다.</td></tr>
+          <tr><td class="left"><b>정답·해설</b></td>
+              <td class="left">PDF <b>마지막 쪽</b>에 전문이 들어 있습니다.
+                학생이 제출하는 순간 화면에서도 열리므로, 학생이 무엇을 보았는지 그대로 확인하실 수 있습니다.</td></tr>
+          <tr><td class="left"><b>정답이 없는 문항</b></td>
+              <td class="left">3단계의 <b>「우리 팀 기준값과 그 이유」</b> 는 정해진 답이 없습니다.
+                <b>측정한 숫자를 근거로 말했는가</b>로 봐 주세요.</td></tr>
+          <tr><td class="left"><b>가장 중요한 문항</b></td>
+              <td class="left">3단계의 <b>「헛경보와 놓침을 동시에 0 으로 만드는 기준값이 반드시 있다」(정답 X)</b> 와
+                4단계의 <b>「조건 순서를 바꿔도 결과는 같다」(정답 X)</b> 입니다.
+                이 둘을 맞히면 이 수업의 핵심을 잡은 것입니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 관련 성취기준</h2>
+    <p class="lead">학생 화면·인쇄물에는 <b>넣지 않습니다.</b> 이 표는 선생님용입니다.</p>
+    <div class="tablescroll">
+      <table class="grid">
+        <thead><tr><th style="width:16%">기준</th><th>내용</th><th style="width:16%">담당 화면</th></tr></thead>
+        <tbody>
+          <tr><td><b>[9정01-02]</b></td>
+              <td class="left">피지컬 컴퓨팅의 개념을 이해하고, 생활 속에서 적용된 사례 조사를 통해
+                컴퓨팅 시스템의 필요성과 가치를 판단한다.</td><td>실험실 ①④ · 1·5단계</td></tr>
+          <tr><td><b>[9정01-03]</b></td>
+              <td class="left">문제 해결 목적에 맞는 피지컬 컴퓨팅 구성요소를 선택하여 시스템을 구상한다.</td>
+              <td>실험실 ④ · 5단계</td></tr>
+          <tr><td><b>[9정02-02]</b></td>
+              <td class="left">문제 해결에 적합한 데이터를 수집하고, 목적에 맞게 구분하여 관리한다.</td>
+              <td><b>실험실 ②</b> · 3단계</td></tr>
+          <tr><td><b>[9정03-06]</b></td>
+              <td class="left">논리 연산과 <b>중첩 제어 구조</b>를 활용하여 문제를 해결하는 프로그램을 작성한다.</td>
+              <td><b>실험실 ③</b> · 4단계</td></tr>
+          <tr><td><b>[9정03-08]</b></td>
+              <td class="left">실생활의 문제를 탐색하여 발견하고, 프로그래밍을 통해 해결한다.</td>
+              <td>전체 · 5단계</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>파일 이름 규칙</h2>
+    <p class="lead">학생 화면이 만드는 PDF 는 아래 형식입니다. 이름만으로 정렬·집계가 됩니다.</p>
+    <div class="tablescroll">
+      <table class="grid">
+        <tr><th>자료</th><th>파일 이름 예시</th></tr>
+        <tr><td class="left">스마트 소음 경보등 학습지</td>
+            <td class="left">소음경보등학습지_1-3-12_홍길동_20260827_1420.pdf</td></tr>
+      </table>
+    </div>
+    <div class="warnbox">
+      이 페이지는 <b>점수를 집계하지 않습니다.</b> 누가 냈는지·언제 냈는지만 정리하고,
+      내용은 PDF 를 열어 읽어 주세요.
+    </div>
+  </div>
+
+</div>
+
+<script src="js/print.js?v=202608271339"></script>
+<script src="js/sheet-spec.js?v=202608271339"></script>
+<script>
+"use strict";
+
+/* =========================================================
+   제출물 정리 도구
+   ---------------------------------------------------------
+   파일 이름만 읽는다. 내용을 열지 않고, 저장·전송도 하지 않는다.
+   그래서 서버 없이(file:// 더블클릭) 동작한다.
+   (EnergyKeeper·ai-class 에서 검증된 것을 그대로 가져왔다 —
+    고칠 일이 생기면 그쪽에도 반영할 것.)
+   ========================================================= */
+
+/* 소음경보등학습지_1-3-12_홍길동_20260827_1420.pdf
+   브라우저가 중복 다운로드에 붙이는 " (1)" 도 받아들인다 */
+var NAME_RE = /^([^_]+)_(\d+)-(\d+)-(\d+)_([^_]+)_(\d{8})_(\d{4})(?:\s*\(\d+\))?\.pdf$/i;
+
+var rows = [], bad = [], sortKey = "when", sortAsc = true;
+
+function parseName(fname) {
+  var m = NAME_RE.exec(fname);
+  if (!m) return null;
+  var d = m[6], t = m[7];
+  return {
+    kind: m[1], grade: +m[2], cls: +m[3], num: +m[4], name: m[5],
+    when: d + t,
+    whenText: d.slice(0, 4) + "-" + d.slice(4, 6) + "-" + d.slice(6, 8) +
+              " " + t.slice(0, 2) + ":" + t.slice(2, 4),
+    file: fname
+  };
+}
+
+function keyOf(r) { return r.kind + "|" + r.grade + "-" + r.cls + "-" + r.num + "|" + r.name; }
+function sigOf(r) { return keyOf(r) + "|" + r.when; }
+
+function markDuplicates() {
+  var groups = {};
+  rows.forEach(function (r) { var k = keyOf(r); (groups[k] = groups[k] || []).push(r); });
+  Object.keys(groups).forEach(function (k) {
+    var g = groups[k].sort(function (a, b) { return a.when.localeCompare(b.when); });
+    g.forEach(function (r, i) {
+      r.tries = g.length; r.tryNo = i + 1;
+      r.isFirst = (i === 0); r.isLast = (i === g.length - 1);
+    });
+  });
+}
+
+function addFiles(fileList) {
+  var added = 0, skipped = 0, merged = 0;
+  Array.prototype.forEach.call(fileList, function (f) {
+    if (!/\.pdf$/i.test(f.name)) { skipped++; return; }
+    if (rows.some(function (r) { return r.file === f.name; })) return;
+    var r = parseName(f.name);
+    if (!r) { if (bad.indexOf(f.name) < 0) bad.push(f.name); return; }
+    if (rows.some(function (x) { return sigOf(x) === sigOf(r); })) { merged++; return; }
+    rows.push(r); added++;
+  });
+
+  markDuplicates();
+  render();
+
+  document.getElementById("readMsg").innerHTML =
+    "읽은 제출물 <b>" + rows.length + "건</b>" +
+    (added ? " (이번에 " + added + "건 추가)" : "") +
+    (merged ? " · 같은 제출물의 복사본 " + merged + "건을 한 건으로 묶음" : "") +
+    (bad.length ? " · 읽지 못한 파일 " + bad.length + "건" : "") +
+    (skipped ? " · PDF 가 아니어서 건너뛴 파일 " + skipped + "건" : "");
+
+  document.getElementById("badBox").hidden = bad.length === 0;
+  var bl = document.getElementById("badList");
+  bl.innerHTML = "";
+  bad.forEach(function (n) { var li = document.createElement("li"); li.textContent = n; bl.appendChild(li); });
+}
+
+document.getElementById("btnDir").addEventListener("click", function () { document.getElementById("dirInput").click(); });
+document.getElementById("btnFiles").addEventListener("click", function () { document.getElementById("fileInput").click(); });
+["dirInput", "fileInput"].forEach(function (id) {
+  document.getElementById(id).addEventListener("change", function (e) {
+    addFiles(e.target.files);
+    e.target.value = "";
+  });
+});
+document.getElementById("btnClear").addEventListener("click", function () {
+  rows = []; bad = []; render();
+  document.getElementById("readMsg").textContent = "";
+  document.getElementById("badBox").hidden = true;
+});
+
+function uniqueSorted(getter) {
+  var s = {};
+  rows.forEach(function (r) { s[getter(r)] = true; });
+  return Object.keys(s).sort();
+}
+
+function fillSelect(id, values) {
+  var sel = document.getElementById(id), cur = sel.value;
+  sel.innerHTML = '<option value="">전체</option>';
+  values.forEach(function (v) {
+    var o = document.createElement("option");
+    o.value = v; o.textContent = v; sel.appendChild(o);
+  });
+  if (values.indexOf(cur) >= 0) sel.value = cur;
+}
+
+function visibleRows() {
+  var kind = document.getElementById("fKind").value;
+  var grade = document.getElementById("fGrade").value;
+  var cls = document.getElementById("fCls").value;
+  var dup = document.getElementById("fDup").value;
+  return rows.filter(function (r) {
+    if (kind && r.kind !== kind) return false;
+    if (grade && String(r.grade) !== grade) return false;
+    if (cls && String(r.cls) !== cls) return false;
+    if (dup === "last" && !r.isLast) return false;
+    if (dup === "first" && !r.isFirst) return false;
+    return true;
+  });
+}
+
+function render() {
+  var has = rows.length > 0;
+  document.getElementById("cardSum").hidden = !has;
+  document.getElementById("cardList").hidden = !has;
+  if (!has) return;
+
+  fillSelect("fKind", uniqueSorted(function (r) { return r.kind; }));
+  fillSelect("fGrade", uniqueSorted(function (r) { return String(r.grade); }));
+  fillSelect("fCls", uniqueSorted(function (r) { return String(r.cls); }));
+
+  var vis = visibleRows();
+
+  var students = {}, kinds = {}, classes = {};
+  vis.forEach(function (r) {
+    students[r.grade + "-" + r.cls + "-" + r.num] = true;
+    kinds[r.kind] = (kinds[r.kind] || 0) + 1;
+    var k = r.grade + "학년 " + r.cls + "반";
+    classes[k] = classes[k] || {};
+    classes[k][r.grade + "-" + r.cls + "-" + r.num] = true;
+  });
+
+  var sum = document.getElementById("sum");
+  sum.innerHTML = "";
+  function sumCard(big, lb) {
+    var d = document.createElement("div");
+    d.className = "sumcard";
+    d.innerHTML = '<div class="big">' + big + '</div><div class="lb">' + lb + "</div>";
+    sum.appendChild(d);
+  }
+  sumCard(vis.length + "건", "보고 있는 제출물");
+  sumCard(Object.keys(students).length + "명", "제출한 학생 수 (중복 제외)");
+  Object.keys(classes).sort().forEach(function (k) { sumCard(Object.keys(classes[k]).length + "명", k + " 제출 인원"); });
+  Object.keys(kinds).sort().forEach(function (k) { sumCard(kinds[k] + "건", k); });
+
+  var manyKeys = {};
+  rows.forEach(function (r) { if (r.tries > 1) manyKeys[keyOf(r)] = true; });
+  var manyCount = Object.keys(manyKeys).length;
+  document.getElementById("dupMsg").innerHTML = manyCount
+    ? "⚠ 같은 과제를 여러 번 낸 경우가 <b>" + manyCount + "건</b> 있습니다. 위의 <b>[여러 번 낸 경우]</b> 로 기준을 고르세요."
+    : "여러 번 낸 학생은 없습니다.";
+
+  var cols = [
+    { k: "kind", t: "종류" }, { k: "who", t: "학년-반-학번" }, { k: "name", t: "이름" },
+    { k: "when", t: "제출 시각" }, { k: "tries", t: "제출 횟수" }, { k: "file", t: "파일 이름" }
+  ];
+
+  var sorted = vis.slice().sort(function (a, b) {
+    var av, bv;
+    if (sortKey === "who") {
+      av = a.grade * 10000 + a.cls * 100 + a.num;
+      bv = b.grade * 10000 + b.cls * 100 + b.num;
+    } else { av = a[sortKey]; bv = b[sortKey]; }
+    if (typeof av === "string") return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+    return sortAsc ? av - bv : bv - av;
+  });
+
+  var t = document.getElementById("list");
+  t.innerHTML = "";
+  var hr = t.insertRow();
+  cols.forEach(function (c) {
+    var th = document.createElement("th");
+    th.textContent = c.t + (sortKey === c.k ? (sortAsc ? " ▲" : " ▼") : "");
+    th.addEventListener("click", function () {
+      if (sortKey === c.k) sortAsc = !sortAsc; else { sortKey = c.k; sortAsc = true; }
+      render();
+    });
+    hr.appendChild(th);
+  });
+
+  sorted.forEach(function (r) {
+    var tr = t.insertRow();
+    if (r.tries > 1 && !r.isLast) tr.className = "dim";
+    var order = r.tries > 1
+      ? r.tries + "회 (" + (r.isFirst ? "최초" : (r.isLast ? "최종" : "중간")) + ")" : "1회";
+    [r.kind, r.grade + "-" + r.cls + "-" + pad2(r.num), r.name, r.whenText, order, r.file]
+      .forEach(function (v, i) {
+        var td = tr.insertCell();
+        td.textContent = v;
+        if (i === 5) td.className = "left";
+      });
+  });
+}
+
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+["fKind", "fGrade", "fCls", "fDup"].forEach(function (id) {
+  document.getElementById(id).addEventListener("change", render);
+});
+
+/* CSV — 엑셀에서 한글이 깨지지 않게 BOM 을 붙인다 */
+document.getElementById("btnCsv").addEventListener("click", function () {
+  var vis = visibleRows();
+  if (!vis.length) return;
+  var head = ["종류", "학년", "반", "학번", "이름", "제출시각", "제출횟수", "최종제출", "파일명"];
+  var lines = [head.join(",")];
+  vis.forEach(function (r) {
+    lines.push([r.kind, r.grade, r.cls, r.num, r.name, r.whenText,
+                r.tries, (r.isLast ? "예" : "아니오"), r.file]
+      .map(function (v) {
+        var s = String(v);
+        return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }).join(","));
+  });
+  var blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "제출현황_" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + ".csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+});
+</script>
+
+<script>
+/* =========================================================
+   🖨 인쇄용 활동지 — 루트 CLAUDE.md 의 [인쇄용 활동지 규칙]
+   ---------------------------------------------------------
+   문항은 js/sheet-spec.js 하나에서만 온다(화면 학습지와 같은 파일).
+   🚨 `hints: true` 를 주지 말 것 — 이 앱의 `why` 는 **정답 해설**이다.
+   ========================================================= */
+(function () {
+  "use strict";
+
+  var NOTE = "실험실을 열어 <b>직접 해 보고</b> 답을 쓰세요. " +
+             "3단계·4단계는 실험실에서 확인하지 않으면 풀 수 없습니다.";
+
+  function sheet(sections, title, sub) {
+    if (!window.SHEET_MN) { alert("문항(js/sheet-spec.js)을 찾지 못했습니다."); return; }
+    window.Print.sheet({
+      title: title,
+      subtitle: sub,
+      footer: "스마트 소음 경보등 · 무선 데이터 통신",
+      note: NOTE,
+      sections: sections
+    });
+  }
+
+  document.getElementById("prnAll").addEventListener("click", function () {
+    sheet(window.SHEET_MN, "스마트 소음 경보등 학습지", "중학교 정보 · 피지컬 컴퓨팅");
+  });
+
+  /* 단계만 따로 — 차시를 나눠 진행할 때 */
+  var host = document.getElementById("prnSteps");
+  (window.SHEET_MN || []).forEach(function (sec, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn";
+    b.textContent = "🖨 " + (i + 1) + "단계 (" + sec.items.length + "문항)";
+    b.addEventListener("click", function () {
+      sheet([sec], "스마트 소음 경보등 학습지 · " + (i + 1) + "단계",
+            String(sec.step).replace(/^\d+단계\s*·\s*/, ""));
+    });
+    host.appendChild(b);
+  });
+
+  /* 소음 측정 기록표 — 실물 micro:bit 로 «진짜 교실» 을 잴 때 쓰는 종이.
+     수업자료 12쪽의 표를 그대로 옮기고, 기준값을 정하는 칸까지 붙였다.
+     ⚠ 여기에 정답을 적지 말 것 — 학생이 자기 교실에서 재서 채우는 표다. */
+  document.getElementById("prnRec").addEventListener("click", function () {
+    window.Print.sheet({
+      title: "우리 교실 소음 측정 기록표",
+      subtitle: "실물 micro:bit 로 직접 재고, 우리 반 기준값을 정합니다",
+      footer: "스마트 소음 경보등 · 측정 기록표",
+      head: ["학년", "반", "모둠", "기록한 사람"],
+      note: "먼저 <b>예상</b>을 적고 그다음에 잽니다. " +
+            "측정값은 기기·거리·교실에 따라 달라집니다 — <b>절대 기준이 아니라 «우리 실험의 기준»</b> 입니다.",
+      sections: [
+        { step: "1", title: "상황마다 재 보기",
+          lead: "각 상황에서 <b>10초</b> 동안 지켜보며 가장 자주 나온 값과 가장 큰 값을 적습니다.",
+          items: [
+            { kind: "tbl", q: "측정 기록",
+              cols: ["상황", "내 예상", "보통 나오는 값", "가장 큰 값", "메모"],
+              widths: [1.5, 1, 1.2, 1.2, 1.6],
+              fixed: ["조용히 앉아 있기", "친구와 대화하기", "박수치기",
+                      "의자 끄는 소리", "큰 소리 내기"] },
+            { kind: "text", q: "예상과 실제 측정값이 <b>가장 많이 달랐던 상황</b>은 무엇인가요? 왜 그랬을까요?",
+              lines: 2 }
+          ] },
+        { step: "2", title: "우리 팀 기준값 정하기",
+          lead: "위에서 잰 값을 보고 두 경계를 정합니다. <b>정답은 없습니다 — 이유가 있어야 합니다.</b>",
+          items: [
+            { kind: "short", q: "안전 ↔ 주의 경계", unit: "" },
+            { kind: "short", q: "주의 ↔ 경고 경계", unit: "" },
+            { kind: "text", q: "왜 그 값으로 정했나요? <b>위 표의 숫자를 근거로</b> 쓰세요.", lines: 3 },
+            { kind: "text", q: "이 기준으로 하면 <b>조용한데 경보가 울리는 일</b>이 생길까요? " +
+                              "표의 «가장 큰 값» 을 보고 판단해 보세요.", lines: 2 }
+          ] },
+        { step: "3", title: "기준을 바꿔 보면",
+          items: [
+            { kind: "tbl", q: "기준을 옮기면 무엇을 얻고 무엇을 잃나",
+              cols: ["주의↔경고 기준", "헛경보(조용한데 울림)", "놓침(시끄러운데 안 울림)"],
+              widths: [1.2, 1.6, 1.6],
+              fixed: ["더 낮게 (예 90)", "우리 팀 값", "더 높게 (예 180)"] },
+            { kind: "text", q: "두 칸의 숫자는 <b>어떤 관계</b>인가요? 한 문장으로 쓰세요.", lines: 2 }
+          ] },
+        { step: "4", title: "확장 — 얼마나 이어져야 경고할까",
+          items: [
+            { kind: "text", q: "박수 한 번에 경보가 울리면 무엇이 문제인가요?", lines: 2 },
+            { kind: "short", q: "우리 팀이 정한 지속 시간", unit: "초" },
+            { kind: "text", q: "그 시간을 <b>더 길게</b> 잡으면 무엇을 잃게 될까요?", lines: 2 }
+          ] }
+      ]
+    });
+  });
+})();
+</script>
+</body>
+</html>

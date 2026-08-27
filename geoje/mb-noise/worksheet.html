@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스마트 소음 경보등 학습지</title>
+<link rel="stylesheet" href="css/app.css?v=202608271339">
+<style>
+  .qbox { border-top:2px solid var(--line); padding-top:18px; margin-top:18px; }
+  .qbox:first-of-type { border-top:0; padding-top:0; margin-top:0; }
+  .qno { display:inline-block; background:var(--brand); color:#fff; border-radius:8px;
+         padding:2px 12px; font-size:17px; margin-right:8px; }
+  .qtitle { font-size:21px; font-weight:bold; margin:0 0 12px; line-height:1.55; }
+  .qtitle code { background:#eef2ff; border-radius:6px; padding:1px 7px; font-size:19px; }
+  .ox-row { display:flex; gap:12px; }
+  .ox-row .opt { flex:1; text-align:center; font-size:26px; font-weight:bold; }
+  .numwrap { display:flex; align-items:center; gap:12px; }
+  .numwrap input { max-width:220px; }
+  .numwrap .unit { font-size:22px; font-weight:bold; }
+  .ans { margin-top:12px; padding:12px 16px; border-radius:10px; font-size:18px; line-height:1.7; }
+  .ans.ok { background:var(--ok-bg); border-left:6px solid var(--ok); }
+  .ans.no { background:var(--no-bg); border-left:6px solid var(--no); }
+  .ans code { background:rgba(0,0,0,.06); border-radius:5px; padding:1px 6px; }
+  .savebar {
+    position:sticky; bottom:0; background:#fff; border-top:2px solid var(--line);
+    padding:14px 18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; z-index:50;
+    margin:0 -18px; box-shadow:0 -4px 14px rgba(0,0,0,.06);
+  }
+  .savebar .grow { flex:1 1 auto; font-size:18px; color:var(--sub); }
+  .scoreband { background:var(--band); border-radius:10px; padding:12px 16px; font-size:21px; font-weight:bold; margin:0 0 16px; }
+  .locked input, .locked textarea, .locked select { background:#f3f4f6; color:var(--sub); }
+  .sublab { font-size:16px; color:var(--sub); margin:0 0 8px; }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>📝 스마트 소음 경보등 학습지</h1>
+  <span class="badge">중학교 정보 · 피지컬 컴퓨팅</span>
+  <span class="spacer"></span>
+  <a class="home" href="sim.html" target="mn-sim" data-win>🔊 실험실 열기 ↗</a>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>이렇게 하세요</h2>
+    <div class="hint">
+      <b>1</b> 오른쪽 위 <b>🔊 실험실 열기</b>를 눌러 실험실을 <b>새 창</b>으로 띄우고 나란히 놓습니다.<br>
+      <b>2</b> 단계마다 안내된 실험실 화면(①~⑤)을 <b>직접 해 보고</b> 답을 씁니다.<br>
+      <b>3</b> 다 쓰면 맨 아래 <b>PDF로 저장하기</b>를 누릅니다. <b>저장하는 순간 정답과 해설이 열립니다.</b>
+    </div>
+    <div class="warnbox">
+      <b>제출은 한 번뿐입니다.</b> PDF를 저장하면 답을 고칠 수 없습니다. 다 썼는지 확인하고 누르세요.
+    </div>
+  </div>
+
+  <div class="scoreband hidden" id="scoreBand"></div>
+  <div class="card" id="sheet"></div>
+
+  <div class="savebar">
+    <span class="grow" id="saveMsg">다 썼으면 PDF로 저장해 제출하세요.</span>
+    <button type="button" class="btn" id="btnAnswers">정답 확인 (PDF 저장 후 열림) 🔒</button>
+    <button type="button" class="btn" id="btnClear">쓴 내용 지우기</button>
+    <button type="button" class="btn primary big" id="btnPdf">PDF로 저장하기</button>
+  </div>
+
+  <div class="card">
+    <h2>ℹ️ 개인정보 안내</h2>
+    <p class="lead">
+      학년·반·학번·이름은 <b>PDF를 만드는 순간에만</b> 물어보고 <b>PDF 파일 안(과 파일 이름)에만</b> 들어갑니다.
+      이 기기(브라우저)에는 <b>저장하지 않습니다.</b> 답안 글은 실수로 새로고침해도 사라지지 않도록
+      <b>탭을 닫으면 지워지는 임시 보관</b>만 씁니다(이름·학번은 여기서 제외).
+    </p>
+  </div>
+
+</div>
+
+<script src="js/pdf.js?v=202608271339"></script>
+<script src="js/sheet-spec.js?v=202608271339"></script>
+<script>
+/* =========================================================
+   worksheet.html — 학습지 화면 · 자동 채점 · PDF 제출
+   ---------------------------------------------------------
+   흐름 : 답 쓰기 → PDF 저장(제출) → 입력 잠금 → 정답·해설 공개
+   (EnergyKeeper·ai-class 의 학습지와 같은 방식이다.
+    학생이 정답을 미리 보고 베끼지 못하게 한다.)
+
+   ⚠ 문항은 js/sheet-spec.js 에 있다 — 교사 화면(인쇄용 활동지)도 같은 것을 읽는다.
+     **여기서 문항을 고치지 말 것.**
+   ========================================================= */
+(function () {
+  "use strict";
+
+  var K = window.PdfKit;
+  var SHEET = window.SHEET_MN;
+  var STORE = "mn_worksheet";
+  var PREFIX = "소음경보등학습지";
+
+  var ctrls = [];        // 문항마다 { get, set, forPdf, grade?, lock, … }
+  var submitted = false;
+  var lastInfo = null, lastPages = null;
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+
+  /* ---------------------------------------------------------
+     화면 그리기
+     --------------------------------------------------------- */
+  function build() {
+    var host = document.getElementById("sheet");
+    host.innerHTML = "";
+    var qno = 0;
+
+    SHEET.forEach(function (stepDef, si) {
+      host.appendChild(el("h2", null, '<span class="step">' + (si + 1) + "</span>" + stepDef.step));
+      if (stepDef.lead) host.appendChild(el("p", "lead", stepDef.lead));
+
+      stepDef.items.forEach(function (it) {
+        qno++;
+        var box = el("div", "qbox");
+        box.appendChild(el("p", "qtitle", '<span class="qno">' + qno + "</span>" + it.q));
+        if (it.ph) box.appendChild(el("p", "sublab", it.ph));
+        var c = renderItem(it, box);
+        c.def = it; c.no = qno; c.step = si;
+        c.ansBox = el("div", "ans hidden");
+        box.appendChild(c.ansBox);
+        ctrls.push(c);
+        host.appendChild(box);
+      });
+    });
+    restore();
+  }
+
+  function renderItem(it, box) {
+    if (it.type === "choice" || it.type === "ox") {
+      var opts = it.type === "ox" ? ["O (맞다)", "X (아니다)"] : it.opts;
+      var wrap = el("div", it.type === "ox" ? "opts ox-row" : "opts");
+      wrap.style.display = "flex";
+      wrap.style.flexDirection = it.type === "ox" ? "row" : "column";
+      wrap.style.gap = "8px";
+      var pick = -1, btns = [];
+      opts.forEach(function (t, i) {
+        var b = el("button", "opt", (it.type === "ox" ? "" : "①②③④⑤".charAt(i) + " ") + t);
+        b.type = "button";
+        b.addEventListener("click", function () {
+          if (submitted) { K.toast("제출한 뒤에는 답을 고칠 수 없습니다.", "warn"); return; }
+          pick = i;
+          btns.forEach(function (x, j) { x.classList.toggle("on", j === i); });
+          save();
+        });
+        btns.push(b); wrap.appendChild(b);
+      });
+      box.appendChild(wrap);
+      var right = it.type === "ox" ? (it.ans ? 0 : 1) : it.ans;
+      return {
+        get: function () { return pick; },
+        set: function (v) { pick = (v == null ? -1 : v); btns.forEach(function (x, j) { x.classList.toggle("on", j === pick); }); },
+        forPdf: function () { return pick < 0 ? "" : strip(opts[pick]); },
+        grade: function () { return pick === right; },
+        rightText: function () { return strip(opts[right]); },
+        lock: function () { btns.forEach(function (b) { b.disabled = true; }); },
+        markAnswer: function () {
+          btns.forEach(function (b, j) {
+            if (j === right) b.classList.add("right");
+            else if (j === pick) b.classList.add("wrong");
+          });
+        }
+      };
+    }
+
+    if (it.type === "num") {
+      var w = el("div", "numwrap");
+      var inp = el("input"); inp.type = "text"; inp.inputMode = "decimal";
+      inp.placeholder = "숫자만 쓰세요";
+      inp.addEventListener("input", save);
+      w.appendChild(inp);
+      w.appendChild(el("span", "unit", it.unit || ""));
+      box.appendChild(w);
+      return {
+        get: function () { return inp.value; },
+        set: function (v) { inp.value = v || ""; },
+        forPdf: function () { return inp.value ? inp.value + " " + (it.unit || "") : ""; },
+        grade: function () {
+          var v = parseFloat(String(inp.value).replace(/[^0-9.\-]/g, ""));
+          return isFinite(v) && Math.abs(v - it.ans) <= (it.tol || 0.01);
+        },
+        rightText: function () { return it.ans + " " + (it.unit || ""); },
+        lock: function () { inp.disabled = true; }
+      };
+    }
+
+    if (it.type === "text") {
+      var ta = el("textarea");
+      ta.placeholder = "여기에 자기 말로 써 보세요.";
+      if (it.lines) ta.rows = it.lines + 1;
+      ta.addEventListener("input", save);
+      box.appendChild(ta);
+      return {
+        get: function () { return ta.value; },
+        set: function (v) { ta.value = v || ""; },
+        forPdf: function () { return ta.value; },
+        lock: function () { ta.disabled = true; }
+      };
+    }
+
+    if (it.type === "tbl") {
+      var scroll = el("div", "tablescroll");
+      var tb = el("table", "grid");
+      var thead = el("thead"), tr = el("tr");
+      it.head.forEach(function (t) { tr.appendChild(el("th", null, t)); });
+      thead.appendChild(tr); tb.appendChild(thead);
+      var body = el("tbody"), inputs = [];
+      it.rows.forEach(function (rowName) {
+        var r = el("tr");
+        r.appendChild(el("td", "left", "<b>" + rowName + "</b>"));
+        var line = [];
+        for (var ci = 1; ci < it.head.length; ci++) {
+          var td = el("td");
+          var i2 = el("input"); i2.type = "text";
+          i2.addEventListener("input", save);
+          td.appendChild(i2); r.appendChild(td); line.push(i2);
+        }
+        inputs.push(line); body.appendChild(r);
+      });
+      tb.appendChild(body); scroll.appendChild(tb); box.appendChild(scroll);
+      return {
+        get: function () { return inputs.map(function (l) { return l.map(function (i) { return i.value; }); }); },
+        set: function (v) {
+          if (!v) return;
+          v.forEach(function (l, ri) {
+            (l || []).forEach(function (val, ci) { if (inputs[ri] && inputs[ri][ci]) inputs[ri][ci].value = val; });
+          });
+        },
+        forPdfTable: function () {
+          return [it.head.map(strip)].concat(inputs.map(function (l, ri) {
+            return [strip(it.rows[ri])].concat(l.map(function (i) { return i.value || "-"; }));
+          }));
+        },
+        forPdf: function () { return ""; },
+        lock: function () { inputs.forEach(function (l) { l.forEach(function (i) { i.disabled = true; }); }); }
+      };
+    }
+
+    if (it.type === "draw") {
+      var holder = el("div");
+      box.appendChild(holder);
+      var pad = K.createPad(holder, { enabled: function () { return !submitted; } });
+      return {
+        get: function () { return null; },
+        set: function () {},
+        forPdf: function () { return ""; },
+        pad: pad,
+        lock: function () {}
+      };
+    }
+
+    return { get: function () { return null; }, set: function () {}, forPdf: function () { return ""; }, lock: function () {} };
+  }
+
+  function strip(s) {
+    return String(s == null ? "" : s).replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "");
+  }
+
+  /* ---------------------------------------------------------
+     임시 보관 — 답안 글만. 이름·학번은 넣지 않는다.
+     탭을 닫으면 저절로 사라진다(sessionStorage).
+     --------------------------------------------------------- */
+  function save() {
+    if (submitted) return;
+    try { sessionStorage.setItem(STORE, JSON.stringify(ctrls.map(function (c) { return c.get(); }))); }
+    catch (e) {}
+  }
+  function restore() {
+    try {
+      var v = JSON.parse(sessionStorage.getItem(STORE) || "null");
+      if (v && v.length === ctrls.length) ctrls.forEach(function (c, i) { c.set(v[i]); });
+    } catch (e) {}
+  }
+
+  function score() {
+    var got = 0, all = 0;
+    ctrls.forEach(function (c) { if (!c.grade) return; all++; if (c.grade()) got++; });
+    return { got: got, all: all };
+  }
+
+  /* ---------------------------------------------------------
+     PDF 만들기
+     --------------------------------------------------------- */
+  function makePdf(info) {
+    var sc = score();
+    var doc = K.createDoc({
+      title: "스마트 소음 경보등 학습지",
+      subtitle: "중학교 정보 · 피지컬 컴퓨팅",
+      meta: { grade: info.grade, cls: info.cls, num: info.num, name: info.name,
+              when: info.when, right: "자동 채점 " + sc.got + " / " + sc.all },
+      footer: "스마트 소음 경보등 · 무선 데이터 통신"
+    });
+
+    var qi = 0;
+    SHEET.forEach(function (stepDef) {
+      doc.h1(strip(stepDef.step));
+      if (stepDef.lead) doc.p(strip(stepDef.lead), { size: 20, lh: 29 });
+      stepDef.items.forEach(function () {
+        var c = ctrls[qi++];
+        var it = c.def;
+        doc.h2(c.no + ". " + strip(it.q));
+        if (c.forPdfTable) {
+          var rows = c.forPdfTable();
+          doc.table(rows, rows[0].map(function (_, i) { return i === 0 ? 1.7 : 1; }));
+        } else if (it.type === "draw") {
+          doc.img(c.pad.canvas, { maxH: 380 });
+        } else {
+          doc.box(null, c.forPdf(), { minLines: it.type === "text" ? 3 : 1 });
+        }
+        if (c.grade) {
+          var ok = c.grade();
+          doc.mark(ok ? "정답" : "오답 · 정답은 " + c.rightText(), ok);
+        }
+      });
+      doc.gap(6);
+    });
+
+    doc.pageBreak();
+    doc.h1("정답과 해설");
+    var qj = 0;
+    SHEET.forEach(function (stepDef) {
+      stepDef.items.forEach(function () {
+        var c = ctrls[qj++];
+        if (!c.def.why) return;
+        doc.h2(c.no + ". " + strip(c.def.q));
+        doc.p(strip(c.def.why), { size: 21, lh: 30, color: "#111827" });
+        doc.gap(4);
+      });
+    });
+    return doc.finish();
+  }
+
+  /* ---------------------------------------------------------
+     제출 → 잠금 → 정답 공개
+     --------------------------------------------------------- */
+  function applyLockState() {
+    document.body.classList.toggle("locked", submitted);
+    document.getElementById("btnClear").classList.toggle("hidden", submitted);
+    document.getElementById("btnPdf").textContent = submitted ? "PDF 다시 받기" : "PDF로 저장하기";
+    document.getElementById("btnAnswers").textContent =
+      submitted ? "정답·해설 모두 보기" : "정답 확인 (PDF 저장 후 열림) 🔒";
+    if (submitted) {
+      var sc = score();
+      var band = document.getElementById("scoreBand");
+      band.classList.remove("hidden");
+      band.textContent = "✅ 제출했습니다 · 자동 채점 " + sc.got + " / " + sc.all +
+                         " (서술·표·그림은 선생님이 읽습니다)";
+      document.getElementById("saveMsg").textContent = "제출이 끝났습니다. 정답과 해설을 확인하세요.";
+      ctrls.forEach(function (c) { if (c.lock) c.lock(); });
+    }
+  }
+
+  function revealAnswers() {
+    ctrls.forEach(function (c) {
+      if (c.markAnswer) c.markAnswer();
+      if (!c.def.why) return;
+      var ok = c.grade ? c.grade() : null;
+      c.ansBox.className = "ans " + (ok === false ? "no" : "ok");
+      c.ansBox.innerHTML = (ok === null ? "💡 <b>이렇게 생각해 보세요</b><br>"
+                                        : (ok ? "⭕ <b>정답입니다.</b><br>"
+                                              : "❌ <b>정답은 「" + c.rightText() + "」 입니다.</b><br>"))
+                           + c.def.why;
+      c.ansBox.classList.remove("hidden");
+    });
+  }
+
+  /* ---------------------------------------------------------
+     단추 연결
+     --------------------------------------------------------- */
+  function bind() {
+    document.getElementById("btnPdf").addEventListener("click", function () {
+      if (submitted) {
+        if (!lastInfo || !lastPages) return;
+        K.downloadBlob(K.buildPdf(lastPages), K.makeFileName(PREFIX, lastInfo));
+        K.toast("다시 내려받았습니다.", "ok");
+        return;
+      }
+      if (!confirm("PDF로 저장하면 답을 고칠 수 없고 정답이 열립니다.\n다 썼는지 확인했나요?")) return;
+      K.askStudentInfo({}, function (info) {
+        try {
+          var pages = makePdf(info);
+          lastInfo = info; lastPages = pages;
+          K.downloadBlob(K.buildPdf(pages), K.makeFileName(PREFIX, info));
+          submitted = true;
+          try { sessionStorage.removeItem(STORE); } catch (e) {}
+          applyLockState();
+          revealAnswers();
+          K.toast("제출했습니다. 정답과 해설이 열렸습니다.", "ok");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+          K.toast("PDF를 만들지 못했습니다: " + err.message, "no");
+        }
+      });
+    });
+
+    document.getElementById("btnClear").addEventListener("click", function () {
+      if (submitted) return;
+      if (!confirm("쓴 내용을 모두 지울까요?")) return;
+      ctrls.forEach(function (c) {
+        var t = c.def.type;
+        c.set(t === "choice" || t === "ox" ? -1 : (t === "tbl" ? null : ""));
+        if (t === "tbl") {
+          /* 표는 set(null) 로 지워지지 않는다 — 빈 칸 배열을 만들어 넣는다 */
+          c.set(c.def.rows.map(function () {
+            return c.def.head.slice(1).map(function () { return ""; });
+          }));
+        }
+      });
+      try { sessionStorage.removeItem(STORE); } catch (e) {}
+    });
+
+    document.getElementById("btnAnswers").addEventListener("click", function () {
+      if (!submitted) { K.toast("정답은 PDF로 저장(제출)한 뒤에 열립니다.", "warn"); return; }
+      revealAnswers();
+      K.toast("정답과 해설을 모두 열었습니다.", "ok");
+    });
+  }
+
+  build();
+  bind();
+  applyLockState();
+
+  /* 검사용 손잡이 — 학생 화면에는 영향이 없다 */
+  window.MNSheet = {
+    ctrls: ctrls, score: score, makePdf: makePdf,
+    isSubmitted: function () { return submitted; },
+    fillAllRight: function () {
+      ctrls.forEach(function (c) {
+        var it = c.def;
+        if (it.type === "choice") c.set(it.ans);
+        else if (it.type === "ox") c.set(it.ans ? 0 : 1);
+        else if (it.type === "num") c.set(String(it.ans));
+        else if (it.type === "text") c.set("검사용 답안");
+      });
+    },
+    forceSubmit: function (info) {
+      var pages = makePdf(info); lastInfo = info; lastPages = pages;
+      submitted = true; applyLockState(); revealAnswers();
+      return pages;
+    }
+  };
+})();
+</script>
+</body>
+</html>
