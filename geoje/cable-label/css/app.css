@@ -1,24 +1,28 @@
-/* 라벨 만들기 — 화면 꾸미기  (다크블루 · 2026-08-27 재디자인)
+/* 라벨 만들기 — 화면 꾸미기  (다크블루 · 2026-08-27 재디자인 v2)
    ⚠ 예전엔 code-manager / launcher 와 같은 «밝은» 얼개를 복제해 썼는데,
      사용자 지시로 이 앱만 «다크블루 · 정돈된» 쪽으로 갈라져 나왔다
-     (참고 : LessonCanvas 식 «조작 칸 + 캔버스» 배치, 어두운 매트 위의 흰 종이).
-     세 앱의 공통 CSS 라는 전제는 더 이상 없다 — 여기만 고친다.
-   ⚠ 클래스·id 이름은 하나도 바꾸지 않았다(app.js·index.html 이 그대로 물려 쓴다).
+     (참고 : LessonCanvas 식 «조작 칸 + 캔버스» 배치 — 왼쪽은 테두리 없는 평평한 목록,
+      오른쪽은 어두운 매트 위에 흰 A4 한 장).
+   🔴 v2 «더 정리» (사용자 : *"그래도 복잡해"*) : 카드마다 두르던 테두리를 없애고
+     **머리카락 한 줄**로 구역만 나눈다. 상자 안에 상자(폴드)도 평평하게 풀었다.
+     제목은 조용하게, 강조는 «PDF 내려받기» 하나. 기능은 하나도 안 건드렸다.
+   ⚠ 클래스·id 이름은 하나도 안 바꿨다(app.js·index.html 이 그대로 물려 쓴다).
      바뀐 것은 «색과 여백·위계» 뿐이다. 맨 아래 [화면 크기 규칙] 은 손대지 않았다. */
 
 :root{
   --bg:#0b1220;        /* 바탕 — 밤의 책상 */
-  --bar:#111c30;       /* 머리말 · 아래 단추 띠 */
-  --card:#17243b;      /* 카드 */
+  --bar:#111c30;       /* 머리말 */
+  --card:#17243b;      /* 접이 카드 머리·호버 등 «살짝 밝은» 자리 */
   --card-2:#14203a;    /* 미리보기 칸 */
-  --line:#2a3b56;      /* 테두리 */
-  --band:#1e3350;      /* 강조 옅은 띠 : 호버 · 칩 · 표 머리 */
+  --line:#25344e;      /* 구역을 나누는 머리카락 선 */
+  --band:#1c3050;      /* 강조 옅은 띠 : 호버 · 표 머리 */
   --ink:#e9eef8;       /* 본문 글자 */
-  --dim:#93a6c2;       /* 옅은 글자 */
-  --key:#52a9ff;       /* 강조색 — 이 화면의 유일한 파랑 포인트 */
+  --dim:#8b9fbb;       /* 옅은 글자 */
+  --faint:#63789a;     /* 더 옅은 글자 (안내문) */
+  --key:#54abff;       /* 강조색 — 이 화면의 유일한 파랑 포인트 */
   --key2:#8cc6ff;      /* 어두운 바탕 위 «강조 글자» */
   --keyd:#3d9bf5;      /* 강조 단추 호버 */
-  --field:#0f1b2e;     /* 입력칸 바탕 */
+  --field:#0e1a2d;     /* 입력칸 바탕 */
   --warn:#ebb454;      /* 주의 — 놋쇠빛 */
   --warnbg:#241c0d;
   --ok:#5fcba2;        /* 완료 · 정상 */
@@ -31,9 +35,7 @@
 [hidden]{display:none !important}
 /* 🔴 «조작은 한 화면에» (프로젝트 공통 규칙) — 화면을 앱 셸로 짠다.
      머리말은 위에 고정, 왼쪽 «조작» 칸과 오른쪽 «미리보기» 칸이 **각자** 스크롤한다.
-     그래서 글자 크기를 만지는 동안에도 미리보기가 늘 보인다.
-   ⚠ 창이 좁아지면(1100px 미만) 두 칸이 위아래로 쌓이므로 **보통 문서처럼** 되돌린다 —
-     그때 body 를 100vh 로 묶어 두면 아래쪽 칸이 잘려 아무것도 못 본다. */
+   ⚠ 창이 좁아지면(1100px 미만) 두 칸이 위아래로 쌓이므로 **보통 문서처럼** 되돌린다. */
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font:16px/1.6 "맑은 고딕","Malgun Gothic",system-ui,sans-serif;
@@ -41,38 +43,42 @@ body{
 ::selection{background:color-mix(in srgb,var(--key) 40%,transparent)}
 code{background:var(--band); padding:.05em .35em; border-radius:4px; font-size:.95em}
 
-/* 머리말 — ⚠ 늘 붙어 있게 둔다(파일 단추가 스크롤해도 보여야 한다).
-   ⚠ 머리말과 안내 띠를 **감싸는 칸**에 sticky 를 준다. 안내 띠에 따로 `top: 59px` 같은
-     숫자를 주면 창이 좁아 머리말이 두 줄이 될 때 겹친다. */
-.topwrap{position:sticky; top:0; z-index:20; box-shadow:0 1px 0 var(--line), 0 10px 24px -18px rgba(0,0,0,.7)}
+/* 머리말 — 늘 붙어 있게 둔다. «🏷️ 이름 + 파일 단추» 만, 배지는 감췄다(장식이라 지웠다). */
+.topwrap{position:sticky; top:0; z-index:20; box-shadow:0 1px 0 var(--line)}
 .top{
-  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   padding:11px 20px; background:var(--bar); border-bottom:1px solid var(--line);
 }
-.top h1{margin:0; font-size:21px; font-weight:700; letter-spacing:-.4px}
-.filebar{display:flex; gap:7px; flex-wrap:wrap}
-.filebar .btn{padding:6px 11px; font-size:14px}
+.top h1{margin:0; font-size:20px; font-weight:700; letter-spacing:-.3px}
+.badge{display:none}                 /* «교사 업무용 · 어떤 라벨지든» — 없어도 되는 장식 */
+.filebar{display:flex; gap:6px; flex-wrap:wrap; margin-left:auto}
+.filebar .btn{padding:6px 11px; font-size:13.5px}
 
-/* 파일 단추가 낸 안내 — 단추 바로 아래에 붙어 보인다 */
+/* 파일 단추가 낸 안내 */
 .workbar{
-  margin:0; padding:9px 20px; font-size:14px; font-weight:600;
+  margin:0; padding:9px 20px; font-size:13.5px; font-weight:600;
   background:var(--band); color:var(--key2); border-bottom:1px solid var(--line);
 }
 .workbar.err{background:#2a1616; color:#f0776b; border-color:#5a2a2a}
 .workbar.ok{background:#12281f; color:var(--ok); border-color:#28503e}
-.badge{
-  background:transparent; color:var(--dim); border:1px solid var(--line);
-  padding:3px 11px; border-radius:999px; font-size:13px; font-weight:600;
-}
 
-/* 두 칸 배치 — 왼쪽 «조작», 오른쪽 «미리보기»(LessonCanvas 식) */
-.wrap{display:grid; grid-template-columns:minmax(384px,440px) 1fr; gap:16px; padding:16px 20px 36px}
+/* 두 칸 배치 — 왼쪽 «조작», 오른쪽 «미리보기» */
+.wrap{display:grid; grid-template-columns:minmax(380px,432px) 1fr; gap:20px; padding:14px 22px 36px}
 @media (max-width:1100px){ .wrap{grid-template-columns:1fr} }
 
-.panel{display:flex; flex-direction:column; gap:12px; min-width:0}
-.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px}
-.card h2{margin:0 0 8px; font-size:16px; font-weight:700; letter-spacing:-.2px}
-.help{margin:0 0 9px; color:var(--dim); font-size:13px; line-height:1.55}
+/* 왼쪽 칸 : 테두리 없는 «한 장». 구역은 머리카락 선으로만 나눈다. */
+.panel{display:flex; flex-direction:column; min-width:0}
+.card{
+  background:transparent; border:0; border-radius:0;
+  padding:16px 0; border-top:1px solid var(--line);
+}
+.panel>.card:first-of-type,
+.panel>details.cardfold:first-of-type{border-top:0; padding-top:2px}
+.card h2{
+  margin:0 0 11px; font-size:13px; font-weight:600; letter-spacing:.02em;
+  color:var(--dim); text-transform:none;
+}
+.help{margin:0 0 9px; color:var(--faint); font-size:12.5px; line-height:1.55}
 .dim{color:var(--dim); font-weight:400}
 
 textarea{
@@ -80,107 +86,129 @@ textarea{
   border:1px solid var(--line); border-radius:9px;
   font:18px/1.7 "맑은 고딕",monospace; color:var(--ink); background:var(--field);
 }
-textarea::placeholder{color:color-mix(in srgb,var(--dim) 70%,transparent)}
+textarea::placeholder{color:color-mix(in srgb,var(--faint) 85%,transparent)}
 textarea:focus,input:focus,select:focus{outline:2px solid var(--key); outline-offset:1px}
 
 .row{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:9px}
 .grow{flex:1}
-.count{font-weight:700; color:var(--key2); font-variant-numeric:tabular-nums}
+.count{font-weight:700; color:var(--key2); font-variant-numeric:tabular-nums; font-size:14px}
 
-label.chk{display:flex; align-items:center; gap:8px; margin-top:7px; font-size:14.5px; cursor:pointer}
-label.chk input{width:17px; height:17px; accent-color:var(--key)}
-label.num{display:flex; align-items:center; gap:8px; margin-top:7px; font-size:14.5px}
+label.chk{display:flex; align-items:center; gap:8px; margin-top:8px; font-size:14px; cursor:pointer}
+label.chk input{width:17px; height:17px; accent-color:var(--key); flex:none}
+label.num{display:flex; align-items:center; gap:8px; margin-top:8px; font-size:14px}
 label.num.sub{margin-left:26px}
 
 /* «이름 | 조작» 두 칸 표 — 설정의 줄을 맞춘다. 이 정렬이 «정돈됨» 의 핵심이다.
-   ⚠ 서로 관계없는 설정을 좌우로 짝지어 놓지 말 것(«디자인이 이상해졌다» 는 신고를 받았다).
-     짝지어 두는 것은 «같은 종류» 일 때만 — 한 `.ctl` 안에 나란히 넣는다. */
-.form{display:grid; grid-template-columns:5.4em 1fr; gap:9px 12px; align-items:center; margin:2px 0 0}
-.form .lb{color:var(--dim); font-size:13.5px; text-align:right; white-space:nowrap}
-.form .ctl{display:flex; align-items:center; gap:7px; min-width:0; flex-wrap:wrap}
-.form .ctl input[type=number]{width:4.4em}
-.form .ctl input[type=range]{flex:1 1 90px; min-width:70px}
+   ⚠ 서로 관계없는 설정을 좌우로 짝지어 놓지 말 것. 짝은 «같은 종류» 일 때만. */
+.form{display:grid; grid-template-columns:5em 1fr; gap:10px 12px; align-items:center; margin:2px 0 0}
+.form .lb{color:var(--faint); font-size:13px; text-align:right; white-space:nowrap}
+.form .ctl{display:flex; align-items:center; gap:8px; min-width:0; flex-wrap:wrap}
+.form .ctl input[type=number]{width:4.2em}
+.form .ctl input[type=range]{flex:1 1 96px; min-width:80px}
 .form .ctl select{max-width:100%}
-.form .ctl i{color:var(--dim); font-style:normal; font-size:13px}
+.form .ctl i{color:var(--faint); font-style:normal; font-size:12.5px}
 .form .ctl label.chk{margin:0}
 .form .sep{color:var(--line)}
+
+/* 손잡이 바로 뒤의 숫자칸은 «값 표시» 처럼 — 테두리·스피너 없이 오른쪽 정렬.
+   (글자 크기 · 배경 진하기. 여전히 눌러서 고칠 수 있다 — 기능은 그대로.) */
+.form .ctl input[type=range] + input[type=number]{
+  width:2.9em; border:0; background:transparent; color:var(--ink);
+  font-weight:700; font-size:15px; text-align:right; padding:2px 0;
+  -moz-appearance:textfield;
+}
+.form .ctl input[type=range] + input[type=number]::-webkit-inner-spin-button,
+.form .ctl input[type=range] + input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0}
+
 input[type=number],input[type=text]{
   padding:6px 9px; border:1px solid var(--line); border-radius:8px;
-  font-size:15.5px; color:var(--ink); background:var(--field);
+  font-size:15px; color:var(--ink); background:var(--field);
 }
 input[type=number]{width:5.5em}
 input[type=range]{flex:1; min-width:90px; accent-color:var(--key)}
 select{
   padding:6px 11px; border:1px solid var(--line); border-radius:8px;
-  font-size:15.5px; color:var(--ink); background:var(--field);
+  font-size:15px; color:var(--ink); background:var(--field);
 }
 select option{background:var(--bar); color:var(--ink)}
 
 .warn{
-  margin:10px 0 0; padding:9px 11px; font-size:13.5px; line-height:1.55;
-  background:var(--warnbg); color:var(--warn); border:1px solid color-mix(in srgb,var(--warn) 40%,transparent); border-radius:9px;
+  margin:10px 0 0; padding:9px 11px; font-size:13px; line-height:1.55;
+  background:var(--warnbg); color:var(--warn);
+  border:1px solid color-mix(in srgb,var(--warn) 36%,transparent); border-radius:9px;
 }
 
 /* 단추 — 강조는 «PDF 내려받기» 하나. 나머지는 조용한 고스트. */
 .btn{
   border:1px solid var(--line); background:var(--field); color:var(--ink);
-  padding:8px 13px; border-radius:9px; font-size:14.5px; font-weight:600; cursor:pointer;
+  padding:8px 13px; border-radius:9px; font-size:14px; font-weight:600; cursor:pointer;
   transition:background .13s, border-color .13s;
 }
-.btn:hover{background:var(--band); border-color:color-mix(in srgb,var(--key) 34%,var(--line))}
-.btn.sm{padding:4px 10px; font-size:13.5px; background:transparent}
-.btn.sm:hover{background:var(--band)}
+.btn:hover{background:var(--band); border-color:color-mix(in srgb,var(--key) 32%,var(--line))}
+.btn.sm{padding:4px 9px; font-size:13px; background:transparent; border-color:transparent; color:var(--dim)}
+.btn.sm:hover{background:var(--band); color:var(--ink); border-color:transparent}
 .btn.ghost{background:transparent}
-.card.go{display:flex; gap:9px; flex-wrap:wrap; align-items:center}
+
+/* 아래 단추 띠 — 구역 선 위에 얹힌 «실행 자리». 좁은 화면에서 아래에 붙을 때
+   내용이 비쳐 보이지 않도록 바탕을 채운다. */
+.card.go{
+  display:flex; gap:9px; flex-wrap:wrap; align-items:center;
+  border-top:1px solid var(--line); padding:15px 0 2px; margin-top:2px;
+  background:var(--bg);
+}
 .btn.big{
-  flex:1 1 40%; padding:12px; font-size:17px; font-weight:700;
+  flex:1 1 40%; padding:12px; font-size:16.5px; font-weight:700;
   background:var(--key); border-color:var(--key); color:#07121f;
 }
 .card.go .msg{flex-basis:100%; margin:0}
 .btn.big:hover{background:var(--keyd); border-color:var(--keyd)}
 .btn.big.alt{background:transparent; color:var(--key2); border-color:var(--line)}
-.btn.big.alt:hover{background:var(--band); border-color:color-mix(in srgb,var(--key) 34%,var(--line))}
+.btn.big.alt:hover{background:var(--band); border-color:color-mix(in srgb,var(--key) 32%,var(--line))}
 .btn:disabled{opacity:.45; cursor:progress}
 .card.go{position:sticky; bottom:0}
-.msg{margin:4px 0 0; min-height:1.3em; font-size:13.5px; color:var(--dim)}
+.msg{margin:4px 0 0; min-height:1.3em; font-size:13px; color:var(--faint)}
 .msg.err{color:#f0776b; font-weight:700}
 .msg.ok{color:var(--ok); font-weight:700}
 
-/* 제목만 남기고 접히는 카드 (⓿ 라벨 시트 · ③ 인쇄 위치) */
-details.cardfold{padding:0}
+/* 제목만 남기고 접히는 칸 (⓿ 라벨 시트 · ③ 인쇄 위치) — 조용한 «펼침 줄» */
+details.cardfold{padding:0; border-top:1px solid var(--line)}
 details.cardfold>summary{
-  padding:12px 16px; cursor:pointer; font-size:15.5px; list-style:none;
-  display:flex; align-items:center; gap:10px; border-radius:12px;
+  padding:14px 0; cursor:pointer; font-size:14.5px; list-style:none;
+  display:flex; align-items:center; gap:9px;
 }
 details.cardfold>summary::-webkit-details-marker{display:none}
-details.cardfold>summary::before{content:'▸'; color:var(--dim); font-size:12px}
+details.cardfold>summary::before{content:'▸'; color:var(--faint); font-size:11px; flex:none}
 details.cardfold[open]>summary::before{content:'▾'}
-details.cardfold>summary:hover{background:var(--band)}
-details.cardfold[open]>summary{border-bottom:1px solid var(--line)}
-details.cardfold>*:not(summary){margin-left:16px; margin-right:16px}
-details.cardfold>*:last-child{margin-bottom:14px}
-details.cardfold>summary>b{flex:none; font-weight:700}
-.pick{color:var(--key2); font-size:13.5px; font-weight:600; overflow:hidden;
+details.cardfold>summary:hover{color:var(--key2)}
+details.cardfold[open]>summary{padding-bottom:10px}
+details.cardfold>*:not(summary){margin-left:20px; margin-right:0}
+details.cardfold>*:last-child{margin-bottom:12px}
+details.cardfold>summary>b{flex:none; font-weight:600; color:var(--ink)}
+.pick{color:var(--faint); font-size:13px; font-weight:500; overflow:hidden;
   text-overflow:ellipsis; white-space:nowrap; min-width:0}
 
-/* 제목을 눌러 펼치는 칸 — 상자 안에 상자를 만들지 않고 «구분선 + 제목» 으로 얇게 */
-details.fold{margin-top:10px; border:1px solid var(--line); border-radius:10px; background:var(--field)}
+/* 눌러 펼치는 칸 — 상자 안에 상자를 만들지 않는다. 왼쪽 선 하나로 «딸림» 만 표시. */
+details.fold{margin-top:10px}
 details.fold>summary{
-  padding:9px 12px; cursor:pointer; font-size:14.5px; font-weight:600; color:var(--key2);
-  border-radius:10px; list-style:none;
+  padding:7px 0; cursor:pointer; font-size:14px; font-weight:600; color:var(--key2);
+  list-style:none; display:flex; align-items:center; gap:8px;
 }
 details.fold>summary::-webkit-details-marker{display:none}
-details.fold>summary:hover{background:var(--band)}
-details.fold[open]>summary{border-bottom:1px solid var(--line)}
-details.fold>*:not(summary){margin-left:12px; margin-right:12px}
-details.fold>*:last-child{margin-bottom:12px}
+details.fold>summary::before{content:'▸'; color:var(--faint); font-size:10px; flex:none}
+details.fold[open]>summary::before{content:'▾'}
+details.fold>summary:hover{color:var(--key)}
+details.fold[open]{border-left:2px solid var(--line); padding-left:14px; margin-left:2px}
+details.fold[open]>summary{margin-left:-16px; padding-left:16px}
+details.fold>*:not(summary){margin:0}
+details.fold>*:last-child{margin-bottom:4px}
+
 input[type=file]{
-  width:calc(100% - 24px); margin-top:8px; padding:8px; font-size:13.5px;
-  border:1px dashed var(--line); border-radius:8px; background:var(--bg); color:var(--dim);
+  width:100%; margin-top:8px; padding:8px; font-size:13px;
+  border:1px dashed var(--line); border-radius:8px; background:var(--field); color:var(--faint);
 }
 input[type=text]{flex:1; min-width:8em}
 
-/* 찾은 라벨을 스캔 그림 위에 겹쳐 보여 주는 칸 — 스캔은 실제 종이 사진이라 흰 바탕을 둔다 */
+/* 찾은 라벨을 스캔 그림 위에 겹쳐 보여 주는 칸 — 스캔은 실제 종이 사진이라 밝게 둔다 */
 .overlay{position:relative; margin-top:10px; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#f4f6fb}
 .overlay canvas{display:block; width:100%; height:auto}
 .overlay svg{position:absolute; inset:0; width:100%; height:100%}
@@ -188,42 +216,39 @@ input[type=text]{flex:1; min-width:8em}
 .overlay svg rect.t{stroke:#f0a52a; stroke-width:.3}
 
 /* 배경 그림 작은 미리보기 */
-.bgthumb{display:inline-flex; width:62px; height:44px; border:1px solid var(--line); border-radius:6px;
+.bgthumb{display:inline-flex; width:60px; height:42px; border:1px solid var(--line); border-radius:6px;
   overflow:hidden; background:var(--field); align-items:center; justify-content:center}
 .bgthumb img{max-width:100%; max-height:100%; display:block}
 
 /* 규격을 손으로 고치는 칸 */
 .specedit{margin-top:8px}
 .specgrid{display:grid; grid-template-columns:1fr; gap:5px; margin:8px 0}
-.specrow{display:grid; grid-template-columns:1fr 6.5em 2em; align-items:center; gap:6px; font-size:13.5px}
-.specrow input{width:100%; padding:5px 7px; border:1px solid var(--line); border-radius:7px; font-size:14.5px; color:var(--ink); background:var(--field)}
-.specrow i{color:var(--dim); font-style:normal; font-size:12.5px}
-.specnote{font-size:13px; color:var(--dim); font-weight:700}
+.specrow{display:grid; grid-template-columns:1fr 6.5em 2em; align-items:center; gap:6px; font-size:13px}
+.specrow input{width:100%; padding:5px 7px; border:1px solid var(--line); border-radius:7px; font-size:14px; color:var(--ink); background:var(--field)}
+.specrow i{color:var(--faint); font-style:normal; font-size:12px}
+.specnote{font-size:12.5px; color:var(--dim); font-weight:700}
 .specnote.err{color:#f0776b}
 
-table.nums{width:calc(100% - 24px); margin-top:10px; border-collapse:collapse; font-size:13.5px}
+table.nums{width:100%; margin-top:10px; border-collapse:collapse; font-size:13px}
 table.nums th,table.nums td{border:1px solid var(--line); padding:5px 9px; text-align:left}
 table.nums th{background:var(--band); width:46%; font-weight:700; color:var(--ink)}
 table.nums td{font-variant-numeric:tabular-nums; color:var(--ink)}
 
-/* ── 미리보기 (이 앱 전용) — 어두운 매트 위에 흰 종이 한 장이 떠 있는 꼴 ── */
+/* ── 미리보기 (이 앱 전용) — 어두운 매트 위에 흰 A4 한 장 ── */
 .stage{background:var(--card-2); border:1px solid var(--line); border-radius:12px; padding:14px 16px; min-width:0}
 .stagebar{display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap}
-.stagebar b{font-size:15px; font-weight:700}
+.stagebar b{font-size:14px; font-weight:700; color:var(--dim); letter-spacing:.02em}
 .pg{font-variant-numeric:tabular-nums; font-weight:700; min-width:4em; text-align:center; color:var(--dim)}
 .paper{
-  background:
-    radial-gradient(120% 120% at 50% 0%, color-mix(in srgb,var(--key) 8%,transparent), transparent 60%),
-    var(--bg);
-  border:1px solid var(--line); border-radius:10px; padding:16px;
+  background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:16px;
   overflow:auto;
 }
-.legend{margin:10px 0 0; color:var(--dim); font-size:13px; line-height:1.55}
+.legend{margin:10px 0 0; color:var(--faint); font-size:12.5px; line-height:1.55}
 
 /* 종이 : viewBox 가 mm 그대로(297×210)이므로 폭만 맞추면 비율이 지켜진다.
-   ⚠ 종이 자체와 칸은 «실제 인쇄물» 이므로 밝게 둔다 — 어둡게 칠하면 인쇄 결과와 달라 보인다. */
+   ⚠ 종이·칸·잉크는 «실제 인쇄물» 이므로 밝게 둔다 — 어둡게 칠하면 인쇄 결과와 달라 보인다. */
 svg.sheet{display:block; width:100%; height:auto; background:#fff; border-radius:3px;
-  box-shadow:0 2px 10px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04)}
+  box-shadow:0 4px 18px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04)}
 svg.sheet .head{fill:#f1f3f9; stroke:#c3c9d9; stroke-width:.25}
 svg.sheet .tail{fill:#f7f8fc; stroke:#d6dbe8; stroke-width:.22}
 svg.sheet .fold{stroke:#dfe3ee; stroke-width:.2; stroke-dasharray:1.2 1.2}
@@ -276,15 +301,14 @@ svg.sheet .slot.start .head{stroke:var(--key); stroke-width:.5}
      대신 여백과 카드 사이 틈만 줄인다. */
 @media (min-width:1101px) and (max-height:850px){
   #textCard textarea{height:112px}     /* 낮은 화면에서는 입력칸을 줄여 스크롤을 아낀다 */
-  .form{gap:6px 12px}
-  .wrap{padding:10px 16px 10px; gap:12px}
-  .panel{gap:6px}
-  .card{padding:10px 13px}
-  .card h2{margin:0 0 5px}
-  details.cardfold>summary{padding:9px 13px}
-  label.chk,label.num{margin-top:5px}
+  .form{gap:7px 12px}
+  .wrap{padding:10px 18px 10px; gap:16px}
+  .card{padding:12px 0}
+  .card h2{margin:0 0 7px}
+  details.cardfold>summary{padding:10px 0}
+  label.chk,label.num{margin-top:6px}
   .help{margin:0 0 6px}
-  details.fold{margin-top:6px}
-  details.fold>summary{padding:7px 11px}
-  .btn.big{padding:10px; font-size:16px}
+  details.fold{margin-top:7px}
+  .btn.big{padding:10px; font-size:15.5px}
+  .card.go{padding-top:12px}
 }
