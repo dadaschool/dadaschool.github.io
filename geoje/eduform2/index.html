@@ -150,9 +150,9 @@
   <div class="card run">
     <div class="dl-when">서버로 쓸 PC에서 · 관리자 PowerShell</div>
     <div class="cmd" id="cmd">irm https://raw.githubusercontent.com/dadaschool/eduform2/main/install.ps1 -OutFile "$env:TEMP\install.ps1"
-powershell -ExecutionPolicy Bypass -File "$env:TEMP\install.ps1" -ServerIp <span class="ip">10.91.10.127</span><button class="copy" id="copyBtn" type="button">복사</button></div>
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\install.ps1" -ServerIp <span class="ip">192.168.0.10</span><button class="copy" id="copyBtn" type="button">복사</button></div>
     <div class="meta">
-      <b style="color:#b45309">노란 글씨 <code style="background:#fef3c7;color:#92400e">10.91.10.127</code> 를 이 서버 컴퓨터의 실제 IP로 바꾸세요.</b><br>
+      <b style="color:#b45309">노란 글씨 <code style="background:#fef3c7;color:#92400e">192.168.0.10</code> 를 이 서버 컴퓨터의 실제 IP로 바꾸세요.</b><br>
       교사·학생 브라우저가 이 주소로 직접 접속합니다. 틀리면 다른 기기에서 로그인이 안 됩니다.<br>
       이 컴퓨터의 IP 확인: PowerShell 에 <code>ipconfig</code> → "IPv4 주소".
     </div>
@@ -185,7 +185,7 @@ powershell -ExecutionPolicy Bypass -File "$env:TEMP\install.ps1" -ServerIp <span
       <li><b>PostgREST 내려받기</b> — 데이터 API. 공식 윈도우 실행 파일입니다.</li>
       <li><b>소스 받기 · 키 생성</b> — 접속 키를 만들어 되읽어 대조합니다. AI 키 암호화용 <code>AI_KEY_SECRET</code> 도 이때 자동 생성됩니다.</li>
       <li><b>표와 보안정책 만들기</b> — 데이터베이스를 세웁니다.</li>
-      <li><b>빌드 · 서비스 등록 · 방화벽</b> — 재부팅해도 자동으로 켜지게 하고, 교내망(<code>10.x</code>)만 열립니다.</li>
+      <li><b>빌드 · 서비스 등록 · 방화벽</b> — 재부팅해도 자동으로 켜지게 하고, 서버 IP와 같은 대역(예: <code>192.168.x</code>)의 학교 내부망만 열립니다.</li>
       <li><b>응답 점검</b> — 화면·로그인·데이터 API가 뜨는지 확인합니다.</li>
     </ol>
     <div class="note warn">
@@ -219,14 +219,16 @@ powershell -ExecutionPolicy Bypass -File "$env:TEMP\install.ps1" -ServerIp <span
 
   <!-- ================= 다른 점 ================= -->
   <div class="card">
-    <h2><span class="ico">🔁</span>에듀폼(온라인판)과 다른 점</h2>
+    <h2><span class="ico">🔁</span>온라인판과 무엇이 다른가요?</h2>
+    <p>
+      기능은 <b>같습니다</b> — 평가·과제·관찰기록·배지·쪽지·생활기록부 초안,
+      여러 교사·관리자 운영까지. 다른 것은 <b>어디서 돌아가느냐</b>뿐입니다.
+    </p>
     <ul class="plain">
-      <li><b>기능은 같습니다</b> — 평가·과제·관찰기록·배지·쪽지·생활기록부 초안.</li>
-      <li><b>학생 정보가 학교 안에 남습니다</b> — 외부 클라우드에 저장하지 않습니다.</li>
+      <li><b>학생 정보가 학교 안에 남습니다</b> — 이 컴퓨터의 데이터베이스에만 저장되고 외부 클라우드로 나가지 않습니다.</li>
       <li><b>교내망에서만 접속</b> — 학교 밖에서는 열리지 않습니다(사설 IP).</li>
-      <li><b>여러 교사가 함께 씁니다</b> — 전체 관리자가 교사 계정을 만들고 관리합니다.</li>
-      <li><b>AI 기능은 교사마다 자기 API 키로</b> — 로그인 후 [내 계정 → AI API 키]에서 업스테이지·Gemini·ChatGPT 중 하나 이상을 등록합니다. 유료로 넘어가기 전에는 한 번 확인을 묻습니다.</li>
-      <li><b>쪽지 알림이 15초 간격</b> — 실시간 알림 서버는 윈도우 빌드가 없습니다.</li>
+      <li><b>바깥 인터넷은 AI 기능만 씁니다</b> — 평가 항목 추천·생활기록부 초안. 막혀 있으면 그 두 기능만 안 됩니다. AI는 교사가 [내 계정]에서 자기 API 키를 등록해 씁니다.</li>
+      <li><b>쪽지 알림이 15초 간격</b> — 실시간 알림 서버는 윈도우 빌드가 없어 주기적으로 확인합니다.</li>
     </ul>
   </div>
 
@@ -241,8 +243,9 @@ powershell -ExecutionPolicy Bypass -File "$env:TEMP\install.ps1" -ServerIp <span
     </ol>
     <div class="note ok">
       <b>자료는 이 컴퓨터 한 대에만 있습니다.</b>
-      설치가 <code>C:\srv\backup</code> 에 매일 백업을 잡아 두지만,
-      그 폴더를 주 1회 학교 공용 폴더나 외부 디스크로 복사하세요. 같은 디스크의 백업은 디스크가 죽을 때 같이 죽습니다.
+      설치가 매일 백업 작업을 등록해 둡니다(비밀번호 한 줄만 채우면 동작).
+      만들어진 백업 폴더를 주 1회 학교 공용 폴더나 외부 디스크로 복사하세요.
+      같은 디스크에만 둔 백업은 디스크가 죽을 때 같이 죽습니다.
     </div>
   </div>
 
