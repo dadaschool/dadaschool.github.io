@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>선생님용 — 센서 공작소</title>
-<link rel="stylesheet" href="css/app.css?v=202608300007">
+<link rel="stylesheet" href="css/app.css?v=202608300044">
 </head>
 <body>
 
@@ -139,6 +139,58 @@
       </div>
     </div>
 
+    <!-- ↓↓ 자유 문제에서만 : 코딩·학습지·점프·응용도 담는다 (비우면 학생 화면에 안 보임) ↓↓ -->
+    <div id="freeExtras" hidden style="margin-top:14px">
+      <p class="hint" style="margin:0 0 8px">아래는 <b>선택</b>입니다. 채운 것만 학생 화면에 탭으로 나타납니다
+        (연결만 채우면 학생은 ② 연결 하나만 봅니다).</p>
+
+      <details class="fx">
+        <summary>③ 코딩 — 블록 도식 · 시작 링크</summary>
+        <div class="fxbody">
+          <label>메이크코드 블록 <span class="pm">한 줄에 블록 하나 · 앞 공백 2칸 = 한 단계 안쪽</span>
+            <textarea id="fxMk" rows="7" spellcheck="false" placeholder="loop: 무한 반복&#10;  logic: 만약 <디지털 입력 P0 = 1> 이면&#10;    basic: 하트 아이콘 보이기&#10;  logic: 아니면&#10;    basic: 화면 지우기"></textarea>
+          </label>
+          <label>엔트리 블록 <span class="pm">같은 방식</span>
+            <textarea id="fxEn" rows="7" spellcheck="false" placeholder="loop: 계속 반복하기&#10;  logic: 만약 <디지털 P0 번 = 1> 이라면&#10;    basic: LED 화면에 하트 나타내기"></textarea>
+          </label>
+          <p class="pm">카테고리 : loop · logic · basic · input · pins · music · var · radio · note &nbsp;(생략하면 basic · note 는 설명줄)</p>
+          <div class="row">
+            <label>메이크코드 시작 링크 <input type="url" id="fxMkUrl" placeholder="https://makecode.microbit.org/#editor" style="width:320px"></label>
+          </div>
+          <div class="row" style="margin-top:6px">
+            <label>엔트리 시작 링크 <input type="url" id="fxEnUrl" placeholder="https://playentry.org/ws/new" style="width:320px"></label>
+          </div>
+        </div>
+      </details>
+
+      <details class="fx">
+        <summary>④ 학습지 — 개념 정리 문항</summary>
+        <div class="fxbody">
+          <div id="fxWsList"></div>
+          <button type="button" id="fxWsAdd" class="gh">＋ 문항 추가</button>
+          <p class="pm">유형 : 객관식(정답 = 번호) · OX · 단답(정답 여러 개면 <code>/</code> 로 구분). 제출하면 학생 화면에서 바로 채점됩니다.</p>
+        </div>
+      </details>
+
+      <details class="fx">
+        <summary>⑤ 점프과제 <span class="pm">(선택 과제 · 채점 없음)</span></summary>
+        <div class="fxbody">
+          <label>본문 <textarea id="fxJumpBody" rows="3" placeholder="예: 소리가 3초 넘게 크면 LED 를 빨강으로 바꿔 보자."></textarea></label>
+          <label>힌트 <span class="pm">(접혀서 나옴)</span> <textarea id="fxJumpHint" rows="2"></textarea></label>
+        </div>
+      </details>
+
+      <details class="fx">
+        <summary>⑥ 나만의 응용 — 안내 문구</summary>
+        <div class="fxbody">
+          <label>학생에게 줄 안내 한 줄
+            <input type="text" id="fxStudioHint" style="width:100%" placeholder="예: 기준값을 우리 교실에 맞게 바꾸고, 무엇을 왜 바꿨는지 적어 보세요">
+          </label>
+          <p class="pm">이 칸을 채우면 ⑥ 응용 탭(바꾼 것·더한 것 + 코드 캡처 → PDF)이 학생 화면에 생깁니다.</p>
+        </div>
+      </details>
+    </div>
+
     <div id="probPrev" style="margin-top:16px"></div>
 
     <!-- 자유 문제(자유 모드)에서 만든 코드 -->
@@ -182,22 +234,22 @@
 
 </div>
 
-<script src="js/config.js?v=202608300007"></script>
-<script src="js/connect/parts.js?v=202608300007"></script>
-<script src="js/connect/board.js?v=202608300007"></script>
-<script src="js/connect/judge.js?v=202608300007"></script>
-<script src="js/connect/connect.js?v=202608300007"></script>
-<script src="js/code.js?v=202608300007"></script>
-<script src="js/pdf.js?v=202608300007"></script>
-<script src="js/print.js?v=202608300007"></script>
-<script src="js/ui.js?v=202608300007"></script>
+<script src="js/config.js?v=202608300044"></script>
+<script src="js/connect/parts.js?v=202608300044"></script>
+<script src="js/connect/board.js?v=202608300044"></script>
+<script src="js/connect/judge.js?v=202608300044"></script>
+<script src="js/connect/connect.js?v=202608300044"></script>
+<script src="js/code.js?v=202608300044"></script>
+<script src="js/pdf.js?v=202608300044"></script>
+<script src="js/print.js?v=202608300044"></script>
+<script src="js/ui.js?v=202608300044"></script>
 <script>
 /* 모든 차시 데이터를 불러온다 (편집·학습지 인쇄용) */
 (function () {
   for (var i = 1; i <= 26; i++) document.write('<script src="js/lessons/' + i + '.js"><\/script>');
 })();
 </script>
-<script src="js/teacher.js?v=202608300007"></script>
+<script src="js/teacher.js?v=202608300044"></script>
 <script>Teacher.boot();</script>
 </body>
 </html>

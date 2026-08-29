@@ -119,6 +119,21 @@
       paintCodeBar();
       paintFreeList();
       paintLessonCodeList();
+      loadLessonCodes();
+    });
+  }
+
+  /* 26차시 카드에 «그 차시 6자리 코드» 를 채운다 (한 번 불러 두고 카드를 다시 그린다) */
+  var lessonCodes = {};
+  function loadLessonCodes() {
+    if (!hasServer) return;
+    window.Code.codes(function (list) {
+      lessonCodes = {};
+      list.forEach(function (x) {
+        if (x.lesson && !lessonCodes[x.lesson]) lessonCodes[x.lesson] = String(x.code);
+      });
+      renderLessonList();
+      markActiveCard();
     });
   }
 
@@ -138,6 +153,7 @@
     $("editorCard").hidden = false;
     $("lessonExtras").hidden = mode !== "lesson";
     $("freeTitleRow").hidden = mode !== "free";
+    $("freeExtras").hidden = mode !== "free";   /* 코딩·학습지·점프·응용 입력칸 (자유 문제만) */
     /* 「이 문제의 6자리 코드」 칸은 코드가 실제로 만들어졌을 때만 보인다 —
        빈 제목만 남으면 «6자리 코드 만들기 버튼이 없어졌다» 처럼 보인다(사용자 신고).
        서버가 없어 버튼이 안 나올 때는 위쪽 #noServer 안내가 이유를 설명한다. */
@@ -171,10 +187,13 @@
     $("lessonList").innerHTML = h;
   }
   function lcard(L, cap) {
+    var code = lessonCodes[L.n];
     return '<div class="lcard' + (cap ? " cap" : "") + '" data-lesson="' + L.n + '">' +
       '<div class="ln"><span class="no">' + L.n + '</span><span class="tt">' + esc(L.title) + "</span></div>" +
       '<p class="pt">' + esc(L.part || "") + "</p>" +
-      '<div class="tags"><span class="tg">' + (savedProb(L.n) ? "편집본 있음" : "기본 문제") + "</span>" +
+      '<div class="tags">' +
+      (code ? '<span class="tg code">코드 ' + esc(code) + "</span>" : '<span class="tg">코드 없음</span>') +
+      '<span class="tg">' + (savedProb(L.n) ? "편집본 있음" : "기본 문제") + "</span>" +
       '<a class="tg" href="lesson.html?n=' + L.n + '" target="_blank" onclick="event.stopPropagation()">차시 내용 ▸</a></div>' +
       "</div>";
   }
@@ -356,6 +375,7 @@
     if (preview) { preview.destroy(); preview = null; }
     $("probPrev").innerHTML = "";
     $("pickname").textContent = "";
+    clearFx();
     paintAll();
     openEditor();
     if (hasServer) paintCodeBar();
@@ -389,12 +409,124 @@
     if (mode === "free") {
       o.n = null;
       o.t = (($("freeTitle").value || "").trim()) || "자유 문제";
+      /* 코딩·학습지·점프·응용 — 채운 것만 담는다(비우면 학생 화면에 안 보인다) */
+      var mk = parseBlocks($("fxMk").value), en = parseBlocks($("fxEn").value);
+      if (mk.length || en.length) o.code = { makecode: mk, entry: en }; else delete o.code;
+      var mku = $("fxMkUrl").value.trim(), enu = $("fxEnUrl").value.trim();
+      if (mku || enu) o.start = { makecode: mku, entry: enu }; else delete o.start;
+      var ws = readFxWorksheet();
+      if (ws.length) o.worksheet = ws; else delete o.worksheet;
+      var jb = $("fxJumpBody").value.trim(), jh = $("fxJumpHint").value.trim();
+      if (jb) o.jump = { body: jb, hint: jh }; else delete o.jump;
+      var sh = $("fxStudioHint").value.trim();
+      if (sh) o.studio = { hint: sh }; else delete o.studio;
     } else {
       o.n = cur;
       if (!o.t || o.t === cur + "차시 연결") o.t = cur + "차시 · " + (TITLES[cur] || "연결");
     }
     return o;
   }
+
+  /* ── 자유 문제의 «코딩·학습지·점프·응용» 입력칸 다루기 ─────────── */
+  var BLOCK_CATS = ["loop", "logic", "basic", "input", "pins", "music", "var", "radio", "note"];
+
+  function parseBlocks(text) {
+    return String(text || "").split("\n").map(function (raw) {
+      if (!raw.trim()) return null;
+      var lead = (raw.match(/^ */) || [""])[0];
+      var rest = raw.slice(lead.length);
+      var m = rest.match(/^([a-z]+):\s?(.*)$/);
+      if (m && BLOCK_CATS.indexOf(m[1]) >= 0) return [m[1], lead + m[2]];
+      return ["basic", lead + rest];
+    }).filter(Boolean);
+  }
+  function blocksToText(lines) {
+    return (lines || []).map(function (ln) {
+      var cat = ln[0] || "basic", txt = String(ln[1] || "");
+      var lead = (txt.match(/^ */) || [""])[0];
+      return lead + cat + ": " + txt.slice(lead.length);
+    }).join("\n");
+  }
+
+  function wsRowHtml() {
+    return '<div class="fxrow">' +
+      '<input class="fxq" type="text" placeholder="질문">' +
+      '<select class="fxtype"><option value="choice">객관식</option><option value="ox">OX</option>' +
+      '<option value="fill">단답</option></select>' +
+      '<textarea class="fxopts" rows="3" placeholder="선택지 — 한 줄에 하나"></textarea>' +
+      '<input class="fxans" type="text" placeholder="정답 (객관식=번호 · OX=O/X · 단답=답)">' +
+      '<input class="fxwhy" type="text" placeholder="해설 (선택)">' +
+      '<button type="button" class="fxdel gh">삭제</button>' +
+      "</div>";
+  }
+  function addWsRow(data) {
+    var host = $("fxWsList");
+    var wrap = document.createElement("div");
+    wrap.innerHTML = wsRowHtml();
+    var row = wrap.firstChild;
+    host.appendChild(row);
+    var typeSel = row.querySelector(".fxtype");
+    var optsTa = row.querySelector(".fxopts");
+    function syncType() { optsTa.style.display = typeSel.value === "choice" ? "" : "none"; }
+    typeSel.onchange = syncType;
+    if (data) {
+      row.querySelector(".fxq").value = data.q || "";
+      var t = data.type === "ox" ? "ox" : (data.type === "fill" || data.type === "short" ? "fill" : "choice");
+      typeSel.value = t;
+      if (t === "choice") {
+        optsTa.value = (data.opts || []).join("\n");
+        row.querySelector(".fxans").value = (Number(data.a) || 0) + 1;
+      } else if (t === "ox") {
+        row.querySelector(".fxans").value = String(data.a || "O").toUpperCase();
+      } else {
+        row.querySelector(".fxans").value = Array.isArray(data.a) ? data.a.join(" / ") : (data.a || "");
+      }
+      row.querySelector(".fxwhy").value = data.why || "";
+    }
+    syncType();
+  }
+  function readFxWorksheet() {
+    var out = [];
+    $("fxWsList").querySelectorAll(".fxrow").forEach(function (row) {
+      var q = row.querySelector(".fxq").value.trim();
+      if (!q) return;
+      var type = row.querySelector(".fxtype").value;
+      var ansRaw = row.querySelector(".fxans").value.trim();
+      var why = row.querySelector(".fxwhy").value.trim();
+      var it = { q: q };
+      if (type === "choice") {
+        it.type = "choice";
+        it.opts = row.querySelector(".fxopts").value.split("\n")
+          .map(function (s) { return s.trim(); }).filter(Boolean);
+        it.a = Math.max(0, (parseInt(ansRaw, 10) || 1) - 1);
+      } else if (type === "ox") {
+        it.type = "ox";
+        it.a = /x/i.test(ansRaw) ? "X" : "O";
+      } else {
+        it.type = "fill";
+        it.a = ansRaw.indexOf("/") >= 0
+          ? ansRaw.split("/").map(function (s) { return s.trim(); }).filter(Boolean)
+          : ansRaw;
+        it.ph = "답을 쓰세요";
+      }
+      if (why) it.why = why;
+      out.push(it);
+    });
+    return out;
+  }
+  function fillFx(p) {
+    p = p || {};
+    $("fxMk").value = blocksToText(p.code && p.code.makecode);
+    $("fxEn").value = blocksToText(p.code && p.code.entry);
+    $("fxMkUrl").value = (p.start && p.start.makecode) || "";
+    $("fxEnUrl").value = (p.start && p.start.entry) || "";
+    $("fxJumpBody").value = (p.jump && p.jump.body) || "";
+    $("fxJumpHint").value = (p.jump && p.jump.hint) || "";
+    $("fxStudioHint").value = (p.studio && p.studio.hint) || "";
+    $("fxWsList").innerHTML = "";
+    (p.worksheet || []).forEach(addWsRow);
+  }
+  function clearFx() { fillFx({}); }
 
   /* ── 6자리 코드 ─────────────────────────────────────── */
   function paintCodeBar() {
@@ -502,6 +634,7 @@
   function refreshLists() {
     paintFreeList();
     paintLessonCodeList();
+    loadLessonCodes();
   }
 
   function edit6(code) {
@@ -520,6 +653,7 @@
         mode = "free";
         $("freeTitle").value = p.t || "";
         $("pickname").textContent = code + " 수정 중";
+        fillFx(p);
       }
       if (preview) { preview.destroy(); preview = null; }
       $("probPrev").innerHTML = "";
@@ -607,9 +741,20 @@
         if (!o || !Array.isArray(o.parts)) throw new Error("parts 배열이 필요합니다");
         prob = normalize(o);
         paintAll();
+        if (mode === "free") fillFx(prob);
         $("probMsg").textContent = "JSON 을 적용했습니다. 미리보기로 확인하세요.";
       } catch (e) { $("probMsg").textContent = "❌ JSON 오류: " + e.message; }
     };
+
+    /* 자유 문제의 학습지 문항 추가·삭제 */
+    $("fxWsAdd").onclick = function () {
+      if ($("fxWsList").querySelectorAll(".fxrow").length >= 6) { alert("문항은 6개까지입니다."); return; }
+      addWsRow();
+    };
+    $("fxWsList").addEventListener("click", function (ev) {
+      var d = ev.target.closest ? ev.target.closest(".fxdel") : null;
+      if (d && d.parentNode) d.parentNode.remove();
+    });
     $("btnExtAdd").onclick = function () {
       var v = $("extIn").value.trim();
       if (!v) return;

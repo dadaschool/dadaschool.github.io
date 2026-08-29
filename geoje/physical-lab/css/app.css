@@ -548,6 +548,30 @@ label.ck input { width: 18px; height: 18px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
 @media (max-width: 1000px) { .grid2 { grid-template-columns: 1fr; } }
 
+/* ── 자유 문제의 «코딩·학습지·점프·응용» 입력칸 ── */
+.fx { border: 1px solid var(--line); border-radius: 10px; margin-top: 8px; background: #fbfcfe; }
+.fx > summary { cursor: pointer; padding: 10px 14px; font-weight: 700; }
+.fx[open] > summary { border-bottom: 1px solid var(--line); }
+.fxbody { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.fxbody label { display: block; font-weight: 600; font-size: 14px; }
+.fxbody textarea, .fxbody input[type="text"], .fxbody input[type="url"] {
+  width: 100%; margin-top: 4px; font-size: 14px; padding: 7px 9px;
+  border: 1px solid var(--line); border-radius: 8px; box-sizing: border-box;
+}
+.fxbody textarea { font-family: Consolas, "D2Coding", monospace; resize: vertical; }
+.fxrow {
+  display: grid; grid-template-columns: 1fr 96px 1fr 1fr 1fr auto; gap: 6px;
+  align-items: start; padding: 8px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; margin-bottom: 6px;
+}
+.fxrow input, .fxrow select, .fxrow textarea {
+  width: 100%; font-size: 13px; padding: 6px 7px; border: 1px solid var(--line);
+  border-radius: 6px; box-sizing: border-box;
+}
+.fxrow textarea { font-family: inherit; resize: vertical; }
+.fxrow .fxdel { align-self: center; }
+@media (max-width: 900px) { .fxrow { grid-template-columns: 1fr; } }
+
 #toast {
   position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
   background: #1b2430; color: #fff; padding: 12px 20px; border-radius: 10px;
@@ -600,5 +624,6 @@ td.nowrap { white-space: nowrap; }
 .lcard .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .lcard .tg { font-size: 12.5px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; color: var(--sub); }
 .lcard .tg.on { background: #eaf3e9; border-color: #b6dcb6; color: #256a2b; }
+.lcard .tg.code { background: var(--pri); border-color: var(--pri); color: #fff; font-weight: 700; letter-spacing: .5px; }
 .gate { max-width: 460px; margin: 60px auto; text-align: center; }
 .gate input { font-size: 20px; padding: 6px 12px; width: 240px; text-align: center; }

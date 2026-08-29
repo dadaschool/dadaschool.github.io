@@ -2,16 +2,18 @@
    student.js — 학생 화면
 
    주소만 열면 «6자리 숫자를 넣는 화면» 이 먼저 나온다.
-   숫자를 넣으면 그 ② 연결 문제를 받아 Connect.mount 로 띄운다.
+   숫자를 넣으면 그 문제를 받아 화면에 띄운다.
    `#code=NNNNNN` · `#q=<base64>` 로 들어오면 곧바로 문제로 간다.
 
-   실제 연결 시뮬(보드·부품·채점·연결표)은 js/connect/connect.js 가 한다.
+   문제에 «연결» 만 있으면 ② 연결 하나만 보이고, 교사가 코딩·학습지·점프·응용을
+   함께 담았으면 그 탭도 같이 나온다(js/lessonview.js 의 LessonView.mount).
+   연결 시뮬(보드·부품·채점·연결표)은 js/connect/connect.js 가 한다.
    ============================================================ */
 (function (g) {
   "use strict";
 
   var $ = function (id) { return document.getElementById(id); };
-  var conn = null;   /* Connect.mount 가 돌려준 것 */
+  var view = null;   /* LessonView.mount 가 돌려준 것 */
   var prob = null;
 
   function esc(s) {
@@ -23,6 +25,28 @@
     if (entry && entry.def) return entry.def.name || "직접 만든 부품";
     var p = g.Parts && Parts.byId(entry && entry.id);
     return p ? p.name + (p.model ? " (" + p.model + ")" : "") : "(부품)";
+  }
+
+  /* 6자리 코드로 받은 prob → LessonView 가 읽는 «차시» 모양으로 */
+  function toLesson(p) {
+    return {
+      n: p.n || 0,
+      title: p.t || "연결 문제",
+      life: p.life || [],
+      goal: p.goal || [],
+      bench: p.bench || null,
+      connect: {
+        t: p.t, v1: p.v1, v2: p.v2, usb: p.usb, color: p.color,
+        ext: p.ext || [], parts: p.parts || []
+      },
+      code: p.code || null,
+      start: p.start || null,
+      worksheet: p.worksheet || [],
+      jump: p.jump || null,
+      studio: p.studio || null,
+      tabTitles: p.tabTitles || null,
+      capstone: !!p.capstone
+    };
   }
 
   function boot() {
@@ -46,7 +70,7 @@
   function showStart() {
     $("startCard").hidden = false;
     $("playWrap").hidden = true;
-    if (conn) { conn.destroy(); conn = null; }
+    if (view) { view.destroy(); view = null; }
   }
 
   function startPlay() {
@@ -59,8 +83,8 @@
     $("prep").innerHTML = "마이크로비트 · Keyestudio 확장보드 · " + esc(names.join(" · ")) +
       (prob.usb ? " · 보조배터리" : "") + esc(ext);
 
-    if (conn) conn.destroy();
-    conn = Connect.mount($("connectHost"), prob, {});
+    if (view) view.destroy();
+    view = g.LessonView.mount($("lessonBody"), $("lessonSteps"), toLesson(prob), { n: null, hideEmpty: true });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

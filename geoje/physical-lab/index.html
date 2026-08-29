@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>센서 공작소 — 연결 실습</title>
-<link rel="stylesheet" href="css/app.css?v=202608300007">
+<link rel="stylesheet" href="css/app.css?v=202608300044">
 </head>
 <body>
 
@@ -45,8 +45,10 @@
       </div>
     </div>
 
-    <!-- 연결 시뮬레이터가 여기에 붙는다 (js/connect/connect.js 의 Connect.mount) -->
-    <div class="card" id="connectHost"></div>
+    <!-- 문제 내용이 여기에 탭으로 붙는다 (js/lessonview.js 의 LessonView.mount).
+         연결만 있는 문제면 ② 연결 하나만, 코딩·학습지 등이 들어 있으면 그 탭도 함께 보인다. -->
+    <div id="lessonSteps"></div>
+    <div id="lessonBody"></div>
 
     <!-- 다른 문제 열기 -->
     <div class="card">
@@ -64,13 +66,22 @@
 
 </div>
 
-<script src="js/config.js?v=202608300007"></script>
-<script src="js/connect/parts.js?v=202608300007"></script>
-<script src="js/connect/board.js?v=202608300007"></script>
-<script src="js/connect/judge.js?v=202608300007"></script>
-<script src="js/connect/connect.js?v=202608300007"></script>
-<script src="js/code.js?v=202608300007"></script>
-<script src="js/student.js?v=202608300007"></script>
+<script src="js/config.js?v=202608300044"></script>
+<script src="js/connect/parts.js?v=202608300044"></script>
+<script src="js/connect/board.js?v=202608300044"></script>
+<script src="js/connect/judge.js?v=202608300044"></script>
+<script src="js/connect/connect.js?v=202608300044"></script>
+<!-- 공용 부품 (자유 문제에 코딩·학습지 등이 들어 있을 때 쓴다) -->
+<script src="js/pdf.js?v=202608300044"></script>
+<script src="js/print.js?v=202608300044"></script>
+<script src="js/ui.js?v=202608300044"></script>
+<script src="js/blocks.js?v=202608300044"></script>
+<script src="js/bench.js?v=202608300044"></script>
+<script src="js/worksheet.js?v=202608300044"></script>
+<script src="js/studio.js?v=202608300044"></script>
+<script src="js/lessonview.js?v=202608300044"></script>
+<script src="js/code.js?v=202608300044"></script>
+<script src="js/student.js?v=202608300044"></script>
 <script>Student.boot();</script>
 </body>
 </html>
