@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>선생님용 — 센서 공작소</title>
+<link rel="stylesheet" href="css/app.css?v=202608300007">
+</head>
+<body>
+
+<header class="top">
+  <h1><a href="teacher.html">🔧 센서 공작소 · 선생님용</a></h1>
+  <span class="badge">문제 만들기 · 6자리 코드</span>
+  <span class="sp"></span>
+  <a class="lnk" href="index.html">학생 화면 ▸</a>
+</header>
+
+<!-- ── 🔒 교사 코드 ─────────────────────────────────────── -->
+<div class="wrap">
+  <div class="card gate" id="gate">
+    <h2>선생님 코드를 넣으세요</h2>
+    <p class="hint">이 화면에서 문제를 만들고 고치고 지웁니다. 코드는 저장하지 않습니다(새로고침하면 다시 넣습니다).</p>
+    <div class="row" style="justify-content:center;margin-top:10px">
+      <input type="password" id="tcode" autocomplete="off" placeholder="선생님 코드">
+      <button id="btnGate" class="pri big">열기</button>
+    </div>
+    <p class="hint" id="gateMsg" style="min-height:20px"></p>
+  </div>
+</div>
+
+<!-- ── 본 화면 ─────────────────────────────────────────── -->
+<div class="wrap wide" id="mainWrap" hidden>
+
+  <!-- 탭 : 프로젝트 26차시 / 자유 문제 -->
+  <div id="ttabs"></div>
+
+  <!-- 탭 A : 프로젝트 26차시 -->
+  <div id="viewLessons">
+    <div class="card">
+      <h2>프로젝트 26차시 <span class="pm">— 차시를 누르면 그 ② 연결 문제 편집기가 열립니다</span></h2>
+      <p class="hint">정해진 25개 수업 + 캡스톤입니다. 차시마다 <b>② 연결 문제</b>를 다듬어 <b>6자리 코드</b>를
+        만들고, 그 차시의 <b>학습지</b>도 여기서 인쇄합니다.</p>
+      <div id="lessonList"></div>
+    </div>
+  </div>
+
+  <!-- 탭 B : 자유 문제 (차시와 별개) -->
+  <div id="viewFree" hidden>
+    <div class="card">
+      <div class="row" style="margin-bottom:6px">
+        <h2 style="margin:0">자유 문제</h2>
+        <span class="pm">— 차시와 상관없는 «이 회로를 연결해» 문제</span>
+        <span style="flex:1"></span>
+        <button id="btnNewFree" class="pri big">＋ 새 문제 만들기</button>
+      </div>
+      <p class="hint">부품을 골라 담아 <b>6자리 코드</b>를 만들면, 그 숫자를 넣은 학생에게 <b>② 연결 문제만</b>
+        열립니다. 학습지·텍스트코드는 없습니다(그건 프로젝트 26차시에만).</p>
+      <div id="freeList"></div>
+    </div>
+  </div>
+
+  <!-- ② 연결 문제 편집 (두 탭이 함께 쓴다) -->
+  <div class="card" id="editorCard" hidden>
+    <div class="row" style="margin-bottom:6px">
+      <h2 style="margin:0" id="editorTitle">② 연결 문제</h2>
+      <span id="pickname" class="hint"></span>
+      <span style="flex:1"></span>
+      <button id="btnNewBlank">＋ 빈 문제로 다시 시작</button>
+      <button id="btnResetProb" class="gh lessononly">↩ 기본 문제로 되돌리기</button>
+      <button id="btnBackList" class="gh">◀ 목록으로</button>
+    </div>
+
+    <label id="freeTitleRow" class="row" hidden style="margin:0 0 10px">
+      <span style="white-space:nowrap">문제 제목</span>
+      <input type="text" id="freeTitle" placeholder="예: 초음파 + 부저 경보기" style="flex:1;min-width:220px">
+    </label>
+
+    <!-- 6자리 코드 -->
+    <div class="card" style="background:#f3f7ff;border-color:var(--pri)">
+      <div id="noServer" hidden>
+        <p class="hint"><b>문제를 담을 곳이 아직 정해지지 않았습니다.</b> 한 번만 설정해 두면 그 뒤로는
+          이 화면에서 바로 만들고 고치고 지울 수 있습니다(교사 PC 에서 아무것도 켜지 않아도 됩니다).<br>
+          → 앱 폴더의 <code>worker/설치안내.md</code> 를 따라 Cloudflare Worker 를 만들고(약 10분),
+          <code>js/config.js</code> 의 <code>WORKER</code> 에 주소를 넣은 뒤
+          <code>python tools/사이트에_올리기.py --push</code> 를 한 번 돌립니다.<br>
+          급할 때는 교사 PC 에서 <code>python server.py</code> 로 켜고
+          <code>http://localhost:9200/teacher.html</code> 로 들어와도 똑같이 됩니다.</p>
+      </div>
+      <div id="mkCode" hidden>
+        <div class="row" id="code6bar"></div>
+        <div id="code6out" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <p class="hint">부품을 <b>골라 담고</b> 신호핀 번호·점퍼를 정하세요. <b>미리보기</b> 로 학생 화면을 확인한 뒤
+      <b>6자리 코드 만들기</b> 를 누르면 학생이 그 번호로 이 문제를 받습니다.
+      「💾 이 차시에 저장」 은 이 브라우저의 차시 페이지(<code>lesson.html</code>)에만 반영됩니다.</p>
+
+    <div class="grid2">
+      <div>
+        <h3>담은 부품 <span class="pm">— 신호핀 번호를 정하세요</span></h3>
+        <div id="chosen" class="chosen"></div>
+
+        <h3 style="margin-top:16px">점퍼 · 보조배터리</h3>
+        <div class="row">
+          <label>점퍼 V1 <select id="v1"><option>3V3</option><option>5V</option></select></label>
+          <label>점퍼 V2 <select id="v2"><option>3V3</option><option>5V</option></select></label>
+          <label class="ck"><input type="checkbox" id="ckUsb"> 보조배터리(micro USB) 표시</label>
+        </div>
+
+        <h3 style="margin-top:16px">확장프로그램 <span class="pm">(MakeCode)</span></h3>
+        <div id="extchips" class="chips"></div>
+        <div class="row" style="margin-top:6px">
+          <input type="text" id="extIn" placeholder="이름을 직접 적어 추가" style="width:200px">
+          <button id="btnExtAdd">추가</button>
+        </div>
+
+        <div id="warn" style="margin-top:12px"></div>
+
+        <div class="row" style="margin-top:14px">
+          <button id="btnPreview" class="pri">미리보기 ▶</button>
+          <button id="btnSaveProb" class="gh lessononly">💾 이 차시에 저장(lesson.html 용)</button>
+          <button id="btnDlProb" class="gh">JSON 내려받기</button>
+        </div>
+        <p class="hint" id="probMsg"></p>
+
+        <details style="margin-top:12px">
+          <summary class="pm">JSON 으로 직접 편집 (고급)</summary>
+          <textarea id="probJson" spellcheck="false" style="min-height:150px;margin-top:8px;font-family:Consolas,'D2Coding',monospace;font-size:13px"></textarea>
+          <div class="row" style="margin-top:6px">
+            <button id="btnJsonApply" class="gh">JSON 적용</button>
+          </div>
+        </details>
+      </div>
+
+      <div>
+        <h3>부품 고르기 <span class="pm">— 눌러서 담기</span></h3>
+        <div id="palette"></div>
+      </div>
+    </div>
+
+    <div id="probPrev" style="margin-top:16px"></div>
+
+    <!-- 자유 문제(자유 모드)에서 만든 코드 -->
+    <div id="freeMade" class="freemade" hidden style="margin-top:16px">
+      <h3 style="margin:0 0 6px">이 문제의 6자리 코드</h3>
+      <div id="freeMadeOut"></div>
+    </div>
+
+    <!-- ↓↓ 프로젝트 26차시에서만 보이는 것 (자유 모드에선 숨김) ↓↓ -->
+    <div id="lessonExtras">
+
+      <div class="card" style="margin-top:16px">
+        <h3 style="margin:0 0 6px">이 차시로 만든 6자리 코드</h3>
+        <div id="lessonCodeList"></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px">🖨 인쇄용 활동지</h3>
+        <p class="hint">학생이 화면에서 푸는 것과 <b>같은 4문항</b>, 답이 비어 있는 인쇄용 활동지입니다.
+          정답·해설·성취기준은 들어가지 않습니다.</p>
+        <button id="btnPrintWs" class="pri">🖨 <span id="wsN">12</span>차시 학습지(4문항) 인쇄</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px">텍스트 코드 등록 <span class="pm">(선택)</span></h3>
+        <p class="hint">기본은 블록 도식입니다. 메이크코드(JavaScript)·MicroPython 화면을 캡처해 올리면
+          학생 차시 페이지 ③에 함께 보입니다.</p>
+        <div class="row">
+          <label>메이크코드 <input type="file" id="tcMake" accept="image/*"></label>
+          <button class="gh" data-clr="makecode">지우기</button>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <label>엔트리 <input type="file" id="tcEntry" accept="image/*"></label>
+          <button class="gh" data-clr="entry">지우기</button>
+        </div>
+        <p class="hint" id="tcMsg"></p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="js/config.js?v=202608300007"></script>
+<script src="js/connect/parts.js?v=202608300007"></script>
+<script src="js/connect/board.js?v=202608300007"></script>
+<script src="js/connect/judge.js?v=202608300007"></script>
+<script src="js/connect/connect.js?v=202608300007"></script>
+<script src="js/code.js?v=202608300007"></script>
+<script src="js/pdf.js?v=202608300007"></script>
+<script src="js/print.js?v=202608300007"></script>
+<script src="js/ui.js?v=202608300007"></script>
+<script>
+/* 모든 차시 데이터를 불러온다 (편집·학습지 인쇄용) */
+(function () {
+  for (var i = 1; i <= 26; i++) document.write('<script src="js/lessons/' + i + '.js"><\/script>');
+})();
+</script>
+<script src="js/teacher.js?v=202608300007"></script>
+<script>Teacher.boot();</script>
+</body>
+</html>
