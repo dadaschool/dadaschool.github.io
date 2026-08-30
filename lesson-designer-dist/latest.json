@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "date": "2026-08-30",
-  "notes": "첫 배포. 성취기준 25개 · 1단계 문장 직접 편집 · 3단계 AI 과정안 · 4단계 문항/루브릭 · 5단계 학습 시뮬레이터(4종) · AI 키 아무 단계에서나 반영 · 다계정/다른PC 배포 마법사 · 자체 업그레이드/되돌리기",
-  "url": "https://dadaschool.github.io/lesson-designer-dist/lesson-designer-1.0.0.zip",
-  "sha256": "d8fd3b7e64c0846ccfab6247c9e2167d6db2456bcc006c78b96f1b07b60d9394",
-  "size": 122661
+  "notes": "4단계 이름표 정리 : «AI» -> «학습 활동지 문항 수», «난이도» 이름표 추가, «1차시 학생 활동지» -> «1차시 학습 활동지»(화면·인쇄·hwp 통일). 문항 수·난이도 입력칸이 한 줄을 다 차지하던 CSS 버그 수정.",
+  "url": "https://dadaschool.github.io/lesson-designer-dist/lesson-designer-1.0.1.zip",
+  "sha256": "5acbc39949ed9393382df7f097b83d3d50f62912bedf7e0c90dda78fea23d85b",
+  "size": 125329
 }
