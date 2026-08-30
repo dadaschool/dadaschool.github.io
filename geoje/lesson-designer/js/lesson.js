@@ -581,15 +581,18 @@
       if (!plan.items) plan.items = [];
       var card = el("div", "ws-card");
       card.innerHTML =
-        '<div class="wh"><span>' + plan.hour + '차시 학생 활동지</span></div>' +
+        '<div class="wh"><span>' + plan.hour + '차시 학습 활동지</span></div>' +
         '<div class="wbody">' +
           '<div class="ws-summary">' +
             '<div class="box"><h4>학습 목표</h4><p>' + esc(plan.objective) + '</p></div>' +
             '<div class="box teacher-only"><h4>성취 기준 (교사용 · 학생 배부본 제외)</h4><p>' + esc(plan.standard) + '</p></div>' +
           '</div>' +
           '<div class="ws-tools">' +
-            '<div class="grp"><span class="lbl">AI</span>' +
+            /* ⚠ 이 칸의 이름은 「학습 활동지 문항 수」다. 예전에 «AI» 라고만 적어 두었더니
+               무엇을 넣는 칸인지 아무도 몰랐다(사용자 신고 2026-08-30). 다시 줄이지 말 것. */
+            '<div class="grp"><span class="lbl">학습 활동지 문항 수</span>' +
               '<input type="number" class="control count-in" data-count value="5" min="1" max="15"' + (aiReady ? "" : " disabled") + '>' +
+              '<span class="lbl">난이도</span>' +
               '<select class="control level-sel" data-level' + (aiReady ? "" : " disabled") + '>' +
                 '<option value="혼합">혼합</option><option value="하">하</option><option value="중">중</option><option value="상">상</option></select>' +
               '<button class="btn purple sm" data-genitems' + (aiReady ? "" : " disabled") + '>✨ 문항 생성</button>' +
@@ -775,7 +778,7 @@
   }
   function printStudent(plan) {
     if (!plan.items.length) { alert("문항이 없습니다."); return; }
-    printItems(plan.items, plan.hour + "차시 학생 활동지", plan.objective);
+    printItems(plan.items, plan.hour + "차시 학습 활동지", plan.objective);
   }
   function printItems(items, title, objective) {
     window.Print.sheet({
@@ -846,7 +849,7 @@
     }).join("");
     var html =
       '<html xmlns:o="urn:schemas-microsoft-com:office:office"><head><meta charset="utf-8">' +
-      '<title>' + esc(plan.hour) + '차시 학생 활동지</title><style>' +
+      '<title>' + esc(plan.hour) + '차시 학습 활동지</title><style>' +
       "body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;line-height:1.7;color:#000;padding:24px}" +
       "h1{text-align:center;font-size:22pt;border-bottom:2px solid #000;padding-bottom:8px}" +
       ".info{text-align:right;font-size:12pt;margin:12px 0 24px}" +
@@ -856,7 +859,7 @@
       ".lbox{border:1px solid #000;height:120px;margin-top:6px}" +
       "ol{margin:6px 0 6px 22px}" +
       "</style></head><body>" +
-      "<h1>" + esc(plan.hour) + "차시 학생 활동지</h1>" +
+      "<h1>" + esc(plan.hour) + "차시 학습 활동지</h1>" +
       "<div class='info'>____학년 ____반 ____번 &nbsp;&nbsp; 이름 : ________________</div>" +
       "<h2>오늘의 학습 목표</h2><p>" + esc(plan.objective) + "</p>" +
       "<h2>문제</h2>" + (body || "<p>(문항을 먼저 생성하세요)</p>") +

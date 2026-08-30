@@ -226,9 +226,12 @@ table.verb td.y{color:var(--blue); font-weight:800; border-left:1px solid var(--
 .ws-summary .box.teacher-only{border-color:var(--amber-line); background:var(--amber-bg)}
 .ws-tools{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; padding:14px; background:#f9fafb; border:1px solid var(--line); border-radius:10px}
 .ws-tools .grp{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-.ws-tools .lbl{font-size:12px; font-weight:800; color:#6b7280; margin-right:2px}
-.count-in{width:64px}
-.level-sel{width:110px}
+.ws-tools .lbl{font-size:13px; font-weight:800; color:#4b5563; margin-right:2px; white-space:nowrap}
+/* ⚠ 요소를 붙여 써야 한다(input.count-in). 위쪽 `input.control{width:100%}` 이
+   특이도가 더 높아, `.count-in` 만 쓰면 져서 입력칸이 한 줄을 다 차지한다
+   (실제로 그렇게 나와 화면이 무너져 있었다 · 2026-08-30). */
+input.count-in{width:80px; text-align:center}
+select.level-sel{width:104px}
 
 .item-list{display:flex; flex-direction:column; gap:12px}
 .q-item{border:1px solid var(--line); border-radius:10px; padding:14px}
