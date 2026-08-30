@@ -67,6 +67,7 @@ h1,h2,h3,h4,p{margin:0}
 }
 .btn-ai-settings .badge.off{background:#f3f4f6; color:#9ca3af}
 .btn-ai-settings .badge.on{background:var(--green-bg); color:var(--green-ink)}
+.side .ver{margin-top:8px; text-align:center; font-size:11px; color:#9ca3af; letter-spacing:.3px}
 
 /* ---------- 본문 · 단계 화면 ---------- */
 main{flex:1; height:100%; background:var(--bg); overflow:hidden; position:relative}
