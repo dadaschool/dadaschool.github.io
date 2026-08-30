@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "date": "2026-08-30",
+  "notes": "첫 배포. 성취기준 25개 · 1단계 문장 직접 편집 · 3단계 AI 과정안 · 4단계 문항/루브릭 · 5단계 학습 시뮬레이터(4종) · AI 키 아무 단계에서나 반영 · 다계정/다른PC 배포 마법사 · 자체 업그레이드/되돌리기",
+  "url": "https://dadaschool.github.io/lesson-designer-dist/lesson-designer-1.0.0.zip",
+  "sha256": "d8fd3b7e64c0846ccfab6247c9e2167d6db2456bcc006c78b96f1b07b60d9394",
+  "size": 122661
+}
