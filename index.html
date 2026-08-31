@@ -1,182 +1,212 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>수업용 웹앱 모음</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23103b6f'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3E%E2%98%B0%3C/text%3E%3C/svg%3E">
-<style>
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    min-height: 100vh;
-    padding: 60px 24px 80px;
-    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
-    color: #1b2430;
-    /* 은은한 파랑 그러데이션 */
-    background: linear-gradient(170deg, #eaf1fb 0%, #f6f9fd 45%, #eef3fa 100%);
-    background-attachment: fixed;
-  }
-
-  .wrap { max-width: 1080px; margin: 0 auto; }
-
-  /* ===== 머리말 ===== */
-  header { text-align: center; margin-bottom: 44px; }
-  h1 {
-    font-size: 34px;
-    font-weight: 800;
-    letter-spacing: -1.2px;
-    margin: 0 0 8px;
-    color: #0e2f59;
-  }
-  .sub {
-    margin: 0;
-    font-size: 16px;
-    color: #7286a0;
-    letter-spacing: -.3px;
-  }
-
-  /* ===== 구분 3열 ===== */
-  .cols {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-    align-items: start;
-  }
-
-  .col {
-    background: #fff;
-    border: 1px solid #e2eaf5;
-    border-radius: 20px;
-    padding: 24px 20px 22px;
-    box-shadow: 0 2px 6px rgba(16, 59, 111, .05);
-  }
-
-  /* 열 제목 — 아이콘은 여기에만 넣는다 */
-  .col h2 {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    margin: 0 0 18px;
-    padding-bottom: 14px;
-    border-bottom: 2px solid #eef3fa;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -.6px;
-    color: #0e2f59;
-  }
-  .col h2 .ico {
-    flex: none;
-    width: 40px; height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 13px;
-    background: linear-gradient(145deg, #eef4fc, #dfeafa);
-    font-size: 20px;
-  }
-
-  /* ===== 목록 : 글자만 ===== */
-  ul { list-style: none; margin: 0; padding: 0; }
-  li { margin-bottom: 8px; }
-  li:last-child { margin-bottom: 0; }
-
-  li a {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    padding: 14px 16px;
-    border: 1px solid #e8eff8;
-    border-radius: 13px;
-    background: #fbfdff;
-    text-decoration: none;
-    color: #16375f;
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -.4px;
-    line-height: 1.45;
-    transition: background .16s ease, border-color .16s ease, transform .16s ease;
-  }
-  /* 왼쪽 세로 띠 : 마우스를 올리면 나타난다 */
-  li a::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg, #2f7bd6, #103b6f);
-    transform: translateX(-4px);
-    transition: transform .16s ease;
-  }
-  li a:hover {
-    background: #f1f7fe;
-    border-color: #bcd4ef;
-    transform: translateX(2px);
-  }
-  li a:hover::before { transform: translateX(0); }
-
-  /* 아직 비어 있는 열 */
-  .empty {
-    margin: 0;
-    padding: 16px 0 6px;
-    text-align: center;
-    font-size: 15px;
-    color: #a7b6c9;
-    letter-spacing: -.3px;
-  }
-
-  /* 좁은 화면에서는 열을 위아래로 세운다 */
-  @media (max-width: 860px) {
-    .cols { grid-template-columns: 1fr; gap: 16px; }
-    body { padding: 44px 16px 60px; }
-    h1 { font-size: 28px; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수업 설계 도우미</title>
+  <!-- 원본: gnbuilders/lesson-designer 기반 (4단계 뼈대·행동용어표·문장 분해는 원저작자).
+       이 판은 성취기준 25개 + 실제 AI 생성(3·4단계)을 얹은 파생물이다. -->
+  <link rel="stylesheet" href="css/app.css?v=202609010853">
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <h1>수업용 웹앱 모음</h1>
-    <p class="sub">필요한 것을 골라 여세요</p>
-  </header>
+  <aside class="side">
+    <div class="brand"><span class="dot"></span> 수업 설계 도우미</div>
+    <nav>
+      <button class="navitem on" data-step="1"><span class="num">1</span> 성취기준 분해하기</button>
+      <button class="navitem" data-step="2"><span class="num">2</span> 수업 목표 만들기</button>
+      <button class="navitem" data-step="3"><span class="num">3</span> 수업 설계하기</button>
+      <button class="navitem" data-step="4"><span class="num">4</span> 학습 활동지 생성</button>
+      <button class="navitem" data-step="5"><span class="num">5</span> 학습 도움 자료 제작하기</button>
+    </nav>
+    <div class="foot">
+      <button class="btn-ai-settings" id="btn-ai-settings">
+        ⚙ AI 설정 <span class="badge off" id="ai-badge">키 없음</span>
+      </button>
+      <!-- 배포 시각 : 방금 올린 것이 반영됐는지 눈으로 확인하는 자리.
+           tools/사이트에_올리기.py 가 올릴 때 이 글자를 「올린 때 …」 로 바꾼다.
+           올리기 전 폴더에서는 「아직 안 올림」 이다. -->
+      <div class="ver" id="app-ver">올린 때 2026-09-01 08:53</div>
+    </div>
+  </aside>
 
-  <div class="cols">
+  <main>
 
-    <!-- ① 정보교과 : 앱을 추가할 때는 li 한 줄만 늘린다 -->
-    <section class="col">
-      <h2><span class="ico">💻</span>정보교과</h2>
-      <ul>
-        <li><a href="abstraction-algo/">추상화와 알고리즘</a></li>
-        <li><a href="ai-class/">인공지능의 이해와 활용</a></li>
-        <li><a href="mb-bluetooth/">스마트하우스, 선 없이 잇기</a></li>
-        <li><a href="mb-connect/">마이크로비트 연결 시뮬레이터</a></li>
-        <li><a href="data-convert/">아날로그 → 디지털 변환 학습기</a></li>
-      </ul>
+    <!-- ================= 1단계 ================= -->
+    <section class="step-view active" id="step-1">
+      <div class="step-head">
+        <div class="wrap">
+          <h2>1단계 : 성취기준 분해하기</h2>
+          <p>성취기준을 선택하면 최소 문장 단위로 분해된 카드가 생성됩니다. 카드를 드래그하여 순서를 바꾸고 평가 방식을 체크하세요.</p>
+          <div style="margin-top:20px">
+            <label class="field-label" for="standard-select">성취기준 선택 (2022 개정 정보과 · 25개)</label>
+            <select id="standard-select" class="control"></select>
+            <div class="std-editor-open">
+              <button class="link-btn" id="btn-std-editor">＋ 성취기준 추가·편집 (다른 교과도 가능 · JSON 공유)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="wrap">
+          <div id="std-editor" hidden></div>
+          <p class="edit-hint" id="card-edit-hint" hidden>
+            💡 이 분해는 <b>정답이 아니라 예시</b>입니다. 문장을 직접 고치거나, 지우거나(✕),
+            <b>＋ 문장 추가</b>로 늘려서 우리 수업에 맞게 다듬으세요. Enter 로 아래에 새 문장이 생깁니다.
+          </p>
+          <div id="card-container">
+            <div class="empty"><div style="font-size:34px">🗂️</div><p>위에서 성취기준을 선택해주세요.</p></div>
+          </div>
+          <div id="card-tools" hidden>
+            <button class="btn ghost" id="btn-add-sent">＋ 문장 추가</button>
+            <button class="link-btn" id="btn-save-sents">💾 이 분해를 성취기준에 저장</button>
+            <button class="link-btn" id="btn-reset-sents">↺ 원래 분해로 되돌리기</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">
+        <div class="wrap">
+          <span></span>
+          <button class="btn primary hidden" id="btn-next-1">다음 단계로 ›</button>
+        </div>
+      </div>
     </section>
 
-    <!-- ② 업무용 -->
-    <section class="col">
-      <h2><span class="ico">📋</span>업무용</h2>
-      <ul>
-        <li><a href="eduform/">에듀폼 — 학생 평가·기록 관리</a></li>
-        <li><a href="ai-coordinator/">AI교육 코디네이터 업무 관리</a></li>
-        <li><a href="pdf-split/">PDF 도구 — 자르기 · 붙이기 · 변환 · 편집 · 보안</a></li>
-        <li><a href="cable-label/">라벨 만들기 — 라벨지에 맞춰 이름 인쇄</a></li>
-        <li><a href="lesson-designer/">수업 설계 도우미 — 성취기준 · 과정안 · 활동지 · 시뮬레이터</a></li>
-      </ul>
+    <!-- ================= 2단계 ================= -->
+    <section class="step-view" id="step-2">
+      <div class="step-head wide">
+        <div class="wrap">
+          <div class="row">
+            <h2>2단계 : 수업 목표 만들기</h2>
+            <button class="btn ghost" id="btn-prev-2">‹ 이전 단계로</button>
+          </div>
+          <p>1단계에서 분류한 평가 방식에 따라 문장이 그룹화되었습니다. 아래 행동용어 참고표를 보며 수업 목표를 구체화하세요.</p>
+        </div>
+      </div>
+      <div class="step-body wide">
+        <div class="wrap">
+          <div class="grouped" id="grouped"></div>
+
+          <div class="verb-table-wrap">
+            <h3>💡 목표의 행동용어 참고표</h3>
+            <div class="verb-scroll">
+              <table class="verb">
+                <thead>
+                  <tr><th>행동용어</th><th>서술형</th><th>단답형</th><th>완성형</th><th>선다형</th><th>연결형</th><th>창작품</th><th>행동관찰</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>진술하다</td><td></td><td class="y">✓</td><td class="y">✓</td><td></td><td></td><td></td><td></td></tr>
+                  <tr><td>규정하다</td><td></td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td></td><td></td></tr>
+                  <tr><td>토론하다</td><td class="y">✓</td><td></td><td></td><td></td><td></td><td></td><td class="y">✓</td></tr>
+                  <tr><td>정의하다</td><td></td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td></td><td></td></tr>
+                  <tr><td>선정하다</td><td></td><td class="y">✓</td><td></td><td class="y">✓</td><td class="y">✓</td><td></td><td></td></tr>
+                  <tr><td>변별하다</td><td></td><td class="y">✓</td><td></td><td class="y">✓</td><td class="y">✓</td><td></td><td></td></tr>
+                  <tr><td>해결하다</td><td class="y">✓</td><td class="y">✓</td><td></td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>개발하다</td><td class="y">✓</td><td></td><td></td><td></td><td></td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>찾아내다</td><td></td><td class="y">✓</td><td></td><td class="y">✓</td><td class="y">✓</td><td></td><td></td></tr>
+                  <tr><td>구성하다</td><td class="y">✓</td><td></td><td></td><td></td><td></td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>생성하다</td><td class="y">✓</td><td></td><td></td><td></td><td></td><td class="y">✓</td><td class="y">✓</td></tr>
+                  <tr><td>조작하다</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="y">✓</td></tr>
+                  <tr><td>선택하다 (태도)</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="y">✓</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="hours-box">
+            <h3>＋ 수업 차시 및 학습 목표 설정</h3>
+            <div class="hours-row">
+              <div class="num-in">
+                <label class="field-label" for="hours">예상 수업 차시</label>
+                <input type="number" id="hours" class="control" min="1" max="20" placeholder="차시 입력">
+              </div>
+              <button class="btn dark" id="btn-gen-hours">입력란 생성</button>
+            </div>
+            <div id="obj-inputs"></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot hidden" id="step2-foot">
+        <div class="wrap">
+          <span></span>
+          <button class="btn primary" id="btn-next-2">다음 단계로 ›</button>
+        </div>
+      </div>
     </section>
 
-    <!-- ③ 기타 -->
-    <section class="col">
-      <h2><span class="ico">🗂️</span>기타</h2>
-      <ul>
-        <li><a href="pdf-worksheet/">활동지 — 펜으로 쓰고 내기</a></li>
-      </ul>
+    <!-- ================= 3단계 ================= -->
+    <section class="step-view" id="step-3">
+      <div class="step-head wide">
+        <div class="wrap">
+          <div class="row">
+            <div>
+              <h2>3단계 : 수업 설계하기</h2>
+              <p>학습 목표별 수업 과정안입니다. AI 로 생성하거나 직접 편집한 뒤 Markdown 으로 저장하세요.</p>
+            </div>
+            <button class="btn ghost" id="btn-prev-3">‹ 이전 단계로</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-body wide">
+        <div class="wrap"><div id="plan-editors"></div></div>
+      </div>
+      <div class="step-foot">
+        <div class="wrap">
+          <span></span>
+          <button class="btn primary" id="btn-next-3">다음 단계로 ›</button>
+        </div>
+      </div>
     </section>
 
-  </div>
+    <!-- ================= 4단계 ================= -->
+    <section class="step-view" id="step-4">
+      <div class="step-head wide">
+        <div class="wrap">
+          <div class="row">
+            <div>
+              <h2>4단계 : 학습 활동지 생성</h2>
+              <p>차시별로 문항·루브릭을 AI 로 생성하고, 학생 배부용 / 교사용을 각각 인쇄(PDF)하거나 .hwp 로 받습니다.</p>
+            </div>
+            <button class="btn ghost" id="btn-prev-4">‹ 이전 단계로</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-body wide">
+        <div class="wrap"><div id="final-plans"></div></div>
+      </div>
+      <div class="step-foot">
+        <div class="wrap">
+          <span></span>
+          <button class="btn primary" id="btn-next-4">다음 단계로 ›</button>
+        </div>
+      </div>
+    </section>
 
-</div>
+    <!-- ================= 5단계 ================= -->
+    <section class="step-view" id="step-5">
+      <div class="step-head wide">
+        <div class="wrap">
+          <div class="row">
+            <div>
+              <h2>5단계 : 학습 도움 자료 제작하기</h2>
+              <p>학생이 <b>직접 만져 보며 핵심 개념을 이해하는 시뮬레이터</b>를 만듭니다.
+                 파일 하나(HTML)로 받아 전자칠판·태블릿에서 인터넷 없이 바로 엽니다.</p>
+            </div>
+            <button class="btn ghost" id="btn-prev-5">‹ 이전 단계로</button>
+          </div>
+        </div>
+      </div>
+      <div class="step-body wide">
+        <div class="wrap"><div id="sim-plans"></div></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/standards.js?v=202609010853"></script>
+  <script src="js/ai.js?v=202609010853"></script>
+  <script src="js/print.js?v=202609010853"></script>
+  <script src="js/sim.js?v=202609010853"></script>
+  <script src="js/lesson.js?v=202609010853"></script>
 </body>
 </html>
