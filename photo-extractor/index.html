@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>명렬 사진 추출기</title>
+<link rel="stylesheet" href="css/app.css?v=202609021448">
+</head>
+<body>
+
+<header class="top">
+  <h1>📷 명렬 사진 추출기</h1>
+  <nav class="tabs">
+    <button type="button" class="tab on" data-tab="extract">사진 뽑기</button>
+    <button type="button" class="tab" data-tab="resize">용량 줄이기</button>
+  </nav>
+  <span class="grow"></span>
+  <span class="privacy" title="이 앱은 인터넷으로 아무것도 보내지 않습니다. PDF도 사진도 이 컴퓨터 안에서만 처리됩니다.">🔒 파일이 이 컴퓨터를 벗어나지 않습니다</span>
+  <button type="button" id="btnReset" class="ghost">새로 시작</button>
+</header>
+
+<!-- 모듈이 읽히면 app.js 가 이 안내를 지운다. file:// 로 열면 남는다. -->
+<div id="needServer" class="banner bad">
+  <b>이 파일을 두 번 눌러 연 것 같습니다.</b>
+  앱 폴더의 <code>로컬서버_실행.bat</code> 을 두 번 누르거나, <b>인터넷 주소로</b> 여세요.
+  (PDF 를 읽는 부품이 <code>file://</code> 에서는 막힙니다. 폴더 저장도 마찬가지입니다.)
+</div>
+
+<!-- 🚨 화면이 «조용히» 멈추는 것을 막는다.
+     그리기 도중 오류가 나면 반쯤 그리다 멈추는데, 겉보기엔 그냥 낡은 값이 남아 있어
+     사람은 알아채지 못한다(실제로 겪었다 — 아래 CLAUDE.md [겪은 것 ⑨]). -->
+<div id="jsError" class="banner bad" hidden></div>
+
+<!-- ══════════════ 사진 뽑기 ══════════════ -->
+<div class="app" id="tabExtract">
+
+  <aside class="left">
+
+   <!-- ①~④ 는 자체 스크롤. ⑤ 저장은 아래에 붙박이로 두어 늘 보이게 한다.
+        (조작하는 것은 한 화면에 다 보이게 — 루트 CLAUDE.md) -->
+   <div class="leftscroll">
+
+    <section class="card">
+      <h2>① PDF 넣기</h2>
+      <label class="drop" id="drop">
+        <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple hidden>
+        <span class="big">📄 여기에 PDF 를 끌어다 놓거나 눌러서 고르세요</span>
+        <span class="hint">반이 여러 개면 <b>한꺼번에</b> 넣으세요 — 반별 폴더로 나눠 저장합니다</span>
+      </label>
+      <ul id="fileList" class="files"></ul>
+      <p id="readMsg" class="msg" hidden></p>
+    </section>
+
+    <details class="card" id="specCard">
+      <summary>② 알아낸 규격 <span class="sum" id="specSum">아직 없음</span></summary>
+      <div class="pad">
+        <p class="note">자동으로 알아낸 결과입니다. <b>오른쪽 검수 화면과 견줘 보고</b> 틀렸으면 여기서 고치세요.</p>
+        <table class="kv">
+          <tr><th>대상 파일</th><td><select id="specFile"></select></td></tr>
+          <tr><th>찾은 사진</th><td id="specPhotos">-</td></tr>
+          <tr><th>격자</th><td id="specGrid">-</td></tr>
+          <tr><th>글자 위치</th><td>
+            <select id="specSide">
+              <option value="">(자동으로 고름)</option>
+              <option value="below">사진 아래</option>
+              <option value="above">사진 위</option>
+              <option value="right">사진 오른쪽</option>
+              <option value="left">사진 왼쪽</option>
+              <option value="over">사진 위에 겹침</option>
+            </select></td></tr>
+          <tr><th>학번 형식</th><td>
+            <select id="specFmt"><option value="">(자동으로 고름)</option></select></td></tr>
+          <tr><th>기본 학년·반</th><td>
+            <input type="number" id="specGrade" min="1" max="6" step="1" class="num" placeholder="학년">
+            <input type="number" id="specCls" min="1" max="30" step="1" class="num" placeholder="반">
+            <span class="hint" title="PDF 에 학년·반이 안 적혀 있고 번호만 있을 때 이 값으로 학번을 만듭니다">번호만 있을 때 씀</span>
+          </td></tr>
+        </table>
+        <div id="sideScore" class="score"></div>
+        <button type="button" id="btnRedo" class="wide">↻ 이 설정으로 다시 짝짓기</button>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>③ 명렬표 붙여넣기 <span class="sum">글자를 못 읽을 때</span></summary>
+      <div class="pad">
+        <p class="note">엑셀에서 <b>학번·이름 두 칸을 복사</b>해 그대로 붙여 넣으세요.
+          번호만 있어도 되고(위의 기본 학년·반을 씁니다), 이름만 있어도 됩니다.</p>
+        <textarea id="rosterText" rows="6" placeholder="10101&#9;홍길동&#10;10102&#9;김철수&#10;…"></textarea>
+        <div class="row2">
+          <button type="button" id="btnRosterId" title="학번이 같은 줄에 이름을 채웁니다. 넣은 파일 전부에 적용되므로 여러 반 명렬표를 한 번에 붙여도 됩니다.">학번으로 맞추기</button>
+          <button type="button" id="btnRosterOrder" title="사진을 위에서부터 차례대로 명렬표와 짝짓습니다. 글자를 전혀 못 읽었을 때 쓰세요. ② 에서 고른 파일 하나에만 적용됩니다.">차례대로 짝짓기</button>
+        </div>
+        <p class="hint">학번으로 맞추기 = <b>넣은 파일 전부</b> · 차례대로 짝짓기 = <b>② 에서 고른 파일 하나</b></p>
+        <p id="rosterMsg" class="msg" hidden></p>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>④ 저장 방법 <span class="sum" id="saveSum"></span></summary>
+      <div class="pad">
+        <table class="kv">
+          <tr><th>파일 이름</th><td><code id="nameSample">10103_홍길동.jpg</code></td></tr>
+          <tr><th>반별 폴더</th><td><label class="chk"><input type="checkbox" id="optFolder" checked> 반마다 폴더를 나눈다</label></td></tr>
+          <tr><th>안내 파일</th><td><label class="chk"><input type="checkbox" id="optNote" checked> 못 찾은 학번을 적은 안내문을 함께 넣는다</label></td></tr>
+          <tr><th>문제 있는 것</th><td><label class="chk"><input type="checkbox" id="optSkipBad"> 빼고 저장한다</label></td></tr>
+          <tr><th>저장 방식</th><td><label class="chk"><input type="checkbox" id="optZip"> ZIP 파일 한 개로 받기</label></td></tr>
+        </table>
+      </div>
+    </details>
+
+   </div><!-- /.leftscroll -->
+
+    <section class="card danger">
+      <h2>⑤ 저장</h2>
+      <p class="note small">뽑아 낸 파일에는 <b>학생 얼굴·이름·학번</b>이 함께 들어 있습니다.
+        학교 밖으로 나가지 않게 보관하고, 다 쓴 뒤에는 지워 주세요. 보관·파기 책임은 사용하는 사람에게 있습니다.</p>
+      <label class="chk big"><input type="checkbox" id="agree"> 위 내용을 확인했습니다</label>
+      <button type="button" id="btnSave" class="wide primary" disabled>💾 저장하기</button>
+      <p class="hint" id="saveWho">사진을 고르지 않으면 <b>지금 보이는 것 전부</b>를 저장합니다.</p>
+      <p id="saveMsg" class="msg" hidden></p>
+    </section>
+
+  </aside>
+
+  <main class="right">
+    <div class="bar">
+      <span id="summary" class="summary">PDF 를 넣으면 여기에 결과가 나옵니다.</span>
+      <span class="grow"></span>
+      <input type="search" id="find" placeholder="🔎 학번·이름으로 찾기" title="학번 앞자리만 넣어도 됩니다 — 「103」 이면 1학년 3반만 남습니다.">
+      <label class="chk"><input type="checkbox" id="onlyBad"> 문제만</label>
+      <span class="sep"></span>
+      <label class="chk" title="지금 화면에 보이는 사진을 모두 고릅니다. 찾기로 걸러 놓고 누르면 그 반만 골라집니다."><input type="checkbox" id="pickAll"> 모두 고르기</label>
+      <button type="button" id="pickNone" class="ghost small" hidden>선택 해제</button>
+    </div>
+    <div id="missing" class="banner warn" hidden></div>
+    <div id="grid" class="grid"></div>
+    <p id="emptyMsg" class="empty">아직 넣은 PDF 가 없습니다.</p>
+  </main>
+
+</div>
+
+<!-- ══════════════ 용량 줄이기 ══════════════ -->
+<div class="app" id="tabResize" hidden>
+  <aside class="left">
+    <section class="card">
+      <h2>어떤 파일을 줄일까요</h2>
+      <button type="button" id="btnUseExtracted" class="wide">방금 뽑아 낸 사진 쓰기</button>
+      <label class="drop small" id="drop2">
+        <input type="file" id="imgInput" accept="image/*" multiple hidden>
+        <span class="big">🖼 이미지 파일 고르기</span>
+        <span class="hint">이미 저장해 둔 사진들을 골라도 됩니다</span>
+      </label>
+      <p id="rsPick" class="msg" hidden></p>
+    </section>
+    <section class="card">
+      <h2>얼마나 줄일까요</h2>
+      <table class="kv">
+        <tr><th>미리 정한 것</th><td><select id="rsPreset"></select></td></tr>
+        <tr><th>긴 변</th><td><input type="number" id="rsSide" class="num" min="0" step="50"> px <span class="hint">0 이면 크기는 그대로</span></td></tr>
+        <tr><th>품질</th><td><input type="range" id="rsQ" min="40" max="100" step="5"> <b id="rsQv">85</b>%</td></tr>
+      </table>
+      <button type="button" id="btnResize" class="wide primary" disabled>🗜 줄이기</button>
+      <p id="rsMsg" class="msg" hidden></p>
+    </section>
+    <section class="card">
+      <h2>저장</h2>
+      <button type="button" id="btnRsSave" class="wide" disabled>💾 줄인 사진 저장하기</button>
+    </section>
+  </aside>
+  <main class="right">
+    <div class="bar"><span id="rsSummary" class="summary">줄일 파일을 고르세요.</span></div>
+    <div id="rsGrid" class="grid"></div>
+  </main>
+</div>
+
+<!-- 한 사람 고치기 -->
+<dialog id="editDlg">
+  <form method="dialog" class="edit">
+    <h3>고치기</h3>
+    <img id="editImg" alt="사진">
+    <table class="kv">
+      <tr><th>학번</th><td><input type="text" id="editSid" maxlength="5" inputmode="numeric" placeholder="10103"></td></tr>
+      <tr><th>이름</th><td><input type="text" id="editName" maxlength="10" placeholder="홍길동"></td></tr>
+    </table>
+    <p class="note small" id="editRaw"></p>
+    <!-- 🚨 `method="dialog"` 의 close 이벤트에 기대지 않는다 — 그 이벤트가 오지 않는
+         환경이 있어 「고치기」 를 눌러도 아무 일도 일어나지 않았다. 단추를 직접 듣는다. -->
+    <menu>
+      <button type="button" id="editCancel" class="ghost">취소</button>
+      <button type="button" id="editOk" class="primary">고치기</button>
+    </menu>
+  </form>
+</dialog>
+
+<script src="js/vendor/pdf-lib.min.js"></script>
+<script src="js/vendor/jszip.min.js"></script>
+<script src="js/idparse.js?v=202609021448"></script>
+<script src="js/detect.js?v=202609021448"></script>
+<script src="js/match.js?v=202609021448"></script>
+<script src="js/roster.js?v=202609021448"></script>
+<script src="js/pdfread.js?v=202609021448"></script>
+<script src="js/save.js?v=202609021448"></script>
+<script src="js/resize.js?v=202609021448"></script>
+<script src="js/app.js?v=202609021448"></script>
+<script type="module">
+  // pdf.js 4.x 는 ES 모듈이라 file:// 에서 막힌다 — 그래서 위의 「서버로 열어야 합니다」 안내가 있다.
+  import * as pdfjsLib from "./js/vendor/pdf.min.mjs";
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "./js/vendor/pdf.worker.min.mjs";
+  window.pdfjsLib = pdfjsLib;
+  PdfRead.준비(pdfjsLib);
+  App.시작();
+</script>
+</body>
+</html>
