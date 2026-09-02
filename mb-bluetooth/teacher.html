@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>선생님용 — 제출물 정리 · 정답 (스마트하우스 무선통신)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%82%EF%B8%8F%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="css/app.css?v=202609021739">
+<link rel="stylesheet" href="css/app.css?v=202609021837">
 <style>
   .filters { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
   .filters label { display: flex; flex-direction: column; gap: 6px; font-size: 17px; font-weight: bold; }
@@ -152,31 +152,27 @@
   </div>
 
   <!-- ======================= 다른 선생님께 드리기 =======================
-       이 앱을 다른 선생님이 «자기 GitHub·자기 노션» 으로 쓸 수 있게 배포 꾸러미(.zip)를 만든다.
-       개인 정보(중계 서버 주소·학교 이름)는 js/notion.js 에서 빼고 담는다.
-       재료 목록은 배포키트/목록.json — 그 폴더는 사이트에 배포하지 않으므로
-       이 기능은 «원본 폴더에서 로컬 서버로 열었을 때만» 동작한다. -->
+       이 앱을 다른 선생님이 «자기 GitHub·자기 노션» 으로 쓸 수 있게 배포 꾸러미(.zip)를 준다.
+       꾸러미는 배포키트/tools/꾸러미_만들기.py 가 «미리» 만들어 배포키트/dist/ 에 둔다.
+       (개인 설정 — js/notion.js 의 workerUrl·submitKey·school — 은 담을 때 비워진다.)
+       teacher.html 은 그 zip 을 «내려받기»만 하므로 로컬·점검·메인 어디서 열어도 된다. -->
   <div class="card">
     <h2>📦 다른 선생님께 이 앱 드리기</h2>
     <p class="lead">이 앱을 다른 선생님이 <b>자기 GitHub·자기 노션</b>으로 쓸 수 있는
-      꾸러미(.zip)를 만듭니다. 중계 서버 주소·학교 이름 같은 <b>개인 설정은 빼고</b> 담고,
-      GitHub 올리기 마법사와 노션 연결 안내가 함께 들어갑니다.</p>
+      꾸러미(.zip)를 내려받습니다. 중계 서버 주소·학교 이름 같은 <b>개인 설정은 빠져</b> 있고,
+      GitHub 올리기 마법사와 노션 연결 안내가 함께 들어 있습니다.</p>
 
-    <div id="kitBlocked" class="warnbox" hidden></div>
+    <label style="display:flex;gap:10px;align-items:flex-start;font-size:18px;margin:12px 0;line-height:1.5">
+      <input type="checkbox" id="kitSheet" style="margin-top:3px">
+      <span>학습지(16문항)도 함께 담기
+        <span class="dim">— 담으면 새 선생님이 <b>자기 코드로 다시 잠가야</b> 합니다.
+        꾸러미 안 <code>시작하기.md</code> 에 그 방법이 있습니다.</span></span>
+    </label>
 
-    <div id="kitBody" hidden>
-      <label style="display:flex;gap:10px;align-items:flex-start;font-size:18px;margin:12px 0;line-height:1.5">
-        <input type="checkbox" id="kitSheet" style="margin-top:3px">
-        <span>학습지(16문항)도 함께 담기
-          <span class="dim">— 담으면 새 선생님이 <b>자기 코드로 다시 잠가야</b> 합니다.
-          꾸러미 안 <code>시작하기.md</code> 에 그 방법이 있습니다.</span></span>
-      </label>
-
-      <div class="btnrow">
-        <button type="button" class="btn primary big" id="kitDownload">배포 꾸러미 내려받기 (.zip)</button>
-      </div>
-      <p class="lead" id="kitMsg" style="margin-top:10px"></p>
+    <div class="btnrow">
+      <button type="button" class="btn primary big" id="kitDownload">배포 꾸러미 내려받기 (.zip)</button>
     </div>
+    <p class="lead" id="kitMsg" style="margin-top:10px"></p>
 
     <details style="margin-top:16px">
       <summary style="font-size:18px;cursor:pointer"><b>노션 표 규격</b> — 새 선생님이 만들 표의 열 이름·유형</summary>
@@ -527,10 +523,10 @@ document.getElementById("btnCsv").addEventListener("click", function () {
 });
 </script>
 
-<script src="js/print.js?v=202609021739"></script>
-<script src="js/sheet-spec.js?v=202609021739"></script>
-<script src="js/lock.js?v=202609021739"></script>
-<script src="js/locked.js?v=202609021739"></script>
+<script src="js/print.js?v=202609021837"></script>
+<script src="js/sheet-spec.js?v=202609021837"></script>
+<script src="js/lock.js?v=202609021837"></script>
+<script src="js/locked.js?v=202609021837"></script>
 <script>
 /* =========================================================
    정답·채점 기준·운영 메모 — 교사 코드로만 열린다
@@ -654,159 +650,51 @@ document.getElementById("btnCsv").addEventListener("click", function () {
 </script>
 <script>
 /* =========================================================
-   📦 다른 선생님께 드리기 — 배포 꾸러미(.zip) 만들기
+   📦 다른 선생님께 드리기 — 미리 만들어 둔 배포 꾸러미(.zip) 내려받기
    ---------------------------------------------------------
-   재료 목록은 배포키트/목록.json. 그 폴더는 사이트에 배포하지 않으므로
-   이 기능은 «원본 폴더에서 로컬 서버로 열었을 때만» 동작한다.
-   JSZip 은 단추를 누를 때 그때 불러온다(평소 teacher.html 은 97KB 를 안 받는다).
-   개인 설정(js/notion.js 의 workerUrl·submitKey·school)은 담기 전에 비운다.
+   꾸러미는 배포키트/tools/꾸러미_만들기.py 가 배포키트/dist/ 에 미리 만들어 둔다
+   (개인 설정은 그때 비워진다). 여기서는 그 파일을 내려받기만 한다 —
+   로컬·점검·메인 어디서 열어도 단추 하나로 받아진다.
    ========================================================= */
 (function () {
   "use strict";
 
   var $ = function (id) { return document.getElementById(id); };
-  var blocked = $("kitBlocked"), body = $("kitBody"), msg = $("kitMsg");
-  var SPEC = null;   // 배포키트/목록.json (한 번만 읽는다)
+  var msg = $("kitMsg"), chk = $("kitSheet"), btn = $("kitDownload");
 
-  /* ---- 쓸 수 있는 상황인지 ---- */
-  function block(html) { blocked.innerHTML = html; blocked.hidden = false; body.hidden = true; }
+  var ZIP = {
+    base:  "배포키트/dist/스마트하우스무선통신_배포키트.zip",
+    sheet: "배포키트/dist/스마트하우스무선통신_배포키트_학습지포함.zip"
+  };
 
-  if (location.protocol === "file:") {
-    block("이 기능은 <b>로컬 서버</b>로 열었을 때만 됩니다. " +
-          "<code>로컬서버_실행.bat</code> 을 더블클릭한 뒤 <code>teacher.html</code> 을 여세요.");
-  } else {
-    fetch("배포키트/목록.json").then(function (r) {
-      if (!r.ok) throw 0;
-      return r.json();
-    }).then(function (j) {
-      SPEC = j;
-      body.hidden = false;
-    }).catch(function () {
-      block("배포 꾸러미를 만들 재료(<code>배포키트/</code> 폴더)를 찾지 못했습니다.<br>" +
-            "이 기능은 <b>앱을 처음 만든 선생님의 원본 폴더</b>에서만 됩니다. " +
-            "받은 복사본이라면, 이 폴더 전체를 그대로 압축해서 다른 분께 주셔도 됩니다.");
-    });
-  }
-
-  /* ---- JSZip 을 그때 불러온다 ---- */
-  function loadZip() {
-    if (window.JSZip) return Promise.resolve(window.JSZip);
-    return new Promise(function (res, rej) {
-      var s = document.createElement("script");
-      s.src = "js/vendor/jszip.min.js";
-      s.onload = function () { window.JSZip ? res(window.JSZip) : rej(new Error("JSZip 로드 실패")); };
-      s.onerror = function () { rej(new Error("js/vendor/jszip.min.js 를 불러오지 못했습니다.")); };
-      document.head.appendChild(s);
-    });
-  }
-
-  /* ---- js/notion.js 의 개인 설정을 비운다 ---- */
-  function blankConfig(src) {
-    return src
-      .replace(/(workerUrl:\s*)"[^"]*"/, '$1""')
-      .replace(/(submitKey:\s*)"[^"]*"/, '$1""')
-      .replace(/(school:\s*)"[^"]*"/, '$1""');
-  }
-
-  function isBinary(path) {
-    var ext = (path.split(".").pop() || "").toLowerCase();
-    return (SPEC.이진파일확장자 || []).indexOf(ext) >= 0;
-  }
-
-  function grab(url, binary) {
-    return fetch(url).then(function (r) {
-      if (!r.ok) throw new Error(url + " (" + r.status + ")");
-      return binary ? r.arrayBuffer() : r.text();
-    });
-  }
-
-  /* ---- 꾸러미 만들기 ---- */
-  $("kitDownload").addEventListener("click", function () {
-    var btn = this;
-    var withSheet = $("kitSheet").checked;
+  btn.addEventListener("click", function () {
+    var url = chk.checked ? ZIP.sheet : ZIP.base;
     btn.disabled = true;
     msg.className = "lead";
-    msg.textContent = "준비하는 중…";
+    msg.textContent = "내려받는 중…";
 
-    var list = [];   // {from, to, binary, transform}
-    (SPEC.공통 || []).forEach(function (p) {
-      list.push({ from: p, to: p, binary: isBinary(p),
-                  transform: (SPEC.치환 && SPEC.치환[p] === "config-blank") ? blankConfig : null });
-    });
-    if (withSheet) (SPEC.학습지 || []).forEach(function (p) {
-      list.push({ from: p, to: p, binary: isBinary(p), transform: null });
-    });
-    (SPEC.키트 || []).forEach(function (e) {
-      list.push({ from: e.from, to: e.to, binary: isBinary(e.from), transform: null });
-    });
-
-    loadZip().then(function (JSZip) {
-      var zip = new JSZip();
-      var done = 0, total = list.length, failed = [];
-
-      function step(i) {
-        if (i >= list.length) return finish();
-        var it = list[i];
-        return grab(it.from, it.binary).then(function (data) {
-          if (it.transform && !it.binary) data = it.transform(data);
-          zip.file(it.to, data);   // JSZip 이 ArrayBuffer / 문자열을 알아서 구분한다
-        }).catch(function (e) {
-          failed.push(it.from + " — " + e.message);
-        }).then(function () {
-          done++;
-          msg.textContent = "파일 모으는 중… " + done + " / " + total;
-          return step(i + 1);
-        });
-      }
-
-      function finish() {
-        if (failed.length) {
-          msg.className = "lead no";
-          msg.innerHTML = "<b>" + failed.length + "개 파일을 못 읽었습니다.</b><br>" +
-                          failed.map(function (f) { return "· " + f; }).join("<br>") +
-                          "<br>원본 폴더에서 로컬 서버로 열었는지 확인하세요.";
-          btn.disabled = false;
-          return;
-        }
-        // 학습지 포함 여부를 꾸러미 안에 한 줄로 남긴다 (받는 분 안내에 도움)
-        zip.file("_꾸러미정보.txt",
-          "스마트하우스, 선 없이 잇기 — 배포 꾸러미\n" +
-          "만든 날 : " + new Date().toISOString().slice(0, 16).replace("T", " ") + "\n" +
-          "학습지 포함 : " + (withSheet ? "예 (시작하기.md 의 «정답 코드를 바꾸세요» 를 꼭 하세요)" : "아니오") + "\n" +
-          "개인 설정 제거됨 : js/notion.js 의 workerUrl·submitKey·school\n" +
-          "\n먼저 읽을 것 : 시작하기.md\n");
-
-        msg.textContent = "압축하는 중…";
-        /* 슬라이드(webp)는 이미 압축돼 있어 DEFLATE 이득이 거의 없다.
-           글 파일만 가볍게 줄이도록 level 3 — 느린 교실 PC 에서도 몇 초면 끝난다. */
-        zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 3 } })
-          .then(function (blob) {
-            var stamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-            var name = "스마트하우스무선통신_배포키트_" + stamp +
-                       (withSheet ? "_학습지포함" : "") + ".zip";
-            var a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = name;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
-            msg.className = "lead ok";
-            msg.innerHTML = "<b>" + name + "</b> 내려받았습니다 (" +
-                            Math.round(blob.size / 1024) + " KB).<br>" +
-                            "그 선생님께 이 파일을 주시고, 압축을 풀어 <b>시작하기.md</b> 를 먼저 보시라고 하세요.";
-            btn.disabled = false;
-          }).catch(function (e) {
-            msg.className = "lead no";
-            msg.textContent = "압축에 실패했습니다: " + e.message;
-            btn.disabled = false;
-          });
-      }
-
-      step(0);
+    fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.blob();
+    }).then(function (blob) {
+      var fname = url.split("/").pop();
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = fname;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
+      msg.className = "lead ok";
+      msg.innerHTML = "<b>" + fname + "</b> 내려받았습니다 (" +
+        Math.round(blob.size / 1024) + " KB).<br>" +
+        "그 선생님께 이 파일을 주시고, 압축을 풀어 <b>시작하기.md</b> 를 먼저 보시라고 하세요." +
+        (chk.checked ? "<br><span class=\"dim\">학습지 포함본입니다 — 받는 분이 «정답 코드 바꾸기» 를 해야 합니다.</span>" : "");
+      btn.disabled = false;
     }).catch(function (e) {
       msg.className = "lead no";
-      msg.textContent = e.message;
+      msg.innerHTML = "꾸러미 파일을 찾지 못했습니다 (" + e.message + ").<br>" +
+        "이 사이트가 방금 갱신됐다면 1~2분 뒤 <b>Ctrl+F5</b> 로 새로고침한 다음 다시 눌러 주세요.";
       btn.disabled = false;
     });
   });

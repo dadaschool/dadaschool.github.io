@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>스마트하우스, 선 없이 잇기 — micro:bit 무선통신</title>
-<link rel="stylesheet" href="css/app.css?v=202609021739">
+<link rel="stylesheet" href="css/app.css?v=202609021837">
 <style>
   .hero { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff;
           border-radius: var(--radius); padding: 30px 32px; margin: 0 0 24px; }
@@ -197,12 +197,32 @@
 
 </div>
 
-<script src="js/pdf.js?v=202609021739"></script>
-<script src="js/slides.js?v=202609021739"></script>
 <script>
-  Slides.strip("slidesIntro", [1, 2, 3], { title: "수업 열기" });
-  Slides.strip("slidesCheck", [15], { title: "실습 점검 체크리스트" });
-  Slides.strip("slidesEnd", [6, 16], { title: "정리하며" });
+  /* css/app.css 가 안 읽혔으면(대개 «zip 을 안 풀고 안에서 바로 열었을» 때)
+     화면이 깨진 채로 뜨므로, 무엇이 문제인지 알려 준다.
+     제대로 연 경우(사이트·압축 푼 폴더)에는 --radius 가 있어 아무 일도 안 한다. */
+  (function () {
+    if (getComputedStyle(document.documentElement).getPropertyValue("--radius").trim()) return;
+    var b = document.createElement("div");
+    b.setAttribute("style",
+      "position:fixed;left:0;right:0;top:0;z-index:99999;background:#b91c1c;color:#fff;" +
+      "font:16px/1.6 system-ui,sans-serif;padding:14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.3)");
+    b.innerHTML =
+      "<b>화면이 깨져 보이나요?</b> 압축(zip)을 <b>풀지 않고</b> 안에서 바로 연 것 같습니다.<br>" +
+      "① zip 을 오른쪽 클릭 → <b>압축 풀기 / 모두 추출</b> &nbsp;②&nbsp; 풀린 폴더의 " +
+      "<b>로컬서버_실행.bat</b> 더블클릭 (또는 그 폴더의 index.html)";
+    document.body.insertBefore(b, document.body.firstChild);
+    document.body.style.paddingTop = "96px";
+  })();
+</script>
+<script src="js/pdf.js?v=202609021837"></script>
+<script src="js/slides.js?v=202609021837"></script>
+<script>
+  if (window.Slides) {
+    Slides.strip("slidesIntro", [1, 2, 3], { title: "수업 열기" });
+    Slides.strip("slidesCheck", [15], { title: "실습 점검 체크리스트" });
+    Slides.strip("slidesEnd", [6, 16], { title: "정리하며" });
+  }
 </script>
 </body>
 </html>
