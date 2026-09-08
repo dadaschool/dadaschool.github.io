@@ -109,6 +109,18 @@
      --------------------------------------------------------- */
   var THRESHOLD = 0.5;
 
+  /* 왼쪽 아날로그 파형을 **그대로 1비트로 끊는다** (0.5 위 = 1, 아래 = 0).
+     잡음 실험·복사 실험의 디지털 쪽이 «왼쪽과 같은 신호» 를 쓰게 하려는 것이다 —
+     예전에는 교과서 54쪽의 고정 바이트를 따로 보내서 두 그래프가 서로 무관해 보였고,
+     "아날로그를 디지털로 바꾼 데이터가 이상하다" 는 지적을 받았다(2026-09-03). */
+  function analogBits(n) {
+    var out = [];
+    for (var i = 0; i < n; i++) {
+      out.push(analogAt(n === 1 ? 0 : i / (n - 1)) > THRESHOLD ? 1 : 0);
+    }
+    return out;
+  }
+
   /* 아날로그 전송 — n 개 지점을 보낸다 */
   function sendAnalog(n, amp, seed) {
     var out = [];
@@ -272,6 +284,7 @@
     rng: rng,
     noiseAt: noiseAt,
     analogAt: analogAt,
+    analogBits: analogBits,
     stepsOf: stepsOf,
     digitize: digitize,
     levelValue: levelValue,

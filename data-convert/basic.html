@@ -53,6 +53,11 @@
           <p class="groupname">디지털 — <b><span id="stepLab">8단계</span></b>로 끊었다 (컴퓨터)</p>
           <canvas id="adB" width="440" height="232" class="wavcanvas"
                   aria-label="숫자로 끊은 디지털 신호"></canvas>
+          <p class="lvnote" style="margin:0 0 4px">
+            <span style="color:#64748b"><b>●</b> 회색 점</span> = 원래 값 →
+            <span style="color:#dc2626"><b>●</b> 빨강 점</span> = 가장 가까운 단계로 옮긴 값
+            <span style="color:#94a3b8">(점선 = 옮긴 거리 = 어긋남)</span>
+          </p>
         </div>
       </div>
       <p class="lvnote" id="adNote"></p>
@@ -93,13 +98,19 @@
           <p class="groupname">디지털 — <b>0.5보다 크면 1</b> 로 판정해 되살린다</p>
           <canvas id="noiB" width="440" height="232" class="wavcanvas"
                   aria-label="잡음이 섞인 디지털 신호와 판정선"></canvas>
+          <p class="lvnote" style="margin:0 0 4px">
+            <span style="color:#94a3b8">옅은 곡선</span> = 원래 파형 ·
+            <span style="color:#2563eb"><b>파란 계단</b></span> = 0.5에서 끊은 0/1 신호 ·
+            <span style="color:#16a34a"><b>초록 점</b></span> = 잡음 섞여 받은 값
+          </p>
           <p class="res ok" id="noiBres"></p>
         </div>
       </div>
       <div class="tablescroll">
         <table class="grid" id="noiTable">
-          <thead><tr><th style="width:14%">비트</th><th style="width:22%">보낸 전압</th>
-            <th style="width:24%">받은 전압 (잡음 섞임)</th><th style="width:20%">판정</th>
+          <thead><tr><th style="width:10%">비트</th><th style="width:18%">아날로그 값</th>
+            <th style="width:20%">보낸 전압 (0/1)</th>
+            <th style="width:22%">받은 전압 (잡음 섞임)</th><th style="width:18%">판정</th>
             <th>맞았나</th></tr></thead>
           <tbody id="noiBody"></tbody>
         </table>
@@ -287,9 +298,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608242106"></script>
-<script src="js/ui.js?v=202608242106"></script>
-<script src="js/basic.js?v=202608242106"></script>
+<script src="js/pdf.js?v=202609081629"></script>
+<script src="js/ui.js?v=202609081629"></script>
+<script src="js/basic.js?v=202609081629"></script>
 <script>
 (function () {
   "use strict";
@@ -349,7 +360,8 @@
      ========================================================= */
   var PAD = { l: 52, r: 14, t: 16, b: 34 };
 
-  function plot(cv) {
+  function plot(cv, opts) {
+    opts = opts || {};
     var g = cv.getContext("2d");
     var W = cv.width, H = cv.height;
     g.clearRect(0, 0, W, H);
@@ -357,27 +369,40 @@
     g.fillRect(0, 0, W, H);
     var x0 = PAD.l, x1 = W - PAD.r, y0 = PAD.t, y1 = H - PAD.b;
 
-    /* 세로 눈금(전압) */
-    g.strokeStyle = "#eef0f4"; g.lineWidth = 1;
-    g.fillStyle = "#94a3b8";
+    /* 가로 눈금 — 기본은 0·0.25·0.5·0.75·1.
+       opts.levels 를 주면 «그 단계들» 을 눈금으로 그린다(디지털 차트에서 계단이
+       놓이는 자리를 학생이 볼 수 있게 — "높이가 안 맞아 보인다" 는 지적으로 넣음). */
     g.font = "13px system-ui, sans-serif";
     g.textAlign = "right";
-    [0, 0.25, 0.5, 0.75, 1].forEach(function (v) {
-      var y = y1 - v * (y1 - y0);
-      g.beginPath(); g.moveTo(x0, y); g.lineTo(x1, y); g.stroke();
-      g.fillText(v.toFixed(2), x0 - 8, y + 4);
-    });
+    if (opts.levels && opts.levels.length) {
+      var lv = opts.levels;
+      lv.forEach(function (L, k) {
+        var y = y1 - L.v * (y1 - y0);
+        g.strokeStyle = "#dbe3ee"; g.lineWidth = 1;
+        g.beginPath(); g.moveTo(x0, y); g.lineTo(x1, y); g.stroke();
+        if (L.label) { g.fillStyle = "#94a3b8"; g.fillText(L.label, x0 - 8, y + 4); }
+      });
+    } else {
+      g.strokeStyle = "#eef0f4"; g.lineWidth = 1;
+      g.fillStyle = "#94a3b8";
+      [0, 0.25, 0.5, 0.75, 1].forEach(function (v) {
+        var y = y1 - v * (y1 - y0);
+        g.beginPath(); g.moveTo(x0, y); g.lineTo(x1, y); g.stroke();
+        g.fillText(v.toFixed(2), x0 - 8, y + 4);
+      });
+    }
     /* 축 */
     g.strokeStyle = "#cbd5e1"; g.lineWidth = 2;
     g.beginPath(); g.moveTo(x0, y0); g.lineTo(x0, y1); g.lineTo(x1, y1); g.stroke();
     g.textAlign = "center";
     g.fillStyle = "#64748b";
     g.font = "14px system-ui, sans-serif";
-    g.fillText("시간 →", (x0 + x1) / 2, H - 10);
+    var xlab = (opts.xlabel != null) ? opts.xlabel : "시간 →";
+    if (xlab) g.fillText(xlab, (x0 + x1) / 2, H - 10);
     g.save();
     g.translate(16, (y0 + y1) / 2);
     g.rotate(-Math.PI / 2);
-    g.fillText("전압", 0, 0);
+    g.fillText(opts.ylabel || "전압", 0, 0);
     g.restore();
 
     return {
@@ -400,22 +425,37 @@
     g.stroke();
   }
 
-  /* 계단 그래프 — 끊어서 적은 값 */
+  /* 계단 그래프 — 끊어서 적은 값.
+     ⚠ 표본 i 는 t = i/(n-1) 에서 «잰» 값이다(왼쪽 곡선·옅은 밑그림·표와 같은 자리).
+        그러니 계단도 그 자리를 중심으로 그린다 — 예전엔 x 를 i/n 으로 잡아
+        표본이 오른쪽으로 밀려 밑그림 파형과 어긋났다. */
   function drawSteps(p, rows, color) {
-    var g = p.g;
+    var g = p.g, n = rows.length;
+    var half = n > 1 ? 0.5 / (n - 1) : 0.5;      /* 표본 사이 간격의 절반 */
     g.strokeStyle = color; g.lineWidth = 3;
     g.beginPath();
     rows.forEach(function (r, i) {
-      var xa = p.X(i / rows.length), xb = p.X((i + 1) / rows.length);
+      var xa = p.X(Math.max(0, r.t - half));
+      var xb = p.X(Math.min(1, r.t + half));
       var y = p.Y(r.back);
-      if (i === 0) g.moveTo(xa, y); else g.lineTo(xa, y);
+      if (i === 0) g.moveTo(xa, y); else g.lineTo(xa, y);   /* 앞 칸에서 세로로 이어짐 */
       g.lineTo(xb, y);
     });
     g.stroke();
-    g.fillStyle = color;
-    rows.forEach(function (r, i) {
-      var x = p.X((i + 0.5) / rows.length);
-      g.beginPath(); g.arc(x, p.Y(r.back), 4.5, 0, Math.PI * 2); g.fill();
+    /* 원래 값(회색 점, 곡선 위) → 끊은 값(빨간 점, 단계선 위) «이동» 을 눈으로 보여 준다 */
+    rows.forEach(function (r) {
+      var x = p.X(r.t), yRaw = p.Y(r.raw), yQ = p.Y(r.back);
+      if (Math.abs(yRaw - yQ) > 1) {
+        g.strokeStyle = "#94a3b8"; g.lineWidth = 1.5; g.setLineDash([3, 3]);
+        g.beginPath(); g.moveTo(x, yRaw); g.lineTo(x, yQ); g.stroke();
+        g.setLineDash([]);
+      }
+      g.fillStyle = "#64748b";                    /* 원래 값 */
+      g.beginPath(); g.arc(x, yRaw, 3.5, 0, Math.PI * 2); g.fill();
+    });
+    g.fillStyle = color;                          /* 끊은 값 */
+    rows.forEach(function (r) {
+      g.beginPath(); g.arc(p.X(r.t), p.Y(r.back), 4.5, 0, Math.PI * 2); g.fill();
     });
   }
 
@@ -454,7 +494,13 @@
     drawCurve(pa, B.analogAt, "#2563eb", 3.5);
 
     var rows = B.sampleTable(AD_N, adBits);
-    var pb = plot($("adB"));
+    /* 오른쪽 눈금 = «끊은 단계» 그 자체. 계단이 이 선 위에만 놓인다 —
+       라벨은 8단계 이하일 때만(16단계는 겹친다) */
+    var levels = [];
+    for (var k = 0; k < steps; k++) {
+      levels.push({ v: B.levelValue(k, adBits), label: steps <= 8 ? String(k) : "" });
+    }
+    var pb = plot($("adB"), { levels: levels, ylabel: "단계" });
     drawCurve(pb, B.analogAt, "#cbd5e1", 2);      /* 원래 값을 옅게 깔아 준다 */
     drawSteps(pb, rows, "#dc2626");
 
@@ -486,8 +532,8 @@
      ① - 2  잡음 실험 (교과서 55쪽 그림 Ⅱ-4)
      ========================================================= */
   var amp = 0.25, seed = 1234;
-  var BYTE = [1, 0, 1, 0, 0, 1, 0, 1];      /* 교과서 54쪽 그림의 1바이트 */
-  var NOI_N = 24;
+  var NOI_N = 24;       /* 아날로그 표본 수 — 파형을 매끄럽게 그린다 */
+  var NOI_ND = 12;      /* 디지털 표본 수 — 같은 파형을 성기게 끊는다(비트 글자가 읽히도록) */
 
   function setupNoise() {
     $("ampIn").addEventListener("input", function () {
@@ -527,11 +573,18 @@
                    "잡음인지 구별할 수 없기 때문입니다.");
     $("noiAres").className = "res " + (apct < 0.001 ? "ok" : "no");
 
-    /* --- 디지털 --- */
-    var drows = B.sendDigital(BYTE, amp, seed);
-    var pb = plot($("noiB"));
-    /* 판정선 */
+    /* --- 디지털 : 왼쪽과 **같은 파형**을 0.5로 끊어 0/1 로 보낸다 --- */
+    var dbits = B.analogBits(NOI_ND);
+    var drows = B.sendDigital(dbits, amp, seed);
+    var pb = plot($("noiB"), { xlabel: "" });
+    drawCurve(pb, B.analogAt, "#cbd5e1", 2);       /* 원래 파형(옅게) — 이것을 끊은 것이다 */
     var gb = pb.g;
+    /* 표본점 x — 양 끝에서 살짝 들여 마지막 점이 테두리에 잘리지 않게 한다 */
+    var sx = function (i) {
+      return drows.length <= 1 ? pb.X(0.5)
+                               : pb.X(0.04 + (i / (drows.length - 1)) * 0.92);
+    };
+    /* 판정선 */
     gb.strokeStyle = "#f59e0b"; gb.lineWidth = 2.5;
     gb.setLineDash([8, 6]);
     gb.beginPath(); gb.moveTo(pb.x0, pb.Y(B.THRESHOLD)); gb.lineTo(pb.x1, pb.Y(B.THRESHOLD)); gb.stroke();
@@ -540,36 +593,44 @@
     gb.font = "bold 14px system-ui, sans-serif";
     gb.textAlign = "left";
     gb.fillText("판정선 0.5", pb.x0 + 8, pb.Y(B.THRESHOLD) - 8);
-    /* 보낸 값(0 또는 1) 막대 · 받은 값 점 · 되살린 값 */
+    /* 0/1 계단 — 파형을 0.5에서 끊은 «디지털 신호». 옅은 파형과 나란히 오르내린다 */
+    gb.strokeStyle = "#2563eb"; gb.lineWidth = 3;
+    gb.beginPath();
     drows.forEach(function (r, i) {
-      var x = pb.X(drows.length === 1 ? 0.5 : i / (drows.length - 1));
-      gb.strokeStyle = "#cbd5e1"; gb.lineWidth = 2;
-      gb.beginPath(); gb.moveTo(x, pb.Y(0)); gb.lineTo(x, pb.Y(r.sent)); gb.stroke();
+      var x = sx(i), y = pb.Y(r.sent);
+      if (i === 0) { gb.moveTo(x, y); }
+      else { gb.lineTo(x, pb.Y(drows[i - 1].sent)); gb.lineTo(x, y); }
+    });
+    gb.stroke();
+    /* 받은 값(0/1 + 잡음) 점 · 그 아래 되살린 비트 */
+    drows.forEach(function (r, i) {
+      var x = sx(i);
       gb.fillStyle = r.ok ? "#16a34a" : "#dc2626";
       gb.beginPath();
-      gb.arc(x, pb.Y(Math.max(-0.08, Math.min(1.08, r.got))), 7, 0, Math.PI * 2);
+      gb.arc(x, pb.Y(Math.max(-0.08, Math.min(1.08, r.got))), 6, 0, Math.PI * 2);
       gb.fill();
       gb.fillStyle = r.ok ? "#166534" : "#991b1b";
       gb.font = "bold 17px Consolas, monospace";
       gb.textAlign = "center";
       gb.fillText(String(r.fixed), x, pb.Y(0) + 22);
     });
-    gb.fillStyle = "#64748b";
-    gb.font = "13px system-ui, sans-serif";
-    gb.fillText("↑ 되살린 비트", (pb.x0 + pb.x1) / 2, pb.Y(0) + 42);
 
     var wrong = B.wrongBits(drows);
     $("noiBres").innerHTML = wrong === 0
-      ? "되살린 비트 <b>" + drows.map(function (r) { return r.fixed; }).join("") +
-        "</b> — 보낸 것과 <b>똑같습니다</b> (틀린 비트 0개)."
+      ? "같은 파형을 <b>0과 1로 끊어</b> 보냈고, 되살린 비트 <b>" +
+        drows.map(function (r) { return r.fixed; }).join("") +
+        "</b> 는 보낸 것과 <b>똑같습니다</b> (틀린 비트 0개)."
       : "틀린 비트가 <b>" + wrong + "개</b> 생겼습니다 — 잡음이 <b>판정선(0.5)을 넘었기</b> 때문입니다.";
     $("noiBres").className = "res " + (wrong === 0 ? "ok" : "no");
 
     var tb = $("noiBody");
     tb.innerHTML = "";
     drows.forEach(function (r, i) {
+      var av = B.analogAt(NOI_ND === 1 ? 0 : i / (NOI_ND - 1));
       tb.appendChild(el("tr", null,
         "<td>" + (i + 1) + "번</td>" +
+        "<td>" + av.toFixed(2) + " <span class='lvnote'>(" +
+          (av > B.THRESHOLD ? "0.5↑" : "0.5↓") + ")</span></td>" +
         "<td><b>" + r.sent + "</b> (" + r.sent.toFixed(2) + "V)</td>" +
         "<td>" + r.got.toFixed(3) + "V</td>" +
         "<td><b>" + r.fixed + "</b> <span class='lvnote'>(" +
@@ -593,7 +654,8 @@
      ========================================================= */
   var gens = 10;
   var GEN_LIST = [1, 3, 10, 30];
-  var CP_N = 24;
+  var CP_N = 24;        /* 아날로그 표본 수 */
+  var CP_ND = 12;       /* 디지털 표본 수 — 잡음 실험과 같은, 파형을 끊은 비트 */
 
   function setupCopy() {
     GEN_LIST.forEach(function (n) {
@@ -607,7 +669,7 @@
   function drawCopy() {
     markRow("genRow", "data-g", gens);
     if ($("copyCard").hidden) return;
-    var c = B.copyChain(30, CP_N, B.COPY_AMP, 4321, BYTE);
+    var c = B.copyChain(30, CP_N, B.COPY_AMP, 4321, B.analogBits(CP_ND));
     var now = c.rows[gens - 1];
 
     /* 아날로그 — 원본(옅게) + 지금 세대 */
@@ -622,25 +684,34 @@
     });
     g.stroke();
 
-    /* 디지털 — 보낸 비트와 지금 비트를 나란히 */
-    var pb = plot($("cpB"));
+    /* 디지털 — 같은 파형을 끊은 비트. 원본(옅게) 위에 지금 세대 비트를 얹는다 */
+    var pb = plot($("cpB"), { xlabel: "" });
+    drawCurve(pb, B.analogAt, "#cbd5e1", 2);
     var gb = pb.g;
+    var nD = c.digitalOrigin.length;
+    var sx = function (i) {
+      return nD <= 1 ? pb.X(0.5) : pb.X(0.04 + (i / (nD - 1)) * 0.92);
+    };
+    /* 원본 0/1 계단(옅게) — 파형을 끊은 «디지털 신호» */
+    gb.strokeStyle = "#93c5fd"; gb.lineWidth = 2.5;
+    gb.beginPath();
+    c.digitalOrigin.forEach(function (b, i) {
+      var x = sx(i), y = pb.Y(b);
+      if (i === 0) { gb.moveTo(x, y); }
+      else { gb.lineTo(x, pb.Y(c.digitalOrigin[i - 1])); gb.lineTo(x, y); }
+    });
+    gb.stroke();
+    /* 지금 세대 비트 — 틀린 것만 빨강 */
     now.digitalNow.forEach(function (b, i) {
-      var x = pb.X(i / (BYTE.length - 1));
+      var x = sx(i);
       var same = (b === c.digitalOrigin[i]);
-      gb.strokeStyle = "#cbd5e1"; gb.lineWidth = 2;
-      gb.beginPath(); gb.moveTo(x, pb.Y(0)); gb.lineTo(x, pb.Y(c.digitalOrigin[i])); gb.stroke();
       gb.fillStyle = same ? "#16a34a" : "#dc2626";
-      gb.beginPath(); gb.arc(x, pb.Y(b), 8, 0, Math.PI * 2); gb.fill();
+      gb.beginPath(); gb.arc(x, pb.Y(b), 7, 0, Math.PI * 2); gb.fill();
       gb.fillStyle = same ? "#166534" : "#991b1b";
       gb.font = "bold 18px Consolas, monospace";
       gb.textAlign = "center";
       gb.fillText(String(b), x, pb.Y(0) + 22);
     });
-    gb.fillStyle = "#64748b";
-    gb.font = "13px system-ui, sans-serif";
-    gb.textAlign = "center";
-    gb.fillText(gens + "번 복사한 뒤의 비트", (pb.x0 + pb.x1) / 2, pb.Y(0) + 42);
 
     var first = c.rows[0].analogPct;
     $("cpNote").innerHTML = "<b>" + gens + "번 복사</b>한 결과 — 아날로그는 원본과 <b>" +

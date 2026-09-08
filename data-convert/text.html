@@ -5,6 +5,161 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>글자 변환 (아스키코드 · 유니코드) · 아날로그 → 디지털</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='17' font-weight='bold' text-anchor='middle' fill='%23ffffff'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+  /* ===== 전자칠판(대형 디스플레이) 최적화 — 이 페이지 전용 스코프 =====
+     정보 교과 자료는 전자칠판으로 공유한다. 멀리서도 읽히도록 글꼴·단추를 키우고,
+     조작과 핵심 결과를 «한 번에 하나씩» 보여 준다(입력 화면 ↔ 결과 화면). */
+  .wrap { font-size: 20px; }
+  .wrap .lead { font-size: 21px; line-height: 1.55; }
+  .wrap h2 { font-size: 30px; }
+  .wrap h3 { font-size: 23px; }
+  .wrap .tab { font-size: 22px; min-height: 60px; padding: 10px 26px; }
+  #learnSubs button { font-size: 20px; min-height: 56px; padding: 10px 22px; }
+  .wrap .btn { min-height: 56px; font-size: 19px; padding: 10px 20px; }
+  .wrap .btn.primary { min-height: 64px; font-size: 23px; padding: 12px 34px; font-weight: 800; }
+  .wrap .btn.big { min-height: 62px; font-size: 21px; }
+  .wrap .grid th { font-size: 18px; padding: 12px 10px; }
+  .wrap .grid td { font-size: 20px; padding: 12px 10px; }
+  .wrap input#src, .wrap textarea#srcCode { font-size: 30px; padding: 14px 16px; }
+  .wrap .hint { font-size: 19px; line-height: 1.55; }
+  .wrap .res { font-size: 21px; }
+
+  /* 입력 화면 ↔ 결과 화면 */
+  #txtResult[hidden], #txtSetup[hidden] { display: none; }
+  .txtbar {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    background: var(--card, #fff); border: 2px solid var(--line, #e5e7eb);
+    border-radius: 14px; padding: 12px 18px; margin: 0 0 18px;
+  }
+  .txtbar #btnTxtBack, .txtbar #btnRefCheck {
+    min-height: 56px; font-size: 20px; font-weight: 800; padding: 10px 24px;
+    border: none; border-radius: 12px; cursor: pointer;
+  }
+  .txtbar #btnTxtBack { background: var(--brand, #4f46e5); color: #fff; }
+  .txtbar #btnRefCheck { background: #fef3c7; color: #92400e; border: 2px solid #eab308; }
+  .txtbar #btnRefCheck.on { background: #eab308; color: #1f2937; }
+  .txtbar #btnTxtBack:hover, .txtbar #btnRefCheck:hover { filter: brightness(1.06); }
+  .txtbar .barlabel { font-size: 22px; font-weight: 700; color: var(--sub, #475569); }
+
+  /* 오른쪽 참고표 — 아스키코드표(32~126) / 한글 자모표 */
+  #refCard .reftoggle { display: flex; gap: 10px; margin: 4px 0 14px; }
+  #refCard .reftoggle button {
+    min-height: 52px; font-size: 19px; padding: 8px 20px; border-radius: 10px;
+    border: 2px solid var(--line, #e5e7eb); background: #fff; cursor: pointer; font-weight: 700;
+  }
+  #refCard .reftoggle button.on { background: var(--brand, #4f46e5); color: #fff; border-color: var(--brand, #4f46e5); }
+  .asciiwrap { max-height: 560px; overflow: auto; }
+  table.ascii { border-collapse: collapse; width: 100%; }
+  table.ascii th, table.ascii td {
+    border: 1px solid var(--line, #e5e7eb); padding: 7px 8px; text-align: center;
+    font-size: 18px; font-family: Consolas, monospace; color: #64748b;
+  }
+  table.ascii th { background: #e2e8f0; color: #334155; font-family: system-ui, sans-serif; font-weight: 700; }
+  table.ascii td:not(.chr) { background: #f4f6fa; }             /* 숫자 칸은 눌러 둔다 */
+  table.ascii tr:nth-child(2n) td:not(.chr) { background: #eceff5; }
+  table.ascii td.chr {                                          /* 문자 칸 = 답. 강하게 */
+    font-size: 24px; font-weight: 800; font-family: system-ui, sans-serif;
+    background: #ffd968; color: #1f2937; border-color: #eab308;
+  }
+  .jamoref .jamogrid { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
+  .jamoref .jamogrid span {
+    min-width: 46px; text-align: center; border: 1px solid var(--line, #e5e7eb);
+    border-radius: 8px; padding: 6px 4px; font-size: 17px;
+  }
+  .jamoref .jamogrid span b { display: block; font-size: 20px; }
+
+  /* 📋 코드표 확인 — 이 문제에 쓰인 코드를 빨갛게 강조 */
+  #refCheckBody table.ascii td.chr.used {
+    background: #f87171; color: #fff; outline: 3px solid #b91c1c; outline-offset: -3px;
+  }
+  #refCheckBody table.ascii td.usednum {   /* 그 코드의 10진·16진 칸만 (줄 전체 ✗) */
+    background: #fee2e2; color: #991b1b; font-weight: 700; border-color: #f87171;
+  }
+  #refCheckBody .jamoref .jamogrid span.used {
+    background: #f87171; color: #fff; border-color: #b91c1c; font-weight: 800;
+  }
+
+  /* 결과 화면 «코드표에서 찾아보세요» 의 코드칸 — 문자(=답)를 노란 배경으로 강조 */
+  #findBody .codegrid .codecell { background: #f4f6fa; border-radius: 8px; }
+  #findBody .codegrid .codecell .ch {
+    display: block; background: #ffd968; color: #1f2937;
+    font-size: 24px; font-weight: 800; border-radius: 6px; padding: 2px 0; margin-bottom: 2px;
+  }
+  #findBody .codegrid .codecell .dec { font-size: 17px; color: #64748b; }
+
+  /* 「한글(HWP) 문자표」 그림 — 계산한 코드값을 실제 프로그램에서 써 보는 연결 고리 */
+  #hwpBox { margin-top: 22px; }
+  #hwpBox img {
+    display: block; max-width: 100%; height: auto; margin: 10px 0 6px;
+    border: 2px solid var(--line, #e5e7eb); border-radius: 12px;
+  }
+  #hwpBox .cap { font-size: 18px; color: var(--sub, #475569); line-height: 1.55; }
+  #hwpBox .steps { font-size: 19px; line-height: 1.7; margin: 8px 0 0; padding-left: 22px; }
+  #hwpBox .steps b { color: var(--brand, #4f46e5); }
+  #hwpNoImg { font-size: 18px; color: #92400e; background: #fef3c7;
+    border: 2px dashed #eab308; border-radius: 10px; padding: 12px 14px; }
+
+  /* ===== ④ 자판과 코드 ===== */
+  #kbPick { display: flex; flex-wrap: wrap; gap: 10px; margin: 4px 0 8px; }
+  #kbPick button { min-height: 56px; font-size: 19px; font-weight: 700; padding: 10px 20px;
+    border: 2px solid var(--line, #e5e7eb); border-radius: 12px; background: #fff; cursor: pointer; }
+  #kbPick button.on { background: var(--brand, #4f46e5); color: #fff; border-color: var(--brand, #4f46e5); }
+  .kbrow { display: flex; gap: 5px; margin: 0 0 4px; }
+  .kbkey { width: 56px; height: 56px; border: 2px solid #cbd5e1; border-radius: 10px;
+    background: #fff; cursor: pointer; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 0; line-height: 1.1; }
+  .kbkey .cap { font-size: 24px; font-weight: 800; color: #1f2937; }
+  .kbkey .sub { font-size: 12px; color: #94a3b8; }
+  .kbkey .shf { font-size: 13px; color: #b45309; font-weight: 700; }
+  .kbkey:hover { border-color: var(--brand, #4f46e5); }
+  .kbkey.hit { background: var(--brand, #4f46e5); border-color: var(--brand, #4f46e5); box-shadow: none; }
+  .kbkey.hit .cap, .kbkey.hit .sub, .kbkey.hit .shf { color: #fff; }
+  .kbkey.dead { background: #f4f6fa; cursor: default; }
+  .kbkey.dead .cap { color: #cbd5e1; }
+  /* 🖐 손 = 바탕색 (자판 종류와 상관없이 «자리» 가 정한다) */
+  .kbkey.left  { background: #eff6ff; border-color: #93c5fd; }
+  .kbkey.right { background: #fff7ed; border-color: #fdba74; }
+  /* ⚠ 벌(첫소리·가운뎃소리·끝소리)을 색으로 또 나누지 않는다 (2026-09-04 사용자 지시) —
+     손 바탕색 + 진한 낱자만으로 충분히 구분되고, 띠까지 넣으니 화면이 지저분해졌다. */
+  /* 👆 양손 검지 «기준 자리»(f · j) — 실제 키보드의 돌기 자리 */
+  .kbkey.home { border-width: 3px; border-color: #1f2937; }
+  .kbkey.home .cap { font-weight: 900; }
+  .kbkey.home::after {
+    content: ""; display: block; width: 24px; height: 4px;
+    border-radius: 2px; background: #1f2937; margin-top: 3px;
+  }
+  #kbLegend { display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+    font-size: 18px; margin: 4px 0 6px; }
+  /* 🚨 `#kbLegend span b` 로 두면 **설명 문장 안의 <b> 까지** 18px 네모가 되어
+     글자가 세로로 쌓인다(2026-09-04 실제로 깨졌다). 견본에만 붙는 class 로 좁힌다. */
+  #kbLegend .sw { display: inline-block; width: 18px; height: 18px; border-radius: 4px;
+    border: 2px solid #94a3b8; vertical-align: -3px; margin-right: 5px; }
+  #kbOut { font-size: 42px; font-weight: 800; min-height: 58px; letter-spacing: 2px;
+    border: 2px solid var(--line, #e5e7eb); border-radius: 12px; padding: 8px 14px;
+    background: #fff; margin: 6px 0 6px; word-break: break-all; }
+  #kbOut .live { background: #fef3c7; border-bottom: 3px solid #eab308; }
+  #kbOut:focus { outline: 3px solid var(--brand, #4f46e5); outline-offset: 2px; }
+  #kbOut .ph { font-size: 20px; font-weight: 400; color: #94a3b8; }
+  /* 글 쓰는 칸처럼 보이게 — 깜빡이는 커서 (2026-09-04 사용자 지시) */
+  #kbOut .caret { display: inline-block; width: 3px; height: 38px; vertical-align: -6px;
+    margin-left: 3px; background: var(--brand, #4f46e5); animation: kbBlink 1.05s step-end infinite; }
+  @keyframes kbBlink { 50% { opacity: 0; } }
+  #kbOut .sp { display: inline-block; width: 22px; border-bottom: 3px solid #cbd5e1; }
+  /* 스페이스바 — 엄지로 치는 자리라 손 색을 주지 않는다 */
+  .kbkey.space { width: 330px; }
+  .kbkey.space .cap { font-size: 18px; letter-spacing: 2px; color: #475569; }
+  #kbSlots { display: flex; gap: 10px; flex-wrap: wrap; font-size: 19px; margin: 0 0 10px; }
+  #kbSlots span { border: 2px solid var(--line, #e5e7eb); border-radius: 10px; padding: 6px 14px; }
+  #kbSlots b { font-size: 24px; }
+  .kbwrap { overflow-x: auto; padding-bottom: 4px; }
+
+  /* 좁은 화면(1100px 미만)에서는 앱 셸을 풀고 보통 문서처럼 위아래로 */
+  @media (max-width: 1100px) {
+    .wrap .twocol.wide { display: block; }
+    .txtbar { position: static; }
+  }
+</style>
   <link rel="stylesheet" crossorigin href="./assets/app-DaFoPRK8.css">
 </head>
 <body>
@@ -35,9 +190,11 @@
     <!-- 시뮬레이터 고르기 — 방향 고르기가 곧 하위 탭이 되었다 -->
     <div class="subtabs" id="learnSubs" aria-label="글자 시뮬레이터 고르기"></div>
 
-    <!-- 화면 ①② 글자↔코드 : 안의 카드는 방향·진행에 따라 JS 가 따로 여닫는다 -->
+    <!-- 화면 ①② 글자↔코드 : 입력 화면 ↔ 결과 화면 (전자칠판 — 한 번에 하나씩) -->
     <div id="scrConv">
-    <!-- 좌우 두 칸 : 왼쪽 = 넣는 곳 · 오른쪽 = 코드표와 결과 -->
+
+    <!-- ===== 입력 화면 ===== -->
+    <div id="txtSetup">
     <div class="twocol wide">
     <div class="colL">
     <div class="card">
@@ -51,7 +208,7 @@
       <div class="baserow" id="codeBaseRow" hidden>
         <span class="lab">코드의 진수</span>
         <button class="btn on" type="button" data-cb="bin" aria-pressed="true">2진수</button>
-        <button class="btn" type="button" data-cb="quad" aria-pressed="false">4진수</button>
+        <button class="btn" type="button" data-cb="dec" aria-pressed="false">10진수</button>
         <button class="btn" type="button" data-cb="hex" aria-pressed="false">16진수</button>
       </div>
       <div class="hint" id="dirNote"></div>
@@ -71,25 +228,52 @@
         <button class="btn ghost" id="btnClear">지우기</button>
       </div>
       <p class="res no" id="msg" hidden></p>
-      <p class="res" id="decOut" hidden></p>
     </div>
 
     </div><!-- /colL -->
     <div class="colR">
 
-    <!-- 코드 → 글자 : **찾아보는 곳.** 답을 바로 주지 않고 코드표·자모표를 먼저 준다. -->
+    <!-- 오른쪽 참고표 — 아스키코드표(32~126) / 한글 자모표. 넣는 글자에 따라 자동 전환 + 수동 토글 -->
+    <div class="card" id="refCard">
+      <h2><span class="step">✓</span> 참고표</h2>
+      <div class="reftoggle" id="refToggle">
+        <button type="button" data-ref="ascii" class="on">아스키코드표</button>
+        <button type="button" data-ref="jamo">한글 자모표</button>
+      </div>
+      <div class="hint" id="refNote"></div>
+      <div id="refBody"></div>
+    </div>
+
+    </div><!-- /colR -->
+    </div><!-- /twocol -->
+    </div><!-- /txtSetup -->
+
+    <!-- ===== 결과 화면 ===== -->
+    <div id="txtResult" hidden>
+    <div class="txtbar">
+      <button type="button" id="btnTxtBack">◀ 글자 입력으로</button>
+      <button type="button" id="btnRefCheck" hidden>📋 코드표에서 확인</button>
+      <span class="barlabel" id="txtBarLabel"></span>
+    </div>
+    <p class="res" id="decOut" hidden></p>
+
+    <!-- 📋 코드표 확인 — 이 문제에 쓰인 코드를 코드표에서 빨갛게 강조해 보여 준다 -->
+    <div class="card" id="refCheckCard" hidden>
+      <h2><span class="step">📋</span> 코드표에서 확인</h2>
+      <p class="lead" id="refCheckNote"></p>
+      <div id="refCheckBody"></div>
+    </div>
+
+    <!-- 코드 → 글자 «풀이» — 변환하기를 누르면 답과 함께 바로 보여 준다 (2026-09-04 사용자 지시) -->
     <div class="card" id="findCard" hidden>
-      <h2><span class="step">2</span> 코드표에서 찾아보세요</h2>
+      <h2><span class="step">2</span> 코드 → 글자 풀이</h2>
       <p class="lead">
-        코드를 <b>4진수</b>로 바꾸었습니다(4진수 한 자리 = 2비트라 <b>나누지 않아도</b> 됩니다).
-        이제 <b>아래 표에서 그 값을 찾으면</b> 글자가 나옵니다.
-        찾은 뒤에 <b>[답 보기]</b> 를 눌러 맞는지 확인하세요.
+        넣은 코드를 <b>10진수</b>로 바꾸고, <b>아스키 코드표</b>·<b>자모 계산</b>으로
+        글자를 찾는 과정입니다.
       </p>
       <div id="findBody"></div>
-      <div class="btnrow">
-        <button class="btn primary big" id="btnReveal">답 보기</button>
-        <span class="lvnote" id="revealNote"></span>
-      </div>
+      <span class="lvnote" id="revealNote" hidden></span>
+      <button class="btn primary big" id="btnReveal" hidden>답 보기</button>
     </div>
 
     <div class="card" id="listCard" hidden>
@@ -100,12 +284,11 @@
         <table class="grid" id="charTable">
           <thead>
             <tr>
-              <th style="width:11%">글자</th>
-              <th style="width:24%">종류</th>
-              <th style="width:17%">4진수</th>
-              <th style="width:13%">16진수</th>
-              <th style="width:25%">2진수</th>
-              <th style="width:10%">크기</th>
+              <th style="width:12%">글자</th>
+              <th style="width:20%">10진수</th>
+              <th style="width:16%">16진수</th>
+              <th style="width:36%">2진수</th>
+              <th style="width:16%">크기</th>
             </tr>
           </thead>
           <tbody id="charBody"></tbody>
@@ -141,8 +324,7 @@
       </div>
     </div>
 
-    </div><!-- /colR -->
-    </div><!-- /twocol -->
+    </div><!-- /txtResult -->
     </div><!-- /scrConv -->
 
     <!-- 화면 ③ 한글 자모 계산 -->
@@ -166,6 +348,32 @@
       <div class="jamogrid" id="jungGrid"></div>
       <p class="groupname">종성 28개 (번호 0~27 · 0번은 종성 없음)</p>
       <div class="jamogrid" id="jongGrid"></div>
+      <!-- 계산한 코드값을 «실제로 써 보는» 자리 — 한글(HWP) 문자표 -->
+      <div id="hwpBox">
+        <h3 style="font-size:23px;margin:0 0 4px">계산한 코드값, 한글(HWP)에서 그대로 써 봅시다</h3>
+        <p class="cap">
+          한글 프로그램의 <b>[입력] → [문자표]</b> 에서 <b>유니코드 문자표</b> 탭을 고르고
+          문자 영역을 <b>「한글 글자 마디」</b> 로 두면, 오른쪽 <b>유니코드</b> 칸에
+          <b>16진수 코드값</b>을 넣어 글자를 바로 찾을 수 있습니다.
+          아래 그림은 <b>AC70</b> 을 넣어 <b>거</b> 를 찾은 모습입니다
+          (AC70(16) = 44144(10) = 44032 + 초성 ㄱ(0)×588 + 중성 ㅓ(4)×28 + 종성 없음(0)).
+        </p>
+        <img src="./assets/hwp-charmap-CgIS8xc5.png" alt="한글 문자표 — 유니코드 문자표 탭에서 한글 글자 마디 영역을 골라 AC70 을 넣어 «거» 를 찾은 화면"
+             onerror="this.hidden=true;var w=document.getElementById('hwpNoImg');if(w)w.hidden=false;">
+        <p id="hwpNoImg" hidden>
+          🖼 그림 파일이 아직 없습니다 — <b>data-convert/img/hwp-charmap.png</b> 에 넣어 주세요.
+        </p>
+        <ol class="steps">
+          <li>한글에서 <b>[입력] → [문자표]</b> (단축키 <b>Ctrl+F10</b>)</li>
+          <li>위쪽 <b>유니코드 문자표</b> 탭 · 왼쪽 문자 영역에서 <b>한글 글자 마디</b></li>
+          <li>오른쪽 <b>유니코드</b> 칸에 우리가 구한 <b>16진수 코드값</b>을 넣고 <b>[넣기]</b></li>
+        </ol>
+        <p class="cap" style="margin-top:8px">
+          👉 앞 화면(<b>① 글자 → 코드</b>)에서 나온 <b>16진수</b>를 여기에 넣어 보면,
+          우리가 계산한 값이 <b>진짜 그 글자의 번호</b>라는 것을 눈으로 확인할 수 있습니다.
+        </p>
+      </div>
+
       <div class="warnbox" style="margin-top:20px">
         <b>바이트 수 이야기</b> — 여기서 다루는 것은 글자의 <b>코드값(번호)</b>입니다.
         실제로 저장할 때는 방식에 따라 크기가 달라집니다 — 한글 한 글자는
@@ -174,6 +382,36 @@
     </div>
 
     </div><!-- /scrJamo -->
+
+    <!-- 화면 ④ 자판과 코드 -->
+    <div id="scrKey">
+    <div class="card">
+      <h2><span class="step">4</span> 자판을 누르면 어떻게 코드가 될까</h2>
+      <p class="lead" style="margin:2px 0 8px">
+        영어는 <b>1키 = 1글자 = 1코드</b>, 한글은 <b>자모를 모아야</b> 한 글자 = 코드 하나가 됩니다.
+      </p>
+      <div id="kbPick"></div>
+      <div id="kbLegend"></div>
+      <div class="kbwrap"><div id="kbBoard"></div></div>
+      <p class="groupname" style="margin:8px 0 2px">친 글자
+        <span class="lvnote">— 아래 칸을 누르고 <b>키보드로 바로 쳐도</b> 됩니다</span></p>
+      <div id="kbOut" tabindex="0" role="textbox" aria-label="친 글자" aria-readonly="true"></div>
+      <div id="kbSlots"></div>
+      <div class="btnrow">
+        <button class="btn" type="button" id="kbBack">← 하나 지우기</button>
+        <button class="btn ghost" type="button" id="kbClear">모두 지우기</button>
+      </div>
+      <div class="tablescroll">
+        <table class="grid" id="kbTable">
+          <thead><tr><th style="width:14%">글자</th><th style="width:20%">10진수</th>
+            <th style="width:20%">16진수</th><th>2진수</th></tr></thead>
+          <tbody id="kbBody"></tbody>
+        </table>
+      </div>
+      <div class="hint" id="kbDesc" style="margin-top:14px"></div>
+      <div class="hint" id="kbPoint" style="margin-top:10px"></div>
+    </div>
+    </div><!-- /scrKey -->
 
   </div><!-- /panLearn -->
 
@@ -268,9 +506,10 @@
 
 </div>
 
-<script src="js/pdf.js?v=202608242106"></script>
-<script src="js/ui.js?v=202608242106"></script>
-<script src="js/text.js?v=202608242106"></script>
+<script src="js/pdf.js?v=202609081629"></script>
+<script src="js/ui.js?v=202609081629"></script>
+<script src="js/text.js?v=202609081629"></script>
+<script src="js/keyboard.js?v=202609081629"></script>
 <script>
 (function () {
   "use strict";
@@ -350,8 +589,8 @@
       bin: [["1000001", "교과서 59쪽 코드 (영어 1글자)"],
             ["1001100 1001111 1010110 1000101", "지도서 예시 (영어 4글자)"],
             ["1001000 1001001", "영어 2글자"]],
-      quad: [["1001", "영어 1글자"], ["22300000", "한글 1글자"],
-             ["30002230 23132101 31111310", "지도서 예시 (한글 3글자)"]],
+      dec: [["65", "영어 1글자"], ["72 73", "영어 2글자"],
+            ["49324 46993 54644", "지도서 예시 (한글 3글자)"]],
       hex: [["0041", "교과서 59쪽 코드 (영어 1글자)"],
             ["C0AC B791 D574", "지도서 예시 (한글 3글자)"],
             ["AC00", "한글 1글자"]]
@@ -386,7 +625,7 @@
         "코드 여러 개는 <b>빈칸으로 띄어</b> 쓰세요.";
       src.maxLength = 90;
       src.placeholder = codeBase === "bin" ? "1000001 1000010"
-                      : codeBase === "hex" ? "C0AC B791 D574" : "65 66";
+                      : codeBase === "hex" ? "C0AC B791 D574" : "65 73";
       src.setAttribute("aria-label", bn + " 코드 넣기");
       $("srcUnit").innerHTML = "최대 8개 · <b>" + bn + "</b>로 쓰세요 (" +
         T.BASE_UNIT[codeBase] + ")" + (codeBase === "hex" ? " · <b>U+AC00</b> 처럼 써도 됩니다" : "");
@@ -407,7 +646,32 @@
       var b = el("button", "btn", esc(e[1]));
       b.type = "button";
       b.title = e[0];
-      b.addEventListener("click", function () { inputEl().value = e[0]; fitCodeBox(); run(); });
+      b.addEventListener("click", function () { inputEl().value = e[0]; fitCodeBox(); autoRef(); run(); });
+      row.appendChild(b);
+    });
+
+    /* 🎲 무작위 낱말 — 중학생이 쓰는 낱말(`TextCode.WORDS`)로 문제를 그때그때 낸다.
+       ⚠ **넣기만 하고 변환하지 않는다** — 학생이 코드표를 먼저 보고 스스로 [변환하기] 를 누른다
+       (2026-09-04 사용자 지시). */
+    [["ko", "한글"], ["en", "영어"]].forEach(function (r) {
+      var b = el("button", "btn", "🎲 " + r[1] + " 무작위");
+      b.type = "button";
+      b.title = "중학생이 쓰는 " + r[1] + " 낱말을 무작위로 넣습니다 (변환은 직접 누르세요)";
+      b.addEventListener("click", function () {
+        var w = T.pickWord(r[0], 2, r[0] === "ko" ? 4 : 5);
+        if (decode) {
+          w = Array.from(w).map(function (ch) {
+            var o = T.infoOf(ch);
+            return codeBase === "bin" ? o.binRaw : codeBase === "hex" ? o.hex : o.dec;
+          }).join(" ");
+          refMode = (r[0] === "ko") ? "jamo" : "ascii"; refPinned = true; paintRef();
+        }
+        inputEl().value = w;
+        fitCodeBox();
+        if (!decode) autoRef();
+        hideMsg();
+        inputEl().focus();
+      });
       row.appendChild(b);
     });
 
@@ -421,9 +685,142 @@
     $("oneCard").hidden = true;
     $("decOut").hidden = true;
     $("findCard").hidden = true;
+    $("btnRefCheck").hidden = true;
     hideMsg();
     fitCodeBox();
+    showTxtScreen("setup");
+    paintRef();
   }
+
+  /* ===== 입력 화면 ↔ 결과 화면 (전자칠판 — 한 번에 하나씩) ===== */
+  function showTxtScreen(which) {
+    var result = (which === "result");
+    $("txtSetup").hidden = result;
+    $("txtResult").hidden = !result;
+    if (!result) {
+      window.scrollTo(0, 0);
+      $("refCheckCard").hidden = true;
+      $("btnRefCheck").classList.remove("on");
+    }
+  }
+  $("btnTxtBack").addEventListener("click", function () { showTxtScreen("setup"); });
+
+  /* ===== 오른쪽 참고표 — 아스키코드표(32~126) / 한글 자모표 ===== */
+  var refMode = "ascii";          // "ascii" | "jamo"
+  var refPinned = false;          // 사용자가 토글을 직접 누르면 자동 전환을 멈춘다
+
+  /* used : {code} 집합(있으면 그 칸을 빨갛게). 없으면 보통 코드표. */
+  function asciiRefTable(used) {
+    var cols = 4, per = Math.ceil((126 - 32 + 1) / cols);   // 24줄 × 4묶음
+    var html = "<div class='asciiwrap'><table class='ascii'><thead><tr>";
+    for (var k = 0; k < cols; k++) html += "<th>10진</th><th>16진</th><th>문자</th>";
+    html += "</tr></thead><tbody>";
+    /* ⚠ 줄(tr) 전체를 칠하지 말 것 — 이 표는 한 줄에 **서로 다른 코드 4묶음**이 들어 있어서
+       줄을 칠하면 상관없는 글자 3개까지 강조된 것처럼 보인다(2026-09-04 사용자 지적).
+       강조는 **그 코드의 세 칸(10진·16진·문자)** 에만 준다. */
+    for (var r = 0; r < per; r++) {
+      var cells = "";
+      for (var g = 0; g < cols; g++) {
+        var code = 32 + g * per + r;
+        if (code > 126) { cells += "<td></td><td></td><td></td>"; continue; }
+        var ch = code === 32 ? "␣" : String.fromCharCode(code);
+        var u = used && used.has(code);
+        var nc = u ? " class='usednum'" : "";
+        cells += "<td" + nc + ">" + code + "</td><td" + nc + ">0x" +
+          code.toString(16).toUpperCase().padStart(2, "0") + "</td>" +
+          "<td class='chr" + (u ? " used" : "") + "'>" + esc(ch) + "</td>";
+      }
+      html += "<tr>" + cells + "</tr>";
+    }
+    return html + "</tbody></table></div>";
+  }
+
+  /* usedJamo : {cho:Set, jung:Set, jong:Set} — 있으면 그 번호를 빨갛게 */
+  function jamoRefTable(usedJamo) {
+    function grid(title, arr, key, note) {
+      var s = "<p class='groupname'>" + title + "</p><div class='jamogrid'>";
+      arr.forEach(function (j, i) {
+        var u = usedJamo && usedJamo[key] && usedJamo[key].has(i);
+        s += "<span class='" + (u ? "used" : "") + "'><b>" + esc(j) + "</b>" + i + "</span>";
+      });
+      return s + "</div>" + (note ? "<p class='lvnote'>" + note + "</p>" : "");
+    }
+    return "<div class='jamoref'>" +
+      grid("초성 19개 (번호 0~18)", T.CHO, "cho") +
+      grid("중성 21개 (번호 0~20)", T.JUNG, "jung") +
+      grid("종성 28개 (번호 0~27 · 0번은 종성 없음)", T.JONG, "jong",
+        "이 자모들이 모여 한 글자가 됩니다 — 만들어지는 <b>규칙</b>은 「③ 한글 자모 계산」 에서 배웁니다.") +
+      "</div>";
+  }
+
+  function paintRef() {
+    $("refToggle").querySelectorAll("[data-ref]").forEach(function (b) {
+      b.classList.toggle("on", b.dataset.ref === refMode);
+    });
+    if (refMode === "jamo") {
+      $("refNote").innerHTML = "한글 한 글자는 <b>초성·중성·종성</b>이 모여 이뤄집니다. " +
+        "유니코드는 <b>가(44032)~힣(55203) 11,172자</b>에 번호를 하나씩 정해 두었습니다.";
+      $("refBody").innerHTML = jamoRefTable();
+    } else {
+      $("refNote").innerHTML = "영어·숫자·기호는 <b>아스키코드</b>를 씁니다 " +
+        "(눈에 보이는 32~126). 코드를 <b>10진수</b>로 바꾼 뒤 여기서 찾습니다.";
+      $("refBody").innerHTML = asciiRefTable();
+    }
+  }
+
+  $("refToggle").querySelectorAll("[data-ref]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      refMode = b.dataset.ref; refPinned = true; paintRef();
+    });
+  });
+
+  /* 넣는 글자에 한글이 있으면 참고표를 자모표로 자동 전환(사용자가 토글을 누르기 전까지만) */
+  function autoRef() {
+    if (refPinned) return;
+    var v = ($("src").hidden ? $("srcCode").value : $("src").value) || "";
+    var hasKo = Array.from(v).some(function (c) { return T.kindOf(c) === "hangul"; });
+    var want = hasKo ? "jamo" : "ascii";
+    if (want !== refMode) { refMode = want; paintRef(); }
+  }
+
+  /* ===== 📋 코드표 확인 — 이 문제에 쓰인 코드를 코드표에서 빨갛게 강조 ===== */
+  function buildRefCheck() {
+    var ascii = new Set(), usedJamo = { cho: new Set(), jung: new Set(), jong: new Set() };
+    var hasAscii = false, hasKo = false, uniq = [];
+    list.forEach(function (it) {
+      if (uniq.indexOf(it.ch) === -1) uniq.push(it.ch);
+      if (it.code >= 32 && it.code <= 126) { ascii.add(it.code); hasAscii = true; }
+      if (it.hangul) {
+        hasKo = true;
+        usedJamo.cho.add(it.hangul.choIdx);
+        usedJamo.jung.add(it.hangul.jungIdx);
+        usedJamo.jong.add(it.hangul.jongIdx);
+      }
+    });
+    var html = "";
+    if (hasAscii) {
+      html += "<p class='groupname'>아스키 코드표 (32~126) — 이 문제의 코드는 <b style='color:#b91c1c'>빨간 칸</b></p>" +
+        asciiRefTable(ascii);
+    }
+    if (hasKo) {
+      html += "<p class='groupname' style='margin-top:16px'>한글 자모표 — 이 문제 글자의 초성·중성·종성 번호는 <b style='color:#b91c1c'>빨간 칸</b></p>" +
+        jamoRefTable(usedJamo);
+    }
+    $("refCheckBody").innerHTML = html;
+    $("refCheckNote").innerHTML = "이 문제에 쓰인 글자 <b>" + esc(uniq.join(" ")) + "</b> 의 코드를 " +
+      "코드표에서 찾아 <b>빨갛게</b> 표시했습니다.";
+  }
+
+  function toggleRefCheck(force) {
+    var show = (force != null) ? force : $("refCheckCard").hidden;
+    if (show && list.length) buildRefCheck();
+    $("refCheckCard").hidden = !show || !list.length;
+    $("btnRefCheck").classList.toggle("on", !$("refCheckCard").hidden);
+    if (!$("refCheckCard").hidden) {
+      $("refCheckCard").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+  $("btnRefCheck").addEventListener("click", function () { toggleRefCheck(); });
 
   /* =========================================================
      코드 → 글자 : **찾아보는 표를 먼저 주고, 답은 뒤로 미룬다**
@@ -442,35 +839,39 @@
   function buildFindTables(items) {
     var body = $("findBody");
     body.innerHTML = "";
+    var stepNo = 0;
+    function stepTitle(t) { stepNo++; return "①②③④".charAt(stepNo - 1) + " " + t; }
 
-    /* ① 넣은 코드 → **4진수** (여기까지는 답이 아니다).
-       4진수 한 자리 = 2비트라서 2진수는 2비트씩 묶고, 16진수는 한 자리를 2자리로 펼치면 된다.
-       10진수로 바꾸면 49324 같은 큰 수가 되어 학생이 손으로 못 한다(2026-08-12 사용자 지시). */
+    /* 넣은 코드 → 10진수 */
     var wrap = el("div", "refbox");
-    wrap.appendChild(el("p", "t", "① 넣은 코드를 4진수로 바꾸면"));
+    wrap.appendChild(el("p", "t", stepTitle("넣은 코드를 10진수로 바꾸면")));
     var t1 = el("table", "grid");
-    t1.innerHTML = "<thead><tr><th style='width:12%'>번째</th>" +
-      "<th style='width:28%'>넣은 코드</th><th style='width:22%'>4진수</th>" +
-      "<th style='width:38%'>바꾸는 방법 · 찾을 곳</th></tr></thead>";
+    /* 10진수와 **16진수를 함께** 적는다 — 학생은 2진수를 4비트씩 묶어 16진수로 바로 바꾸는 법을
+       이미 배웠고(숫자 변환 영역), 한글은 유니코드 표를 **16진수(U+XXXX)** 로 찾는다.
+       (2026-09-04 사용자 지시) */
+    t1.innerHTML = "<thead><tr><th style='width:9%'>번째</th>" +
+      "<th style='width:31%'>넣은 코드</th><th style='width:14%'>10진수</th>" +
+      "<th style='width:14%'>16진수</th><th style='width:32%'>바꾸는 방법 · 찾을 곳</th></tr></thead>";
     var tb1 = el("tbody");
     items.forEach(function (x, i) {
       var han = (x.code >= T.HAN_BASE && x.code <= T.HAN_END);
-      var info = T.infoOf(String.fromCharCode(x.code));
-      var how = codeBase === "bin" ? "2비트씩 묶기"
-              : codeBase === "hex" ? "16진수 한 자리 → 4진수 두 자리"
-              : codeBase === "quad" ? "그대로" : "4로 나누기";
+      var hex = T.padLeft(x.code.toString(16).toUpperCase(), han ? 4 : 2);
+      var how = codeBase === "bin" ? "자리값 더하기 → 10진수 · <b>4비트씩 묶기</b> → 16진수"
+              : codeBase === "hex" ? "자리값 더하기 → 10진수 · 16진수는 그대로"
+              : "10진수는 그대로 · 16으로 나누기 → 16진수";
       tb1.appendChild(el("tr", null,
         "<td>" + (i + 1) + "</td>" +
         "<td style='font-family:Consolas,monospace'><b>" + esc(T.notate(x.text, codeBase)) + "</b></td>" +
-        "<td class='mark-ok' style='font-family:Consolas,monospace'><b>" + info.quad + "</b></td>" +
-        "<td>" + how + " → " + (han ? "<b>한글 글자표</b>" : "<b>아스키 코드표</b>") + "</td>"));
+        "<td class='mark-ok' style='font-family:Consolas,monospace'><b>" + x.code + "</b></td>" +
+        "<td class='mark-ok' style='font-family:Consolas,monospace'><b>" +
+          (han ? "U+" : "") + hex + "</b></td>" +
+        "<td>" + how + "<br>→ " + (han ? "<b>유니코드 표</b>" : "<b>아스키 코드표</b>") + "</td>"));
     });
     t1.appendChild(tb1);
     wrap.appendChild(el("div", "tablescroll")).appendChild(t1);
-    wrap.appendChild(quadLegend({ key: codeBase === "hex" ? "uni" : "ascii" }));
     body.appendChild(wrap);
 
-    /* ② 아스키 코드표 — 나온 코드가 속한 묶음만 붙인다 */
+    /* ② 아스키 코드표 — 나온 코드가 속한 묶음만 붙인다 (10진수로 찾는다) */
     var asciiCodes = items.filter(function (x) { return x.code >= 32 && x.code <= 126; });
     if (asciiCodes.length) {
       var keys = [];
@@ -479,7 +880,7 @@
         if (g && keys.indexOf(g.key) === -1) keys.push(g.key);
       });
       var box = el("div", "refbox");
-      box.appendChild(el("p", "t", "② 아스키 코드표 (4진수) — 위 4진수를 여기서 찾으세요"));
+      box.appendChild(el("p", "t", stepTitle("아스키 코드표 — 위 10진수를 여기서 찾으세요")));
       keys.forEach(function (k) {
         var g = T.asciiGroup(k);
         box.appendChild(el("p", "groupname", g.name));
@@ -487,39 +888,48 @@
         g.rows.forEach(function (o) {
           grid.appendChild(el("div", "codecell",
             "<span class='ch'>" + esc(o.ch === " " ? "␣" : o.ch) + "</span>" +
-            "<span class='dec quad'>" + o.quad + "</span>"));
+            "<span class='dec'>" + o.code + "</span>"));
         });
         box.appendChild(grid);
       });
       box.appendChild(el("p", "lvnote",
-        "표에서 <b>4진수가 같은 칸</b>을 찾으면 그 위의 글자가 답입니다."));
+        "표에서 <b>10진수가 같은 칸</b>을 찾으면 그 위의 글자가 답입니다."));
       body.appendChild(box);
     }
 
-    /* ③ 한글 — 자모 번호를 계산해 주고 자모표에서 찾게 한다 */
+    /* 한글 — **완성형 유니코드 코드포인트**로 읽는다 (교과서·지도서 방식 : 사 = C0AC(16)).
+       ⚠ 예전에는 `− 44032 → ÷588 → ÷28` 로 자모 번호를 구하게 했는데, 그 나눗셈은
+          중1이 손으로 하기 무겁고 **교과서에 없는 심화**다(2026-09-04 사용자 지시로 걷어냄).
+          여기서는 «코드포인트 = 그 글자» 로 읽고, 자모는 «글자가 어떻게 이뤄졌나» 로만 보여 준다.
+          자모로 만들어지는 규칙은 ③ 한글 자모 계산 화면에서 따로 배운다. */
     var hanCodes = items.filter(function (x) {
       return x.code >= T.HAN_BASE && x.code <= T.HAN_END;
     });
     if (hanCodes.length) {
-      /* 한글은 11,172자라 표 전체를 줄 수 없다.
-         ⚠ 예전에는 `− 44032 → ÷588 → ÷28` 로 자모 번호를 구하게 했는데,
-            그 나누기는 **10진수(49324 같은 큰 수)** 라야 되고 중1이 손으로 하기 무겁다.
-            그래서 4진수 코드가 적힌 **후보 글자표**를 준다(2026-08-12 사용자 지시).
-            자모 계산은 「글자 → 코드」 방향과 ④ 카드에서 그대로 배운다. */
-      var want = hanCodes.map(function (x) { return String.fromCharCode(x.code); }).join("");
-      var pool = T.candidates(want, 9);
       var hbox = el("div", "refbox");
-      hbox.appendChild(el("p", "t", "③ 한글 글자표 (4진수) — 위 4진수를 여기서 찾으세요"));
-      var grid = el("div", "codegrid");
-      pool.forEach(function (c) {
-        var o = T.infoOf(c);
-        grid.appendChild(el("div", "codecell",
-          "<span class='ch'>" + esc(c) + "</span><span class='dec quad'>" + o.quad + "</span>"));
+      hbox.appendChild(el("p", "t", stepTitle("한글 — 유니코드 표에서 그 코드의 글자를 찾으세요")));
+      var t3 = el("table", "grid");
+      t3.innerHTML = "<thead><tr><th style='width:16%'>10진수</th>" +
+        "<th style='width:20%'>유니코드</th><th style='width:16%'>글자</th>" +
+        "<th>이 글자를 이루는 자모</th></tr></thead>";
+      var tb3 = el("tbody");
+      hanCodes.forEach(function (x) {
+        var ch = String.fromCharCode(x.code);
+        var h = T.decompose(ch);
+        tb3.appendChild(el("tr", null,
+          "<td style='font-family:Consolas,monospace'><b>" + x.code + "</b></td>" +
+          "<td style='font-family:Consolas,monospace'><b>U+" +
+            T.padLeft(x.code.toString(16).toUpperCase(), 4) + "</b></td>" +
+          "<td class='mark-ok' style='font-size:28px'><b>" + esc(ch) + "</b></td>" +
+          "<td>초성 <b>" + esc(h.cho) + "</b> · 중성 <b>" + esc(h.jung) + "</b> · 종성 <b>" +
+            esc(h.jong) + "</b></td>"));
       });
-      hbox.appendChild(grid);
+      t3.appendChild(tb3);
+      hbox.appendChild(el("div", "tablescroll")).appendChild(t3);
       hbox.appendChild(el("p", "lvnote",
-        "한글은 <b>11,172자</b>라 표를 다 실을 수 없습니다 — 여기서는 <b>몇 글자만</b> 골라 놓았고 " +
-        "<b>답이 아닌 글자도 섞여 있습니다.</b> 실제로는 유니코드 표에서 찾습니다."));
+        "한글은 <b>가(44032)부터 힣(55203)까지 11,172자</b>가 유니코드에 <b>번호로 정해져</b> 있습니다 — " +
+        "코드값을 유니코드 표에서 찾으면 바로 그 글자입니다(교과서도 표를 내려받아 찾습니다). " +
+        "오른쪽 <b>한글 자모표</b>에서 이 글자를 이루는 자모를 확인해 보세요."));
       body.appendChild(hbox);
     }
   }
@@ -532,12 +942,10 @@
     var r = decInfo;
     list = T.infoList(r.chars);
     $("decOut").className = "res ok";
-    /* 중간 값도 **4진수**로 적는다(10진수는 쓰지 않는다) */
     $("decOut").innerHTML = "찾은 글자는 <b style='font-size:38px'>" + esc(r.chars) +
       "</b> 입니다. &nbsp;(" + r.items.map(function (x) {
-        var q = T.infoOf(x.ch).quad;
         return T.notate(x.text, codeBase) +
-          (codeBase === "quad" ? "" : " = " + T.notate(q, "quad")) + " → " + esc(x.ch);
+          (codeBase === "dec" ? "" : " = " + x.code + "(10)") + " → " + esc(x.ch);
       }).join(" · ") + ")";
     $("revealNote").innerHTML = "표에서 찾은 것과 같은가요? 아래에서 <b>자세히</b> 볼 수 있습니다.";
     $("btnReveal").disabled = true;
@@ -546,7 +954,8 @@
     pickIdx = 0;
     drawOne();
     $("listCard").hidden = false;
-    $("oneCard").hidden = false;
+    $("oneCard").hidden = true;      /* 전자칠판 — 표부터. 글자를 누르면 자세히 */
+    $("btnRefCheck").hidden = false;   /* 답을 봤으니 이제 코드표에서 확인할 수 있다 */
   }
 
   function run() {
@@ -563,22 +972,28 @@
       if (!r.chars.length) { showMsg("코드를 먼저 넣어 주세요."); return; }
       if (r.items.length > 8) { showMsg("코드는 한 번에 8개까지만 넣어 주세요."); return; }
       hideMsg();
-      /* ⚠ 여기서 글자를 보여 주지 않는다. 코드표를 주고 학생이 찾게 한다. */
+      /* 변환하기를 누르면 **답과 풀이를 함께** 보여 준다 (2026-09-04 사용자 지시 —
+         예전에는 코드표를 주고 「답 보기」 를 눌러야 했다). */
       decInfo = r;
-      decRevealed = false;
-      list = [];
-      $("listCard").hidden = true;
-      $("oneCard").hidden = true;
+      decRevealed = true;
+      list = T.infoList(r.chars);
       $("decOut").hidden = false;
-      $("decOut").className = "res";
-      $("decOut").innerHTML = "코드 <b>" + r.items.length + "개</b>를 넣었습니다 — 4진수로는 <b>" +
-        r.items.map(function (x) { return T.infoOf(String.fromCharCode(x.code)).quad; }).join(" · ") +
-        "</b> 입니다. <b>아래 코드표에서 찾아보세요.</b>";
+      $("decOut").className = "res ok";
+      $("decOut").innerHTML = "찾은 글자는 <b style='font-size:38px'>" + esc(r.chars) +
+        "</b> 입니다. &nbsp;(" + r.items.map(function (x) {
+          return T.notate(x.text, codeBase) +
+            (codeBase === "dec" ? "" : " = " + x.code + "(10)") + " → " + esc(x.ch);
+        }).join(" · ") + ")";
+      buildFindTables(r.items);                 /* ↓ 풀이 카드 */
+      drawList();
+      pickIdx = 0;
+      drawOne();
       $("findCard").hidden = false;
-      $("btnReveal").disabled = false;
-      $("btnReveal").textContent = "답 보기";
-      $("revealNote").textContent = "";
-      buildFindTables(r.items);
+      $("listCard").hidden = false;
+      $("oneCard").hidden = true;
+      $("btnRefCheck").hidden = false;
+      $("txtBarLabel").textContent = T.NAMES_KO[codeBase] + " 코드 → 글자";
+      showTxtScreen("result");
       return;
     }
     list = T.infoList(raw);
@@ -588,7 +1003,10 @@
     pickIdx = 0;
     drawOne();
     $("listCard").hidden = false;
-    $("oneCard").hidden = false;
+    $("oneCard").hidden = true;      /* 전자칠판 — 표부터 보여 주고, 글자를 누르면 자세히 */
+    $("btnRefCheck").hidden = false;
+    $("txtBarLabel").textContent = "“" + raw.trim() + "” 를 코드로";
+    showTxtScreen("result");
   }
 
   $("btnReveal").addEventListener("click", function () {
@@ -602,7 +1020,8 @@
   UI.subTabs($("learnSubs"), [
     { key: "encode", label: "① 글자 → 코드",   cards: ["scrConv"] },
     { key: "decode", label: "② 코드 → 글자",   cards: ["scrConv"] },
-    { key: "jamo",   label: "③ 한글 자모 계산", cards: ["scrJamo"] }
+    { key: "jamo",   label: "③ 한글 자모 계산", cards: ["scrJamo"] },
+    { key: "keyb",   label: "④ 자판과 코드",    cards: ["scrKey"] }
   ], {
     onChange: function (key) {
       if (key === "encode" || key === "decode") {
@@ -614,19 +1033,231 @@
     b.addEventListener("click", function () { codeBase = b.dataset.cb; applyLearnDir(); });
   });
 
+  /* =========================================================
+     ④ 자판과 코드 — 자판을 눌러 글자를 만들고, 그 글자의 코드값을 본다
+       영어 : 1키 = 1글자 = 1코드
+       한글 : 자모 여러 키 → 조합 → 한 글자 = 코드값 하나
+     자판 배열과 조합기는 js/keyboard.js 에 있다 (검사 : tools/검사/verify_keyboard.cjs).
+     ========================================================= */
+  var KB = window.Keyboard;
+  var kbKey = "dubeol";        // 지금 고른 자판
+  var kbComp = null;           // 한글 조합기 (영어 자판이면 null)
+  var kbPlain = "";            // 영어 자판에서 친 글자
+
+  function kbLayout() { return KB.LAYOUTS[kbKey]; }
+  function kbIsKo() { return kbLayout().lang === "ko"; }
+  function kbText() { return kbIsKo() ? kbComp.text() : kbPlain; }
+
+  Object.keys(KB.LAYOUTS).forEach(function (k) {
+    var L = KB.LAYOUTS[k];
+    var b = el("button", "", (L.lang === "ko" ? "한글 · " : "영어 · ") + L.name);
+    b.type = "button"; b.dataset.kb = k;
+    b.addEventListener("click", function () { kbKey = k; kbReset(); paintKb(); });
+    $("kbPick").appendChild(b);
+  });
+
+  function kbReset() {
+    kbPlain = "";
+    kbComp = kbIsKo() ? new KB.Composer(kbKey) : null;
+  }
+
+  /* 글쇠 하나를 누른 것으로 친다 */
+  function kbPress(seat, shifted) {
+    /* 빈칸 — 한글이면 조합 중인 글자를 확정하고 넣는다 */
+    if (seat === KB.SPACE_SEAT) {
+      if (kbIsKo()) kbComp.space(); else kbPlain += " ";
+      paintKbOut();
+      return true;
+    }
+    var L = kbLayout();
+    var ent = (shifted && L.shift && L.shift[seat]) ? L.shift[seat] : L.map[seat];
+    if (!ent) return false;
+    if (kbIsKo()) kbComp.put(ent[0], ent[1]);
+    else kbPlain += (shifted ? String(ent).toUpperCase() : String(ent));
+    paintKbOut();
+    return true;
+  }
+
+  /* 범례는 «손» 과 «검지 기준 자리» 둘뿐이다. 벌은 낱자 글꼴로 이미 보인다. */
+  var KB_LEG_HAND =
+    "<span><i class='sw' style='background:#eff6ff;border-color:#93c5fd'></i>왼손</span>" +
+    "<span><i class='sw' style='background:#fff7ed;border-color:#fdba74'></i>오른손</span>" +
+    "<span><i class='sw' style='background:#fff;border-color:#1f2937;border-width:3px'></i>" +
+    "양손 검지 기준 자리 (f · j)</span>";
+
+  /* 자판 그림 그리기 */
+  function paintKb() {
+    var L = kbLayout();
+    $("kbPick").querySelectorAll("[data-kb]").forEach(function (b) {
+      b.classList.toggle("on", b.dataset.kb === kbKey);
+    });
+    $("kbDesc").innerHTML = "<b>" + esc(L.name) + "</b> — " + L.desc;
+
+    $("kbLegend").innerHTML = KB_LEG_HAND + "<span class='lvnote' id='kbTip'></span>";
+    var tip = !kbIsKo()
+      ? "글쇠 하나가 곧 글자 하나"
+      : (kbKey === "sebeol"
+          ? "글자줄 오른손 = 첫소리 (숫자줄 6·7·8 만 가운뎃소리) · Shift 에 겹받침"
+          : "왼손 = 닿소리 · 오른손 = 홀소리 (ㅠ 만 예외)");
+    $("kbTip").textContent = tip;
+
+    var board = $("kbBoard");
+    board.innerHTML = "";
+    KB.ROWS.forEach(function (row, r) {
+      var div = el("div", "kbrow");
+      div.style.marginLeft = (KB.ROW_OFFSET[r] * 34) + "px";
+      row.forEach(function (seat) {
+        var ent = L.map[seat];
+        var sh = L.shift && L.shift[seat];
+        var isPair = ent && typeof ent !== "string";
+        var cap = ent ? (isPair ? ent[0] : ent) : "";
+        var role = isPair ? ent[1] : "";
+        var cls = "kbkey " + KB.handOf(seat) + (KB.isHome(seat) ? " home" : "") +
+                  " " + (cap ? role : "dead");
+        var b = el("button", cls);
+        b.type = "button";
+        b.dataset.seat = seat;
+        b.innerHTML = "<span class='cap'>" + esc(cap || seat) + "</span>" +
+          (sh ? "<span class='shf'>\u21e7" + esc(sh[0]) + "</span>" : "") +
+          (kbIsKo() && cap ? "<span class='sub'>" + esc(seat) + "</span>" : "");
+        if (cap) {
+          b.addEventListener("click", function (e) {
+            kbPress(seat, e.shiftKey); kbFlash(seat); kbFocusOut();
+          });
+        }
+        div.appendChild(b);
+      });
+      board.appendChild(div);
+    });
+    /* 빈칸(스페이스) 줄 — 글쇠 네 줄과 따로 그린다 */
+    var spRow = el("div", "kbrow");
+    spRow.style.marginLeft = (KB.ROW_OFFSET[3] * 34 + 190) + "px";
+    var spBtn = el("button", "kbkey space");
+    spBtn.type = "button";
+    spBtn.dataset.seat = KB.SPACE_SEAT;
+    spBtn.innerHTML = "<span class='cap'>빈칸 (space)</span>";
+    spBtn.addEventListener("click", function () {
+      kbPress(KB.SPACE_SEAT); kbFlash(KB.SPACE_SEAT); kbFocusOut();
+    });
+    spRow.appendChild(spBtn);
+    board.appendChild(spRow);
+    $("kbPoint").innerHTML = "<b>핵심</b> — " + L.point;
+    paintKbOut();
+  }
+
+  /* 글쇠를 누르면 「친 글자」 칸에 초점을 준다 — 커서가 깜빡이니 글 쓰는 칸처럼 느껴진다 */
+  function kbFocusOut() {
+    if (document.activeElement !== $("kbOut")) $("kbOut").focus({ preventScroll: true });
+  }
+
+  function kbFlash(seat) {
+    var all = $("kbBoard").querySelectorAll("[data-seat]");
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].dataset.seat === seat) {
+        var b = all[i];
+        b.classList.add("hit");
+        setTimeout(function () { b.classList.remove("hit"); }, 150);
+        return;
+      }
+    }
+  }
+
+  /* 친 글자와 코드값 표 */
+  /* 빈칸은 눈에 보이게 밑줄로 그린다(아니면 «안 눌렸나?» 싶다) */
+  function kbShow(str) {
+    return esc(str).replace(/ /g, "<span class='sp'></span>");
+  }
+  var KB_CARET = "<span class='caret'></span>";
+
+  function paintKbOut() {
+    if (kbIsKo() && kbComp) {
+      var cur = kbComp.cur();
+      $("kbOut").innerHTML = kbShow(kbComp.done) +
+        (cur ? "<span class='live'>" + esc(cur) + "</span>" : "") + KB_CARET;
+      var jongName = (kbKey === "sebeol") ? "끝소리" : "받침";
+      $("kbSlots").innerHTML =
+        "<span>첫소리 <b>" + esc(kbComp.cho || "—") + "</b></span>" +
+        "<span>가운뎃소리 <b>" + esc(kbComp.jung || "—") + "</b></span>" +
+        "<span>" + jongName + " <b>" + esc(kbComp.jong || "—") + "</b></span>" +
+        "<span class='lvnote'>조합이 끝나야 코드값 하나가 정해집니다</span>";
+    } else {
+      $("kbOut").innerHTML = kbShow(kbText()) + KB_CARET;
+      $("kbSlots").innerHTML = "";
+    }
+    /* 아무것도 안 쳤으면 안내 글을 커서 앞에 둔다 */
+    if (!kbText()) {
+      $("kbOut").innerHTML = "<span class='ph'>여기를 누르고 키보드로 쳐 보세요</span>" + KB_CARET;
+    }
+
+    /* 확정된 글자만 코드표에 올린다 — 조합 중인 글자는 아직 코드가 아니다 */
+    var fixed = (kbIsKo() && kbComp) ? kbComp.done : kbText();
+    var tb = $("kbBody");
+    tb.innerHTML = "";
+    Array.from(fixed).slice(-12).forEach(function (ch) {
+      var o = T.infoOf(ch);
+      tb.appendChild(el("tr", null,
+        "<td style='font-size:28px'><b>" + esc(ch === " " ? "␣" : ch) + "</b></td>" +
+        "<td style='font-family:Consolas,monospace'><b>" + o.dec + "</b></td>" +
+        "<td style='font-family:Consolas,monospace'>" + (o.bits === 16 ? "U+" : "") + o.hex + "</td>" +
+        "<td style='font-family:Consolas,monospace'>" + o.bin + "</td>"));
+    });
+    if (!fixed) {
+      tb.appendChild(el("tr", null,
+        "<td colspan='4' class='lvnote'>아직 완성된 글자가 없습니다</td>"));
+    }
+  }
+
+  $("kbBack").addEventListener("click", function () {
+    if (kbIsKo()) kbComp.back(); else kbPlain = kbPlain.slice(0, -1);
+    paintKbOut();
+  });
+  $("kbClear").addEventListener("click", function () { kbReset(); paintKbOut(); });
+
+  /* 물리 글쇠 자리(e.code) → 우리 자판의 글쇠 이름.
+     🚨 `e.key` 를 쓰면 안 된다 — OS 한글 입력기가 켜져 있으면 g 글쇠가 "ㅎ" 로 들어와
+        QWERTY 자리와 안 맞아 **아무 반응이 없다**(2026-09-04 사용자 지적).
+        `e.code` 는 입력기와 상관없이 «어느 자리를 눌렀나» 를 알려 준다. */
+  function seatOfCode(code) {
+    if (/^Key[A-Z]$/.test(code)) return code.slice(3).toLowerCase();
+    if (/^Digit[0-9]$/.test(code)) return code.slice(5);
+    if (code === "Space") return KB.SPACE_SEAT;
+    var etc = { Semicolon: ";", Quote: "'", Comma: ",", Period: ".", Slash: "/" };
+    return etc[code] || "";
+  }
+
+  /* 진짜 키보드로도 칠 수 있게 — ④ 화면이 보일 때만 듣는다 */
+  document.addEventListener("keydown", function (e) {
+    if ($("scrKey").hidden || $("panLearn").hidden) return;
+    if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    if (e.ctrlKey || e.altKey || e.metaKey) return;
+    if (e.key === "Backspace") { e.preventDefault(); $("kbBack").click(); return; }
+    var seat = seatOfCode(e.code) || (e.key.length === 1 ? e.key.toLowerCase() : "");
+    if (!seat) return;
+    if (kbPress(seat, !!e.shiftKey)) { e.preventDefault(); kbFlash(seat); }
+  });
+
+  /* 「친 글자」 칸을 눌러 초점을 줄 수 있게 한다 —
+     학생은 그 칸을 «글 쓰는 곳» 으로 여기고 누른다(실제로 그렇게 눌렀다). */
+  $("kbOut").addEventListener("click", function () { $("kbOut").focus(); });
+
+  kbReset();
+  paintKb();
+
   function drawList() {
     var tb = $("charBody");
     tb.innerHTML = "";
     list.forEach(function (it, i) {
       var tr = el("tr", null,
-        "<td><button class='btn' type='button' style='min-height:44px;padding:6px 14px;font-size:24px;font-weight:bold'>" +
+        "<td><button class='btn' type='button' style='min-height:48px;padding:6px 16px;font-size:28px;font-weight:bold'>" +
           esc(it.ch === " " ? "␣" : it.ch) + "</button></td>" +
-        "<td>" + it.kindName + "</td>" +
-        "<td style='font-family:Consolas,monospace'><b>" + it.quad + "</b></td>" +
-        "<td>" + it.hex + "</td>" +
+        "<td style='font-family:Consolas,monospace'><b>" + it.dec + "</b></td>" +
+        "<td style='font-family:Consolas,monospace'>" + it.hex + "</td>" +
         "<td style='font-family:Consolas,monospace'>" + it.bin + "</td>" +
         "<td>" + it.bytes + "바이트</td>");
-      tr.querySelector("button").addEventListener("click", function () { pickIdx = i; drawOne(); });
+      tr.querySelector("button").addEventListener("click", function () {
+        pickIdx = i; drawOne(); $("oneCard").hidden = false;
+        $("oneCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
       tb.appendChild(tr);
     });
     /* 전체를 2진수로 이어 붙이면 얼마나 되는지 (코드 자체의 비트 수와 저장 크기를 따로 적는다) */
@@ -642,12 +1273,11 @@
     var it = list[pickIdx];
     if (!it) return;
     $("bigChar").textContent = (it.ch === " " ? "␣" : it.ch);
-    $("charMeta").innerHTML = it.kindName + "<br>4진수 <b>" + T.notate(it.quad, "quad") +
+    $("charMeta").innerHTML = it.kindName + "<br>10진수 <b>" + it.dec +
       "</b> · 16진수 <b>" + T.notate(it.hex, "hex") + "</b> · <b>" + it.bits + "비트</b>";
-    $("bitLead").innerHTML = "4진수 <b>" + it.quad + "</b> 을(를) <b>자리마다 2비트</b>로 펼치면 " +
-      "아래 2진수가 됩니다 (" +
-      T.QUAD_BITS.map(function (x) { return x.q + "→" + x.b; }).join(" · ") + ")." +
-      (it.bits === 7 ? " 8자리가 되므로 <b>앞의 0 하나를 떼면</b> 7자리 아스키 코드입니다." : "");
+    $("bitLead").innerHTML = "코드값 <b>" + it.dec + "(10)</b> 을(를) <b>2진수</b>로 바꾸면 아래와 같습니다 — " +
+      "자리값이 <b>1</b>인 칸을 더하면 " + it.dec + " 이 됩니다." +
+      (it.bits === 7 ? " 아스키는 <b>7비트</b>이고, 저장할 때는 앞에 0을 붙여 8비트에 담습니다." : "");
 
     /* 비트 카드 — 자리값이 보이는 카드로 그린다 */
     var box = $("bitCards");
@@ -670,14 +1300,15 @@
         "저장할 때는 앞에 0을 하나 더 붙여 <b>1바이트(8비트)</b>에 담습니다 — " +
         "<span style='font-family:Consolas,monospace'>" + it.storeBin + "</span>"
       : "유니코드는 <b>16비트 = 2바이트</b>로 최대 65,536(2<sup>16</sup>)개의 글자를 나타냅니다.";
-    /* 4진수 2자리를 묶으면 16진수 한 자리가 되는 것을 그대로 보여 준다 */
-    var pairs = [];
-    for (var k = 0; k + 1 < it.quad.length; k += 2) {
-      pairs.push(it.quad.substr(k, 2) + "→" + parseInt(it.quad.substr(k, 2), 4).toString(16).toUpperCase());
+    /* 2진수를 4비트씩 묶으면 16진수가 되는 것을 그대로 보여 준다 (저장형 8·16비트 기준) */
+    var sb = it.storeBin, hpairs = [];
+    for (var k = 0; k < sb.length; k += 4) {
+      var nib = sb.substr(k, 4);
+      hpairs.push(nib + "→" + parseInt(nib, 2).toString(16).toUpperCase());
     }
-    $("bitSum").innerHTML = "묶어 보기 : 4진수 <b>" + it.quad + "</b> 를 2자리씩 묶으면 " +
-      pairs.join(" · ") + " → <b>" + T.notate(it.quad.length === 4 ? it.uniHex.slice(2) : it.uniHex, "hex") +
-      "</b>" + (it.bits === 16 ? " (유니코드는 <b>U+" + it.uniHex + "</b> 이라고도 씁니다)" : "");
+    $("bitSum").innerHTML = "묶어 보기 : 2진수 <b>" + sb + "</b> 를 <b>4비트씩</b> 묶으면 " +
+      hpairs.join(" · ") + " → <b>" + T.notate(it.bits === 7 ? it.hex : it.uniHex, "hex") + "</b>" +
+      (it.bits === 16 ? " (유니코드는 <b>U+" + it.uniHex + "</b> 이라고도 씁니다)" : "");
 
     /* 한글이면 자모 분해까지 보여 준다 */
     if (it.hangul) {
@@ -704,6 +1335,8 @@
 
   $("btnGo").addEventListener("click", run);
   $("src").addEventListener("keydown", function (e) { if (e.key === "Enter") run(); });
+  $("src").addEventListener("input", autoRef);
+  $("srcCode").addEventListener("input", autoRef);
   /* 코드 칸은 여러 줄이지만 줄바꿈은 뜻이 없다(빈칸과 똑같이 나눈다) →
      Enter 로 바로 변환하고, 줄을 나누고 싶으면 Shift+Enter 를 쓴다. */
   $("srcCode").addEventListener("keydown", function (e) {
@@ -722,6 +1355,8 @@
     $("oneCard").hidden = true;
     $("decOut").hidden = true;
     $("findCard").hidden = true;
+    $("btnRefCheck").hidden = true;
+    $("refCheckCard").hidden = true;
     hideMsg();
   });
   applyLearnDir();
