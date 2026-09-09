@@ -5,7 +5,73 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>이미지 변환 (비트맵 · 벡터 · 해상도) · 아날로그 → 디지털</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Crect x='8' y='9' width='7' height='7' fill='%23ffffff'/%3E%3Crect x='17' y='9' width='7' height='7' fill='%23a5b4fc'/%3E%3Crect x='8' y='18' width='7' height='7' fill='%23a5b4fc'/%3E%3Crect x='17' y='18' width='7' height='7' fill='%23ffffff'/%3E%3C/svg%3E">
-  <link rel="stylesheet" crossorigin href="./assets/app-DaFoPRK8.css">
+<style>
+  /* ===== 비트맵 화면 정돈 (2026-09-09 사용자 지시 — 학생들이 «UI가 불편하다») =====
+     페이지 전용이라 이 파일 안에만 둔다(공용 css/app.css 를 부풀리지 않는다). */
+
+  /* 방향·격자 크기·색 깊이 — 한 상자로 묶고 이름표를 맞춰 단추가 세로로 줄맞음 */
+  #bmCard .bm-set {
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 4px 14px 6px; margin: 8px 0 10px; background: #fbfbff;
+  }
+  #bmCard .bm-set .baserow { margin: 5px 0; }
+  #bmCard .bm-set-line { display: flex; gap: 8px 34px; flex-wrap: wrap; }
+  #bmCard .bm-set-line .baserow { margin: 5px 0; }
+  #bmCard .bm-set .baserow .lab { min-width: 112px; font-size: 18px; color: var(--sub); }
+  #bmCard .bm-set .baserow .btn { min-height: 46px; font-size: 18px; padding: 8px 16px; }
+
+  /* 색상 코드표 — 얇게 눕혀 자리를 아낀다 */
+  #bmMain .palbox { padding: 8px 14px 10px; margin: 0 0 12px; }
+  #bmMain .palbox > .t { font-size: 15px; margin: 0 0 6px; }
+  #bmMain .palrow { gap: 8px 10px; }
+  #bmCard .palcell .sw { min-width: 44px; height: 34px; font-size: 16px; }
+  #bmCard .palcell .nm { font-size: 13px; }
+  #bmCard #palNote { font-size: 14px; margin-top: 6px; }
+
+  /* 격자와 «이진수 표» 를 옆으로 나란히 (좁은 화면에서는 twocol 이 알아서 위아래로) */
+  #bmMain #drawBtnRow { margin-top: 0; }
+  #bmMain .pixgrid { width: min(100%, 400px); }
+  #bmMain > div:first-child { align-self: start; }
+  #bmMain .gridwrap { justify-content: flex-start; margin: 10px 0 0; }
+  #bmMain #binLead { margin-top: 0; }
+  #bmMain .grid th, #bmMain .grid td { font-size: 17px; padding: 8px; }
+  #bmMain .grid th:first-child, #bmMain .grid td:first-child { white-space: nowrap; }
+
+  /* 픽셀 값 — 색깔 «이름» 대신 «그 색으로 칠한 숫자» (2026-09-09 사용자 지시) */
+  /* ② 빛의 삼원색 — 모니터 실물(현미경) 사진 (2026-09-09 사용자 제공) */
+  #monitorShot { margin: 0 0 16px; }
+  #monitorShot img {
+    display: block; width: 100%; max-width: 520px; height: auto;
+    border: 2px solid var(--line); border-radius: 12px;
+  }
+  #monitorShot .cap { font-size: 17px; color: var(--sub); line-height: 1.5; margin: 8px 0 0; }
+  #monitorShot .cap b { color: var(--ink, #1f2937); }
+  #monitorNoImg { font-size: 18px; color: #92400e; background: #fef3c7;
+    border: 2px dashed #eab308; border-radius: 10px; padding: 12px 14px; }
+
+  /* ④ 해상도 — 색 깊이 단추에 «어느 방식인가» 를 함께 적는다.
+     1·2·3·8 은 색상표(팔레트), 24 는 참색이라 표시가 없으면
+     «2비트면 채널마다 2비트라 픽셀당 6비트?» 로 읽힌다(2026-09-09 사용자 지적). */
+  /* ⑤ 벡터 — 색 견본을 가로로(세로로 쌓이면 그림이 화면 밖으로 밀린다) */
+  #vecForm .swrow { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  #resDepthRow .btn { line-height: 1.2; padding: 7px 14px; }
+  #resDepthRow .btn small { display: block; margin-top: 2px; font-size: 13px;
+    font-weight: normal; opacity: .78; }
+  #resTrue { background: #f8fafc; border-left: 4px solid var(--line);
+    border-radius: 0 8px 8px 0; padding: 8px 12px; margin: 10px 0 12px; }
+  /* 「그림 이야기 → 용량 이야기」 로 넘어가는 칸막이 */
+  #resCapHead { font-size: 20px; font-weight: bold; color: var(--ink, #1f2937);
+    border-top: 2px dashed var(--line); margin: 18px 0 6px; padding: 14px 0 0; }
+
+  #bmCard .pv {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 26px; height: 26px; margin: 2px; padding: 0 3px;
+    border: 1px solid var(--line); border-radius: 5px;
+    font-family: Consolas, monospace; font-weight: bold; font-size: 16px;
+  }
+</style>
+  <link rel="stylesheet" crossorigin href="./assets/app-BfQ6HLZ7.css">
 </head>
 <body>
 
@@ -37,27 +103,21 @@
 
     <div class="card" id="bmCard">
       <h2><span class="step">1</span> <span id="bmTitle">비트맵 — 칸을 눌러 그림을 그려 보세요</span></h2>
-      <p class="lead" id="bmLead">
-        <b>비트맵</b>은 그림을 아주 작은 사각형 점인 <b>픽셀</b>로 나누어 나타냅니다.
-        픽셀마다 <b>색을 숫자로</b> 적으면 그림이 <b>0과 1</b>이 됩니다.
-        칸을 누를 때마다 색이 한 단계씩 바뀝니다. — 교과서 62쪽 활동
+      <p class="lead" id="bmLead" style="margin:2px 0 10px">
+        <b>비트맵</b> = 그림을 <b>픽셀</b>로 나누고 <b>색을 숫자로</b>. 칸을 누르면 색이 한 단계씩 바뀝니다. — 교과서 62쪽
       </p>
 
-      <!-- 방향 고르기 — 그림을 코드로, 코드를 그림으로 둘 다 해 본다 -->
-      <div class="baserow" id="dirRow">
-        <span class="lab">어느 방향으로?</span>
-        <button class="btn on" type="button" data-dir="toBin" aria-pressed="true">그림 → 이진수</button>
-        <button class="btn" type="button" data-dir="toPic" aria-pressed="false">이진수 → 그림</button>
-      </div>
-
-      <div class="baserow" id="sizeRow"><span class="lab">격자 크기</span></div>
-      <div class="baserow" id="depthRow"><span class="lab">색 깊이</span></div>
-
-      <!-- 색상 코드표 : 값마다 어떤 색인지 약속한 표. 이 표가 없으면 값을 알 수 없다. -->
-      <div class="palbox">
-        <p class="t">색상 코드표 — 픽셀 값과 색의 약속</p>
-        <div class="palrow" id="palRow"></div>
-        <p class="lvnote" id="palNote"></p>
+      <!-- 방향·격자 크기·색 깊이 — 한 상자로 묶어 정돈 -->
+      <div class="bm-set">
+        <div class="baserow" id="dirRow">
+          <span class="lab">어느 방향으로?</span>
+          <button class="btn on" type="button" data-dir="toBin" aria-pressed="true">그림 → 이진수</button>
+          <button class="btn" type="button" data-dir="toPic" aria-pressed="false">이진수 → 그림</button>
+        </div>
+        <div class="bm-set-line">
+          <div class="baserow" id="sizeRow"><span class="lab">격자 크기</span></div>
+          <div class="baserow" id="depthRow"><span class="lab">색 깊이</span></div>
+        </div>
       </div>
 
       <!-- 이진수 → 그림 : 줄마다 이진수를 넣는다 -->
@@ -67,30 +127,49 @@
                     aria-label="줄마다 이진수" placeholder="0110&#10;1001&#10;1001&#10;0110"></textarea>
           <span class="unit">줄마다 한 줄씩 (또는 <b>/</b> 로 나눠서) · 0과 1만</span>
         </div>
-        <div class="btnrow">
-          <button class="btn primary" id="btnPic">그림 만들기</button>
+        <!-- 🔴 «이진수 → 그림» 은 학생이 **직접 칠하는** 활동이다(2026-09-09 사용자 지적 —
+             *"이진수를 그림으로 변환하는 연습이 아니야"*). 문제를 주는 단추(🎲 · 보기)는
+             **이진수만 넣고 격자를 비운다** — 앱이 대신 그려 버리면 연습이 되지 않는다.
+             「그림 만들기」 는 스스로 칠해 본 뒤에 누르는 **답 보기** 단추다. -->
+        <div class="btnrow" id="picBtnRow">
+          <button class="btn primary" id="btnPicRand">🎲 아무 이진수</button>
           <span id="picExRow"></span>
-          <button class="btn ghost" id="btnPicClear">지우기</button>
+          <button class="btn" id="btnPicCheck">✅ 맞나 확인</button>
+          <button class="btn" id="btnPic">그림 만들기 (답 보기)</button>
+          <button class="btn ghost" id="btnPicClear">격자 비우기</button>
         </div>
         <p class="res no" id="picMsg" hidden></p>
       </div>
 
-      <div class="btnrow" id="drawBtnRow">
-        <button class="btn" id="btnFace">웃는 얼굴 넣기</button>
-        <button class="btn" id="btnRand">아무렇게나 칠하기</button>
-        <button class="btn ghost" id="btnClearGrid">모두 지우기</button>
+      <!-- 격자(왼쪽) ↔ 이진수 표(오른쪽) 나란히 -->
+      <div class="twocol wide" id="bmMain">
+        <div>
+          <div class="btnrow" id="drawBtnRow">
+            <button class="btn" id="btnFace">웃는 얼굴 넣기</button>
+            <button class="btn" id="btnRand">아무렇게나 칠하기</button>
+            <button class="btn ghost" id="btnClearGrid">모두 지우기</button>
+          </div>
+          <div class="gridwrap"><div class="pixgrid" id="pixGrid"></div></div>
+        </div>
+        <div>
+          <!-- 색상 코드표 : 값마다 어떤 색인지 약속. 표를 읽는 참고표라 표 바로 위에 둔다. -->
+          <div class="palbox">
+            <p class="t">색상 코드표 — 픽셀 값과 색의 약속</p>
+            <div class="palrow" id="palRow"></div>
+            <p class="lvnote" id="palNote"></p>
+          </div>
+          <p class="lead" id="binLead">이 그림을 <b>이진수</b>로 적으면 이렇습니다 (줄 단위)</p>
+          <div class="tablescroll">
+            <table class="grid" id="binTable">
+              <thead><tr><th style="width:12%">줄</th><th style="width:34%">픽셀 값</th>
+                <th>이진수</th></tr></thead>
+              <tbody id="binBody"></tbody>
+            </table>
+          </div>
+          <p class="sumline" id="gridAll"></p>
+          <p class="check" id="gridSize"></p>
+        </div>
       </div>
-      <div class="gridwrap"><div class="pixgrid" id="pixGrid"></div></div>
-      <p class="lead" style="margin-top:18px" id="binLead">이 그림을 <b>이진수</b>로 적으면 이렇습니다 (줄 단위)</p>
-      <div class="tablescroll">
-        <table class="grid" id="binTable">
-          <thead><tr><th style="width:12%">줄</th><th style="width:30%">픽셀 값</th>
-            <th>이진수</th></tr></thead>
-          <tbody id="binBody"></tbody>
-        </table>
-      </div>
-      <p class="sumline" id="gridAll"></p>
-      <p class="check" id="gridSize"></p>
     </div>
 
     <!-- ===== 빛의 삼원색 (RGB) — 교과서 63쪽 「이미지를 저장하는 방식」 ===== -->
@@ -101,6 +180,7 @@
         픽셀마다 <b>빨강 · 초록 · 파랑(RGB)의 밝기를 각각 숫자로</b> 적습니다.
         <b>물감과 달리 빛은 섞을수록 밝아집니다.</b> 손잡이를 끌어 색을 만들어 보세요.
       </p>
+
       <div class="twocol wide">
         <div>
           <div class="rgbslide">
@@ -124,6 +204,21 @@
                   aria-label="빨강·초록·파랑 빛이 겹치는 그림"></canvas>
         </div>
         <div>
+          <!-- 모니터를 현미경으로 본 실물 사진 — RGB 이론의 «증거» (오른쪽 칸 맨 위) -->
+          <div id="monitorShot">
+            <img src="./assets/monitor-subpixel-KRjd2z2i.png"
+                 alt="모니터를 현미경 카메라로 확대한 사진 — 빨강·초록·파랑 세로 막대(부화소)가 규칙적으로 늘어서 있고, 자리마다 세 색의 밝기가 달라 여러 색으로 보인다"
+                 onerror="this.hidden=true;var w=document.getElementById('monitorNoImg');if(w)w.hidden=false;">
+            <p id="monitorNoImg" hidden>
+              🖼 그림 파일이 아직 없습니다 — <b>data-convert/img/monitor-subpixel.png</b> 에 넣어 주세요.
+            </p>
+            <p class="cap">
+              모니터를 <b>현미경으로 크게</b> 본 모습입니다. 그림 한 점(<b>픽셀</b>)이 다시
+              <b>빨강·초록·파랑 세 칸</b>(부화소)으로 나뉘고, 세 칸의 밝기로 온갖 색을 만듭니다 —
+              <b>다 켜지면 흰색, 다 꺼지면 검정</b>. 왼쪽 손잡이로 <b>R·G·B</b> 를 바꾸는 것이
+              이 세 칸의 밝기를 바꾸는 것입니다.
+            </p>
+          </div>
           <div class="swatch" id="rgbSwatch"><span id="rgbHex">#FFB400</span></div>
           <div class="tablescroll">
             <table class="grid" id="rgbTable">
@@ -140,9 +235,11 @@
 
     <!-- ===== 색 깊이와 포스터화 ===== -->
     <div class="card" id="depthCard">
-      <h2><span class="step">3</span> 색 깊이 — 비트를 줄이면 색이 계단처럼 끊깁니다</h2>
+      <h2><span class="step">3</span> 색 깊이 — 채널당 비트를 줄이면 색이 띠처럼 끊깁니다</h2>
       <p class="lead">
-        한 색(채널)을 몇 비트로 적을지를 <b>색 깊이</b>라고 합니다. 비트를 줄이면
+        <b>참색</b>은 픽셀마다 <b>빨강 · 초록 · 파랑 세 숫자</b>를 적습니다. 한 채널을 몇 비트로
+        적을지가 <b>채널당 비트</b>이고, <b>색 깊이(= 픽셀 하나를 적는 비트 수) = 채널당 비트 × 3</b>
+        입니다 — 채널당 8비트면 색 깊이는 <b>24비트(참색)</b>. 비트를 줄이면
         <b>용량은 줄지만</b> 부드럽던 하늘이 <b>띠</b>로 끊깁니다. — <b>소리의 양자화와 같은 이야기</b>
       </p>
       <div class="baserow" id="chBitsRow"><span class="lab">채널당 비트</span></div>
@@ -161,8 +258,9 @@
       <p class="lvnote" id="depthNote"></p>
       <div class="tablescroll">
         <table class="grid" id="depthTable">
-          <thead><tr><th style="width:18%">채널당</th><th style="width:16%">픽셀당</th>
-            <th style="width:30%">만들 수 있는 색</th><th style="width:20%">용량 (Full HD)</th>
+          <thead><tr><th style="width:16%">채널당</th>
+            <th style="width:20%">픽셀당 = 색 깊이</th>
+            <th style="width:28%">만들 수 있는 색</th><th style="width:20%">용량 (Full HD)</th>
             <th style="width:16%">원본 대비</th></tr></thead>
           <tbody id="depthBody"></tbody>
         </table>
@@ -177,7 +275,14 @@
         <b>용량이 커집니다</b>. — 교과서 63쪽
       </p>
       <div class="baserow" id="resRow"><span class="lab">해상도</span></div>
-      <div class="baserow" id="resDepthRow"><span class="lab">색 깊이</span></div>
+      <!-- 🔴 아래 두 그림은 색 깊이 단추를 따르지 않는다 — 일부러 그렇게 두었다(2026-09-09).
+           색을 고정해야 «픽셀 크기» 차이만 남아 계단 현상이 드러난다. 그 사실을 학생에게 그대로 알린다. -->
+      <p class="lvnote" id="resTrue">
+        🎨 아래 두 그림은 <b>참색(빨강 · 초록 · 파랑 각 8비트)</b>으로 그렸습니다 —
+        <b>두 그림의 색을 똑같이 맞춰야 «픽셀 크기» 차이만 남아 「계단 현상」이 드러나기 때문</b>입니다.
+        (색까지 함께 줄이면 <b>계단</b> 때문인지 <b>색이 모자라서</b>인지 알 수 없습니다 — 그건 ③ 색 깊이에서 다룹니다.)
+        <b>색 깊이</b>는 <b>아래 용량 표</b>에서 고릅니다.
+      </p>
       <div class="twoup">
         <div>
           <p class="groupname">고른 해상도 — <b><span id="resLab">320×180</span></b></p>
@@ -191,11 +296,19 @@
         </div>
       </div>
       <p class="lvnote" id="resStair"></p>
+
+      <!-- 🔴 색 깊이는 «그림» 이 아니라 «용량» 을 바꾼다 → 표 바로 위로 옮겼다
+           (2026-09-09 사용자 지시 — *"색깊이가 저 위치에 있으니 아무래도 학생들이 헷깔릴것 같다.
+           색깊이를 용량 계산하는 표 위로 위치를 옮겨봐"*).
+           해상도 단추 바로 밑에 있으니 **두 그림을 바꾸는 단추처럼** 보였다. -->
+      <p class="capdiv" id="resCapHead">💾 여기부터는 <b>용량</b> 이야기입니다 — 색 깊이를 골라 보세요</p>
+      <div class="baserow" id="resDepthRow"><span class="lab">색 깊이</span></div>
       <div class="hint" id="resNote"></div>
       <div class="tablescroll">
         <table class="grid" id="resTable">
-          <thead><tr><th style="width:30%">해상도</th><th style="width:20%">픽셀 수</th>
-            <th style="width:26%">전체 비트</th><th style="width:24%">용량</th></tr></thead>
+          <thead><tr><th style="width:24%">해상도</th><th style="width:17%">픽셀 수</th>
+            <th style="width:37%">전체 비트 = 픽셀 수 × 색 깊이</th>
+            <th style="width:22%">용량</th></tr></thead>
           <tbody id="resBody"></tbody>
         </table>
       </div>
@@ -211,6 +324,10 @@
       <div class="vecform" id="vecForm"></div>
       <div class="formula" id="vecCode"></div>
       <p class="lvnote" id="vecKo"></p>
+      <!-- 🔴 확대 단추를 그림 «위» 로 올렸다(2026-09-09) — 조작이 결과 아래에 있으면
+           눌러 놓고 결과를 함께 볼 수 없다(루트 규칙 「조작은 한 화면에」). -->
+      <div class="baserow" id="zoomRow"><span class="lab">확대</span></div>
+      <p class="lvnote" id="vecZoomNote"></p>
       <div class="twoup">
         <div>
           <p class="groupname">벡터 — 크게 해도 매끄럽다</p>
@@ -223,9 +340,10 @@
                   aria-label="같은 도형을 비트맵으로 그린 것"></canvas>
         </div>
       </div>
-      <div class="baserow" id="zoomRow"><span class="lab">확대</span></div>
       <p class="lvnote">
-        같은 도형입니다. 확대할수록 오른쪽(비트맵)은 <b>사각형 픽셀이 드러나</b> 가장자리가 계단처럼 보입니다.
+        같은 도형입니다. <b>1배에서는 둘이 거의 같아 보입니다.</b> 그런데 확대할수록
+        오른쪽(비트맵)은 <b>사각형 픽셀이 드러나</b> 가장자리가 계단처럼 되고,
+        왼쪽(벡터)은 <b>수식을 다시 계산해</b> 언제나 매끄럽습니다 — 이것이 벡터를 쓰는 까닭입니다.
       </p>
     </div>
 
@@ -338,9 +456,9 @@
 
 </div>
 
-<script src="js/pdf.js?v=202609081629"></script>
-<script src="js/ui.js?v=202609081629"></script>
-<script src="js/image.js?v=202609081629"></script>
+<script src="js/pdf.js?v=202609092020"></script>
+<script src="js/ui.js?v=202609092020"></script>
+<script src="js/image.js?v=202609092020"></script>
 <script>
 (function () {
   "use strict";
@@ -436,9 +554,14 @@
     var v = grid[r][c];
     cell.style.background = I.shadeOf(v, bits);
     cell.style.color = I.inkOn(v, bits);
+    /* 🔴 칸 안에는 «10진수 값» 을 적는다 (2026-09-09 사용자 지시 —
+         *"색깔표가 10진수와 2진수 같이 섞여 있어서 혼란스러움"*).
+       2진수가 나오는 곳은 「이 그림을 이진수로 적으면」 표의 **이진수 열 하나뿐**이다.
+       ⚠ 한 화면에 두 진수를 섞으면 «어느 것이 그 칸의 값인가» 를 알 수 없다 —
+         3비트에서 칸에 000·011 이 적히고 코드표에도 000·011 이 있어 서로 다른 말처럼 보였다. */
     if (opts.showNum) {
       var sp = cell.querySelector("span");
-      if (sp) sp.textContent = I.padLeft(v.toString(2), bits);
+      if (sp) sp.textContent = String(v);
     }
     if (opts.editable) {
       cell.setAttribute("aria-label",
@@ -508,12 +631,13 @@
     box.innerHTML = "";
     I.paletteRows(bits).forEach(function (p) {
       box.appendChild(el("div", "palcell",
-        "<span class='sw' style='background:" + p.css + ";color:" + p.ink + "'>" + p.bin + "</span>" +
-        "<span class='nm'>" + p.v + " · " + p.name + "</span>"));
+        "<span class='sw' style='background:" + p.css + ";color:" + p.ink + "'>" + p.v + "</span>" +
+        "<span class='nm'>" + p.name + "</span>"));
     });
     if (noteEl) {
       noteEl.innerHTML = "픽셀 하나를 <b>" + bits + "비트</b>로 적으므로 색은 <b>" +
-        I.levelsOf(bits) + "가지</b>입니다 (값 0 ~ " + I.maxLevel(bits) + ")." +
+        I.levelsOf(bits) + "가지</b>입니다 (값 0 ~ " + I.maxLevel(bits) + "). " +
+        "코드표와 격자는 <b>10진수</b>로 적었습니다 — <b>2진수는 아래 표</b>에서 봅니다." +
         (bits === 1 ? " 교과서 62쪽의 <b>1비트 흑백 이미지</b>와 같습니다." : "");
     }
   }
@@ -531,7 +655,7 @@
     $("bmTitle").textContent = toPic ? "비트맵 — 이진수를 그림으로 되돌리기"
                                      : "비트맵 — 칸을 눌러 그림을 그려 보세요";
     $("bmLead").innerHTML = toPic
-      ? "저장된 <b>0과 1</b>을 줄마다 넣으면 <b>그림이 되살아납니다.</b> " +
+      ? "저장된 <b>0과 1</b>을 줄마다 넣고 <b>격자를 직접 칠해</b> 그림을 되살려 봅니다. " +
         "화면에 그림이 뜨는 것은 컴퓨터가 이 일을 아주 빠르게 하는 것입니다. " +
         "만든 뒤에도 <b>칸을 눌러 고칠 수 있습니다.</b>"
       : "<b>비트맵</b>은 그림을 아주 작은 사각형 점인 <b>픽셀</b>로 나누어 나타냅니다. " +
@@ -547,11 +671,12 @@
     (PIC_EXAMPLES[gBits] || []).forEach(function (e) {
       var b = el("button", "btn", esc(e[1]));
       b.type = "button"; b.title = e[0].replace(/\n/g, " / ");
-      b.addEventListener("click", function () { $("picIn").value = e[0]; runToPic(); });
+      b.addEventListener("click", function () { setPicProblem(e[0]); });
       row.appendChild(b);
     });
-    /* 지금 그린 그림을 이진수로 넣어 보는 단추 — 왕복이 한눈에 보인다 */
-    var mine = el("button", "btn primary", "지금 그림의 이진수 넣기");
+    /* 지금 그린 그림을 이진수로 넣어 보는 단추 — 왕복이 한눈에 보인다
+       ⚠ 이것만은 «문제» 가 아니라 «왕복 확인» 이라 그대로 그린다(격자가 이미 그 그림이다). */
+    var mine = el("button", "btn", "지금 그림의 이진수 넣기");
     mine.type = "button";
     mine.addEventListener("click", function () {
       $("picIn").value = I.gridBins(grid, gBits, false).join("\n");
@@ -563,11 +688,62 @@
     drawBitmap();
   }
 
+  /* 🔴 «문제를 낸다» — 이진수를 넣고 **격자를 비운다.**
+     앱이 바로 그려 주면 «이진수를 그림으로 바꾸는» 일을 학생이 하지 않는다(2026-09-09). */
+  function setPicProblem(text) {
+    $("picIn").value = text;
+    var r = I.parseGrid(text, gBits);
+    if (r.grid) { gCols = r.cols; gRows = r.rows; }
+    grid = I.blankGrid(gCols, gRows);
+    var m = $("picMsg");
+    m.hidden = false; m.className = "res";
+    m.innerHTML = "위 이진수를 <b>" + gBits + "자리씩</b> 끊어 읽고 <b>왼쪽 격자를 직접 칠해</b> 보세요 " +
+      "(칸을 누르면 색이 한 단계씩 바뀝니다). 다 칠했으면 <b>✅ 맞나 확인</b>을 누르세요.";
+    drawBitmap();
+  }
+
+  /* 학생이 칠한 격자와 넣은 이진수를 견준다 — 틀린 칸에 빨간 테두리 */
+  function checkToPic() {
+    var m = $("picMsg");
+    m.hidden = false;
+    var r = I.parseGrid($("picIn").value, gBits);
+    if (!r.grid) { m.className = "res no"; m.textContent = r.errors[0]; return; }
+    if (r.rows !== gRows || r.cols !== gCols) {
+      m.className = "res no";
+      m.textContent = "넣은 이진수는 " + r.cols + " × " + r.rows + " 인데 격자는 " +
+        gCols + " × " + gRows + " 입니다. 격자 크기를 맞춰 주세요.";
+      return;
+    }
+    var box = $("pixGrid"), wrong = 0;
+    for (var y = 0; y < gRows; y++) {
+      for (var x = 0; x < gCols; x++) {
+        var bad = (grid[y][x] !== r.grid[y][x]);
+        if (bad) wrong++;
+        var cell = box._cells && box._cells[y] && box._cells[y][x];
+        if (cell) cell.classList.toggle("wrongpix", bad);
+      }
+    }
+    if (wrong === 0) {
+      m.className = "res ok";
+      m.innerHTML = "🎉 <b>맞았습니다!</b> 넣은 이진수와 칠한 그림이 <b>똑같습니다</b> — " +
+        "<b>0과 1만으로</b> 그림을 되살린 것입니다.";
+    } else {
+      m.className = "res no";
+      m.innerHTML = "<b>" + wrong + "칸</b>이 다릅니다 (<b>빨간 테두리</b>). 그 칸의 이진수를 " +
+        "다시 읽어 보세요 — <b>" + gBits + "자리</b>씩 끊어 읽고 <b>색상 코드표</b>에서 찾습니다.";
+    }
+  }
+
   function runToPic() {
     var r = I.parseGrid($("picIn").value, gBits);
     if (!r.grid) {
-      $("picMsg").hidden = false;
-      $("picMsg").textContent = r.errors[0];
+      /* 🚨 실패하면 **그림은 예전 것 그대로** 남는다 — 그 사실을 말하지 않으면
+         «넣은 이진수와 그림이 다르다» 로 보인다
+         (2026-09-09 사용자 신고 *"그림도 틀리게 나오는데?"*). */
+      var bad = $("picMsg");
+      bad.hidden = false; bad.className = "res no";
+      bad.innerHTML = "<b>그림을 바꾸지 못했습니다</b> — 아래 그림은 <b>예전 것</b>입니다. " +
+        esc(r.errors[0]);
       return;
     }
     /* 값이 색 깊이 범위를 넘으면 안 된다 (parseGrid 가 자리 수로 이미 막지만 확인해 둔다) */
@@ -576,6 +752,7 @@
       return row.map(function (v) { return Math.min(top, Math.max(0, v)); });
     });
     $("picMsg").hidden = true;
+    $("picMsg").className = "res no";
     grid = r.grid;
     gCols = r.cols; gRows = r.rows;
     drawBitmap();
@@ -588,7 +765,13 @@
     /* ⚠ onChange 로 drawBitmap 을 다시 부르면 격자를 통째로 새로 만들어
        **누른 칸의 키보드 초점이 사라진다.** 표만 다시 쓴다. */
     paintGrid($("pixGrid"), grid, gBits, {
-      editable: true, showNum: true, onChange: updateBinTables
+      editable: true, showNum: true,
+      onChange: function (r, c) {
+        /* 다시 칠하면 그 칸의 채점 표시(빨간 테두리)를 지운다 */
+        var cell = $("pixGrid")._cells && $("pixGrid")._cells[r] && $("pixGrid")._cells[r][c];
+        if (cell) cell.classList.remove("wrongpix");
+        updateBinTables();
+      }
     });
     updateBinTables();
   }
@@ -600,7 +783,10 @@
     grid.forEach(function (row, i) {
       tb.appendChild(el("tr", null,
         "<td>" + (i + 1) + "줄</td>" +
-        "<td>" + row.map(function (v) { return v + "(" + I.colorName(v, gBits) + ")"; }).join(" ") + "</td>" +
+        "<td>" + row.map(function (v) {
+          return "<span class='pv' style='background:" + I.shadeOf(v, gBits) +
+                 ";color:" + I.inkOn(v, gBits) + "'>" + v + "</span>";
+        }).join("") + "</td>" +
         "<td style='font-family:Consolas,monospace'><b>" +
           I.rowBin(row, gBits, gBits > 1) + "</b></td>"));
     });
@@ -634,9 +820,16 @@
     b.addEventListener("click", function () { bmDir = b.dataset.dir; applyBmDir(); });
   });
   $("btnPic").addEventListener("click", runToPic);
+  $("btnPicRand").addEventListener("click", function () {
+    setPicProblem(I.gridBins(I.randomGrid(gCols, gRows, gBits), gBits, false).join("\n"));
+  });
+  $("btnPicCheck").addEventListener("click", checkToPic);
+  /* 🚨 «격자만» 비운다 — 예전에는 이진수(= 문제)를 지워 버려 다시 풀 수가 없었다
+     (2026-09-09 사용자 지적 : *"지우기 누르니 위에 있는 이진수 숫자가 지워져"*). */
   $("btnPicClear").addEventListener("click", function () {
-    $("picIn").value = "";
+    grid = I.blankGrid(gCols, gRows);
     $("picMsg").hidden = true;
+    drawBitmap();
   });
 
   /* =========================================================
@@ -836,8 +1029,14 @@
       b.addEventListener("click", function () { resIdx = i; drawRes(); });
       $("resRow").appendChild(b);
     });
+    /* ⚠ 이 줄에는 «두 가지 방식» 이 섞여 있다 —
+         1·2·3·8 : 색상 코드표(팔레트). 픽셀 하나를 그 비트 수만큼 적는다.
+         24      : 참색. 빨강·초록·파랑을 각 8비트씩 적어 8×3 = 24비트.
+       둘 다 «픽셀 하나를 적는 비트 수(= 색 깊이)» 라는 점은 같지만, 표시하지 않으면
+       «2비트면 채널마다 2비트라 픽셀당 6비트 아닌가?» 로 읽힌다(2026-09-09 사용자 지적). */
     [1, 2, 3, 8, 24].forEach(function (d) {
-      var b = el("button", "btn", d + "비트" + (d === 24 ? " (참색)" : ""));
+      var b = el("button", "btn", "<b>" + d + "비트</b><small>" +
+        (d === 24 ? "참색 · R·G·B 각 8비트" : "색상표 " + Math.pow(2, d) + "색") + "</small>");
       b.type = "button"; b.dataset.rd = d;
       b.addEventListener("click", function () { resBits = d; drawRes(); });
       $("resDepthRow").appendChild(b);
@@ -878,10 +1077,13 @@
     var r = I.RESOLUTIONS[resIdx];
     var sz = I.sizeOf(r.w, r.h, resBits);
     drawResPics(r);
-    $("resNote").innerHTML = "<b>" + r.name + "</b> · 픽셀마다 <b>" + resBits + "비트</b> → " +
+    $("resNote").innerHTML = "<b>" + r.name + "</b> · <b>색 깊이 " + resBits + "비트</b> " +
+      "(픽셀 하나를 " + resBits + "비트로 적는다 — " +
+      (resBits === 24 ? "<b>참색</b> : 빨강·초록·파랑 각 8비트 → 8 × 3"
+                      : "<b>색상표</b> " + Math.pow(2, resBits) + "색") + ") → " +
       "픽셀 수 <b>" + r.w + " × " + r.h + " = " + sz.pixels.toLocaleString() + "개</b> · " +
-      "전체 <b>" + sz.bitsTotal.toLocaleString() + "비트</b> = <b>" + I.humanBytes(sz.bytes) + "</b>" +
-      (resBits === 24 ? " (참색 = 빨강·초록·파랑 각 8비트)" : "");
+      "전체 비트 <b>" + sz.pixels.toLocaleString() + " × " + resBits + " = " +
+      sz.bitsTotal.toLocaleString() + "비트</b> = <b>" + I.humanBytes(sz.bytes) + "</b>";
 
     var tb = $("resBody");
     tb.innerHTML = "";
@@ -891,7 +1093,8 @@
       tb.appendChild(el("tr", null,
         "<td" + cls + "><b>" + rr.name + "</b></td>" +
         "<td" + cls + ">" + s.pixels.toLocaleString() + "개</td>" +
-        "<td>" + s.bitsTotal.toLocaleString() + "비트</td>" +
+        "<td>" + s.pixels.toLocaleString() + " × " + resBits +
+          " = <b>" + s.bitsTotal.toLocaleString() + "비트</b></td>" +
         "<td><b>" + I.humanBytes(s.bytes) + "</b></td>"));
     });
   }
@@ -902,6 +1105,53 @@
   var shape = { kind: "circle", x: 3, y: 3, r: 2, w: 5, h: 2, color: "red" };
   var zoom = 1;
 
+  /* 🔴 **비트맵 해상도(N)와 배율(ZOOMS)은 반드시 함께** 정한다.
+     처음엔 24×24 · 1·4·12배였다. 두 번 고쳤다 —
+     ① 24×24 는 **1배에서 이미 계단이 다 보여서** «벡터는 확대해도 안 깨진다» 는 말의
+        값어치가 드러나지 않았다(2026-09-09 사용자 — *"1배일때는 두 그림이 비슷하게
+        보이게 할수 없나?"*). 그래서 **120×120** 으로 올렸다.
+     ② 배율은 N 에 맞춰 다시 올렸다. 캔버스가 420px 이니 픽셀 하나가 화면에서 —
+          1배  : 3.5px → 두 그림이 **거의 같아 보인다** (이것이 요점이다)
+          6배  : 21px · 창에 20칸  → 계단이 또렷하다
+          18배 : 63px · 창에 약 7칸 → 픽셀 하나가 얼마나 큰지 보인다
+     ⚠ 한쪽만 만지지 말 것 — N 이 작으면 1배가 이미 깨져 보이고, 배율이 N 에 비해 크면
+       창에 두세 칸만 남아 «계단» 이라 부를 것이 없어진다(24×24 · 12배가 그랬다). */
+  var ZOOMS = [1, 6, 18];
+
+  /* 🔴 확대 기준은 «도형의 가장자리» 다 — 가운데가 아니다 (2026-09-09 사용자 지적 :
+        *"4배, 12배는 전혀 표시가 안나"*). 도형이 화면 한가운데 있어서 가운데를 확대하면
+        캔버스가 **온통 그 색 하나**로만 찼다(빨간 네모만 보였다).
+     계단 현상은 **비스듬한 가장자리**에서만 생기므로 그 자리를 확대해야 한다
+     (수평·수직선에서는 계단이 안 생긴다 — 직사각형이 그래서 매끈하다). */
+  function focusPt() {
+    if (shape.kind === "circle") {
+      var d = Math.SQRT1_2;                          /* 45° — 가장 비스듬한 곳 */
+      return { x: shape.x + shape.r * d, y: shape.y - shape.r * d };
+    }
+    return { x: shape.x + shape.w, y: shape.y };     /* 직사각형은 오른쪽 위 모서리 */
+  }
+
+  /* 기준점이 캔버스 한가운데로 오도록 확대한다. 두 캔버스가 같은 함수를 쓰므로
+     벡터와 비트맵이 **늘 같은 자리**를 보여 준다(다르면 견줄 수가 없다). */
+  function zoomTo(g, W, H, s) {
+    if (zoom === 1) return;
+    var f = focusPt();
+    g.translate(W / 2, H / 2);
+    g.scale(zoom, zoom);
+    g.translate(-f.x * s, -f.y * s);
+  }
+
+  /* 1배에서 «여기를 확대합니다» 빨간 점선 — 두 그림에 같은 자리를 그린다.
+     이것이 없으면 확대한 그림이 «어디의 무엇» 인지 알 수 없다. */
+  function drawFocusBox(g, W, H, s) {
+    if (zoom !== 1) return;
+    var f = focusPt(), half = W / ZOOMS[1] / 2;      /* 첫 확대 배율의 창 크기 */
+    g.save();
+    g.strokeStyle = "#dc2626"; g.lineWidth = 2; g.setLineDash([7, 5]);
+    g.strokeRect(f.x * s - half, f.y * s - half, half * 2, half * 2);
+    g.restore();
+  }
+
   function setupVector() {
     [["circle", "원"], ["rect", "직사각형"]].forEach(function (k) {
       var b = el("button", "btn", k[1]);
@@ -909,7 +1159,7 @@
       b.addEventListener("click", function () { shape.kind = k[0]; drawVector(); });
       $("shapeRow").appendChild(b);
     });
-    [1, 4, 12].forEach(function (z) {
+    ZOOMS.forEach(function (z) {
       var b = el("button", "btn", z + "배");
       b.type = "button"; b.dataset.z = z;
       b.addEventListener("click", function () { zoom = z; drawVector(); });
@@ -937,15 +1187,19 @@
       });
       box.appendChild(wrap);
     });
+    /* ⚠ 색 견본은 «가로 한 줄» 로 둔다 — .vecfield 가 세로 배치라 그냥 넣으면 4개가
+         세로로 쌓여 이 줄만 213px 이 되고(입력칸은 96px), 그만큼 두 그림이 아래로 밀린다. */
     var pick = el("span", "vecfield", "<span>색상</span>");
+    var swrow = el("span", "swrow", "");
     Object.keys(I.COLORS).forEach(function (k) {
       var b = el("button", "swatch" + (shape.color === k ? " on" : ""), "");
       b.type = "button";
       b.style.background = I.COLORS[k].css;
       b.setAttribute("aria-label", I.COLORS[k].name);
       b.addEventListener("click", function () { shape.color = k; drawVector(); });
-      pick.appendChild(b);
+      swrow.appendChild(b);
     });
+    pick.appendChild(swrow);
     box.appendChild(pick);
   }
 
@@ -954,14 +1208,11 @@
     var g = cv.getContext("2d");
     var W = cv.width, H = cv.height;
     var UNIT = 6;                                  // 좌표계는 0~6
+    var s = W / UNIT;
     g.clearRect(0, 0, W, H);
     g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, H);
-    /* 확대는 가운데를 기준으로 */
     g.save();
-    g.translate(W / 2, H / 2);
-    g.scale(zoom, zoom);
-    g.translate(-W / 2, -H / 2);
-    var s = W / UNIT;
+    zoomTo(g, W, H, s);                            /* 확대는 «도형의 가장자리» 기준 */
     /* 좌표 격자 */
     g.strokeStyle = "#e2e8f0"; g.lineWidth = 1 / zoom;
     for (var k = 0; k <= UNIT; k++) {
@@ -975,23 +1226,21 @@
       g.fillRect(shape.x * s, shape.y * s, shape.w * s, shape.h * s);
     }
     g.restore();
+    drawFocusBox(g, W, H, s);
   }
 
   /* 비트맵 : 같은 도형을 낮은 해상도 픽셀로 만든 뒤 확대한다 → 계단 현상 */
   function drawBitmapCanvas(cv) {
     var g = cv.getContext("2d");
     var W = cv.width, H = cv.height;
-    var UNIT = 6, N = 24;                          // 24 × 24 픽셀로 찍는다
+    var UNIT = 6, N = 120;                         // 120 × 120 픽셀 (위 ZOOMS 주석 참고)
+    var s = W / UNIT, cell = W / N;
     g.clearRect(0, 0, W, H);
     g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, H);
     g.save();
-    g.translate(W / 2, H / 2);
-    g.scale(zoom, zoom);
-    g.translate(-W / 2, -H / 2);
-    var cell = W / N;
+    zoomTo(g, W, H, s);                            /* 벡터와 **같은 자리**를 본다 */
     g.strokeStyle = "#e2e8f0"; g.lineWidth = 1 / zoom;
     for (var k = 0; k <= UNIT; k++) {
-      var s = W / UNIT;
       g.beginPath(); g.moveTo(k * s, 0); g.lineTo(k * s, H); g.stroke();
       g.beginPath(); g.moveTo(0, k * s); g.lineTo(W, k * s); g.stroke();
     }
@@ -1006,7 +1255,16 @@
         if (inside) g.fillRect(c * cell, r * cell, cell + 0.5, cell + 0.5);
       }
     }
+    /* 확대했을 때는 **픽셀 칸 선**을 그린다 — 「사각형 픽셀이 드러난다」 를 눈으로 보이게 */
+    if (zoom > 1) {
+      g.strokeStyle = "rgba(15,23,42,.22)"; g.lineWidth = 1 / zoom;
+      for (var p = 0; p <= N; p++) {
+        g.beginPath(); g.moveTo(p * cell, 0); g.lineTo(p * cell, H); g.stroke();
+        g.beginPath(); g.moveTo(0, p * cell); g.lineTo(W, p * cell); g.stroke();
+      }
+    }
     g.restore();
+    drawFocusBox(g, W, H, s);
   }
 
   function drawVector() {
@@ -1017,6 +1275,17 @@
       esc(I.vectorText(shape)) + "</span>";
     $("vecKo").innerHTML = "우리말로 읽으면 — <b>" + esc(I.vectorKorean(shape)) + "</b>" +
       " (저장되는 것은 이 <b>숫자 몇 개</b>뿐입니다)";
+    var round = (shape.kind === "circle");
+    $("vecZoomNote").innerHTML = (zoom === 1)
+      ? "1배에서는 두 그림이 <b>거의 같아 보입니다</b> — <b>차이는 확대해야 드러납니다.</b> " +
+        "🔍 <b>빨간 점선</b> 안이 확대해서 볼 자리입니다(도형의 <b>가장자리</b>). 확대 단추를 눌러 보세요."
+      : (round
+         ? "지금 <b>원의 비스듬한 가장자리</b>를 " + zoom + "배로 보고 있습니다. 왼쪽(벡터)은 " +
+           "<b>수식을 다시 계산해</b> 여전히 매끄럽고, 오른쪽(비트맵)은 <b>사각형 픽셀</b>이 " +
+           "드러나 <b>계단</b>이 됩니다 — 같은 그림인데 저장 방식이 달라서 그렇습니다."
+         : "지금 <b>직사각형의 모서리</b>를 " + zoom + "배로 보고 있습니다. 가로·세로 선은 " +
+           "픽셀 칸과 나란해서 <b>비트맵에도 계단이 생기지 않습니다</b> — " +
+           "계단은 <b>비스듬한 선</b>에서만 생깁니다. <b>원</b>을 눌러 견주어 보세요.");
     drawVectorCanvas($("vecCanvas"));
     drawBitmapCanvas($("bmpCanvas"));
   }

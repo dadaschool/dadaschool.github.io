@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>단원 정리 · 복습 (용어 · 자기점검 · 종합평가)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Crect x='8' y='7' width='16' height='18' rx='2' fill='%23ffffff'/%3E%3Crect x='11' y='11' width='10' height='2' fill='%234f46e5'/%3E%3Crect x='11' y='15' width='10' height='2' fill='%23a5b4fc'/%3E%3Crect x='11' y='19' width='6' height='2' fill='%23a5b4fc'/%3E%3C/svg%3E">
-  <link rel="stylesheet" crossorigin href="./assets/app-DaFoPRK8.css">
+  <link rel="stylesheet" crossorigin href="./assets/app-BfQ6HLZ7.css">
 </head>
 <body>
 
@@ -144,14 +144,14 @@
 
 </div>
 
-<script src="js/pdf.js?v=202609081629"></script>
-<script src="js/ui.js?v=202609081629"></script>
-<script src="js/basic.js?v=202609081629"></script>
-<script src="js/convert.js?v=202609081629"></script>
-<script src="js/text.js?v=202609081629"></script>
-<script src="js/image.js?v=202609081629"></script>
-<script src="js/sound.js?v=202609081629"></script>
-<script src="js/review.js?v=202609081629"></script>
+<script src="js/pdf.js?v=202609092020"></script>
+<script src="js/ui.js?v=202609092020"></script>
+<script src="js/basic.js?v=202609092020"></script>
+<script src="js/convert.js?v=202609092020"></script>
+<script src="js/text.js?v=202609092020"></script>
+<script src="js/image.js?v=202609092020"></script>
+<script src="js/sound.js?v=202609092020"></script>
+<script src="js/review.js?v=202609092020"></script>
 <script>
 (function () {
   "use strict";
@@ -434,15 +434,21 @@
       var pal = el("div", "palrow");
       I.paletteRows(q.aid.bits).forEach(function (p) {
         pal.appendChild(el("div", "palcell",
-          "<span class='sw' style='background:" + p.css + ";color:" + p.ink + "'>" + p.bin + "</span>" +
-          "<span class='nm'>" + p.v + " · " + p.name + "</span>"));
+          "<span class='sw' style='background:" + p.css + ";color:" + p.ink + "'>" + p.v + "</span>" +
+          "<span class='nm'>" + p.name + "</span>"));
       });
       b3.appendChild(pal);
       container.appendChild(b3);
 
       var wrap = el("div", "gridwrap");
       var g = el("div", "pixgrid");
-      g.style.setProperty("--cols", q.aid.grid[0].length);
+      /* 🚨 «--cols» 만 넣으면 **아무도 읽지 않아 격자가 1열로 무너진다**(2026-09-09 신고).
+         image.html 의 paintGrid 와 **같은 방식**으로 열을 직접 먹인다.
+         (app.css 에 «--cols» 대비책도 넣어 두었지만, 여기서 정하는 것이 원래 방식이다.) */
+      var gcols = q.aid.grid[0].length;
+      g.style.gridTemplateColumns = "repeat(" + gcols + ", 1fr)";
+      g.style.setProperty("--cols", gcols);
+      g.dataset.cols = gcols;
       q.aid.grid.forEach(function (row) {
         row.forEach(function (v) {
           var cell = el("div", "pix");

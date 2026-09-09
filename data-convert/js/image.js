@@ -288,6 +288,20 @@
       return { grid: null, errors: ["한 줄이 " + len + "자리인데 픽셀 하나가 " + bits +
                "비트라면 딱 나누어지지 않습니다. " + bits + "의 배수로 넣으세요."] };
     }
+    /* 🔴 한 줄로 붙여 넣었을 때 구제 — 표에서 이진수를 긁어 붙이면 **줄바꿈이 사라진다.**
+       그러면 8×8·3비트가 «64 × 1» 로 읽혀 못 그리고, 화면에는 예전 그림이 남아
+       «그림이 틀리게 나온다» 로 보인다(2026-09-09 사용자 신고).
+       픽셀 수가 제곱수면 **정사각형으로 나눠 준다**(192자리 ÷ 3비트 = 64픽셀 → 8 × 8).
+       ⚠ 제곱수가 아니면 손대지 않는다 — 8×6 을 억지로 나누면 «틀린 그림» 이 조용히 나온다. */
+    if (lines.length === 1 && len / bits > 16) {
+      var px = len / bits, side = Math.round(Math.sqrt(px));
+      if (side * side === px && side <= 16) {
+        var one = lines[0], re = [];
+        for (var q = 0; q < side; q++) re.push(one.substr(q * side * bits, side * bits));
+        lines = re;
+        len = side * bits;
+      }
+    }
     var cols = len / bits;
     if (cols > 16 || lines.length > 16) {
       return { grid: null, errors: ["격자는 16 × 16 까지만 그릴 수 있습니다 (지금 " +
