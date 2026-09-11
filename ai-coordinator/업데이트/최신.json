@@ -1,10 +1,10 @@
 {
-  "version": "1.3.3",
+  "version": "1.3.4",
   "date": "2026-09-11",
-  "zip": "https://dadaschool.github.io/ai-coordinator/update/aicodi-1.3.3.zip",
-  "size": 184798,
-  "sha256": "a63ad7ee08f3ab1a69f55789f4f8034e3407eda28102b39341a6d378691ff1a4",
+  "zip": "https://dadaschool.github.io/ai-coordinator/update/aicodi-1.3.4.zip",
+  "size": 189082,
+  "sha256": "efff44652303c86ad063a25ad0310ee11643a41bbbbc08b8a7754dfa55f13436",
   "notes": [
-    "시스템관리자가 '수정 요청(반송)'한 기록이 코디네이터 화면에서 지난 달 것이면 안 보이던 문제를 고쳤습니다. 이제 화면 위쪽에 반송된 기록이 몇 월 것이든 늘 보이고, 눌러서 바로 고친 뒤 다시 올릴 수 있습니다."
+    "시스템관리자가 직접 사진을 올리고, 코디네이터가 올린 사진 중에서 결과보고서(Ⅱ장 운영 결과 사진)에 넣을 것을 고를 수 있게 했습니다. [설정] → 🖼 결과보고서에 들어갈 사진 에서 하시면 됩니다."
   ]
 }
