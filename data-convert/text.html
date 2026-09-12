@@ -52,10 +52,15 @@
   .asciiwrap { max-height: 560px; overflow: auto; }
   table.ascii { border-collapse: collapse; width: 100%; }
   table.ascii th, table.ascii td {
-    border: 1px solid var(--line, #e5e7eb); padding: 7px 8px; text-align: center;
+    border: 1px solid var(--line, #e5e7eb); padding: 7px 5px; text-align: center;
     font-size: 18px; font-family: Consolas, monospace; color: #64748b;
+    /* 🚨 «10진» 이 «10 / 진» 으로 쪼개지지 않게 (2026-09-09 사용자 지적).
+       오른쪽 참고 칸이 좁은데 열이 12개(4묶음 × 3)라 머리글이 두 줄로 접혔다.
+       넘치면 .asciiwrap 이 가로로 스크롤한다 — 글자를 줄이지 않는다(전자칠판 규칙). */
+    white-space: nowrap;
   }
-  table.ascii th { background: #e2e8f0; color: #334155; font-family: system-ui, sans-serif; font-weight: 700; }
+  table.ascii th { background: #e2e8f0; color: #334155; font-family: system-ui, sans-serif;
+    font-weight: 700; font-size: 16px; padding: 6px 5px; }
   table.ascii td:not(.chr) { background: #f4f6fa; }             /* 숫자 칸은 눌러 둔다 */
   table.ascii tr:nth-child(2n) td:not(.chr) { background: #eceff5; }
   table.ascii td.chr {                                          /* 문자 칸 = 답. 강하게 */
@@ -506,10 +511,10 @@
 
 </div>
 
-<script src="js/pdf.js?v=202609092020"></script>
-<script src="js/ui.js?v=202609092020"></script>
-<script src="js/text.js?v=202609092020"></script>
-<script src="js/keyboard.js?v=202609092020"></script>
+<script src="js/pdf.js?v=202609121706"></script>
+<script src="js/ui.js?v=202609121706"></script>
+<script src="js/text.js?v=202609121706"></script>
+<script src="js/keyboard.js?v=202609121706"></script>
 <script>
 (function () {
   "use strict";

@@ -117,10 +117,48 @@
     c: { name: "파형 C (섞인 소리)", short: "C 섞인", secs: 8, parts: [[1.5, 0.80, 0.4], [4.0, 0.42, 0.0], [7.0, 0.24, 1.7]] }
   };
 
+  /* 🎤 녹음한 목소리 — `setMicWave` 로 넣는다.
+     🚨 **WAVES 에 넣지 않는다.** `verify_sound` 와 「간격·비트 비교표」가
+        `Object.keys(WAVES)` 를 훑는데, 녹음 전에는 비어 있는 파형이라
+        교과서 결론 검사가 엉뚱한 값에서 돌게 된다. 그래서 따로 두고 `waveOf` 가 갈라 준다.
+     pts : 0~1 로 맞춘 값이 secs 구간에 **고르게 늘어선** 배열 (js/mic.js 의 toBand 결과) */
+  var MIC = null;
+
+  function waveOf(key) { return (key === "mic" && MIC) ? MIC : (WAVES[key] || WAVES.a); }
+
+  /* 녹음한 파형을 넣는다. pts 가 없으면 지운다.
+     meta.realSecs : 이 pts 가 실제로는 몇 초짜리인가(화면이 ms 로 적을 때 쓴다)
+     meta.name     : 화면에 쓸 이름 */
+  function setMicWave(pts, meta) {
+    if (!pts || pts.length < 2) { MIC = null; return false; }
+    var m = meta || {};
+    MIC = {
+      name: m.name || "🎤 내 목소리",
+      short: m.short || "🎤 내 목소리",
+      secs: 8,                      /* 내부 좌표는 8초로 고정 — 기존 간격(0.5·1·2)을 그대로 쓴다 */
+      realSecs: m.realSecs || 8,    /* 실제 길이. 표·그래프의 시간 라벨을 이 비율로 바꾼다 */
+      zoom: !!m.zoom,               /* true 면 «확대한 진짜 파형», false 면 «음량 큰 그림» */
+      pts: pts
+    };
+    return true;
+  }
+  function micWave() { return MIC; }
+  function hasMicWave() { return !!MIC; }
+
   /* 시각 t(초) 에서의 신호 크기 — 0 ~ maxLevel(bits) 안으로 들어온다 */
   function waveAt(t, waveKey, bits) {
-    var w = WAVES[waveKey] || WAVES.a;
+    var w = waveOf(waveKey);
     var top = maxLevel(bits);
+    /* 🎤 녹음한 파형 : 사인 합이 아니라 **찍어 온 점 목록**을 곧은 선으로 이어 읽는다 */
+    if (w.pts && w.pts.length > 1) {
+      var x = (t / w.secs) * (w.pts.length - 1);
+      if (x < 0) x = 0;
+      if (x > w.pts.length - 1) x = w.pts.length - 1;
+      var i0 = Math.floor(x), fr = x - i0;
+      var p0 = w.pts[i0], p1 = w.pts[Math.min(w.pts.length - 1, i0 + 1)];
+      var mv = (p0 * (1 - fr) + p1 * fr) * top;
+      return Math.min(top, Math.max(0, mv));
+    }
     var mid = top / 2;
     var sum = 0, amp = 0;
     w.parts.forEach(function (p) {
@@ -133,7 +171,7 @@
 
   /* 표본화 — 간격 gap(초)마다 값을 읽는다 */
   function sampleWave(waveKey, bits, gap) {
-    var w = WAVES[waveKey] || WAVES.a;
+    var w = waveOf(waveKey);
     var out = [];
     for (var t = 0; t <= w.secs + 1e-9; t += gap) {
       var raw = waveAt(t, waveKey, bits);
@@ -175,7 +213,7 @@
      양자화 오차는 quantError() 가 따로 잰다.
      --------------------------------------------------------- */
   function sampleLoss(waveKey, bits, gap) {
-    var w = WAVES[waveKey] || WAVES.a;
+    var w = waveOf(waveKey);
     var sm = sampleWave(waveKey, bits, gap);
     var sum = 0, max = 0, cnt = 0;
     var STEPS = 800;
@@ -233,6 +271,39 @@
     return out;
   }
 
+  /* ---------------------------------------------------------
+     되살린 소리와 원래 소리의 차이 — **표본화 + 양자화를 함께** 거친 결과다.
+
+     ⚠ 위 [표본화 손실] 의 «두 값을 한 숫자로 섞지 말 것» 과 어긋나지 않는다 —
+       원인별 두 숫자(sampleLoss · quantError)는 그대로 두고, 여기서는
+       «D→A 로 **되살린 파형**이 원래와 얼마나 다른가» 를 **따로** 잰다.
+       화면에는 셋을 나란히 보여 준다(원인 둘 + 합친 결과 하나).
+     sampleLoss 와 다른 점은 이어 붙이는 값이 raw 가 아니라 **정수로 바꾼 level** 이라는 것뿐이다.
+     --------------------------------------------------------- */
+  function restoreLoss(waveKey, bits, gap) {
+    var w = waveOf(waveKey);
+    var sm = sampleWave(waveKey, bits, gap);
+    var sum = 0, max = 0, cnt = 0;
+    var STEPS = 800;
+    for (var k = 0; k <= STEPS; k++) {
+      var t = w.secs * k / STEPS;
+      var real = waveAt(t, waveKey, bits);
+      var i = Math.min(sm.length - 2, Math.max(0, Math.floor(t / gap)));
+      var t0 = sm[i].t, t1 = sm[i + 1].t;
+      var f = (t1 > t0) ? (t - t0) / (t1 - t0) : 0;
+      if (f < 0) f = 0;
+      if (f > 1) f = 1;
+      var got = sm[i].level * (1 - f) + sm[i + 1].level * f;
+      var e = Math.abs(real - got);
+      sum += e; cnt++;
+      if (e > max) max = e;
+    }
+    return {
+      max: Math.round(max * 1000) / 1000,
+      mean: Math.round(sum / cnt * 1000) / 1000
+    };
+  }
+
   /* 표본점을 지나는 매끄러운 곡선 — 코사인 보간을 쓴다.
      두 점 사이에서 값이 두 점의 범위를 벗어나지 않아(넘침 없음)
      그래프와 표가 절대 어긋나지 않는다. */
@@ -265,10 +336,15 @@
     decode: decode,
     decodeBits: decodeBits,
     waveAt: waveAt,
+    waveOf: waveOf,
+    setMicWave: setMicWave,
+    micWave: micWave,
+    hasMicWave: hasMicWave,
     sampleWave: sampleWave,
     quantError: quantError,
     dataBits: dataBits,
     sampleLoss: sampleLoss,
+    restoreLoss: restoreLoss,
     makeSamples: makeSamples,
     curveThrough: curveThrough
   };

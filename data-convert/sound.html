@@ -5,6 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>소리 변환 (표본화 · 양자화 · 부호화) · 아날로그 → 디지털</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f46e5'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='17' text-anchor='middle' fill='%23ffffff'%3E%E2%99%AA%3C/text%3E%3C/svg%3E">
+<style>
+  /* ===== 🎤 내 목소리 (2026-09-09) — 이 쪽 전용이라 인라인으로 스코프한다
+     (루트 규칙 : 공용 css/app.css 를 부풀리지 않는다) ===== */
+  #micBox { border: 2px dashed var(--brand, #4f46e5); border-radius: 12px;
+    padding: 10px 14px 12px; margin: 10px 0 14px; background: #fafaff; }
+  #micBox .btnrow { margin: 8px 0; }
+  #micCanvas { width: 100%; max-width: 900px; height: auto;
+    border: 1px solid var(--line, #e5e7eb); border-radius: 10px; background: #fff;
+    cursor: crosshair; display: block; }
+  #micWhy { margin: 2px 0 6px; }
+  #micHint { margin: 6px 0 2px; }
+  #micPlayRow .btn { min-height: 48px; }
+  #micPlayRow .btn.on { background: var(--brand, #4f46e5); color: #fff;
+    border-color: var(--brand, #4f46e5); }
+  #micPlayRow .lab { min-width: 0; }
+
+  /* ===== 🔍 그래프 크게 보기 (2026-09-12 사용자 지시 —
+     *"그래프가 너무 작아서 확인하기가 힘드는데 클릭하면 큰그림으로"*)
+     표본이 17개가 되면 신호 크기 숫자와 아래 이진수가 서로 겹쳐 읽을 수가 없다.
+     ⚠ 글자를 줄여 해결하지 않는다(전자칠판 규칙) — **캔버스를 넓혀** 자리를 번다. ===== */
+  #wavCanvas { cursor: zoom-in; }
+  /* 🚨 [hidden] 이 display:flex 에 밀리지 않게 — 루트 CLAUDE.md 의 «반쯤 되는» 함정 */
+  #bigWrap[hidden] { display: none !important; }
+  #bigWrap {
+    position: fixed; inset: 0; z-index: 90; background: rgba(15,23,42,.72);
+    display: flex; align-items: center; justify-content: center; padding: 18px;
+  }
+  #bigBox {
+    background: #fff; border-radius: 14px; padding: 12px 14px 14px;
+    width: min(100%, 1900px); max-height: 100%; overflow: auto;
+    box-shadow: 0 18px 50px rgba(0,0,0,.35);
+  }
+  #bigHead { display: flex; align-items: center; gap: 12px; margin: 0 0 8px; }
+  #bigTitle { font-size: 21px; font-weight: bold; flex: 1; margin: 0; }
+  #bigClose { min-height: 56px; font-size: 20px; padding: 8px 20px; }
+  #bigCanvas { width: 100%; height: auto; display: block;
+    border: 1px solid var(--line, #e5e7eb); border-radius: 10px; background: #fff; }
+</style>
   <link rel="stylesheet" crossorigin href="./assets/app-BfQ6HLZ7.css">
 </head>
 <body>
@@ -51,6 +89,26 @@
       <!-- A→D 설정 -->
       <div id="adSetting">
         <div class="baserow" id="waveRow"><span class="lab">파형 고르기</span></div>
+
+        <!-- 🎤 내 목소리 (2026-09-09 사용자 요청). 「파형 고르기」에서 🎤 를 눌러야 열린다.
+             🔒 녹음은 브라우저 밖으로 나가지 않는다 — 파일·저장·전송 0. 새로고침하면 사라진다. -->
+        <div id="micBox" hidden>
+          <p class="lvnote" id="micWhy"></p>
+          <div class="btnrow" id="micBtnRow">
+            <!-- ⚠ 글자는 micWire() 가 Mic.REC_SECS 로 다시 넣는다 — 숫자가 어긋나지 않게 -->
+            <button class="btn primary" id="btnMicRec">🎤 녹음</button>
+            <button class="btn" id="btnMicWide" hidden>① 큰 그림 (소리 크기)</button>
+            <button class="btn" id="btnMicZoom" hidden>② 확대해서 진짜 파형</button>
+          </div>
+          <div id="micViewBox" hidden>
+            <canvas id="micCanvas" width="900" height="170" class="wavcanvas"
+                    aria-label="녹음한 소리 전체"></canvas>
+            <p class="lvnote" id="micHint"></p>
+            <div class="btnrow" id="micPlayRow"></div>
+          </div>
+          <p class="res" id="micMsg" hidden></p>
+        </div>
+
         <div class="baserow" id="gapRow"><span class="lab">표본화 간격</span></div>
         <div class="baserow" id="bitRow"><span class="lab">양자화 비트</span></div>
       </div>
@@ -85,6 +143,8 @@
               aria-label="소리 신호 그래프"></canvas>
       <div class="btnrow">
         <button class="btn primary" id="btnNext">다음 단계 ▶</button>
+        <!-- ⚠ 캔버스를 눌러도 열리지만, 단추가 없으면 «그런 기능이 있는 줄» 을 모른다 -->
+        <button class="btn" id="btnBig">🔍 그래프 크게 보기</button>
         <button class="btn ghost" id="btnFirst">처음 단계로</button>
       </div>
       <p class="lvnote" id="daNote" hidden></p>
@@ -99,7 +159,7 @@
       <div class="tablescroll">
         <table class="grid" id="sampTable">
           <thead><tr>
-            <th style="width:16%">시간(초)</th><th style="width:22%" id="thRaw">신호 크기</th>
+            <th style="width:16%" id="thTime">시간(초)</th><th style="width:22%" id="thRaw">신호 크기</th>
             <th style="width:20%">정숫값</th><th style="width:42%">이진수</th>
           </tr></thead>
           <tbody id="sampBody"></tbody>
@@ -241,9 +301,26 @@
 
 </div>
 
-<script src="js/pdf.js?v=202609092020"></script>
-<script src="js/ui.js?v=202609092020"></script>
-<script src="js/sound.js?v=202609092020"></script>
+<script src="js/pdf.js?v=202609121706"></script>
+<script src="js/ui.js?v=202609121706"></script>
+<script src="js/sound.js?v=202609121706"></script>
+<script src="js/mic.js?v=202609121706"></script>
+<!-- 🔍 그래프 크게 보기 — 같은 그림을 **넓은 캔버스**에 다시 그린다.
+     drawGraph 의 글자 크기는 캔버스 좌표 기준 고정이라, 캔버스를 넓히면
+     글자는 그대로인 채 **자리만 넓어져** 겹침이 풀린다.
+     🚨 이 마크업은 반드시 **스크립트 태그 앞**에 둔다 — 뒤에 두었더니 스크립트가 돌 때
+        #bigClose 가 아직 없어서 addEventListener 가 터지고 **그 뒤 연결이 통째로 끊겼다**
+        (열기는 되는데 ✕·바깥·Esc 가 다 안 먹었다 · 2026-09-12). -->
+<div id="bigWrap" hidden>
+  <div id="bigBox" role="dialog" aria-modal="true" aria-label="그래프 크게 보기">
+    <div id="bigHead">
+      <p id="bigTitle">그래프 크게 보기</p>
+      <button class="btn" id="bigClose">✕ 닫기</button>
+    </div>
+    <canvas id="bigCanvas" width="1900" height="860" aria-label="크게 본 소리 신호 그래프"></canvas>
+  </div>
+</div>
+
 <script>
 (function () {
   "use strict";
@@ -301,7 +378,12 @@
        opts.showRaw  : 신호 크기 숫자를 보여 줄까 (연습에서 숨긴다)
        opts.showLevel: 정숫값을 보여 줄까
      ========================================================= */
+  /* 🔍 «크게 보기» 가 같은 그림을 다시 그리려면 마지막에 무엇을 그렸는지 알아야 한다.
+     ⚠ 큰 캔버스에 그릴 때는 기억하지 않는다(그러면 자기 자신을 덮어쓴다). */
+  var lastGraph = null;
+
   function drawGraph(canvas, opts) {
+    if (canvas.id === "wavCanvas") lastGraph = opts;
     var g = canvas.getContext("2d");
     var W = canvas.width, H = canvas.height;
     var top = S.maxLevel(opts.bits);
@@ -336,12 +418,29 @@
     g.textAlign = "left"; g.textBaseline = "top";
     g.fillText("신호 크기", 6, 4);
     g.textAlign = "right";
-    g.fillText("시간(초) →", W - R, H - 30);
+    g.fillText(opts.xlabel || "시간(초) →", W - R, H - 30);
 
-    /* 아날로그 파형 */
-    if (opts.curve && opts.curve.length) {
-      g.strokeStyle = "#4f46e5";
+    /* 🔵 **원래 아날로그 파형** — D→A 에서 「방금 만든 코드」를 되살렸을 때만 함께 그린다.
+       되살린 파형과 **겹쳐 놓아야** «무엇을 잃었는지» 가 눈에 보인다(2026-09-09 사용자 지시).
+       ⚠ 되살린 파형보다 **먼저** 그려 뒤에 깔리게 한다. */
+    if (opts.origCurve && opts.origCurve.length) {
+      /* ⚪ 원래 소리는 **회색** — 되살린 소리(빨강)가 주인공이다(2026-09-09 사용자 지시).
+         basic.html 의 잡음·복사 실험도 «옅은 회색 = 원래 파형» 이라 앱 전체가 같은 약속이 된다.
+         ⚠ 격자선(#e2e8f0)·축(#94a3b8) 보다 진한 회색을 쓴다 — 안 그러면 격자에 묻힌다. */
+      g.strokeStyle = "#64748b";
       g.lineWidth = 3;
+      g.beginPath();
+      opts.origCurve.forEach(function (p, k) {
+        var x = px(p.x), y = py(Math.min(top, Math.max(0, p.y)));
+        if (k === 0) g.moveTo(x, y); else g.lineTo(x, y);
+      });
+      g.stroke();
+    }
+
+    /* 아날로그 파형 (D→A 에서는 «되살린» 파형이라 색을 달리 준다) */
+    if (opts.curve && opts.curve.length) {
+      g.strokeStyle = opts.curveColor || "#4f46e5";
+      g.lineWidth = opts.curveWidth || 3;
       g.beginPath();
       opts.curve.forEach(function (p, k) {
         var x = px(p.x), y = py(Math.min(top, Math.max(0, p.y)));
@@ -361,7 +460,7 @@
         g.setLineDash([]);
         g.fillStyle = "#475569";
         g.textAlign = "center"; g.textBaseline = "top";
-        g.fillText(String(s.t), x, H - B + 8);
+        g.fillText(opts.timeFmt ? opts.timeFmt(s.t) : String(s.t), x, H - B + 8);
       });
     }
 
@@ -409,6 +508,25 @@
         g.font = "20px 'Malgun Gothic', sans-serif";
       });
     }
+
+    /* 🟠 표본마다 «원래 값 → 되살린 값» 으로 떨어진 만큼이 **양자화 오차**다.
+       🚨 **맨 마지막에 그린다** — 초록 점(반지름 10)이 떨어진 거리(대개 10px 안팎)를
+          통째로 덮어 버려서, 앞에서 그렸더니 화면에 한 점도 안 보였다(픽셀로 재서 확인). */
+    if (opts.origSamples) {
+      opts.origSamples.forEach(function (s, i) {
+        var x = px(i);
+        if (Math.abs(s.raw - s.level) >= 0.01) {
+          g.strokeStyle = "#f59e0b"; g.lineWidth = 4;
+          g.setLineDash([5, 4]);
+          g.beginPath(); g.moveTo(x, py(s.raw)); g.lineTo(x, py(s.level)); g.stroke();
+          g.setLineDash([]);
+        }
+        /* 원래 값 = 회색 점(작게 — 초록 점을 가리지 않도록) + 흰 테두리 */
+        g.fillStyle = "#64748b";
+        g.beginPath(); g.arc(x, py(s.raw), 6, 0, Math.PI * 2); g.fill();
+        g.strokeStyle = "#ffffff"; g.lineWidth = 2; g.stroke();
+      });
+    }
   }
 
   /* =========================================================
@@ -418,6 +536,16 @@
   var learnDir = "ad";          // "ad" 아날로그→디지털 · "da" 디지털→아날로그
   var revBits = 3;              // D→A 에서 한 표본이 몇 비트인가
   var revData = null;           // 되살린 결과 (S.decodeBits 의 결과)
+  /* 🔵 「방금 만든 코드 넣기」로 넣었을 때만 채워진다 — {waveKey, gap, bits}.
+     3단계에서 **원래 아날로그 파형을 함께** 그리려면 «그 코드가 어느 파형에서 나왔는지» 를
+     알아야 한다. 손으로 고치거나 보기 단추를 누르면 **반드시 null 로 되돌린다** —
+     엉뚱한 파형을 «원래 소리» 라고 겹쳐 그리면 거짓말이 된다. */
+  var revOrigin = null;
+
+  /* 🎤 녹음한 소리 — {data, rate, secs}. 🔒 여기(메모리)에만 있고 어디에도 저장하지 않는다.
+     micMode : null(녹음 전) · "wide"(큰 그림 = 음량) · "zoom"(확대 = 진짜 파형)
+     micAt   : 확대해서 볼 시각(초) */
+  var micRec = null, micMode = null, micAt = 0, micBusy = false;
 
   var GAPS = [0.5, 1, 2];
 
@@ -435,9 +563,19 @@
     Object.keys(S.WAVES).forEach(function (k) {
       var b = el("button", "btn", S.WAVES[k].short || S.WAVES[k].name);
       b.type = "button"; b.dataset.w = k;
-      b.addEventListener("click", function () { waveKey = k; stage = 0; redrawLearn(); });
+      b.addEventListener("click", function () { waveKey = k; stage = 0; micMode = null; redrawLearn(); });
       $("waveRow").appendChild(b);
     });
+    /* 🎤 내 목소리 — 파형 A·B·C 옆에 넷째로 붙는다 */
+    var mb = el("button", "btn", "🎤 내 목소리");
+    mb.type = "button"; mb.dataset.w = "mic";
+    mb.addEventListener("click", function () {
+      waveKey = "mic"; stage = 0;
+      if (!micRec) { micMode = null; S.setMicWave(null); }
+      else if (!micMode) micApply("wide");
+      redrawLearn();
+    });
+    $("waveRow").appendChild(mb);
     GAPS.forEach(function (v) {
       var b = el("button", "btn", v + "초마다");
       b.type = "button"; b.dataset.g = v;
@@ -511,7 +649,9 @@
     (REV_EXAMPLES[revBits] || []).forEach(function (e) {
       var b = el("button", "btn", esc(e[1]));
       b.type = "button"; b.title = e[0];
-      b.addEventListener("click", function () { $("revIn").value = e[0]; runReverse(); });
+      b.addEventListener("click", function () {
+        $("revIn").value = e[0]; revOrigin = null; runReverse();
+      });
       row.appendChild(b);
     });
     /* 지금 A→D 로 만든 코드를 그대로 되돌려 보는 단추 — 왕복이 한눈에 보인다 */
@@ -520,12 +660,14 @@
     mine.addEventListener("click", function () {
       var sm = S.sampleWave(waveKey, revBits, gap);
       $("revIn").value = sm.map(function (s) { return s.bin; }).join(" ");
+      revOrigin = { waveKey: waveKey, gap: gap, bits: revBits };   /* 원래 파형을 기억해 둔다 */
       runReverse();
     });
     mine.title = "① 아날로그 → 디지털 에서 만든 비트열";
     row.appendChild(mine);
 
     stage = 0;
+    revOrigin = null;
     if (da) { revData = null; renderReverse(); } else { redrawLearn(); }
   }
 
@@ -537,10 +679,218 @@
     });
   }
 
+  /* =========================================================
+     🎤 내 목소리 — 녹음 → ① 큰 그림(음량) → ② 확대(진짜 파형) → 기존 3단계
+
+     🔒 녹음은 **이 브라우저 메모리에만** 있다. 파일도 안 만들고 저장·전송도 없다.
+        새로고침하면 사라진다(photo-extractor 가 얼굴을 다루는 원칙과 같다).
+     🚨 마이크는 **https 나 localhost 에서만** 열린다 — 안 되면 이유를 말하고
+        파형 A·B·C 로 그대로 학습할 수 있게 둔다.
+     ========================================================= */
+
+  /* 녹음한 소리를 «파형» 으로 만들어 기존 화면에 넘긴다.
+     "wide" : 녹음 전체의 **음량**(0~1 그대로)  ·  "zoom" : micAt 부근 10ms 의 **진짜 파형** */
+  function micApply(mode) {
+    if (!micRec || typeof Mic === "undefined") return;
+    micMode = mode;
+    if (mode === "zoom") {
+      var chunk = Mic.sliceAt(micRec.data, micRec.rate, micAt, Mic.ZOOM_MS / 1000);
+      /* 진짜 파형은 −1~+1 로 진동하므로 가운데(0.5)에 놓고 편다 */
+      S.setMicWave(Mic.toBand(Mic.normalize(chunk)),
+        { realSecs: Mic.ZOOM_MS / 1000, zoom: true, name: "🎤 내 목소리 (확대)" });
+    } else {
+      /* ⚠ 음량은 0 이상만 있으므로 toBand 를 쓰지 않는다(쓰면 0.5 위쪽만 쓰게 된다) */
+      S.setMicWave(Mic.normalize(Mic.envelope(micRec.data, Mic.ENV_BUCKETS)),
+        { realSecs: micRec.secs, zoom: false, name: "🎤 내 목소리 (소리 크기)" });
+    }
+  }
+
+  /* 녹음 전체를 그리고, 확대해서 볼 자리를 빨간 띠로 표시한다 */
+  function drawMic() {
+    var box = $("micBox");
+    if (!box) return;
+    box.hidden = (waveKey !== "mic");
+    if (box.hidden) return;
+    if (typeof Mic === "undefined") {
+      $("micWhy").textContent = "마이크 기능을 불러오지 못했습니다.";
+      return;
+    }
+    var r = Mic.reason();
+    if (r !== "ok") {
+      $("micWhy").innerHTML = "🎤 " + Mic.reasonText(r);
+      $("btnMicRec").disabled = true;
+    } else {
+      $("micWhy").innerHTML = "🎤 <b>내 목소리를 디지털로.</b> " + Mic.REC_SECS +
+        "초 녹음한 뒤 <b>① 큰 그림</b>에서 한 곳을 누르고 <b>② 확대</b>를 누르면, " +
+        "그 순간의 <b>진짜 파형</b>을 교과서와 같은 방법으로 표본화·양자화·부호화합니다. " +
+        "<b>🔒 녹음은 이 브라우저 밖으로 나가지 않습니다</b>(저장·전송 없음 · 새로고침하면 사라집니다).";
+    }
+    $("micViewBox").hidden = !micRec;
+    $("btnMicWide").hidden = !micRec;
+    $("btnMicZoom").hidden = !micRec;
+    $("btnMicWide").classList.toggle("on", micMode === "wide");
+    $("btnMicZoom").classList.toggle("on", micMode === "zoom");
+    if (!micRec) return;
+
+    var cv = $("micCanvas"), g = cv.getContext("2d");
+    var W = cv.width, Hh = cv.height, P = 8;
+    g.clearRect(0, 0, W, Hh);
+    g.fillStyle = "#ffffff"; g.fillRect(0, 0, W, Hh);
+    var env = Mic.normalize(Mic.envelope(micRec.data, 300));
+    g.fillStyle = "#c7d2fe";
+    for (var i = 0; i < env.length; i++) {
+      var x = P + (W - 2 * P) * i / env.length;
+      var bw = (W - 2 * P) / env.length + 0.6;
+      var bh = (Hh - 2 * P - 20) * env[i];
+      g.fillRect(x, Hh - P - 20 - bh, bw, bh);
+    }
+    /* 확대해서 볼 자리 — 실제로는 아주 좁으므로 최소 3px 은 그린다 */
+    var zx = P + (W - 2 * P) * (micAt / micRec.secs);
+    var zw = Math.max(3, (W - 2 * P) * (Mic.ZOOM_MS / 1000) / micRec.secs);
+    g.fillStyle = "rgba(220,38,38,.22)";
+    g.fillRect(zx - zw / 2, P, zw, Hh - 2 * P - 20);
+    g.strokeStyle = "#dc2626"; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(zx, P); g.lineTo(zx, Hh - P - 20); g.stroke();
+    g.fillStyle = "#64748b"; g.font = "16px 'Malgun Gothic', sans-serif";
+    g.textAlign = "center"; g.textBaseline = "bottom";
+    for (var s2 = 0; s2 <= micRec.secs + 1e-6; s2 += 1) {
+      g.fillText(s2 + "초", P + (W - 2 * P) * (s2 / micRec.secs), Hh - 2);
+    }
+
+    $("micHint").innerHTML = (micMode === "zoom")
+      ? "🔍 지금 <b>" + micAt.toFixed(2) + "초</b> 자리의 <b>" + Mic.ZOOM_MS +
+        "ms</b> 를 확대해 보고 있습니다(빨간 띠). 위 그래프를 눌러 <b>다른 곳</b>을 골라 보세요."
+      : "이것은 <b>소리 크기</b>입니다 — 크게 말한 곳이 높습니다. " +
+        "⚠ 이건 <b>음량</b>의 표본화이지 <b>파형</b>의 표본화가 아닙니다. " +
+        "그래프에서 한 곳을 <b>누른 뒤</b> <b>② 확대</b>를 누르면 그 순간의 <b>진짜 파형</b>이 나옵니다.";
+    buildMicPlay();
+  }
+
+  /* 🔊 들어보기 — 원래 소리와 «비트별로 양자화한 소리» 를 번갈아 듣는다.
+     비트를 줄이면 소리가 거칠어지는 것을 **귀로** 확인하는 자리다. */
+  function buildMicPlay() {
+    var row = $("micPlayRow");
+    if (row._for === micRec) return;            /* 녹음이 바뀔 때만 다시 만든다 */
+    row._for = micRec;
+    row.innerHTML = "<span class='lab'>🔊 들어보기</span>";
+    function off() {
+      row.querySelectorAll(".btn").forEach(function (x) { x.classList.remove("on"); });
+    }
+    function mk(label, bn) {
+      var b = el("button", "btn", label);
+      b.type = "button";
+      b.addEventListener("click", function () {
+        Mic.play(bn ? Mic.quantize(micRec.data, bn) : micRec.data, micRec.rate, off);
+        off(); b.classList.add("on");
+      });
+      row.appendChild(b);
+    }
+    mk("원래 소리", 0);
+    [2, 3, 4, 8].forEach(function (bn) { mk(bn + "비트", bn); });
+    var st = el("button", "btn ghost", "■ 멈춤");
+    st.type = "button";
+    st.addEventListener("click", function () { Mic.stop(); off(); });
+    row.appendChild(st);
+  }
+
+  function micWire() {
+    /* 🚨 단추 이름에 숫자를 박아 두면 REC_SECS 를 고칠 때 조용히 어긋난다 —
+       실제로 5 → 3 으로 바꿀 때 HTML 에 「5초 녹음」 이 남아 있었다(2026-09-12). */
+    $("btnMicRec").textContent = "🎤 " + Mic.REC_SECS + "초 녹음";
+    $("btnMicRec").addEventListener("click", function () {
+      if (micBusy) return;
+      var msg = $("micMsg"), btn = this;
+      micBusy = true; btn.disabled = true;
+      msg.hidden = false; msg.className = "res";
+      msg.innerHTML = "🎤 마이크를 여는 중입니다… 브라우저가 물으면 <b>허용</b> 을 눌러 주세요.";
+      Mic.record(Mic.REC_SECS, function (left) {
+        btn.textContent = "● 녹음 중… " + left.toFixed(1) + "초";
+        msg.innerHTML = "🎤 <b>지금 말해 보세요!</b> 남은 시간 <b>" + left.toFixed(1) + "초</b>";
+      }).then(function (rec) {
+        micRec = rec;
+        micAt = Mic.loudestAt(rec.data, rec.rate);   /* 가장 크게 말한 곳을 미리 골라 둔다 */
+        micApply("wide");
+        micBusy = false; btn.disabled = false;
+        btn.textContent = "🎤 다시 녹음";
+        msg.className = "res ok";
+        msg.innerHTML = "✅ <b>" + rec.secs.toFixed(1) + "초</b> 를 녹음했습니다 — " +
+          "1초에 <b>" + rec.rate.toLocaleString() + "번</b> 읽었습니다(표본 " +
+          rec.data.length.toLocaleString() + "개). 아래에서 한 곳을 누르고 <b>② 확대</b> 를 눌러 보세요.";
+        stage = 0; redrawLearn();
+      })["catch"](function (e) {
+        micBusy = false; btn.disabled = false;
+        btn.textContent = "🎤 " + Mic.REC_SECS + "초 녹음";
+        msg.className = "res no";
+        msg.innerHTML = (e && e.message === "no-input")
+          ? "마이크에서 <b>소리가 들어오지 않았습니다.</b> 마이크가 켜져 있는지 확인하고 다시 눌러 주세요."
+          : Mic.errorText(e);
+      });
+    });
+    $("btnMicWide").addEventListener("click", function () { micApply("wide"); stage = 0; redrawLearn(); });
+    $("btnMicZoom").addEventListener("click", function () { micApply("zoom"); stage = 0; redrawLearn(); });
+    /* 큰 그림을 눌러 «확대할 자리» 를 고른다 */
+    $("micCanvas").addEventListener("click", function (e) {
+      if (!micRec) return;
+      var rc = this.getBoundingClientRect();
+      micAt = Math.max(0, Math.min(micRec.secs, (e.clientX - rc.left) / rc.width * micRec.secs));
+      if (micMode === "zoom") micApply("zoom");
+      stage = 0; redrawLearn();
+    });
+  }
+
+  /* 🎤 «내부 8초 좌표» 를 실제 시간으로 옮겨 적는다.
+     녹음 파형은 내부적으로 8초 창을 쓰지만(기존 간격 0.5·1·2 를 그대로 쓰려고)
+     실제로는 3초(큰 그림)나 10ms(확대)다. 라벨만 바꿔 **거짓말이 되지 않게** 한다. */
+  function tLab(t) {
+    var w = S.waveOf(waveKey);
+    if (!w.realSecs || Math.abs(w.realSecs - 8) < 1e-9) return String(t);
+    var real = t / 8 * w.realSecs;
+    return (w.realSecs < 0.1) ? (real * 1000).toFixed(1) : real.toFixed(1);
+  }
+  /* 🎤 간격 단추 이름도 **실제 시간**으로 — 확대 화면에서 «1초마다» 는 거짓말이다(실제 1.25ms).
+     🚨 조작 단추가 거짓을 말하면 표·그래프를 아무리 맞춰 놔도 소용없다. */
+  function gapLab(g) {
+    var w = S.waveOf(waveKey);
+    if (!w.realSecs || Math.abs(w.realSecs - 8) < 1e-9) return g + "초마다";
+    var real = g / 8 * w.realSecs;
+    return (w.realSecs < 0.1) ? (real * 1000).toFixed(2) + "ms마다" : real.toFixed(2) + "초마다";
+  }
+
+  function xLab() {
+    var w = S.waveOf(waveKey);
+    if (!w.realSecs || Math.abs(w.realSecs - 8) < 1e-9) return "시간(초) →";
+    return (w.realSecs < 0.1) ? "시간(ms) →" : "시간(초) →";
+  }
+
   function redrawLearn() {
     markRow("waveRow", "data-w", waveKey);
+    drawMic();
+    /* 🚨 🎤 를 골랐는데 아직 녹음이 없으면 — waveOf 가 파형 A 로 되돌아가므로
+       그대로 두면 **파형 A 를 «내 목소리» 라고 보여 주는 거짓말**이 된다. */
+    if (waveKey === "mic" && !S.hasMicWave()) {
+      markRow("gapRow", "data-g", gap);
+      markRow("bitRow", "data-b", bits);
+      var cv0 = $("wavCanvas"), g0 = cv0.getContext("2d");
+      g0.clearRect(0, 0, cv0.width, cv0.height);
+      g0.fillStyle = "#ffffff"; g0.fillRect(0, 0, cv0.width, cv0.height);
+      g0.fillStyle = "#94a3b8";
+      g0.font = "26px 'Malgun Gothic', sans-serif";
+      g0.textAlign = "center"; g0.textBaseline = "middle";
+      g0.fillText("위의 [🎤 녹음] 을 눌러 목소리를 녹음해 주세요", cv0.width / 2, cv0.height / 2);
+      $("setNote").innerHTML = "🎤 <b>내 목소리</b> 를 골랐습니다. 위에서 <b>녹음</b> 부터 해 주세요.";
+      $("stageLead").innerHTML = "녹음이 끝나면 여기에 <b>표본화 → 양자화 → 부호화</b> 가 나옵니다.";
+      $("sampBody").innerHTML = "";
+      $("allBitsLine").innerHTML = "";
+      $("sizeLine").textContent = "";
+      $("btnNext").disabled = true;
+      $("btnNext").textContent = "먼저 녹음해 주세요";
+      return;
+    }
     markRow("gapRow", "data-g", gap);
     markRow("bitRow", "data-b", bits);
+    $("gapRow").querySelectorAll("[data-g]").forEach(function (gb) {
+      gb.textContent = gapLab(Number(gb.dataset.g));
+    });
     $("stageRow").querySelectorAll("[data-s]").forEach(function (b) {
       var k = Number(b.dataset.s);
       b.classList.toggle("on", k === stage);
@@ -554,15 +904,19 @@
        ⚠ x 좌표는 **표본 번호와 같은 단위**다 — 표본 i 는 t = i × gap 에 있으므로 x = t / gap 이다.
           전에 `-0.5` 를 빼서 곡선이 표본 간격의 절반만큼 왼쪽으로 밀려 있었다
           (점이 곡선 위에 있지 않고 봉우리도 어긋나 보였다). 절대 offset 을 넣지 말 것. */
-    var secs = S.WAVES[waveKey].secs;
+    var secs = S.waveOf(waveKey).secs;   /* 🚨 mic 은 WAVES 에 없다 — waveOf 로 읽는다 */
     var n = samples.length;
     for (var k = 0; k <= 600; k++) {
       var t = secs * k / 600;
       curve.push({ x: t / gap, y: S.waveAt(t, waveKey, bits) });
     }
 
-    $("setNote").innerHTML = "<b>" + S.WAVES[waveKey].name + "</b> 을(를) <b>" + gap +
-      "초마다</b> 끊어 읽고, <b>" + bits + "비트</b>(0 ~ " + S.maxLevel(bits) +
+    /* 🎤 확대 화면에서는 시간이 «초» 가 아니라 «ms» 다 — 표 머리글도 함께 바꾼다.
+       ⚠ 안 바꾸면 10ms 짜리 표에 «시간(초)» 이라고 적혀 **틀린 것을 가르치게 된다.** */
+    $("thTime").textContent = (xLab() === "시간(ms) →") ? "시간(ms)" : "시간(초)";
+    $("setNote").innerHTML = "<b>" + S.waveOf(waveKey).name + "</b>" +
+      UI.josa(S.waveOf(waveKey).name, "을를") + " <b>" + gapLab(gap) +
+      "</b> 끊어 읽고, <b>" + bits + "비트</b>(0 ~ " + S.maxLevel(bits) +
       " 의 " + S.levelsOf(bits) + "단계)로 나타냅니다. → 표본 <b>" + n + "개</b>";
 
     var st = stage === 0 ? null : S.STAGES[stage - 1];
@@ -576,7 +930,8 @@
 
     drawGraph($("wavCanvas"), {
       samples: samples, bits: bits, curve: curve, stage: stage,
-      showRaw: stage >= 1, showLevel: stage >= 2
+      showRaw: stage >= 1, showLevel: stage >= 2,
+      timeFmt: tLab, xlabel: xLab()
     });
 
     $("btnNext").disabled = (stage >= 3);
@@ -587,7 +942,7 @@
     tb.innerHTML = "";
     samples.forEach(function (s) {
       tb.appendChild(el("tr", null,
-        "<td>" + s.t + "</td>" +
+        "<td>" + tLab(s.t) + "</td>" +
         "<td>" + (stage >= 1 ? s.raw.toFixed(3) : "—") + "</td>" +
         "<td class='mark-ok'>" + (stage >= 2 ? "<b>" + s.level + "</b>" : "—") + "</td>" +
         "<td style='font-family:Consolas,monospace'>" +
@@ -615,7 +970,7 @@
       var cls = (gv === gap) ? " class='mark-ok'" : "";
       var rel = errs[i].mean / (worst || 1);
       gb.appendChild(el("tr", null,
-        "<td" + cls + "><b>" + gv + "초마다</b></td>" +
+        "<td" + cls + "><b>" + gapLab(gv) + "</b></td>" +
         "<td" + cls + ">" + sm.length + "개</td>" +
         "<td>" + tot + "비트 (" + (tot / 8).toFixed(1) + "바이트)</td>" +
         "<td>평균 <b>" + errs[i].mean.toFixed(2) + "</b> · 가장 클 때 " + errs[i].max.toFixed(2) + "</td>" +
@@ -702,12 +1057,37 @@
     $("stageLead").innerHTML = "<b>" + stage + "단계 · " + st.name + "</b> — " + st.what +
       (stage === 1 ? " (아래 표의 <b>이진수</b> 칸)"
        : stage === 2 ? " (아래 표의 <b>정숫값</b> 칸 — 부호화의 반대다)"
-       : " (점을 이어 만든 파형입니다)");
+       : (revOrigin && revOrigin.bits === revBits
+          ? " (<b>회색 선 = 원래 소리</b> · <b>빨간 선 = 되살린 소리</b> — 벌어진 만큼을 잃었습니다)"
+          : " (점을 이어 만든 파형입니다)"));
+
+    /* 🔵 3단계에서 «원래 소리» 를 함께 그릴 수 있나 — 「방금 만든 코드」로 넣었을 때만.
+       표본 수까지 같아야 한다(비트 수를 바꿨거나 손으로 고쳤으면 겹쳐 그리지 않는다). */
+    var oCurve = null, oSm = null;
+    if (stage >= 3 && revOrigin && revOrigin.bits === revBits) {
+      var cand = S.sampleWave(revOrigin.waveKey, revBits, revOrigin.gap);
+      if (cand.length === sm.length) {
+        oSm = cand;
+        oCurve = [];
+        var osecs = S.waveOf(revOrigin.waveKey).secs;
+        for (var ck = 0; ck <= 600; ck++) {
+          var ct = osecs * ck / 600;
+          oCurve.push({ x: ct / revOrigin.gap, y: S.waveAt(ct, revOrigin.waveKey, revBits) });
+        }
+      }
+    }
 
     /* 3단계에서만 점을 이어 파형을 그린다 */
     drawGraph($("wavCanvas"), {
       samples: sm, bits: revBits,
       curve: (stage >= 3) ? S.curveThrough(sm, 26) : null,
+      /* 🔴 겹쳐 그릴 때 «되살린 소리» 는 **빨강 + 더 굵게** (2026-09-09 사용자 지시 —
+         *"원래소리가 더 진하게 보여. 되살린 소리를 빨간색으로 조금더 두껍게"*).
+         ⚠ 점은 초록(정숫값) 그대로다 — 초록 점은 A→D 화면과 같은 «양자화된 값» 이라
+            색을 바꾸면 두 화면이 어긋난다. 빨간 선은 «그 점들을 이은 것» 이다. */
+      curveColor: oCurve ? "#dc2626" : null,
+      curveWidth: null,   /* 굵게 하면 뒤의 회색 선이 가려진다 — 색으로만 구별한다 */
+      origCurve: oCurve, origSamples: oSm,
       stage: (stage >= 2) ? 2 : 1,
       showRaw: false,
       showLevel: stage >= 2
@@ -728,16 +1108,52 @@
     $("sizeLine").textContent = "데이터 양 : 표본 " + sm.length + "개 × " + revBits +
       "비트 = " + revData.bitCount + "비트 (" + (revData.bitCount / 8).toFixed(1) + "바이트)";
 
-    $("daNote").innerHTML = stage >= 3
-      ? "⚠ 되살린 소리는 <b>원래 소리와 똑같지 않습니다.</b> 표본 <b>사이</b>의 값은 저장되지 않았으므로 " +
-        "점을 이어서 <b>짐작한</b> 것입니다. 그래서 <b>표본화 간격이 촘촘할수록</b> 원래 소리에 가까워집니다."
-      : "저장할 때와 <b>반대 순서</b>로 갑니다 — 부호화의 반대가 <b>복호화</b>입니다.";
+    if (stage >= 3 && oSm) {
+      /* 🔴 원인 둘(표본화·양자화)을 **따로** 재고, 합친 결과를 하나 더 보여 준다.
+         ⚠ 두 원인을 한 숫자로 섞지 않는다 — js/sound.js 의 [표본화 손실] 주석 참고. */
+      var range = S.maxLevel(revBits);
+      var sl = S.sampleLoss(revOrigin.waveKey, revBits, revOrigin.gap);
+      var qe = S.quantError(oSm);
+      var rl = S.restoreLoss(revOrigin.waveKey, revBits, revOrigin.gap);
+      var pc = function (v) { return (v / range * 100).toFixed(1) + "%"; };
+      /* 🔴 «어느 원인이 더 큰가» 를 짚어 준다 — 작은 쪽을 고쳐 봐야 소용이 없다.
+         표본화 손실은 **바닥**이라 그것이 크면 비트를 늘려도 합계가 안 줄어든다
+         (파형 a · 간격 2초 : 표본화 9.7% 고정 · 4비트로 올려도 합계 9.7%). */
+      var worse = (sl.mean >= qe.max) ? "표본화" : "양자화";
+      /* 🚨 숫자는 «신호 범위 대비 %» 를 앞세운다 — 비트를 늘리면 범위(0~N)가 함께 커져
+         **절대값은 오히려 늘어난다**(3비트 0.282 → 4비트 0.469). %로 봐야 4.0% → 3.1% 로
+         줄어드는 것이 보인다. js/sound.js 의 [표본화 손실] 과 같은 규칙이다. */
+      $("daNote").innerHTML =
+        "<b>⚪ 원래 소리</b>(<b>회색 선·회색 점</b>) 와 <b>🔴 되살린 소리</b>(<b>빨간 선</b> — " +
+        "초록 점을 이은 것)를 겹쳐 놓았습니다 — <b>두 선이 벌어진 만큼이 잃어버린 소리</b>입니다.<br>" +
+        "· <b>표본화</b>로 잃은 것(표본 <b>사이</b>를 버렸다) : 평균 <b>" + pc(sl.mean) +
+        "</b> · 가장 큰 곳 <b>" + pc(sl.max) + "</b><br>" +
+        "· <b>양자화</b>로 잃은 것(정수로 반올림 — <b>주황 점선</b>) : 가장 큰 곳 <b>" +
+        pc(qe.max) + "</b><br>" +
+        "· <b>합쳐서 원래 소리와의 차이</b> : 평균 <b>" + pc(rl.mean) + "</b> · 가장 큰 곳 <b>" +
+        pc(rl.max) + "</b>" + " <span style=&quot;color:var(--sub)&quot;>(신호 범위 0 ~ " + range +
+        " 대비 · 실제 값 " + rl.mean + " · " + rl.max + ")</span><br>" +
+        "💡 <b>둘 중 큰 쪽을 먼저 고쳐야</b> 합니다 — 지금은 <b>" + worse + "</b>로 잃은 것이 더 큽니다. " +
+        (worse === "표본화"
+          ? "<b>간격이 넓으면 비트를 아무리 늘려도</b> 표본화로 잃은 것(" + pc(sl.mean) +
+            ")보다 아래로는 내려가지 않습니다 — 먼저 <b>간격을 촘촘히</b> 해 보세요."
+          : "<b>비트 수를 늘리면</b> 이 %가 눈에 띄게 줄어듭니다.") +
+        " ① 아날로그 → 디지털 에서 바꿔 보고 다시 넣어 보세요.";
+    } else {
+      $("daNote").innerHTML = stage >= 3
+        ? "⚠ 되살린 소리는 <b>원래 소리와 똑같지 않습니다.</b> 표본 <b>사이</b>의 값은 저장되지 않았으므로 " +
+          "점을 이어서 <b>짐작한</b> 것입니다. 그래서 <b>표본화 간격이 촘촘할수록</b> 원래 소리에 가까워집니다." +
+          " 💡 <b>「방금 만든 코드 넣기」</b> 로 넣으면 <b>원래 소리와 나란히</b> 견줄 수 있습니다."
+        : "저장할 때와 <b>반대 순서</b>로 갑니다 — 부호화의 반대가 <b>복호화</b>입니다.";
+    }
   }
 
   $("btnRev").addEventListener("click", runReverse);
   $("revIn").addEventListener("keydown", function (e) { if (e.key === "Enter") runReverse(); });
+  $("revIn").addEventListener("input", function () { revOrigin = null; });
   $("btnRevClear").addEventListener("click", function () {
     $("revIn").value = "";
+    revOrigin = null;
     revData = null;
     stage = 0;
     $("revMsg").hidden = true;
@@ -755,7 +1171,7 @@
       } else {
         /* 비교표는 ①에서 고른 파형·비트를 기준으로 만든 것이다 — 무엇을 기준으로 했는지 밝힌다 */
         $("gapBasis").innerHTML = "아래 표는 <b>① 아날로그 → 디지털</b> 에서 고른 " +
-          "<b>" + S.WAVES[waveKey].name + " · " + bits + "비트</b> 를 기준으로 만든 것입니다.";
+          "<b>" + S.waveOf(waveKey).name + " · " + bits + "비트</b> 를 기준으로 만든 것입니다.";
       }
     }
   });
@@ -1376,10 +1792,32 @@
      시작
      ========================================================= */
   buildRows();
+  micWire();
   applyDir();                 // 방향에 맞게 화면을 세우고 그린다 (안에서 redrawLearn 을 부른다)
   buildPractice();
+  /* ===== 🔍 그래프 크게 보기 ===== */
+  function openBig() {
+    if (!lastGraph) return;                     /* 아직 그린 것이 없으면 열지 않는다 */
+    var dir = (learnDir === "da") ? "디지털 → 아날로그" : "아날로그 → 디지털";
+    var lead = ($("stageLead").textContent || "").replace(/s+/g, " ").slice(0, 60);
+    $("bigTitle").textContent = dir + " · " + lead;
+    $("bigWrap").hidden = false;
+    drawGraph($("bigCanvas"), lastGraph);       /* 같은 opts · 넓은 캔버스 */
+    $("bigClose").focus();
+  }
+  function closeBig() { $("bigWrap").hidden = true; }
+  $("btnBig").addEventListener("click", openBig);
+  $("wavCanvas").addEventListener("click", openBig);
+  $("bigClose").addEventListener("click", closeBig);
+  /* 바깥(어두운 곳)을 눌러도 닫힌다 — 상자 안을 누른 것은 그대로 둔다 */
+  $("bigWrap").addEventListener("click", function (e) { if (e.target === this) closeBig(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !$("bigWrap").hidden) closeBig();
+  });
+
   applyPhase();
 })();
 </script>
+
 </body>
 </html>
