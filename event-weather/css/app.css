@@ -1,0 +1,434 @@
+/* =========================================================
+   행사일 날씨 살피기 — 화면 꾸미기
+   ---------------------------------------------------------
+   🔴 이 프로젝트의 [조작은 한 화면에 다 보이게] 규칙을 따른다.
+      cable-label/css/app.css 가 본보기다.
+        · body 를 100vh 로 묶고 머리말은 고정
+        · 왼쪽 조작 칸과 오른쪽 결과 칸이 «각자» 스크롤
+        · 한 번 정하고 마는 것은 <details> 로 접고 제목 옆에 지금 값
+      손잡이를 만지려고 스크롤하면 결과가 사라지는 일을 막는 것이다.
+
+   🔴 화면 크기 규칙(@media)은 **이 파일 맨 아래**에 둔다.
+      @media 는 특이도를 높여 주지 않아서, 위에 두면 아래쪽 기본 규칙이 이긴다.
+      («여백이 좁혀지긴 하는데 왜 이만큼만?» 하는 일이 실제로 있었다.)
+   ========================================================= */
+
+:root {
+  --바탕: #f4f6fa;
+  --카드: #ffffff;
+  --글: #1a2233;
+  --옅은글: #5b6880;
+  --테: #d5dce8;
+  --강조: #1f6fd0;
+  --강조옅: #e8f1fc;
+  --초록: #1a7f45;
+  --초록옅: #e4f5ea;
+  --노랑: #9a6b00;
+  --노랑옅: #fdf3dd;
+  --빨강: #c02929;
+  --빨강옅: #fdeaea;
+  --머리높이: 58px;
+}
+
+* { box-sizing: border-box; }
+
+/* 🔴 hidden 이 display:flex 에 밀리지 않게. 이 한 줄이 없으면
+   «숨겼는데 계속 보이는» 칸이 생기고, 코드로 el.hidden 을 읽으면
+   true 라서 자동 검사도 통과해 버린다. */
+[hidden] { display: none !important; }
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--바탕);
+  color: var(--글);
+  font-family: "맑은 고딕", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 머리말 ─────────────────────────────────────────────── */
+.머리 {
+  flex: 0 0 auto;
+  height: var(--머리높이);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding: 0 18px;
+  background: var(--카드);
+  border-bottom: 1px solid var(--테);
+}
+.머리 h1 { font-size: 21px; margin: 0; letter-spacing: -0.3px; }
+.머리단추 { display: flex; gap: 8px; }
+
+/* ── 🚨 가짜 자료 띠 — 지울 수 없다 ────────────────────── */
+.가짜띠 {
+  flex: 0 0 auto;
+  background: var(--빨강); color: #fff;
+  padding: 10px 18px;
+  font-size: 16px; line-height: 1.5;
+}
+.가짜띠 code { background: rgba(255,255,255,.22); padding: 1px 5px; border-radius: 3px; }
+.가짜띠도움 { display: block; opacity: .9; font-size: 14.5px; }
+
+/* ── 앱 셸 : 왼쪽 조작 · 오른쪽 결과 ───────────────────── */
+.셸 {
+  flex: 1 1 auto;
+  min-height: 0;                 /* 이게 없으면 아래 칸이 스크롤되지 않는다 */
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 0;
+}
+.조작 {
+  min-height: 0; overflow-y: auto;
+  padding: 14px;
+  background: var(--카드);
+  border-right: 1px solid var(--테);
+}
+.결과 {
+  min-height: 0; overflow-y: auto;
+  padding: 16px 18px 40px;
+}
+
+/* ── 조작 칸 ───────────────────────────────────────────── */
+.칸 {
+  border: 1px solid var(--테); border-radius: 10px;
+  padding: 12px 13px; margin-bottom: 12px;
+  background: var(--카드);
+}
+.칸 h2 { font-size: 16.5px; margin: 0 0 10px; letter-spacing: -0.3px; }
+
+/* «이름 | 조작» 두 칸 — 줄이 맞아 눈이 따라간다.
+   ⚠ 서로 관계없는 설정을 좌우로 짝지어 놓지 않는다. */
+.줄 {
+  display: grid; grid-template-columns: 92px 1fr;
+  align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.줄 > label { font-size: 15.5px; color: var(--옅은글); line-height: 1.3; }
+.줄 > label .꼬리말 { display: block; font-size: 12.5px; }
+
+select, input[type="search"], input[type="number"], input[type="date"] {
+  font: inherit; font-size: 16px;
+  padding: 7px 9px;
+  border: 1px solid var(--테); border-radius: 7px;
+  background: #fff; color: var(--글);
+  width: 100%; min-height: 40px;
+}
+select:focus, input:focus { outline: 2px solid var(--강조); outline-offset: -1px; }
+
+.일수칸 { display: flex; align-items: center; gap: 6px; }
+.일수칸 input { width: 84px; }
+.꼬리말 { font-size: 13px; color: var(--옅은글); }
+.안내 { margin: 6px 0 0; line-height: 1.5; }
+.밑말 { padding: 0 4px 10px; }
+
+.고른곳 {
+  margin: 8px 0 0; padding: 8px 10px;
+  background: var(--강조옅); border-radius: 7px;
+  font-size: 14.5px; color: #16457f;
+}
+.고른곳.빔 { background: #f0f2f6; color: var(--옅은글); }
+
+/* 학교 찾기 */
+.찾기 { position: relative; }
+.찾은것 {
+  position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 3px);
+  margin: 0; padding: 4px; list-style: none;
+  background: #fff; border: 1px solid var(--테); border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(20,30,50,.14);
+  max-height: 240px; overflow-y: auto;
+}
+.찾은것 li { padding: 7px 9px; border-radius: 5px; cursor: pointer; font-size: 15px; }
+.찾은것 li:hover, .찾은것 li.짚음 { background: var(--강조옅); }
+.찾은것 li .어디 { color: var(--옅은글); font-size: 13px; margin-left: 6px; }
+.찾은것 li.알림 { color: var(--옅은글); cursor: default; font-size: 13.5px; }
+.찾은것 li.알림:hover { background: none; }
+
+/* 행사 고르기 — 단추가 커야 전자칠판에서 눌린다 */
+.행사단추 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.행사단추 button {
+  font: inherit; font-size: 15.5px; font-weight: 700;
+  padding: 9px 4px; min-height: 56px;
+  border: 2px solid var(--테); border-radius: 9px;
+  background: #fff; color: var(--글); cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.행사단추 button small { font-weight: 400; font-size: 11.5px; color: var(--옅은글); }
+.행사단추 button:hover { border-color: var(--강조); }
+.행사단추 button.켜짐 { background: var(--강조); border-color: var(--강조); color: #fff; }
+.행사단추 button.켜짐 small { color: rgba(255,255,255,.85); }
+
+/* 후보 날짜 */
+.날짜들 { list-style: none; margin: 0 0 8px; padding: 0; }
+.날짜들 li { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.날짜들 li input[type="date"] { flex: 1 1 auto; }
+.빼기 {
+  flex: 0 0 auto; width: 38px; height: 40px;
+  font: inherit; font-size: 17px; line-height: 1;
+  border: 1px solid var(--테); border-radius: 7px;
+  background: #fff; color: var(--옅은글); cursor: pointer;
+}
+.빼기:hover { background: var(--빨강옅); border-color: var(--빨강); color: var(--빨강); }
+.빼기:disabled { opacity: .35; cursor: default; }
+
+button.넓은단추, button.작은단추 {
+  font: inherit; font-weight: 600;
+  border: 1px solid var(--테); border-radius: 8px;
+  background: #fff; color: var(--글); cursor: pointer;
+}
+button.넓은단추 { width: 100%; font-size: 15.5px; min-height: 46px; }
+button.작은단추 { font-size: 14.5px; padding: 8px 12px; min-height: 40px; }
+button.넓은단추:hover, button.작은단추:hover { background: var(--강조옅); border-color: var(--강조); }
+
+/* 접이 — 한 번 정하고 마는 것. 제목 옆에 지금 값을 한 줄로. */
+.접이 summary {
+  cursor: pointer; font-size: 16.5px; font-weight: 700;
+  list-style: none; display: flex; align-items: baseline; gap: 8px;
+}
+.접이 summary::-webkit-details-marker { display: none; }
+.접이 summary::before { content: "▸"; color: var(--옅은글); }
+.접이[open] summary::before { content: "▾"; }
+.접이[open] summary { margin-bottom: 10px; }
+.지금값 { font-size: 12.5px; font-weight: 400; color: var(--옅은글); }
+
+/* ── 결과 칸 ───────────────────────────────────────────── */
+.예보아님 {
+  background: #fff7e6; border: 1px solid #e8c98a; border-left: 5px solid #d9a441;
+  border-radius: 8px; padding: 10px 13px; margin-bottom: 14px;
+  font-size: 15px; line-height: 1.5;
+}
+.예보아님 span { display: block; color: var(--옅은글); font-size: 14px; margin-top: 2px; }
+
+/* ── 🌦 예보 ─────────────────────────────────────────────
+   값은 «비교표 안» 에 그린다. 여기 띠는 «언제 낸 예보인가» 만 말한다.
+   🔴 예보와 과거 통계가 한 표에 있으므로 **가름줄로 확실히 갈라** 둔다.
+      섞여 보이면 열흘 뒤 통계를 예보로 읽는 사고가 난다. */
+.예보칸 {
+  background: var(--강조옅); border: 1px solid #9dc4ee; border-left: 5px solid var(--강조);
+  border-radius: 8px; padding: 8px 12px; margin-bottom: 12px;
+  font-size: 14px; line-height: 1.5; color: #14477f;
+}
+.예보칸.못함 { background: #f0f2f6; border-color: var(--테); border-left-color: var(--옅은글); color: var(--옅은글); }
+.예보띠글 b { margin-right: 2px; }
+
+/* 표 안의 가름줄 — 여기부터 예보 / 여기부터 통계.
+   🔴 예보와 과거 통계가 한 표에 있다. 섞여 보이면 열흘 뒤 통계를 예보로 읽는다. */
+table.비교 tr.가름 th.항목, table.비교 tr.가름 td {
+  font-size: 12.5px; font-weight: 700; padding: 6px 12px;
+  border-bottom: 2px solid var(--테);
+}
+table.비교 tr.예보가름 th.항목 {
+  background: var(--강조); color: #fff; border-right-color: var(--강조);
+}
+table.비교 tr.예보가름 td {
+  background: #dcebfb; color: #14477f; border-bottom-color: var(--강조);
+}
+table.비교 tr.통계가름 th.항목 { background: #5b6880; color: #fff; border-right-color: #5b6880; }
+table.비교 tr.통계가름 td { background: #eef0f4; color: var(--옅은글); }
+table.비교 tr.가름 td.가름말 { font-weight: 500; }
+
+/* 예보 값은 통계와 바탕·글꼴을 달리해 한눈에 갈린다 */
+table.비교 tr.예보줄자리 td { background: #f6faff; }
+table.비교 tr.예보줄자리 th.항목 { background: #f0f6fd; }
+.예보값 { font-size: 19px; font-weight: 800; color: #14477f; letter-spacing: -0.4px; }
+.예보값.센값 { color: var(--빨강); }
+
+/* 🚨 관측 기록이 짧은 지점 — «예보 아님» 띠보다 강하게 (색+굵기+테두리 셋 다) */
+.짧은자료 {
+  background: var(--노랑옅); border: 1px solid #d9a441; border-left: 5px solid var(--노랑);
+  border-radius: 8px; padding: 10px 13px; margin-bottom: 14px;
+  font-size: 15px; line-height: 1.5; color: #6b4a00;
+}
+.짧은자료.아주짧음 {
+  background: var(--빨강옅); border-color: var(--빨강); color: #8a1c1c;
+}
+.짧은자료 span { display: block; font-size: 14px; margin-top: 3px; }
+
+.빈결과 {
+  border: 2px dashed var(--테); border-radius: 12px;
+  padding: 40px 20px; text-align: center; color: var(--옅은글); font-size: 16px;
+}
+
+/* ══ 비교표 ════════════════════════════════════════════════
+   날짜가 «열», 항목이 «행». 줄이 맞아야 후보끼리 눈으로 견줄 수 있어서
+   표를 쓴다(카드로 늘어놓으면 줄이 어긋나 비교가 안 된다).
+
+   🔴 칸 안에 **막대**를 둔 까닭 : 「43%」와 「33%」를 숫자로 견주려면 읽고 셈해야
+      한다. 막대는 눈으로 바로 갈린다. 후보가 다섯이면 차이가 더 크다.
+   🔴 막대 색을 나눈 까닭 : «내내 비 없음» 은 길수록 좋고 «하루라도 비» 는
+      길수록 나쁘다. 한 색이면 «길다 = 좋다» 로 잘못 읽는다.
+   🔴 표본 수는 반드시 함께 내되 **한 줄** 로 붙인다(두 줄이면 표가 두 배로 길어진다).
+   ═══════════════════════════════════════════════════════ */
+.비교집 { overflow-x: auto; }               /* 좁으면 표만 가로로 스크롤한다 */
+table.비교 {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; min-width: 460px;
+  background: var(--카드); border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--테);
+}
+table.비교 th, table.비교 td {
+  border-bottom: 1px solid #eef1f6;
+  padding: 6px 12px; text-align: center; vertical-align: middle;
+}
+/* 항목 이름 칸 — 좁게. 전에 300px 이라 절반이 텅 비어 있었다. */
+table.비교 th.항목 {
+  text-align: left; font-weight: 600; color: var(--글);
+  font-size: 14px; background: #fbfcfe; white-space: nowrap;
+  width: 132px; min-width: 132px;
+  border-right: 1px solid var(--테);
+  /* 🔴 후보가 넷·다섯이면 표가 가로로 스크롤된다. 그때 «무슨 항목인지» 가
+     화면 밖으로 나가면 숫자만 남아 표를 읽을 수 없다. 왼쪽에 붙박아 둔다. */
+  position: sticky; left: 0; z-index: 2;
+}
+table.비교 thead th.항목 { z-index: 3; }
+table.비교 thead th {
+  background: #eef3fa; font-size: 16.5px; font-weight: 700; color: #16243c;
+  padding: 11px 12px; border-bottom: 2px solid #cfdcea;
+}
+table.비교 thead th .요일 {
+  display: block; font-size: 12.5px; color: var(--옅은글); font-weight: 400; margin-top: 2px;
+}
+table.비교 tbody tr:last-child td, table.비교 tbody tr:last-child th { border-bottom: 0; }
+table.비교 tbody tr:hover td:not(.가름말) { background: #fafcff; }
+
+/* ── 칸 안 ─────────────────────────────────────────── */
+/* 🔴 막대는 값 «뒤» 에 깐다. 위에 따로 두면 줄이 하나 더 생겨 표가 통째로 길어진다.
+   옅게 깔아 숫자를 가리지 않으면서 길이는 눈에 들어오게. */
+.셀 { display: block; position: relative; }
+.셀.막대깔림 {
+  background: #f1f4f8; border-radius: 6px;
+  padding: 4px 8px; overflow: hidden;
+}
+.막대 {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  border-radius: 6px 0 0 6px; z-index: 0;
+}
+.막대.좋음  { background: #d5f0e0; }
+.막대.보통  { background: #fbedc8; }
+.막대.나쁨  { background: #fbd9d9; }
+
+.값줄 { position: relative; z-index: 1;
+  display: flex; align-items: baseline; justify-content: center; gap: 7px; }
+.값줄 .값 { font-size: 19px; font-weight: 800; letter-spacing: -0.4px; }
+.값줄 .표본 { font-size: 12px; color: var(--옅은글); white-space: nowrap; }
+.값줄.온도줄 .값 { font-size: 18px; }
+.없음 { color: #aeb5c2; font-size: 14px; }
+
+/* ── 신호 ──────────────────────────────────────────────
+   🔴 색만으로 구분하지 않는다. 글자·굵기·테두리도 함께 바꾼다
+      (교실 조명·전자칠판에서 색만으론 갈리지 않는다). */
+.신호 {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 78px; font-weight: 800; font-size: 17px;
+  padding: 6px 14px; border-radius: 20px; border: 2.5px solid;
+}
+.신호.초록 { background: var(--초록옅); border-color: var(--초록); color: var(--초록); }
+.신호.노랑 { background: var(--노랑옅); border-color: var(--노랑); color: var(--노랑); }
+.신호.빨강 { background: var(--빨강옅); border-color: var(--빨강); color: var(--빨강); }
+
+/* 신호가 «무엇을 근거로» 한 것인지 — 말없이 근거가 바뀌면 헷갈린다 */
+.근거 {
+  display: block; margin-top: 5px;
+  font-size: 12px; font-weight: 600; letter-spacing: -0.2px;
+}
+.근거.예보근거 { color: var(--강조); }
+.근거.통계근거 { color: var(--옅은글); font-weight: 400; }
+
+.정하기 {
+  margin: 12px 0 0; padding: 11px 14px;
+  background: #f4f6fa; border-radius: 9px;
+  font-size: 14px; color: var(--옅은글); line-height: 1.55;
+}
+
+/* 상세 */
+.상세칸 {
+  margin-top: 16px; background: var(--카드);
+  border: 1px solid var(--테); border-radius: 10px; padding: 13px 15px;
+}
+.상세칸 h3 { margin: 0 0 4px; font-size: 17.5px; }
+.상세칸 .어디언제 { margin: 0 0 12px; color: var(--옅은글); font-size: 14px; }
+.해줄 { display: flex; flex-wrap: wrap; gap: 3px; margin: 8px 0 4px; }
+.해칸 {
+  min-width: 52px; flex: 1 1 52px; text-align: center;
+  border: 1px solid var(--테); border-radius: 5px; padding: 4px 2px;
+  font-size: 12px; line-height: 1.3;
+}
+.해칸 b { display: block; font-size: 13px; }
+.해칸.비옴 { background: var(--강조옅); border-color: #9dc4ee; }
+.해칸.큰비 { background: #d9e8fa; border-color: var(--강조); font-weight: 700; }
+.해칸.빔 { background: #f3f4f6; color: #aeb5c2; }
+.보기줄 { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 12.5px; color: var(--옅은글); }
+.보기줄 span::before { content: "■ "; }
+.보기줄 .b1::before { color: #c9dcf3; } .보기줄 .b2::before { color: var(--강조); }
+.보기줄 .b3::before { color: #e6e8ec; } .보기줄 .b4::before { color: #fff; -webkit-text-stroke: 1px var(--테); }
+
+table.낱낱 { border-collapse: collapse; width: 100%; margin-top: 10px; }
+table.낱낱 th, table.낱낱 td { border-bottom: 1px solid var(--테); padding: 6px 8px; font-size: 14.5px; text-align: right; }
+table.낱낱 th:first-child, table.낱낱 td:first-child { text-align: left; }
+table.낱낱 thead th { background: #f5f7fa; font-size: 13.5px; color: var(--옅은글); }
+
+.견줌 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.견줌 > div { border: 1px solid var(--테); border-radius: 8px; padding: 9px 11px; }
+.견줌 h4 { margin: 0 0 6px; font-size: 14px; color: var(--옅은글); }
+.견줌 .값 { font-size: 17px; font-weight: 700; }
+.견줌 .차이 { font-size: 13px; margin-top: 4px; }
+.견줌 .차이.더움 { color: var(--빨강); }
+
+/* ── 창(덮개) ──────────────────────────────────────────── */
+.덮개 {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(16,22,35,.45);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.덮개 .창 {
+  background: var(--카드); border-radius: 12px; padding: 20px 22px;
+  width: min(560px, 100%); max-height: 84vh; overflow-y: auto;
+}
+.덮개 .창 h2 { margin: 0 0 10px; font-size: 19px; }
+.덮개 .창 p { margin: 0 0 8px; font-size: 15px; }
+.덮개 input[type="file"] { width: 100%; margin: 10px 0; font-size: 15px; }
+.창단추 { margin-top: 14px; }
+.꾸러미결과 { font-size: 14.5px; margin-top: 6px; }
+.꾸러미결과.됨 { color: var(--초록); }
+.꾸러미결과.안됨 { color: var(--빨강); }
+.넣은것목록 { margin-top: 10px; font-size: 14.5px; }
+.넣은것목록 ul { margin: 6px 0 0; padding-left: 18px; }
+.넣은것목록 button { font: inherit; font-size: 13px; margin-left: 8px; cursor: pointer;
+  border: 1px solid var(--테); border-radius: 5px; background: #fff; padding: 1px 7px; }
+
+/* ── 인쇄 ──────────────────────────────────────────────── */
+@media print {
+  .머리, .조작, .덮개, .머리단추, .정하기 { display: none !important; }
+  html, body { height: auto; display: block; background: #fff; font-size: 11.5pt; }
+  .셸 { display: block; }
+  .결과 { overflow: visible; padding: 0; }
+  .가짜띠 { border: 2px solid #000; color: #000; background: #fff; }
+  table.비교, .상세칸 { break-inside: avoid; }
+}
+
+/* =========================================================
+   화면 크기 규칙 — 🔴 반드시 이 파일 «맨 아래»
+   ---------------------------------------------------------
+   ⚠ 창이 좁아 두 칸이 위아래로 쌓이면 앱 셸을 «풀고» 보통 문서처럼 되돌린다.
+     그러지 않으면 100vh 에 묶여 아래쪽 칸이 잘려 아무것도 못 본다.
+   ========================================================= */
+@media (max-width: 1100px) {
+  html, body { height: auto; }
+  body { display: block; }
+  .머리 { position: sticky; top: 0; z-index: 30; }
+  .셸 { display: block; }
+  .조작, .결과 { min-height: 0; overflow: visible; }
+  .조작 { border-right: 0; border-bottom: 1px solid var(--테); }
+  .견줌 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .머리 { height: auto; padding: 8px 12px; flex-wrap: wrap; }
+  .머리 h1 { font-size: 18px; }
+  .줄 { grid-template-columns: 1fr; gap: 3px; }
+  .줄 > label { font-size: 14px; }
+  .행사단추 { grid-template-columns: 1fr; }
+  .행사단추 button { flex-direction: row; gap: 8px; min-height: 50px; }
+}
