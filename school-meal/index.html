@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>학교 급식 알리미</title>
+<meta name="description" content="우리 학교 오늘 급식과 이번 주 점심 식단을 알려 줍니다. 교육부 나이스(NEIS) 자료를 그대로 보여 줍니다.">
+<link rel="stylesheet" href="css/app.css?v=202609122144">
+</head>
+<body>
+
+<div class="앱" id="앱">
+
+  <!-- ── 머리말 : 늘 보인다 ───────────────────────────────────── -->
+  <header class="머리말" id="머리말">
+    <h1 class="제목">🍚 학교 급식 알리미</h1>
+
+    <button type="button" class="학교단추" id="학교단추" title="다른 학교 고르기">
+      <span id="학교이름">학교를 고르세요</span>
+      <span class="꺾쇠">▾</span>
+    </button>
+
+    <div class="머리단추들">
+      <button type="button" id="알레르기토글" class="작은단추" aria-pressed="true"
+              title="메뉴마다 알레르기 식품을 보여 줍니다">🥜 알레르기</button>
+      <button type="button" id="크게토글" class="작은단추" aria-pressed="false"
+              title="교실 TV·전자칠판에서 멀리서도 보이게 글자를 키웁니다">가 크게</button>
+      <button type="button" id="인쇄단추" class="작은단추"
+              title="이번 주 식단표를 인쇄합니다">🖨 인쇄</button>
+    </div>
+  </header>
+
+  <!-- ── 주 옮기기 : 늘 보인다 ───────────────────────────────── -->
+  <nav class="주바" id="주바" aria-label="주 옮기기">
+    <button type="button" id="지난주" class="주단추">◀ 지난주</button>
+
+    <div class="주가운데">
+      <strong class="주이름" id="주이름">불러오는 중…</strong>
+      <button type="button" id="이번주" class="작은단추" hidden>이번 주로</button>
+    </div>
+
+    <button type="button" id="다음주" class="주단추">다음주 ▶</button>
+
+    <label class="달력" title="다른 날짜의 급식 보기">
+      <span class="달력글">📅</span>
+      <input type="date" id="날짜고르기" aria-label="날짜를 골라 그 주 급식 보기">
+    </label>
+  </nav>
+
+  <!-- ── 식단 : 여기만 스크롤한다 ────────────────────────────── -->
+  <main class="식단" id="식단">
+    <!-- 인쇄물 머리 : 화면에는 없고 종이에만 나온다.
+         교실 벽에 붙여 두는 것이라 «무엇을·어디서·언제» 가 멀리서 읽혀야 한다. -->
+    <div class="인쇄만 인쇄머리" aria-hidden="true">
+      <h2 class="인쇄제목"><span id="인쇄학교"></span> 이번 주 점심 식단</h2>
+      <p class="인쇄주" id="인쇄주"></p>
+    </div>
+
+    <p class="알림" id="알림">급식을 불러오는 중입니다…</p>
+    <div class="칸들" id="칸들" hidden></div>
+
+    <div class="인쇄만 인쇄꼬리" aria-hidden="true">
+      <span>메뉴 아래 작은 글씨는 <b>알레르기 유발 식품</b>입니다.</span>
+      <span>급식 정보 : 교육부 나이스(NEIS)<span id="인쇄날짜"></span></span>
+    </div>
+  </main>
+
+  <footer class="꼬리">
+    <span>급식 정보 : 교육부 나이스(NEIS) 교육정보 개방 포털</span>
+    <span class="꼬리오른쪽" id="꼬리오른쪽"></span>
+  </footer>
+</div>
+
+<!-- ── 학교 고르기 ─────────────────────────────────────────────── -->
+<div class="덮개" id="고르기덮개" hidden>
+  <div class="고르기" role="dialog" aria-modal="true" aria-labelledby="고르기제목">
+    <h2 id="고르기제목">어느 학교의 급식을 볼까요?</h2>
+
+    <div class="칸줄">
+      <label for="시도고르기">지역</label>
+      <select id="시도고르기">
+        <option value="">지역을 고르세요</option>
+      </select>
+    </div>
+
+    <div class="칸줄">
+      <label for="이름찾기">학교 이름</label>
+      <input type="search" id="이름찾기" placeholder="두 글자만 쳐도 됩니다"
+             autocomplete="off" spellcheck="false" disabled>
+    </div>
+
+    <p class="고르기안내" id="고르기안내">먼저 지역을 골라 주세요.</p>
+
+    <ul class="찾은것" id="찾은것"></ul>
+
+    <div class="고르기꼬리">
+      <button type="button" id="전국찾기" class="작은단추"
+              title="지역을 모르면 전국에서 찾습니다(자료를 조금 더 받습니다)">전국에서 찾기</button>
+      <span class="빈자리"></span>
+      <button type="button" id="주소복사" class="작은단추" hidden
+              title="이 주소를 보내면 학교를 고르지 않고 바로 열립니다">🔗 이 학교 주소 복사</button>
+      <button type="button" id="고르기닫기" class="작은단추" hidden>닫기</button>
+    </div>
+  </div>
+</div>
+
+<div class="쪽지" id="쪽지" hidden></div>
+
+<script src="js/allergy.js?v=202609122144"></script>
+<script src="js/date.js?v=202609122144"></script>
+<script src="js/neis.js?v=202609122144"></script>
+<script src="js/school.js?v=202609122144"></script>
+<script src="js/app.js?v=202609122144"></script>
+</body>
+</html>

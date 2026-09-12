@@ -1,0 +1,674 @@
+/* 학교 급식 알리미 — 화면 꾸미기
+ *
+ * 🔴 화면 크기 규칙(@media)은 이 파일 «맨 아래» 에 모아 두었다.
+ *    @media 는 특이도를 높여 주지 않으므로 위에 두면 아래쪽 기본 규칙이 이긴다
+ *    (이 프로젝트에서 실제로 겪은 함정이다).
+ *
+ * 🔴 조작하는 것과 결과가 «한 화면에» 보여야 한다.
+ *    머리말과 주 옮기기 단추는 고정이고, 식단 칸만 스크롤한다.
+ *    주 단추를 누르려고 스크롤했더니 식단이 사라지는 일이 없어야 한다.
+ */
+
+/* ── 색과 크기 ───────────────────────────────────────────────── */
+:root {
+  --바탕: #f2f5f2;
+  --카드: #ffffff;
+  --글: #1f2933;
+  --흐린글: #6b7684;
+  --아주흐린글: #98a2ad;
+  --선: #dde3e6;
+  --강조: #2f7a3e;
+  --강조진: #23602f;
+  --강조연: #e8f4ea;
+  --오늘선: #2f7a3e;
+  --오늘바탕: #eef8f0;
+  --탈남: #b4400f;
+  --탈남연: #fdf1ec;
+
+  /* 글자 배율 — 「가 크게」 를 누르면 이 값 하나만 바뀐다 */
+  --배: 1;
+}
+
+body.크게 { --배: 1.45; }
+
+/* 🔴 이 한 줄이 없으면 display:flex/grid 가 hidden 을 이겨 «숨겼는데 보인다» 가 된다.
+      코드로 el.hidden 을 읽으면 true 라 자동 검사까지 통과해 알아채기 어렵다. */
+[hidden] { display: none !important; }
+
+/* 종이에만 나오는 것(인쇄물 머리·꼬리). 화면에서는 자리를 차지하지 않는다. */
+.인쇄만 { display: none; }
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--바탕);
+  color: var(--글);
+  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── 앱 셸 : 한 화면에 묶는다 ───────────────────────────────── */
+.앱 {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;   /* 휴대폰 주소창이 오르내려도 잘리지 않게 */
+}
+
+/* ── 머리말 ─────────────────────────────────────────────────── */
+.머리말 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  flex-wrap: wrap;
+  padding: calc(0.6rem * var(--배)) calc(0.9rem * var(--배));
+  background: var(--강조);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .18);
+}
+
+.제목 {
+  margin: 0;
+  font-size: calc(1.12rem * var(--배));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.학교단추 {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+  padding: calc(0.3rem * var(--배)) calc(0.7rem * var(--배));
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  font: inherit;
+  font-size: calc(1rem * var(--배));
+  font-weight: 700;
+  cursor: pointer;
+}
+.학교단추:hover { background: rgba(255, 255, 255, .26); }
+.학교단추 .꺾쇠 { font-size: 0.8em; opacity: .85; }
+
+.머리단추들 {
+  margin-left: auto;
+  display: flex;
+  gap: 0.4em;
+  flex-wrap: wrap;
+}
+
+.작은단추 {
+  padding: calc(0.28rem * var(--배)) calc(0.6rem * var(--배));
+  border: 1px solid var(--선);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--글);
+  font: inherit;
+  font-size: calc(0.85rem * var(--배));
+  cursor: pointer;
+  white-space: nowrap;
+}
+.작은단추:hover { background: #f1f3f5; }
+
+.머리단추들 .작은단추 {
+  border-color: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+}
+.머리단추들 .작은단추:hover { background: rgba(255, 255, 255, .26); }
+.머리단추들 .작은단추[aria-pressed="true"] {
+  background: #fff;
+  color: var(--강조진);
+  font-weight: 700;
+}
+
+/* ── 주 옮기기 ──────────────────────────────────────────────── */
+.주바 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: calc(0.5rem * var(--배)) calc(0.9rem * var(--배));
+  background: #fff;
+  border-bottom: 1px solid var(--선);
+}
+
+.주단추 {
+  padding: calc(0.38rem * var(--배)) calc(0.9rem * var(--배));
+  border: 1px solid var(--선);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--글);
+  font: inherit;
+  font-size: calc(0.95rem * var(--배));
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.주단추:hover { background: var(--강조연); border-color: var(--강조); }
+
+.주가운데 {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-width: 0;
+}
+
+.주이름 {
+  font-size: calc(1.05rem * var(--배));
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.달력 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(2.3rem * var(--배));
+  height: calc(2.1rem * var(--배));
+  border: 1px solid var(--선);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+.달력:hover { background: var(--강조연); border-color: var(--강조); }
+.달력글 { font-size: calc(1.05rem * var(--배)); pointer-events: none; }
+/* 날짜 입력칸 자체는 투명하게 덮어 둔다 — 어느 브라우저에서나 달력이 열린다 */
+.달력 input[type="date"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ── 식단 : 여기만 스크롤한다 ───────────────────────────────── */
+.식단 {
+  flex: 1 1 auto;
+  min-height: 0;            /* 이게 없으면 flex 칸이 스크롤되지 않는다 */
+  overflow-y: auto;
+  padding: calc(0.9rem * var(--배));
+}
+
+.알림 {
+  margin: calc(1.2rem * var(--배)) auto;
+  max-width: 34em;
+  padding: calc(0.9rem * var(--배)) calc(1.1rem * var(--배));
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--선);
+  color: var(--흐린글);
+  font-size: calc(0.98rem * var(--배));
+  text-align: center;
+}
+.알림.탈남 {
+  background: var(--탈남연);
+  border-color: #f0c4b2;
+  color: var(--탈남);
+}
+.알림.빔 { background: #fff; }
+
+.칸들 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: calc(0.7rem * var(--배));
+  align-items: start;
+}
+
+/* ── 날 카드 ────────────────────────────────────────────────── */
+.날 {
+  display: flex;
+  flex-direction: column;
+  background: var(--카드);
+  border: 1px solid var(--선);
+  border-radius: 12px;
+  padding: calc(0.7rem * var(--배));
+  min-width: 0;
+}
+
+.날.오늘 {
+  border: 3px solid var(--오늘선);
+  background: var(--오늘바탕);
+  padding: calc(0.7rem * var(--배) - 2px);
+  box-shadow: 0 2px 10px rgba(47, 122, 62, .18);
+}
+
+.날머리 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+  padding-bottom: calc(0.4rem * var(--배));
+  border-bottom: 1px solid var(--선);
+  margin-bottom: calc(0.5rem * var(--배));
+}
+.날.오늘 .날머리 { border-bottom-color: rgba(47, 122, 62, .3); }
+
+.요일 {
+  font-size: calc(1.1rem * var(--배));
+  font-weight: 700;
+}
+.일자 {
+  font-size: calc(0.88rem * var(--배));
+  color: var(--흐린글);
+}
+.날.오늘 .요일, .날.오늘 .일자 { color: var(--강조진); }
+
+.오늘배지 {
+  margin-left: auto;
+  padding: 0.1em 0.6em;
+  border-radius: 999px;
+  background: var(--강조);
+  color: #fff;
+  font-size: calc(0.75rem * var(--배));
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.메뉴 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+}
+.메뉴 li { margin: 0 0 calc(0.45rem * var(--배)); }
+
+.메뉴이름 {
+  display: block;
+  font-size: calc(0.98rem * var(--배));
+  font-weight: 600;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.알레르기 {
+  display: block;
+  margin-top: 0.1em;
+  padding-left: 0.55em;
+  border-left: 2px solid #f0b429;
+  color: var(--흐린글);
+  font-size: calc(0.76rem * var(--배));
+  line-height: 1.35;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.없는날 {
+  margin: calc(0.8rem * var(--배)) 0;
+  color: var(--아주흐린글);
+  font-size: calc(0.9rem * var(--배));
+  text-align: center;
+}
+
+.날아래 {
+  margin-top: calc(0.5rem * var(--배));
+  padding-top: calc(0.45rem * var(--배));
+  border-top: 1px solid var(--선);
+}
+.날.오늘 .날아래 { border-top-color: rgba(47, 122, 62, .3); }
+
+.칼로리 {
+  display: block;
+  color: var(--강조진);
+  font-size: calc(0.85rem * var(--배));
+  font-weight: 700;
+}
+
+.영양 { margin-top: calc(0.3rem * var(--배)); }
+.영양 summary {
+  cursor: pointer;
+  color: var(--흐린글);
+  font-size: calc(0.8rem * var(--배));
+  list-style: revert;
+}
+.영양 summary:hover { color: var(--강조); }
+
+.영양표 {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.1em 0.5em;
+  margin: calc(0.4rem * var(--배)) 0 0;
+  font-size: calc(0.76rem * var(--배));
+  color: var(--흐린글);
+}
+.영양표 dt { margin: 0; }
+.영양표 dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ── 꼬리 ───────────────────────────────────────────────────── */
+.꼬리 {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 1em;
+  padding: calc(0.4rem * var(--배)) calc(0.9rem * var(--배));
+  background: #fff;
+  border-top: 1px solid var(--선);
+  color: var(--아주흐린글);
+  font-size: calc(0.75rem * var(--배));
+}
+.꼬리오른쪽 { margin-left: auto; white-space: nowrap; }
+
+/* ── 학교 고르기 ────────────────────────────────────────────── */
+.덮개 {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(20, 30, 24, .55);
+}
+
+.고르기 {
+  display: flex;
+  flex-direction: column;
+  width: min(30rem, 100%);
+  max-height: min(38rem, 92vh);
+  padding: 1.2rem;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+}
+
+.고르기 h2 {
+  margin: 0 0 0.9rem;
+  font-size: 1.2rem;
+}
+
+.칸줄 {
+  display: grid;
+  grid-template-columns: 4.2rem 1fr;   /* «이름 | 조작» 두 칸 — 줄이 맞아 눈이 따라간다 */
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+}
+.칸줄 label { color: var(--흐린글); font-size: 0.9rem; }
+.칸줄 select, .칸줄 input {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--선);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 1rem;
+}
+.칸줄 input:disabled { background: #f1f3f5; color: var(--아주흐린글); }
+.칸줄 select:focus, .칸줄 input:focus {
+  outline: 2px solid var(--강조);
+  outline-offset: 1px;
+}
+
+.고르기안내 {
+  margin: 0.3rem 0 0.6rem;
+  color: var(--흐린글);
+  font-size: 0.85rem;
+  min-height: 1.3em;
+}
+
+.찾은것 {
+  flex: 1 1 auto;          /* 나머지가 다 들어간 뒤 남는 만큼만 차지한다 */
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--선);
+  border-radius: 8px;
+}
+.찾은것:empty { display: none; }
+
+.학교줄 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 0;
+  border-bottom: 1px solid #eef1f2;
+  background: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.학교줄:hover { background: var(--강조연); }
+.찾은이름 { font-weight: 600; }
+.찾은곳 { margin-left: auto; color: var(--아주흐린글); font-size: 0.82rem; white-space: nowrap; }
+.찾은것없음 { padding: 0.8rem; color: var(--아주흐린글); font-size: 0.9rem; text-align: center; }
+
+.고르기꼬리 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.빈자리 { flex: 1 1 auto; }
+
+/* ── 쪽지(잠깐 뜨는 안내) ───────────────────────────────────── */
+.쪽지 {
+  position: fixed;
+  left: 50%;
+  bottom: 1.4rem;
+  transform: translateX(-50%);
+  z-index: 60;
+  max-width: min(28rem, 90vw);
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(25, 38, 30, .93);
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .28);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   화면 크기·인쇄 규칙 — 반드시 이 파일 맨 아래에 둔다
+   ══════════════════════════════════════════════════════════════ */
+
+/* 홈페이지에 끼워 넣기(?embed=1) — 머리말을 걷어 낸다 */
+body.간단 .머리말 { display: none; }
+body.간단 .꼬리 { display: none; }
+body.간단 .주바 { border-top: 0; }
+
+/* 좁은 화면 : 다섯 칸을 세로로 쌓는다.
+   앱 셸은 그대로 둔다 — 여기는 좌우 두 칸 구조가 아니라
+   «머리말 + 스크롤되는 식단» 이라 잘려 나가는 칸이 없고,
+   오히려 주 옮기기 단추가 늘 보여야 하기 때문이다. */
+@media (max-width: 1000px) {
+  .칸들 { grid-template-columns: 1fr; }
+  .날 { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+  .날머리 {
+    flex: 0 0 4.6em;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1em;
+    border-bottom: 0;
+    border-right: 1px solid var(--선);
+    margin: 0 0.7em 0 0;
+    padding: 0 0.7em 0 0;
+  }
+  .날.오늘 .날머리 { border-right-color: rgba(47, 122, 62, .3); }
+  .오늘배지 { margin-left: 0; }
+  .메뉴 { flex: 1 1 10em; }
+  .날아래 { flex: 1 1 100%; }
+}
+
+@media (max-width: 620px) {
+  .제목 { font-size: calc(1rem * var(--배)); }
+  .머리말 { gap: 0.5em; padding: calc(0.5rem * var(--배)) calc(0.6rem * var(--배)); }
+  .머리단추들 { margin-left: 0; width: 100%; }
+  .주바 { padding: calc(0.45rem * var(--배)) calc(0.6rem * var(--배)); gap: 0.35em; }
+  .주단추 { padding: calc(0.38rem * var(--배)) calc(0.55rem * var(--배)); font-size: calc(0.85rem * var(--배)); }
+  .주이름 { font-size: calc(0.92rem * var(--배)); }
+  .식단 { padding: calc(0.6rem * var(--배)); }
+  .칸줄 { grid-template-columns: 1fr; gap: 0.25rem; }
+}
+
+/* 아주 낮은 화면(가로로 눕힌 휴대폰) : 꼬리를 접어 식단 자리를 넓힌다 */
+@media (max-height: 520px) {
+  .꼬리 { display: none; }
+  .머리말 { padding: calc(0.35rem * var(--배)) calc(0.7rem * var(--배)); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   인쇄 — 교실 벽에 붙이는 «주간 점심 식단표» (A4 가로 한 장)
+   ──────────────────────────────────────────────────────────────
+   화면과 목적이 다르다. 종이는 **일주일 내내 벽에 붙어 있고**
+   학생들이 **한두 걸음 떨어져서** 본다. 그래서 :
+     · 화면의 조작(단추·달력)은 모두 걷어 내고 전용 머리·꼬리를 쓴다
+     · 글자를 화면보다 크게 잡고 한 장을 꽉 채운다
+     · 🔴 «오늘» 강조를 **없앤다** — 월요일에 뽑아 붙이면 화요일부터
+       엉뚱한 날을 «오늘» 이라고 가리키게 된다
+     · 🔴 알레르기는 화면에서 꺼 두었어도 **반드시 인쇄한다**
+       (벽에 붙는 것이라 알레르기 있는 학생에게 안전 정보다)
+   ══════════════════════════════════════════════════════════════ */
+@media print {
+  :root { --배: 1; }
+  html, body { height: auto; background: #fff; }
+  body { font-size: 10pt; }
+
+  /* 화면에서 만지는 것은 종이에 필요 없다 */
+  .머리말, .주바, .꼬리, .덮개, .쪽지, .알림, .영양 { display: none !important; }
+
+  .인쇄만 { display: block !important; }
+
+  .앱 { display: block; height: auto; }
+  .식단 { overflow: visible; padding: 0; }
+
+  /* ── 머리 : 멀리서 읽히는 제목 ─────────────────────────── */
+  .인쇄머리 {
+    text-align: center;
+    margin: 0 0 5mm;
+    padding-bottom: 3mm;
+    border-bottom: 2.5pt solid #2f7a3e;
+  }
+  .인쇄제목 {
+    margin: 0;
+    font-size: 27pt;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #1b4b26;
+  }
+  .인쇄주 { margin: 1.5mm 0 0; font-size: 13pt; color: #444; }
+
+  /* ── 다섯 칸 : 한 장을 꽉 채운다 ───────────────────────── */
+  .칸들 {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3mm;
+    align-items: stretch;
+  }
+  .날 {
+    display: flex;
+    flex-direction: column;
+    min-height: 142mm;          /* A4 가로 210mm - 여백 20 - 머리 31 - 꼬리 11 = 148, 여유 6mm */
+    padding: 0;
+    border: 0.8pt solid #9aa5a0;
+    border-radius: 0;
+    overflow: hidden;
+    break-inside: avoid;
+  }
+  /* 🔴 오늘 강조 없애기 — 벽에 붙으면 하루 만에 거짓이 된다 */
+  .날.오늘 {
+    border: 0.8pt solid #9aa5a0;
+    background: #fff;
+    box-shadow: none;
+    padding: 0;
+  }
+  .오늘배지 { display: none !important; }
+
+  /* 요일 띠
+     🚨 흰 글자 + 진한 바탕으로 만들지 말 것.
+        크롬 인쇄 창의 「배경 그래픽」은 **기본이 꺼짐**이라, 그대로 뽑으면
+        바탕이 안 찍혀 **월·화·수·목·금이 흰 글자만 남아 통째로 사라진다.**
+        미리보기에서는 멀쩡해 보이므로 알아채기 어렵다.
+     👉 «진한 글자 + 연한 바탕 + 굵은 아래선» 으로 둔다.
+        선은 배경이 아니라서 설정과 상관없이 늘 찍히고,
+        바탕이 안 찍혀도 진한 글자가 그대로 읽힌다. */
+  .날머리, .날.오늘 .날머리 {
+    display: block;
+    margin: 0;
+    padding: 2.5mm 1mm;
+    text-align: center;
+    background: #e8f4ea !important;
+    border: 0;
+    border-bottom: 2.2pt solid #2f7a3e !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .요일, .날.오늘 .요일 {
+    display: block;
+    font-size: 18pt;
+    font-weight: 800;
+    color: #17421f !important;
+  }
+  .일자, .날.오늘 .일자 {
+    display: block;
+    margin-top: 0.5mm;
+    font-size: 10pt;
+    color: #3f6b4a !important;
+  }
+
+  /* 메뉴 — 칸 높이에 맞춰 고르게 벌린다(위쪽에만 몰리지 않게) */
+  .메뉴 {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 3mm 3mm 1mm;
+  }
+  .메뉴 li { margin: 0; }
+  .메뉴이름 { font-size: 13pt; font-weight: 700; line-height: 1.25; }
+
+  /* 🔴 화면에서 꺼 두었어도 종이에는 나온다 (안전 정보) */
+  .메뉴 .알레르기,
+  .메뉴 .알레르기[hidden] {
+    display: block !important;
+    margin-top: 0.8mm;
+    padding-left: 1.5mm;
+    border-left: 1.2pt solid #c8a415;
+    font-size: 8pt;
+    line-height: 1.25;
+    color: #5b6560;
+  }
+
+  .없는날 { margin: auto; padding: 10mm 2mm; font-size: 11pt; color: #9aa5a0; }
+
+  .날아래, .날.오늘 .날아래 {
+    margin: 0;
+    padding: 2mm 3mm;
+    border-top: 0.6pt dashed #c3cbc6;
+  }
+  .칼로리 { font-size: 10pt; font-weight: 700; color: #2f4f39; text-align: right; }
+
+  /* ── 꼬리 ──────────────────────────────────────────────── */
+  .인쇄꼬리 {
+    display: flex !important;
+    justify-content: space-between;
+    gap: 6mm;
+    margin-top: 4mm;
+    padding-top: 2mm;
+    border-top: 0.6pt solid #c3cbc6;
+    font-size: 8.5pt;
+    color: #6b7684;
+  }
+
+  @page { size: A4 landscape; margin: 10mm; }
+}
