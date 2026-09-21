@@ -1,6 +1,6 @@
 /* PDF 도구 — 큰 묶음 4개 아래에 작은 탭을 둔다.
-   도구가 12개라 한 줄에 다 늘어놓으면 세로 자리를 먹는다(사용자 지시로 «둘로 묶기»).
-   탭 화면은 «처음 열 때» 만든다(12개를 한꺼번에 만들면 첫 화면이 느려진다). */
+   도구가 13개라 한 줄에 다 늘어놓으면 세로 자리를 먹는다(사용자 지시로 «둘로 묶기»).
+   탭 화면은 «처음 열 때» 만든다(13개를 한꺼번에 만들면 첫 화면이 느려진다). */
 
 import { $, $$, html } from './lib/ui.js';
 import { makeCutTab }      from './tab-cut.js';
@@ -9,6 +9,7 @@ import { makeOrganizeTab } from './tab-organize.js';
 import { makeImagesTab }   from './tab-images.js';
 import { makeConvertTab }  from './tab-convert.js';
 import { makeTextTab }     from './tab-text.js';
+import { makeWebpTab }     from './tab-webp.js';
 import { makeNumberTab }   from './tab-number.js';
 import { makeWatermarkTab } from './tab-watermark.js';
 import { makeSignTab }     from './tab-sign.js';
@@ -31,7 +32,9 @@ const GROUPS = [
     { id: 'convert',  icon: '🖨',  label: '그림 · PPT',  make: makeConvertTab,
       desc: '쪽을 PNG·JPG·PPT 슬라이드로 (예 : 교과서 한 쪽을 PPT 에 붙이기)' },
     { id: 'text',     icon: '📝',  label: '글자 뽑기',   make: makeTextTab,
-      desc: '글자를 TXT·마크다운으로 (예 : 공문 문장을 기안문에 붙여넣기)' }
+      desc: '글자를 TXT·마크다운으로 (예 : 공문 문장을 기안문에 붙여넣기)' },
+    { id: 'webp',     icon: '🌐',  label: 'WebP 변환',   make: makeWebpTab,
+      desc: '그림을 가벼운 WebP 로 (예 : 사이트에 올릴 사진 3MB → 200KB)' }
   ]},
   { id: 'edit', icon: '✏️', label: '편집', tabs: [
     { id: 'number',    icon: '🔢', label: '페이지 번호', make: makeNumberTab,

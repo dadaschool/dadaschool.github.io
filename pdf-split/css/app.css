@@ -454,3 +454,100 @@ input[type=range]{width:100%; accent-color:var(--main)}
   .tip summary{padding:5px 11px; font-size:13px}
   .tip ul{font-size:12.5px; padding:7px 11px 8px 30px}
 }
+
+/* ===================================================================
+   🌐 WebP 변환 (2026-09-21) — 왼쪽 설정 · 가운데 목록 · 오른쪽 원본과 비교
+   ⚠ 화면 크기 규칙은 이 덩어리 «맨 아래» 에 둔다(@media 는 특이도를 높여 주지 않는다)
+=================================================================== */
+.wp-grid{
+  flex:1 1 auto; min-height:0; display:grid; gap:14px;
+  grid-template-columns:290px minmax(0,1fr) minmax(0,1.15fr);
+}
+.wp-opts{display:flex; flex-direction:column}
+.wp-opts .preset-row{flex-direction:column}
+/* 맞춤 설정은 «이름 | 값» 한 줄 — 세 줄로 쌓으면 768px 창에서 설정 칸이 넘친다 */
+.wp-opts .preset{flex:none; display:flex; align-items:baseline; justify-content:space-between; gap:8px; text-align:left; padding:9px 12px}
+.wp-opts .preset b{font-size:15px}
+.wp-opts .preset span{font-size:12.5px; color:var(--dim); white-space:nowrap}
+.wp-opts .field:last-child{margin-bottom:0}
+.wp-qv{color:var(--main); font-size:17px}
+.wp-w{width:90px; font-size:16px}
+.wp-foot{flex:none; padding-top:8px; border-top:1px solid var(--line2)}
+.wp-sum{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 14px;
+  margin-bottom:8px; padding:7px 12px; font-size:15px; line-height:1.6;
+  background:var(--main-soft); border:1px solid #cfdcf7; border-radius:10px;
+}
+.wp-sum .warn{flex-basis:100%}
+.wp-sumbig{font-size:16px}
+.wp-sumbig b{font-size:20px; color:var(--main)}
+.wp-sum .save, .wp-size .save{padding:1px 8px; border-radius:999px; font-size:12.5px; font-weight:700}
+.save.good{background:#e8f3ec; color:var(--ok)}
+.save.bad{background:var(--warn-bg); color:var(--warn)}
+.wp-save{display:flex; gap:8px}
+.wp-save .btn{flex:1 1 0; min-height:52px; font-size:17px}
+
+/* 가운데 목록 */
+.wp-listcol{min-height:0; display:flex; flex-direction:column}
+.wp-listbar{flex:none; display:flex; align-items:center; gap:6px; padding-bottom:7px; margin-bottom:7px; border-bottom:1px solid var(--line2)}
+.wp-list{flex:1 1 auto; min-height:0; overflow-y:auto}
+.wp-row{
+  display:flex; align-items:center; gap:8px; cursor:pointer;
+  padding:6px 8px; margin-bottom:6px;
+  background:#fbfcff; border:2px solid var(--line); border-radius:9px;
+}
+.wp-row:hover{border-color:#a8c0e8}
+.wp-row.on{border-color:var(--main); background:var(--main-soft)}
+.wp-row.bigger{border-left:6px solid var(--warn)}
+.wp-row.fail{background:var(--warn-bg)}
+.wp-pick{flex:none; display:grid; place-items:center; width:30px; height:30px; cursor:pointer}
+.wp-pick input{width:22px; height:22px; accent-color:var(--main); cursor:pointer}
+.wp-mid{flex:1 1 auto; min-width:0; display:flex; flex-direction:column}
+.wp-name{font-size:15px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.wp-dim{font-size:12.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.wp-row.fail .wp-dim{color:var(--warn)}
+.wp-size{flex:none; text-align:right; font-size:14px; line-height:1.35}
+.wp-size small{color:var(--dim); font-size:12px; display:block}
+
+/* 오른쪽 비교 */
+.wp-prevcol{min-height:0; display:flex; flex-direction:column; gap:7px}
+.wp-previnfo{flex:none; font-size:13.5px; min-height:20px}
+.wp-stage{
+  flex:1 1 auto; min-height:240px; position:relative; overflow:hidden;
+  border:1px solid var(--line); border-radius:10px;
+  /* 투명한 부분이 보이도록 바둑판 무늬 */
+  background:#fff repeating-conic-gradient(#eef1f7 0 25%, #fff 0 50%) 0 0/18px 18px;
+}
+.wp-pair{position:absolute; inset:0; cursor:ew-resize; touch-action:none; user-select:none}
+.wp-pair img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; pointer-events:none}
+.wp-line{position:absolute; top:0; bottom:0; width:3px; margin-left:-1.5px; background:var(--main); box-shadow:0 0 0 1px #fff; pointer-events:none}
+.wp-lab{
+  position:absolute; top:8px; padding:2px 10px; border-radius:999px; pointer-events:none;
+  background:rgba(28,35,51,.72); color:#fff; font-size:13px; font-weight:700;
+}
+.wp-lab.l{left:8px} .wp-lab.r{right:8px}
+/* 1:1 크게 : 그림을 실제 픽셀 크기로 두고 칸 안에서 스크롤한다 */
+.wp-stage.zoom{overflow:auto}
+.wp-stage.zoom .wp-pair{position:relative; inset:auto}
+.wp-prevbar{flex:none; display:flex; align-items:center; gap:10px}
+.wp-prevbar input[type=range]{flex:1}
+
+/* 그림을 넣은 뒤에는 넣는 곳을 한 줄로 줄여 일하는 칸에 높이를 넘긴다 */
+.dz-mount.slim .drop{display:flex; align-items:center; justify-content:center; gap:14px; padding:7px 12px; border-width:2px}
+.dz-mount.slim .drop-big{margin:0; font-size:15px}
+.dz-mount.slim + .msg, .dz-mount.slim ~ .work{margin-top:9px}
+
+@media (max-width:1000px){
+  .wp-grid{grid-template-columns:1fr}
+  .wp-list{max-height:46vh}
+  .wp-stage{min-height:300px}
+}
+@media (min-width:1001px) and (max-width:1180px){
+  .wp-grid{grid-template-columns:260px minmax(0,1fr) minmax(0,1fr)}
+}
+@media (min-width:1001px) and (max-height:700px){
+  .wp-opts .preset{padding:6px 10px}
+  .wp-sum{padding:5px 10px; line-height:1.5; margin-bottom:6px}
+  .wp-save .btn{min-height:46px; font-size:16px}
+  .wp-stage{min-height:160px}
+}
