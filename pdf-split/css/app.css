@@ -264,7 +264,9 @@ input[type=range]{width:100%; accent-color:var(--main)}
 .overlay-sub{font-size:13px; color:var(--dim)}
 
 /* ===== 서버로 열라는 안내 (모듈이 읽히면 사라진다) ===== */
-.boot{position:fixed; inset:0; z-index:60; display:grid; place-items:center; padding:20px; background:rgba(244,246,251,.97)}
+/* 처음엔 숨긴다 — index.html 의 작은 스크립트가 file:// 이거나 8초가 지나도 안 사라질 때만 .show 를 붙인다 */
+.boot{position:fixed; inset:0; z-index:60; display:none; place-items:center; padding:20px; background:rgba(244,246,251,.97)}
+.boot.show{display:grid}
 .boot-card{max-width:620px; padding:26px 30px; background:#fff; border:1px solid var(--line); border-radius:16px}
 .boot-card h2{margin:0 0 12px; font-size:22px; color:var(--warn)}
 .boot-card p{margin:0 0 10px}

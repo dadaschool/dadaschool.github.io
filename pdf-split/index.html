@@ -37,6 +37,19 @@
   </div>
 </div>
 
+<!-- ⚠ 위 안내는 «처음엔 숨겨 둔다». 모듈 25개(약 900KB)를 읽는 동안 최대 3초쯤 떠 있다가 사라지는데,
+     그게 정상 접속인데도 「서버로 열어야 합니다」 오류 화면이 깜빡이는 것처럼 보였다(2026-09-21 사용자 신고).
+     ① file:// 이면 곧바로 보인다(모듈이 막히니 main.js 는 영영 안 돈다 — 원래 목적)
+     ② 서버·사이트로 열었는데 8초가 지나도 안 사라지면 보인다(파일 하나가 실패해 main.js 가 죽은 경우).
+     이 스크립트는 «고전 script» 라 file:// 에서도 돈다. 지우지 말 것. -->
+<script>
+(function () {
+  function show() { var b = document.getElementById('boot'); if (b) b.classList.add('show'); }
+  if (location.protocol === 'file:') show();
+  else setTimeout(show, 8000);
+})();
+</script>
+
 <footer class="foot">
   암호가 걸린 PDF 는 열 수 없습니다 · 책갈피(목차)와 입력 양식은 새 파일에 따라오지 않습니다 ·
   모든 처리는 인터넷 없이(첫 접속 뒤) 동작합니다
