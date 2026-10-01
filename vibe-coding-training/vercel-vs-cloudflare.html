@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vercel과 Cloudflare · 바이브코딩 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">바이브코딩 프로젝트 연수 · 개념편</div>
+  <h1>Vercel과 Cloudflare, 뭐가 다른가요?</h1>
+  <p class="sub">둘 다 "웹사이트 올리는 서비스"처럼 보이는데 왜 이름이 둘 다 나오는지</p>
+</header>
+
+<div class="note">
+  결론부터 말씀드리면 <b>둘 다 가입해야 하는 것이 아닙니다.</b><br>
+  <b>Vercel 하나로 배포는 끝납니다.</b> Cloudflare는 "내가 산 도메인 주소를 쓰고 싶다"거나 "접속을 통제해야 한다"는 요구가 생겼을 때 비로소 등장합니다.<br>
+  아래에서 두 서비스가 각각 어느 부분을 맡는지 그림으로 나눠 보겠습니다.
+</div>
+
+<h2><span class="num">1</span> 웹사이트가 열리려면 네 가지가 필요합니다</h2>
+
+<p>가게에 비유하면 이해가 빠릅니다. 손님이 가게를 찾아와 음식을 받기까지, 서로 다른 네 가지 역할이 순서대로 필요합니다.</p>
+
+<figure>
+<div class="figwrap">
+<svg class="dg" viewBox="0 0 720 200" role="img" aria-label="웹사이트 접속에 필요한 네 가지 역할: 도메인, DNS, CDN과 보안, 호스팅이 순서대로 연결된 그림">
+  <text class="sm" x="15" y="26">사용자가 주소를 입력하면 이 순서로 지나갑니다</text>
+
+  <rect class="node" x="14" y="48" width="152" height="94" rx="10"/>
+  <text class="kt" x="90" y="76" text-anchor="middle">① 이름</text>
+  <text class="sm" x="90" y="100" text-anchor="middle">도메인</text>
+  <text class="sm" x="90" y="122" text-anchor="middle">"가게 이름"</text>
+
+  <line class="edge" x1="172" y1="95" x2="186" y2="95"/>
+  <polygon class="head" points="194,95 184,90 184,100"/>
+
+  <rect class="node" x="198" y="48" width="152" height="94" rx="10"/>
+  <text class="kt" x="274" y="76" text-anchor="middle">② 주소록</text>
+  <text class="sm" x="274" y="100" text-anchor="middle">DNS</text>
+  <text class="sm" x="274" y="122" text-anchor="middle">"그 가게 어디예요?"</text>
+
+  <line class="edge" x1="356" y1="95" x2="370" y2="95"/>
+  <polygon class="head" points="378,95 368,90 368,100"/>
+
+  <rect class="node" x="382" y="48" width="152" height="94" rx="10"/>
+  <text class="kt" x="458" y="76" text-anchor="middle">③ 배달·경비</text>
+  <text class="sm" x="458" y="100" text-anchor="middle">CDN · 보안</text>
+  <text class="sm" x="458" y="122" text-anchor="middle">"가까운 곳에서 빠르게"</text>
+
+  <line class="edge" x1="540" y1="95" x2="554" y2="95"/>
+  <polygon class="head" points="562,95 552,90 552,100"/>
+
+  <rect class="srv" x="566" y="48" width="140" height="94" rx="10"/>
+  <text class="w kt" x="636" y="76" text-anchor="middle">④ 주방</text>
+  <text class="w sm" x="636" y="100" text-anchor="middle" fill="#fff">호스팅</text>
+  <text class="w sm" x="636" y="122" text-anchor="middle" fill="#fff">"앱이 실제로 도는 곳"</text>
+
+  <text class="sm" x="15" y="176">①은 빌리는 것, ②③④는 누군가 대신 맡아주는 서비스입니다.</text>
+</svg>
+</div>
+<figcaption>네 가지는 서로 다른 일입니다. 한 회사가 여러 개를 동시에 맡아줄 수도 있습니다.</figcaption>
+</figure>
+
+<div class="do">
+  <b>① 이름(도메인)</b> — <code>my-app.com</code> 같은 주소를 1년 단위로 빌리는 것. 판매처에서 <b>구입</b>합니다.<br>
+  <b>② 주소록(DNS)</b> — "그 이름은 어느 컴퓨터인가"를 알려주는 전화번호부.<br>
+  <b>③ 배달·경비(CDN·보안)</b> — 멀리 있는 사람에게도 빠르게 전달하고, 공격성 접속을 막는 역할.<br>
+  <b>④ 주방(호스팅)</b> — 내 코드가 실제로 실행되어 화면을 만들어내는 컴퓨터.
+</div>
+
+<h2><span class="num">2</span> 두 서비스는 서로 다른 칸을 맡습니다</h2>
+
+<p>바로 이 네 칸 위에 두 서비스를 얹어보면, 왜 헷갈렸는지가 한눈에 보입니다.</p>
+
+<figure>
+<div class="figwrap">
+<svg class="dg" viewBox="0 0 720 300" role="img" aria-label="네 가지 역할 칸 위에 Vercel은 CDN과 호스팅을, Cloudflare는 DNS와 CDN을 덮고 있으며 CDN 칸에서 겹친다는 것을 보여주는 그림">
+  <!-- Vercel 커버리지 바 -->
+  <rect class="barV" x="382" y="46" width="324" height="40" rx="10"/>
+  <text class="rt" x="544" y="71" text-anchor="middle">Vercel이 맡는 범위</text>
+
+  <!-- 네 칸 -->
+  <rect class="soft" x="14" y="112" width="152" height="76" rx="10"/>
+  <text class="kt" x="90" y="142" text-anchor="middle">① 이름</text>
+  <text class="sm" x="90" y="166" text-anchor="middle">도메인</text>
+
+  <rect class="node" x="198" y="112" width="152" height="76" rx="10"/>
+  <text class="kt" x="274" y="142" text-anchor="middle">② 주소록</text>
+  <text class="sm" x="274" y="166" text-anchor="middle">DNS</text>
+
+  <rect class="node" x="382" y="112" width="152" height="76" rx="10"/>
+  <text class="kt" x="458" y="142" text-anchor="middle">③ 배달·경비</text>
+  <text class="sm" x="458" y="166" text-anchor="middle">CDN · 보안</text>
+
+  <rect class="node" x="566" y="112" width="140" height="76" rx="10"/>
+  <text class="kt" x="636" y="142" text-anchor="middle">④ 주방</text>
+  <text class="sm" x="636" y="166" text-anchor="middle">호스팅 · 배포</text>
+
+  <!-- Cloudflare 커버리지 바 -->
+  <rect class="barC" x="198" y="214" width="336" height="40" rx="10"/>
+  <text class="kt" x="366" y="239" text-anchor="middle">Cloudflare가 맡는 범위</text>
+
+  <!-- 연결 점선 -->
+  <line class="dash" x1="390" y1="86" x2="390" y2="112"/>
+  <line class="dash" x1="698" y1="86" x2="698" y2="112"/>
+  <line class="dash" x1="206" y1="188" x2="206" y2="214"/>
+  <line class="dash" x1="526" y1="188" x2="526" y2="214"/>
+
+  <!-- 라벨 -->
+  <text class="sm" x="90" y="208" text-anchor="middle">판매처에서 구입</text>
+  <text class="sm" x="458" y="206" text-anchor="middle">← 여기서 겹칩니다</text>
+  <text class="sm" x="636" y="284" text-anchor="middle">Cloudflare도 자체 호스팅 제공</text>
+  <line class="dash" x1="636" y1="256" x2="636" y2="274"/>
+  <path class="dash" d="M534 234 L 636 234 L 636 258"/>
+</svg>
+</div>
+<figcaption>Vercel은 ③④를, Cloudflare는 ②③을 맡습니다. ③에서 겹치기 때문에 "같은 서비스 아닌가?"라는 인상이 생깁니다.</figcaption>
+</figure>
+
+<div class="do">
+  <b>Vercel의 본업은 ④ 주방입니다.</b> 코드를 GitHub에 올리면 알아서 요리(빌드)해서 손님에게 내놓습니다. 배달망(③)도 기본으로 함께 들어 있습니다.<br>
+  <b>Cloudflare의 본업은 ② 주소록과 ③ 배달·경비입니다.</b> 전 세계에서 가장 널리 쓰이는 전화번호부이자, 나쁜 접속을 걸러내는 경비원입니다. 최근에는 작은 주방(④, Workers)도 함께 제공합니다.
+</div>
+
+<div class="note">
+  겹치는 칸이 있다는 것은 <b>둘 다 있어야 한다는 뜻이 아닙니다.</b> Vercel만 써도 배달망은 이미 포함되어 있습니다.
+</div>
+
+<h2><span class="num">3</span> 주소를 눌렀을 때 실제로 벌어지는 일</h2>
+
+<p>Cloudflare가 있을 때와 없을 때, 데이터가 지나가는 길이 어떻게 달라지는지 비교해 보겠습니다.</p>
+
+<figure>
+<div class="figwrap">
+<svg class="dg" viewBox="0 0 720 270" role="img" aria-label="Cloudflare 없이 Vercel로 직접 가는 경로와 Cloudflare를 앞에 두었을 때 한 단계 더 거치는 경로를 비교한 그림">
+  <text class="rt" x="15" y="26">A · Vercel만 쓸 때 (연수 실습 방식)</text>
+
+  <rect class="node" x="14" y="42" width="116" height="52" rx="9"/>
+  <text x="72" y="74" text-anchor="middle">사용자</text>
+
+  <line class="edge" x1="136" y1="68" x2="190" y2="68"/>
+  <polygon class="head" points="198,68 188,63 188,73"/>
+  <text class="sm" x="167" y="58" text-anchor="middle">주소</text>
+
+  <rect class="node" x="206" y="42" width="152" height="52" rx="9"/>
+  <text x="282" y="67" text-anchor="middle" font-size="14">주소록(DNS)</text>
+  <text class="sm" x="282" y="85" text-anchor="middle">"Vercel로 가세요"</text>
+
+  <line class="edge" x1="364" y1="68" x2="424" y2="68"/>
+  <polygon class="head" points="432,68 422,63 422,73"/>
+
+  <rect class="srv" x="440" y="42" width="266" height="52" rx="9"/>
+  <text class="w" x="573" y="67" text-anchor="middle">Vercel</text>
+  <text class="w sm" x="573" y="85" text-anchor="middle" fill="#fff">전 세계 배달망 + 주방이 한 덩어리</text>
+
+  <line class="dash" x1="15" y1="118" x2="706" y2="118"/>
+
+  <text class="rt" x="15" y="150">B · 내 도메인을 Cloudflare로 관리할 때</text>
+
+  <rect class="node" x="14" y="166" width="100" height="52" rx="9"/>
+  <text x="64" y="198" text-anchor="middle">사용자</text>
+
+  <line class="edge" x1="120" y1="192" x2="158" y2="192"/>
+  <polygon class="head" points="166,192 156,187 156,197"/>
+
+  <rect class="node" x="174" y="166" width="150" height="52" rx="9"/>
+  <text x="249" y="191" text-anchor="middle" font-size="14">주소록(Cloudflare)</text>
+  <text class="sm" x="249" y="209" text-anchor="middle">"내 도메인 → Vercel"</text>
+
+  <line class="edge" x1="330" y1="192" x2="368" y2="192"/>
+  <polygon class="head" points="376,192 366,187 366,197"/>
+
+  <rect class="node" x="384" y="166" width="150" height="52" rx="9"/>
+  <text x="459" y="191" text-anchor="middle" font-size="14">Cloudflare 거점</text>
+  <text class="sm" x="459" y="209" text-anchor="middle">캐시 · 차단 규칙</text>
+
+  <line class="edge" x1="540" y1="192" x2="578" y2="192"/>
+  <polygon class="head" points="586,192 576,187 576,197"/>
+
+  <rect class="srv" x="594" y="166" width="112" height="52" rx="9"/>
+  <text class="w" x="650" y="197" text-anchor="middle">Vercel</text>
+
+  <text class="sm" x="15" y="252">차이는 한 곳뿐입니다 — 주소록을 누가 들고 있는지, 그리고 중간에 경비 단계를 한 번 더 거치는지.</text>
+</svg>
+</div>
+<figcaption>B에서도 앱이 실제로 도는 곳은 여전히 Vercel입니다. Cloudflare는 앞에 서 있을 뿐 주방을 대신하지 않습니다.</figcaption>
+</figure>
+
+<h2><span class="num">4</span> 현실적인 세 가지 조합</h2>
+
+<div class="combo">
+  <h3>A · Vercel만 <span class="badge">연수 실습 · 대부분 여기서 충분</span></h3>
+  <p class="when">주소는 <code>내프로젝트.vercel.app</code>을 그대로 씁니다.</p>
+  <ul>
+    <li>필요한 계정: GitHub, Vercel</li>
+    <li>HTTPS(자물쇠 표시)는 자동으로 붙습니다</li>
+    <li>전 세계 어디서 접속해도 이미 충분히 빠릅니다</li>
+    <li>Cloudflare는 <b>전혀 필요 없습니다</b></li>
+  </ul>
+</div>
+
+<div class="combo">
+  <h3>B · Vercel + Cloudflare <span class="badge">내 도메인을 쓸 때</span></h3>
+  <p class="when">도메인을 구입했고, 그 도메인의 주소록을 Cloudflare가 관리하는 경우입니다.</p>
+  <ul>
+    <li>앱은 그대로 Vercel에 있습니다 — 배포 방식은 A와 똑같습니다</li>
+    <li>Cloudflare 주소록에 "이 이름은 Vercel로 보내라"는 항목을 추가합니다</li>
+    <li>기관 도메인처럼 <b>DNS 관리 주체가 따로 있는 경우</b>에도 이 구조가 됩니다</li>
+    <li>접속 차단·접근 제한 규칙을 걸고 싶을 때도 이 조합을 씁니다</li>
+  </ul>
+</div>
+
+<div class="combo">
+  <h3>C · Cloudflare만 <span class="badge">한 생태계로 묶고 싶을 때</span></h3>
+  <p class="when">Vercel 대신 Cloudflare의 자체 호스팅(Workers)에 직접 배포합니다.</p>
+  <ul>
+    <li>주소록·배달·보안·호스팅·데이터베이스(D1)를 한 회사에서 처리</li>
+    <li>Cloudflare Pages도 여전히 쓸 수 있지만, Cloudflare는 새 프로젝트를 Workers로 시작하라고 안내합니다</li>
+    <li>초보자에게는 Vercel 쪽 안내 자료가 더 많다는 점은 고려하세요</li>
+  </ul>
+</div>
+
+<h2><span class="num">5</span> 나에게 Cloudflare가 필요한가?</h2>
+
+<div class="do">
+  질문 세 개면 정해집니다.<br><br>
+  <b>1. 내가 구입한 도메인 주소를 쓸 건가요?</b> → 아니오면 <b>여기서 끝, Vercel만</b> 쓰면 됩니다.<br>
+  <b>2. 그 도메인의 주소록을 Cloudflare가 관리하나요?</b> → 예면 조합 B입니다.<br>
+  <b>3. 특정 접속을 막거나 접근을 통제해야 하나요?</b> → 예면 Cloudflare를 앞에 둡니다.
+</div>
+
+<h3>자주 하는 오해</h3>
+<div class="tablewrap">
+<table>
+  <tr><th style="width:40%">이렇게 알고 계셨다면</th><th>실제로는</th></tr>
+  <tr>
+    <td>"Cloudflare를 써야 사이트가 빨라진다"</td>
+    <td>Vercel도 자체 배달망을 갖고 있어 기본 상태로 이미 빠릅니다. 얹는다고 항상 더 빨라지지 않습니다.</td>
+  </tr>
+  <tr>
+    <td>"도메인을 사면 자동으로 연결된다"</td>
+    <td>이름을 산 것과 그 이름이 어디를 가리킬지 정하는 것은 별개입니다. 주소록에 사람이 등록해 줘야 합니다.</td>
+  </tr>
+  <tr>
+    <td>"Cloudflare는 Vercel의 경쟁 서비스다"</td>
+    <td>겹치는 영역이 있어 대체도 가능하지만, 대개는 <b>앞뒤로 함께</b> 씁니다. 무게중심이 서로 다릅니다.</td>
+  </tr>
+  <tr>
+    <td>"HTTPS 인증서를 따로 사야 한다"</td>
+    <td>두 서비스 모두 자동으로 발급·갱신해 줍니다. 별도 구매가 필요 없습니다.</td>
+  </tr>
+</table>
+</div>
+
+<h2><span class="num">6</span> 역할별 비교표</h2>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:26%">역할</th><th style="width:37%">Vercel</th><th>Cloudflare</th></tr>
+  <tr>
+    <td>앱 실행(호스팅)</td>
+    <td><span class="ok">본업</span> — 코드를 올리면 알아서 실행</td>
+    <td><span class="ok">제공</span> — Workers</td>
+  </tr>
+  <tr>
+    <td>자동 빌드·배포</td>
+    <td><span class="ok">가장 강한 부분</span> — GitHub에 올리면 자동 재배포</td>
+    <td><span class="ok">가능</span></td>
+  </tr>
+  <tr>
+    <td>주소록(DNS)</td>
+    <td><span class="mid">연결한 도메인 관리 기능 제공</span></td>
+    <td><span class="ok">본업</span> — 가장 널리 쓰이는 DNS</td>
+  </tr>
+  <tr>
+    <td>전 세계 배달(CDN)</td>
+    <td><span class="ok">기본 포함</span></td>
+    <td><span class="ok">본업</span></td>
+  </tr>
+  <tr>
+    <td>보안 차단(공격·봇)</td>
+    <td><span class="mid">기본 수준</span></td>
+    <td><span class="ok">가장 강한 부분</span></td>
+  </tr>
+  <tr>
+    <td>HTTPS 자동 적용</td>
+    <td><span class="ok">자동</span></td>
+    <td><span class="ok">자동</span></td>
+  </tr>
+  <tr>
+    <td>데이터베이스</td>
+    <td><span class="mid">외부 서비스 연결</span> — Neon, Supabase 등</td>
+    <td><span class="ok">자체 제공</span> — D1</td>
+  </tr>
+  <tr>
+    <td>도메인(이름) 구입</td>
+    <td colspan="2">도메인은 판매처에서 빌리는 <b>별개의 것</b>입니다. 두 서비스 모두 등록 기능을 함께 제공하기도 하므로, 구입처는 자유롭게 정하면 됩니다.</td>
+  </tr>
+</table>
+</div>
+
+<div class="warn">
+  <b>⚠️ 무료 사용 범위는 수시로 바뀝니다.</b> 두 서비스 모두 개인·소규모 용도의 무료 범위를 제공하지만, 기준은 계속 조정되므로 실습 전 각 사이트에서 확인해 주세요.
+</div>
+
+<hr>
+
+<h3>우리 연수에서는</h3>
+<div class="do" style="margin-bottom:0">
+  실습은 <b>조합 A(Vercel만)</b>으로 진행합니다. Cloudflare 계정은 만들지 않아도 됩니다.<br>
+  나중에 학교나 동아리 이름으로 된 주소를 쓰고 싶어질 때, 그때 이 문서의 <b>조합 B</b>를 다시 펴 보시면 됩니다.<br>
+  배포 실습 절차는 <a href="deploy-webapp.html"><b>웹앱 배포 따라하기</b></a> 문서에 있습니다.
+</div>
+
+<footer>
+  바이브코딩 연수 · Vercel과 Cloudflare 비교<br>
+  서비스 구성과 무료 제공 범위는 수시로 바뀝니다. 실습 전 각 서비스 공식 사이트에서 다시 확인해 주세요.
+</footer>
+
+</div>
+</body>
+</html>

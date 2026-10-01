@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>웹앱 배포 따라하기 · 바이브코딩 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">바이브코딩 프로젝트 연수 · 배포하기</div>
+  <h1>웹앱 배포 따라하기</h1>
+  <p class="sub">GitHub → Vercel &nbsp;|&nbsp; 소요 시간 참고: 40분 내외</p>
+</header>
+
+<div class="note">
+  지금까지는 <b>내 컴퓨터 안에서만</b> 실행되는 결과물을 만들었습니다. 이 문서는 그 결과물에 <b>인터넷 주소</b>를 달아서, 다른 사람도 브라우저로 바로 볼 수 있게 만드는 과정입니다.<br>
+  핵심 흐름은 딱 두 단계입니다: <b>① GitHub에 코드 올리기 → ② Vercel과 연결하기.</b> 한 번 연결해두면 이후에는 코드를 고쳐서 GitHub에 다시 올리기만 해도 자동으로 재배포됩니다.
+</div>
+
+<h3>시작하기 전에</h3>
+<ul>
+  <li><b>GitHub 계정</b> — 없다면 <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>에서 이메일로 무료 가입</li>
+  <li><b>Vercel 계정</b> — <a href="https://vercel.com/signup" target="_blank" rel="noopener">vercel.com/signup</a>에서 <b>Continue with GitHub</b>로 가입하면 계정을 따로 만들 필요 없이 바로 연결됨</li>
+  <li><b>git</b> — 윈도우는 <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">Git for Windows</a>를 설치해 두세요. (아래 방법 C로 올린다면 없어도 됩니다)</li>
+  <li><b>배포할 프로젝트 폴더</b> — 예전에 AI 도구로 만들어 둔 웹 결과물 폴더. 없다면 <a href="example/index.html" target="_blank" rel="noopener">예제 파일(수업 타이머)</a>을 열어 <b>Ctrl+S</b>로 새 폴더에 <code>index.html</code>이라는 이름으로 저장해 쓰세요.</li>
+</ul>
+
+<div class="note">
+  <b>더블클릭으로 열리는 결과물이면 그대로 올리면 됩니다.</b> 고칠 것이 없습니다. 웹앱으로 배포하면 쓰는 사람은 파일을 받을 필요 없이 주소만 누르면 되고, 켜 두는 일은 서비스가 맡습니다.
+</div>
+
+<div class="warn">
+  <b>⚠️ 올리기 전에 폴더 안을 먼저 보세요. GitHub 저장소는 인터넷에 공개될 수 있습니다.</b><br>
+  아래 세 가지가 폴더에 있으면 <b>올리지 않습니다.</b> 한 번 올라간 것은 지워도 기록에 남습니다.
+  <ul style="margin-bottom:0">
+    <li><b>비밀 키</b> — API 키, 비밀번호, <code>.env</code> 파일</li>
+    <li><b>학생·교직원 자료</b> — 명단, 사진, 제출물, 성적</li>
+    <li><b>정답·평가 자료</b> — 학생이 보면 안 되는 것</li>
+  </ul>
+</div>
+<div class="note">
+  올리지 않을 파일은 <code>.gitignore</code>라는 파일에 이름을 적어 둡니다. AI에게 <b>"올리면 안 되는 파일이 있는지 확인하고 .gitignore를 만들어줘"</b>라고 먼저 요청하세요.<br>
+  연습 단계에서는 저장소를 만들 때 <b>Private</b>을 고르는 것도 방법입니다. Vercel은 Private 저장소도 연결할 수 있습니다.
+</div>
+
+<h2><span class="num">1</span> 전체 흐름 한눈에 보기</h2>
+
+<p>모든 앱이 아래 단계를 다 거치는 건 아닙니다. <b>실선 박스</b>는 오늘 실습하는 단계, <b>점선 박스</b>는 필요할 때만 쓰는 심화 개념입니다.</p>
+
+<div class="flow">
+  <div class="flowstep"><div class="t">1</div>로컬에서 코드 작성<br><span style="color:var(--muted); font-size:13px">(완료)</span></div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">2</div>GitHub에 올리기</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">3</div>Vercel과 연결 → 배포</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep opt"><div class="t">선택</div>데이터베이스<br>커스텀 도메인</div>
+</div>
+
+<h2><span class="num">2</span> 코드를 GitHub에 올리기</h2>
+
+<div class="pick">
+  <a class="pickcard" href="#a-github">
+    <div class="h">🤖 방법 A · AI에게 시키기 <span class="rec">추천</span></div>
+    <p class="d">클로드 코드/코덱스에게 자연어로 요청. 명령어를 몰라도 됩니다.</p>
+  </a>
+  <a class="pickcard" href="#b-github">
+    <div class="h">⌨️ 방법 B · 직접 명령어</div>
+    <p class="d">git 명령어를 순서대로 복사-붙여넣기.</p>
+  </a>
+</div>
+<p style="font-size:15.5px; color:var(--muted)">AI 도구도 git도 준비되지 않았다면 <a href="#c-github"><b>방법 C · 웹사이트에서 올리기</b></a>로 가세요.</p>
+
+<h3 id="a-github">방법 A · AI에게 시키기</h3>
+<p>먼저 <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>에서 빈 저장소(Repository)를 하나 만들어 주세요. 이름만 정하고 <b>Add a README 체크는 하지 말고</b> Create repository를 누르면 됩니다. 저장소를 만들면 주소(예: <code>https://github.com/내아이디/저장소이름.git</code>)가 화면에 보입니다.</p>
+
+<p>그 다음 클로드 코드나 코덱스 입력창에 아래 문장을 붙여넣으세요. <code>여기에주소</code> 부분만 방금 만든 저장소 주소로 바꿔주세요.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">요청 예시</span><button>복사</button></div>
+  <pre>이 프로젝트를 git으로 초기화하고, https://github.com/여기에주소.git 저장소에 올려줘</pre>
+</div>
+
+<div class="do">
+  중간에 파일을 추가하거나 명령을 실행해도 될지 물어보면 <b>승인(예)</b>을 눌러주세요.<br>
+  완료되면 GitHub 저장소 페이지를 새로고침해서 내 파일들이 올라왔는지 확인하면 됩니다.
+</div>
+
+<h3 id="b-github">방법 B · 직접 명령어로 올리기</h3>
+<p>프로젝트 폴더에서 터미널을 연 뒤, 아래 명령을 순서대로 붙여넣고 하나씩 엔터를 치세요.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">1 · 초기화 + 커밋</span><button>복사</button></div>
+  <pre>git init
+git add .
+git commit -m "첫 커밋"</pre>
+</div>
+
+<p><a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>에서 빈 저장소를 만들고, 화면에 나오는 주소를 복사해 아래 명령의 <code>여기에주소</code> 자리에 넣어주세요.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">2 · 저장소 연결 + 올리기</span><button>복사</button></div>
+  <pre>git remote add origin https://github.com/여기에주소.git
+git branch -M main
+git push -u origin main</pre>
+</div>
+
+<div class="warn">
+  <b>⚠️ GitHub 로그인 창이 뜰 수 있습니다.</b><br>
+  브라우저 창이 열리면 GitHub 계정으로 로그인하고 권한을 허용해 주세요.
+</div>
+
+<h3 id="c-github">방법 C · 웹사이트에서 올리기 (AI 도구·git 없이)</h3>
+<div class="do">
+  <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>에서 저장소를 만든 뒤, 화면의 <b>uploading an existing file</b>을 눌러 폴더 안의 파일을 끌어다 놓고 <b>Commit changes</b>를 누릅니다.
+</div>
+<div class="warn">
+  <b>⚠️ 이 방법은 <code>.gitignore</code>를 보지 않습니다.</b> 끌어다 놓은 것이 전부 올라가므로, 예제 파일처럼 <b>올려도 되는 것만 든 폴더</b>에서만 쓰세요.
+</div>
+
+<div class="note">
+  <b>학교망에서 <code>git push</code>가 인증서 오류로 막히면</b> 다른 인터넷(테더링)으로 바꿔 올리거나, 방법 C처럼 브라우저로 올리면 됩니다. 브라우저는 학교망에서도 대개 정상입니다.
+</div>
+
+<h2><span class="num">3</span> Vercel에 연결해서 배포하기</h2>
+
+<div class="pick">
+  <a class="pickcard" href="#a-vercel">
+    <div class="h">🖱️ 방법 A · 대시보드 클릭 <span class="rec">추천</span></div>
+    <p class="d">웹사이트에서 클릭만으로 연결. 터미널이 필요 없습니다.</p>
+  </a>
+  <a class="pickcard" href="#b-vercel">
+    <div class="h">⌨️ 방법 B · 터미널(CLI)</div>
+    <p class="d">명령어로 배포. 이후 자동화에 익숙해지고 싶다면.</p>
+  </a>
+</div>
+
+<h3 id="a-vercel">방법 A · 대시보드에서 배포하기</h3>
+<div class="do">
+  <a href="https://vercel.com/new" target="_blank" rel="noopener">vercel.com/new</a>에 접속해서 (GitHub 계정으로 로그인한 상태) <b>Import Git Repository</b> 목록에서 방금 올린 저장소를 찾아 <b>Import</b>를 누르세요.<br>
+  설정 화면은 대부분 그대로 두고 <b>Deploy</b> 버튼만 누르면 됩니다. 잠시 후 배포가 끝나면 <code>내프로젝트.vercel.app</code> 형태의 주소가 발급됩니다.
+</div>
+
+<h3 id="b-vercel">방법 B · 터미널(CLI)로 배포하기</h3>
+<p>이 방법은 <a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a>가 설치돼 있어야 합니다. 터미널에 <code>node -v</code>를 쳐서 버전 번호가 나오는지 먼저 확인하세요.</p>
+<div class="code">
+  <div class="bar"><span class="label">1 · Vercel CLI 설치</span><button>복사</button></div>
+  <pre>npm i -g vercel</pre>
+</div>
+<div class="code">
+  <div class="bar"><span class="label">2 · 로그인</span><button>복사</button></div>
+  <pre>vercel login</pre>
+</div>
+<p>프로젝트 폴더 안에서 아래 명령을 실행하면 질문 몇 가지가 나옵니다. 특별한 이유가 없다면 기본값(엔터)으로 진행하면 됩니다.</p>
+<div class="code">
+  <div class="bar"><span class="label">3 · 배포</span><button>복사</button></div>
+  <pre>vercel</pre>
+</div>
+<p>테스트 배포가 잘 됐다면, 아래 명령으로 정식 주소(프로덕션)로 올립니다.</p>
+<div class="code">
+  <div class="bar"><span class="label">4 · 정식 배포</span><button>복사</button></div>
+  <pre>vercel --prod</pre>
+</div>
+
+<h2><span class="num">4</span> 배포 확인하기</h2>
+<div class="do">
+  발급된 주소로 접속해서 실제로 화면이 뜨는지 확인하세요.<br>
+  <b>이후로는</b> 코드를 고치고 방법 A/B로 다시 GitHub에 올리기(push)만 하면, Vercel이 자동으로 새 버전을 다시 배포합니다. 매번 새로 연결할 필요가 없습니다.
+</div>
+<div class="warn">
+  <b>⚠️ 학교망에서도 열리는지 따로 확인하세요.</b><br>
+  <code>vercel.app</code> 주소가 학교 차단 필터에 걸려 있는 경우가 있습니다. 수업에 쓸 계획이라면 교사 PC와 학생 기기 양쪽에서 미리 열어 보세요. 이유는 <a href="network-cases.html">배포 상황 10가지</a>의 10번에 있습니다.
+</div>
+
+<hr>
+
+<h2 style="margin-top:0">심화 개념 <span class="tag">실습 없이 개념만</span></h2>
+
+<h3>데이터베이스가 필요하다면</h3>
+<p>내 앱에 "저장해야 할 데이터"가 있는지 먼저 생각해 보세요.</p>
+<ul>
+  <li>방문자 수를 세고 싶다, 게시판에 글이 쌓여야 한다, 로그인 기능이 있다 → <b>데이터베이스(DB) 필요</b></li>
+  <li>버튼을 누르면 그 자리에서 계산만 해주는 앱 → 필요 없음</li>
+</ul>
+<div class="note">
+  데이터베이스는 "앱이 꺼졌다 켜져도, 다른 사람이 접속해도 사라지지 않는 저장 공간"입니다.<br>
+  무료로 붙일 수 있는 대표적인 선택지로 <b>Neon</b>, <b>Supabase</b>(Vercel과 바로 연동), <b>Cloudflare D1</b>이 있습니다. 실제 연결은 AI에게 "이 프로젝트에 데이터베이스를 연결해줘"라고 요청하면 필요한 설정을 대신 진행해 줍니다.
+</div>
+<div class="warn">
+  <b>⚠️ 개인정보는 넣지 마세요.</b> 학생 이름·연락처 같은 민감한 정보는 연수용 데모 앱에 입력하지 않는 것이 안전합니다.
+</div>
+
+<h3>커스텀 도메인과 Cloudflare</h3>
+<p>Vercel이 기본으로 주는 <code>내프로젝트.vercel.app</code> 주소만으로도 배포는 이미 끝난 것입니다. 아래는 "원하는 주소(도메인)를 따로 쓰고 싶을 때"를 위한 참고 개념입니다.</p>
+<ul>
+  <li><b>도메인 연결(DNS)</b> — 예를 들어 <code>my-project.com</code>처럼 원하는 주소를 구매해서 Vercel 사이트에 연결하고 싶을 때, 그 주소의 "안내판" 역할을 하는 서비스가 필요합니다. <b>Cloudflare</b>가 이 역할로 가장 널리 쓰입니다.</li>
+  <li><b>(대안) Cloudflare 자체를 호스팅으로 사용</b> — Vercel 대신 Cloudflare Pages/Workers에 직접 배포하는 방법도 있고, 이 경우 Cloudflare D1(데이터베이스)까지 한 생태계 안에서 해결할 수 있습니다.</li>
+</ul>
+<div class="note">
+  오늘은 Vercel 기본 주소로 배포하는 것까지만 실습합니다. 커스텀 도메인·Cloudflare 연결은 필요하신 분들을 위한 참고 개념으로만 남겨둡니다.<br>
+  두 서비스가 각각 무엇을 맡는지 더 자세히 보려면 <a href="vercel-vs-cloudflare.html"><b>Vercel과 Cloudflare, 뭐가 다른가요?</b></a> 문서를 참고하세요.
+</div>
+
+<hr>
+
+<h2 style="margin-top:0">잘 안 될 때</h2>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:30%">이런 증상이면</th><th>이렇게 해보세요</th></tr>
+  <tr>
+    <td>GitHub push 시 권한 오류</td>
+    <td>브라우저 로그인 창에서 권한 허용을 눌렀는지 확인하고, 저장소 주소(URL)를 다시 확인해 보세요.</td>
+  </tr>
+  <tr>
+    <td>Vercel에서 내 저장소가 목록에 안 보임</td>
+    <td>Vercel 계정과 GitHub 계정이 같은 계정으로 연결됐는지 확인하세요. (Import Git Repository 화면에서 "Adjust GitHub App Permissions" 클릭)</td>
+  </tr>
+  <tr>
+    <td>Deploy는 됐는데 빈 화면 / 오류 화면</td>
+    <td>Vercel 프로젝트 화면의 <b>Deployments → 최근 배포</b>를 눌러 빌드 기록(Build Logs)의 오류 메시지를 확인하고, 그 메시지를 그대로 AI에게 붙여넣어 고쳐달라고 요청하세요. 기록이 깨끗하면 배포된 주소에서 <b>F12 → Console</b>의 빨간 글씨를 붙여넣습니다.</td>
+  </tr>
+  <tr>
+    <td>CLI에서 <code>vercel: command not found</code></td>
+    <td>터미널을 완전히 닫았다가 새로 열고 1번 명령을 다시 실행해 보세요.</td>
+  </tr>
+  <tr>
+    <td>그래도 안 될 때</td>
+    <td>오류 화면을 캡처해서 연수 담당 채팅방에 올려주세요.</td>
+  </tr>
+</table>
+</div>
+
+<h3>더 알아보기</h3>
+<ul>
+  <li>Vercel 공식 문서: <a href="https://vercel.com/docs" target="_blank" rel="noopener">vercel.com/docs</a></li>
+  <li>터미널이 아직 부담스럽다면: <a href="https://desktop.github.com/" target="_blank" rel="noopener">GitHub Desktop</a> (클릭만으로 GitHub에 올리는 대안 프로그램)</li>
+</ul>
+
+<footer>
+  바이브코딩 연수 · 웹앱 배포 따라하기<br>
+  내용은 2026-09-16 기준 공식 문서를 확인해 작성했습니다. 서비스 화면·요금 정책은 이후 바뀔 수 있으니 실습 전 다시 한 번 확인해 주세요.
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.code').forEach(function(box){
+  var btn = box.querySelector('button');
+  var pre = box.querySelector('pre');
+  btn.addEventListener('click', function(){
+    var text = pre.innerText;
+    function ok(){
+      btn.textContent = '복사됨 ✓';
+      btn.classList.add('done');
+      setTimeout(function(){ btn.textContent='복사'; btn.classList.remove('done'); }, 1600);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch(e){ btn.textContent='복사 실패'; }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, fallback);
+    } else { fallback(); }
+  });
+});
+</script>
+</body>
+</html>

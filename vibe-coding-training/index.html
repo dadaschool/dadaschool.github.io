@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>바이브코딩 프로젝트 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">교원 연수 · 프로젝트형</div>
+  <h1>바이브코딩 프로젝트 연수자료</h1>
+  <p class="sub">AI 코딩 도구로 만들고, 인터넷에 배포하기까지</p>
+</header>
+
+<p class="lead">
+  AI에게 말로 시켜서 프로그램을 만들고, 그것을 다른 사람이 실제로 쓸 수 있는 상태까지 가져가는 과정을 다룹니다.
+</p>
+<p style="color:var(--muted); font-size:15.5px">
+  이어지는 연수의 첫 번째입니다. 이번에는 <b>만든 것을 남이 쓰게 하기까지의 흐름</b>을 잡습니다.
+</p>
+
+<div class="flow" style="margin-top:22px">
+  <div class="flowstep"><div class="t">이번</div><b>흐름과 배포</b><br>만든 것을 남이 쓰게 하기까지</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep opt"><div class="t">다음 (준비 중)</div><b>만들기</b><br>요청하고, 확인하고, 고치기</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep opt"><div class="t">이후 (예정)</div><b>내 PC의 AI와 데이터베이스</b><br>Ollama·Qwen과 DB를 쓰는 프로그램</div>
+</div>
+
+<div class="group">
+  <div class="gt">연수 전에 해 올 것</div>
+  <div class="cards">
+    <a class="card" href="install-claude-code.html">
+      <div class="ct">클로드 코드 설치 따라하기</div>
+      <p class="cd">앱 다운로드 또는 터미널로 설치하고, 로그인해서 첫 실행까지 확인합니다. 윈도우·macOS 공통.</p>
+      <div class="cmeta">사전 준비 15분 · 둘 중 하나만</div>
+    </a>
+    <a class="card" href="install-codex.html">
+      <div class="ct">코덱스 설치 따라하기</div>
+      <p class="cd">ChatGPT 계정으로 코덱스를 설치하고 첫 실행까지 확인합니다. 윈도우·macOS 공통.</p>
+      <div class="cmeta">사전 준비 15분 · 둘 중 하나만</div>
+    </a>
+  </div>
+  <p style="color:var(--muted); font-size:15px; margin:12px 0 0">
+    학교망에서는 설치가 막힐 수 있으니 집이나 개인 인터넷에서 미리 해 오세요. 유료 계정이 없어도 배포 실습에는 참여할 수 있습니다.
+  </p>
+</div>
+
+<div class="group">
+  <div class="gt">1 · 전체 흐름 잡기</div>
+  <div class="cards">
+    <a class="card" href="flow.html">
+      <div class="ct">전체 흐름 한 장</div>
+      <p class="cd">요청에서 접속까지 일곱 단계, 그리고 배포 전에 답해야 할 네 가지 질문. 나머지 문서는 모두 이 그림의 한 칸입니다.</p>
+      <div class="cmeta">읽기 10분 · 여기서 시작</div>
+    </a>
+    <a class="card" href="compare-tools.html">
+      <div class="ct">클로드 코드 vs 코덱스</div>
+      <p class="cd">두 AI 코딩 도구는 무엇이 같고 다른지, 그리고 AI가 내 컴퓨터와 클라우드 중 어디서 일하는지.</p>
+      <div class="cmeta">읽기 10분</div>
+    </a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="gt">2 · 배포하기 전에 알아둘 개념</div>
+  <div class="cards">
+    <a class="card" href="network-cases.html">
+      <div class="ct">배포 상황 10가지</div>
+      <p class="cd">누가 어디서 접속하는가에 따라 만드는 사람이 준비할 것이 달라집니다. 학교에서 생기는 10가지 상황을 한 지도 위에 그리고, 상황마다 개발자가 준비할 것을 정리했습니다.</p>
+      <div class="cmeta">읽기 30분</div>
+    </a>
+    <a class="card" href="vercel-vs-cloudflare.html">
+      <div class="ct">Vercel과 Cloudflare</div>
+      <p class="cd">둘 다 웹사이트 올리는 서비스처럼 보이는데 왜 이름이 둘 다 나오는지, 각각 어느 부분을 맡는지.</p>
+      <div class="cmeta">읽기 10분</div>
+    </a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="gt">3 · 실제로 배포하기</div>
+  <div class="cards">
+    <a class="card" href="deploy-webapp.html">
+      <div class="ct">웹앱 배포 따라하기</div>
+      <p class="cd">GitHub에 코드를 올리고 Vercel과 연결해서, 누구나 접속할 수 있는 인터넷 주소를 만듭니다.</p>
+      <div class="cmeta">실습 40분</div>
+    </a>
+    <a class="card" href="deploy-desktop.html">
+      <div class="ct">데스크톱 앱 배포 따라하기</div>
+      <p class="cd">같은 결과물을 Electron으로 감싸서, 더블클릭하면 켜지는 실행 파일로 만듭니다. 이후 연수의 프로그램이 이 형태입니다.</p>
+      <div class="cmeta">실습 또는 시연 25분</div>
+    </a>
+  </div>
+</div>
+
+<div class="note" style="margin-top:44px">
+  <b>이 사이트는 어떻게 만들어졌나요?</b><br>
+  이 자료들 자체가 AI 코딩 도구로 작성된 HTML 파일이고, GitHub에 올려 웹페이지로 제공되고 있습니다.
+  <a href="flow.html">전체 흐름 한 장</a>의 일곱 단계를 그대로 거친 결과물입니다. 배포 자리만 Vercel이 아니라 GitHub의 자체 호스팅(GitHub Pages)입니다.
+</div>
+
+<footer>
+  바이브코딩 프로젝트 연수자료<br>
+  각 문서의 명령어와 요금 정책은 작성 시점 기준입니다. 실습 전 공식 사이트에서 다시 확인해 주세요.
+</footer>
+
+</div>
+
+</body>
+</html>

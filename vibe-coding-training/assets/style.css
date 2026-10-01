@@ -1,0 +1,251 @@
+/* ============================================================
+   바이브코딩 연수자료 공통 스타일
+   색·글꼴·박스 모양을 여기서 한 번만 고치면 모든 문서에 반영됩니다.
+   ============================================================ */
+
+:root{
+  --red:#F03C22;      /* 강조색 */
+  --cream:#F5F3EF;    /* 배경 */
+  --ink:#1D1D1B;      /* 본문 글자 */
+  --muted:#6E6E6E;    /* 보조 글자 */
+  --line:#E4E0DA;     /* 테두리 */
+  --soft:#FBF9F6;     /* 옅은 배경 */
+}
+
+*{box-sizing:border-box}
+html{background:var(--cream)}
+body{
+  margin:0; padding:0;
+  background:var(--cream); color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","맑은 고딕","Malgun Gothic",sans-serif;
+  font-size:17px; line-height:1.75;
+  word-break:keep-all; overflow-wrap:break-word;
+}
+.wrap{max-width:880px; margin:0 auto; padding:34px 20px 90px}
+
+/* ---------- 상단 목차 링크 ---------- */
+.sitenav{
+  border-bottom:1px solid var(--line); background:var(--soft);
+}
+.sitenav .inner{max-width:880px; margin:0 auto; padding:10px 20px}
+.sitenav a{
+  color:var(--muted); text-decoration:none; font-size:14px; font-weight:700;
+}
+.sitenav a:hover{color:var(--red)}
+
+/* ---------- 문서 머리말 ---------- */
+header{border-bottom:3px solid var(--red); padding-bottom:22px; margin-bottom:34px}
+.kicker{color:var(--red); font-weight:800; font-size:14px; letter-spacing:.08em; margin-bottom:8px}
+h1{font-size:clamp(28px,6vw,38px); font-weight:900; letter-spacing:-.03em; margin:0 0 10px; text-wrap:balance}
+.sub{color:var(--muted); font-size:15px; margin:0}
+
+/* ---------- 제목 ---------- */
+h2{
+  font-size:clamp(20px,4vw,25px); font-weight:900; color:var(--red);
+  margin:52px 0 10px; letter-spacing:-.02em;
+  display:flex; align-items:center; gap:12px;
+}
+h2 .num{
+  flex:none; background:var(--red); color:#fff;
+  font-size:15px; width:32px; height:32px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+h2 .tag{
+  flex:none; font-size:12.5px; font-weight:800; color:#fff;
+  background:var(--ink); padding:4px 10px; border-radius:999px; letter-spacing:.02em;
+}
+h3{font-size:19px; font-weight:800; margin:30px 0 10px}
+h4{font-size:16px; font-weight:800; margin:22px 0 8px; display:flex; align-items:center; gap:8px}
+
+p{margin:10px 0}
+ul{margin:10px 0; padding-left:22px}
+li{margin:6px 0}
+a{color:var(--red)}
+
+/* ---------- 강조 박스 ---------- */
+.do{
+  background:#fff; border-left:5px solid var(--red);
+  padding:16px 20px; margin:16px 0; border-radius:0 10px 10px 0;
+}
+.do b{font-weight:800}
+
+.warn{
+  background:#FFF4F2; border:1.5px dashed var(--red);
+  padding:16px 20px; margin:18px 0; border-radius:10px;
+}
+.warn b{color:var(--red)}
+
+.note{
+  background:var(--soft); border:1px solid var(--line);
+  padding:14px 18px; margin:16px 0; border-radius:10px;
+  font-size:15.5px; color:#3A3A38;
+}
+
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:13px; font-weight:800; color:var(--red);
+  background:#FFF0EC; border:1px solid #FBD9D1;
+  padding:3px 10px; border-radius:999px;
+}
+
+/* ---------- 복사 버튼이 달린 코드 블록 ---------- */
+.code{
+  position:relative; margin:16px 0;
+  border:1.5px solid var(--ink); border-radius:10px;
+  background:#fff; overflow:hidden;
+}
+.code .bar{
+  display:flex; align-items:center; gap:10px;
+  background:var(--ink); color:#fff;
+  padding:8px 12px; font-size:13px; font-weight:700;
+}
+.code .bar .label{flex:1}
+.code button{
+  flex:none; border:0; cursor:pointer;
+  background:var(--red); color:#fff;
+  font-family:inherit; font-size:13px; font-weight:800;
+  padding:6px 14px; border-radius:6px;
+}
+.code button:hover{opacity:.88}
+.code button.done{background:#2E7D32}
+.code pre{
+  margin:0; padding:16px 18px;
+  font-family:"D2Coding","SF Mono","Consolas","Menlo",monospace;
+  font-size:14.5px; line-height:1.6;
+  white-space:pre-wrap; word-break:break-all;
+}
+code{background:#F0EDE8; padding:1px 5px; border-radius:4px; font-size:.94em}
+
+/* ---------- 표 ---------- */
+.tablewrap{overflow-x:auto; margin:18px 0}
+table{border-collapse:collapse; width:100%; min-width:480px; font-size:15.5px}
+th,td{border:1px solid var(--line); padding:11px 13px; text-align:left; vertical-align:top}
+th{background:var(--red); color:#fff; font-weight:800; font-size:14px}
+tr:nth-child(even) td{background:var(--soft)}
+.ok{color:#2E7D32; font-weight:800}
+.mid{color:#9A6700; font-weight:800}
+
+/* ---------- 두 갈래 선택 카드 ---------- */
+.pick{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0 8px}
+@media (max-width:560px){ .pick{grid-template-columns:1fr} }
+.pickcard{
+  background:#fff; border:1.5px solid var(--line); border-radius:12px;
+  padding:18px 20px; text-decoration:none; color:var(--ink); display:block;
+}
+.pickcard:hover{border-color:var(--red)}
+.pickcard .h{font-weight:900; font-size:17px; margin-bottom:4px; display:flex; align-items:center; gap:8px}
+.pickcard .rec{font-size:11.5px; font-weight:800; color:#fff; background:var(--red); padding:2px 8px; border-radius:999px}
+.pickcard .d{color:var(--muted); font-size:14.5px; margin:0}
+
+/* ---------- 나란히 비교 카드 ---------- */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+@media (max-width:560px){ .vs{grid-template-columns:1fr} }
+.vscard{background:#fff; border:1.5px solid var(--line); border-radius:12px; padding:18px 20px}
+.vscard .h{font-weight:900; font-size:17px; margin-bottom:8px; display:flex; align-items:center; gap:8px}
+.vscard .h .dot{width:10px; height:10px; border-radius:50%; background:var(--red); flex:none}
+.vscard ul,.vscard ol{margin:6px 0; padding-left:20px; font-size:15.5px}
+.vscard li{margin:4px 0}
+
+/* ---------- 단계 흐름 ---------- */
+.flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:8px; margin:16px 0}
+.flowstep{
+  flex:1 1 140px; background:#fff; border:1.5px solid var(--line); border-radius:10px;
+  padding:12px 14px; font-size:14.5px;
+}
+.flowstep .t{font-weight:800; font-size:12px; color:var(--red); letter-spacing:.02em; margin-bottom:4px}
+.flowstep.opt{border-style:dashed; color:var(--muted)}
+.flowarrow{display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:18px; flex:0 0 auto}
+@media (max-width:700px){ .flowarrow{display:none} }
+
+/* ---------- 케이스 카드 (배포 상황 10가지) ---------- */
+.case{background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:22px 24px; margin:22px 0}
+.case > h3{margin-top:0; display:flex; align-items:flex-start; gap:10px; font-size:20px}
+.case .cnum{
+  flex:none; background:var(--ink); color:#fff; font-size:14px; font-weight:800;
+  width:30px; height:30px; border-radius:8px;
+  display:inline-flex; align-items:center; justify-content:center; margin-top:3px;
+}
+.situation{color:#3A3A38; font-size:16px; margin:4px 0 14px}
+
+.lens{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0}
+@media (max-width:620px){ .lens{grid-template-columns:1fr} }
+.lensbox{background:var(--soft); border:1px solid var(--line); border-radius:10px; padding:14px 16px}
+.lensbox .t{font-weight:800; font-size:13px; color:var(--red); letter-spacing:.04em; margin-bottom:6px}
+.lensbox p{margin:6px 0; font-size:15.5px}
+
+.need{margin:14px 0 0}
+.need .t{font-weight:800; font-size:13px; color:var(--red); letter-spacing:.04em; margin-bottom:8px}
+.need ul{margin:0; padding-left:20px; font-size:15.5px}
+.need li{margin:5px 0}
+
+.lv{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:800;
+    padding:3px 10px; border-radius:999px; margin-left:auto; flex:none; white-space:nowrap}
+.lv1{background:#EAF3EC; color:#2E7D32; border:1px solid #CADFCE}
+.lv2{background:#FFF6E6; color:#9A6700; border:1px solid #F2E0BA}
+.lv3{background:#FFF0EC; color:var(--red); border:1px solid #FBD9D1}
+
+/* ---------- 조합 카드 ---------- */
+.combo{background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:20px 22px; margin:16px 0}
+.combo h3{margin:0 0 4px; display:flex; align-items:center; gap:10px; font-size:19px}
+.combo .badge{margin-left:auto; white-space:nowrap; font-size:12px}
+.combo .when{color:var(--muted); font-size:15px; margin:2px 0 12px}
+.combo ul{margin:8px 0 0; font-size:15.5px}
+
+/* ---------- 다이어그램(SVG) ---------- */
+figure{margin:16px 0 8px}
+.figwrap{overflow-x:auto}
+.dg{width:100%; min-width:560px; height:auto; color:var(--ink)}
+.dg .node{fill:#fff; stroke:currentColor; stroke-width:1.6}
+.dg .srv{fill:#1D1D1B; stroke:#1D1D1B}
+.dg .net{fill:#FBF9F6; stroke:currentColor; stroke-width:1.6}
+.dg .soft{fill:#FBF9F6; stroke:currentColor; stroke-width:1.5}
+.dg .edge{stroke:currentColor; stroke-width:1.6; fill:none}
+.dg .dash{stroke:currentColor; stroke-width:1.4; fill:none; stroke-dasharray:6 5; opacity:.65}
+.dg .wall{stroke:var(--red); stroke-width:1.6; fill:none; stroke-dasharray:6 5}
+.dg .zone{fill:none; stroke:currentColor; stroke-width:1.3; stroke-dasharray:5 5; opacity:.5}
+.dg .barV{fill:#FFF0EC; stroke:var(--red); stroke-width:1.6}
+.dg .barC{fill:#EDEDEA; stroke:var(--ink); stroke-width:1.6}
+.dg text{font-family:inherit; font-size:15px; fill:currentColor}
+.dg .w{fill:#fff}
+.dg .sm{font-size:13px; fill:var(--muted)}
+.dg .lbl{font-size:13px; fill:var(--muted)}
+.dg .rlbl{font-size:13px; fill:var(--red); font-weight:700}
+.dg .kt{font-weight:800; font-size:14px}
+.dg .rt{fill:var(--red); font-weight:800; font-size:14px}
+.dg .head{fill:currentColor}
+.dg .rhead{fill:var(--red)}
+figcaption{font-size:14px; color:var(--muted); margin-top:6px}
+
+hr{border:0; border-top:1px solid var(--line); margin:44px 0}
+footer{margin-top:56px; padding-top:20px; border-top:1px solid var(--line);
+       color:var(--muted); font-size:14px}
+footer a{color:var(--muted)}
+
+/* ---------- 목차 페이지 ---------- */
+.lead{font-size:18px; color:#3A3A38; margin:0 0 8px}
+.group{margin:40px 0 0}
+.group > .gt{
+  display:flex; align-items:center; gap:10px;
+  font-weight:900; font-size:15px; color:var(--red);
+  letter-spacing:.04em; margin-bottom:14px;
+}
+.group > .gt::after{content:""; flex:1; height:1px; background:var(--line)}
+.cards{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:620px){ .cards{grid-template-columns:1fr} }
+.card{
+  background:#fff; border:1.5px solid var(--line); border-radius:14px;
+  padding:20px 22px; text-decoration:none; color:var(--ink); display:block;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.card:hover{border-color:var(--red); transform:translateY(-2px)}
+.card .ct{font-weight:900; font-size:18px; margin-bottom:6px}
+.card .cd{color:var(--muted); font-size:15px; margin:0}
+.card .cmeta{margin-top:10px; font-size:12.5px; font-weight:800; color:var(--red); letter-spacing:.03em}
+
+@media print{
+  body{background:#fff}
+  .sitenav{display:none}
+  .code button{display:none}
+  h2{break-after:avoid}
+  .code,.warn,.do,.case,.combo,.pickcard,.vscard{break-inside:avoid}
+}

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수업 타이머</title>
+<!--
+  배포 실습용 예제입니다. 이 파일 하나가 앱 전체입니다.
+  - 서버도, 설치할 것도 없습니다. 더블클릭하면 브라우저에서 바로 열립니다.
+  - 저장하는 데이터가 없으므로 데이터베이스가 필요 없습니다.
+  - 그래서 GitHub에 올리고 Vercel에 연결하기만 하면 그대로 배포됩니다.
+-->
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:28px; padding:24px;
+    background:#F5F3EF; color:#1D1D1B;
+    font-family:"Pretendard","Noto Sans KR","맑은 고딕","Malgun Gothic",sans-serif;
+  }
+  h1{margin:0; font-size:28px}
+  #time{font-size:clamp(88px,22vw,220px); font-weight:900; line-height:1; font-variant-numeric:tabular-nums}
+  #time.done{color:#F03C22}
+  .row{display:flex; flex-wrap:wrap; gap:12px; justify-content:center}
+  button{
+    min-height:60px; padding:0 26px; font-size:22px; font-weight:800; font-family:inherit;
+    border:2px solid #1D1D1B; border-radius:12px; background:#fff; color:#1D1D1B; cursor:pointer;
+  }
+  button.main{background:#F03C22; border-color:#F03C22; color:#fff}
+  p{margin:0; font-size:20px; color:#6E6E6E}
+</style>
+</head>
+<body>
+
+<h1>수업 타이머</h1>
+<div id="time">05:00</div>
+
+<div class="row">
+  <button data-min="1">1분</button>
+  <button data-min="3">3분</button>
+  <button data-min="5">5분</button>
+  <button data-min="10">10분</button>
+</div>
+<div class="row">
+  <button class="main" id="start">시작</button>
+  <button id="reset">처음으로</button>
+</div>
+<p id="msg">시간을 고르고 시작을 누르세요.</p>
+
+<script>
+// 남은 시간은 "초" 하나로만 기억합니다. 화면의 05:00은 이 숫자를 보기 좋게 바꾼 것입니다.
+var chosen = 300;      // 고른 시간(초)
+var left = 300;        // 남은 시간(초)
+var timer = null;      // 1초마다 도는 시계. 멈춰 있으면 null
+
+var timeEl = document.getElementById('time');
+var msgEl = document.getElementById('msg');
+var startBtn = document.getElementById('start');
+
+// 초 → "분:초" 글자로 바꿔 화면에 그립니다.
+function draw(){
+  var m = Math.floor(left / 60);
+  var s = left % 60;
+  timeEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  timeEl.classList.toggle('done', left === 0);
+}
+
+function stop(){
+  clearInterval(timer);
+  timer = null;
+  startBtn.textContent = '시작';
+}
+
+// 1초마다 한 번씩 불립니다. 0이 되면 스스로 멈춥니다.
+function tick(){
+  left = left - 1;
+  if (left <= 0){
+    left = 0;
+    stop();
+    msgEl.textContent = '시간이 끝났습니다.';
+  }
+  draw();
+}
+
+startBtn.addEventListener('click', function(){
+  if (timer){                       // 돌고 있으면 → 잠깐 멈춤
+    stop();
+    msgEl.textContent = '잠깐 멈췄습니다.';
+    return;
+  }
+  if (left === 0) left = chosen;    // 끝난 뒤 다시 누르면 처음부터
+  timer = setInterval(tick, 1000);
+  startBtn.textContent = '잠깐 멈춤';
+  msgEl.textContent = '시간이 가고 있습니다.';
+  draw();
+});
+
+document.getElementById('reset').addEventListener('click', function(){
+  stop();
+  left = chosen;
+  msgEl.textContent = '시간을 고르고 시작을 누르세요.';
+  draw();
+});
+
+document.querySelectorAll('button[data-min]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    stop();
+    chosen = Number(btn.dataset.min) * 60;
+    left = chosen;
+    msgEl.textContent = btn.textContent + '으로 맞췄습니다. 시작을 누르세요.';
+    draw();
+  });
+});
+
+draw();
+</script>
+</body>
+</html>

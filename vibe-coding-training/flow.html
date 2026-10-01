@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전체 흐름 한 장 · 바이브코딩 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">바이브코딩 프로젝트 연수 · 개념편</div>
+  <h1>전체 흐름 한 장</h1>
+  <p class="sub">말로 시킨 것이 남이 쓰는 프로그램이 되기까지 &nbsp;|&nbsp; 읽는 데 약 10분</p>
+</header>
+
+<div class="note">
+  AI에게 시켜서 무언가를 만들어 본 경험은 이미 있으실 겁니다. 그런데 <b>"내 컴퓨터에서는 되는데 다른 사람은 못 쓴다"</b>에서 멈추는 경우가 많습니다.<br>
+  이 문서는 그 사이에 무엇이 있는지를 한 장으로 정리합니다. 뒤의 문서들은 모두 이 그림의 한 칸을 자세히 본 것입니다.
+</div>
+
+<h2><span class="num">1</span> 일곱 단계</h2>
+
+<p>앞의 세 단계는 이미 해 보신 부분이고, <b>이번 연수는 ④부터 ⑦까지</b>를 다룹니다.</p>
+
+<div class="flow">
+  <div class="flowstep"><div class="t">① 요청</div>무엇을 만들지 AI에게 말한다</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">② 생성</div>내 PC의 폴더에 파일이 생긴다</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">③ 확인</div>내 PC에서 열어 보고 고친다</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">④ 저장</div>되돌아올 지점을 남긴다 (git)</div>
+</div>
+<div class="flow">
+  <div class="flowstep"><div class="t">⑤ 올리기</div>코드를 GitHub에 올린다</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">⑥ 배포</div>프로그램이 돌 자리를 정한다</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">⑦ 접속</div>누가 어디서 쓰는지 확인한다</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep opt"><div class="t">다시 ①로</div>고칠 것이 생기면 처음부터 반복</div>
+</div>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:16%">단계</th><th style="width:42%">이때 일어나는 일</th><th>자세한 문서</th></tr>
+  <tr>
+    <td>①②③ 만들기</td>
+    <td>AI가 내 폴더의 파일을 만들고 고칩니다. 결과는 <b>내 PC에만</b> 있습니다.</td>
+    <td>별도 자료로 준비 중. 도구는 <a href="compare-tools.html">클로드 코드 vs 코덱스</a></td>
+  </tr>
+  <tr>
+    <td>④ 저장</td>
+    <td>지금 상태에 이름표를 붙여 둡니다(커밋). AI가 망쳐도 이 지점으로 돌아올 수 있습니다.</td>
+    <td rowspan="2"><a href="deploy-webapp.html">웹앱 배포 따라하기</a> 2장</td>
+  </tr>
+  <tr>
+    <td>⑤ 올리기</td>
+    <td>저장한 것을 GitHub로 보냅니다(푸시). 코드의 사본이 인터넷에 생깁니다.</td>
+  </tr>
+  <tr>
+    <td>⑥ 배포</td>
+    <td>프로그램이 <b>실제로 도는 자리</b>를 정합니다. 온라인서버, 내 PC, 교내 서버 중 하나입니다.</td>
+    <td><a href="deploy-webapp.html">웹앱 배포</a> · <a href="deploy-desktop.html">데스크톱 앱 배포</a> · <a href="vercel-vs-cloudflare.html">Vercel과 Cloudflare</a></td>
+  </tr>
+  <tr>
+    <td>⑦ 접속</td>
+    <td>쓰는 사람과 프로그램 사이에 무엇이 가로막는지 확인합니다.</td>
+    <td><a href="network-cases.html">배포 상황 10가지</a></td>
+  </tr>
+</table>
+</div>
+<h2><span class="num">2</span> 헷갈리는 세 쌍</h2>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:30%">같은 것처럼 들리지만</th><th>실제로는</th></tr>
+  <tr>
+    <td>저장(④) 과 올리기(⑤)</td>
+    <td>저장은 <b>내 PC 안에</b> 기록을 남기는 것이고, 올리기는 그 기록을 <b>GitHub로 보내는</b> 것입니다. 저장만 하고 올리지 않으면 PC가 고장 났을 때 함께 사라집니다.</td>
+  </tr>
+  <tr>
+    <td>올리기(⑤) 와 배포(⑥)</td>
+    <td>GitHub에 올라간 것은 <b>코드 보관함</b>일 뿐, 아직 누구도 프로그램을 쓸 수 없습니다. 배포는 그 코드를 <b>어딘가에서 실행시키는</b> 일입니다.</td>
+  </tr>
+  <tr>
+    <td>배포(⑥) 와 접속(⑦)</td>
+    <td>배포가 끝났어도 쓰는 사람 쪽에서 막히면 열리지 않습니다. 학교망 차단 필터가 대표적입니다. <b>배포한 사람 화면에서 되는 것</b>과 <b>쓰는 사람 화면에서 되는 것</b>은 따로 확인합니다.</td>
+  </tr>
+</table>
+</div>
+
+<h2><span class="num">3</span> 배포 전에 답할 네 가지 질문</h2>
+
+<p>⑥에서 어디에 배포할지는 취향이 아니라 아래 네 질문의 답으로 정해집니다. AI에게 배포를 시킬 때도 이 네 가지를 먼저 말해 주면 결과가 달라집니다.</p>
+
+<div class="do">
+  <b>1. 누가 쓰는가</b> — 나 혼자 / 교내 선생님 / 학생 / 학교 밖 사람<br>
+  <b>2. 프로그램은 어디서 도는가</b> — 내 PC / 교내 서버 / 온라인서버<br>
+  <b>3. 데이터는 어디에 쌓이는가</b> — 쌓이지 않음 / 내 PC / 교내 서버 / 온라인 DB<br>
+  <b>4. AI 모델을 쓴다면 어디서 도는가</b> — 쓰지 않음 / AI 회사 서버 / 내 PC나 교내 서버
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.code').forEach(function(box){
+  var btn = box.querySelector('button');
+  var pre = box.querySelector('pre');
+  btn.addEventListener('click', function(){
+    var text = pre.innerText;
+    function ok(){
+      btn.textContent = '복사됨 ✓';
+      btn.classList.add('done');
+      setTimeout(function(){ btn.textContent='복사'; btn.classList.remove('done'); }, 1600);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch(e){ btn.textContent='복사 실패'; }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, fallback);
+    } else { fallback(); }
+  });
+});
+</script>
+</body>
+</html>
