@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>선생님용 — 컴퓨터 속 데이터 여행</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%82%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/app.css?v=202610180043">
+<style>
+  .filters { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
+  .filters label { display:flex; flex-direction:column; gap:6px; font-size:17px; font-weight:bold; }
+  .filters select, .filters input { min-width:130px; }
+
+  table.list { width:100%; border-collapse:collapse; font-size:18px; }
+  table.list th, table.list td { border:1px solid var(--line); padding:9px 10px; text-align:center; }
+  table.list th { background:var(--band); cursor:pointer; user-select:none; white-space:nowrap; }
+  table.list th:hover { background:#e0e7ff; }
+  table.list td.left { text-align:left; }
+  table.list tr.dim td { color:var(--faint); background:#fafafa; }
+
+  .sum { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; }
+  .sumcard { border:2px solid var(--line); border-radius:12px; padding:14px 16px; background:#fff; }
+  .sumcard .big { font-size:32px; font-weight:bold; color:var(--brand); }
+  .sumcard .lb { font-size:17px; color:var(--sub); }
+
+  .bad { font-size:17px; color:var(--no); }
+  ul.badlist { margin:8px 0 0; padding-left:22px; font-size:17px; color:var(--sub); }
+  ul.tips { margin:0; padding-left:22px; line-height:1.9; font-size:18px; color:var(--sub); }
+  ul.tips b { color:var(--ink); }
+  .prnrow { display:flex; gap:10px; flex-wrap:wrap; margin:16px 0; }
+  table.grid td.left { text-align:left; }
+  .flow td, .flow th { font-size:18px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>🗂️ 선생님용</h1>
+  <span class="badge">컴퓨터 속 데이터 여행 · 컴퓨팅 시스템</span>
+  <span class="spacer"></span>
+  <a class="home" href="index.html">🏠 처음</a>
+  <a class="home" href="sim.html#1">💻 시뮬레이터</a>
+  <a class="home" href="worksheet.html">📝 학습지</a>
+</header>
+
+<div class="wrap">
+
+  <!-- ======================= 성취기준 ======================= -->
+  <div class="card">
+    <h2>🎯 관련 성취기준 · 교과서</h2>
+    <div class="tablescroll">
+      <table class="grid">
+        <tr><th>성취기준</th><td class="left"><b>[9정01-01]</b> 컴퓨팅 시스템의 구성요소와 동작 원리를 이해하고, 운영 체제의 기능을 분석한다.</td></tr>
+        <tr><th>교과서</th><td class="left">동아출판 Ⅰ. 컴퓨팅 시스템 › 01. 컴퓨팅 시스템의 이해 — <b>18~30쪽</b>
+          (동작 원리 · 시작과 종료 · 운영체제의 개념과 필요성 · 운영체제의 기능)</td></tr>
+        <tr><th>다루지 않는 것</th><td class="left">피지컬 컴퓨팅(32~41쪽)은 <b>마이크로비트 연결 시뮬레이터 · 센서 공작소</b>에서 다룹니다.</td></tr>
+      </table>
+    </div>
+    <p class="lead" style="margin-top:12px">성취기준은 <b>이 화면에만</b> 보입니다. 학생 화면·학습지·인쇄물에는 넣지 않았습니다.</p>
+  </div>
+
+  <!-- ======================= 수업 흐름 ======================= -->
+  <div class="card">
+    <h2>📅 이렇게 쓰면 좋습니다 (2~3차시)</h2>
+    <div class="tablescroll">
+      <table class="grid flow">
+        <tr><th>차시</th><th>시뮬레이터</th><th>교과서</th><th>흐름</th><th>학습지</th></tr>
+        <tr><td><b>1</b></td><td class="left"><b>① 켜고 · 쓰고 · 끄기</b></td><td>18~22쪽</td>
+            <td class="left">깨우기(«방향키를 누르면 캐릭터가 어떻게 움직일까?») → 교사가 전자칠판에서 <b>천천히</b>로 부팅 시연 →
+              학생이 «해 볼 일» 9개 → 껐다 켜서 <b>저장한 글은 남고 저장 안 한 글은 사라지는 것</b> 확인</td>
+            <td>1·2단계</td></tr>
+        <tr><td><b>2</b></td><td class="left"><b>② 운영체제가 하는 일</b></td><td>24~30쪽</td>
+            <td class="left">«운영체제가 없다면?» → 미션 6개(기능 하나씩) → 시뮬레이터의 <b>작업 관리자</b> 숫자를 적고,
+              실제 PC 에서 <b>Ctrl+Alt+Delete → 작업 관리자</b>로 같은 칸을 찾아 비교(교과서 30쪽 활동)</td>
+            <td>3단계</td></tr>
+        <tr><td><b>3</b><br><small>(2차시 뒤에 붙여도 됨)</small></td><td class="left"><b>③ 고장 진단 실험실</b></td><td>20쪽 다시</td>
+            <td class="left">«직접 고장 내 보기»로 다섯 가지를 함께 본 뒤 → <b>🎲 수수께끼 고장</b>으로 모둠 대결 →
+              «어느 단계에서 멈췄나 → 어떤 부품 탓인가» 를 말로 설명하게 하기</td>
+            <td>4단계 · PDF 제출</td></tr>
+      </table>
+    </div>
+    <ul class="tips" style="margin-top:14px">
+      <li><b>전자칠판 시연</b> : 오른쪽 위 <b>속도 «천천히»</b> → 설명할 곳에서 <b>⏸ 멈춤</b> → 끝나면 <b>↺ 다시 보기</b>.
+        걸음마다 오른쪽 아래에 <b>4과정 · 누가 일하나 · 운영체제 기능</b>이 켜집니다.</li>
+      <li><b>실제 키보드도 됩니다</b> : 숫자 · 방향키 · 스페이스 바 · Enter · 지우기. (화면 키보드와 같은 일을 합니다)</li>
+      <li>학생이 서두르면 <b>⏭ 건너뛰기</b>로 남은 흐름을 한 번에 끝냅니다. 결과는 같습니다.</li>
+      <li><b>② 탭은 «⚡ 바로 바탕 화면으로»</b> 로 부팅을 건너뛸 수 있습니다. 비밀번호는 <b>1234</b> 입니다(화면에 적혀 있음).</li>
+      <li><b>인터넷이 없어도</b> 됩니다 — <code>index.html</code> 을 더블클릭해서 열면 서버 없이 돕니다.</li>
+    </ul>
+  </div>
+
+  <!-- ======================= 고장 정답 ======================= -->
+  <div class="card">
+    <h2>🔧 고장 진단 실험실 — 정답과 실마리</h2>
+    <p class="lead">«🎲 수수께끼 고장» 은 다섯 가지 중 하나를 무작위로 고릅니다(같은 것이 연달아 나오지 않음).</p>
+    <div class="tablescroll"><table class="grid" id="faultTable"></table></div>
+    <div class="warnbox">
+      🖥 <b>«모니터 연결 끊김»</b> 은 처음 구상의 «그래픽 고장» 을 바꾼 것입니다. 실제로 그래픽 장치가 고장 나면
+      바이오스가 <b>삐 소리</b>를 내며 멈춰 «안에서는 다 되는데 화면만 깜깜하다» 가 되지 않기 때문입니다.
+    </div>
+  </div>
+
+  <!-- ======================= 인쇄 ======================= -->
+  <div class="card">
+    <h2>🖨 인쇄용 활동지</h2>
+    <p class="lead">화면 학습지와 <b>같은 문항</b>(4단계 · <b>18문항</b> · 자동 채점 14)이고 <b>답 칸은 비어 있습니다.</b> 정답·해설·성취기준은 들어가지 않습니다.</p>
+    <div class="prnrow">
+      <button type="button" class="btn primary big" id="prnAll">🖨 학습지 전체</button>
+      <button type="button" class="btn big" id="prnKey">🔑 교사용 정답표</button>
+    </div>
+    <div class="prnrow" id="prnSteps"></div>
+    <ul class="tips">
+      <li>단추를 누르면 <b>새 창</b>에 인쇄용 문서가 열리고 인쇄 대화상자가 뜹니다.</li>
+      <li><b>PDF 파일로 받으려면</b> 그 대화상자의 「대상(프린터)」을 <b>「PDF로 저장」</b> 으로 바꿉니다.</li>
+      <li>단계만 따로 뽑으면 <b>문항 번호가 1번부터</b> 다시 매겨집니다. 화면 학습지의 번호와 다릅니다.</li>
+      <li><b>교사용 정답표</b>는 학생에게 나눠 주지 마세요 — 정답과 해설이 모두 들어 있습니다.</li>
+      <li>종이로 받은 학습지는 <b>자동 채점이 되지 않습니다</b> — 화면 학습지로 답을 확인하세요.</li>
+    </ul>
+  </div>
+
+  <!-- ======================= 제출물 정리 ======================= -->
+  <div class="card">
+    <h2>1. 모은 PDF 를 불러오세요</h2>
+    <p class="lead">학생이 낸 PDF 를 한 폴더에 모아 두고 <b>[폴더 고르기]</b> 를 누르세요.</p>
+    <div class="hint">
+      이 페이지는 <b>파일 이름만</b> 읽습니다. PDF 를 열지 않고, 아무것도 서버로 보내지 않으며,
+      <b>학생 정보를 저장하지 않습니다.</b> 새로고침하면 목록은 사라집니다.
+    </div>
+
+    <div class="btnrow">
+      <input type="file" id="fileInput" multiple accept="application/pdf" hidden>
+      <input type="file" id="dirInput" webkitdirectory directory multiple hidden>
+      <button type="button" class="btn primary big" id="btnDir">폴더 고르기</button>
+      <button type="button" class="btn" id="btnFiles">파일 고르기</button>
+      <button type="button" class="btn ghost" id="btnClear">목록 비우기</button>
+    </div>
+
+    <p id="readMsg" class="lead" style="margin-top:14px"></p>
+    <div id="badBox" hidden>
+      <p class="bad"><b>읽지 못한 파일</b> — 이름 형식이 달라 정보를 뽑을 수 없었습니다.</p>
+      <ul class="badlist" id="badList"></ul>
+    </div>
+  </div>
+
+  <div class="card" id="cardSum" hidden>
+    <h2>2. 요약</h2>
+    <div class="sum" id="sum"></div>
+  </div>
+
+  <div class="card" id="cardList" hidden>
+    <h2>3. 제출 목록</h2>
+    <div class="filters" style="margin-bottom:16px">
+      <label>종류 <select id="fKind"><option value="">전체</option></select></label>
+      <label>학년 <select id="fGrade"><option value="">전체</option></select></label>
+      <label>반 <select id="fCls"><option value="">전체</option></select></label>
+      <label>여러 번 낸 경우
+        <select id="fDup">
+          <option value="last">최종 제출만</option>
+          <option value="first">최초 제출만</option>
+          <option value="all">전부 보기</option>
+        </select>
+      </label>
+      <button type="button" class="btn" id="btnCsv">CSV 내려받기</button>
+    </div>
+    <p class="lead" id="dupMsg"></p>
+    <div class="tablescroll"><table class="list" id="list"></table></div>
+  </div>
+
+  <!-- ======================= 정답·기준 ======================= -->
+  <div class="card">
+    <h2>파일 이름 규칙</h2>
+    <p class="lead">학생 화면이 만드는 PDF 는 아래 형식입니다. 이름만으로 정렬·집계가 됩니다.</p>
+    <div class="tablescroll">
+      <table class="grid">
+        <tr><th>자료</th><th>파일 이름 예시</th></tr>
+        <tr><td class="left">컴퓨터 속 데이터 여행 학습지</td>
+            <td class="left">데이터여행학습지_1-3-12_홍길동_20261016_1420.pdf</td></tr>
+      </table>
+    </div>
+    <div class="warnbox">
+      이 페이지는 <b>점수를 집계하지 않습니다.</b> 누가 냈는지·언제 냈는지만 정리하고,
+      내용은 PDF 를 열어 읽어 주세요.
+    </div>
+  </div>
+
+</div>
+
+<script src="js/print.js?v=202610180043"></script>
+<script src="js/pc.js?v=202610180043"></script>
+<script src="js/sheet-spec.js?v=202610180043"></script>
+<script>
+"use strict";
+
+/* =========================================================
+   제출물 정리 도구
+   ---------------------------------------------------------
+   파일 이름만 읽는다. 내용을 열지 않고, 저장·전송도 하지 않는다.
+   그래서 서버 없이(file:// 더블클릭) 동작한다.
+   (mb-noise ← EnergyKeeper·ai-class 에서 검증된 것을 그대로 가져왔다 —
+    고칠 일이 생기면 그쪽에도 반영할 것.)
+   ========================================================= */
+
+/* 데이터여행학습지_1-3-12_홍길동_20261016_1420.pdf
+   브라우저가 중복 다운로드에 붙이는 " (1)" 도 받아들인다 */
+var NAME_RE = /^([^_]+)_(\d+)-(\d+)-(\d+)_([^_]+)_(\d{8})_(\d{4})(?:\s*\(\d+\))?\.pdf$/i;
+
+var rows = [], bad = [], sortKey = "when", sortAsc = true;
+
+function parseName(fname) {
+  var m = NAME_RE.exec(fname);
+  if (!m) return null;
+  var d = m[6], t = m[7];
+  return {
+    kind: m[1], grade: +m[2], cls: +m[3], num: +m[4], name: m[5],
+    when: d + t,
+    whenText: d.slice(0, 4) + "-" + d.slice(4, 6) + "-" + d.slice(6, 8) +
+              " " + t.slice(0, 2) + ":" + t.slice(2, 4),
+    file: fname
+  };
+}
+
+function keyOf(r) { return r.kind + "|" + r.grade + "-" + r.cls + "-" + r.num + "|" + r.name; }
+function sigOf(r) { return keyOf(r) + "|" + r.when; }
+
+function markDuplicates() {
+  var groups = {};
+  rows.forEach(function (r) { var k = keyOf(r); (groups[k] = groups[k] || []).push(r); });
+  Object.keys(groups).forEach(function (k) {
+    var g = groups[k].sort(function (a, b) { return a.when.localeCompare(b.when); });
+    g.forEach(function (r, i) {
+      r.tries = g.length; r.tryNo = i + 1;
+      r.isFirst = (i === 0); r.isLast = (i === g.length - 1);
+    });
+  });
+}
+
+function addFiles(fileList) {
+  var added = 0, skipped = 0, merged = 0;
+  Array.prototype.forEach.call(fileList, function (f) {
+    if (!/\.pdf$/i.test(f.name)) { skipped++; return; }
+    if (rows.some(function (r) { return r.file === f.name; })) return;
+    var r = parseName(f.name);
+    if (!r) { if (bad.indexOf(f.name) < 0) bad.push(f.name); return; }
+    if (rows.some(function (x) { return sigOf(x) === sigOf(r); })) { merged++; return; }
+    rows.push(r); added++;
+  });
+
+  markDuplicates();
+  render();
+
+  document.getElementById("readMsg").innerHTML =
+    "읽은 제출물 <b>" + rows.length + "건</b>" +
+    (added ? " (이번에 " + added + "건 추가)" : "") +
+    (merged ? " · 같은 제출물의 복사본 " + merged + "건을 한 건으로 묶음" : "") +
+    (bad.length ? " · 읽지 못한 파일 " + bad.length + "건" : "") +
+    (skipped ? " · PDF 가 아니어서 건너뛴 파일 " + skipped + "건" : "");
+
+  document.getElementById("badBox").hidden = bad.length === 0;
+  var bl = document.getElementById("badList");
+  bl.innerHTML = "";
+  bad.forEach(function (n) { var li = document.createElement("li"); li.textContent = n; bl.appendChild(li); });
+}
+
+document.getElementById("btnDir").addEventListener("click", function () { document.getElementById("dirInput").click(); });
+document.getElementById("btnFiles").addEventListener("click", function () { document.getElementById("fileInput").click(); });
+["dirInput", "fileInput"].forEach(function (id) {
+  document.getElementById(id).addEventListener("change", function (e) {
+    addFiles(e.target.files);
+    e.target.value = "";
+  });
+});
+document.getElementById("btnClear").addEventListener("click", function () {
+  rows = []; bad = []; render();
+  document.getElementById("readMsg").textContent = "";
+  document.getElementById("badBox").hidden = true;
+});
+
+function uniqueSorted(getter) {
+  var s = {};
+  rows.forEach(function (r) { s[getter(r)] = true; });
+  return Object.keys(s).sort();
+}
+
+function fillSelect(id, values) {
+  var sel = document.getElementById(id), cur = sel.value;
+  sel.innerHTML = '<option value="">전체</option>';
+  values.forEach(function (v) {
+    var o = document.createElement("option");
+    o.value = v; o.textContent = v; sel.appendChild(o);
+  });
+  if (values.indexOf(cur) >= 0) sel.value = cur;
+}
+
+function visibleRows() {
+  var kind = document.getElementById("fKind").value;
+  var grade = document.getElementById("fGrade").value;
+  var cls = document.getElementById("fCls").value;
+  var dup = document.getElementById("fDup").value;
+  return rows.filter(function (r) {
+    if (kind && r.kind !== kind) return false;
+    if (grade && String(r.grade) !== grade) return false;
+    if (cls && String(r.cls) !== cls) return false;
+    if (dup === "last" && !r.isLast) return false;
+    if (dup === "first" && !r.isFirst) return false;
+    return true;
+  });
+}
+
+function render() {
+  var has = rows.length > 0;
+  document.getElementById("cardSum").hidden = !has;
+  document.getElementById("cardList").hidden = !has;
+  if (!has) return;
+
+  fillSelect("fKind", uniqueSorted(function (r) { return r.kind; }));
+  fillSelect("fGrade", uniqueSorted(function (r) { return String(r.grade); }));
+  fillSelect("fCls", uniqueSorted(function (r) { return String(r.cls); }));
+
+  var vis = visibleRows();
+
+  var students = {}, kinds = {}, classes = {};
+  vis.forEach(function (r) {
+    students[r.grade + "-" + r.cls + "-" + r.num] = true;
+    kinds[r.kind] = (kinds[r.kind] || 0) + 1;
+    var k = r.grade + "학년 " + r.cls + "반";
+    classes[k] = classes[k] || {};
+    classes[k][r.grade + "-" + r.cls + "-" + r.num] = true;
+  });
+
+  var sum = document.getElementById("sum");
+  sum.innerHTML = "";
+  function sumCard(big, lb) {
+    var d = document.createElement("div");
+    d.className = "sumcard";
+    d.innerHTML = '<div class="big">' + big + '</div><div class="lb">' + lb + "</div>";
+    sum.appendChild(d);
+  }
+  sumCard(vis.length + "건", "보고 있는 제출물");
+  sumCard(Object.keys(students).length + "명", "제출한 학생 수 (중복 제외)");
+  Object.keys(classes).sort().forEach(function (k) { sumCard(Object.keys(classes[k]).length + "명", k + " 제출 인원"); });
+  Object.keys(kinds).sort().forEach(function (k) { sumCard(kinds[k] + "건", k); });
+
+  var manyKeys = {};
+  rows.forEach(function (r) { if (r.tries > 1) manyKeys[keyOf(r)] = true; });
+  var manyCount = Object.keys(manyKeys).length;
+  document.getElementById("dupMsg").innerHTML = manyCount
+    ? "⚠ 같은 과제를 여러 번 낸 경우가 <b>" + manyCount + "건</b> 있습니다. 위의 <b>[여러 번 낸 경우]</b> 로 기준을 고르세요."
+    : "여러 번 낸 학생은 없습니다.";
+
+  var cols = [
+    { k: "kind", t: "종류" }, { k: "who", t: "학년-반-학번" }, { k: "name", t: "이름" },
+    { k: "when", t: "제출 시각" }, { k: "tries", t: "제출 횟수" }, { k: "file", t: "파일 이름" }
+  ];
+
+  var sorted = vis.slice().sort(function (a, b) {
+    var av, bv;
+    if (sortKey === "who") {
+      av = a.grade * 10000 + a.cls * 100 + a.num;
+      bv = b.grade * 10000 + b.cls * 100 + b.num;
+    } else { av = a[sortKey]; bv = b[sortKey]; }
+    if (typeof av === "string") return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+    return sortAsc ? av - bv : bv - av;
+  });
+
+  var t = document.getElementById("list");
+  t.innerHTML = "";
+  var hr = t.insertRow();
+  cols.forEach(function (c) {
+    var th = document.createElement("th");
+    th.textContent = c.t + (sortKey === c.k ? (sortAsc ? " ▲" : " ▼") : "");
+    th.addEventListener("click", function () {
+      if (sortKey === c.k) sortAsc = !sortAsc; else { sortKey = c.k; sortAsc = true; }
+      render();
+    });
+    hr.appendChild(th);
+  });
+
+  sorted.forEach(function (r) {
+    var tr = t.insertRow();
+    if (r.tries > 1 && !r.isLast) tr.className = "dim";
+    var order = r.tries > 1
+      ? r.tries + "회 (" + (r.isFirst ? "최초" : (r.isLast ? "최종" : "중간")) + ")" : "1회";
+    [r.kind, r.grade + "-" + r.cls + "-" + pad2(r.num), r.name, r.whenText, order, r.file]
+      .forEach(function (v, i) {
+        var td = tr.insertCell();
+        td.textContent = v;
+        if (i === 5) td.className = "left";
+      });
+  });
+}
+
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+["fKind", "fGrade", "fCls", "fDup"].forEach(function (id) {
+  document.getElementById(id).addEventListener("change", render);
+});
+
+/* CSV — 엑셀에서 한글이 깨지지 않게 BOM 을 붙인다 */
+document.getElementById("btnCsv").addEventListener("click", function () {
+  var vis = visibleRows();
+  if (!vis.length) return;
+  var head = ["종류", "학년", "반", "학번", "이름", "제출시각", "제출횟수", "최종제출", "파일명"];
+  var lines = [head.join(",")];
+  vis.forEach(function (r) {
+    lines.push([r.kind, r.grade, r.cls, r.num, r.name, r.whenText,
+                r.tries, (r.isLast ? "예" : "아니오"), r.file]
+      .map(function (v) {
+        var s = String(v);
+        return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+      }).join(","));
+  });
+  var blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "제출현황_" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + ".csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+});
+</script>
+
+<script>
+/* =========================================================
+   🖨 인쇄용 활동지 · 교사용 정답표 · 고장 정답표
+   ---------------------------------------------------------
+   문항은 js/sheet-spec.js 하나에서만 온다(화면 학습지와 같은 파일).
+   🚨 인쇄용 활동지에 `hints: true` 를 주지 말 것 — 이 앱의 `why` 는 **정답 해설**이다.
+   🚨 정답표는 교사용이다. 학생 화면(worksheet.html·sim.html)에서 부르지 말 것.
+   ========================================================= */
+(function () {
+  "use strict";
+
+  var SHEET = window.SHEET_BF;
+  var NOTE = "시뮬레이터를 열어 <b>직접 해 보고</b> 답을 쓰세요. " +
+             "4단계는 고장 진단 실험실에서 확인하지 않으면 풀 수 없습니다.";
+
+  function sheet(sections, title, sub) {
+    if (!SHEET) { alert("문항(js/sheet-spec.js)을 찾지 못했습니다."); return; }
+    window.Print.sheet({
+      title: title, subtitle: sub,
+      footer: "컴퓨터 속 데이터 여행 · 컴퓨팅 시스템과 운영체제",
+      note: NOTE,
+      sections: sections
+    });
+  }
+
+  document.getElementById("prnAll").addEventListener("click", function () {
+    sheet(SHEET, "컴퓨터 속 데이터 여행 학습지", "중학교 정보 · 컴퓨팅 시스템");
+  });
+
+  var n = 0;
+  (SHEET || []).forEach(function (sec) { n += sec.items.length; });
+  document.getElementById("prnAll").textContent = "🖨 학습지 전체 (" + n + "문항)";
+
+  var host = document.getElementById("prnSteps");
+  (SHEET || []).forEach(function (sec, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "btn";
+    b.textContent = "🖨 " + (i + 1) + "단계 (" + sec.items.length + "문항)";
+    b.addEventListener("click", function () {
+      sheet([sec], "컴퓨터 속 데이터 여행 학습지 · " + (i + 1) + "단계",
+            String(sec.step).replace(/^\d+단계\s*·\s*/, ""));
+    });
+    host.appendChild(b);
+  });
+
+  /* ---------- 교사용 정답표 ---------- */
+  /* 표 문항(tbl)은 자동 채점이 없어 예시 답을 여기 둔다 — 교사만 보는 곳 */
+  var TBL_KEY = {
+    "키보드": ["입력", "누른 키의 신호를 CPU 로 보낸다"],
+    "중앙 처리 장치(CPU)": ["처리", "데이터를 해석하고 명령을 실행하며 계산한다"],
+    "주기억 장치(RAM)": ["저장(일시)", "실행 중인 프로그램과 데이터를 잠시 보관한다 — 꺼지면 사라짐"],
+    "보조 기억 장치": ["저장(영구)", "프로그램과 파일을 영구히 보관한다 — 꺼져도 남음"],
+    "모니터": ["출력", "처리 결과를 사용자에게 보여 준다"],
+    "USB 메모리를 꽂자 «사용할 준비가 되었습니다»": ["주변 장치 관리"],
+    "비밀번호를 틀리자 들어갈 수 없었다": ["보안 관리"],
+    "파일 탐색기에서 파일을 복사하고 삭제했다": ["파일 관리"],
+    "아이콘을 누르거나 터치해서 프로그램을 열었다": ["사용자 인터페이스 제공"]
+  };
+
+  function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function rich(s) { return esc(s).replace(/&lt;(\/?)(b|br|code)&gt;/g, "<$1$2>"); }
+
+  function answerText(it) {
+    if (it.type === "choice") return "①②③④⑤".charAt(it.ans) + " " + it.opts[it.ans];
+    if (it.type === "ox") return it.ans ? "O" : "X";
+    if (it.type === "num") return it.ans + " " + (it.unit || "");
+    if (it.type === "tbl") {
+      return it.rows.map(function (r) {
+        var k = TBL_KEY[r] || ["(자유롭게)"];
+        return "<b>" + esc(r) + "</b> → " + esc(k.join(" · "));
+      }).join("<br>");
+    }
+    return "(서술형 — 아래 예시 참고)";
+  }
+
+  document.getElementById("prnKey").addEventListener("click", function () {
+    var no = 0, body = "";
+    SHEET.forEach(function (sec) {
+      body += "<h2>" + esc(sec.step) + "</h2>";
+      sec.items.forEach(function (it) {
+        no++;
+        body += "<div class='q'><div class='qq'><b>" + no + ".</b> " + rich(it.q) + "</div>" +
+                "<div class='aa'>정답 : " + (it.type === "tbl" ? answerText(it) : esc(answerText(it))) + "</div>" +
+                (it.why ? "<div class='ww'>" + rich(it.why) + "</div>" : "") + "</div>";
+      });
+    });
+    var w = window.open("", "_blank");
+    if (!w) { alert("새 창이 막혔습니다. 팝업 차단을 풀어 주세요."); return; }
+    w.document.write("<!DOCTYPE html><html lang='ko'><head><meta charset='utf-8'><title>교사용 정답표 — 컴퓨터 속 데이터 여행</title>" +
+      "<style>body{font-family:'Malgun Gothic',sans-serif;margin:24px 32px;font-size:15px;line-height:1.55;color:#111}" +
+      "h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:18px 0 6px;border-bottom:2px solid #333}" +
+      ".q{margin:0 0 10px;page-break-inside:avoid}.aa{color:#b91c1c;font-weight:bold;margin:2px 0 0 14px}" +
+      ".ww{color:#374151;margin:2px 0 0 14px;font-size:14px}.no-print{margin:0 0 12px}" +
+      "@media print{.no-print{display:none}}</style></head><body>" +
+      "<div class='no-print'><button onclick='window.print()' style='font-size:18px;padding:8px 18px'>🖨 인쇄</button></div>" +
+      "<h1>🔑 교사용 정답표 — 컴퓨터 속 데이터 여행</h1><p>학생에게 나눠 주지 마세요. 성취기준 [9정01-01]</p>" +
+      body + "</body></html>");
+    w.document.close();
+  });
+
+  /* ---------- 고장 정답표 (화면) ---------- */
+  var PC = window.PC, ft = document.getElementById("faultTable");
+  if (PC && ft) {
+    ft.innerHTML = "<tr><th>고장</th><th>멈추는 곳</th><th>학생이 보는 실마리 · 해설</th></tr>" +
+      PC.FAULT_ORDER.map(function (k) {
+        var F = PC.FAULTS[k];
+        return "<tr><td class='left'><b>" + F.icon + " " + esc(F.name) + "</b></td><td class='left'>" + esc(F.where) +
+               "</td><td class='left'>" + F.why + "</td></tr>";
+      }).join("");
+  }
+})();
+</script>
+</body>
+</html>

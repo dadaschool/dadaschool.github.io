@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>컴퓨터 속 데이터 여행 — 시뮬레이터</title>
+<link rel="stylesheet" href="css/app.css?v=202610180043">
+</head>
+<body class="bf">
+
+<header class="bf-top">
+  <h1>💻 컴퓨터 속 데이터 여행</h1>
+  <nav class="bf-tabs" id="tabs">
+    <button type="button" data-tab="1">① 켜고 · 쓰고 · 끄기</button>
+    <button type="button" data-tab="2">② 운영체제가 하는 일</button>
+    <button type="button" data-tab="3">③ 고장 진단 실험실</button>
+  </nav>
+  <span class="spacer"></span>
+  <a class="bf-link" href="worksheet.html">📝 학습지</a>
+  <a class="bf-link" href="index.html">🏠 처음으로</a>
+</header>
+
+<main class="bf-main">
+
+  <!-- 왼쪽 : 탭마다 바뀌는 안내 -->
+  <aside class="bf-guide" id="guide" aria-live="polite"></aside>
+
+  <!-- 오른쪽 : 무대 — 사용자 화면과 컴퓨터 내부를 «하나씩 크게» 번갈아 보여 준다
+       (사용자 지시 2026-10-16 : 한 화면에 둘을 동시에 두니 무슨 일을 하는지 모르겠다) -->
+  <section class="bf-stage" id="stage" data-mode="user">
+    <div class="bf-stagebar">
+      <div class="bf-seg bf-views" id="views">
+        <button type="button" data-view="user">👤 사용자 화면</button>
+        <button type="button" data-view="inside">🔍 컴퓨터 내부</button>
+      </div>
+      <label class="bf-watch" title="끄면 컴퓨터 안을 보여 주지 않고 결과만 바로 나옵니다(글자를 빨리 칠 때)">
+        <input type="checkbox" id="watch" checked> 조작할 때마다 컴퓨터 안 보여 주기
+      </label>
+      <span class="spacer"></span>
+      <div class="bf-ctl">
+        <button type="button" class="btn" id="btnPause">⏸ 멈춤</button>
+        <div class="bf-seg" id="speed" title="설명을 읽는 시간과 데이터가 움직이는 빠르기">
+          <button type="button" data-speed="slow">천천히</button>
+          <button type="button" data-speed="normal">보통</button>
+          <button type="button" data-speed="fast">빠르게</button>
+        </div>
+        <button type="button" class="btn" id="btnSkip">⏭ 건너뛰기</button>
+      </div>
+    </div>
+
+    <!-- ① 사용자 화면 -->
+    <div class="bf-view bf-userview">
+      <div class="bf-userbox">
+        <div class="bf-mon"><div class="bf-screen" id="screen"></div></div>
+        <div class="bf-keys" id="keys" aria-label="키보드"></div>
+        <div class="bf-hw">
+          <button type="button" class="bf-power" id="btnPower" title="컴퓨터 본체의 전원 버튼">⏻ 전원</button>
+          <button type="button" class="btn" id="btnUsb">🔌 USB 메모리 꽂기</button>
+          <button type="button" class="btn" id="btnPrn">🖨 프린터 연결</button>
+        </div>
+        <div class="bf-last" id="lastBar"></div>
+      </div>
+    </div>
+
+    <!-- ② 컴퓨터 내부 -->
+    <div class="bf-view bf-insideview">
+      <div class="bf-caption">
+        <div class="cap-top">
+          <span class="cap-act" id="capAct">🔍 컴퓨터 내부</span>
+          <span class="cap-step" id="capStep"></span>
+        </div>
+        <div class="bf-nowmsg" id="nowMsg">사용자 화면에서 무언가를 해 보면, 여기서 컴퓨터 안의 일이 차례로 보입니다.</div>
+        <div class="bf-nowwhere" id="nowWhere"></div>
+        <div class="cap-bar"><div id="capBar"></div></div>
+      </div>
+      <div class="bf-boardwrap"><svg id="board" viewBox="0 0 1100 600" preserveAspectRatio="xMidYMid meet" role="img" aria-label="컴퓨터 내부 부품과 데이터의 이동"></svg></div>
+      <div class="bf-side">
+        <h3>4과정</h3><div class="bf-chips st" id="stages"></div>
+        <h3>누가 일하나</h3><div class="bf-chips col" id="layers"></div>
+        <h3>운영체제의 일</h3><div class="bf-chips col os" id="osfn"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/pc.js?v=202610180043"></script>
+<script src="js/sim.js?v=202610180043"></script>
+</body>
+</html>
