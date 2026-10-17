@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>선생님용 — 센서 공작소</title>
-<link rel="stylesheet" href="css/app.css?v=202609191525">
+<link rel="stylesheet" href="css/app.css?v=202610180006">
 </head>
 <body>
 
@@ -56,6 +56,22 @@
       <p class="hint">부품을 골라 담아 <b>6자리 코드</b>를 만들면, 그 숫자를 넣은 학생에게 <b>② 연결 문제만</b>
         열립니다. 학습지·텍스트코드는 없습니다(그건 프로젝트 26차시에만).</p>
       <div id="freeList"></div>
+    </div>
+  </div>
+
+  <!-- 탭 C : 전체 코드 (한눈에 보기 · 인쇄) -->
+  <div id="viewCodes" hidden>
+    <div class="card" id="codesCard">
+      <div class="row noprint" style="margin-bottom:6px">
+        <h2 style="margin:0">전체 6자리 코드</h2>
+        <span class="pm">— 프로젝트 26차시 + 자유 문제 전부</span>
+        <span style="flex:1"></span>
+        <button id="btnCodesRefresh" class="gh">↻ 새로 불러오기</button>
+        <button id="btnCodesPrint" class="pri big">🖨 코드 목록 인쇄</button>
+      </div>
+      <h2 class="printonly" style="margin:0 0 4px">센서 공작소 — 6자리 코드 목록</h2>
+      <p class="hint" id="codesInfo"></p>
+      <div id="codesTable"></div>
     </div>
   </div>
 
@@ -234,22 +250,22 @@
 
 </div>
 
-<script src="js/config.js?v=202609191525"></script>
-<script src="js/connect/parts.js?v=202609191525"></script>
-<script src="js/connect/board.js?v=202609191525"></script>
-<script src="js/connect/judge.js?v=202609191525"></script>
-<script src="js/connect/connect.js?v=202609191525"></script>
-<script src="js/code.js?v=202609191525"></script>
-<script src="js/pdf.js?v=202609191525"></script>
-<script src="js/print.js?v=202609191525"></script>
-<script src="js/ui.js?v=202609191525"></script>
+<script src="js/config.js?v=202610180006"></script>
+<script src="js/connect/parts.js?v=202610180006"></script>
+<script src="js/connect/board.js?v=202610180006"></script>
+<script src="js/connect/judge.js?v=202610180006"></script>
+<script src="js/connect/connect.js?v=202610180006"></script>
+<script src="js/code.js?v=202610180006"></script>
+<script src="js/pdf.js?v=202610180006"></script>
+<script src="js/print.js?v=202610180006"></script>
+<script src="js/ui.js?v=202610180006"></script>
 <script>
 /* 모든 차시 데이터를 불러온다 (편집·학습지 인쇄용) */
 (function () {
   for (var i = 1; i <= 26; i++) document.write('<script src="js/lessons/' + i + '.js"><\/script>');
 })();
 </script>
-<script src="js/teacher.js?v=202609191525"></script>
+<script src="js/teacher.js?v=202610180006"></script>
 <script>Teacher.boot();</script>
 </body>
 </html>

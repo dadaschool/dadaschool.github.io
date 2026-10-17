@@ -627,3 +627,20 @@ td.nowrap { white-space: nowrap; }
 .lcard .tg.code { background: var(--pri); border-color: var(--pri); color: #fff; font-weight: 700; letter-spacing: .5px; }
 .gate { max-width: 460px; margin: 60px auto; text-align: center; }
 .gate input { font-size: 20px; padding: 6px 12px; width: 240px; text-align: center; }
+
+/* ── 전체 6자리 코드 표 · 인쇄 (교사 화면) ── */
+.printonly { display: none; }
+.allcodes td { font-size: 17px; padding: 8px 10px; }
+.allcodes .bigno { font-size: 26px; letter-spacing: 3px; font-family: Consolas, "D2Coding", monospace; }
+@media print {
+  body.print-codes header.top, body.print-codes #gate, body.print-codes #ttabs,
+  body.print-codes #viewLessons, body.print-codes #viewFree, body.print-codes #editorCard,
+  body.print-codes .noprint { display: none !important; }
+  body.print-codes { background: #fff; }
+  body.print-codes .printonly { display: block !important; }
+  body.print-codes #viewCodes { display: block !important; }
+  body.print-codes #codesCard { box-shadow: none; border: 0; padding: 0; }
+  body.print-codes .allcodes { width: 100%; border-collapse: collapse; }
+  body.print-codes .allcodes th, body.print-codes .allcodes td { border: 1px solid #888; padding: 5px 8px; }
+  body.print-codes .allcodes tr { page-break-inside: avoid; }
+}

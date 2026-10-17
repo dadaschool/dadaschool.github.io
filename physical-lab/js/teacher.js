@@ -102,7 +102,8 @@
   function start() {
     tabs = window.UI.tabs($("ttabs"), [
       { id: "lessons", k: "📚", label: "프로젝트 26차시" },
-      { id: "free", k: "✏️", label: "자유 문제" }
+      { id: "free", k: "✏️", label: "자유 문제" },
+      { id: "codes", k: "🔢", label: "전체 코드" }
     ], showView);
     tabs.select("lessons", false);
 
@@ -171,14 +172,56 @@
     $("editorCard").hidden = true;
     $("viewLessons").hidden = id !== "lessons";
     $("viewFree").hidden = id !== "free";
+    $("viewCodes").hidden = id !== "codes";
     if (tabs) tabs.select(id, false);
     if (id === "free") paintFreeList();
+    if (id === "codes") paintAllCodes();
+  }
+
+  /* ── 전체 코드 표 + 인쇄 (프로젝트 26차시 → 자유 문제 순) ───────────
+     학생에게 불러 주는 숫자만 담는다. 정답·해설·교사 코드는 들어가지 않는다. */
+  function paintAllCodes() {
+    var box = $("codesTable"), info = $("codesInfo");
+    if (!hasServer) {
+      box.innerHTML = '<p class="hint">문제를 담을 곳이 아직 연결되지 않았습니다. 잠시 뒤 다시 눌러 보세요.</p>';
+      return;
+    }
+    box.innerHTML = '<p class="hint">불러오는 중…</p>';
+    fetchCodes(function (list) {
+      var lesson = list.filter(function (x) { return x.lesson; })
+        .sort(function (a, b) { return a.lesson - b.lesson || (a.at || 0) - (b.at || 0); });
+      var free = list.filter(function (x) { return !x.lesson; })
+        .sort(function (a, b) { return (a.title || "").localeCompare(b.title || "", "ko"); });
+      var d = new Date();
+      info.textContent = "만든 날 " + d.getFullYear() + "." + (d.getMonth() + 1) + "." + d.getDate() +
+        " · 차시 코드 " + lesson.length + "개 · 자유 문제 " + free.length + "개";
+      function rows(arr, isLesson) {
+        return arr.map(function (x) {
+          var name = x.title || (isLesson ? (TITLES[x.lesson] || "") : "(제목 없음)");
+          return "<tr><td class=\"c\">" + (isLesson ? x.lesson + "차시" : "자유") + "</td>" +
+            "<td>" + esc(name) + "</td>" +
+            "<td class=\"c\"><b class=\"codeno bigno\">" + esc(x.code) + "</b></td></tr>";
+        }).join("");
+      }
+      box.innerHTML = '<table class="tb allcodes"><tr><th class="c" style="width:90px">구분</th><th>제목</th>' +
+        '<th class="c" style="width:170px">6자리 코드</th></tr>' +
+        rows(lesson, true) + rows(free, false) + "</table>" +
+        (list.length ? "" : '<p class="hint">아직 만든 코드가 없습니다.</p>');
+    });
+  }
+  function printAllCodes() {
+    document.body.classList.add("print-codes");
+    var done = function () { document.body.classList.remove("print-codes"); window.removeEventListener("afterprint", done); };
+    window.addEventListener("afterprint", done);
+    window.print();
+    setTimeout(done, 3000);
   }
 
   /* 편집기 열기 (목록은 숨긴다) */
   function openEditor() {
     $("viewLessons").hidden = true;
     $("viewFree").hidden = true;
+    $("viewCodes").hidden = true;
     $("editorCard").hidden = false;
     $("lessonExtras").hidden = mode !== "lesson";
     $("freeTitleRow").hidden = mode !== "free";
@@ -707,6 +750,8 @@
       openEditor();
     });
     $("btnNewFree").onclick = newFree;
+    $("btnCodesRefresh").onclick = paintAllCodes;
+    $("btnCodesPrint").onclick = printAllCodes;
     $("btnBackList").onclick = function () {
       if (preview) { preview.destroy(); preview = null; }
       showView(mode === "lesson" ? "lessons" : "free");
