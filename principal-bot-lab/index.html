@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교장봇 연구소</title>
+<link rel="stylesheet" href="css/app.css?v=202610181154">
+</head>
+<body>
+<header class="top">
+  <div class="brand">🏫 교장봇 연구소</div>
+  <nav class="nav" aria-label="화면 고르기">
+    <button type="button" data-go="lab" class="on">🧪 실험실</button>
+    <button type="button" data-go="case">🕵 고장난 교장봇</button>
+    <button type="button" data-go="make">🛠 내 교장봇</button>
+  </nav>
+  <div class="spacer"></div>
+  <div class="notreal" title="이 화면의 교장봇은 언어 모델(AI)이 아니라 규칙으로 답합니다. 챗봇 속에서 무슨 일이 일어나는지 보려는 시뮬레이터입니다. 진짜 AI 는 VESSL 실습에서 만납니다.">진짜 AI 아님 · 원리 보기용</div>
+  <a class="tlink" href="teacher.html">교사용</a>
+</header>
+
+<main>
+  <!-- ① 실험실 : 왼쪽 대화 · 오른쪽 스위치와 들여다보기 -->
+  <section id="lab" class="screen lab">
+    <div class="col"><div class="chat" id="labChat"></div></div>
+    <div class="col insp">
+      <div class="card">
+        <div class="cardhead">
+          <h2>🎛 프롬프트 스위치</h2>
+          <span class="hint">끄면 그 줄이 프롬프트에서 빠진다 → 같은 질문을 다시 해 보자</span>
+          <span class="spacer"></span>
+          <button type="button" class="btn sm" id="allOn">모두 켜기</button>
+        </div>
+        <div class="swgrid" id="labSwitches"></div>
+      </div>
+      <div class="card tabcard">
+        <div class="tabbar" role="tablist">
+          <button type="button" data-itab="search" class="on">🔍 자료 검색</button>
+          <button type="button" data-itab="prompt">🧩 프롬프트 조립</button>
+          <button type="button" data-itab="log">🚨 사고 기록 <b id="logCount">0</b></button>
+        </div>
+        <div class="tabbody" id="inspBody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② 고장난 교장봇 : 사건 고르기 · 수사(대화) · 범인 지목 -->
+  <section id="case" class="screen case" hidden>
+    <aside class="card caselist">
+      <h2>🗂 사건 파일</h2>
+      <p class="hint" style="margin:4px 0 10px">스위치가 몰래 꺼진 교장봇 8대 — 질문으로 찾아라!</p>
+      <div id="caseList"></div>
+      <h3>🏁 모둠 점수판</h3>
+      <p class="hint" style="margin:0 0 8px">지금 수사하는 모둠을 누르세요</p>
+      <div class="teams" id="teams"></div>
+    </aside>
+    <div class="col">
+      <div class="card memo" id="caseMemo"></div>
+      <div class="chat" id="caseChat"></div>
+    </div>
+    <aside class="card accuse">
+      <h2>🔎 꺼진 스위치는?</h2>
+      <p class="hint" style="margin:0">꺼졌다고 생각하는 스위치를 모두 고른 뒤 지목하세요. 질문을 적게 쓸수록 점수가 높다.</p>
+      <div class="swgrid" id="accuseSw"></div>
+      <button type="button" class="btn main big" id="accuseBtn">🔨 범인 지목!</button>
+      <div id="verdict"></div>
+    </aside>
+  </section>
+
+  <!-- ③ 내 교장봇 : 자료 카드 · 검색 시험 · 프롬프트 · 내려받기 -->
+  <section id="make" class="screen make" hidden>
+    <div class="card col">
+      <div class="cardhead"><h2>🗃 학교 자료 카드</h2><span class="hint" id="mkCount"></span></div>
+      <div class="form">
+        <label for="mkContent">내용</label>
+        <textarea id="mkContent" maxlength="400" placeholder="모델에게 건넬 사실 — 예) 우리 학교 동아리 발표회는 해마다 12월에 강당에서 열립니다."></textarea>
+        <label for="mkKeys">검색어</label>
+        <input id="mkKeys" maxlength="120" placeholder="쉼표로 — 예) 동아리 발표회, 발표회, 12월, 강당">
+        <div class="row">
+          <button type="button" class="btn main" id="mkSave">＋ 카드 추가</button>
+          <button type="button" class="btn" id="mkNew" hidden>새 카드로</button>
+          <button type="button" class="btn" id="mkDel" hidden>🗑 이 카드 빼기</button>
+        </div>
+      </div>
+      <div class="filter"><input id="mkFilter" placeholder="카드 찾기(내용·검색어)"><span class="hint" id="mkShown"></span></div>
+      <div class="cardlist" id="mkList"></div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="cardhead"><h2>🔍 검색 시험</h2><span class="hint">내 카드가 1등으로 잡히나? (★ = 우리 모둠이 만들거나 고친 카드)</span></div>
+        <div class="tester"><input id="mkQ" placeholder="학생이 물을 법한 질문 — 예) 동아리 발표회 언제 해요?"><button type="button" class="btn main" id="mkTry">찾기</button></div>
+        <div id="mkRank"></div>
+      </div>
+      <div class="card pedit">
+        <div class="cardhead"><h2>💬 첫 대사 · 시스템 프롬프트</h2><span class="hint">실험실의 «프롬프트 조립» 에 그대로 보인다</span></div>
+        <textarea id="mkOpening" rows="2" maxlength="300" aria-label="첫 대사"></textarea>
+        <textarea id="mkPrompt" aria-label="시스템 프롬프트"></textarea>
+        <div class="note blue" style="margin:0">ℹ 이 화면의 교장봇은 «규칙» 으로 답하므로 프롬프트 글을 고쳐도 답이 바뀌지 않는다. 고친 프롬프트는 내려받아 <b>VESSL 실습의 진짜 모델</b>에서 시험하자.</div>
+      </div>
+      <div class="card export">
+        <button type="button" class="btn main" id="dlData">⬇ data.json 내려받기</button>
+        <button type="button" class="btn main" id="dlPrompt">⬇ 프롬프트(.py) 내려받기</button>
+        <button type="button" class="btn" id="mkReset">↺ 처음 자료로</button>
+        <span class="hint" id="mkSaved"></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="js/data.js?v=202610181154"></script>
+<script src="js/persona.js?v=202610181154"></script>
+<script src="js/missions.js?v=202610181154"></script>
+<script src="js/bm25.js?v=202610181154"></script>
+<script src="js/bot.js?v=202610181154"></script>
+<script src="js/face.js?v=202610181154"></script>
+<script src="js/app.js?v=202610181154"></script>
+</body>
+</html>
