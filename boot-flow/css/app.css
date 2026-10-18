@@ -651,6 +651,10 @@ li.ok > .g-ck { background: var(--ok); color: #fff; }
 .cap-act { flex: 1 1 auto; font-size: 22px; font-weight: bold; color: #1e3a8a; }
 .cap-step { background: #1e3a8a; color: #fff; border-radius: 999px; padding: 2px 14px; font-size: 18px; font-weight: bold; white-space: nowrap; }
 .cap-step:empty { display: none; }
+/* «다음 ▶» — 설명을 읽고 누르면 데이터가 움직인다. 눈에 띄게 크게 · 살짝 숨쉬기 */
+.bf-next { min-height: 60px; font-size: 24px; font-weight: bold; padding: 4px 30px; border-radius: 14px;
+  animation: bfnext 1.2s ease-in-out infinite alternate; }
+@keyframes bfnext { from { box-shadow: 0 0 0 0 rgba(79,70,229,.5); } to { box-shadow: 0 0 0 10px rgba(79,70,229,0); } }
 .cap-bar { height: 8px; background: #fde68a; border-radius: 4px; margin-top: 8px; overflow: hidden; }
 .cap-bar div { height: 100%; width: 0; background: #d97706; }
 .bf-nowmsg { font-size: 24px; line-height: 1.45; font-weight: bold; margin-top: 4px; min-height: 2.9em; }

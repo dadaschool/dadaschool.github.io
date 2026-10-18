@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>컴퓨터 속 데이터 여행 — 시뮬레이터</title>
-<link rel="stylesheet" href="css/app.css?v=202610180043">
+<link rel="stylesheet" href="css/app.css?v=202610181020">
 </head>
 <body class="bf">
 
@@ -38,8 +38,9 @@
       </label>
       <span class="spacer"></span>
       <div class="bf-ctl">
+        <button type="button" class="btn" id="btnAuto" aria-pressed="false" title="켜면 설명에서 멈추지 않고 데이터 움직임만 이어서 보여 줍니다">⏩ 자동 실행</button>
         <button type="button" class="btn" id="btnPause">⏸ 멈춤</button>
-        <div class="bf-seg" id="speed" title="설명을 읽는 시간과 데이터가 움직이는 빠르기">
+        <div class="bf-seg" id="speed" title="데이터가 움직이는 빠르기">
           <button type="button" data-speed="slow">천천히</button>
           <button type="button" data-speed="normal">보통</button>
           <button type="button" data-speed="fast">빠르게</button>
@@ -68,6 +69,7 @@
         <div class="cap-top">
           <span class="cap-act" id="capAct">🔍 컴퓨터 내부</span>
           <span class="cap-step" id="capStep"></span>
+          <button type="button" class="btn primary bf-next" id="btnNext" hidden>다음 ▶</button>
         </div>
         <div class="bf-nowmsg" id="nowMsg">사용자 화면에서 무언가를 해 보면, 여기서 컴퓨터 안의 일이 차례로 보입니다.</div>
         <div class="bf-nowwhere" id="nowWhere"></div>
@@ -84,7 +86,7 @@
 
 </main>
 
-<script src="js/pc.js?v=202610180043"></script>
-<script src="js/sim.js?v=202610180043"></script>
+<script src="js/pc.js?v=202610181020"></script>
+<script src="js/sim.js?v=202610181020"></script>
 </body>
 </html>

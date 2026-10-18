@@ -112,32 +112,28 @@
      ---------------------------------------------------------
      사용자 지시(2026-10-16) — *"사용자 화면에서 조작하면 컴퓨터 화면으로 바뀌면서 어떤 일을 하는지 보여주고,
      일을 다하고나면 다시 사용자 화면이 보이게"* · *"어떤 작업 중인지 설명이 나오고난 뒤에 데이터가 흘러가도록"*
+     사용자 지시(2026-10-18) — *"설명박스가 나올때는 다음을 눌러야 애니메이션이 실행되게 해 …
+     자동실행 누르면 사용자화면 조작과 애니메이션만 실행되도록"* · *"천천히 속도를 보통으로 바꿔"*
      그래서 행동 하나는 이렇게 흘러간다 :
-       ① 여는 카드(intro) — 컴퓨터 내부로 바뀌며 «무슨 일을, 몇 걸음으로» 를 먼저 말한다
-       ② 걸음마다 — [설명 읽기] 설명과 지나갈 길·부품이 먼저 빛나고 «출발까지» 막대가 찬다
-                    → [이동] 그다음에 데이터 꾸러미가 길을 따라 움직인다
-       ③ 닫는 카드(outro) — «다 됐어요» 뒤 사용자 화면으로 돌아가 결과를 보여 준다
-     줄(queue)에는 걸음(hop)과 카드({kind:'intro'|'outro'})가 섞여 들어간다.
+       [기본]       사용자 화면 조작 → (컴퓨터 내부로 바뀜) → 걸음마다 { 설명이 나오고 «다음 ▶» 을 기다림(wait)
+                    → 누르면 데이터가 움직임(move) } → «다 됐어요»(outro) → 사용자 화면으로
+       [⏩ 자동 실행] 사용자 화면 조작 → 걸음마다 곧바로 데이터가 움직임(설명은 띠에 바뀌어 나오기만 한다)
+                    → «다 됐어요» → 사용자 화면으로
+     줄(queue)에는 걸음(hop)과 닫는 카드({kind:'outro'})가 섞여 들어간다.
+     ⚠ 2026-10-16 판에 있던 «여는 카드(intro)» 와 «출발까지 막대가 차면 저절로 출발» 은 없앴다 — 이제 출발은 «다음» 이 정한다.
      ========================================================= */
+  /* 걸음 하나가 움직이는 시간(ms). 🔴 «천천히» 는 예전 «보통» 과 같은 빠르기다(2026-10-18 사용자 지시) */
   var SPD = {
-    slow:   { intro: 2600, read: 1.6, move: 2000, outro: 1500 },
-    normal: { intro: 1800, read: 1.0, move: 1300, outro: 1000 },
-    fast:   { intro: 700,  read: 0.4, move: 550,  outro: 400 }
+    slow:   { move: 1300, outro: 1000 },
+    normal: { move: 900,  outro: 700 },
+    fast:   { move: 550,  outro: 400 }
   };
   var watch = true;          // 조작할 때마다 컴퓨터 안 보여 주기
-  var phase = "read";        // 걸음 안의 단계 : read(설명 읽기) → move(이동)
+  var auto = false;          // ⏩ 자동 실행 — 「다음」 을 기다리지 않는다
+  var phase = "wait";        // 걸음 안의 단계 : wait(설명 · 다음을 기다림) → move(이동)
   var lastTitle = "";
 
-  /* 설명 글이 길수록 읽을 시간을 더 준다 */
-  function readTime(h) { return Math.min(5200, 900 + String(h.msg || "").length * 30) * SPD[speed].read; }
-
-  function phaseDur() {
-    var S = SPD[speed];
-    if (cur.kind === "intro") return S.intro;
-    if (cur.kind === "outro") return S.outro;
-    if (phase === "read") return readTime(cur);
-    return cur.route.length > 1 ? S.move : S.move * 0.7;
-  }
+  function moveDur() { var S = SPD[speed]; return cur.route.length > 1 ? S.move : S.move * 0.7; }
 
   var KEYWORD = { "←": "← 방향키", "→": "→ 방향키", " ": "스페이스 바", "⌫": "지우기", "⏎": "Enter" };
   /* 행동에 붙일 이름 — 여는 카드와 «방금 한 일» 에 쓴다 */
@@ -184,7 +180,6 @@
       return;
     }
     if (!cur && !queue.length) failIds = {};
-    queue.push({ kind: "intro", title: title, n: hops.length, hops: hops });
     queue = queue.concat(hops);
     queue.push({ kind: "outro", title: title });
     kick();
@@ -199,41 +194,28 @@
       if (!queue.length) { clearInterval(timer); timer = null; endFlow(); return; }
       begin(queue.shift());
     }
-    curT += 40 / phaseDur();
     var bar = $("capBar");
-    if (cur.kind === "intro" || cur.kind === "outro") {
+    if (cur.kind === "outro") {
+      curT += 40 / SPD[speed].outro;
       if (bar) bar.style.width = Math.min(100, curT * 100) + "%";
       if (curT >= 1) {
-        var wasOutro = cur.kind === "outro";
         cur = null;
-        if (wasOutro && !queue.length) setMode("user");
+        if (!queue.length) setMode("user");
         updateCtl();
       }
       return;
     }
-    if (phase === "read") {                       // 설명을 읽는 동안 — 꾸러미는 출발점에서 기다린다
-      if (bar) bar.style.width = Math.min(100, curT * 100) + "%";
-      if (curT >= 1) { phase = "move"; curT = 0; if (bar) bar.style.width = "100%"; }
-      return;
-    }
+    if (phase === "wait") return;                 // 설명을 띄워 두고 «다음 ▶» 을 기다린다
+    curT += 40 / moveDur();
+    if (bar) bar.style.width = Math.min(100, curT * 100) + "%";
     if (curT >= 1) { finishHop(cur); cur = null; updateCtl(); return; }
     movePacket(cur, curT);
   }
 
   function begin(item) {
     cur = item; curT = 0;
-    if (item.kind === "intro") {
-      setMode("inside");
-      activeIds = []; activeColor = null; hidePacket(); renderBoard(); lightChips(null);
-      $("capAct").textContent = item.title;
-      $("capStep").textContent = "모두 " + item.n + "걸음";
-      $("nowMsg").innerHTML = "🔍 컴퓨터 안에서는 무슨 일이 일어날까요? 이 일은 <b>" + item.n + "걸음</b>으로 이루어집니다.";
-      $("nowWhere").innerHTML = item.hops.slice(0, 7).map(function (h, i) {
-        return "<span class='bf-tag' style='background:" + (STAGE[h.stage] || "#64748b") + "'>" + (i + 1) + " " + esc(h.data || "") + "</span>";
-      }).join(" ") + (item.n > 7 ? " …" : "");
-      return;
-    }
     if (item.kind === "outro") {
+      showNext(false);
       activeIds = []; activeColor = null; hidePacket(); renderBoard(); lightChips(null);
       $("capStep").textContent = "끝";
       $("nowMsg").innerHTML = queue.length ? "✅ 다 됐어요! 이어서 다음 일을 봅니다."
@@ -241,16 +223,38 @@
       $("nowWhere").textContent = "";
       return;
     }
-    /* 걸음 — 먼저 설명, 그다음 이동 */
+    /* 걸음 — 설명을 먼저 띄우고, 기본은 «다음 ▶» 을 누를 때까지 기다린다 */
+    /* ⚠ 길(route)을 먼저 정한 뒤 화면을 바꾼다 — setMode 가 그림을 다시 그리며 이 걸음의 꾸러미를 찾는다
+       (순서가 거꾸로였을 때 routePoints 에서 죽어 설명이 아예 뜨지 않았다) */
     item.route = route(item.path);
-    phase = "read";
+    phase = auto ? "move" : "wait";
+    setMode("inside");
     activeIds = item.route.slice();
     activeColor = STAGE[item.stage] || "#64748b";
     renderBoard();
     showNow(item);
     if (item.boot || item.shut) renderGuide();
     movePacket(item, 0);                          // 출발점에 꾸러미를 세워 둔다
+    showNext(!auto);
   }
+
+  /* «다음 ▶» — 기다리던 걸음의 데이터를 움직인다 */
+  function next() {
+    if (!cur || cur.kind || phase !== "wait") return;
+    phase = "move"; curT = 0;
+    showNext(false);
+  }
+  function showNext(on) {
+    var b = $("btnNext"); if (!b) return;
+    b.hidden = !on;
+    if (on) b.textContent = cur && cur._i === cur._n ? "다음 ▶ (마지막)" : "다음 ▶";
+  }
+  $("btnNext").addEventListener("click", next);
+  $("btnAuto").addEventListener("click", function () {
+    auto = !auto;
+    if (auto) next();                             // 기다리던 것이 있으면 곧바로 출발
+    updateCtl();
+  });
 
   function failPart(h) { return h.failAt || h.route[h.route.length - 1]; }
 
@@ -294,6 +298,7 @@
     var list = (cur ? [cur] : []).concat(queue);
     queue = []; cur = null;
     if (timer) { clearInterval(timer); timer = null; }
+    showNext(false);
     if (!list.length) return;
     finishAll(list);
     endFlow();
@@ -304,8 +309,8 @@
     if (cur || queue.length || !lastHops.length) return;
     failIds = {};
     var copies = lastHops.map(function (h) { var c = {}; for (var k in h) if (k !== "_pts") c[k] = h[k]; return c; });
-    queue = [{ kind: "intro", title: lastTitle + " (다시 보기)", n: copies.length, hops: copies }]
-      .concat(copies, [{ kind: "outro", title: lastTitle }]);
+    copies.forEach(function (c) { c._title = lastTitle + " (다시 보기)"; });
+    queue = copies.concat([{ kind: "outro", title: lastTitle }]);
     kick();
     updateCtl();
   }
@@ -741,7 +746,7 @@
     for (var li = 0; li < led.length; li++) led[li].setAttribute("fill", on ? "#22c55e" : "#14532d");
 
     $("bfDyn").innerHTML = o;
-    if (cur && !cur.kind) movePacket(cur, phase === "read" ? 0 : curT); else hidePacket();   /* 카드(intro/outro)에는 꾸러미가 없다 */
+    if (cur && !cur.kind) movePacket(cur, phase === "wait" ? 0 : curT); else hidePacket();   /* 카드(intro/outro)에는 꾸러미가 없다 */
   }
 
   /* ---------- 데이터 꾸러미 ---------- */
@@ -1004,6 +1009,9 @@
   function updateCtl() {
     var left = queue.length + (cur ? 1 : 0);
     $("btnPause").textContent = paused ? "▶ 계속" : "⏸ 멈춤";
+    $("btnAuto").textContent = auto ? "⏩ 자동 실행 중" : "⏩ 자동 실행";
+    $("btnAuto").classList.toggle("primary", auto);
+    $("btnAuto").setAttribute("aria-pressed", auto ? "true" : "false");
     $("btnPause").classList.toggle("primary", paused);
     $("btnSkip").textContent = "⏭ 건너뛰기" + (left ? " (" + left + ")" : "");
     $("btnSkip").disabled = !left;
@@ -1274,6 +1282,8 @@
     mode: function () { return $("stage").getAttribute("data-mode"); },
     phase: function () { return cur ? (cur.kind || phase) : null; },
     setWatch: function (w) { watch = !!w; $("watch").checked = watch; },
+    next: next,
+    setAuto: function (v) { auto = !!v; if (auto) next(); updateCtl(); },
     setSpeed: function (s) { speed = s; updateCtl(); },
     pause: function (p) { paused = !!p; updateCtl(); },
     packet: function () { var g = $("pkt"); return g ? { vis: g.getAttribute("visibility"), x: +g.getAttribute("data-x"), y: +g.getAttribute("data-y") } : null; },
