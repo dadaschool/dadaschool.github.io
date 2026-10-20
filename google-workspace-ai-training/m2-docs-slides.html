@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 검색엔진에 노출하지 않습니다. 공개 검색을 원하면 아래 한 줄을 지우세요. -->
+<meta name="robots" content="noindex">
+<title>모듈 2: 문서·슬라이드 · 구글 워크스페이스 + AI 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav" aria-label="사이트"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<main class="wrap">
+
+<header class="top">
+  <div class="eyebrow">구글 워크스페이스 + AI 연수 · 모듈 2</div>
+  <h1>문서·슬라이드</h1>
+  <p class="sub">한 파일을 여럿이 함께 쓰고, 누가 무엇을 했는지 기록으로 확인합니다</p>
+</header>
+
+<div class="callout note">
+  Docs와 Slides는 여러 사람이 한 파일을 동시에 편집하고, 그 과정이 <b>버전 기록</b>에 남습니다. AI는 <b>빈 화면을 채우는 틀과 개요</b>를 만드는 데 쓰고, 내용과 평가는 학생과 교사가 맡습니다.<br>
+  흐름: <b>① AI로 틀·개요를 받는다 → ② 공유해서 함께 쓴다 → ③ 버전 기록·댓글로 과정을 확인한다.</b>
+</div>
+
+<h2>시작하기 전에</h2>
+<ul>
+  <li><code>연수연습</code> 폴더(모듈 1에서 만든 것)</li>
+  <li>모둠원 역할을 할 동료 1~2명 또는 교사의 다른 브라우저 창</li>
+  <li>Docs 오른쪽 위 Gemini 아이콘이 보이는지 확인(<a href="prepare.html">연수 전 점검</a> 4번). 보이지 않아도 Gemini 앱으로 모두 진행할 수 있습니다.</li>
+</ul>
+
+<div class="callout verify">
+  <span class="ct">🔍 내 Docs에 Gemini가 있나요?</span>
+  문서 오른쪽 위에 <b>Gemini 아이콘</b>이 있으면 문서 안 Gemini(사이드 패널)를 쓸 수 있습니다. 없으면 <b>Gemini 앱</b>으로 같은 실습을 합니다.
+  <div class="shots2">
+    <figure class="shot">
+      <a href="assets/img/docs-gemini-icon.png" target="_blank" rel="noopener" title="그림을 크게 보기"><img src="assets/img/docs-gemini-icon.png" width="561" height="243" loading="lazy" alt="구글 문서 오른쪽 위 공유 버튼 옆에 Gemini 아이콘이 빨간 상자로 표시되어 있고, 'Gemini에게 물어보기' 안내가 떠 있다."></a>
+      <figcaption>✅ <b>보임</b>: 공유 버튼 옆 아이콘을 누르면 사이드 패널이 열립니다.</figcaption>
+    </figure>
+    <figure class="shot">
+      <a href="assets/img/docs-no-gemini.png" target="_blank" rel="noopener" title="그림을 크게 보기"><img src="assets/img/docs-no-gemini.png" width="563" height="207" loading="lazy" alt="구글 문서 오른쪽 위에 댓글, 화상회의, 공유 버튼만 있고 Gemini 아이콘이 없다."></a>
+      <figcaption>❌ <b>안 보임</b>: 무료 에디션(Education Fundamentals)에서는 정상입니다.</figcaption>
+    </figure>
+  </div>
+  <p class="small" style="margin:8px 0 0">제공 대상: Education Plus 또는 Teaching and Learning 라이선스, 만 18세 이상(2026-02 안내). 아이콘이 없어도 Gemini 앱의 Canvas로 만든 슬라이드는 Slides로 내보낼 수 있습니다.</p>
+</div>
+
+<section class="case" id="case-2" aria-labelledby="case-2-title">
+  <h2 id="case-2-title"><span class="num">2</span> 사례 2. 모둠 수행평가 공동 문서와 버전 기록으로 기여도 확인</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>모둠 보고서에서 누가 어느 부분을 썼는지 확인해야 할 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Docs</span><span class="badge">Gemini 앱</span><span class="badge">문서 안 Gemini</span><span class="badge ok">✅ Gemini 앱: 모든 교육 에디션</span><span class="badge chk">🔍 문서 안 Gemini: 에디션·설정 확인</span></span></dd>
+    <dt>준비물</dt><dd>빈 문서 <code>2026_2학년_정보_모둠보고서_1모둠</code>(연습용), 가상 모둠원 <code>학생A</code>, <code>학생B</code>, <code>학생C</code>, 가상 편집 기록 메모 <a href="samples/version-history-memo.txt" download><code>samples/version-history-memo.txt</code></a></dd>
+  </dl>
+
+  <div class="method a">
+    <h3>🤖 방법 A · AI에게 시키기 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>교사: Gemini 앱에 아래 요청으로 모둠 보고서 틀(목차, 역할 칸)을 받아 Docs에 붙여넣습니다. <code>[주제]</code>는 바꿉니다.</li>
+      <li>교사: <code>연수연습</code> 안에 모둠 폴더를 만들고, 문서를 모둠원(연습에서는 동료)에게 <b>편집자</b>로 공유합니다.</li>
+      <li>학생(연습에서는 동료가 대신): 각자 자기 역할 칸에 작성합니다.</li>
+      <li>교사: <code>파일 → 버전 기록 → 버전 기록 보기</code>를 열어, 작성자별 색으로 표시된 수정 내역을 확인합니다.</li>
+      <li>교사: 버전 기록에서 본 내용을 <b>학생 이름 없이</b> <code>학생A/B/C</code>로 바꿔 Gemini 앱에 붙여넣고, 기여 내용 요약 정리를 맡깁니다.</li>
+    </ol>
+    <div class="prompt">
+      <div class="bar"><span class="label">요청 예시 · 보고서 틀</span></div>
+      <pre>중학교 2학년 정보 교과 모둠 보고서 틀을 만들어 주세요.
+주제: [주제]
+포함: 문제 정의, 조사 내용, 해결 방법, 결과, 모둠원별 역할 표, 느낀 점
+조건: 각 항목 아래 학생이 쓸 수 있도록 안내 문장 1줄씩, 중학생 수준
+형식: 제목과 표가 있는 문서 초안</pre>
+    </div>
+    <div class="prompt">
+      <div class="bar"><span class="label">요청 예시 · 기여 요약 (이름 없이)</span></div>
+      <pre>아래는 모둠 보고서의 편집 기록을 정리한 메모입니다. 학생 이름은 학생A, B, C로 바꿨습니다.
+학생별로 어느 항목을 작성·수정했는지 표로 정리해 주세요.
+메모에 없는 내용은 추측하지 말고, 평가나 점수는 매기지 마세요.
+[메모 붙여넣기]</pre>
+    </div>
+    <h4>메모 만들기와 실습용 가상 메모</h4>
+    <p>실제 문서에서는 버전 기록을 <b>가장 오래된 버전부터</b> 하나씩 눌러, 강조된 부분을 보고 <code>시각 / 편집자 / 항목 / 한 일(작성·수정·삭제) / 분량</code>을 한 줄씩 적습니다. 이름은 <code>학생A/B/C</code>로 바꾸고, 글 원문은 옮기지 않습니다. 연습에서는 아래 가상 메모를 위 요청 예시의 <code>[메모 붙여넣기]</code> 자리에 넣습니다.</p>
+    <div class="prompt">
+      <div class="bar"><span class="label">가상 메모 · <a href="samples/version-history-memo.txt" download style="color:#fff">version-history-memo.txt 내려받기</a></span></div>
+      <pre>[모둠 보고서 편집 기록 메모 — 가상 자료, 이름은 학생A/B/C로 바꿈]
+10/20 15:10  학생A  '문제 정의' 항목 작성 (3문장)
+10/20 15:25  학생B  '조사 내용' 항목 작성 (2문단, 표 1개)
+10/21 09:05  학생C  '해결 방법' 항목 작성 (순서도 그림 1개, 설명 4줄)
+10/21 09:40  학생A  '조사 내용' 항목 수정 (오타 2곳)
+10/22 16:00  학생B  '결과' 항목 작성 (3문장)
+10/22 16:30  학생C  '결과' 항목 수정 (표의 숫자 1곳)
+10/23 10:15  익명 사용자  '느낀 점' 항목 작성 (2문장)
+10/23 11:00  학생A  '모둠원별 역할 표' 작성</pre>
+    </div>
+    <div class="tablewrap">
+    <table>
+      <caption class="muted small" style="caption-side:top; text-align:left; padding-bottom:6px">AI 결과와 대조할 정답 표</caption>
+      <thead><tr><th style="width:22%">학생</th><th>작성한 항목</th><th>수정한 항목</th></tr></thead>
+      <tbody>
+        <tr><td>학생A</td><td>문제 정의, 모둠원별 역할 표</td><td>조사 내용 (오타 2곳)</td></tr>
+        <tr><td>학생B</td><td>조사 내용, 결과</td><td>없음</td></tr>
+        <tr><td>학생C</td><td>해결 방법</td><td>결과 (표의 숫자 1곳)</td></tr>
+        <tr><td>확인 불가</td><td>느낀 점 (익명 사용자)</td><td>—</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="small">대조할 때 볼 것: ① '느낀 점'을 학생 중 누군가에게 붙였는지(추측 금지) ② "성실함", "기여도 높음" 같은 평가어나 점수가 들어갔는지 ③ 메모에 없는 항목을 만들어 냈는지</p>
+  </div>
+
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <ol class="steps">
+      <li>Docs에서 새 문서를 만들고 <code>서식 → 단락 스타일</code>로 항목 제목을 <b>제목 1/제목 2</b>로 지정합니다. 왼쪽 개요에 목차가 생깁니다.</li>
+      <li><code>삽입 → 표</code>로 모둠원별 역할 표를 넣습니다.</li>
+      <li>각 항목 아래 안내 문장을 직접 적습니다.</li>
+    </ol>
+  </div>
+
+  <div class="method c">
+    <h3>🔁 방법 C · 문서 안 Gemini가 보일 때</h3>
+    <ol class="steps">
+      <li>문서 오른쪽 위 Gemini 아이콘을 눌러 사이드 패널을 엽니다.</li>
+      <li><code>이 문서의 항목별 안내 문장을 더 쉽게 고쳐 줘</code>라고 요청하고, 제안을 읽어 본 뒤 필요한 부분만 넣습니다.</li>
+    </ol>
+  </div>
+
+  <h4>같이 해 볼 기능</h4>
+  <ul>
+    <li><b>댓글</b>: 문장을 선택하고 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>M</kbd> — 교사 피드백을 남기고 학생이 해결 표시</li>
+    <li><b>제안 모드</b>: 오른쪽 위 연필 아이콘에서 <code>제안</code>으로 바꾸면 원문이 지워지지 않고 수정 제안으로 남음</li>
+    <li><b>현재 버전 이름 지정</b>: <code>파일 → 버전 기록 → 현재 버전 이름 지정</code>(예: <code>중간점검_10월</code>) — 나중에 그 시점으로 돌아가 비교</li>
+    <li><b>스마트 칩</b>: <code>@</code>를 입력해 사람·파일·날짜를 넣기 — 역할 표에 마감일 칩</li>
+  </ul>
+
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 버전 기록 오른쪽 패널에 서로 다른 사용자 이름과 색이 표시되고, 각 버전을 누르면 그 사람이 쓴 부분이 같은 색으로 강조되면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>버전 기록은 <b>편집 이력</b>이지 노력의 양이 아닙니다. 말로 아이디어를 낸 학생, 다른 학생 기기로 함께 쓴 경우는 기록에 남지 않습니다. 기여도 평가는 버전 기록 하나만으로 하지 말고 학생 면담·자기평가와 함께 봅니다.</li>
+      <li>AI가 만든 틀의 항목이 수행평가 안내문의 평가 요소와 맞는지 대조합니다.</li>
+      <li>기여 요약에서 AI가 메모에 없는 "적극적", "소극적" 같은 평가어를 붙였는지 확인하고 지웁니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> AI에 학생 이름이나 학생이 쓴 글 원문을 그대로 넣지 않습니다. 기여 요약을 맡길 때는 이름을 <code>학생A/B/C</code>로 바꾸고 편집 항목만 넣습니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul>
+      <li>독서 활동 기록(한 권을 나눠 읽고 장별 요약)</li>
+      <li>과학 실험 보고서(가설·과정·결과를 역할 분담)</li>
+      <li>프로젝트 학습 일지(날짜별 진행 기록)</li>
+      <li>진로 활동 보고서(직업 탐색 결과 공유)</li>
+      <li>국어 모둠 토론 개요서(찬반 근거 정리)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="case" id="case-3" aria-labelledby="case-3-title">
+  <h2 id="case-3-title"><span class="num">3</span> 사례 3. 모둠 발표용 공동 Slides + AI로 시각 자료 만들기</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>모둠 발표 자료를 한 파일에서 동시에 만들 때, 교사 수업 슬라이드를 빠르게 만들 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Slides</span><span class="badge">Gemini 앱(Canvas)</span><span class="badge">Classroom Gemini</span><span class="badge ok">✅ Gemini 앱·Classroom: 모든 교육 에디션</span><span class="badge chk">🔍 Slides 안 Gemini: 에디션·설정 확인</span></span></dd>
+    <dt>준비물</dt><dd>수업 단원 이름과 핵심 개념 메모(개인정보 없음), 모둠 수(연습: 3모둠)</dd>
+  </dl>
+
+  <div class="method a">
+    <h3>🤖 방법 A · AI에게 시키기 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>먼저 아래 요청으로 <b>개요(슬라이드 제목 목록)</b>만 받습니다. 교사가 순서와 내용을 고칩니다.</li>
+      <li>고친 개요로 슬라이드를 만듭니다. 두 가지 길이 있습니다.
+        <ul>
+          <li><b>Classroom의 Gemini 탭</b>: 슬라이드 덱 관련 시작 프롬프트(예: 프레젠테이션 만들기, 파일을 Google 슬라이드로 변환)를 고릅니다. 2026-06 안내 기준 이 프롬프트들은 Gemini의 Canvas 도구를 씁니다. 화면의 한국어 문구는 계정에서 확인하세요.</li>
+          <li><b>Gemini 앱</b>: 입력창 아래 도구에서 <code>Canvas</code>를 고르고 "발표 자료를 만들어 줘"라고 요청한 뒤, Canvas의 공유·내보내기 메뉴에서 <b>Slides로 내보내기</b>를 누릅니다.</li>
+        </ul>
+      </li>
+      <li>이미지가 필요하면 Classroom Gemini 탭의 <b>인포그래픽 만들기</b>, <b>만화 그리기</b> 같은 이미지 생성 시작 프롬프트를 씁니다. 글자·수치는 반드시 직접 확인합니다.</li>
+      <li>만든 슬라이드를 모둠에 편집자로 공유하고, 모둠별로 슬라이드 번호를 나눠 맡겨 동시에 편집합니다(예: 1모둠 2~4번, 2모둠 5~7번).</li>
+    </ol>
+    <div class="prompt">
+      <div class="bar"><span class="label">요청 예시 · 수업 슬라이드 개요</span></div>
+      <pre>중학교 2학년 정보 교과 '인공지능과 윤리' 단원 도입 수업용 슬라이드 개요를 만들어 주세요.
+- 10장 이내, 장별 제목과 핵심 문장 2개
+- 마지막 장은 학생 토의 질문 3개
+- 쉬운 예시(교실·학교 생활)로
+표가 아니라 번호 목록으로 출력해 주세요.</pre>
+    </div>
+    <div class="prompt">
+      <div class="bar"><span class="label">요청 예시 · 인포그래픽</span></div>
+      <pre>중학교 2학년이 볼 인포그래픽을 만들어 주세요.
+주제: 인공지능이 학교생활에서 쓰이는 예 4가지
+조건: 글자는 한국어로 짧게(한 칸에 10자 이내), 사람 얼굴은 넣지 않음, 실제 회사 로고·상표 사용 금지</pre>
+    </div>
+  </div>
+
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <ol class="steps">
+      <li>Slides에서 <code>새 프레젠테이션</code>을 만들고 테마를 고릅니다.</li>
+      <li>첫 장에 모둠별 담당 슬라이드 번호 표를 넣고, 모둠 수만큼 빈 슬라이드를 미리 만들어 둡니다.</li>
+      <li>각 슬라이드 발표자 노트에 "이 장에서 말할 것"을 적게 합니다.</li>
+    </ol>
+  </div>
+
+  <div class="method c">
+    <h3>🔁 방법 C · Classroom Gemini 탭이나 Canvas 내보내기가 막혀 있을 때</h3>
+    <ol class="steps">
+      <li>Gemini 앱에서 개요만 텍스트로 받습니다.</li>
+      <li>Slides에서 <code>제목만 있는</code> 레이아웃 슬라이드를 개요 수만큼 만들고, 각 제목 칸에 개요를 붙여넣습니다.</li>
+      <li>이미지는 학교에서 허용한 무료 이미지나 직접 그린 도형을 씁니다.</li>
+    </ol>
+  </div>
+
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 한 슬라이드 파일을 두 사람 이상이 동시에 열었을 때 오른쪽 위에 서로의 프로필 아이콘이 보이고, 각자 맡은 슬라이드에서 편집이 바로 반영되면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>AI가 만든 통계·날짜·인용은 출처를 확인하기 전에는 쓰지 않습니다. "~에 따르면" 문장은 특히 의심합니다.</li>
+      <li>생성 이미지 속 글자가 깨지거나 철자가 틀리는 경우가 많습니다. 확대해서 한 글자씩 봅니다.</li>
+      <li>개요가 성취기준 범위를 넘는지(예: 고등학교 수준 알고리즘 용어) 확인합니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 학생 얼굴 사진·실명이 들어간 이미지를 AI 도구에 올리지 않습니다. 모둠 발표 자료에 학생 사진을 넣을 때는 학교의 초상권·개인정보 동의 방침을 먼저 확인합니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul>
+      <li>학급 회의 안건 슬라이드(안건별 한 장)</li>
+      <li>학부모 총회 학급 소개 자료</li>
+      <li>동아리 활동 결과 보고 발표</li>
+      <li>수업 정리 카드(차시별 핵심 한 장)</li>
+      <li>사회·과학 개념 인포그래픽 갤러리 워크</li>
+    </ul>
+  </div>
+</section>
+
+<h2>잘 안 될 때</h2>
+<div class="tablewrap">
+<table class="trouble">
+  <thead><tr><th>이런 증상이면</th><th>이렇게 해 보세요</th></tr></thead>
+  <tbody>
+    <tr><td>버전 기록에 이름이 "익명 사용자"로 나옴</td><td>로그인하지 않은 상태로 편집한 경우입니다. 학교 계정 사용자에게만 편집 권한을 주고 링크 공유는 제한합니다.</td></tr>
+    <tr><td>버전 기록이 너무 잘게 쪼개져 보기 어려움</td><td>중간점검 시점마다 <code>현재 버전 이름 지정</code>을 해 두면, 버전 기록 패널에서 이름이 지정된 버전만 골라 볼 수 있습니다(보기 옵션 위치는 화면에 따라 다를 수 있음).</td></tr>
+    <tr><td>Canvas에 Slides로 내보내기 메뉴가 없음</td><td>관리자 설정 때문일 수 있습니다. 방법 C로 개요를 복사해 직접 만듭니다.</td></tr>
+    <tr><td>동시 편집 중 내용이 덮어써짐</td><td>같은 슬라이드를 둘이 함께 고치지 않도록 슬라이드 번호를 나눠 맡기고, 실수하면 버전 기록에서 이전 버전을 복원합니다.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>더 알아보기</h3>
+<ul>
+  <li>Docs 편집기 도움말: <a href="https://support.google.com/docs/" target="_blank" rel="noopener">support.google.com/docs</a></li>
+  <li>Gemini 앱 Canvas 도움말: <a href="https://support.google.com/gemini/" target="_blank" rel="noopener">support.google.com/gemini</a> (Canvas로 문서·앱 만들기)</li>
+</ul>
+
+<nav class="pager" aria-label="이전·다음 문서">
+  <a class="prev" href="m1-drive-sharing.html"><span class="dir">← 이전</span>모듈 1: 드라이브·공유</a>
+  <a class="next" href="m3-forms-sheets.html"><span class="dir">다음 →</span>모듈 3: 설문·데이터</a>
+</nav>
+
+<footer>
+  구글 워크스페이스 + AI 활용 연수 · 모듈 2: 문서·슬라이드<br>
+  내용은 2026-10-14 기준 구글 공식 도움말로 확인해 작성했습니다. 메뉴 이름, 에디션별 제공 범위, 요금은 이후 바뀔 수 있으니 실습 전 학교 계정에서 다시 확인해 주세요.
+</footer>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>
