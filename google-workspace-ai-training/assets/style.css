@@ -111,6 +111,7 @@ kbd{border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; pa
 }
 .badge.ok{color:var(--ok); background:var(--ok-bg); border-color:var(--ok-line)}
 .badge.chk{color:var(--verify); background:var(--verify-bg); border:1px dashed var(--verify-line)}
+.badge.up{color:var(--muted); background:#f1f2f5; border:1px dashed var(--muted); white-space:normal; border-radius:12px}
 .badge.tool{color:var(--ink); background:#fff; border-color:var(--line)}
 .badge.code{color:var(--warn); background:var(--warn-bg); border-color:var(--warn-line)}
 
@@ -218,6 +219,7 @@ ol.steps > li::before{
 
 /* 방법 고르기 카드(페이지 상단) */
 .pick{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:18px 0 8px}
+.pick.four{grid-template-columns:repeat(2,1fr)}
 @media (max-width:700px){ .pick{grid-template-columns:1fr} }
 .pickcard{background:#fff; border:1.5px solid var(--line); border-radius:12px; padding:14px 16px; color:var(--ink); text-decoration:none; display:block}
 .pickcard .h{font-weight:900; font-size:16px; margin-bottom:4px}

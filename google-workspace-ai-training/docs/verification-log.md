@@ -126,3 +126,37 @@
 | 녹음 동의·금지 회의 | 법 해석이 아니라 이 자료의 안전 권장(전원 고지·동의, 민감 회의 녹음 안 함) | — |
 | 대본 날짜 요일 | 11/13 금, 11/20 금, 11/6 금, 11/11 수 (Python으로 계산) | — |
 
+
+## 10. Drive 안 Gemini로 폴더 구조 복제 (2026-10-20, 모듈 1 사례 1 방법 A-2)
+
+| 항목 | 결과 | 확인한 URL |
+|---|---|---|
+| Drive에서 답변 받기(Ask Gemini in Drive) | 2026-03 베타, 2026-04 정식 출시. 고른 파일·폴더를 소스로 여러 번 묻고 답하는 대화. 기존 권한 안에서만 읽음. 대상에 Google AI Pro for Education 추가 라이선스 포함 | https://workspaceupdates.googleblog.com/2026/04/ask-gemini-in-drive-now-generally-available.html |
+| Gmail을 소스로 | 2026-06 정식 출시 | https://workspaceupdates.googleblog.com/2026/06/gmail-as-source-in-ask-gemini-in-drive-now-generally-available.html |
+| 프로젝트로 저장 | 소스 목록만 공유되고, 공동작업자는 각자 새 대화를 시작함. 소스 권한이 없으면 그 소스로 대화 불가. 웹에서만 만들기 | https://support.google.com/drive/answer/16684520 |
+| 소스 검색 허용 토글 | 켜면 Gmail·Chat·Calendar 등에서 관련 소스를 찾음(보도 기사 + 사용자 화면의 아이콘) | https://www.computerworld.com/article/4219866/google-drive-projects-focused-ai-analysis-in-google-workspace.html |
+| 폴더 만들기·권한 복제 | **공식 문서 없음.** 예전 Drive 사이드 패널의 폴더 만들기·옮기기는 2026-04-20 종료 안내. 사용자 학교 계정 화면(2026-10)에서 'Drive에서 답변 받기'가 2027 → 2학년 → 학급운영 폴더를 만들었다고 답한 것을 확인(assets/img/drive-ask-gemini-2027.png). 권한까지 실제로 같게 설정되었는지는 미확인 → 페이지에 직접 대조 단계와 경고를 넣음 | https://workspaceupdates.googleblog.com/2025/03/create-files-and-folders-using-gemini-in-drive.html , https://workspaceupdates.googleblog.com/2025/07/execute-basic-organizational-tasks-using-gemini-in-drive.html |
+| 파일 정리 제안(Organize My Files) | 별개 기능. 2026-06 정식 출시, 영어, 승인한 이동만 실행, 권한이 바뀌면 확인 요청 | https://workspaceupdates.googleblog.com/2026/06/organize-my-files-in-drive-now-generally-available.html , https://support.google.com/drive/answer/16671865 |
+
+## 11. 기본 계정(Education Fundamentals) 기준 재검토와 교과별 치트시트 (2026-10-20, subject-cheatsheet.html)
+
+| 항목 | 결과 | 확인한 URL |
+|---|---|---|
+| 연수 대상 계정 | 사용자 지시로 Education Fundamentals 기준. 기본 계정에 없는 기능은 ⬆️ 배지(`.badge.up`)로 표시 | — |
+| Vids 앱 | 2025-06 모든 Workspace for Education 고객에게 제공(기본 켜짐, 조직 단위로 끌 수 있음) | https://workspaceupdates.googleblog.com/2025/06/vids-now-available-for-education-customers.html |
+| Vids 안 Gemini(제작 지원·AI 음성 해설) | Education Plus·Teaching and Learning(만 18세 이상, 2026-02), Google AI Pro for Education. Fundamentals 없음 | https://workspaceupdates.googleblog.com/2026/02/gemini-in-workspace-education.html , https://workspaceupdates.googleblog.com/2026/07/generate-higher-quality-ai-video-clips-and-edit-any-video-with-Gemini-Omni-in-Vids.html |
+| Vids 제작 지원 언어 | 영어 전용으로 안내(출시 안내, 2026-10 기능 제공 페이지 인용 기사). 2026 언어 확대 안내 못 찾음 | https://support.google.com/docs/answer/15609411 |
+| Vids AI 음성 해설 한국어 | 2026-02 한국어 등 7개 언어 추가, 2026-04 추가 확대 | https://workspaceupdates.googleblog.com/2026/02/vids-avatars-voiceovers-new-languages.html , https://support.google.com/docs/answer/15070345 |
+| Vids 직접 녹음(음성 해설) | 녹화 → 녹화 옵션에서 음성 해설 → 녹음 → 삽입. 한국어 메뉴 이름은 화면 확인 | https://support.google.com/docs/answer/15070345 |
+| Classroom Gemini 위치·대상 | 왼쪽 메뉴 Gemini 탭. Fundamentals·Standard·Plus, 만 18세 이상 교사(1절). 과제 화면 루브릭 영역의 Gemini 루브릭 생성(2026-08) | https://support.google.com/edu/classroom/answer/15410566 , https://workspaceupdates.googleblog.com/2026/08/streamlining-rubric-generation-in-Google-Classroom-with-Gemini.html |
+| Classroom 글 수준 다시 쓰기(Re-level text) | 도움말 도구 목록에 있음. 한국어 화면 이름·제공 여부는 확인 못 함 → 화면 확인 | https://support.google.com/edu/classroom/answer/15410566 |
+| Classroom Gemini 퀴즈 → Forms 내보내기 | 구글 교육 블로그: 학년·주제로 퀴즈 초안 → Google Forms로 내보내기(추가 비용 없는 도구). 글·Drive 파일로 문항 만들기 → Form·Doc로 내보내기(2025-04). 정답·배점이 그대로 넘어오는지는 확인 못 함 → 페이지에 확인 단계 | https://blog.google/products-and-platforms/products/education/classroom-ai-features/ , https://workspaceupdates.googleblog.com/2025/04/use-gemini-in-google-classroom-to-generate-questions-from-text.html |
+| Forms 안 Gemini 퀴즈 만들기 | 2026-07-30 안내: Drive 파일 근거 문항·정답. 교육은 Education Plus, Google AI Pro for Education, Teaching and Learning. Fundamentals 없음. 틀렸을 때 의견 자동 작성 안내 없음 | https://workspaceupdates.googleblog.com/2026/07/use-gemini-in-google-forms-to-quickly-create-a-new-quiz.html |
+| Gemini 앱 Canvas 발표 자료 → Slides | Fundamentals·Standard·Plus 대상(2절) | https://workspaceupdates.googleblog.com/2025/10/generate-presentations-in-gemini-app.html |
+| Gemini 앱 이미지 만들기 | 교육 에디션 비교표에 Fundamentals·Plus 모두 Nano Banana 이미지 만들기 표기(한도는 다름). Classroom Gemini 이미지 시작 프롬프트는 Nano Banana 2(Fundamentals·Standard·Plus) | https://edu.google.com/intl/ALL_us/workspace-for-education/editions/compare-editions/ , https://workspaceupdates.googleblog.com/2026/06/updates-to-gemini-in-google-classroom.html |
+| 학생 계정 이미지 만들기 | 만 18세 미만 제한은 보도 기사로만 확인 → 페이지에는 "막혀 있을 수 있으니 학생 계정으로 확인"으로 씀 | https://www.edweek.org/technology/schools-caught-flat-footed-after-google-makes-gemini-chatbot-available-to-all-students/2026/09 |
+| Slides 안 그림 만들기 | Education Plus·Teaching and Learning 만 18세 이상(2026-02). 모델은 Nano Banana Pro 등. "저작권 걱정 없음" 공식 안내 없음 | https://workspaceupdates.googleblog.com/2026/02/gemini-in-workspace-education.html , https://blog.google/products-and-platforms/products/gemini/where-to-use-nano-banana-pro/ |
+| Gemini 앱에 Drive 파일 첨부 | 파일 추가 → Drive. Workspace 연결(확장 프로그램) 허용 필요, 10개·100MB(학교 안내 페이지) | https://workspaceupdates.googleblog.com/2024/08/upload-documents-into-gemini-for-insights-and-analysis.html |
+| Docs 오디오(이 탭 듣기·오디오 버튼) | 2025-08 출시, 영어·컴퓨터 전용, Gemini 추가 라이선스 대상. 2026-02 오디오 요약 추가. 한국어 확대 안내 못 찾음 | https://workspaceupdates.googleblog.com/2025/08/listen-to-documents-using-gemini-google-docs.html , https://support.google.com/docs/answer/16386234 |
+| Docs 페이지 없음·제목 접기 | 기본 기능. 제목 접기는 페이지 없음 형식에서 | https://support.google.com/docs/answer/116338 , https://workspaceupdates.googleblog.com/2023/05/expand-and-collapse-content-google-docs.html |
+| 치트시트 예시 계산 | 택시 y=1000x+4000: 3km 7,000원, 5km 9,000원 (직접 계산) | — |
