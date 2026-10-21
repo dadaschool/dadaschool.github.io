@@ -160,3 +160,19 @@
 | Docs 오디오(이 탭 듣기·오디오 버튼) | 2025-08 출시, 영어·컴퓨터 전용, Gemini 추가 라이선스 대상. 2026-02 오디오 요약 추가. 한국어 확대 안내 못 찾음 | https://workspaceupdates.googleblog.com/2025/08/listen-to-documents-using-gemini-google-docs.html , https://support.google.com/docs/answer/16386234 |
 | Docs 페이지 없음·제목 접기 | 기본 기능. 제목 접기는 페이지 없음 형식에서 | https://support.google.com/docs/answer/116338 , https://workspaceupdates.googleblog.com/2023/05/expand-and-collapse-content-google-docs.html |
 | 치트시트 예시 계산 | 택시 y=1000x+4000: 3km 7,000원, 5km 9,000원 (직접 계산) | — |
+
+## 12. 모듈 9 상위 AI 기능 혼자 실습 (2026-10-21, m9-advanced-ai.html)
+
+사용자 지시: 기본 계정에서 안 되는 기능도 실습 과정까지 넣고, 쓸 수 있는 계정을 가진 교사가 혼자 하도록 안내. 개인 계정 데이터 보호 경고와 가상 샘플만 쓰도록 명시.
+
+| 항목 | 결과 | 확인한 URL |
+|---|---|---|
+| Vids 제작 지원 순서 | 새 영상(빈 영상) → 파일 → Storyboard 또는 시작 화면 Help me create, 프롬프트, `@`로 Drive 파일(PDF·Slides) 참고. 장면 개요·스톡 미디어·대본·음성 해설 생성 | https://support.google.com/docs/answer/15067819 |
+| Vids 개인 계정·언어 | Google AI Pro·Ultra 소비자에게 제공. AI 기능(Help me create, 텔레프롬프터)과 템플릿은 영어만, 만들기·편집은 컴퓨터만 | https://workspace.google.com/products/vids |
+| Slides → Vids 변환 | vids.new → Convert Slides → 슬라이드 선택 → "AI 음성 해설·대본·배경 음악·애니메이션 포함" 스위치 → Narration → 장면별 대본 편집, Replace with speaker notes / Revert to generated script. 슬라이드 1장 = 장면 1개, 오디오 개체 50개 | https://support.google.com/docs/answer/15577408 , https://workspaceupdates.googleblog.com/2025/09/create-videos-from-slides-gemini-in-vids.html |
+| Forms 제작 지원 순서 | 빈 양식에서 카드가 기본으로 열림 → 프롬프트 → 소스 추가(Docs·Sheets·Slides·PDF) → 만들기 → 다시 만들기 가능 → 양식 만들기. 여러 섹션 미지원, 이전 초안으로 못 돌아감, 컴퓨터. 소비자 Google AI Pro·Ultra 포함 | https://support.google.com/docs/answer/15259015 , https://workspaceupdates.googleblog.com/2026/04/form-creation-with-gemini-and-more-now-available-in-more-languages.html |
+| Forms 퀴즈 정답·배점 | 2026-07-24부터 차례로. 틀렸을 때 의견 자동 작성 안내 없음 | https://workspaceupdates.googleblog.com/2026/07/use-gemini-in-google-forms-to-quickly-create-a-new-quiz.html |
+| Slides 그림 만들기 | 삽입 → Help me visualize → 이미지 → 프롬프트 → 스타일·비율(선택) → 만들기 → 미리보기 → 삽입. Gemini 3 Pro image. 슬라이드·인포그래픽은 베타. 개인 계정 제공은 발표 자료 만들기 안내(Google AI Pro·Ultra) 기준이라 🔍 | https://support.google.com/docs/answer/16443280 , https://workspaceupdates.googleblog.com/2026/04/enerate-beautiful-and-editable-slides-with-ease-in-Google-Slides.html |
+| Slides 발표자 노트 생성 | 전용 기능 공식 문서 못 찾음 → 사이드 패널 결과를 붙여넣는 방식으로 씀 | — |
+| Docs 오디오 순서 | 도구 → 오디오 → 이 탭 듣기 / 문서 요약 듣기, 삽입 → 오디오 버튼 → 탭 듣기, `@` 칩, 버튼 이름·크기·색, 속도 0.5~2배. 적격 Workspace·Google AI 요금제 | https://support.google.com/docs/answer/16386234 |
+| 실습 샘플 | linear-function-taxi.pptx(5장, 노트 포함, 7,000원·9,000원 Python 계산 확인), english-reading.txt(가상 지문, UTF-8 BOM) | — |
