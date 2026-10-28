@@ -186,6 +186,7 @@
     body{background:#fff; font-size:12pt}
     .wrap{max-width:100%; padding:0}
     .code button,.to-menu{display:none}
+    .dl[href^="http"]::after{content:" — " attr(href); font-weight:400}
     .toc a{color:var(--ink)}
     h2,h3{break-after:avoid}
     .code,.warn,.do,.note,.ok,.usecase,table,.figure,.cards .card{break-inside:avoid}
@@ -238,7 +239,7 @@
 <ol>
 <li><a href="#sec1"><span class="tt tt-prep">개념</span>연수 한눈에 보기</a></li>
 <li><a href="#sec2"><span class="tt tt-prep">개념</span>지역 LLM이란?</a></li>
-<li><a href="#sec3"><span class="tt tt-prep">개념</span>지역 LLM 핵심 용어</a></li>
+<li><a href="#sec3"><span class="tt tt-prep">개념</span>지역 LLM 핵심 용어와 종류</a></li>
 <li><a href="#sec4"><span class="tt tt-prep">개념</span>LM Studio란?</a></li>
 <li><a href="#sec5"><span class="tt tt-prep">개념</span>파이썬과 라이브러리</a></li>
 <li><a href="#sec6"><span class="tt tt-prep">개념</span>데이터베이스(DB)와 SQLite</a></li>
@@ -272,12 +273,12 @@
 <h2 id="sec1"><span class="num">1</span>연수 한눈에 보기</h2>
 
 <div class="tablewrap"><table>
-<tr><th style="width:24%">설치할 것</th><th style="width:38%">하는 일</th><th>비유</th></tr>
-<tr><td><b>LM Studio</b></td><td>AI 모델을 내려받고, 대화하고, 다른 프로그램이 쓸 수 있게 열어 주는 프로그램</td><td>AI를 넣고 돌리는 <b>재생기</b></td></tr>
-<tr><td><b>큐웬(Qwen3 4B)</b></td><td>글을 읽고 쓰는 AI 모델 파일(약 2.5GB)</td><td>재생기에 넣는 <b>음반</b></td></tr>
-<tr><td><b>파이썬(Python)</b></td><td>프로그램을 실행하는 언어·엔진</td><td>프로그램을 돌리는 <b>엔진</b></td></tr>
-<tr><td><b>SQLite</b> (파이썬에 들어 있음)</td><td>자료를 표 형태로 오래 저장하는 데이터베이스</td><td>잠글 수 있는 <b>서류함</b></td></tr>
-<tr><td>(선택) <b>DB Browser for SQLite</b></td><td>데이터베이스 파일 안을 눈으로 보는 프로그램</td><td>서류함 <b>열람 창</b></td></tr>
+<tr><th style="width:32%">설치할 것</th><th>하는 일</th></tr>
+<tr><td><b>LM Studio</b></td><td>AI 모델을 내려받고, 대화하고, 다른 프로그램이 쓸 수 있게 열어 주는 프로그램</td></tr>
+<tr><td><b>큐웬(Qwen3 4B)</b></td><td>글을 읽고 쓰는 AI 모델 파일(약 2.5GB)</td></tr>
+<tr><td><b>파이썬(Python)</b></td><td>프로그램을 실행하는 언어·엔진</td></tr>
+<tr><td><b>SQLite</b> (파이썬에 들어 있음)</td><td>자료를 표 형태로 오래 저장하는 데이터베이스</td></tr>
+<tr><td>(선택) <b>DB Browser for SQLite</b></td><td>데이터베이스 파일 안을 눈으로 보는 프로그램</td></tr>
 </table></div>
 
 <div class="ok">
@@ -337,7 +338,7 @@
 <div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
 
 <!-- ============================================================ 3 -->
-<h2 id="sec3"><span class="num">3</span>지역 LLM 핵심 용어</h2>
+<h2 id="sec3"><span class="num">3</span>지역 LLM 핵심 용어와 종류</h2>
 <p>LM Studio에서 모델을 고를 때 아래 용어가 계속 나옵니다. 모델 이름 <code>Qwen3-4B-GGUF Q4_K_M</code>을 읽을 수 있으면 충분합니다.</p>
 
 <div class="terms">
@@ -370,8 +371,39 @@
 <tr><td>GPU(그래픽 메모리 4GB 이상) 있음</td><td>LM Studio가 GPU를 쓰면 빨라집니다. LM Studio 공식 문서는 GPU 메모리 4GB 이상을 권장합니다.</td></tr>
 </table></div>
 
+<h3>지역 LLM 종류와 특징</h3>
+<p>내려받아 쓸 수 있는(가중치가 공개된) 모델은 여러 회사가 냅니다. 같은 회사의 모델을 <b>계열</b>이라 부르고, 계열 안에서 버전과 크기(B)가 나뉩니다. 아래는 LM Studio에서 많이 쓰는 계열 가운데 <b>노트북에서 돌릴 수 있는 크기</b>만 2026년 10월 기준으로 정리한 것입니다.</p>
+
+<div class="tablewrap"><table style="min-width:760px">
+<tr><th style="width:17%">계열 (만든 곳)</th><th style="width:21%">노트북에 맞는 크기</th><th style="width:13%">한국어</th><th style="width:19%">라이선스</th><th>특징</th></tr>
+<tr><td><b>큐웬 Qwen</b><br>알리바바 (중국)</td><td>Qwen3: 1.7B·4B·8B<br>Qwen3.5 (2026.3): 2B·4B·9B</td><td>무난</td><td>Apache 2.0<br>(상업 이용 가능)</td><td>크기가 다양하고 생각 모드를 켜고 끌 수 있음. <b>이 연수의 기준 모델(Qwen3 4B)</b></td></tr>
+<tr><td><b>젬마 Gemma</b><br>구글 (미국)</td><td>Gemma 3: 1B·4B·12B<br>Gemma 4 (2026.4): E2B·E4B</td><td>무난</td><td>Gemma 3: 구글 전용 약관<br>Gemma 4: Apache 2.0</td><td><b>사진(이미지)도 함께 읽는</b> 크기가 있음. 같은 급의 큐웬보다 파일·메모리가 큰 편</td></tr>
+<tr><td><b>라마 Llama</b><br>메타 (미국)</td><td>Llama 3.2: 1B·3B<br>Llama 3.1: 8B</td><td>약한 편<br>(공식 지원 언어에 없음)</td><td>메타 전용 라이선스<br>(조건부 무료)</td><td>오래 쓰여 자료와 변형 모델이 많음. 최신 Llama 4는 노트북에 너무 큼</td></tr>
+<tr><td><b>파이 Phi</b><br>마이크로소프트 (미국)</td><td>Phi-4-mini: 3.8B<br>Phi-4: 14B</td><td>약한 편<br>(영어 중심)</td><td>MIT<br>(상업 이용 가능)</td><td>크기에 비해 수학·논리 문제에 강한 편</td></tr>
+<tr><td><b>엑사원 EXAONE</b><br>LG AI연구원 (한국)</td><td>EXAONE 3.5: 2.4B·7.8B<br>EXAONE 4.0: 1.2B</td><td><b>강함</b><br>(한국어 중심 학습)</td><td>LG 전용 라이선스<br><b>연구·교육 목적만</b> (비상업)</td><td>한국어 문장과 국내 맥락에 강점. 업무에 쓰기 전 약관 확인 필요</td></tr>
+<tr><td><b>하이퍼클로바X SEED</b><br>네이버 (한국)</td><td>0.5B·1.5B·3B<br>(추론용 Think 14B)</td><td><b>강함</b></td><td>네이버 전용 라이선스<br>(상업 이용 허용, 조건 있음)</td><td>한국어·국내 정보에 강점. LM Studio용 GGUF 파일은 네이버가 아닌 사람이 변환한 것이 많음 <span class="unverified">확인 필요</span></td></tr>
+<tr><td><b>gpt-oss</b><br>OpenAI (미국)</td><td>20B (파일 약 12~13GB)</td><td>무난</td><td>Apache 2.0<br>(상업 이용 가능)</td><td>챗GPT 회사가 공개한 모델. 생각(추론)이 강하지만 <b>RAM 16GB에서는 빠듯함</b>(24GB 이상 권장)</td></tr>
+</table></div>
+
 <div class="note">
-<b>새 버전 모델</b> — 지역 LLM은 새 모델이 자주 나옵니다(예: Qwen3 다음 버전). 이 연수와 활용 예시 프로그램은 <b>Qwen3 4B</b>로 맞춰 만들었습니다. 다른 모델도 같은 방식으로 쓸 수 있지만, 결과 품질과 속도는 직접 확인해 보세요.
+<b>표를 읽을 때</b><br>
+· <b>한국어</b> 칸은 각 회사의 발표와 일반적인 평가를 옮긴 것입니다. 이 연수에서 같은 질문으로 직접 비교하지는 않았습니다. <span class="unverified">확인 필요</span><br>
+· <b>라이선스</b>는 "누가, 어디에 써도 되는지"를 정한 약관입니다. 교사가 학교 업무에 쓰는 것은 대부분 문제없지만, 만든 프로그램을 다른 학교에 나눠 주거나 판매하려면 모델별 약관을 확인하세요.<br>
+· 계열마다 새 버전이 자주 나옵니다. 위 크기와 버전은 작성 시점 것이며, LM Studio의 <b>Discover</b>에서 계열 이름(예: <code>gemma</code>, <code>exaone</code>)으로 검색하면 지금 받을 수 있는 것이 나옵니다.
+</div>
+
+<h3>어떤 모델을 고를까</h3>
+<div class="tablewrap"><table>
+<tr><th style="width:38%">이럴 때</th><th>이렇게 해 보세요</th></tr>
+<tr><td>처음 시작한다</td><td>이 연수의 <b>Qwen3 4B (Q4_K_M)</b> 그대로. 활용 예시 프로그램도 이 모델에 맞춰 만들었습니다.</td></tr>
+<tr><td>한국어 문장이 어색하다</td><td><b>EXAONE</b>이나 <b>하이퍼클로바X SEED</b>를 받아 13장의 같은 질문으로 비교해 보세요.</td></tr>
+<tr><td>사진·스캔한 자료를 읽히고 싶다</td><td>이미지를 읽는 <b>Gemma</b>(4B 이상 또는 E2B·E4B)를 받아 LM Studio 채팅에 사진을 첨부해 보세요.</td></tr>
+<tr><td>노트북 RAM이 8GB다</td><td>1~2B 크기(예: Qwen3 1.7B, Qwen3.5 2B, Gemma 4 E2B)부터 시험해 보세요.</td></tr>
+<tr><td>RAM 32GB 이상이거나 GPU가 있다</td><td>8~14B 크기나 <b>gpt-oss 20B</b>를 시험해 보세요. 글이 나아지는 대신 느려질 수 있습니다.</td></tr>
+</table></div>
+
+<div class="note">
+<b>새 버전 모델</b> — 지역 LLM은 새 모델이 자주 나옵니다(예: Qwen3 다음 버전인 Qwen3.5). 이 연수와 활용 예시 프로그램은 <b>Qwen3 4B</b>로 맞춰 만들었습니다. 다른 모델도 같은 방식으로 쓸 수 있지만, 결과 품질과 속도는 직접 확인해 보세요. 생각 모드를 끄는 <code>/no_think</code>는 큐웬 전용이라 다른 계열에서는 듣지 않을 수 있습니다.
 </div>
 
 <div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
@@ -541,8 +573,8 @@ GROUP BY item;</pre></div>
 <div class="do">
 <b>실습 순서 · 파이썬 설치</b>
 <ol>
-<li>브라우저에서 아래 주소로 갑니다.
-<div class="code"><div class="bar"><span class="label">파이썬 윈도우용 내려받기</span><button>복사</button></div><pre>https://www.python.org/downloads/windows/</pre></div></li>
+<li>아래 버튼을 눌러 파이썬 내려받기 페이지를 엽니다.<br>
+<a class="dl" href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener noreferrer">⬇ 파이썬 윈도우용 내려받기 페이지 열기</a></li>
 <li><b>Stable Releases</b>(안정판) 맨 위의 <b>Python 3.14.x</b>에서 <b>Windows installer (64-bit)</b>를 내려받습니다. 이름에 <code>a</code>·<code>b</code>·<code>rc</code>가 붙은 시험판은 고르지 않습니다. <span class="unverified">확인 필요</span></li>
 <li>내려받은 <code>python-3.14.x-amd64.exe</code>를 실행합니다.</li>
 <li>첫 화면 아래 <b><code>Add python.exe to PATH</code>에 체크</b>한 뒤 <b>Install Now</b>를 누릅니다. 권한 확인 창에는 <b>예</b>.</li>
@@ -576,8 +608,8 @@ GROUP BY item;</pre></div>
 <div class="do">
 <b>실습 순서</b>
 <ol>
-<li>공식 사이트에 들어가 <b>Windows</b>용 설치 파일을 내려받습니다.
-<div class="code"><div class="bar"><span class="label">LM Studio 공식 사이트</span><button>복사</button></div><pre>https://lmstudio.ai</pre></div></li>
+<li>아래 버튼으로 공식 사이트에 들어가 <b>Windows</b>용 설치 파일을 내려받습니다.<br>
+<a class="dl" href="https://lmstudio.ai" target="_blank" rel="noopener noreferrer">⬇ LM Studio 공식 사이트 열기</a></li>
 <li>설치 파일을 실행해 안내대로 설치합니다.</li>
 <li>LM Studio를 실행합니다. 처음에는 소개·추천 화면이 나올 수 있습니다. 추천 모델 내려받기는 건너뛰고 다음 장에서 직접 고릅니다.</li>
 <li>화면 왼쪽(또는 위쪽)에 <b>Chat</b>, <b>Developer</b>, <b>My Models</b>, <b>Discover(돋보기)</b> 같은 메뉴가 보이면 설치 완료입니다.</li>
@@ -622,8 +654,8 @@ GROUP BY item;</pre></div>
 <div class="do">
 <b>실습 순서</b>
 <ol>
-<li>공식 내려받기 페이지에 들어갑니다.
-<div class="code"><div class="bar"><span class="label">DB Browser for SQLite 내려받기</span><button>복사</button></div><pre>https://sqlitebrowser.org/dl/</pre></div></li>
+<li>아래 버튼으로 공식 내려받기 페이지에 들어갑니다.<br>
+<a class="dl" href="https://sqlitebrowser.org/dl/" target="_blank" rel="noopener noreferrer">⬇ DB Browser for SQLite 내려받기 페이지 열기</a></li>
 <li><b>Windows</b> 항목에서 <b>Standard installer for 64-bit Windows</b>를 내려받습니다(.msi). <span class="unverified">확인 필요</span></li>
 <li>설치 파일을 실행하고 기본 선택대로 설치합니다. 관리자 권한이 필요할 수 있습니다. 설치 중 바로가기 선택 화면이 나오면 <b>시작 메뉴</b>에 체크합니다.</li>
 <li>시작 메뉴에서 <b>DB Browser (SQLite)</b>를 실행할 수 있으면 완료입니다.</li>
@@ -1166,6 +1198,7 @@ GROUP BY s.item_no ORDER BY s.item_no;</pre></div>
 <li>생기부 초안 요청에 학번 0건, 숫자는 글자 수뿐 / 여러 시험 합치기 계산을 손 계산과 대조</li>
 <li>필요한 라이브러리(streamlit 1.66.1, pymupdf 1.28.2, pandas 3.1.0, openpyxl 3.1.5, requests 2.34.2)의 윈도우용 설치 파일이 Python 3.12~3.15용으로 모두 있음(약 100MB)</li>
 <li>사실 정보: Qwen3는 2025년 4월 Apache 2.0으로 공개, 0.6B~32B 등 여러 크기, 생각 모드 전환 지원 / Qwen3-4B Q4_K_M 파일 약 2.5GB / LM Studio 권장 RAM 16GB·AVX2 CPU / DB Browser for SQLite 3.13.1의 64비트 설치 파일 (공식·기술 문서와 공개 목록 검색으로 확인)</li>
+<li>3장 지역 LLM 종류 표: 각 계열의 크기·출시 시기·라이선스 (2026-10-28, 회사 발표와 보도·모델 소개 페이지 검색으로 확인)</li>
 </ul>
 </div>
 <div class="warn">
@@ -1175,6 +1208,7 @@ GROUP BY s.item_no ORDER BY s.item_no;</pre></div>
 <li><b>LM Studio의 실제 메뉴 이름·위치</b>, 속도 표시, 네트워크 공개 옵션 이름 (이 설명서 작성 환경에서 공식 사이트에 접속할 수 없었음)</li>
 <li>DB Browser for SQLite의 메뉴 이름(읽기 전용 열기, 데이터 보기, SQL 실행)</li>
 <li>실제 큐웬의 CPU 응답 속도, 결과 피드백·생기부 초안의 품질, 4B와 8B의 차이</li>
+<li>3장 표의 계열별 한국어 실력 차이, 큐웬 외 모델로 활용 예시 프로그램을 돌렸을 때의 결과</li>
 <li>RAM 8GB 노트북, 학교망 방화벽 환경, 실제 NEIS 점수표 양식, 실제 성취기준표, 실제 글자가 깨진 PDF</li>
 <li>학교생활기록부 기재요령과의 부합 여부</li>
 </ul>
@@ -1187,6 +1221,7 @@ GROUP BY s.item_no ORDER BY s.item_no;</pre></div>
 <li>파이썬 sqlite3 모듈(공식 문서): <a href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener noreferrer">https://docs.python.org/3/library/sqlite3.html</a></li>
 <li>LM Studio: <a href="https://lmstudio.ai" target="_blank" rel="noopener noreferrer">https://lmstudio.ai</a> · 문서: <a href="https://lmstudio.ai/docs" target="_blank" rel="noopener noreferrer">https://lmstudio.ai/docs</a> · 시스템 요구사항: <a href="https://lmstudio.ai/docs/app/system-requirements" target="_blank" rel="noopener noreferrer">https://lmstudio.ai/docs/app/system-requirements</a></li>
 <li>Qwen3 공식 소개(Qwen 블로그): <a href="https://qwenlm.github.io/blog/qwen3/" target="_blank" rel="noopener noreferrer">https://qwenlm.github.io/blog/qwen3/</a> · 모델: <a href="https://huggingface.co/Qwen/Qwen3-4B" target="_blank" rel="noopener noreferrer">https://huggingface.co/Qwen/Qwen3-4B</a></li>
+<li>3장 모델 계열별 공개 페이지(Hugging Face): Qwen <a href="https://huggingface.co/Qwen" target="_blank" rel="noopener noreferrer">https://huggingface.co/Qwen</a> · Gemma <a href="https://huggingface.co/google" target="_blank" rel="noopener noreferrer">https://huggingface.co/google</a> · Llama <a href="https://huggingface.co/meta-llama" target="_blank" rel="noopener noreferrer">https://huggingface.co/meta-llama</a> · Phi <a href="https://huggingface.co/microsoft" target="_blank" rel="noopener noreferrer">https://huggingface.co/microsoft</a> · EXAONE <a href="https://huggingface.co/LGAI-EXAONE" target="_blank" rel="noopener noreferrer">https://huggingface.co/LGAI-EXAONE</a> · 하이퍼클로바X SEED <a href="https://huggingface.co/naver-hyperclovax" target="_blank" rel="noopener noreferrer">https://huggingface.co/naver-hyperclovax</a> · gpt-oss <a href="https://huggingface.co/openai" target="_blank" rel="noopener noreferrer">https://huggingface.co/openai</a></li>
 <li>SQLite 공식 사이트: <a href="https://www.sqlite.org" target="_blank" rel="noopener noreferrer">https://www.sqlite.org</a> · DB Browser for SQLite: <a href="https://sqlitebrowser.org/dl/" target="_blank" rel="noopener noreferrer">https://sqlitebrowser.org/dl/</a></li>
 <li>Streamlit 문서: <a href="https://docs.streamlit.io" target="_blank" rel="noopener noreferrer">https://docs.streamlit.io</a></li>
 </ul>
