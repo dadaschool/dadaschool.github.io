@@ -15,5 +15,5 @@
      ① 교사 PC 의 server.py  ② 사이트에 함께 올려 둔 `q/NNNNNN.json` 파일
    ========================================================= */
 window.CONFIG = {
-  WORKER: ""      // 예 : "https://mbconnect.edudadat.workers.dev"
+  WORKER: "https://mbconnect.edudadat.workers.dev"      // 2026-08-27 설정 완료
 };
