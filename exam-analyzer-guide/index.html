@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지역 LLM 설치·활용 연수</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --navy:#1F3B57; --accent:#2E6F8E; --cream:#F4F6F8; --ink:#1D1D1B; --muted:#5B6B75;
+    --line:#DDE4E8; --soft:#F7F9FA; --warn:#B23B3B; --warnbg:#FBF1EF; --ok:#2E7D5B; --okbg:#EEF7F2;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:0;
+    background:var(--cream); color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","맑은 고딕","Malgun Gothic",sans-serif;
+    font-size:16.5px; line-height:1.75;
+    word-break:keep-all; overflow-wrap:break-word;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding:44px 30px 100px; background:#fff}
+
+  header{border-bottom:4px solid var(--navy); padding-bottom:22px; margin-bottom:30px}
+  .kicker{color:var(--accent); font-weight:800; font-size:13.5px; letter-spacing:.08em; margin-bottom:8px}
+  h1{font-size:32px; font-weight:900; letter-spacing:-.02em; margin:0 0 10px; color:var(--navy); line-height:1.35}
+  .sub{color:var(--muted); font-size:14.5px; margin:0}
+
+  h2{
+    font-size:23px; font-weight:900; color:var(--navy);
+    margin:46px 0 10px; letter-spacing:-.01em;
+    display:flex; align-items:center; gap:12px;
+    border-bottom:2px solid var(--line); padding-bottom:10px;
+  }
+  h2 .num{
+    flex:none; background:var(--navy); color:#fff;
+    font-size:14px; width:30px; height:30px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+  }
+  h3{font-size:18.5px; font-weight:800; margin:30px 0 8px; color:var(--navy)}
+  h4{font-size:16.5px; font-weight:800; margin:20px 0 6px; color:var(--accent)}
+
+  p{margin:9px 0}
+  ul,ol{margin:9px 0; padding-left:22px}
+  li{margin:6px 0}
+  .lead{color:var(--muted); font-size:15.5px}
+  a{color:var(--accent)}
+
+  .toc{background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:20px 26px; margin:20px 0}
+  .toc h3{margin-top:0}
+  .toc ol{margin:6px 0; padding-left:20px; columns:2; column-gap:28px}
+  .toc li{margin:4px 0; break-inside:avoid}
+  .toc a{color:var(--ink); text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+  @media (max-width:720px){ .toc ol{columns:1} }
+
+  .tt{display:inline-block; font-size:11.5px; font-weight:800; line-height:1; color:#fff;
+      padding:3px 8px; border-radius:999px; margin-right:6px; vertical-align:1px;
+      -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  .tt-prep{background:#6B7A83}
+  .tt-install{background:#1F3B57}
+  .tt-ai{background:#0F7C8A}
+  .tt-use{background:#2E7D5B}
+  .tt-manage{background:#B5541F}
+  .toc-legend{font-size:13.5px; color:var(--muted); margin:2px 0 10px}
+
+  .do{
+    background:#fff; border-left:5px solid var(--navy);
+    padding:14px 18px; margin:14px 0; border-radius:0 10px 10px 0;
+    font-size:16px; box-shadow:0 0 0 1px var(--line) inset;
+  }
+  .do > b:first-child{font-weight:800; color:var(--navy)}
+  .do ol, .do ul{margin:6px 0; padding-left:22px}
+  .do li{margin:7px 0}
+
+  .warn{
+    background:var(--warnbg); border:1.5px dashed var(--warn);
+    padding:14px 18px; margin:16px 0; border-radius:10px;
+  }
+  .warn > b:first-child{color:var(--warn)}
+
+  .note{
+    background:var(--soft); border:1px solid var(--line);
+    padding:13px 18px; margin:14px 0; border-radius:10px;
+    font-size:15px; color:#3A3A38;
+  }
+  .ok{
+    background:var(--okbg); border:1px solid #BFDCCB;
+    padding:13px 18px; margin:14px 0; border-radius:10px; font-size:15px;
+  }
+  .ok > b:first-child{color:var(--ok)}
+  .unverified{
+    display:inline-block; font-size:12px; font-weight:800; color:var(--warn);
+    border:1.5px solid var(--warn); border-radius:999px; padding:1px 9px; margin-right:6px; vertical-align:1px; background:#fff
+  }
+
+  .usecase{
+    background:#fff; border:1px solid var(--line); border-left:4px solid var(--accent);
+    padding:12px 16px; margin:10px 0; border-radius:0 8px 8px 0;
+  }
+  .usecase b{color:var(--accent)}
+
+  .figure{margin:12px 0 22px; text-align:center}
+  .figure img{max-width:100%; height:auto; border:1px solid #9AA7B0; border-radius:6px}
+  .figure .cap{font-size:13.5px; color:var(--muted); margin-top:6px}
+
+  .code{
+    position:relative; margin:14px 0;
+    border:1.5px solid var(--navy); border-radius:10px;
+    background:#fff; overflow:hidden;
+  }
+  .code .bar{
+    display:flex; align-items:center; gap:10px;
+    background:var(--navy); color:#fff;
+    padding:8px 12px; font-size:12.5px; font-weight:700;
+  }
+  .code .bar .label{flex:1}
+  .code button{
+    flex:none; border:0; cursor:pointer;
+    background:var(--accent); color:#fff;
+    font-family:inherit; font-size:12.5px; font-weight:800;
+    padding:6px 14px; border-radius:6px;
+  }
+  .code button:hover{opacity:.88}
+  .code button.done{background:#2E7D32}
+  .code pre{
+    margin:0; padding:13px 17px;
+    font-family:Consolas,"D2Coding","Pretendard","Noto Sans KR",monospace;
+    font-size:15px; line-height:1.65;
+    white-space:pre-wrap; word-break:break-all;
+    color:#222;
+  }
+
+  .flow{display:flex; flex-wrap:wrap; gap:8px; align-items:stretch; margin:16px 0}
+  .flow .step{flex:1 1 140px; background:var(--navy); color:#fff; border-radius:10px; padding:10px 12px;
+              font-size:14.5px; font-weight:700; line-height:1.5; text-align:center}
+  .flow .step small{display:block; font-weight:400; font-size:12.5px; color:#D5E3EE}
+  .flow .step.ai{background:#0F7C8A}
+  .flow .arrow{flex:none; align-self:center; color:var(--muted); font-weight:900}
+  @media (max-width:720px){ .flow .arrow{display:none} }
+
+  .cards{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:14px 0}
+  .cards .card{background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:16px 18px}
+  .cards .card h4{margin:0 0 6px; color:var(--navy)}
+  .cards .card ul{margin:4px 0 0; padding-left:20px}
+  .cards .card li{margin:5px 0; font-size:15px; line-height:1.6}
+  @media (max-width:720px){ .cards{grid-template-columns:1fr} }
+
+  .tablewrap{overflow-x:auto}
+  table{border-collapse:collapse; width:100%; margin:16px 0; font-size:14.8px}
+  th,td{border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top}
+  th{background:var(--navy); color:#fff; font-weight:800; font-size:13.5px}
+  tr:nth-child(even) td{background:var(--soft)}
+  code{background:#EEF2F4; padding:1px 5px; border-radius:4px; font-size:.93em; word-break:break-all}
+  kbd{background:#fff; border:1px solid #9AA7B0; border-bottom-width:2px; border-radius:4px; padding:0 6px; font-size:.9em; font-family:inherit}
+
+  .dl{display:inline-block; background:var(--accent); color:#fff !important; text-decoration:none; font-weight:800;
+      padding:10px 20px; border-radius:10px; margin:6px 0}
+  .dl:hover{background:var(--navy)}
+
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  a:focus-visible, button:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:4px}
+  .to-menu{text-align:right; margin:26px 0 0}
+  .to-menu a{
+    display:inline-block; background:var(--navy); color:#fff; text-decoration:none;
+    font-size:13.5px; font-weight:800; padding:8px 18px; border-radius:999px;
+  }
+  .to-menu a:hover{background:var(--accent)}
+
+  hr{border:0; border-top:1px solid var(--line); margin:40px 0}
+  footer{margin-top:56px; padding-top:20px; border-top:1px solid var(--line);
+         color:var(--muted); font-size:13.5px}
+
+  .part-title{
+    background:var(--navy); color:#fff; padding:24px 28px; border-radius:14px; margin:50px 0 20px;
+  }
+  .part-title .kicker2{color:#BFD4E3; font-weight:800; font-size:13px; letter-spacing:.08em; margin-bottom:6px}
+  .part-title h2{color:#fff; border:none; margin:0; padding:0; font-size:25px}
+
+  @media (max-width:600px){
+    .wrap{padding:28px 16px 80px}
+    h1{font-size:26px}
+    h2{font-size:20px}
+  }
+  @media print{
+    body{background:#fff; font-size:12pt}
+    .wrap{max-width:100%; padding:0}
+    .code button,.to-menu{display:none}
+    .toc a{color:var(--ink)}
+    h2,h3{break-after:avoid}
+    .code,.warn,.do,.note,.ok,.usecase,table,.figure,.cards .card{break-inside:avoid}
+    .part-title{break-before:page}
+    @page{ size:A4; margin:16mm 14mm; }
+  }
+
+  /* 전체 구조도 */
+  .arch{border:2.5px solid var(--navy); border-radius:16px; padding:14px 16px 16px; margin:16px 0; background:#fff}
+  .arch .arch-title{font-weight:900; color:var(--navy); margin-bottom:10px}
+  .arch .row{display:flex; gap:10px; flex-wrap:wrap; align-items:stretch}
+  .arch .box{flex:1 1 170px; border-radius:12px; padding:10px 12px; font-size:14.5px; line-height:1.55; color:#fff}
+  .arch .box b{display:block; font-size:15.5px; margin-bottom:2px}
+  .arch .box small{display:block; color:#E3EDF3; font-size:12.8px}
+  .arch .b-user{background:#6B7A83} .arch .b-app{background:#1F3B57} .arch .b-db{background:#B5541F}
+  .arch .b-lms{background:#0F7C8A} .arch .b-model{background:#2E7D5B}
+  .arch .link{flex:0 0 auto; align-self:center; font-size:12.5px; color:var(--muted); font-weight:800; text-align:center; min-width:70px}
+  .arch .none{border:2px dashed var(--warn); color:var(--warn); background:var(--warnbg); border-radius:12px; padding:8px 12px; margin-top:12px; font-size:14px; font-weight:700}
+  @media (max-width:720px){ .arch .link{min-width:100%; text-align:left} }
+  /* 용어 카드 */
+  .terms{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:14px 0}
+  .terms .t{background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:13px 16px}
+  .terms .t h4{margin:0 0 4px; color:var(--navy); font-size:16px}
+  .terms .t .eg{margin:2px 0 6px; font-size:14px; color:var(--accent); font-weight:800}
+  .terms .t p{margin:4px 0; font-size:15px; line-height:1.6}
+  @media (max-width:720px){ .terms{grid-template-columns:1fr} }
+  .part-title p{margin:8px 0 0; color:#D5E3EE; font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">학교 업무 AI 활용 연수</div>
+  <h1>내 노트북에 지역 LLM 설치하고 활용하기</h1>
+  <p class="sub">LM Studio · 큐웬(Qwen) · 파이썬 · 데이터베이스(SQLite) &nbsp;|&nbsp; 활용 예시: 서술형 시험 분석 프로그램</p>
+  <p class="sub" style="text-align:right">아무것도 설치되지 않은 윈도우 노트북 기준 &nbsp;|&nbsp; 작성 기준일 2026-10-27</p>
+</header>
+
+<div class="note">
+이 연수의 목표는 <b>학생 정보를 인터넷으로 보내지 않고, 내 노트북 안에서 AI를 돌려 학교 업무에 쓰는 환경</b>을 직접 만드는 것입니다.<br>
+<b>PART 1</b>에서 지역 LLM·LM Studio·파이썬·데이터베이스가 무엇인지 이해하고, <b>PART 2</b>에서 설치하고, <b>PART 3</b>에서 하나씩 작동을 확인한 뒤, <b>PART 4</b>에서 이 모두를 함께 쓰는 <b>서술형 시험 분석 프로그램</b>을 내려받아 사용해 봅니다.<br>
+<b>파란 세로줄 상자(실습 순서)</b>는 직접 클릭·입력할 일이고, <b>짙은 남색 상자</b>는 오른쪽 <b>복사</b> 버튼으로 그대로 복사해 쓰는 글입니다.<br>
+직접 확인하지 못한 부분에는 <span class="unverified">확인 필요</span> 표시를 붙였고 <a href="#appb">부록 B</a>에 모았습니다. 프로그램 화면 사진은 2026-10-27에 실제로 실행해 찍었습니다(가상 데이터).
+</div>
+
+<div class="toc" id="toc">
+<h3>목차</h3>
+<p class="toc-legend">구분: <span class="tt tt-prep">개념</span><span class="tt tt-install">설치</span><span class="tt tt-ai">작동 실습</span><span class="tt tt-use">활용 예시</span><span class="tt tt-manage">관리</span></p>
+<ol>
+<li><a href="#sec1"><span class="tt tt-prep">개념</span>연수 한눈에 보기</a></li>
+<li><a href="#sec2"><span class="tt tt-prep">개념</span>지역 LLM이란?</a></li>
+<li><a href="#sec3"><span class="tt tt-prep">개념</span>지역 LLM 핵심 용어</a></li>
+<li><a href="#sec4"><span class="tt tt-prep">개념</span>LM Studio란?</a></li>
+<li><a href="#sec5"><span class="tt tt-prep">개념</span>파이썬과 라이브러리</a></li>
+<li><a href="#sec6"><span class="tt tt-prep">개념</span>데이터베이스(DB)와 SQLite</a></li>
+<li><a href="#sec7"><span class="tt tt-prep">개념</span>전체 구조와 자료의 흐름</a></li>
+<li><a href="#sec8"><span class="tt tt-install">설치</span>노트북 확인</a></li>
+<li><a href="#sec9"><span class="tt tt-install">설치</span>파이썬 설치</a></li>
+<li><a href="#sec10"><span class="tt tt-install">설치</span>LM Studio 설치</a></li>
+<li><a href="#sec11"><span class="tt tt-install">설치</span>큐웬 모델 고르고 내려받기</a></li>
+<li><a href="#sec12"><span class="tt tt-install">설치</span>(선택) DB Browser for SQLite</a></li>
+<li><a href="#sec13"><span class="tt tt-ai">실습</span>LM Studio 채팅으로 큐웬 써 보기</a></li>
+<li><a href="#sec14"><span class="tt tt-ai">실습</span>로컬 서버 켜고 확인하기</a></li>
+<li><a href="#sec15"><span class="tt tt-ai">실습</span>파이썬으로 지역 LLM 부르기</a></li>
+<li><a href="#sec16"><span class="tt tt-ai">실습</span>파이썬으로 DB 만들고 열어 보기</a></li>
+<li><a href="#sec17"><span class="tt tt-use">활용</span>시험 분석 프로그램 소개</a></li>
+<li><a href="#sec18"><span class="tt tt-use">활용</span>내려받기·설치·실행</a></li>
+<li><a href="#sec19"><span class="tt tt-use">활용</span>샘플로 따라 하기 ①~⑤</a></li>
+<li><a href="#sec20"><span class="tt tt-use">활용</span>프로그램의 DB 들여다보기</a></li>
+<li><a href="#sec21"><span class="tt tt-use">활용</span>큐웬에게 무엇이 전달되나</a></li>
+<li><a href="#sec22"><span class="tt tt-manage">관리</span>개인정보·보안 수칙</a></li>
+<li><a href="#sec23"><span class="tt tt-manage">관리</span>문제 해결</a></li>
+<li><a href="#sec24"><span class="tt tt-manage">관리</span>자주 묻는 질문</a></li>
+<li><a href="#appa">부록 A · 한 장 요약</a></li>
+<li><a href="#appb">부록 B · 확인한 것과 못한 것</a></li>
+<li><a href="#appc">부록 C · 참고 링크</a></li>
+</ol>
+</div>
+
+<!-- =================================================================== PART 1 -->
+<div class="part-title"><div class="kicker2">PART 1</div><h2 style="color:#fff">개념 이해 — 무엇을, 왜 설치하나</h2><p>설치 전에 각 프로그램이 하는 일을 먼저 알아 두면, 문제가 생겼을 때 어디를 봐야 할지 알 수 있습니다.</p></div>
+
+<h2 id="sec1"><span class="num">1</span>연수 한눈에 보기</h2>
+
+<div class="tablewrap"><table>
+<tr><th style="width:24%">설치할 것</th><th style="width:38%">하는 일</th><th>비유</th></tr>
+<tr><td><b>LM Studio</b></td><td>AI 모델을 내려받고, 대화하고, 다른 프로그램이 쓸 수 있게 열어 주는 프로그램</td><td>AI를 넣고 돌리는 <b>재생기</b></td></tr>
+<tr><td><b>큐웬(Qwen3 4B)</b></td><td>글을 읽고 쓰는 AI 모델 파일(약 2.5GB)</td><td>재생기에 넣는 <b>음반</b></td></tr>
+<tr><td><b>파이썬(Python)</b></td><td>프로그램을 실행하는 언어·엔진</td><td>프로그램을 돌리는 <b>엔진</b></td></tr>
+<tr><td><b>SQLite</b> (파이썬에 들어 있음)</td><td>자료를 표 형태로 오래 저장하는 데이터베이스</td><td>잠글 수 있는 <b>서류함</b></td></tr>
+<tr><td>(선택) <b>DB Browser for SQLite</b></td><td>데이터베이스 파일 안을 눈으로 보는 프로그램</td><td>서류함 <b>열람 창</b></td></tr>
+</table></div>
+
+<div class="ok">
+<b>연수를 마치면 할 수 있는 것</b>
+<ul>
+<li>인터넷 없이 내 노트북에서 AI와 대화하기 (LM Studio 채팅)</li>
+<li>내가 만든(또는 받은) 프로그램이 내 노트북의 AI를 부르게 하기 (로컬 서버)</li>
+<li>파이썬 몇 줄로 AI에게 질문하고, 자료를 데이터베이스에 저장·조회하기</li>
+<li>활용 예시: 서술형 시험지·NEIS 점수표를 넣어 <b>문항 분석, 결과 피드백, 생기부 초안</b> 만들기</li>
+</ul>
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 2 -->
+<h2 id="sec2"><span class="num">2</span>지역 LLM이란?</h2>
+
+<p><b>LLM(Large Language Model, 대규모 언어 모델)</b>은 많은 글을 학습해 사람처럼 글을 읽고 쓰는 AI입니다. 챗GPT, 제미나이, 클로드가 모두 LLM입니다.<br>
+<b>지역 LLM(로컬 LLM)</b>은 이런 모델을 회사 서버가 아니라 <b>내 컴퓨터 안에서</b> 실행하는 것을 말합니다. 모델 파일을 내려받아 두면 인터넷이 끊겨도 동작합니다.</p>
+
+<div class="tablewrap"><table>
+<tr><th style="width:20%">구분</th><th style="width:40%">클라우드 AI (챗GPT·제미나이·클로드 등)</th><th>지역 LLM (LM Studio + 큐웬)</th></tr>
+<tr><td>어디서 돌아가나</td><td>회사의 대형 서버</td><td><b>내 노트북의 CPU·메모리</b></td></tr>
+<tr><td>내가 입력한 글</td><td>인터넷으로 회사 서버에 전송됨</td><td><b>노트북 밖으로 나가지 않음</b></td></tr>
+<tr><td>인터넷</td><td>항상 필요</td><td>모델을 내려받을 때만 필요</td></tr>
+<tr><td>비용</td><td>무료 한도 또는 유료 구독</td><td>무료 (전기·노트북 성능만 사용)</td></tr>
+<tr><td>글의 품질</td><td>매우 높음 (모델이 매우 큼)</td><td>모델 크기에 따라 다름. 4B 모델은 짧고 단순한 글에 적합</td></tr>
+<tr><td>속도</td><td>빠름</td><td>GPU 없는 노트북은 느림 (글 한 편에 수십 초~수 분일 수 있음)</td></tr>
+<tr><td>최신 정보·검색</td><td>검색 기능이 있는 경우가 많음</td><td>없음. 학습한 시점까지의 지식만 있음</td></tr>
+</table></div>
+
+<h3>학교 업무에서 지역 LLM이 어울리는 일 / 어울리지 않는 일</h3>
+<div class="cards">
+  <div class="card"><h4>어울리는 일</h4>
+  <ul>
+    <li><b>학생 정보가 섞인 자료</b>로 초안 쓰기 — 성적 분석 피드백, 생기부 초안의 뼈대</li>
+    <li>정해진 형식으로 <b>짧은 글을 반복</b>해서 쓰기 — 학생 125명분 문장 초안</li>
+    <li>문장 다듬기 — 문체 바꾸기(~함, ~임), 맞춤법, 요약</li>
+    <li>채점 기준표·발문 아이디어 초안</li>
+    <li>인터넷이 불안정한 곳(출장지·체험학습)에서의 간단한 글쓰기</li>
+  </ul></div>
+  <div class="card"><h4>어울리지 않는 일</h4>
+  <ul>
+    <li><b>사실 확인이 중요한 질문</b> — 법령, 최신 지침, 학교 일정 (지어낼 수 있음)</li>
+    <li>긴 문서 전체를 정확히 분석하기 (작은 모델은 긴 글을 놓치기 쉬움)</li>
+    <li>복잡한 계산 — 숫자는 파이썬·엑셀로 계산하고 AI에게는 글만 맡기기</li>
+    <li>빠른 응답이 필요한 수업 중 실시간 활용</li>
+    <li>최종본 — 어떤 AI든 결과는 <b>초안</b>이며 교사가 확인해야 함</li>
+  </ul></div>
+</div>
+
+<div class="warn">
+<b>⚠️ 지역 LLM이어도 지켜야 할 것</b><br>
+지역 LLM은 입력이 인터넷으로 나가지 않을 뿐, <b>틀린 내용을 그럴듯하게 쓰는 문제(환각)</b>는 똑같이 있습니다. 또 노트북 자체가 분실·공유되면 그 안의 자료가 위험해집니다. 개인정보 수칙은 <a href="#sec22">22장</a>을 보세요.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 3 -->
+<h2 id="sec3"><span class="num">3</span>지역 LLM 핵심 용어</h2>
+<p>LM Studio에서 모델을 고를 때 아래 용어가 계속 나옵니다. 모델 이름 <code>Qwen3-4B-GGUF Q4_K_M</code>을 읽을 수 있으면 충분합니다.</p>
+
+<div class="terms">
+  <div class="t"><h4>모델 (Model)</h4><div class="eg">예: Qwen3, Llama, Gemma</div>
+  <p>학습이 끝난 AI 본체. 파일 하나(또는 몇 개)로 되어 있습니다. <b>큐웬(Qwen)</b>은 알리바바의 Qwen 팀이 공개한 모델로, Qwen3는 2025년 4월에 <b>Apache 2.0</b> 라이선스(상업적 이용도 허용되는 공개 라이선스)로 나왔습니다.</p></div>
+  <div class="t"><h4>파라미터 (B)</h4><div class="eg">예: 4B = 약 40억 개</div>
+  <p>모델이 학습한 숫자(가중치)의 개수. 클수록 대체로 똑똑하지만 <b>더 크고 느립니다.</b> Qwen3는 0.6B·1.7B·4B·8B·14B·32B 등이 있습니다. CPU 노트북에는 4B가 알맞습니다.</p></div>
+  <div class="t"><h4>양자화 (Quantization)</h4><div class="eg">예: Q4_K_M, Q8_0</div>
+  <p>숫자를 더 적은 자리로 줄여 파일을 작게 만드는 방법. <b>Q 뒤 숫자가 작을수록 작고 빠르지만 품질이 조금 떨어집니다.</b> Q4_K_M은 크기와 품질의 균형이 좋아 널리 쓰이는 선택입니다.</p></div>
+  <div class="t"><h4>GGUF</h4><div class="eg">예: Qwen3-4B-Q4_K_M.gguf</div>
+  <p>CPU에서도 돌리기 좋게 만든 모델 파일 형식. LM Studio는 윈도우에서 주로 이 형식을 씁니다. 이름에 <b>GGUF</b>가 있는 것을 고르면 됩니다.</p></div>
+  <div class="t"><h4>토큰 (Token)</h4><div class="eg">예: 한글 한 글자 ≈ 1토큰 안팎</div>
+  <p>AI가 글을 처리하는 단위. 속도는 <b>초당 토큰 수(tok/s)</b>로 표시합니다. 같은 노트북이라도 긴 글일수록 오래 걸립니다.</p></div>
+  <div class="t"><h4>컨텍스트 (Context)</h4><div class="eg">예: 4096 토큰</div>
+  <p>AI가 한 번에 기억하며 읽을 수 있는 글의 길이(질문+답 합계). 길게 늘리면 메모리를 더 씁니다. 긴 문서를 통째로 넣으면 앞부분을 잊을 수 있습니다.</p></div>
+  <div class="t"><h4>생각 모드 (Thinking)</h4><div class="eg">예: 질문 끝에 /no_think</div>
+  <p>Qwen3는 답하기 전에 속으로 생각하는 과정(<code>&lt;think&gt;</code>)을 쓸 수 있습니다. 정확해질 수 있지만 <b>훨씬 오래 걸립니다.</b> 질문 끝에 <code>/no_think</code>를 붙이면 생각을 건너뛰도록 요청할 수 있습니다.</p></div>
+  <div class="t"><h4>온도 (Temperature)</h4><div class="eg">예: 0.2 차분함 ~ 1.0 다양함</div>
+  <p>답의 다양성 조절값. 낮으면 같은 질문에 비슷한 답, 높으면 매번 다른 답. 업무 문서는 <b>0.2~0.5</b> 정도가 무난합니다.</p></div>
+  <div class="t"><h4>환각 (Hallucination)</h4><div class="eg">예: 없는 법령 조항을 지어냄</div>
+  <p>AI가 사실이 아닌 내용을 그럴듯하게 쓰는 현상. 작은 모델일수록 잦습니다. <b>사실·숫자·이름은 반드시 확인</b>하세요.</p></div>
+  <div class="t"><h4>CPU · GPU · RAM</h4><div class="eg">예: RAM 16GB, GPU 없음</div>
+  <p>모델은 실행되는 동안 <b>RAM(메모리)</b>에 올라갑니다. 그래픽카드(GPU)가 있으면 빨라지지만 없어도 CPU로 돌아갑니다. 이 연수는 <b>GPU 없는 노트북</b>을 기준으로 합니다.</p></div>
+</div>
+
+<div class="tablewrap"><table>
+<tr><th style="width:30%">노트북</th><th>권장 시작 모델</th></tr>
+<tr><td>RAM 16GB, GPU 없음 (이 연수 기준)</td><td><b>Qwen3 4B, Q4_K_M (약 2.5GB)</b>. 여유가 있으면 8B Q4_K_M(약 5GB)도 시험해 볼 수 있습니다.</td></tr>
+<tr><td>RAM 8GB</td><td>더 작은 모델(예: 1.7B)이 필요할 수 있습니다. 이 연수에서는 확인하지 못했습니다. <span class="unverified">확인 필요</span></td></tr>
+<tr><td>GPU(그래픽 메모리 4GB 이상) 있음</td><td>LM Studio가 GPU를 쓰면 빨라집니다. LM Studio 공식 문서는 GPU 메모리 4GB 이상을 권장합니다.</td></tr>
+</table></div>
+
+<div class="note">
+<b>새 버전 모델</b> — 지역 LLM은 새 모델이 자주 나옵니다(예: Qwen3 다음 버전). 이 연수와 활용 예시 프로그램은 <b>Qwen3 4B</b>로 맞춰 만들었습니다. 다른 모델도 같은 방식으로 쓸 수 있지만, 결과 품질과 속도는 직접 확인해 보세요.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 4 -->
+<h2 id="sec4"><span class="num">4</span>LM Studio란?</h2>
+
+<p><b>LM Studio</b>는 지역 LLM을 쉽게 쓰도록 만든 무료 데스크톱 프로그램입니다. 명령어 없이 화면에서 클릭으로 모델을 받고 대화할 수 있습니다.</p>
+
+<div class="cards">
+  <div class="card"><h4>① 모델 찾기·내려받기 (Discover)</h4>
+  <ul><li>Hugging Face(공개 AI 모델 저장소)의 모델을 검색해 내려받습니다.</li><li>노트북 사양에 맞는지 표시해 주기도 합니다.</li></ul></div>
+  <div class="card"><h4>② 채팅 (Chat)</h4>
+  <ul><li>챗GPT처럼 대화 창에서 바로 써 봅니다.</li><li>모델 비교, 프롬프트 연습에 좋습니다.</li></ul></div>
+  <div class="card"><h4>③ 로컬 서버 (Developer)</h4>
+  <ul><li>다른 프로그램이 이 노트북의 AI를 쓸 수 있게 <b>창구</b>를 엽니다.</li><li>주소: <code>http://localhost:1234</code></li></ul></div>
+  <div class="card"><h4>④ 모델 관리 (My Models)</h4>
+  <ul><li>받은 모델 목록 확인, 지우기.</li><li>모델 파일은 크기가 커서 저장 공간을 확인하며 관리합니다.</li></ul></div>
+</div>
+
+<h3>로컬 서버와 API — 프로그램끼리 대화하는 창구</h3>
+<p>사람은 채팅 창으로 AI와 대화하지만, <b>프로그램은 API(약속된 주소와 형식)</b>로 AI와 대화합니다. LM Studio의 로컬 서버는 <b>OpenAI(챗GPT 회사)의 API와 같은 형식</b>을 따릅니다. 그래서 챗GPT용으로 만든 프로그램도 주소만 바꾸면 지역 LLM을 쓸 수 있습니다.</p>
+
+<div class="tablewrap"><table>
+<tr><th style="width:42%">주소</th><th>하는 일</th></tr>
+<tr><td><code>http://localhost:1234/v1/models</code></td><td>지금 쓸 수 있는 모델 목록을 알려 줌 (브라우저로 열어 볼 수 있음, <a href="#sec14">14장</a>)</td></tr>
+<tr><td><code>http://localhost:1234/v1/chat/completions</code></td><td>대화 내용을 보내면 AI의 답을 돌려줌 (파이썬으로 써 봄, <a href="#sec15">15장</a>)</td></tr>
+</table></div>
+
+<div class="usecase"><b>localhost</b> — "이 컴퓨터 자신"이라는 뜻의 주소입니다. 같은 노트북 안의 프로그램끼리만 연결됩니다.</div>
+<div class="usecase"><b>포트(1234)</b> — 한 컴퓨터 안의 여러 창구를 구분하는 번호입니다. 건물 주소(localhost)의 호수라고 생각하면 됩니다. LM Studio는 1234번, 활용 예시 프로그램 화면은 8501번을 씁니다.</div>
+<div class="usecase"><b>서버 켜기 = 창구 열기</b> — 서버를 켜야 다른 프로그램이 AI를 부를 수 있습니다. LM Studio를 닫으면 창구도 닫힙니다.</div>
+
+<div class="note">
+비슷한 프로그램으로 Ollama, Jan, GPT4All 등이 있습니다. 이 연수는 화면이 친절하고 설치가 쉬운 LM Studio를 씁니다. LM Studio의 개인·업무 사용 조건은 설치 화면과 공식 사이트의 약관에서 확인하세요.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 5 -->
+<h2 id="sec5"><span class="num">5</span>파이썬과 라이브러리</h2>
+
+<p><b>파이썬(Python)</b>은 배우기 쉬운 프로그래밍 언어이자, 파이썬으로 쓴 프로그램을 실행하는 엔진입니다. 활용 예시 프로그램도 파이썬으로 만들었습니다.</p>
+
+<div class="terms">
+  <div class="t"><h4>라이브러리(패키지)</h4><div class="eg">예: 엑셀 읽기, PDF 읽기, 웹 화면</div>
+  <p>남이 미리 만들어 둔 기능 묶음. 필요한 것만 골라 설치합니다. 앱의 "추가 기능"과 비슷합니다.</p></div>
+  <div class="t"><h4>pip</h4><div class="eg">예: pip install streamlit</div>
+  <p>라이브러리를 인터넷에서 받아 설치하는 도구. 파이썬과 함께 설치됩니다. 이 연수에서는 직접 입력하지 않고 <code>.bat</code> 파일이 대신 실행합니다.</p></div>
+  <div class="t"><h4>IDLE</h4><div class="eg">시작 메뉴 → IDLE (Python 3.14)</div>
+  <p>파이썬과 함께 설치되는 간단한 코드 편집기. <a href="#sec15">15장</a>, <a href="#sec16">16장</a> 실습에서 씁니다.</p></div>
+  <div class="t"><h4>.bat 파일</h4><div class="eg">예: 1_install.bat</div>
+  <p>윈도우 명령어를 적어 둔 파일. 더블클릭하면 적힌 명령을 차례로 실행합니다. 명령 창에 직접 입력하지 않아도 됩니다.</p></div>
+  <div class="t"><h4>Streamlit</h4><div class="eg">예: 활용 예시 프로그램의 화면</div>
+  <p>파이썬으로 <b>브라우저에서 보는 화면</b>을 쉽게 만드는 라이브러리. 인터넷 사이트처럼 보이지만 내 노트북(localhost)에서 열립니다.</p></div>
+  <div class="t"><h4>그 밖의 라이브러리</h4><div class="eg">pandas · PyMuPDF · openpyxl · requests</div>
+  <p>표 계산 · PDF 글자 읽기 · 엑셀 읽고 쓰기 · LM Studio 서버에 요청 보내기. 활용 예시 프로그램이 씁니다.</p></div>
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 6 -->
+<h2 id="sec6"><span class="num">6</span>데이터베이스(DB)와 SQLite</h2>
+
+<p><b>데이터베이스(DB)</b>는 자료를 <b>정해진 표 형태</b>로 저장하고, 필요한 자료를 빠르고 정확하게 찾아 주는 저장소입니다. 엑셀과 비슷해 보이지만 목적이 다릅니다.</p>
+
+<div class="tablewrap"><table>
+<tr><th style="width:22%">구분</th><th style="width:39%">엑셀</th><th>데이터베이스</th></tr>
+<tr><td>주 용도</td><td>사람이 보고 고치는 문서</td><td><b>프로그램이 읽고 쓰는 저장소</b></td></tr>
+<tr><td>규칙</td><td>아무 칸에 아무 값이나 입력 가능</td><td>열마다 형식이 정해짐. 규칙을 어기면 저장 거부</td></tr>
+<tr><td>중복 막기</td><td>사람이 확인</td><td><b>기본 키</b>로 자동으로 막음 (예: 같은 학번·같은 문항 두 번 저장 불가)</td></tr>
+<tr><td>찾기·모으기</td><td>필터, 피벗</td><td><b>SQL</b>이라는 질문 문장으로 찾고 계산</td></tr>
+<tr><td>여러 표 연결</td><td>VLOOKUP 등으로 수동</td><td>학번·시험번호 같은 열로 표끼리 연결</td></tr>
+</table></div>
+
+<h3>DB의 기본 단어</h3>
+<div class="terms">
+  <div class="t"><h4>테이블(표)</h4><div class="eg">예: scores(점수) 표</div><p>엑셀의 시트 하나와 비슷합니다. 한 DB 안에 여러 테이블이 있습니다.</p></div>
+  <div class="t"><h4>행(레코드)과 열(필드)</h4><div class="eg">예: 학번 10101의 문항1 점수 4점 = 한 행</div><p>행은 자료 한 건, 열은 항목(학번, 문항, 점수)입니다.</p></div>
+  <div class="t"><h4>기본 키(Primary Key)</h4><div class="eg">예: (학번, 문항) 조합은 하나뿐</div><p>행을 하나로 구별하는 열. 같은 값이 두 번 들어가지 못하게 막아 자료가 꼬이지 않습니다.</p></div>
+  <div class="t"><h4>SQL</h4><div class="eg">예: SELECT AVG(score) FROM scores</div><p>DB에 질문하는 문장. "점수 표에서 평균을 구해 줘"를 정해진 문법으로 쓴 것입니다.</p></div>
+</div>
+
+<div class="code"><div class="bar"><span class="label">SQL 예시 (읽기만 해 보세요) — "문항별 평균 점수와 학생 수를 구해 줘"</span><button>복사</button></div><pre>SELECT item, AVG(score), COUNT(*)
+FROM scores
+GROUP BY item;</pre></div>
+
+<h3>SQLite — 파일 하나짜리 데이터베이스</h3>
+<ul>
+<li><b>설치가 필요 없습니다.</b> 파이썬에 기본으로 들어 있습니다.</li>
+<li>DB 전체가 <b>파일 하나</b>(예: <code>exam.db</code>)입니다. 복사하면 백업, 지우면 삭제입니다.</li>
+<li>서버가 따로 없어 <b>그 노트북 안에서만</b> 쓰입니다. 교사 1인용 프로그램에 알맞습니다.</li>
+<li>스마트폰 앱, 웹 브라우저 등 많은 프로그램이 내부 저장소로 SQLite를 씁니다.</li>
+</ul>
+
+<div class="warn">
+<b>⚠️ DB 파일 = 학생 자료 묶음</b><br>
+활용 예시 프로그램의 <code>exam.db</code>에는 학번과 점수가 들어갑니다. 파일 하나라 옮기기 쉬운 만큼 <b>메일·메신저·동기화 폴더로 새어 나가기도 쉽습니다.</b> 보관 방법은 <a href="#sec22">22장</a>을 보세요. 또 DB 안에서 지운 자료는 파일 속에 흔적이 남을 수 있어, 완전히 지울 때는 <b>파일째 지우는 것</b>이 확실합니다.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 7 -->
+<h2 id="sec7"><span class="num">7</span>전체 구조와 자료의 흐름</h2>
+<p>PART 4의 활용 예시 프로그램은 지금까지 설명한 것을 모두 함께 씁니다. 모든 상자가 <b>노트북 한 대 안</b>에 있다는 점이 핵심입니다.</p>
+
+<div class="arch">
+  <div class="arch-title">💻 내 노트북 (인터넷 연결 없이도 동작)</div>
+  <div class="row">
+    <div class="box b-user"><b>교사 · 브라우저</b>http://localhost:8501<small>화면을 보고 클릭</small></div>
+    <div class="link">⇄ 화면</div>
+    <div class="box b-app"><b>분석 프로그램 (파이썬 + Streamlit)</b>계산·화면 만들기<small>통계는 여기서 파이썬이 계산</small></div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <div class="link">↑ 분석 프로그램이<br>저장·조회</div>
+    <div class="box b-db"><b>SQLite DB (exam.db)</b>시험·문항·학번·점수·초안 저장<small>성명은 저장하지 않음</small></div>
+    <div class="link">↑ 분석 프로그램이<br>글쓰기 요청</div>
+    <div class="box b-lms"><b>LM Studio 로컬 서버</b>http://localhost:1234<small>통계표·성취기준 수준을 받아 글을 돌려줌</small></div>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <div class="link">↑ LM Studio가<br>모델 실행</div>
+    <div class="box b-model"><b>큐웬 모델 (GGUF)</b>Qwen3 4B Q4_K_M<small>RAM에 올라가 CPU가 글을 씀</small></div>
+  </div>
+  <div class="none">✕ 인터넷 · 회사 서버로 나가는 화살표 없음 — 설치할 때(파이썬 부품·모델 내려받기)만 인터넷 사용</div>
+</div>
+
+<div class="tablewrap"><table>
+<tr><th style="width:28%">자료</th><th style="width:36%">어디에 저장·전달되나</th><th>비고</th></tr>
+<tr><td>NEIS 점수표 원본(성명 포함)</td><td>교사가 둔 폴더 → 프로그램이 읽기만 함</td><td>프로그램은 <b>학번·점수만</b> DB에 저장</td></tr>
+<tr><td>학번·반·문항별 점수</td><td>SQLite DB(<code>exam.db</code>)</td><td>큐웬에는 보내지 않음</td></tr>
+<tr><td>문항별 통계·문항 내용</td><td>파이썬이 계산 → 큐웬(결과 피드백)</td><td>반 전체 통계뿐</td></tr>
+<tr><td>학생별 "성취기준 + 수준"</td><td>파이썬이 계산 → 큐웬(생기부 초안)</td><td>학번·점수 숫자 없이 "잘함/보통/보완 필요"만</td></tr>
+<tr><td>큐웬이 쓴 글</td><td>SQLite DB → 엑셀로 내려받기</td><td>교사가 확인·수정</td></tr>
+</table></div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- =================================================================== PART 2 -->
+<div class="part-title"><div class="kicker2">PART 2</div><h2 style="color:#fff">설치하기</h2><p>노트북 한 대에 한 번만 하면 됩니다. 인터넷이 필요합니다.</p></div>
+
+<h2 id="sec8"><span class="num">8</span>노트북 확인</h2>
+
+<div class="tablewrap"><table>
+<tr><th style="width:22%">항목</th><th style="width:34%">권장</th><th>비고</th></tr>
+<tr><td>운영체제</td><td>Windows 10 또는 11, <b>64비트</b></td><td></td></tr>
+<tr><td>메모리(RAM)</td><td><b>16GB</b></td><td>LM Studio 공식 권장값</td></tr>
+<tr><td>CPU</td><td><b>AVX2</b>를 지원하는 64비트 CPU</td><td>LM Studio 공식 요구사항. GPU는 없어도 됨</td></tr>
+<tr><td>저장 공간</td><td>여유 <b>8GB 이상</b></td><td>LM Studio, 모델 약 2.5GB(8B를 더 받으면 약 5GB 추가), 파이썬과 부품 약 100MB 내려받기 등</td></tr>
+<tr><td>권한</td><td>프로그램 설치 권한</td><td>학교 노트북은 정보부서 확인이 필요할 수 있음</td></tr>
+</table></div>
+
+<div class="do">
+<b>실습 순서 · 사양 확인</b>
+<ol>
+<li><kbd>윈도우</kbd> 키 → <b>설정</b> → <b>시스템</b> → <b>정보</b>를 엽니다.</li>
+<li><b>설치된 RAM</b>(16GB 권장)과 <b>시스템 종류</b>(64비트 운영 체제)를 확인합니다.</li>
+<li><b>프로세서</b> 이름을 적어 둡니다. AVX2 지원 여부가 궁금하면 정보부서에 문의하세요. 지원하지 않으면 LM Studio가 모델을 실행하지 못합니다.</li>
+<li>파일 탐색기 → <b>내 PC</b>에서 C 드라이브의 남은 공간을 확인합니다.</li>
+</ol>
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 9 -->
+<h2 id="sec9"><span class="num">9</span>파이썬 설치</h2>
+
+<div class="do">
+<b>실습 순서 · 파이썬 설치</b>
+<ol>
+<li>브라우저에서 아래 주소로 갑니다.
+<div class="code"><div class="bar"><span class="label">파이썬 윈도우용 내려받기</span><button>복사</button></div><pre>https://www.python.org/downloads/windows/</pre></div></li>
+<li><b>Stable Releases</b>(안정판) 맨 위의 <b>Python 3.14.x</b>에서 <b>Windows installer (64-bit)</b>를 내려받습니다. 이름에 <code>a</code>·<code>b</code>·<code>rc</code>가 붙은 시험판은 고르지 않습니다. <span class="unverified">확인 필요</span></li>
+<li>내려받은 <code>python-3.14.x-amd64.exe</code>를 실행합니다.</li>
+<li>첫 화면 아래 <b><code>Add python.exe to PATH</code>에 체크</b>한 뒤 <b>Install Now</b>를 누릅니다. 권한 확인 창에는 <b>예</b>.</li>
+<li><b>Setup was successful</b>이 나오면 <b>Close</b>.</li>
+</ol>
+</div>
+
+<div class="do">
+<b>실습 순서 · 설치 확인 (IDLE)</b>
+<ol>
+<li><kbd>윈도우</kbd> 키를 누르고 <code>IDLE</code>을 입력해 <b>IDLE (Python 3.14 64-bit)</b>를 엽니다.</li>
+<li><code>&gt;&gt;&gt;</code> 뒤에 아래 한 줄을 입력하고 <kbd>Enter</kbd>를 누릅니다.
+<div class="code"><div class="bar"><span class="label">IDLE에 입력</span><button>복사</button></div><pre>import sqlite3, sys; print(sys.version, "/ SQLite", sqlite3.sqlite_version)</pre></div></li>
+<li><code>3.14.x ... / SQLite 3.xx.x</code>처럼 파이썬과 SQLite 버전이 나오면 성공입니다. <b>SQLite는 이미 들어 있다</b>는 것을 확인한 것입니다.</li>
+</ol>
+</div>
+
+<div class="note">
+<b>버전</b> — 활용 예시 프로그램에 필요한 부품은 Python <b>3.12 · 3.13 · 3.14 · 3.15</b>용 윈도우 설치 파일이 모두 있음을 확인했습니다(2026-10-27). 새로 설치한다면 3.14를 권합니다.<br>
+<b>설치 관리자(Python install manager)</b> — python.org는 새 "설치 관리자" 방식도 안내하며, 지금의 설치 파일(Windows installer)은 3.16부터 나오지 않을 예정입니다. 이 연수는 화면이 단순한 Windows installer 기준입니다.<br>
+<b>PATH 체크를 깜빡했다면</b> — 활용 예시의 <code>.bat</code> 파일은 <code>py</code> 실행기로도 파이썬을 찾도록 만들었습니다. 그래도 안 되면 파이썬을 지우고 체크해서 다시 설치하세요.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 10 -->
+<h2 id="sec10"><span class="num">10</span>LM Studio 설치</h2>
+
+<div class="note"><span class="unverified">확인 필요</span> 이 장과 13~14장의 LM Studio 메뉴 이름은 공식 문서와 안내 자료를 바탕으로 썼고, <b>실제 윈도우 화면에서 직접 확인하지 못했습니다.</b> LM Studio는 업데이트가 잦아 이름·위치가 바뀔 수 있습니다. 화면이 다르면 비슷한 이름을 찾아 주세요.</div>
+
+<div class="do">
+<b>실습 순서</b>
+<ol>
+<li>공식 사이트에 들어가 <b>Windows</b>용 설치 파일을 내려받습니다.
+<div class="code"><div class="bar"><span class="label">LM Studio 공식 사이트</span><button>복사</button></div><pre>https://lmstudio.ai</pre></div></li>
+<li>설치 파일을 실행해 안내대로 설치합니다.</li>
+<li>LM Studio를 실행합니다. 처음에는 소개·추천 화면이 나올 수 있습니다. 추천 모델 내려받기는 건너뛰고 다음 장에서 직접 고릅니다.</li>
+<li>화면 왼쪽(또는 위쪽)에 <b>Chat</b>, <b>Developer</b>, <b>My Models</b>, <b>Discover(돋보기)</b> 같은 메뉴가 보이면 설치 완료입니다.</li>
+</ol>
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 11 -->
+<h2 id="sec11"><span class="num">11</span>큐웬 모델 고르고 내려받기</h2>
+
+<h3>모델 이름 읽는 법</h3>
+<div class="code"><div class="bar"><span class="label">예: 모델 파일 이름</span><button>복사</button></div><pre>Qwen3-4B-Q4_K_M.gguf
+ │     │   │       └ GGUF: CPU로도 돌리는 파일 형식
+ │     │   └ Q4_K_M: 4비트 양자화(크기·품질 균형) → 약 2.5GB
+ │     └ 4B: 파라미터 약 40억 개
+ └ Qwen3: 모델 이름(알리바바 Qwen 팀, Apache 2.0)</pre></div>
+
+<div class="do">
+<b>실습 순서 · 내려받기 (약 2.5GB)</b>
+<ol>
+<li>LM Studio의 <b>Discover</b>(돋보기, 모델 찾기)를 엽니다.</li>
+<li>검색창에 입력합니다.
+<div class="code"><div class="bar"><span class="label">모델 검색어</span><button>복사</button></div><pre>qwen3 4b</pre></div></li>
+<li>목록에서 <b>Qwen3 4B</b>를 고릅니다. 같은 모델이 여러 제작자 이름으로 올라와 있으면 <b>Qwen</b> 공식 또는 <b>lmstudio-community</b>를 고르면 무난합니다.</li>
+<li>파일 종류(양자화) 목록에서 <b>Q4_K_M</b>을 고르고 <b>Download</b>를 누릅니다.</li>
+<li>내려받기가 끝나면 <b>My Models</b>에서 목록에 보이는지 확인합니다.</li>
+</ol>
+</div>
+
+<div class="note">
+<b>8B도 받아 볼까?</b> — 4B로 13장의 실습을 먼저 해 보고, 속도가 견딜 만하면 8B(Q4_K_M, 약 5GB)를 받아 같은 질문으로 비교해 보세요. 8B는 대체로 글이 낫지만 더 느리고 메모리를 더 씁니다. 두 모델의 실제 차이는 이 연수에서 확인하지 못했습니다.<br>
+<b>학교망에서 내려받기가 막히면</b> — 모델은 Hugging Face에서 내려받습니다. 학교 방화벽에서 막히면 다른 네트워크에서 받거나 정보부서에 문의하세요.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 12 -->
+<h2 id="sec12"><span class="num">12</span>(선택) DB Browser for SQLite</h2>
+<p>SQLite 파일 안을 엑셀처럼 표로 보여 주는 무료 프로그램입니다. 없어도 활용 예시 프로그램은 동작하지만, <b>"DB가 무엇인지" 눈으로 확인</b>하는 데 좋습니다(<a href="#sec16">16장</a>, <a href="#sec20">20장</a>).</p>
+
+<div class="do">
+<b>실습 순서</b>
+<ol>
+<li>공식 내려받기 페이지에 들어갑니다.
+<div class="code"><div class="bar"><span class="label">DB Browser for SQLite 내려받기</span><button>복사</button></div><pre>https://sqlitebrowser.org/dl/</pre></div></li>
+<li><b>Windows</b> 항목에서 <b>Standard installer for 64-bit Windows</b>를 내려받습니다(.msi). <span class="unverified">확인 필요</span></li>
+<li>설치 파일을 실행하고 기본 선택대로 설치합니다. 관리자 권한이 필요할 수 있습니다. 설치 중 바로가기 선택 화면이 나오면 <b>시작 메뉴</b>에 체크합니다.</li>
+<li>시작 메뉴에서 <b>DB Browser (SQLite)</b>를 실행할 수 있으면 완료입니다.</li>
+</ol>
+</div>
+
+<div class="warn">
+<b>⚠️ 실제 학생 자료가 든 DB는 "읽기 전용"으로만 여세요</b><br>
+DB Browser로 값을 고치거나 지우면 프로그램이 저장한 규칙이 깨질 수 있습니다. 실제 자료는 <b>파일 → 읽기 전용으로 데이터베이스 열기</b>로만 보고, 활용 예시 프로그램이 켜져 있는 동안에는 열지 않는 것이 안전합니다. <span class="unverified">확인 필요</span>(메뉴 이름)
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- =================================================================== PART 3 -->
+<div class="part-title"><div class="kicker2">PART 3</div><h2 style="color:#fff">작동 실습 — 하나씩 돌려 보기</h2><p>실습에는 학생 개인정보를 넣지 마세요. 모든 예시는 가상 자료입니다.</p></div>
+
+<h2 id="sec13"><span class="num">13</span>LM Studio 채팅으로 큐웬 써 보기</h2>
+
+<div class="do">
+<b>실습 순서 · 모델 불러와 대화하기</b>
+<ol>
+<li>LM Studio에서 <b>Chat</b>을 엽니다.</li>
+<li>위쪽의 모델 선택 칸(<b>Select a model to load</b> 등)을 눌러 <b>Qwen3 4B</b>를 고릅니다. 모델이 RAM에 올라가는 동안 잠시 기다립니다.</li>
+<li>아래 입력 칸에 다음 프롬프트를 하나씩 붙여 넣고 결과를 봅니다.</li>
+<li>답이 끝나면 답 아래에 표시되는 <b>속도(tok/s)</b>와 걸린 시간을 확인해 적어 둡니다. <span class="unverified">확인 필요</span>(표시 위치)</li>
+</ol>
+</div>
+
+<div class="code"><div class="bar"><span class="label">① 첫 인사 — 속도 체감</span><button>복사</button></div><pre>지역 LLM이 무엇인지 중학생에게 설명하듯 3문장으로 알려 줘. /no_think</pre></div>
+<div class="code"><div class="bar"><span class="label">② 생각 모드 비교 — 같은 질문을 /think로</span><button>복사</button></div><pre>지역 LLM이 무엇인지 중학생에게 설명하듯 3문장으로 알려 줘. /think</pre></div>
+<div class="code"><div class="bar"><span class="label">③ 채점 기준표 초안</span><button>복사</button></div><pre>중학교 1학년 정보 과목 서술형 문항 "주어진 문제 해결 과정을 순서도로 나타내시오(4점)"의 채점 기준을 상(4점)·중(2~3점)·하(0~1점)로 나누어 표로 만들어 줘. /no_think</pre></div>
+<div class="code"><div class="bar"><span class="label">④ 결과 피드백 초안 (가상 통계)</span><button>복사</button></div><pre>서술형 문항 "변수와 상수의 차이를 예를 들어 설명하시오"의 득점률이 38%였고 0점 비율이 20%였다. 학생 답안은 보지 못했다고 가정하고, 예상 원인 2가지(추정이라고 표시)와 재지도 방법 2가지를 각각 한 줄로 써 줘. /no_think</pre></div>
+<div class="code"><div class="bar"><span class="label">⑤ 생기부 문체로 다듬기 (가상 문장)</span><button>복사</button></div><pre>다음 문장을 학교생활기록부 교과 세부능력 및 특기사항 문체로 고쳐 줘. 주어는 빼고 '~함', '~보임'으로 끝내 줘.
+"반복문을 잘 이해해서 친구들에게 설명도 잘했고, 순서도 그리기를 어려워했지만 끝까지 노력했다."</pre></div>
+<div class="code"><div class="bar"><span class="label">⑥ 환각 확인 — 모르는 사실을 물으면?</span><button>복사</button></div><pre>2026학년도 우리 학교 정보 교과 협의회 일정과 담당 교사 이름을 알려 줘. /no_think</pre></div>
+
+<div class="tablewrap"><table>
+<tr><th style="width:22%">프롬프트</th><th>확인할 점</th></tr>
+<tr><td>① vs ②</td><td>②는 <code>&lt;think&gt;</code> 생각 과정이 붙거나 훨씬 오래 걸립니다. 업무용 반복 작업에는 <code>/no_think</code>가 알맞습니다.</td></tr>
+<tr><td>③ ④</td><td>형식은 잘 맞추지만 내용이 일반적일 수 있습니다. 교사의 기준으로 고쳐 쓰는 <b>초안</b>입니다.</td></tr>
+<tr><td>⑤</td><td>문체 바꾸기는 작은 모델도 비교적 잘하는 일입니다. 없는 내용을 덧붙이지 않았는지 확인하세요.</td></tr>
+<tr><td>⑥</td><td>모르는 사실을 그럴듯하게 지어내면 <b>환각</b>입니다. "모른다"고 답하면 다행이지만, 사실 질문에는 쓰지 않는 것이 원칙입니다.</td></tr>
+</table></div>
+
+<div class="note">
+같은 질문도 할 때마다 답이 조금씩 다릅니다. 결과는 노트북과 모델 버전에 따라 다르며, 이 설명서에는 큐웬의 실제 답을 싣지 않았습니다.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 14 -->
+<h2 id="sec14"><span class="num">14</span>로컬 서버 켜고 확인하기</h2>
+<p>이제 다른 프로그램이 큐웬을 쓸 수 있게 <b>창구(서버)</b>를 엽니다.</p>
+
+<div class="do">
+<b>실습 순서 · 서버 켜기</b>
+<ol>
+<li>LM Studio에서 <b>Developer</b>(개발자) 탭을 엽니다.</li>
+<li>모델 선택 칸에서 <b>Qwen3 4B</b>를 불러옵니다(Load).</li>
+<li>서버 상태 스위치(<b>Status</b> / Start server)를 켜서 <b>Running</b>으로 만듭니다. 주소에 <code>http://localhost:1234</code>(또는 <code>127.0.0.1:1234</code>)가 보입니다.</li>
+</ol>
+</div>
+
+<div class="do">
+<b>실습 순서 · 브라우저로 확인하기 (명령어 없이)</b>
+<ol>
+<li>크롬이나 엣지 주소창에 아래 주소를 붙여 넣습니다.
+<div class="code"><div class="bar"><span class="label">모델 목록 주소</span><button>복사</button></div><pre>http://localhost:1234/v1/models</pre></div></li>
+<li><code>{"data": [{"id": "qwen3-4b", ...}], ...}</code>처럼 <b>중괄호로 된 글자</b>가 보이면 서버가 동작하는 것입니다. <code>"id"</code> 뒤가 모델 이름입니다. (정확한 이름은 내려받은 모델에 따라 다릅니다)</li>
+<li>"사이트에 연결할 수 없음"이 나오면 서버가 꺼져 있는 것입니다. 1번 실습을 다시 합니다.</li>
+</ol>
+</div>
+
+<div class="warn">
+<b>⚠️ "네트워크에 공개(Serve on Local Network)" 옵션은 켜지 마세요</b><br>
+켜면 같은 와이파이의 다른 기기에서도 이 노트북의 AI 창구에 접근할 수 있습니다. 이 연수의 모든 실습은 <code>localhost</code>만 씁니다. <span class="unverified">확인 필요</span>(옵션 이름)
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 15 -->
+<h2 id="sec15"><span class="num">15</span>파이썬으로 지역 LLM 부르기</h2>
+<p>사람이 채팅 창에 입력하던 일을 <b>프로그램이 대신</b> 하게 해 봅니다. 활용 예시 프로그램의 ④·⑤도 이 원리로 동작합니다. 추가 설치 없이 파이썬 기본 기능만 씁니다. (14장의 서버가 켜져 있어야 합니다)</p>
+
+<div class="do">
+<b>실습 순서</b>
+<ol>
+<li>바탕화면이 아닌 곳(예: <code>C:\ai_practice</code>)에 연습 폴더를 만듭니다.</li>
+<li><b>IDLE</b>을 열고 메뉴 <b>File → New File</b>을 누릅니다. 새 편집 창이 열립니다.</li>
+<li>아래 코드를 <b>복사</b>해 편집 창에 붙여 넣습니다. (또는 <a href="files/llm_test.py" download>llm_test.py 내려받기</a>)</li>
+<li><b>Run → Run Module</b>(또는 <kbd>F5</kbd>)을 누르고, 저장하라고 하면 연습 폴더에 <code>llm_test.py</code>로 저장합니다.</li>
+<li>IDLE 셸 창에 <code>사용할 모델: ...</code>, <code>큐웬이 답을 쓰는 중입니다...</code>가 나오고, 잠시 뒤 큐웬의 답이 나오면 성공입니다.</li>
+</ol>
+</div>
+
+<div class="code"><div class="bar"><span class="label">llm_test.py — 지역 LLM에 질문 하나 보내기</span><button>복사</button></div><pre># 지역 LLM(LM Studio 서버)에 질문 하나 보내기 — 파이썬 기본 기능만 사용
+import json
+import urllib.request
+
+SERVER = "http://localhost:1234/v1"
+
+# 1) 서버에 불러온 모델 이름 확인
+with urllib.request.urlopen(SERVER + "/models", timeout=10) as res:
+    model = json.load(res)["data"][0]["id"]
+print("사용할 모델:", model)
+
+# 2) 질문 보내기
+question = "중학교 서술형 평가에서 부분점수 기준을 정할 때 주의할 점 3가지를 짧게 알려 줘. /no_think"
+body = {"model": model,
+        "messages": [{"role": "user", "content": question}],
+        "temperature": 0.4, "max_tokens": 500}
+req = urllib.request.Request(SERVER + "/chat/completions",
+                             data=json.dumps(body).encode("utf-8"),
+                             headers={"Content-Type": "application/json"})
+print("큐웬이 답을 쓰는 중입니다. 잠시 기다리세요...")
+with urllib.request.urlopen(req, timeout=900) as res:
+    answer = json.load(res)
+print(answer["choices"][0]["message"]["content"])</pre></div>
+
+<h4>코드 읽기</h4>
+<ul>
+<li><code>SERVER</code> — 14장에서 연 창구 주소입니다.</li>
+<li><code>/models</code> — 브라우저로 열어 본 그 주소에서 모델 이름을 가져옵니다.</li>
+<li><code>messages</code> — 채팅 창에 입력하던 질문입니다. <code>question</code>의 글을 바꿔 다시 실행해 보세요.</li>
+<li><code>temperature</code>, <code>max_tokens</code> — 3장의 온도, 답의 최대 길이(토큰)입니다.</li>
+<li><code>/chat/completions</code> — 질문을 보내고 답을 받는 창구입니다. 답은 <code>choices[0].message.content</code>에 들어 있습니다.</li>
+</ul>
+
+<div class="note">
+<b>이 코드는 2026-10-27에 파이썬 3.13에서 실행해</b>, LM Studio와 같은 형식으로 답하는 시험용 서버로부터 답을 받는 것까지 확인했습니다. 실제 LM Studio에서의 동작은 <span class="unverified">확인 필요</span>입니다.<br>
+<code>ConnectionRefusedError</code>가 나오면 서버가 꺼진 것이고, <code>IndexError</code>가 나오면 서버에 불러온 모델이 없는 것입니다. 답 앞에 <code>&lt;think&gt;&lt;/think&gt;</code>가 붙어 나올 수 있는데, 생각 모드의 흔적이니 무시해도 됩니다.
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 16 -->
+<h2 id="sec16"><span class="num">16</span>파이썬으로 DB 만들고 열어 보기</h2>
+<p>SQLite 데이터베이스를 직접 만들고, 표를 만들고, 자료를 넣고, SQL로 질문해 봅니다. <b>가상 학번·가상 점수</b>만 씁니다.</p>
+
+<div class="do">
+<b>실습 순서</b>
+<ol>
+<li>IDLE에서 <b>File → New File</b>을 열고 아래 코드를 붙여 넣습니다. (또는 <a href="files/db_test.py" download>db_test.py 내려받기</a>)</li>
+<li><kbd>F5</kbd>를 누르고 연습 폴더에 <code>db_test.py</code>로 저장합니다.</li>
+<li>셸 창에 아래처럼 나오면 성공입니다.
+<div class="code"><div class="bar"><span class="label">실행 결과 (확인한 값)</span><button>복사</button></div><pre>문항, 평균 점수, 학생 수
+(1, 3.0, 3)
+(2, 2.17, 3)
+저장한 파일: C:\Users\(내 이름)\practice.db</pre></div></li>
+<li>(12장을 설치했다면) <b>DB Browser for SQLite</b>를 열고 <b>데이터베이스 열기</b>로 <code>practice.db</code>를 엽니다. <b>데이터 보기</b> 탭에서 <code>scores</code> 표를 고르면 6개 행이 보입니다. <span class="unverified">확인 필요</span>(메뉴 이름)</li>
+<li>코드를 한 번 더 실행해 보세요. 결과가 같습니다. 같은 (학번, 문항)은 <b>기본 키</b> 때문에 두 번 들어가지 않고 새 값으로 바뀌기 때문입니다.</li>
+</ol>
+</div>
+
+<div class="code"><div class="bar"><span class="label">db_test.py — SQLite 맛보기</span><button>복사</button></div><pre># SQLite 데이터베이스 맛보기 — 파이썬 기본 기능만 사용 (가상 학번·가상 점수)
+import sqlite3
+from pathlib import Path
+
+db_file = Path.home() / "practice.db"          # 예: C:\Users\내이름\practice.db
+con = sqlite3.connect(db_file)
+
+# 1) 표(테이블) 만들기: 학번 + 문항 번호가 겹치면 안 됨(기본 키)
+con.execute("""CREATE TABLE IF NOT EXISTS scores(
+                 sid TEXT, item INTEGER, score REAL,
+                 PRIMARY KEY(sid, item))""")
+
+# 2) 행(레코드) 넣기 — 같은 학번·문항이면 새 값으로 바꿈
+rows = [("10101", 1, 4), ("10101", 2, 2.5),
+        ("10102", 1, 3), ("10102", 2, 1),
+        ("10103", 1, 2), ("10103", 2, 3)]
+con.executemany("INSERT OR REPLACE INTO scores VALUES(?, ?, ?)", rows)
+con.commit()
+
+# 3) 질문(쿼리)하기 — 문항별 평균과 학생 수
+print("문항, 평균 점수, 학생 수")
+for row in con.execute("SELECT item, ROUND(AVG(score), 2), COUNT(*) FROM scores GROUP BY item"):
+    print(row)
+
+con.close()
+print("저장한 파일:", db_file)</pre></div>
+
+<div class="tablewrap"><table>
+<tr><th style="width:34%">코드</th><th>6장의 개념</th></tr>
+<tr><td><code>sqlite3.connect(...)</code></td><td>DB 파일을 엽니다(없으면 새로 만듦). DB = 파일 하나</td></tr>
+<tr><td><code>CREATE TABLE ... PRIMARY KEY(sid, item)</code></td><td>테이블과 열, 기본 키 정하기</td></tr>
+<tr><td><code>INSERT OR REPLACE</code></td><td>행 넣기. 기본 키가 같으면 바꾸기</td></tr>
+<tr><td><code>SELECT ... GROUP BY item</code></td><td>SQL로 문항별 평균 구하기</td></tr>
+<tr><td><code>commit()</code></td><td>저장 확정. 하지 않으면 파일에 남지 않음</td></tr>
+</table></div>
+
+<div class="note">실습이 끝나면 <code>C:\Users\(내 이름)\practice.db</code>는 지워도 됩니다. 이 코드는 2026-10-27에 실행해 위 결과를 확인했습니다.</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- =================================================================== PART 4 -->
+<div class="part-title"><div class="kicker2">PART 4</div><h2 style="color:#fff">활용 예시 — 서술형 시험 분석 프로그램</h2><p>PART 2에서 설치한 파이썬·LM Studio·큐웬과, PART 3에서 익힌 서버·DB를 모두 함께 쓰는 실제 업무 프로그램입니다.</p></div>
+
+<h2 id="sec17"><span class="num">17</span>시험 분석 프로그램 소개</h2>
+
+<div class="flow">
+  <div class="step">시험지 PDF<small>문항·배점 읽기</small></div><div class="arrow">＋</div>
+  <div class="step">성취기준표<small>엑셀 또는 PDF</small></div><div class="arrow">＋</div>
+  <div class="step">NEIS 점수표<small>문항별 점수</small></div><div class="arrow">→</div>
+  <div class="step">③ 분석 결과<small>파이썬 계산 · DB 저장</small></div><div class="arrow">→</div>
+  <div class="step ai">④ 결과 피드백 · ⑤ 생기부 초안<small>LM Studio 서버의 큐웬</small></div>
+</div>
+
+<div class="tablewrap"><table>
+<tr><th style="width:24%">탭</th><th>하는 일</th><th style="width:26%">쓰는 기술</th></tr>
+<tr><td>① 시험 문항</td><td>시험지 PDF에서 문항·배점, 성취기준표에서 성취기준 읽기</td><td>파이썬(PyMuPDF), DB 저장</td></tr>
+<tr><td>② 점수표</td><td>NEIS 점수표에서 학번·반·문항별 점수만 저장 (성명 제외)</td><td>파이썬(pandas), DB 저장</td></tr>
+<tr><td>③ 분석 결과</td><td>득점률·변별도·문항-총점상관·성취기준별·반별·학생별 분석, 엑셀 저장</td><td>파이썬 계산</td></tr>
+<tr><td>④ 결과 피드백</td><td>통계표를 보고 원인 추정·재지도 방안 초안</td><td>LM Studio 서버 + 큐웬</td></tr>
+<tr><td>⑤ 생기부 초안</td><td>같은 학번의 여러 시험을 합쳐 성취기준별 수준 → 학생마다 세특 초안, 엑셀로 내려받기</td><td>DB + LM Studio 서버 + 큐웬</td></tr>
+</table></div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 18 -->
+<h2 id="sec18"><span class="num">18</span>내려받기·설치·실행</h2>
+
+<p><a class="dl" href="../exam_analyzer/exam_analyzer.zip" download>⬇ exam_analyzer.zip 내려받기 (약 130KB)</a></p>
+
+<div class="warn">
+<b>⚠️ 바탕화면·문서 폴더에 풀지 마세요</b> — 학교 노트북은 바탕화면·문서가 OneDrive 등으로 동기화되는 경우가 많아, 프로그램이 만드는 <code>data\exam.db</code>(학번·점수)가 클라우드로 올라갈 수 있습니다. <b><code>C:\</code> 바로 아래</b>에 푸는 것을 권합니다.
+</div>
+
+<div class="do">
+<b>실습 순서 · 압축 풀기</b>
+<ol>
+<li>다운로드 폴더의 <code>exam_analyzer.zip</code>을 <b>마우스 오른쪽 버튼 → 모두 압축 풀기...</b></li>
+<li>압축 풀 위치를 아래처럼 바꾸고 <b>압축 풀기</b>를 누릅니다. <code>C:\exam_analyzer</code> 폴더가 생깁니다.
+<div class="code"><div class="bar"><span class="label">압축 풀 위치</span><button>복사</button></div><pre>C:\</pre></div></li>
+</ol>
+</div>
+
+<div class="tablewrap"><table>
+<tr><th style="width:36%">파일·폴더</th><th>하는 일</th></tr>
+<tr><td><code>1_install.bat</code></td><td>필요한 라이브러리 설치 (처음 한 번, 약 100MB 내려받기)</td></tr>
+<tr><td><code>2_run.bat</code></td><td>프로그램 실행 (쓸 때마다)</td></tr>
+<tr><td><code>sample</code> 폴더</td><td>연습용 가상 자료 (시험지 PDF, 성취기준표 2개, 점수표 2개)</td></tr>
+<tr><td><code>app.py</code> · <code>analysis.py</code> · <code>db.py</code> · <code>llm.py</code> · <code>pdf_utils.py</code></td><td>프로그램 본체 (화면 · 통계 계산 · DB · 큐웬 연결 · PDF 읽기)</td></tr>
+<tr><td><code>requirements.txt</code></td><td>설치할 라이브러리와 버전 목록</td></tr>
+<tr><td><code>data</code> 폴더 (처음 실행하면 생김)</td><td>SQLite DB <code>exam.db</code>가 저장되는 곳</td></tr>
+</table></div>
+
+<div class="do">
+<b>실습 순서 · 라이브러리 설치 (처음 한 번)</b>
+<ol>
+<li><code>C:\exam_analyzer\1_install.bat</code>를 더블클릭합니다. 파란 "Windows의 PC 보호" 창이 뜨면 <b>추가 정보 → 실행</b>.</li>
+<li>검은 창에서 설치가 진행됩니다. 닫지 말고 기다립니다.</li>
+<li>마지막 줄에 <code>Done. Next time, just double-click 2_run.bat</code>가 나오면 끝입니다.</li>
+</ol>
+</div>
+
+<div class="tablewrap"><table>
+<tr><th style="width:48%">검은 창 문장</th><th>뜻과 할 일</th></tr>
+<tr><td><code>[2/2] Installing libraries...</code></td><td>라이브러리를 내려받는 중 (5장의 pip가 하는 일)</td></tr>
+<tr><td><code>Done. Next time, just double-click 2_run.bat</code></td><td>설치 완료</td></tr>
+<tr><td><code>Python was not found...</code></td><td>파이썬 미설치 → <a href="#sec9">9장</a></td></tr>
+<tr><td><code>Install failed. Check the internet connection...</code></td><td>인터넷·학교망 확인 후 다시 실행 (<a href="#sec23">23장</a>)</td></tr>
+<tr><td><code>This file is running from inside the zip file.</code></td><td>압축을 풀지 않고 실행함 → 모두 압축 풀기부터</td></tr>
+</table></div>
+
+<div class="do">
+<b>실습 순서 · 실행과 큐웬 연결</b>
+<ol>
+<li>LM Studio에서 <b>서버를 켭니다</b>(<a href="#sec14">14장</a>).</li>
+<li><code>2_run.bat</code>를 더블클릭합니다. 브라우저에 프로그램이 열립니다. 안 열리면 주소창에 입력합니다.
+<div class="code"><div class="bar"><span class="label">프로그램 주소</span><button>복사</button></div><pre>http://localhost:8501</pre></div></li>
+<li>왼쪽 <b>새 시험 이름</b>에 이름을 넣고 <b>시험 만들기</b>를 누릅니다. 그러면 왼쪽에 <b>큐웬(LM Studio) 연결 설정</b>이 나타납니다.</li>
+<li><b>큐웬(LM Studio) 연결 설정</b>을 펼치고 <b>연결 확인</b>을 누릅니다. 초록 상자에 <b>"연결됨. 불러온 모델: …"</b>이 나오면 14장의 서버와 연결된 것입니다.</li>
+</ol>
+</div>
+
+<div class="figure"><img src="img/01_new_exam.webp" alt="프로그램 첫 화면. 왼쪽에 새 시험 이름 입력칸과 시험 만들기 버튼" loading="lazy"><div class="cap">첫 화면 — 왼쪽에서 새 시험을 만듭니다.</div></div>
+<div class="figure"><img src="img/12_sidebar_llm.webp" alt="왼쪽 큐웬 연결 설정에서 연결 확인 후 연결됨 메시지가 나온 화면" loading="lazy"><div class="cap">연결 확인 — 서버 주소 <code>http://localhost:1234/v1</code>은 4장의 로컬 서버 주소입니다. (사진의 모델 이름은 시험용 이름)</div></div>
+
+<div class="warn"><b>⚠️ 검은 창은 프로그램 본체입니다.</b> 쓰는 동안 닫지 말고, 다 쓰면 브라우저 탭과 검은 창을 닫아 종료합니다. 오른쪽 위 <code>Deploy</code> 단추(인터넷에 올리기)는 누르지 마세요.</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 19 -->
+<h2 id="sec19"><span class="num">19</span>샘플로 따라 하기 ①~⑤</h2>
+<p><code>C:\exam_analyzer\sample</code>의 가상 자료로 순서대로 해 봅니다.</p>
+
+<h3>① 시험 문항</h3>
+<div class="do">
+<ol>
+<li><b>시험지 PDF</b> 칸에 <code>sample_exam.pdf</code>를 올리고 <b>PDF에서 문항 읽기</b> → "6개 문항을 읽었고, 그중 6개 문항의 배점을 글에서 찾았습니다."</li>
+<li><b>성취기준표</b> 칸에 <code>sample_standards.xlsx</code>를 올리고 <b>성취기준표 불러오기</b> → 성취기준 열이 채워짐</li>
+<li>표 아래 <b>배점 합계</b>(샘플 23점)를 확인하고, 틀린 칸은 더블클릭해 고친 뒤 <b>문항 저장</b></li>
+</ol>
+</div>
+<div class="figure"><img src="img/03_tab1_pdf_read.webp" alt="PDF에서 6개 문항을 읽은 화면" loading="lazy"><div class="cap">PDF에서 문항·배점을 읽은 화면</div></div>
+<div class="figure"><img src="img/04_tab1_standards.webp" alt="성취기준까지 채운 문항 표와 배점 합계" loading="lazy"><div class="cap">성취기준까지 채운 화면 — 저장 전 배점 합계 확인</div></div>
+
+<div class="note">
+<b>PDF 읽기 안내별 처리</b> — 노란 "확인이 필요한 문항": 소문항 배점이나 <code>각 2점</code> 표기 → 배점 직접 확인 · "글자가 깨진 문자" → 한글에서 PDF로 다시 저장하거나 문항 내용 직접 입력 · 빨간 "글자를 읽지 못했습니다": 스캔 이미지 PDF → 직접 입력 · 수식·그림은 글자로 읽히지 않으니 핵심을 문항 내용 칸에 적기.<br>
+<b>성취기준은 코드만 쓰지 말고 문장까지</b> — 예: <code>[9정04-03] 문제 해결 과정을 알고리즘으로 표현한다</code>. 큐웬은 코드의 뜻을 모릅니다.
+</div>
+
+<h3>② 점수표</h3>
+<div class="do">
+<ol>
+<li><code>sample_scores.xlsx</code>를 올립니다. <b>제목 줄 번호</b>(샘플 3), <b>학번 열</b>, <b>반 열</b>, <b>문항 점수 열 6개</b>(문항 순서대로)를 확인합니다.</li>
+<li><b>점수표 저장</b> → "학생 60명의 점수를 저장했습니다." 이 순간 점수가 <b>SQLite DB</b>의 <code>scores</code> 표에 들어갑니다.</li>
+</ol>
+</div>
+<div class="figure"><img src="img/07_tab2_saved.webp" alt="학번 열, 반 열, 문항 점수 열을 고르고 저장한 화면" loading="lazy"><div class="cap">열을 확인하고 저장한 화면 — 성명 열은 저장하지 않습니다.</div></div>
+<div class="note">저장 때 검사: 열 개수 ≠ 문항 수, 배점 초과·음수 점수, 학번 중복이면 저장하지 않음. 모든 문항이 빈칸인 학생은 결시로 제외, 일부 빈칸은 0점으로 계산하고 "미응답(%)"에 표시. <span class="unverified">확인 필요</span> 실제 NEIS 양식으로는 아직 확인하지 못했습니다.</div>
+
+<h3>③ 분석 결과</h3>
+<div class="figure"><img src="img/09_tab3_items.webp" alt="문항별 분석 표와 문항별 득점률 그래프" loading="lazy"><div class="cap">문항별 분석 — "점검" 열에 살펴볼 문항이 표시됩니다.</div></div>
+<div class="tablewrap"><table>
+<tr><th style="width:22%">열</th><th>뜻</th><th style="width:30%">샘플에서 읽기</th></tr>
+<tr><td>득점률(%)</td><td>평균 점수 ÷ 배점 × 100</td><td>문항 4: 35.8% → 가장 어려움</td></tr>
+<tr><td>만점 · 부분점수 · 0점(%)</td><td>점수 구간별 학생 비율</td><td>문항 4: 만점 0%, 0점 11.9%</td></tr>
+<tr><td>미응답(%)</td><td>점수표에서 빈칸이던 학생 비율</td><td>문항 4: 1.7%</td></tr>
+<tr><td>변별도</td><td>총점 상위 27%와 하위 27%의 득점률 차이(0~1)</td><td>문항 5: 0.04 → 상·하위 차이가 거의 없음</td></tr>
+<tr><td>문항-총점상관</td><td>이 문항과 나머지 총점이 함께 움직이는 정도</td><td>문항 5: 0.01</td></tr>
+</table></div>
+<div class="note">점검 기준(기본값, 공식 아님): 득점률 40% 미만 어려움 · 85% 이상 쉬움 · 변별도 0.20 미만 · 상관 0.20 미만. "다시 살펴보라"는 신호일 뿐 판정이 아닙니다. <b>이 숫자는 모두 큐웬이 아니라 파이썬이 계산합니다.</b></div>
+<div class="figure"><img src="img/11_tab3_student.webp" alt="반별 문항 득점률과 학생 개인 확인 표" loading="lazy"><div class="cap">반별 문항 득점률과 학생 개인 확인. 맨 아래 <b>분석 결과 엑셀로 저장</b>(요약·문항별·성취기준별·반별 시트)</div></div>
+
+<h3>④ 결과 피드백</h3>
+<div class="do">
+<ol>
+<li><b>④ 결과 피드백</b> 탭 → <b>사용할 모델</b>에서 Qwen3 4B 선택 → <b>결과 피드백 만들기</b></li>
+<li>작성이 끝나면 아래 <b>결과 피드백 · 날짜</b> 상자를 펼쳐 읽습니다. 글은 DB에 저장됩니다.</li>
+</ol>
+</div>
+<div class="figure"><img src="img/13_tab4_feedback.webp" alt="결과 피드백 탭 화면" loading="lazy"><div class="cap">사진의 글은 촬영용 가짜 응답입니다. 실제로는 큐웬이 쓴 피드백이 나타납니다.</div></div>
+
+<h3>⑤ 생기부 초안</h3>
+<div class="do">
+<ol>
+<li><b>⑤ 생기부 초안</b> 탭 → <b>합칠 시험</b> 확인(처음엔 가장 최근 학년도 시험 모두) → <b>교과명</b>, <b>글자 수</b>(기본 300자), <b>반</b>(처음엔 한 반만) 선택</li>
+<li><b>생기부 초안 만들기</b> → 진행 막대가 끝날 때까지 기다림 (한 명씩 바로 DB에 저장)</li>
+<li>표에서 초안을 더블클릭해 고치고 <b>고친 내용 저장</b> → <b>엑셀로 내려받기</b>(<code>student_drafts.xlsx</code>, 성명 없음)</li>
+<li>근거가 궁금하면 <b>학생 결과 기록 보기</b>에서 학번별 성취기준·시험·득점률·수준 확인</li>
+</ol>
+</div>
+<div class="figure"><img src="img/15_tab5_settings.webp" alt="생기부 초안 설정 화면" loading="lazy"><div class="cap">설정 화면 — 대상 학생 수가 표시됩니다.</div></div>
+<div class="figure"><img src="img/16_tab5_drafts.webp" alt="저장된 초안 표와 엑셀로 내려받기 버튼" loading="lazy"><div class="cap">저장된 초안 — 사진의 문장은 촬영용 가짜 응답입니다.</div></div>
+
+<div class="usecase"><b>수준 정하는 법</b> — 성취기준마다 (득점 합) ÷ (배점 합): 80% 이상 잘함, 50% 미만 보완 필요, 그 사이 보통 (기본값, 공식 아님).</div>
+<div class="usecase"><b>여러 시험 합치기</b> — 1차 4점 만점에 4점, 2차 10점 만점에 5점인 같은 성취기준 → (4+5)÷(4+10) = 64.3% 보통. 성취기준 코드가 같으면 같은 성취기준으로 합칩니다. 결시한 시험은 빼고 계산합니다.</div>
+<div class="warn"><b>⚠️ 생기부 초안 주의</b> — 근거가 시험 점수뿐이므로 수업 관찰 내용을 더해 반드시 고쳐 쓰세요. 수준이 같은 학생끼리 문장이 비슷할 수 있습니다. 기재요령 부합 여부는 교사가 확인합니다. 학번은 해마다 다시 쓰이므로 <b>다른 학년도 시험은 함께 합치지 마세요.</b></div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 20 -->
+<h2 id="sec20"><span class="num">20</span>프로그램의 DB 들여다보기</h2>
+<p>샘플 실습을 마치면 <code>C:\exam_analyzer\data\exam.db</code>에 자료가 쌓입니다. 16장에서 만든 <code>practice.db</code>와 같은 SQLite 파일입니다.</p>
+
+<div class="tablewrap"><table>
+<tr><th style="width:22%">테이블</th><th style="width:40%">열(필드)</th><th>들어 있는 것 · 기본 키</th></tr>
+<tr><td><code>exams</code></td><td>id, name, created</td><td>시험 목록 (시험 번호, 이름, 만든 날)</td></tr>
+<tr><td><code>items</code></td><td>exam_id, no, max_pt, standard, text</td><td>문항별 배점·성취기준·내용 · 키: (시험, 문항)</td></tr>
+<tr><td><code>scores</code></td><td>exam_id, sid, cls, item_no, score</td><td><b>학번·반·문항별 점수</b> · 키: (시험, 학번, 문항)</td></tr>
+<tr><td><code>student_results</code></td><td>sid, exam_id, cls, std_key, std_label, got, full</td><td>학생 결과 기록: 학번·시험·성취기준별 득점 합과 배점 합 (점수표·문항 저장 때 자동 계산)</td></tr>
+<tr><td><code>student_drafts</code></td><td>sid, cls, body, basis, created</td><td>생기부 초안 (학생당 1개, basis = 근거 시험 번호)</td></tr>
+<tr><td><code>notes</code></td><td>id, exam_id, kind, body, created</td><td>④ 결과 피드백 글</td></tr>
+<tr><td><code>settings</code></td><td>key, value</td><td>LM Studio 주소, 교과명 같은 설정</td></tr>
+</table></div>
+
+<div class="do">
+<b>실습 순서 · 샘플 DB 열어 보기 (선택)</b>
+<ol>
+<li>프로그램의 검은 창을 닫아 <b>프로그램을 끕니다.</b></li>
+<li>DB Browser for SQLite에서 <b>읽기 전용으로 데이터베이스 열기</b>로 <code>C:\exam_analyzer\data\exam.db</code>를 엽니다. <span class="unverified">확인 필요</span>(메뉴 이름)</li>
+<li><b>데이터 보기</b>에서 <code>scores</code>를 고르면 학번·문항별 점수가 보입니다. <b>성명 열이 없다</b>는 것을 확인하세요.</li>
+<li><code>student_results</code>를 보면 ⑤ 생기부 초안의 근거가 된 성취기준별 득점·배점이 보입니다.</li>
+<li><b>SQL 실행</b> 탭에서 아래 문장을 실행해 보세요. ③ 분석의 "득점률"과 같은 값이 나옵니다.
+<div class="code"><div class="bar"><span class="label">SQL — 문항별 득점률(%)</span><button>복사</button></div><pre>SELECT s.item_no AS 문항,
+       ROUND(AVG(COALESCE(s.score, 0)) / i.max_pt * 100, 1) AS 득점률
+FROM scores s JOIN items i ON i.exam_id = s.exam_id AND i.no = s.item_no
+WHERE s.exam_id = 1
+  AND s.sid NOT IN (SELECT sid FROM scores WHERE exam_id = 1
+                    GROUP BY sid HAVING COUNT(score) = 0)
+GROUP BY s.item_no ORDER BY s.item_no;</pre></div>
+<span class="lead">(결시생 제외, 빈칸은 0점으로 계산 — 프로그램과 같은 규칙입니다. <code>exam_id = 1</code>은 첫 번째로 만든 시험입니다. 샘플 자료로 실행해 ③ 분석의 득점률 67.4 · 54.2 · 55.8 · 35.8 · 80.3 · 59.3과 똑같이 나오는 것을 확인했습니다.)</span></li>
+</ol>
+</div>
+
+<div class="warn"><b>⚠️ 실제 자료의 DB는 고치지 마세요.</b> DB Browser에서 값을 바꾸면 프로그램이 지키던 규칙(배점 초과 금지, 학번 중복 금지)을 건너뛰게 됩니다. 실제 학생 자료가 든 DB는 읽기 전용으로만 보고, 연습은 샘플 자료로 하세요.</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 21 -->
+<h2 id="sec21"><span class="num">21</span>큐웬에게 무엇이 전달되나</h2>
+<p>15장에서 파이썬이 LM Studio 서버로 질문을 보냈듯, 프로그램도 같은 방식으로 큐웬에게 글을 보냅니다. 무엇을 보내는지 알면 개인정보를 스스로 판단할 수 있습니다.</p>
+
+<div class="tablewrap"><table>
+<tr><th style="width:20%">기능</th><th style="width:44%">보내는 것</th><th>보내지 않는 것</th></tr>
+<tr><td>④ 결과 피드백</td><td>전체 요약(학생 수·평균 등), 문항별 통계(득점률·만점·부분점수·0점·변별도·점검), 성취기준, 문항 내용 앞 300자</td><td>학번, 반, 학생 개인 점수, 성명</td></tr>
+<tr><td>⑤ 생기부 초안</td><td>교과명, 성취기준 문장, 학생 한 명의 성취기준별 수준(잘함/보통/보완 필요), 글자 수</td><td><b>학번</b>, 성명, 점수 숫자</td></tr>
+</table></div>
+
+<div class="code"><div class="bar"><span class="label">⑤ 생기부 초안 — 학생 한 명에 대해 실제로 보내는 글의 모양 (가상 예시)</span><button>복사</button></div><pre>[교과] 정보
+[성취기준별 수준]
+- 보통: [샘플] 알고리즘을 순서도로 표현한다
+- 보완 필요: [샘플] 변수의 개념을 이해한다
+- 잘함: [샘플] 개인정보 보호 방법을 안다
+
+[요청] 위 내용을 바탕으로 세부능력 및 특기사항 초안을 한 문단, 공백 포함 300자 안팎으로 써 주세요. …(생략) /no_think</pre></div>
+
+<div class="ok"><b>확인한 것</b> — 시험용 서버로 요청 내용을 기록해 보니, 생기부 초안 요청 수십 건에 <b>학번이 0건</b>이었고 숫자는 글자 수(300)뿐이었습니다(2026-10-27). 또 큐웬에게는 "점수·등수·'시험'이라는 말을 쓰지 말 것, 주어 없이 '~함, ~보임'으로 끝낼 것, 없는 활동을 지어내지 말 것"을 함께 지시합니다.</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- =================================================================== PART 5 -->
+<div class="part-title"><div class="kicker2">PART 5</div><h2 style="color:#fff">관리와 문제 해결</h2></div>
+
+<h2 id="sec22"><span class="num">22</span>개인정보·보안 수칙</h2>
+
+<div class="tablewrap"><table>
+<tr><th style="width:30%">자료</th><th style="width:30%">위치</th><th>관리</th></tr>
+<tr><td>프로그램 DB</td><td><code>C:\exam_analyzer\data\exam.db</code></td><td>학번·점수·초안. 백업은 프로그램을 끄고 <code>data</code> 폴더째 복사</td></tr>
+<tr><td>내려받은 엑셀</td><td>다운로드 폴더</td><td>분석 결과(반 통계), 생기부 초안(학번)</td></tr>
+<tr><td>NEIS 원본 점수표</td><td>교사가 둔 곳</td><td><b>성명 포함</b>. 사용 후 학교 지침대로 정리</td></tr>
+<tr><td>연습 DB</td><td><code>C:\Users\(이름)\practice.db</code></td><td>가상 자료. 실습 뒤 지워도 됨</td></tr>
+<tr><td>큐웬 모델 파일</td><td>LM Studio 모델 폴더</td><td>학생 자료 없음. 크기가 커서 저장 공간 관리</td></tr>
+</table></div>
+
+<div class="warn">
+<b>⚠️ 지켜 주세요</b>
+<ul>
+<li><code>exam_analyzer</code> 폴더를 OneDrive·구글 드라이브 등 <b>동기화 폴더에 두지 않기</b></li>
+<li><code>data</code> 폴더·엑셀 파일을 메일·메신저로 보내지 않기</li>
+<li>LM Studio 서버를 <b>네트워크에 공개하지 않기</b> (localhost만)</li>
+<li>LM Studio 채팅 창에 학생 성명·학번을 그대로 넣지 않기 (채팅 기록이 노트북에 남음)</li>
+<li>연수·연습은 <b>가상 자료로만</b>, 실제 자료는 사용법을 익힌 뒤</li>
+<li>노트북 잠금(암호)과 윈도우 업데이트 유지, 공용 노트북에서 쓰지 않기</li>
+<li>학년말에는 필요한 엑셀을 받은 뒤, 프로그램을 끄고 <code>data</code> 폴더를 <b>통째로 지우기</b></li>
+</ul>
+</div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 23 -->
+<h2 id="sec23"><span class="num">23</span>문제 해결</h2>
+
+<h4>LM Studio · 큐웬</h4>
+<div class="tablewrap"><table>
+<tr><th style="width:38%">증상</th><th>해결 방법</th></tr>
+<tr><td>모델을 불러오면 오류 / 바로 꺼짐</td><td>RAM이 부족하거나 CPU가 AVX2를 지원하지 않을 수 있습니다. 다른 프로그램을 닫고 다시 시도, 더 작은 모델(Q4보다 작은 양자화 또는 1.7B) 시험, 정보부서에 CPU 확인 요청</td></tr>
+<tr><td>답이 너무 느림</td><td>질문 끝에 <code>/no_think</code>를 붙이기, 브라우저 탭·다른 프로그램 닫기, 노트북 전원 연결(절전 모드는 느려짐), 8B 대신 4B 쓰기</td></tr>
+<tr><td>답에 <code>&lt;think&gt;</code> 생각 과정이 길게 나옴</td><td><code>/no_think</code>를 붙입니다. 활용 예시 프로그램은 자동으로 붙이고 생각 과정을 지웁니다.</td></tr>
+<tr><td>모델 내려받기가 멈춤·실패</td><td>저장 공간 확인, 학교망 차단 여부 확인(Hugging Face), 다른 네트워크에서 다시 받기</td></tr>
+<tr><td>브라우저에서 <code>localhost:1234/v1/models</code>가 안 열림</td><td>Developer 탭에서 서버 상태가 Running인지 확인. LM Studio를 껐다 켰다면 서버도 다시 켜기</td></tr>
+<tr><td>답이 엉뚱하거나 사실과 다름</td><td>환각입니다. 사실 질문에는 쓰지 말고, 질문을 짧고 구체적으로 바꾸기, 온도 낮추기</td></tr>
+</table></div>
+
+<h4>파이썬 · 실습 코드</h4>
+<div class="tablewrap"><table>
+<tr><th style="width:38%">증상</th><th>해결 방법</th></tr>
+<tr><td>IDLE이 시작 메뉴에 없음</td><td>파이썬 설치를 다시 확인(<a href="#sec9">9장</a>). 설치 화면에서 기본 선택을 바꾸지 않았는지 확인</td></tr>
+<tr><td><code>ConnectionRefusedError</code></td><td>LM Studio 서버가 꺼져 있음 → <a href="#sec14">14장</a></td></tr>
+<tr><td><code>IndexError: list index out of range</code></td><td>서버에 불러온 모델이 없음 → Developer 탭에서 모델 불러오기</td></tr>
+<tr><td><code>TimeoutError</code> / <code>timed out</code></td><td>답이 너무 오래 걸림 → 질문을 짧게, <code>/no_think</code>, <code>max_tokens</code> 줄이기</td></tr>
+<tr><td>붙여 넣은 코드에서 <code>IndentationError</code></td><td>줄 앞 공백이 바뀐 것입니다. 파일을 내려받아(<code>files/…py</code>) IDLE의 <b>File → Open</b>으로 여세요.</td></tr>
+</table></div>
+
+<h4>활용 예시 프로그램</h4>
+<div class="tablewrap"><table>
+<tr><th style="width:38%">증상</th><th>해결 방법</th></tr>
+<tr><td><code>.bat</code> 창이 잠깐 떴다 사라짐</td><td>압축을 풀지 않았거나 일부 파일만 옮겼을 수 있음 → <b>모두 압축 풀기</b> 한 폴더에서 실행</td></tr>
+<tr><td>"Windows의 PC 보호" 창</td><td><b>추가 정보 → 실행</b>. "실행"이 없으면 학교 보안 정책 → 정보부서 문의</td></tr>
+<tr><td><code>Install failed</code></td><td>인터넷 확인. 학교망에서 pypi.org가 막혔을 수 있음 → 다른 네트워크에서 <code>1_install.bat</code>만 실행</td></tr>
+<tr><td><code>No module named streamlit</code></td><td>라이브러리 미설치 → <code>1_install.bat</code> 다시 실행</td></tr>
+<tr><td>화면이 회색으로 "Connecting…"</td><td>검은 창이 닫힘 → <code>2_run.bat</code> 다시 실행</td></tr>
+<tr><td>8502번으로 열림 / 검은 창 두 개</td><td>두 번 실행됨 → 모두 닫고 한 번만 실행</td></tr>
+<tr><td>"큐웬 서버에 연결되지 않았습니다"</td><td>LM Studio 서버 켜기(<a href="#sec14">14장</a>) → 왼쪽 <b>연결 확인</b></td></tr>
+<tr><td>"서버는 켜져 있으나 불러온 모델이 없습니다"</td><td>LM Studio에서 Qwen3 4B 불러오기(Load)</td></tr>
+<tr><td>"큐웬 호출 실패: … timed out"</td><td>다른 프로그램을 닫고 다시, 생기부는 한 반씩</td></tr>
+<tr><td>"선택한 열의 개수가 문항 수와 다릅니다"</td><td>② 탭 문항 점수 열을 문항 수만큼, 순서대로</td></tr>
+<tr><td>"배점을 벗어난 점수가 있어 저장하지 않았습니다"</td><td>안내된 학번·문항을 원본에서 확인, ① 탭 배점 확인</td></tr>
+<tr><td>전에 만든 시험이 안 보임</td><td>다른 폴더의 프로그램을 실행했을 수 있음. 자료는 실행한 폴더의 <code>data</code>에 저장됨</td></tr>
+<tr><td>⑤ "합칠 시험"에 새 시험이 없음</td><td>그 시험의 문항과 점수표를 <b>모두 저장</b>했는지 확인</td></tr>
+</table></div>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- ============================================================ 24 -->
+<h2 id="sec24"><span class="num">24</span>자주 묻는 질문</h2>
+
+<h4>Q1. 지역 LLM은 챗GPT만큼 똑똑한가요?</h4>
+<p>아닙니다. 노트북에서 돌리는 4B 모델은 클라우드 AI보다 훨씬 작습니다. 짧은 초안·문체 바꾸기·정해진 형식의 반복 작업에 쓰고, 판단과 최종 확인은 교사가 합니다.</p>
+<h4>Q2. 인터넷을 끊어도 되나요?</h4>
+<p>설치(파이썬 라이브러리, LM Studio, 모델 내려받기)가 끝나면 인터넷 없이 모든 실습과 활용 예시가 동작합니다.</p>
+<h4>Q3. LM Studio 말고 다른 프로그램도 되나요?</h4>
+<p>OpenAI 형식 API를 제공하는 다른 프로그램(예: Ollama)도 원리는 같습니다. 활용 예시 프로그램은 LM Studio 기준(<code>localhost:1234/v1</code>)으로 만들었고, 왼쪽 연결 설정에서 주소를 바꿀 수 있지만 다른 프로그램으로는 확인하지 못했습니다.</p>
+<h4>Q4. 모델 파일에 학생 정보가 들어가나요?</h4>
+<p>아닙니다. 모델 파일은 내려받은 그대로이며, 대화한다고 모델이 학습하지 않습니다. 다만 LM Studio 채팅 기록은 노트북에 저장될 수 있으니 채팅 창에 학생 정보를 넣지 마세요.</p>
+<h4>Q5. DB 대신 엑셀로 저장하면 안 되나요?</h4>
+<p>사람이 보는 결과는 엑셀로 내려받을 수 있습니다. 프로그램 내부 저장은 중복·잘못된 값을 막고(기본 키·검사), 여러 시험을 학번으로 합치기 쉬운 DB가 알맞습니다.</p>
+<h4>Q6. 통계 숫자는 믿을 수 있나요?</h4>
+<p>통계는 파이썬이 계산합니다(큐웬 아님). 샘플 자료의 값을 별도 계산과 대조해 일치함을 확인했습니다. 점검 기준은 이 프로그램의 기본값이며 공식 기준이 아닙니다.</p>
+<h4>Q7. 다른 선생님 노트북에도 설치할 수 있나요?</h4>
+<p>네. 이 설명서 PART 2부터 같은 순서로 하면 됩니다. 프로그램은 교사 1인용이라 자료(<code>data</code>)는 노트북마다 따로입니다.</p>
+<h4>Q8. 모두 지우려면?</h4>
+<p>자료를 백업한 뒤 <code>C:\exam_analyzer</code> 폴더를 지우고, 파이썬·LM Studio·DB Browser는 <b>설정 → 앱 → 설치된 앱</b>에서 제거합니다. LM Studio 모델 파일은 My Models에서 지웁니다. <span class="unverified">확인 필요</span></p>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<!-- =================================================================== 부록 -->
+<div class="part-title"><div class="kicker2">APPENDIX</div><h2 style="color:#fff">부록</h2></div>
+
+<h2 id="appa"><span class="num">A</span>한 장 요약</h2>
+<div class="cards">
+  <div class="card"><h4>설치 (한 번)</h4>
+  <ol>
+    <li>python.org → Python 3.14 → <b>Add python.exe to PATH</b> 체크 → IDLE로 확인</li>
+    <li>lmstudio.ai → LM Studio 설치</li>
+    <li>Discover → <code>qwen3 4b</code> → <b>Q4_K_M</b> 내려받기</li>
+    <li>(선택) sqlitebrowser.org → DB Browser for SQLite</li>
+    <li>exam_analyzer.zip → <code>C:\</code>에 압축 풀기 → <code>1_install.bat</code></li>
+  </ol></div>
+  <div class="card"><h4>쓸 때마다</h4>
+  <ol>
+    <li>LM Studio → Developer → 모델 불러오기 → 서버 Running</li>
+    <li>(확인) <code>localhost:1234/v1/models</code></li>
+    <li><code>2_run.bat</code> → <code>localhost:8501</code> → 연결 확인</li>
+    <li>① 문항 → ② 점수표 → ③ 분석 → ④ 피드백 → ⑤ 생기부</li>
+    <li>끝나면 브라우저 탭·검은 창 닫기, LM Studio 닫기</li>
+  </ol></div>
+</div>
+
+<h2 id="appb"><span class="num">B</span>확인한 것과 확인하지 못한 것</h2>
+<p class="lead">작성 기준일 2026-10-27. 확인은 리눅스 환경에서 실제로 실행해 했습니다.</p>
+<div class="ok">
+<b>확인한 것</b>
+<ul>
+<li>15장 <code>llm_test.py</code>: 파이썬 3.13에서 실행해, LM Studio와 같은 형식으로 답하는 시험용 서버로부터 답을 받음. 서버가 받은 요청에는 질문 문장만 들어 있음</li>
+<li>16장 <code>db_test.py</code>: 실행 결과 <code>(1, 3.0, 3)</code>, <code>(2, 2.17, 3)</code>. 두 번 실행해도 같은 결과(기본 키)</li>
+<li>활용 예시 프로그램 ①~⑤ 화면 동작(이 설명서의 사진). ④·⑤는 시험용 서버로 확인</li>
+<li>20장 SQL: 샘플 DB에서 실행한 문항별 득점률이 프로그램의 ③ 분석 값과 일치</li>
+<li>생기부 초안 요청에 학번 0건, 숫자는 글자 수뿐 / 여러 시험 합치기 계산을 손 계산과 대조</li>
+<li>필요한 라이브러리(streamlit 1.66.1, pymupdf 1.28.2, pandas 3.1.0, openpyxl 3.1.5, requests 2.34.2)의 윈도우용 설치 파일이 Python 3.12~3.15용으로 모두 있음(약 100MB)</li>
+<li>사실 정보: Qwen3는 2025년 4월 Apache 2.0으로 공개, 0.6B~32B 등 여러 크기, 생각 모드 전환 지원 / Qwen3-4B Q4_K_M 파일 약 2.5GB / LM Studio 권장 RAM 16GB·AVX2 CPU / DB Browser for SQLite 3.13.1의 64비트 설치 파일 (공식·기술 문서와 공개 목록 검색으로 확인)</li>
+</ul>
+</div>
+<div class="warn">
+<b>확인하지 못한 것</b>
+<ul>
+<li><b>윈도우에서의 실제 설치·실행</b>: 파이썬 설치 화면 문구, <code>.bat</code> 파일, IDLE에서의 실습 코드 실행</li>
+<li><b>LM Studio의 실제 메뉴 이름·위치</b>, 속도 표시, 네트워크 공개 옵션 이름 (이 설명서 작성 환경에서 공식 사이트에 접속할 수 없었음)</li>
+<li>DB Browser for SQLite의 메뉴 이름(읽기 전용 열기, 데이터 보기, SQL 실행)</li>
+<li>실제 큐웬의 CPU 응답 속도, 결과 피드백·생기부 초안의 품질, 4B와 8B의 차이</li>
+<li>RAM 8GB 노트북, 학교망 방화벽 환경, 실제 NEIS 점수표 양식, 실제 성취기준표, 실제 글자가 깨진 PDF</li>
+<li>학교생활기록부 기재요령과의 부합 여부</li>
+</ul>
+</div>
+
+<h2 id="appc"><span class="num">C</span>참고 링크</h2>
+<ul>
+<li>파이썬 윈도우용 내려받기: <a href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener noreferrer">https://www.python.org/downloads/windows/</a></li>
+<li>파이썬 윈도우 사용 안내(공식 문서): <a href="https://docs.python.org/3/using/windows.html" target="_blank" rel="noopener noreferrer">https://docs.python.org/3/using/windows.html</a></li>
+<li>파이썬 sqlite3 모듈(공식 문서): <a href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener noreferrer">https://docs.python.org/3/library/sqlite3.html</a></li>
+<li>LM Studio: <a href="https://lmstudio.ai" target="_blank" rel="noopener noreferrer">https://lmstudio.ai</a> · 문서: <a href="https://lmstudio.ai/docs" target="_blank" rel="noopener noreferrer">https://lmstudio.ai/docs</a> · 시스템 요구사항: <a href="https://lmstudio.ai/docs/app/system-requirements" target="_blank" rel="noopener noreferrer">https://lmstudio.ai/docs/app/system-requirements</a></li>
+<li>Qwen3 공식 소개(Qwen 블로그): <a href="https://qwenlm.github.io/blog/qwen3/" target="_blank" rel="noopener noreferrer">https://qwenlm.github.io/blog/qwen3/</a> · 모델: <a href="https://huggingface.co/Qwen/Qwen3-4B" target="_blank" rel="noopener noreferrer">https://huggingface.co/Qwen/Qwen3-4B</a></li>
+<li>SQLite 공식 사이트: <a href="https://www.sqlite.org" target="_blank" rel="noopener noreferrer">https://www.sqlite.org</a> · DB Browser for SQLite: <a href="https://sqlitebrowser.org/dl/" target="_blank" rel="noopener noreferrer">https://sqlitebrowser.org/dl/</a></li>
+<li>Streamlit 문서: <a href="https://docs.streamlit.io" target="_blank" rel="noopener noreferrer">https://docs.streamlit.io</a></li>
+</ul>
+
+<div class="to-menu"><a href="#toc">↑ 메뉴로 돌아가기</a></div>
+
+<footer>
+내 노트북에 지역 LLM 설치하고 활용하기 · 작성 기준일 2026-10-27 · 사진과 예시 속 학번·점수는 모두 가상 데이터입니다.
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.code').forEach(function(box){
+  var btn = box.querySelector('button');
+  var pre = box.querySelector('pre');
+  if(!btn || !pre) return;
+  btn.addEventListener('click', function(){
+    var text = pre.innerText;
+    function ok(){
+      btn.textContent = '복사됨 ✓';
+      btn.classList.add('done');
+      setTimeout(function(){ btn.textContent='복사'; btn.classList.remove('done'); }, 1600);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch(e){ btn.textContent='복사 실패'; }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, fallback);
+    } else { fallback(); }
+  });
+});
+</script>
+</body>
+</html>
