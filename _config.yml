@@ -9,8 +9,6 @@
 exclude:
   # 개발용 문서 — 웹에 발행하지 않는다
   - CLAUDE.md
-  - HANDOFF.md
-  - geoje/README.md
   # 아래는 Jekyll 기본 제외 목록 (위에서 덮어쓰지 않도록 다시 적은 것)
   - Gemfile
   - Gemfile.lock
