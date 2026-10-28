@@ -1,0 +1,285 @@
+/* ============================================================
+   구글 워크스페이스 + AI 활용 연수자료 공통 스타일
+   색·글꼴·박스 모양을 여기서 한 번만 고치면 모든 문서에 반영됩니다.
+   ============================================================ */
+
+:root{
+  --accent:#1E5BD8;     /* 강조색(파랑) */
+  --accent-soft:#EEF3FD;
+  --accent-line:#C9D8F6;
+  --bg:#FFFFFF;         /* 배경 */
+  --ink:#1A1F2B;        /* 본문 글자 */
+  --muted:#5B6270;      /* 보조 글자 */
+  --line:#DDE2EA;       /* 테두리 */
+  --soft:#F5F7FB;       /* 옅은 배경 */
+  --warn:#B45309;       /* 주의 글자 */
+  --warn-bg:#FFF7E8;
+  --warn-line:#F0B65A;
+  --ok:#1F7A3A;
+  --ok-bg:#EDF7F0;
+  --ok-line:#BFE0C9;
+  --verify:#4B5563;
+  --verify-bg:#F6F6F7;
+  --verify-line:#9AA1AC;
+  --lab:#6D3FC0;        /* AI 결과 검수 */
+  --lab-bg:#F5F0FD;
+  --lab-line:#D9C9F5;
+}
+
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0; padding:0;
+  background:var(--bg); color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","맑은 고딕","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px; line-height:1.75;
+  word-break:keep-all; overflow-wrap:break-word;
+}
+.wrap{max-width:880px; margin:0 auto; padding:34px 16px 90px}
+@media (min-width:600px){ .wrap{padding:34px 20px 90px} }
+
+/* ---------- 상단 목차 링크 ---------- */
+.sitenav{border-bottom:1px solid var(--line); background:var(--soft)}
+.sitenav .inner{max-width:880px; margin:0 auto; padding:10px 16px}
+.sitenav a{color:var(--muted); text-decoration:none; font-size:14px; font-weight:700}
+.sitenav a:hover,.sitenav a:focus{color:var(--accent); text-decoration:underline}
+
+/* ---------- 문서 머리말 ---------- */
+header.top{border-bottom:3px solid var(--accent); padding-bottom:22px; margin-bottom:30px}
+.eyebrow{color:var(--accent); font-weight:800; font-size:14px; letter-spacing:.06em; margin-bottom:8px}
+h1{font-size:clamp(27px,6vw,38px); font-weight:900; letter-spacing:-.03em; line-height:1.3; margin:0 0 10px; text-wrap:balance}
+.sub{color:var(--muted); font-size:16px; margin:0}
+
+/* ---------- 제목 ---------- */
+h2{
+  font-size:clamp(20px,4vw,25px); font-weight:900; color:var(--ink);
+  margin:52px 0 12px; letter-spacing:-.02em; line-height:1.4;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+}
+h2 .num{
+  flex:none; background:var(--accent); color:#fff;
+  font-size:15px; min-width:32px; height:32px; padding:0 8px; border-radius:999px;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+h2 .tag{
+  flex:none; font-size:12.5px; font-weight:800; color:#fff;
+  background:var(--ink); padding:4px 10px; border-radius:999px;
+}
+h3{font-size:19px; font-weight:800; margin:30px 0 10px; line-height:1.45}
+h4{font-size:16.5px; font-weight:800; margin:22px 0 8px}
+
+p{margin:10px 0}
+ul,ol{margin:10px 0; padding-left:22px}
+li{margin:6px 0}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+code{background:var(--soft); border:1px solid var(--line); padding:1px 5px; border-radius:4px; font-size:.92em;
+     font-family:"D2Coding","SF Mono","Consolas","Menlo",monospace}
+kbd{border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; padding:0 5px; font-size:.9em; background:#fff}
+.muted{color:var(--muted)}
+.small{font-size:15px}
+
+/* ---------- 안내 박스(callout) ---------- */
+.callout{border-radius:10px; padding:14px 18px; margin:16px 0; font-size:16px}
+.callout > :first-child{margin-top:0}
+.callout > :last-child{margin-bottom:0}
+.callout .ct{font-weight:800; display:block; margin-bottom:4px}
+.callout ul{margin:6px 0; padding-left:20px}
+.callout.note{background:var(--soft); border:1px solid var(--line)}
+.callout.do{background:#fff; border:1px solid var(--line); border-left:5px solid var(--accent); border-radius:0 10px 10px 0}
+.callout.warn{background:var(--warn-bg); border:1.5px solid var(--warn-line)}
+.callout.warn .ct{color:var(--warn)}
+.callout.verify{background:var(--verify-bg); border:1.5px dashed var(--verify-line); color:#2F3540}
+.callout.verify .ct{color:var(--verify)}
+
+/* ✅ 확인 포인트 / 🧪 AI 결과 검수 */
+.checkpoint,.aicheck{border-radius:10px; padding:12px 16px; margin:12px 0; font-size:16px}
+.checkpoint > :last-child,.aicheck > :last-child{margin-bottom:0}
+.checkpoint{background:var(--ok-bg); border:1px solid var(--ok-line)}
+.checkpoint .ct{color:var(--ok); font-weight:800}
+.aicheck{background:var(--lab-bg); border:1px solid var(--lab-line)}
+.aicheck .ct{color:var(--lab); font-weight:800}
+.aicheck ul,.checkpoint ul{margin:6px 0 0; padding-left:20px}
+
+/* ---------- 배지 ---------- */
+.badges{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0}
+.badge{
+  display:inline-flex; align-items:center; gap:4px;
+  font-size:13px; font-weight:800; line-height:1.5;
+  padding:2px 10px; border-radius:999px; white-space:nowrap;
+  color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent-line);
+}
+.badge.ok{color:var(--ok); background:var(--ok-bg); border-color:var(--ok-line)}
+.badge.chk{color:var(--verify); background:var(--verify-bg); border:1px dashed var(--verify-line)}
+.badge.up{color:var(--muted); background:#f1f2f5; border:1px dashed var(--muted); white-space:normal; border-radius:12px}
+.badge.tool{color:var(--ink); background:#fff; border-color:var(--line)}
+.badge.code{color:var(--warn); background:var(--warn-bg); border-color:var(--warn-line)}
+
+/* ---------- 프롬프트·코드 박스(복사 버튼) ---------- */
+.prompt{
+  position:relative; margin:14px 0;
+  border:1.5px solid var(--ink); border-radius:10px;
+  background:#fff; overflow:hidden;
+}
+.prompt .bar{
+  display:flex; align-items:center; gap:10px;
+  background:var(--ink); color:#fff;
+  padding:7px 12px; font-size:13.5px; font-weight:700;
+}
+.prompt .bar .label{flex:1; min-width:0}
+.prompt button.copy{
+  flex:none; border:0; cursor:pointer;
+  background:var(--accent); color:#fff;
+  font-family:inherit; font-size:13.5px; font-weight:800;
+  padding:6px 14px; border-radius:6px; min-height:32px;
+}
+.prompt button.copy:hover{filter:brightness(1.1)}
+.prompt button.copy.done{background:var(--ok)}
+.prompt pre{
+  margin:0; padding:14px 16px;
+  font-family:"D2Coding","SF Mono","Consolas","Menlo",monospace;
+  font-size:14.5px; line-height:1.65;
+  white-space:pre-wrap; word-break:break-all;
+}
+.prompt.code{border-color:var(--warn-line)}
+.prompt.code .bar{background:#3B2A10}
+.prompt .hint{margin:0; padding:8px 16px 12px; font-size:14px; color:var(--muted); border-top:1px dashed var(--line)}
+
+/* ---------- 표 ---------- */
+.tablewrap{overflow-x:auto; margin:18px 0; -webkit-overflow-scrolling:touch}
+table{border-collapse:collapse; width:100%; font-size:15.5px}
+th,td{border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top}
+th{background:var(--accent-soft); color:var(--ink); font-weight:800; font-size:14.5px}
+tbody tr:nth-child(even) td{background:var(--soft)}
+table.wide{min-width:640px}
+
+/* 잘 안 될 때 표 */
+.trouble th:first-child{width:36%}
+
+/* ---------- 단계 흐름 ---------- */
+.flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:8px; margin:18px 0; padding:0; list-style:none}
+.flow > li{margin:0; display:flex; align-items:stretch; gap:8px; flex:1 1 140px}
+.flowstep{
+  flex:1; background:#fff; border:1.5px solid var(--line); border-radius:10px;
+  padding:12px 14px; font-size:15px; text-decoration:none; color:var(--ink); display:block;
+}
+a.flowstep:hover{border-color:var(--accent)}
+.flowstep .t{font-weight:800; font-size:12.5px; color:var(--accent); letter-spacing:.02em; margin-bottom:2px}
+.flowstep.opt{border-style:dashed; color:var(--muted)}
+.flowarrow{display:flex; align-items:center; color:var(--muted); font-size:18px}
+.flow > li:last-child .flowarrow{display:none}
+@media (max-width:700px){ .flowarrow{display:none} .flow > li{flex-basis:100%} }
+
+/* ---------- 목차 카드 ---------- */
+.lead{font-size:18px; color:#2E3440; margin:0 0 8px}
+.group{margin:40px 0 0}
+.group > .gt{
+  display:flex; align-items:center; gap:10px;
+  font-weight:900; font-size:16px; color:var(--accent);
+  letter-spacing:.02em; margin:0 0 14px;
+}
+.group > .gt::after{content:""; flex:1; height:1px; background:var(--line)}
+.cards{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:620px){ .cards{grid-template-columns:1fr} }
+.card-link{
+  background:#fff; border:1.5px solid var(--line); border-radius:14px;
+  padding:18px 20px; text-decoration:none; color:var(--ink); display:block;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.card-link:hover,.card-link:focus{border-color:var(--accent); transform:translateY(-2px)}
+.card-link .ct{font-weight:900; font-size:18px; margin-bottom:6px; line-height:1.4}
+.card-link .cd{color:var(--muted); font-size:15px; margin:0}
+.card-link .cmeta{margin-top:10px; font-size:13px; font-weight:800; color:var(--accent)}
+.card-link .badges{margin-top:10px}
+
+/* ---------- 사례 카드 ---------- */
+.case{border:1.5px solid var(--line); border-radius:14px; padding:20px 18px; margin:26px 0; background:#fff}
+@media (min-width:600px){ .case{padding:22px 24px} }
+.case > h2{margin-top:0; font-size:clamp(20px,4vw,24px)}
+.case > h2 .num{background:var(--ink)}
+.casemeta{margin:4px 0 16px; padding:0; display:grid; grid-template-columns:auto 1fr; gap:4px 14px; font-size:15.5px}
+.casemeta dt{font-weight:800; color:var(--muted); white-space:nowrap}
+.casemeta dd{margin:0}
+@media (max-width:520px){ .casemeta{grid-template-columns:1fr} .casemeta dd{margin-bottom:6px} }
+
+/* 방법 A/B/C */
+.method{border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:16px 0; background:var(--soft)}
+.method > h3{margin:0 0 6px; font-size:17.5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.method .rec{font-size:12px; font-weight:800; color:#fff; background:var(--accent); padding:2px 8px; border-radius:999px}
+.method.a{background:#fff; border:1.5px solid var(--accent-line); border-left:5px solid var(--accent)}
+.method.c{border-style:dashed}
+
+/* 번호 단계: "1 · " 형식 */
+ol.steps{list-style:none; padding-left:0; counter-reset:step; margin:8px 0}
+ol.steps > li{counter-increment:step; position:relative; padding-left:38px; margin:8px 0}
+ol.steps > li::before{
+  content:counter(step) " ·"; position:absolute; left:0; top:0;
+  font-weight:900; color:var(--accent); width:34px;
+}
+
+/* 방법 고르기 카드(페이지 상단) */
+.pick{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:18px 0 8px}
+.pick.four{grid-template-columns:repeat(2,1fr)}
+@media (max-width:700px){ .pick{grid-template-columns:1fr} }
+.pickcard{background:#fff; border:1.5px solid var(--line); border-radius:12px; padding:14px 16px; color:var(--ink); text-decoration:none; display:block}
+.pickcard .h{font-weight:900; font-size:16px; margin-bottom:4px}
+.pickcard .d{color:var(--muted); font-size:14.5px; margin:0}
+
+/* 비교 카드(나쁜 요청 / 좋은 요청) */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0 22px}
+@media (max-width:620px){ .vs{grid-template-columns:1fr} }
+.vs > div{border-radius:10px; padding:12px 14px; font-size:15.5px}
+.vs .bad{background:var(--soft); border:1px solid var(--line)}
+.vs .good{background:#fff; border:1.5px solid var(--accent-line)}
+.vs .h{font-weight:800; font-size:14px; margin-bottom:4px}
+.vs .bad .h{color:var(--muted)}
+.vs .good .h{color:var(--accent)}
+.vs pre{margin:0; white-space:pre-wrap; font-family:inherit; font-size:15px}
+
+/* 변형 아이디어 */
+.variants{margin:14px 0 0; font-size:15.5px}
+.variants .ct{font-weight:800; color:var(--muted)}
+
+/* 체크 목록 */
+ul.check{list-style:none; padding-left:0}
+ul.check > li{position:relative; padding-left:30px; margin:12px 0}
+ul.check > li::before{content:"☐"; position:absolute; left:0; top:-1px; font-size:20px; color:var(--accent)}
+ul.check .how{display:block; color:var(--muted); font-size:15px}
+
+/* ---------- 이전 / 다음 ---------- */
+.pager{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:56px 0 0}
+.pager a{display:block; border:1.5px solid var(--line); border-radius:12px; padding:12px 16px; text-decoration:none; color:var(--ink)}
+.pager a:hover,.pager a:focus{border-color:var(--accent)}
+.pager .dir{display:block; font-size:13px; font-weight:800; color:var(--accent)}
+.pager .next{text-align:right; grid-column:2}
+@media (max-width:520px){ .pager{grid-template-columns:1fr} .pager .next{grid-column:1} }
+
+hr{border:0; border-top:1px solid var(--line); margin:44px 0}
+footer{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:14px}
+footer a{color:var(--muted)}
+
+/* ---------- 인쇄 ---------- */
+@media print{
+  body{font-size:12pt; line-height:1.5}
+  .sitenav,.pager,.prompt button.copy,.noprint{display:none !important}
+  .wrap{padding:0; max-width:none}
+  header.top{margin-bottom:12px; padding-bottom:8px}
+  h2{margin:16px 0 6px; break-after:avoid}
+  .case,.method,.callout,.prompt,.checkpoint,.aicheck,table,.printblock{break-inside:avoid}
+  a{color:inherit; text-decoration:none}
+  .card-link:hover{transform:none}
+}
+.variants ul{margin:4px 0 0; padding-left:20px}
+.variants li{margin:2px 0}
+
+/* 화면 캡처 그림 */
+.shot{margin:10px 0 6px}
+/* 모든 그림: 글자와 구분되도록 진한 테두리 */
+.wrap img{display:block; max-width:100%; height:auto; border:3px solid var(--ink); border-radius:8px; background:#fff;
+          box-shadow:0 2px 6px rgba(26,31,43,.18)}
+.shot figcaption{font-size:14px; color:var(--muted); margin-top:6px}
+
+/* 그림 두 장 나란히 (좁은 화면에서는 위아래) */
+.shots2{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:10px 0 0}
+.shots2 .shot{margin:0; min-width:0}
+@media (max-width:620px){ .shots2{grid-template-columns:1fr} }

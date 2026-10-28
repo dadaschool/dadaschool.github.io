@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 검색엔진에 노출하지 않습니다. 공개 검색을 원하면 아래 한 줄을 지우세요. -->
+<meta name="robots" content="noindex">
+<title>모듈 8: 회의록 자동 만들기 · 구글 워크스페이스 + AI 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav" aria-label="사이트"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<main class="wrap">
+
+<header class="top">
+  <div class="eyebrow">구글 워크스페이스 + AI 연수 · 모듈 8</div>
+  <h1>회의 녹음으로 회의록 자동 만들기</h1>
+  <p class="sub">대면·화상 회의를 녹음하거나 받아쓰고, AI로 결정사항·할 일·미정 사항을 정리합니다</p>
+</header>
+
+<div class="callout note">
+  회의록은 <b>① 소리를 글자로 바꾸기(받아쓰기)</b>와 <b>② 글자를 회의록 형식으로 정리하기</b> 두 단계입니다. 구글 도구마다 ①을 하는 방법과 필요한 라이선스가 다릅니다. ②는 모든 방법에서 같습니다.<br>
+  흐름: <b>① 녹음 동의 받기 → ② 녹음·받아쓰기 → ③ AI로 회의록 정리 → ④ 사람이 확인 → ⑤ 공유하고 녹음 지우기</b>
+</div>
+
+<h2>시작하기 전에</h2>
+<ul>
+  <li>학교 계정, 휴대폰(녹음용), 컴퓨터(정리용)</li>
+  <li>실습 자료
+    <ul>
+      <li><a href="samples/meeting/role-play-script.txt" download><code>role-play-script.txt</code></a>: 3명이 읽는 가상 교과협의회 대본 (3~4분). 이걸 읽으며 녹음합니다.</li>
+      <li><a href="samples/meeting/meeting-transcript.txt" download><code>meeting-transcript.txt</code></a>: 녹음이 어려울 때 쓰는 가상 받아쓰기 결과</li>
+    </ul>
+  </li>
+  <li>함께 대본을 읽을 동료 2명</li>
+</ul>
+
+<div class="callout warn">
+  <span class="ct">⚠️ 녹음 전에 꼭</span>
+  <ul>
+    <li><b>참석자 모두에게 녹음 사실을 알리고 동의를 받습니다.</b> 녹음 시작 때 "회의록 작성을 위해 녹음합니다"라고 말해 기록에도 남깁니다. 학교의 녹음 관련 방침이 있으면 그것을 따릅니다.</li>
+    <li><b>녹음하지 않는 회의</b>: 학교폭력·생활지도 사안, 학생·학부모 상담, 성적 사정, 인사 관련 회의. 이런 회의는 손으로 요점만 적습니다.</li>
+    <li>회의록을 확정한 뒤 <b>녹음 파일은 지웁니다.</b> 회의록에는 학생 이름 등 개인정보를 넣지 않습니다.</li>
+  </ul>
+</div>
+
+<!-- ============ 1 ============ -->
+<h2><span class="num">1</span> 6가지 방법 한눈에 보기</h2>
+<div class="tablewrap">
+<table class="wide">
+  <thead><tr><th style="width:18%">방법</th><th>회의</th><th>받아쓰기</th><th style="width:18%">필요한 것</th><th>자동 정도</th></tr></thead>
+  <tbody>
+    <tr><td><a href="#m1"><b>M1</b> Notebook 녹음기</a></td><td>대면</td><td>휴대폰 Gemini Notebook 앱으로 녹음 → 글로 바뀌어 소스가 됨</td><td><span class="badge ok">✅ 모든 교육 에디션</span> 🔍 녹음기 배포 중</td><td>높음</td></tr>
+    <tr><td><a href="#m2"><b>M2</b> 녹음 파일 → Notebook</a></td><td>대면</td><td>휴대폰 녹음 앱 파일(m4a·mp3)을 노트북에 올리면 글로 바뀜</td><td><span class="badge ok">✅ 모든 교육 에디션</span></td><td>높음</td></tr>
+    <tr><td><a href="#m3"><b>M3</b> 녹음 파일 → Gemini 앱</a></td><td>대면(짧은 회의)</td><td>Gemini 앱 대화에 녹음 파일 첨부</td><td><span class="badge ok">✅ Gemini 앱</span> 🔍 오디오 길이 한도</td><td>중간</td></tr>
+    <tr><td><a href="#m4"><b>M4</b> Docs 음성 입력</a></td><td>대면</td><td>회의 중 Docs에 말을 바로 받아씀</td><td><span class="badge ok">✅ 크롬·마이크</span></td><td>낮음(말한 사람 구분 없음)</td></tr>
+    <tr><td><a href="#m5"><b>M5</b> Meet 스크립트</a></td><td>화상</td><td>Meet가 회의 내용을 Docs 스크립트로 저장</td><td><span class="badge up">⬆️ 기본 계정 없음 · Education Plus·Teaching and Learning</span></td><td>높음</td></tr>
+    <tr><td><a href="#m6"><b>M6</b> Gemini 회의록(Take notes for me)</a></td><td>화상·대면</td><td>Gemini가 요약·할 일·스크립트를 Docs로 자동 작성</td><td><span class="badge up">⬆️ 기본 계정 없음 · Google AI Pro for Education</span></td><td>가장 높음</td></tr>
+  </tbody>
+</table>
+</div>
+<p><b>고르는 순서</b>: 우리 학교에 M6 라이선스가 있으면 M6 → 화상 회의이고 M5가 되면 M5 → 대면 회의는 <b>M1 또는 M2(가장 추천)</b> → 10분 이내 짧은 회의는 M3 → 녹음이 어려운 자리는 M4. 무료 에디션 학교는 <b>M2</b>로 시작하면 됩니다.</p>
+
+<!-- ============ 2 ============ -->
+<h2 id="common"><span class="num">2</span> 회의록 정리 — 모든 방법에 공통</h2>
+<p>받아쓴 글을 아래 요청과 함께 Gemini Notebook 채팅이나 Gemini 앱에 넣습니다. 매번 같은 형식이 필요하면 <a href="m6-gemini-skills.html#s4">모듈 6 · S4 회의록 정리 스킬</a>로 만들어 두면 한 줄로 부를 수 있습니다.</p>
+<div class="prompt">
+  <div class="bar"><span class="label">회의록 정리 요청</span></div>
+  <pre>아래는 회의를 녹음해 받아쓴 글입니다. 학교 회의록 형식으로 정리해 주세요.
+1. 회의 개요: 회의 이름, 안건 목록 (날짜·참석자는 [확인]으로 비워 두기)
+2. 안건별 논의 요약: 안건마다 2~3줄
+3. 결정사항 표: | 안건 | 결정 내용 |
+4. 할 일 표: | 할 일 | 담당 | 기한 |
+5. 미정 사항 표: | 내용 | 언제 정하기로 했는지 |
+규칙:
+- 받아쓴 글에 없는 담당자·기한·요일은 추측하지 말고 "미정"으로 씁니다.
+- 말버릇("음", "자")과 잡담은 빼고, 의견과 결정을 구분합니다.
+- 날짜는 받아쓴 글에 나온 요일을 그대로 쓰고, 요일이 없으면 [요일 확인]을 붙입니다.
+- 사람 이름이 나오면 "교사A"처럼 바꿉니다. 학생 이름·성적·상담 내용이 있으면 빼고 "개인정보 제외"라고 적습니다.
+[받아쓴 글 붙여넣기]</pre>
+</div>
+
+<h3>실습 대본으로 만든 회의록의 정답</h3>
+<p>대본(<code>role-play-script.txt</code>)이나 가상 받아쓰기(<code>meeting-transcript.txt</code>)로 만든 회의록을 아래 표와 대조합니다.</p>
+<div class="tablewrap">
+<table>
+  <thead><tr><th style="width:18%">구분</th><th>내용</th></tr></thead>
+  <tbody>
+    <tr><td><b>결정사항</b></td><td>① 2학기 수행평가는 순서도 과제, 평가 요소 4개(문제 이해·순서도 정확성·창의성·설명) 각 3수준 ② 제출 기한을 11월 13일(금)에서 <b>11월 20일(금)</b>로 변경 ③ 형성평가는 단원별 5문항, 구글 폼 유지 ④ AI 사용 표기("AI 사용:")를 세 반 모두 똑같이 안내</td></tr>
+    <tr><td><b>할 일</b></td><td>① 채점 기준표 초안 공유 드라이브에 올리기 — 교사B — 11월 6일(금) ② 컴퓨터실(수요일 4교시, 3·5반 겹침) 시간표 조정을 정보부에 요청하고 결과 공유 — 교사A — 11월 11일(수)</td></tr>
+    <tr><td><b>미정</b></td><td>① 형성평가 문항 검토 순서 — 다음 협의회에서 ② 다음 협의회 요일 — 11월 마지막 주, 메신저로 정함</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="aicheck"><span class="ct">🧪 정답과 대조할 때 볼 것</span>
+  <ul>
+    <li>제출 기한이 <b>바뀐 날짜(11월 20일)</b>로 들어갔는지. AI는 처음 나온 날짜(11월 13일)를 그대로 쓰는 실수를 자주 합니다.</li>
+    <li>"다음 협의회 요일"에 날짜를 지어내지 않았는지.</li>
+    <li>받아쓰기 결과(<code>meeting-transcript.txt</code>)의 "화자 1·2·3"을 교사A·B·C로 맞게 연결했는지. 받아쓰기는 누가 말했는지 틀리게 나눌 수 있습니다.</li>
+  </ul>
+</div>
+
+<!-- ===================== M1 ===================== -->
+<section class="case" id="m1" aria-labelledby="m1-title">
+  <h2 id="m1-title"><span class="num">M1</span> Gemini Notebook 녹음기로 녹음하고 회의록 만들기</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>교과협의회·학년 협의회처럼 한자리에 모인 회의를 휴대폰 하나로 녹음해 바로 정리할 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge">NotebookLM</span><span class="badge ok">✅ 모든 교육 에디션</span><span class="badge chk">🔍 휴대폰 녹음기 배포 중(2026-09~)</span></span></dd>
+    <dt>준비물</dt><dd>휴대폰에 Gemini Notebook(NotebookLM) 앱, 학교 계정 로그인, <code>role-play-script.txt</code></dd>
+  </dl>
+  <div class="callout verify"><span class="ct">🔍 확인한 범위</span> 2026-09 업데이트로 Gemini Notebook 휴대폰 앱에 강의·회의를 녹음하는 녹음기가 추가되었다고 안내되었습니다(차례로 배포). 도움말 기준 <b>음성 녹음은 1시간까지 글로 바뀌어 소스가 되고, 원래 녹음 파일은 저장하지 않고 받아쓴 글만 저장</b>합니다. 화면의 버튼 이름은 앱에서 확인하세요.</div>
+  <div class="method a">
+    <h3>🤖 방법 A · 녹음기 쓰기 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>휴대폰 앱에서 새 노트북 <code>2026-11 정보과 협의회</code>를 만듭니다.</li>
+      <li>소스 추가에서 녹음(녹음기)을 고르고, 녹음 시작 후 "회의록 작성을 위해 녹음합니다"라고 말합니다.</li>
+      <li>동료 2명과 대본을 읽습니다. 휴대폰은 탁자 가운데 둡니다.</li>
+      <li>녹음을 끝내면 받아쓴 글이 소스로 들어갑니다. 소스를 열어 글이 맞게 들어왔는지 훑어봅니다.</li>
+      <li>컴퓨터에서 같은 노트북을 열고, 채팅에 <a href="#common">회의록 정리 요청</a>을 넣거나 스튜디오 <code>보고서 → 직접 만들기</code>에 넣습니다.</li>
+      <li>결과를 <code>Docs로 내보내기</code> 한 뒤 정답표와 대조합니다.</li>
+    </ol>
+  </div>
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <p>회의 중 한 사람이 Docs 회의록 양식(결정/할 일/미정)에 바로 적습니다.</p>
+  </div>
+  <div class="method c">
+    <h3>🔁 방법 C · 녹음기가 아직 없을 때</h3>
+    <p>휴대폰 기본 녹음 앱으로 녹음하고 <a href="#m2">M2</a>로 올립니다.</p>
+  </div>
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 소스 목록에 녹음을 받아쓴 글이 생기고, 회의록의 결정·할 일·미정이 정답표와 같으면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>받아쓴 글에서 숫자·날짜("11월 20일", "4교시")가 맞게 들렸는지 먼저 봅니다. 받아쓰기가 틀리면 회의록도 틀립니다.</li>
+      <li>원래 녹음이 저장되지 않으므로, 애매한 부분은 회의 직후 참석자에게 바로 확인합니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 노트북을 동료와 공유하면 받아쓴 글 전체가 보입니다. 공유는 회의록(노트·Docs)만 하고, 받아쓴 소스는 확정 후 지웁니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul><li>학년 협의회</li><li>부서 회의</li><li>연수 강의 요약(강사 동의)</li><li>교사 독서 모임</li><li>행사 준비 회의</li></ul>
+  </div>
+</section>
+
+<!-- ===================== M2 ===================== -->
+<section class="case" id="m2" aria-labelledby="m2-title">
+  <h2 id="m2-title"><span class="num">M2</span> 휴대폰 녹음 파일을 Gemini Notebook에 올리기</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>평소 쓰는 녹음 앱으로 녹음하고, 회의가 끝난 뒤 컴퓨터에서 정리할 때 (무료 에디션 학교에 가장 추천)</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge">NotebookLM</span><span class="badge ok">✅ 모든 교육 에디션</span></span></dd>
+    <dt>준비물</dt><dd>휴대폰 기본 녹음 앱, 녹음 파일(m4a·mp3·wav 등), <code>role-play-script.txt</code></dd>
+  </dl>
+  <div class="method a">
+    <h3>🤖 방법 A · 녹음 파일 올리기 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>휴대폰 녹음 앱으로 대본 읽기를 녹음합니다.</li>
+      <li>녹음 파일을 학교 계정 Drive의 <code>교사만</code> 폴더(<a href="m1-drive-sharing.html#case-1">사례 1</a>)에 올립니다.</li>
+      <li>컴퓨터에서 새 노트북을 만들고 <code>소스 추가</code>로 녹음 파일을 올립니다. 올릴 때 글로 바뀌어 소스로 저장됩니다.</li>
+      <li><a href="#common">회의록 정리 요청</a>으로 회의록을 만들고 정답표와 대조합니다.</li>
+      <li>회의록을 확정하면 Drive의 녹음 파일을 지웁니다.</li>
+    </ol>
+  </div>
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <p>녹음을 다시 들으며 회의록을 직접 씁니다. 회의 시간만큼 다시 들어야 합니다.</p>
+  </div>
+  <div class="method c">
+    <h3>🔁 방법 C · 녹음이 어려울 때</h3>
+    <p><code>meeting-transcript.txt</code>를 소스로 올려 정리 단계만 연습합니다.</p>
+  </div>
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 녹음 파일이 소스 목록에 들어가고, 소스를 열면 받아쓴 글이 보이면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>여러 사람이 동시에 말한 부분은 빠지거나 섞입니다. 결정사항이 들어 있는 부분을 녹음으로 다시 들어 확인합니다.</li>
+      <li>소스 하나는 200MB까지 올릴 수 있다고 안내되어 있습니다. 긴 회의는 녹음을 나눠 올립니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 녹음 파일을 개인 휴대폰에 오래 두지 않습니다. 학교 계정 Drive로 옮긴 뒤 휴대폰에서 지우고, 회의록 확정 후 Drive에서도 지웁니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul><li>교과 연구회 회의</li><li>학교 운영 관련 설명회(공개 행사)</li><li>동료 수업 나눔 협의</li><li>워크숍 모둠 토의</li><li>연수 질의응답 정리</li></ul>
+  </div>
+</section>
+
+<!-- ===================== M3 ===================== -->
+<section class="case" id="m3" aria-labelledby="m3-title">
+  <h2 id="m3-title"><span class="num">M3</span> 짧은 회의 녹음을 Gemini 앱에 바로 첨부</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>10분 안팎의 짧은 회의·협의를 노트북 없이 대화 한 번으로 정리할 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge">Gemini 앱</span><span class="badge chk">🔍 오디오 길이 한도</span></span></dd>
+    <dt>준비물</dt><dd>짧은 녹음 파일(대본의 첫 안건만 읽어 녹음)</dd>
+  </dl>
+  <div class="callout verify"><span class="ct">🔍 확인한 범위</span> Gemini 앱 도움말 기준 첨부하는 오디오는 <b>기본 10분까지</b>(상위 요금제는 3시간), 파일 하나 100MB까지입니다. 학교 계정의 한도는 화면에서 확인하세요. 길면 M2를 씁니다.</div>
+  <div class="method a">
+    <h3>🤖 방법 A · 첨부해서 정리 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>gemini.google.com에서 <code>+</code>(파일 추가)로 녹음 파일을 첨부합니다.</li>
+      <li><a href="#common">회의록 정리 요청</a>을 함께 넣습니다. "먼저 받아쓴 글을 보여 주고, 그다음 회의록을 만들어 줘"를 붙이면 받아쓰기를 확인할 수 있습니다.</li>
+      <li>회의록 스킬(<a href="m6-gemini-skills.html#s4">S4</a>)을 만들어 두었다면 <code>/</code>로 불러 씁니다.</li>
+    </ol>
+  </div>
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <p>짧은 회의는 회의 직후 요점 3줄을 직접 적는 것이 더 빠를 수 있습니다.</p>
+  </div>
+  <div class="method c">
+    <h3>🔁 방법 C · 첨부가 안 될 때</h3>
+    <p>M2처럼 Gemini Notebook에 올립니다.</p>
+  </div>
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 받아쓴 글과 회의록이 함께 나오고, 첫 안건의 결정(제출 기한 11월 20일)이 맞으면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>Gemini 앱은 노트북과 달리 <b>출처 번호가 없습니다.</b> 받아쓴 글과 회의록을 한 줄씩 대조합니다.</li>
+      <li>녹음에 없는 일반적인 내용(예: "다음 회의에서 평가 계획을 검토한다")이 끼어들었는지 봅니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 대화 기록에 녹음 내용이 남습니다. 정리를 마치면 그 대화를 지웁니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul><li>쉬는 시간 짧은 학년 협의</li><li>행사 직전 역할 점검</li><li>전화 회의(스피커폰, 상대 동의)</li><li>음성 메모로 남긴 내 업무 생각 정리</li><li>짧은 연수 소감 정리</li></ul>
+  </div>
+</section>
+
+<!-- ===================== M4 ===================== -->
+<section class="case" id="m4" aria-labelledby="m4-title">
+  <h2 id="m4-title"><span class="num">M4</span> Docs 음성 입력으로 실시간 받아쓰기</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>녹음 파일을 남기기 어렵거나, 회의 내용을 화면에 바로 띄우며 함께 확인하고 싶을 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Docs 음성 입력</span><span class="badge">Gemini 앱</span><span class="badge ok">✅ 크롬·마이크</span></span></dd>
+    <dt>준비물</dt><dd>크롬 브라우저, 마이크(노트북 내장 마이크보다 외장 마이크가 좋음)</dd>
+  </dl>
+  <div class="method a">
+    <h3>🤖 방법 A · 받아쓰고 AI로 정리 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>Docs에서 새 문서를 열고 <code>도구 → 음성 입력</code>을 누릅니다. 마이크 상자의 언어를 <b>한국어</b>로 고릅니다(언어 목록은 화면에서 확인).</li>
+      <li>마이크를 누르고 대본을 읽습니다. 말하는 사람이 바뀔 때 진행자가 "교사B 발언"처럼 말하면 구분하기 쉽습니다.</li>
+      <li>끝나면 마이크를 다시 눌러 멈춥니다. 받아쓴 글을 복사해 Gemini 앱에 <a href="#common">회의록 정리 요청</a>과 함께 넣습니다.</li>
+    </ol>
+  </div>
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <p>회의록 담당자가 화면을 함께 보며 직접 칩니다. 공동 편집(<a href="m2-docs-slides.html#case-2">사례 2</a>)으로 참석자가 함께 고칩니다.</p>
+  </div>
+  <div class="method c">
+    <h3>🔁 방법 C · 음성 입력이 안 될 때</h3>
+    <p>크롬 주소창 왼쪽 아이콘에서 마이크 권한을 허용하고, 다른 프로그램이 마이크를 쓰고 있지 않은지 봅니다.</p>
+  </div>
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 말하는 동안 Docs에 글자가 바로 나타나고, 정리한 회의록이 정답표와 같으면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>음성 입력은 <b>말한 사람을 구분하지 않고</b>, 문장부호가 거의 없습니다. 담당자·결정을 사람이 꼭 확인합니다.</li>
+      <li>마이크에서 먼 사람의 말은 빠지기 쉽습니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 음성 입력 중에는 다른 탭으로 옮기면 받아쓰기가 멈출 수 있습니다. 회의 중 개인적인 대화가 받아써지지 않게 주의합니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul><li>수업 아이디어 말로 메모하기</li><li>교내 연수 질의응답 받아쓰기</li><li>행사 리허설 지적 사항</li><li>업무 인수인계 설명 받아쓰기</li><li>강연 요점 받아쓰기(강사 동의)</li></ul>
+  </div>
+</section>
+
+<!-- ===================== M5 ===================== -->
+<section class="case" id="m5" aria-labelledby="m5-title">
+  <h2 id="m5-title"><span class="num">M5</span> Google Meet 스크립트로 화상 회의 회의록</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>여러 학교·교사가 화상으로 모인 협의회에서 말한 내용을 자동으로 받아쓸 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Meet</span><span class="badge tool">Docs</span><span class="badge">Gemini 앱</span><span class="badge up">⬆️ 기본 계정 없음 · Education Plus·Teaching and Learning</span></span></dd>
+    <dt>준비물</dt><dd>Calendar 일정에 Meet 링크가 있는 연습 회의, 동료 2명</dd>
+  </dl>
+  <div class="callout verify"><span class="ct">🔍 확인한 범위</span> 구글 에디션 비교표 기준 Meet <b>스크립트(받아쓰기)</b>는 Education Plus와 Teaching and Learning 추가 라이선스에서 쓸 수 있고, Education Fundamentals·Standard에는 없습니다(문서마다 표기가 조금 달라 학교 계정에서 확인 필요). 학생 라이선스는 기본값이 꺼짐입니다. 2026-04부터 관리자가 녹화·스크립트·Gemini 회의록에 <b>참석자의 명시적 동의</b>를 요구하도록 설정할 수 있습니다.</div>
+  <div class="method a">
+    <h3>🤖 방법 A · 스크립트 켜고 정리 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>Meet 회의에서 <code>활동 → 스크립트</code>(또는 회의 도구 메뉴)로 스크립트를 시작합니다. 참석자 화면에 받아쓰기 중이라는 표시가 뜹니다.</li>
+      <li>대본을 읽고 회의를 마칩니다. 스크립트 Docs가 주최자의 Drive와 Calendar 일정에 저장됩니다.</li>
+      <li>스크립트 Docs를 열어 내용을 복사해 Gemini 앱에, 또는 Docs 파일을 Gemini Notebook 소스로 넣고 <a href="#common">회의록 정리 요청</a>을 합니다.</li>
+    </ol>
+  </div>
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <p>화상 회의 중 공유 Docs 회의록 양식을 함께 열어 두고 각자 담당 안건을 적습니다.</p>
+  </div>
+  <div class="method c">
+    <h3>🔁 방법 C · 스크립트 메뉴가 없을 때</h3>
+    <p>주최자 컴퓨터에서 Docs 음성 입력(<a href="#m4">M4</a>)을 켜 두거나, 참석자 동의를 받아 휴대폰으로 녹음해 <a href="#m2">M2</a>로 정리합니다.</p>
+  </div>
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 회의가 끝난 뒤 Calendar 일정에 스크립트 Docs가 붙어 있고, 발언자 이름이 표시되면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>스크립트에는 참석자 실명이 들어갑니다. 회의록으로 옮길 때 공개 범위에 맞게 이름을 정리합니다.</li>
+      <li>마이크를 끄고 말한 내용, 화면 공유로만 보여 준 내용은 스크립트에 없습니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 스크립트 Docs는 기본적으로 주최자 소유로 저장되고, 학교 설정에 따라 참석자에게 공유될 수 있습니다. 공유 범위를 확인하고 필요 없으면 지웁니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul><li>교육청 화상 협의회</li><li>타 학교와 공동 교육과정 협의</li><li>원격 연수 질의응답</li><li>방학 중 화상 업무 회의</li><li>학부모 대상 화상 설명회(학부모 동의, 공개 범위 확인)</li></ul>
+  </div>
+</section>
+
+<!-- ===================== M6 ===================== -->
+<section class="case" id="m6" aria-labelledby="m6-title">
+  <h2 id="m6-title"><span class="num">M6</span> Gemini 회의록(Take notes for me) — 가장 자동</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>Meet 화상 회의나 대면 회의에서 Gemini가 요약·할 일·스크립트가 담긴 회의록 Docs를 자동으로 만들게 할 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Meet</span><span class="badge tool">Docs</span><span class="badge up">⬆️ 기본 계정 없음 · Google AI Pro for Education</span></span></dd>
+    <dt>준비물</dt><dd>해당 라이선스가 있는 학교 계정, 연습 회의</dd>
+  </dl>
+  <div class="callout verify"><span class="ct">🔍 확인한 범위</span> 2026 안내 기준 Meet의 <b>"Take notes for me"(Gemini 회의록)</b>는 교육용에서 <b>Google AI Pro for Education</b> 추가 라이선스 대상입니다. 2026-08부터 <b>대면 회의</b>에서도 쓸 수 있게 되었고(안드로이드부터 차례로), 2026-09-29부터 이 라이선스의 관리자 기본값은 <b>꺼짐</b>입니다. 회의 주최자에게 라이선스가 있어야 합니다. 대부분의 학교 계정에서는 보이지 않을 수 있습니다.</div>
+  <div class="method a">
+    <h3>🤖 방법 A · 회의록 자동 작성 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>화상 회의: Meet 오른쪽 위의 Gemini 메모 작성(Take notes for me, 한국어 화면 이름은 확인) 버튼을 켭니다. Calendar 일정을 만들 때 미리 켜 둘 수도 있습니다.</li>
+      <li>대면 회의: 휴대폰 Meet 앱의 대면 회의 메모 기능으로 시작합니다(메뉴 이름은 앱에서 확인).</li>
+      <li>회의가 끝나면 요약·다음 단계·스크립트가 담긴 Docs가 주최자에게 저장됩니다.</li>
+      <li>자동 회의록을 <a href="#common">학교 회의록 형식</a>으로 한 번 더 다듬고 정답표와 대조합니다.</li>
+    </ol>
+  </div>
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <p>자동 회의록 없이 회의록 담당자를 정해 씁니다.</p>
+  </div>
+  <div class="method c">
+    <h3>🔁 방법 C · 라이선스가 없을 때</h3>
+    <p>화상 회의는 <a href="#m5">M5</a>(라이선스 확인), 대면 회의는 <a href="#m1">M1</a>·<a href="#m2">M2</a>를 씁니다. 무료 에디션에서는 M2가 가장 비슷한 결과를 냅니다.</p>
+  </div>
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 회의 직후 주최자의 Drive와 Calendar 일정에 회의록 Docs가 생기고, "다음 단계"에 할 일이 담당자와 함께 나오면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>"다음 단계"의 담당자를 Gemini가 대화 맥락으로 추정해 붙이는 경우가 있습니다. 실제로 맡기로 한 사람인지 확인합니다.</li>
+      <li>한국어 회의의 요약 품질을 한 번은 직접 대조해 봅니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 자동 회의록은 참석자에게 자동으로 공유될 수 있습니다. 회의 시작 전에 Gemini 메모 작성을 알리고, 민감한 안건이 시작되면 끕니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul><li>부장 회의</li><li>교육과정 위원회</li><li>학교 행사 준비 위원회</li><li>교과 연구회 정기 회의</li><li>방학 중 업무 협의</li></ul>
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<h2 id="wrapup"><span class="num">3</span> 회의록 마무리 — 공유와 후속 처리</h2>
+<ol class="steps">
+  <li><b>사람이 확인</b>: 진행자가 정답표처럼 결정·할 일·미정을 한 번 읽고 고칩니다. 애매한 부분은 참석자에게 확인합니다.</li>
+  <li><b>공유</b>: 회의록 Docs를 교과협의회 스페이스(<a href="m5-sites-chat-automation.html#case-12">사례 12</a>)나 공유 드라이브에 올립니다.</li>
+  <li><b>일정</b>: 할 일의 기한을 Calendar 일정으로 만듭니다.</li>
+  <li><b>지우기</b>: 녹음 파일, 받아쓴 소스, 정리에 쓴 Gemini 대화를 지웁니다.</li>
+  <li><b>반복</b>: 같은 형식이 계속 필요하면 회의록 스킬(<a href="m6-gemini-skills.html#s4">모듈 6 · S4</a>)로 만들어 둡니다.</li>
+</ol>
+
+<h2>잘 안 될 때</h2>
+<div class="tablewrap">
+<table class="trouble">
+  <thead><tr><th>이런 증상이면</th><th>이렇게 해 보세요</th></tr></thead>
+  <tbody>
+    <tr><td>받아쓰기가 많이 틀림</td><td>휴대폰을 말하는 사람들 가운데 두고, 한 사람씩 말합니다. 에어컨·프로젝터 소음에서 멀리 둡니다.</td></tr>
+    <tr><td>말한 사람이 섞임</td><td>진행자가 발언자를 불러 주고("교사B 말씀해 주세요"), 회의록에서 담당자를 사람이 확인합니다.</td></tr>
+    <tr><td>녹음 파일이 노트북에 안 올라감</td><td>파일 형식(m4a·mp3·wav 등)과 크기(200MB)를 봅니다. 길면 나눠 녹음합니다.</td></tr>
+    <tr><td>Gemini 앱이 오디오를 거절함</td><td>길이 한도(기본 10분)를 넘은 경우입니다. Gemini Notebook(M2)으로 올립니다.</td></tr>
+    <tr><td>Meet에 스크립트·Gemini 메모 메뉴가 없음</td><td>학교 에디션·라이선스에 없는 기능입니다. M1·M2로 진행합니다.</td></tr>
+    <tr><td>회의록에 바뀌기 전 날짜가 들어감</td><td>정리 요청에 "회의 중 바뀐 결정은 마지막 결정만 쓰고, 바뀐 사실을 괄호로 적어 줘"를 더합니다.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>더 알아보기</h3>
+<ul>
+  <li>Gemini Notebook 소스 추가(오디오·녹음): <a href="https://support.google.com/notebooklm/answer/16215270" target="_blank" rel="noopener">support.google.com/notebooklm/answer/16215270</a></li>
+  <li>Gemini 앱 파일 업로드: <a href="https://support.google.com/gemini/answer/14903178" target="_blank" rel="noopener">support.google.com/gemini/answer/14903178</a></li>
+  <li>Docs 음성 입력: <a href="https://support.google.com/docs/answer/4492226" target="_blank" rel="noopener">support.google.com/docs/answer/4492226</a></li>
+  <li>Meet 스크립트: <a href="https://support.google.com/meet/answer/12849897" target="_blank" rel="noopener">support.google.com/meet/answer/12849897</a></li>
+  <li>Meet "Take notes for me": <a href="https://support.google.com/meet/answer/14754931" target="_blank" rel="noopener">support.google.com/meet/answer/14754931</a></li>
+</ul>
+
+<nav class="pager" aria-label="이전·다음 문서">
+  <a class="prev" href="m7-gemini-notebook.html"><span class="dir">← 이전</span>모듈 7: Gemini Notebook</a>
+  <a class="next" href="m9-advanced-ai.html"><span class="dir">다음 →</span>모듈 9: 상위 AI 기능 혼자 실습</a>
+</nav>
+
+<footer>
+  구글 워크스페이스 + AI 활용 연수 · 모듈 8: 회의록 자동 만들기<br>
+  내용은 2026-10-17 기준 구글 공식 도움말로 확인해 작성했습니다. 메뉴 이름, 에디션별 제공 범위는 이후 바뀔 수 있으니 실습 전 학교 계정에서 다시 확인해 주세요.
+</footer>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>

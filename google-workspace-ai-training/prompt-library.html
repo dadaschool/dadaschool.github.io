@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 검색엔진에 노출하지 않습니다. 공개 검색을 원하면 아래 한 줄을 지우세요. -->
+<meta name="robots" content="noindex">
+<title>프롬프트 모음 · 구글 워크스페이스 + AI 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav" aria-label="사이트"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<main class="wrap">
+
+<header class="top">
+  <div class="eyebrow">구글 워크스페이스 + AI 연수 · 찾아보기</div>
+  <h1>프롬프트 모음</h1>
+  <p class="sub">복사해서 <code>[ ]</code> 부분만 바꿔 쓰는 요청 예시 24개</p>
+</header>
+
+<div class="callout note">
+  모든 프롬프트는 <a href="ai-basics.html">AI 활용 기본 원칙</a>의 틀(역할·상황·조건·출력 형식)로 쓰였습니다. <b><code>[ ]</code> 부분을 내 상황으로 바꾸고</b>, 학생 실명·연락처·성적은 넣지 않습니다. 결과는 교사가 확인한 뒤 씁니다. 영상·퀴즈·슬라이드를 교과별로 바로 시험해 보려면 <a href="subject-cheatsheet.html">교과별 프롬프트 치트시트</a>를 씁니다.
+</div>
+
+<nav aria-label="용도별 바로가기" class="noprint">
+  <ul class="badges" style="list-style:none; padding:0">
+    <li><a class="badge" href="#p-class">학급 운영</a></li>
+    <li><a class="badge" href="#p-lesson">수업</a></li>
+    <li><a class="badge" href="#p-assess">평가</a></li>
+    <li><a class="badge" href="#p-parent">학부모 소통</a></li>
+    <li><a class="badge" href="#p-work">업무</a></li>
+    <li><a class="badge" href="#p-sheets">스프레드시트</a></li>
+    <li><a class="badge" href="#p-script">Apps Script</a></li>
+  </ul>
+</nav>
+
+<!-- ============ 학급 운영 ============ -->
+<h2 id="p-class"><span class="num">1</span> 학급 운영</h2>
+
+<div class="prompt">
+  <div class="bar"><span class="label">1. 알림장 문구</span></div>
+  <pre>중학교 [학년] 담임입니다. [날짜(요일)] 알림장 문구를 써 주세요.
+알릴 것: [준비물], [제출 마감], [행사]
+조건: 4줄 이내, 학생이 읽는 말투, 이모지 없이</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[날짜(요일)]</code>, 알릴 것 3가지를 바꾸세요. 요일은 달력으로 다시 확인합니다.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">2. 학급 규칙 함께 만들기 질문</span></div>
+  <pre>중학교 [학년] 학기 초 학급 회의에서 학급 규칙을 학생과 함께 정하려고 합니다.
+학생들이 스스로 규칙을 떠올리도록 돕는 질문 7개를 만들어 주세요.
+조건: 정답을 유도하지 않는 열린 질문, 중학생이 바로 답할 수 있는 말</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[학년]</code>과 질문 수를 바꾸세요. "규칙" 대신 "학급 행사 계획"으로 바꿔도 됩니다.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">3. 1인 1역 목록</span></div>
+  <pre>중학교 [학년] [인원]명 학급의 1인 1역 목록을 만들어 주세요.
+조건: 역할 이름, 하는 일 한 줄, 하루에 걸리는 부담이 비슷하게
+출력 형식: 표(역할 | 하는 일 | 주기)</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[인원]</code>을 학급 인원으로 바꾸세요. 신청 수합은 <a href="m3-forms-sheets.html#case-6">사례 6</a>와 연결됩니다.</p>
+</div>
+
+<!-- ============ 수업 ============ -->
+<h2 id="p-lesson"><span class="num">2</span> 수업</h2>
+
+<div class="prompt">
+  <div class="bar"><span class="label">4. 수업 도입 질문(훅)</span></div>
+  <pre>중학교 [학년] [교과] '[단원]' 첫 차시 도입 질문 5개를 만들어 주세요.
+조건: 학생 일상(학교·가정)과 연결, 정답이 하나로 정해지지 않는 질문, 30자 이내</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[교과]</code>, <code>[단원]</code>을 바꾸세요. Classroom Gemini 탭의 도입 질문 시작 프롬프트에도 같은 내용을 넣을 수 있습니다.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">5. 흔한 오개념 정리</span></div>
+  <pre>중학교 [학년] [교과] '[개념]'에서 학생들이 자주 하는 오개념 5가지를 정리해 주세요.
+각 오개념마다: 학생이 하는 말 예시, 왜 틀렸는지 한 줄, 바로잡는 질문 하나
+출력 형식: 표</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[개념]</code>을 바꾸세요. 결과가 교과서 범위를 넘으면 "교과서 [쪽] 범위 안에서"를 조건에 추가합니다.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">6. 수업 슬라이드 개요</span></div>
+  <pre>중학교 [학년] [교과] '[단원]' 수업용 슬라이드 개요를 만들어 주세요.
+- [장 수]장 이내, 장별 제목과 핵심 문장 2개
+- 마지막 장은 학생 활동 또는 토의 질문
+출력 형식: 번호 목록</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[장 수]</code>를 바꾸고, 개요를 고친 뒤 Canvas에서 슬라이드로 만듭니다(<a href="m2-docs-slides.html#case-3">사례 3</a>).</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">7. 모둠 활동지 틀</span></div>
+  <pre>중학교 [학년] [교과] 모둠 활동지 틀을 만들어 주세요.
+주제: [주제]
+포함: 활동 목표, 역할 표(이끔이·기록이·발표이·자료이), 단계별 질문 3개, 정리 칸
+조건: 학생이 읽는 쉬운 말, A4 한 쪽</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[주제]</code>와 역할 이름을 학급에서 쓰는 이름으로 바꾸세요.</p>
+</div>
+
+<!-- ============ 평가 ============ -->
+<h2 id="p-assess"><span class="num">3</span> 평가</h2>
+
+<div class="prompt">
+  <div class="bar"><span class="label">8. 형성평가 문항</span></div>
+  <pre>중학교 [학년] [교과] '[단원]' 형성평가를 만들어 주세요.
+- 객관식 [n]문항(4지선다), 단답형 [m]문항
+- 각 문항에 정답과 해설 한 줄
+- 오답 보기에는 학생 오개념([오개념 예])을 반영
+- 점수는 문항당 [점수]점</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 문항 수와 오개념 예를 바꾸세요. 정답은 교사가 직접 풀어 확인합니다(<a href="m3-forms-sheets.html#case-4">사례 4</a>).</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">9. 루브릭</span></div>
+  <pre>중학교 [학년] [교과] '[과제]' 루브릭을 만들어 주세요.
+평가 요소 [n]개([요소1, 요소2, …]), 각 3수준
+조건: 수준 설명은 관찰할 수 있는 행동으로, 수준끼리 겹치지 않게
+출력 형식: 표(평가 요소 | 상 | 중 | 하)</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 평가 요소를 학교 평가 계획서의 요소 이름 그대로 넣으세요.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">10. 정답률로 보충 활동 제안</span></div>
+  <pre>아래는 문항별 정답률입니다(학생 이름 없음).
+정답률이 낮은 문항의 원인 가능성과 다음 차시 보충 활동 3가지를 제안해 주세요.
+[표 붙여넣기]</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 표에는 문항 번호·다루는 내용·정답률만 넣습니다.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">11. 수행평가 안내문</span></div>
+  <pre>중학교 [학년] [교과] '[과제명]' 수행평가 안내문을 써 주세요.
+포함: 과제 내용, 분량, 제출 방법([Classroom 등]), 제출 기한([날짜]), 평가 요소, 유의사항(AI 사용 시 표기 방법)
+조건: 학생이 읽는 쉬운 말, A4 한 쪽 이내</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 기한과 평가 요소를 학교 평가 계획과 똑같이 맞추세요.</p>
+</div>
+
+<!-- ============ 학부모 소통 ============ -->
+<h2 id="p-parent"><span class="num">4</span> 학부모 소통</h2>
+
+<div class="prompt">
+  <div class="bar"><span class="label">12. 가정통신문 초안</span></div>
+  <pre>중학교 [학년] [행사명] 가정통신문 초안을 써 주세요.
+포함: 일정, 장소, 준비물, 회신 방법([구글 양식 링크 자리]), 문의처 자리
+조건: 정중한 존댓말, A4 반 쪽, 비용·법적 동의 문구는 [학교 확인]으로 비워 두기</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[행사명]</code>을 바꾸세요. 회신 수합은 <a href="m3-forms-sheets.html#case-5">사례 5</a>로 이어집니다.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">13. 동의서 양식 문항</span></div>
+  <pre>[행사명] 참가 동의를 받는 구글 양식 문항을 만들어 주세요.
+포함: 학생 번호(숫자), 참가 동의 여부(객관식), 보호자 확인(체크), 전달 사항(선택)
+조건: 학부모가 구글 계정 없이 응답할 수 있게, 불필요한 개인정보는 받지 않기</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 받는 항목을 학교 방침에 맞게 줄이세요.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">14. 상담 안내문</span></div>
+  <pre>중학교 담임교사로서 학부모 상담 안내문을 쓰려고 합니다.
+- 상담 기간: [날짜], 1인 [길이], 방문/전화/화상 중 선택
+- 예약 방법: [링크 위치]
+- 취소·변경은 [기한]까지
+- 상담에서 다룰 내용 예시 3가지, 부담스럽지 않은 문체
+A4 반 쪽 분량으로 작성해 주세요.</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 상담 길이·방식을 학교 일정에 맞추세요(<a href="m4-classroom-meet-calendar.html#case-8">사례 8</a>).</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">15. 학급 소식지 문단</span></div>
+  <pre>중학교 [학년] 학급 소식지의 '이번 달 학급 소식' 문단을 써 주세요.
+있었던 일: [행사1], [행사2], [수업 활동]
+조건: 학생 이름 없이, 5문장, 사실만 담백하게</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 있었던 일 목록만 바꾸세요. 학생 이름은 넣지 않습니다.</p>
+</div>
+
+<!-- ============ 업무 ============ -->
+<h2 id="p-work"><span class="num">5</span> 업무</h2>
+
+<div class="prompt">
+  <div class="bar"><span class="label">16. 회의록 정리</span></div>
+  <pre>아래는 [협의회 이름] 메모입니다(개인정보 없음).
+결정사항, 해야 할 일(담당자·기한 포함), 아직 정해지지 않은 사항으로 나누어 표로 정리해 주세요.
+메모에 없는 내용은 추측하지 말고 "미정"으로 표시하세요.
+[메모 붙여넣기]</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: <code>[협의회 이름]</code>을 바꾸세요(<a href="m5-sites-chat-automation.html#case-12">사례 12</a>).</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">17. 드라이브 폴더 구조</span></div>
+  <pre>나는 중학교 [학년] [담임/교과] 교사입니다.
+[정리할 자료 종류]를 구글 드라이브에 정리하려고 합니다.
+- 최상위 폴더 [n]개 이내, 하위는 2단계까지
+- 폴더 이름 규칙(연도_학년_교과_용도)과 예시 5개
+- 학생 공유 폴더와 교사 전용 폴더 구분
+표로 출력해 주세요.</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 자료 종류를 바꾸세요. 공유 범위는 교사가 직접 확인합니다(<a href="m1-drive-sharing.html#case-1">사례 1</a>).</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">18. 업무 메일 다듬기</span></div>
+  <pre>아래 업무 메일을 정중하고 간결하게 다듬어 주세요.
+받는 사람: [동료 교사/학년부]
+조건: 요청 사항과 기한이 첫 두 줄에 보이게, 5문장 이내
+[초안 붙여넣기]</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 받는 사람과 문장 수를 바꾸세요. 학생 관련 사안이면 이름을 빼고 넣습니다.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">19. 사이트 구성안</span></div>
+  <pre>중학교 [학급/동아리/교과] 안내 사이트를 만들려고 합니다.
+- 메뉴 구성 5개 이내
+- 각 페이지에 들어갈 내용 3줄 설명
+- 소개 문구(학생 눈높이, 5문장)</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 대상만 바꾸세요. 게시 범위는 학교 계정으로 제한합니다(<a href="m5-sites-chat-automation.html#case-11">사례 11</a>).</p>
+</div>
+
+<!-- ============ 스프레드시트 ============ -->
+<h2 id="p-sheets"><span class="num">6</span> 스프레드시트</h2>
+
+<div class="prompt">
+  <div class="bar"><span class="label">20. 미제출자 표시 수식</span></div>
+  <pre>Sheets '[명단 시트]'에 A열: 학생 번호, B열: 이름이 있습니다.
+'[응답 시트]'의 [열]열에 응답한 학생 번호가 들어옵니다.
+명단의 C열에 "제출"/"미제출"을 표시하는 수식과, 미제출만 보는 필터 방법을 알려 주세요.</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 시트 이름과 열을 실제 파일과 똑같이 적으세요.</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">21. 조건부 서식 규칙</span></div>
+  <pre>Sheets에서 [범위]는 [값 종류]입니다.
+- [조건1]이면 [색]
+- [조건2]이면 [색]
+'서식 → 조건부 서식'에 어떻게 입력하는지 단계별로 알려 주세요. 한국어 메뉴 이름으로 써 주세요.</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 범위와 조건을 바꾸세요(<a href="m3-forms-sheets.html#case-7">사례 7</a>).</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">22. 수식 오류 고치기</span></div>
+  <pre>Google Sheets에서 아래 수식이 [오류 문구] 오류를 냅니다.
+수식: [수식 붙여넣기]
+시트 구조: [열마다 무엇이 있는지]
+원인과 고친 수식을 알려 주세요. 한국 지역 설정(쉼표 구분자) 기준으로 써 주세요.</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 학생 이름이 든 실제 값은 붙여넣지 말고 열 구조만 설명하세요.</p>
+</div>
+
+<!-- ============ Apps Script ============ -->
+<h2 id="p-script"><span class="num">7</span> Apps Script</h2>
+
+<div class="prompt">
+  <div class="bar"><span class="label">23. 응답 알림 메일</span></div>
+  <pre>Google Forms 응답이 들어올 때마다 담당 교사(내 메일)에게 알림 메일을 보내는 Google Apps Script를 만들어 주세요.
+- 폼에 연결된 스프레드시트에서 실행
+- 메일 제목: [제목]
+- 본문: 제출 시각과 응답 항목 요약 (이름 문항은 빼고 번호만)
+- 설치형 트리거 설정 방법도 단계별로
+- 코드 각 부분에 한국어 주석</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 제목을 바꾸세요. 코딩 없이 되는 Forms 기본 알림부터 확인합니다(<a href="m5-sites-chat-automation.html#case-13">사례 13</a>).</p>
+</div>
+
+<div class="prompt">
+  <div class="bar"><span class="label">24. 코드 설명 받기</span></div>
+  <pre>아래 Google Apps Script 코드를 중학교 교사가 이해할 수 있게 한 줄씩 설명해 주세요.
+- 이 코드가 요청하는 권한(메일, 드라이브, 시트 등)이 무엇인지
+- 실수로 실행했을 때 생길 수 있는 일
+- 학생 개인정보가 밖으로 나갈 수 있는 부분이 있는지
+[코드 붙여넣기]</pre>
+  <p class="hint">이렇게 바꿔 쓰세요: 그대로 쓰세요. AI가 만든 코드든 인터넷에서 본 코드든 실행 전에 이 요청부터 합니다.</p>
+</div>
+
+<h2>프롬프트가 잘 안 먹힐 때 — 점검표</h2>
+<p>결과가 너무 길거나, 수준이 맞지 않거나, 엉뚱하면 아래 네 가지 중 빠진 것을 찾아 한 줄씩 더합니다.</p>
+<div class="tablewrap">
+<table>
+  <thead><tr><th style="width:22%">빠진 것</th><th>이런 증상</th><th>더할 문장 예</th></tr></thead>
+  <tbody>
+    <tr><td><b>역할</b></td><td>대학생·일반인 수준으로 나옴</td><td><code>나는 중학교 2학년 [교과] 교사입니다.</code></td></tr>
+    <tr><td><b>상황</b></td><td>누구에게 주는지 모르는 글이 나옴</td><td><code>학생이 읽을 안내문입니다. 내일 배포합니다.</code></td></tr>
+    <tr><td><b>조건</b></td><td>너무 길거나 하지 말아야 할 내용이 들어감</td><td><code>5줄 이내, 이모지 없이, 메모에 없는 내용은 "미정"으로.</code></td></tr>
+    <tr><td><b>출력 형식</b></td><td>복사해 쓰기 불편한 형태로 나옴</td><td><code>표(항목 | 내용)로 출력해 주세요.</code></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="muted small">그래도 안 되면 결과에 대해 "3번 문항은 너무 어려워요. 교과서 수준으로 다시"처럼 <b>어디가 왜 틀렸는지</b>를 말해 이어서 고치게 합니다.</p>
+
+<nav class="pager" aria-label="이전·다음 문서">
+  <a class="prev" href="cases.html"><span class="dir">← 이전</span>13가지 사례 한눈에 보기</a>
+  <a class="next" href="subject-cheatsheet.html"><span class="dir">다음 →</span>교과별 프롬프트 치트시트</a>
+</nav>
+
+<footer>
+  구글 워크스페이스 + AI 활용 연수 · 프롬프트 모음<br>
+  내용은 2026-10-14 기준 구글 공식 도움말로 확인해 작성했습니다. 메뉴 이름, 에디션별 제공 범위, 요금은 이후 바뀔 수 있으니 실습 전 학교 계정에서 다시 확인해 주세요.
+</footer>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>

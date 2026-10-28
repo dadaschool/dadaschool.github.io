@@ -11,7 +11,8 @@ geoje 루트 `index.html` 은 이 사이트의 목록(공개 링크)과 비공�
 
 2026-10-28 에 옮긴 것 (옛 공개 주소는 404):
 `binary/` · `freschool/` · `geoje/`(학교폭력 예방 영상 → geoje 저장소 `school-violence/`, 인계 문서 `HANDOFF.md` 도 함께) ·
-`gpu-server-guide/` · `google-workspace-ai-training/` · `principal-bot-lab/`.
+`gpu-server-guide/` · `principal-bot-lab/`.
+(`google-workspace-ai-training/` 도 이때 옮겼다가 같은 날 «메인 배포, 목록엔 넣지 말 것» 지시로 되돌렸다.)
 ⚠ git 역사에는 남아 있다 — 지운다고 이미 공개된 내용이 비공개가 되지는 않는다.
 
 ## 공개 규칙 (가장 중요)
@@ -24,6 +25,7 @@ geoje 루트 `index.html` 은 이 사이트의 목록(공개 링크)과 비공�
    - `claude-basic/` (+ 그 사진 `image_public/`), `vibe-coding-training/` — 연수에서 주소로 나눠 준 자료
    - `exam-analyzer-guide/` + `exam_analyzer/` — 지역 LLM 연수
    - `eduform2/` — 목록에 있는 `eduform/` 페이지 안에서 링크한다
+   - `google-workspace-ai-training/` — 구글 워크스페이스 + AI 연수자료 (2026-10-28 «index 에 올리지 마» 지시)
 
 3. 새 하위 디렉터리는 기본적으로 **비공개 저장소(geoje)** 로 간다.
    이 공개 저장소에 올리는 것은 아래 [배포] ② 의 «메인으로 배포해» 뿐이다.
@@ -37,7 +39,7 @@ geoje 루트 `index.html` 은 이 사이트의 목록(공개 링크)과 비공�
 ```
 /index.html          루트 사이트 — 위 규칙에 따라 함부로 수정하지 않는다
 /<앱>/               루트 목록에 있는 앱
-/claude-basic/ · /image_public/ · /vibe-coding-training/ · /exam-analyzer-guide/ · /exam_analyzer/ · /eduform2/
+/claude-basic/ · /image_public/ · /vibe-coding-training/ · /exam-analyzer-guide/ · /exam_analyzer/ · /eduform2/ · /google-workspace-ai-training/
                      목록 밖이지만 공개로 남긴 것 (공개 규칙 2)
 /robots.txt          전체 허용
 /_config.yml         Jekyll 제외 목록 — 아래 문서를 웹에 발행하지 않는다

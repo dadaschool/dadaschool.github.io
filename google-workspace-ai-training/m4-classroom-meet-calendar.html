@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 검색엔진에 노출하지 않습니다. 공개 검색을 원하면 아래 한 줄을 지우세요. -->
+<meta name="robots" content="noindex">
+<title>모듈 4: 수업 운영 · 구글 워크스페이스 + AI 연수자료</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav" aria-label="사이트"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<main class="wrap">
+
+<header class="top">
+  <div class="eyebrow">구글 워크스페이스 + AI 연수 · 모듈 4</div>
+  <h1>수업 운영 — Classroom·Meet·Calendar</h1>
+  <p class="sub">과제와 평가, 상담 예약, 결석생 보충을 한 흐름으로 묶습니다</p>
+</header>
+
+<div class="callout note">
+  이 모듈은 Classroom의 Gemini 탭을 가장 많이 씁니다. Classroom Gemini는 모든 교육 에디션에서 쓸 수 있고 기본값이 켜짐이지만, 관리자가 끌 수 있습니다. 교사용 생성 기능은 학교 설정에서 <b>만 18세 이상 교사</b>로 확인된 계정에 열립니다.<br>
+  흐름: <b>① 일정을 연다(Calendar) → ② 과제와 기준을 낸다(Classroom) → ③ 놓친 학생은 자료 중심으로 보충한다(NotebookLM·Meet).</b>
+</div>
+
+<h2>시작하기 전에</h2>
+<ul>
+  <li>연습용 Classroom 수업 1개(<code>수업 만들기</code>로 <code>연수연습반</code> 생성). 실제 학생이 있는 수업에서 연습하지 않습니다.</li>
+  <li>Classroom 왼쪽 메뉴의 <code>Gemini</code> 탭이 보이는지 확인(<a href="prepare.html">연수 전 점검</a> 3번)</li>
+  <li>가상 안내문 <a href="samples/assessment-guide.txt" download><code>samples/assessment-guide.txt</code></a></li>
+</ul>
+
+<!-- ===================== 사례 8 ===================== -->
+<section class="case" id="case-8" aria-labelledby="case-8-title">
+  <h2 id="case-8-title"><span class="num">8</span> 사례 8. 학부모 상담 예약과 안내문 (Calendar + AI)</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>학기 초·학기 말 상담 주간에 시간 겹침 없이 예약을 받을 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Calendar 예약 일정</span><span class="badge">Gemini 앱</span><span class="badge chk">🔍 에디션·외부 예약 설정 확인</span></span></dd>
+    <dt>준비물</dt><dd>가상 상담 기간(예: <code>2026-11-02 ~ 2026-11-06</code>), 상담 가능 시간대 메모</dd>
+  </dl>
+
+  <div class="callout verify">
+    <span class="ct">🔍 Calendar 예약 일정(Appointment schedules) — 2026-10-14 확인 범위</span>
+    <ul>
+      <li>2022-03 구글 안내에서 예약 일정은 Education Fundamentals, Standard, Plus, Teaching and Learning Upgrade에 제공된다고 했습니다. 이후 변경 여부는 학교 계정 화면에서 확인하세요.</li>
+      <li>예약 페이지는 <b>항상 공개</b>입니다. 링크를 가진 사람은 누구나 예약 페이지와 함께 교사의 프로필 사진·계정 이름을 볼 수 있습니다. 캘린더의 다른 일정 내용은 보이지 않습니다.</li>
+      <li>예약 일정은 <b>컴퓨터 웹에서만 만들 수 있고</b>, Calendar 모바일 앱에서는 만들 수 없습니다.</li>
+      <li>학교 관리자 정책에 따라 학교 밖(학부모) 예약이 제한되는지는 공식 문서로 확인하지 못했습니다. 학교 계정에서 예약 링크를 개인 브라우저(로그아웃 상태)로 열어 직접 확인하세요.</li>
+    </ul>
+  </div>
+
+  <div class="method a">
+    <h3>🤖 방법 A · AI에게 시키기 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>컴퓨터에서 Calendar를 열고 <code>만들기 → 예약 일정</code>을 누릅니다. 상담 길이, 가능한 날짜·시간, 예약 사이 간격(버퍼), 하루 최대 예약 수를 정합니다. 화면 문구는 학교 계정에서 확인합니다.</li>
+      <li>예약 양식에 받을 항목을 최소로 정합니다(예: 학생 번호, 상담 방식). 연락처를 받을지는 학교 방침을 따릅니다.</li>
+      <li>저장 후 예약 페이지 링크를 복사합니다.</li>
+      <li>Gemini 앱에 아래 요청으로 학부모 안내문(예약 방법, 취소 방법, 상담 준비)을 받습니다.</li>
+      <li>안내문은 교사가 읽고 학교 방침에 맞게 고친 뒤 배포합니다.</li>
+    </ol>
+    <div class="prompt">
+      <div class="bar"><span class="label">요청 예시 · 상담 안내문</span></div>
+      <pre>중학교 담임교사로서 학부모 상담 안내문을 쓰려고 합니다.
+- 상담 기간: [가상 날짜], 1인 15분, 방문/전화/화상 중 선택
+- 예약 방법: [링크 위치]
+- 취소·변경은 하루 전까지
+- 상담에서 다룰 내용 예시 3가지, 부담스럽지 않은 따뜻한 문체
+A4 반 쪽 분량으로 작성해 주세요.</pre>
+    </div>
+  </div>
+
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <ol class="steps">
+      <li>Calendar에 상담 가능 시간을 일정으로 미리 막아 두고, 가정통신문으로 희망 시간을 받아 교사가 배정합니다.</li>
+      <li>안내문은 학교 기존 양식을 고쳐 씁니다.</li>
+    </ol>
+  </div>
+
+  <div class="method c">
+    <h3>🔁 방법 C · 예약 일정이 막혀 있거나 공개 링크가 부담될 때</h3>
+    <ol class="steps">
+      <li>Forms로 희망 시간 1~3지망과 상담 방식을 받습니다(학생 번호 입력, 로그인 요구 없음).</li>
+      <li>응답 시트에서 1지망 기준으로 정렬하고, 겹치는 시간은 2지망으로 배정합니다. 수식이 필요하면 <a href="m3-forms-sheets.html#case-6">사례 6</a>의 순번 수식을 응용해 AI에게 요청합니다.</li>
+      <li>배정 결과는 개별로 안내합니다.</li>
+    </ol>
+  </div>
+
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 예약 페이지 링크를 다른 브라우저(로그아웃 상태)로 열었을 때 예약 가능한 시간 슬롯이 보이고, 테스트 예약을 하면 내 Calendar에 일정이 생기면 성공입니다. 테스트 예약은 확인 후 취소합니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>안내문의 날짜와 요일이 맞는지 달력으로 확인합니다. AI는 요일을 자주 틀립니다.</li>
+      <li>"상담 내용은 녹음됩니다", "비용이 없습니다"처럼 요청하지 않은 약속 문장이 들어가지 않았는지 봅니다.</li>
+      <li>상담 방식(방문/전화/화상)과 예약 양식의 선택지가 서로 일치하는지 대조합니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 학부모 개인정보(연락처·구글 계정)를 수집하는 방식은 학교 방침을 먼저 확인합니다. 학생 상담 내용은 구글 양식·Gemini에 기록하지 않습니다. 예약 페이지는 공개 링크이므로 학급 밖으로 퍼지지 않도록 안내 경로를 정합니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul>
+      <li>진로 상담 예약</li>
+      <li>수행평가 질문 시간(오피스아워)</li>
+      <li>학생 개별 면담 일정</li>
+      <li>학년 협의회 일정 조정</li>
+      <li>보충수업 신청 시간대</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 사례 9 ===================== -->
+<section class="case" id="case-9" aria-labelledby="case-9-title">
+  <h2 id="case-9-title"><span class="num">9</span> 사례 9. Classroom 과제 배포와 루브릭 평가 (Classroom Gemini)</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>수행평가를 Classroom 과제로 내고, 기준표(루브릭)로 일관되게 평가할 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Classroom</span><span class="badge">Classroom Gemini</span><span class="badge ok">✅ 모든 교육 에디션</span><span class="badge chk">🔍 관리자 설정·만 18세 이상 교사</span></span></dd>
+    <dt>준비물</dt><dd>연습 수업 <code>연수연습반</code>, 가상 안내문 <a href="samples/assessment-guide.txt" download><code>samples/assessment-guide.txt</code></a></dd>
+  </dl>
+
+  <div class="callout verify">
+    <span class="ct">🔍 Classroom 기본 루브릭과 Gemini 루브릭 생성은 다른 기능입니다 (2026-10-14 확인)</span>
+    <ul>
+      <li><b>Classroom 기본 루브릭</b>: 과제 만들기 화면에서 교사가 평가 기준과 수준을 직접 입력하는 기능입니다. Gemini가 없어도 씁니다.</li>
+      <li><b>Gemini 루브릭 생성</b>: 2026-08-05 Workspace 업데이트 블로그 안내로 출시되었습니다. ① 과제 화면의 루브릭 영역에서 과제 내용을 바탕으로 Gemini가 초안을 만들고 교사가 고친 뒤 붙이기, ② 이미 가진 루브릭 파일을 Classroom용 루브릭으로 바꾸기, ③ Gemini 탭에서 루브릭 초안을 만들어 Sheets·Docs로 내보내기의 세 가지 방법이 있습니다. Education Fundamentals·Standard·Plus 대상이며, Gemini in Classroom이 켜져 있으면 기본으로 쓸 수 있고, <b>만 18세 이상 사용자</b>에게만 제공됩니다.</li>
+      <li>루브릭 변환 기능은 도움말에 영어 전용으로 적힌 적이 있습니다. 한국어 화면에서 보이는지 확인하세요.</li>
+    </ul>
+  </div>
+
+  <div class="method a">
+    <h3>🤖 방법 A · AI에게 시키기 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>Classroom 왼쪽 메뉴 <code>Gemini</code> 탭에서 교사용 시작 프롬프트(퀴즈 생성, 수업 계획 개요 작성, 프로젝트 아이디어 브레인스토밍, 도입 질문 만들기, 흔한 오개념 다루기 등)를 둘러보고, 수업 계획 개요를 하나 만들어 봅니다.</li>
+      <li>아래 요청으로 수행평가 과제 안내문과 루브릭 초안을 받습니다. Gemini 탭이나 Gemini 앱 어느 쪽이든 됩니다.</li>
+      <li><code>수업 과제 → 만들기 → 과제</code>에서 제목·안내문·기한·점수를 넣습니다.</li>
+      <li><code>루브릭</code>을 추가합니다. Gemini 루브릭 생성이 보이면 초안을 만들고, 보이지 않으면 AI가 준 표를 보고 직접 입력합니다. 어느 쪽이든 <b>최종 기준은 교사가 확정</b>합니다.</li>
+      <li>학생 화면 미리보기(또는 테스트 학생 계정)로 과제를 엽니다.</li>
+    </ol>
+    <div class="prompt">
+      <div class="bar"><span class="label">요청 예시 · 과제와 루브릭</span></div>
+      <pre>중학교 2학년 정보 교과 수행평가 과제 설명과 루브릭을 만들어 주세요.
+과제: 학교생활 문제를 알고리즘(순서도)으로 표현하기
+- 평가 요소 4개(문제 이해, 순서도 정확성, 창의성, 설명), 각 3수준
+- 학생이 읽는 과제 안내문(쉬운 말, 6줄 이내)
+- 교사용 채점 기준표(표)</pre>
+    </div>
+  </div>
+
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <ol class="steps">
+      <li><code>수업 과제 → 만들기 → 과제</code>에서 안내문을 직접 씁니다.</li>
+      <li><code>루브릭 → 루브릭 만들기</code>에서 평가 기준 4개와 수준 3개를 직접 입력합니다. 점수 사용 여부와 수준별 점수를 정합니다.</li>
+      <li>다른 과제에서 쓴 루브릭은 <code>루브릭 재사용</code>으로 불러옵니다.</li>
+    </ol>
+  </div>
+
+  <div class="method c">
+    <h3>🔁 방법 C · Classroom Gemini 탭이 막혀 있을 때</h3>
+    <ol class="steps">
+      <li>같은 요청을 Gemini 앱에 넣어 안내문과 루브릭 표를 받습니다.</li>
+      <li>표를 Sheets에 붙여넣어 다듬은 뒤 Classroom 루브릭에 옮겨 적습니다.</li>
+    </ol>
+  </div>
+
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 학생 화면(미리보기 또는 테스트 학생 계정)에서 과제 안내문과 루브릭이 함께 보이면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>루브릭 수준 설명이 "잘함/보통" 같은 말이 아니라 <b>관찰할 수 있는 행동</b>으로 쓰였는지 봅니다(예: "선택 구조와 반복 구조를 각각 1번 이상 바르게 사용한다").</li>
+      <li>평가 요소가 학년 수준·성취기준과 맞는지, 학교 평가 계획서의 배점과 일치하는지 대조합니다.</li>
+      <li>수준 사이의 경계가 겹치거나 빈칸이 생기지 않는지(어느 수준에도 안 들어가는 학생이 생기지 않는지) 확인합니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 실제 성적 산출은 학교 학업성적관리규정과 NEIS 절차를 따릅니다. 루브릭 초안과 채점 기준은 학생에게 공개하는 부분과 교사만 보는 부분을 구분해 저장합니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul>
+      <li>서술형 과제(국어·사회 논술)</li>
+      <li>독서 감상문</li>
+      <li>과학 실험 보고서</li>
+      <li>영상 제출 과제(체육 동작, 음악 연주)</li>
+      <li>자기 평가·동료 평가 과제</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 사례 10 ===================== -->
+<section class="case" id="case-10" aria-labelledby="case-10-title">
+  <h2 id="case-10-title"><span class="num">10</span> 사례 10. 결석생 보충과 원격 상담 (Meet + NotebookLM)</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>결석·교외체험학습 뒤 놓친 수업을 보충할 때, 소규모 원격 상담이 필요할 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge tool">Meet</span><span class="badge tool">Classroom</span><span class="badge">NotebookLM</span><span class="badge ok">✅ NotebookLM: 모든 교육 에디션</span><span class="badge chk">🔍 학생 배정: 관리자 설정 확인</span><span class="badge up">⬆️ Meet 녹화: 기본 계정 없음</span></span></dd>
+    <dt>준비물</dt><dd>본인이 만든 수업 자료(PDF·Docs·Slides) 또는 가상 안내문 <a href="samples/assessment-guide.txt" download><code>samples/assessment-guide.txt</code></a></dd>
+  </dl>
+
+  <div class="callout verify">
+    <span class="ct">🔍 확인한 범위 (2026-10-14)</span>
+    <ul>
+      <li><b>노트북 배정</b>: 교사가 만든 NotebookLM(Gemini Notebook) 노트북을 Classroom 과제·자료에 첨부하면 학생에게 자동 공유됩니다. 학생은 관리자가 NotebookLM 사용을 허용해야 열 수 있고, 소스 자료는 <b>읽기 전용</b>으로 봅니다. 교사는 수업 과제 페이지에서 몇 명이 열었는지, 대화를 시작했는지를 볼 수 있습니다. Education Fundamentals·Standard·Plus 대상입니다.</li>
+      <li><b>Meet 녹화</b>: Meet 도움말 기준 Education Fundamentals에서는 교사·학생이 회의를 녹화할 수 없습니다. 상위 에디션은 녹화할 수 있으나 관리자 설정에 따라 다릅니다.</li>
+      <li><b>Gemini 회의록("Take notes for me")</b>: 2026 안내 기준 교육용은 Google AI Pro for Education 추가 라이선스 대상으로 안내됩니다. 대부분의 학교 계정에서는 보이지 않을 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <div class="method a">
+    <h3>🤖 방법 A · AI에게 시키기 <span class="rec">추천</span></h3>
+    <ol class="steps">
+      <li>수업 자료(PDF, Docs, 슬라이드)를 NotebookLM 새 노트북에 소스로 올립니다.</li>
+      <li>아래 요청 예시로 질문 가능한 노트북을 다듬고, 요약 노트와 오디오 개요를 만듭니다.</li>
+      <li>Classroom에서 <code>수업 과제 → 만들기</code>(또는 과제의 <code>첨부</code>)로 노트북을 학생에게 배정합니다. 🔍 관리자 허용이 필요합니다.</li>
+      <li>소규모 원격 상담이 필요하면 Calendar 일정에 Meet 링크를 넣어 보냅니다.</li>
+    </ol>
+    <div class="prompt">
+      <div class="bar"><span class="label">요청 예시 6개 · NotebookLM</span></div>
+      <pre>1. 이 수업 자료의 핵심 개념 5가지를 중학생 눈높이로 정리해줘
+2. 결석한 학생이 꼭 해 봐야 할 확인 질문 5개를 만들어줘
+3. 오늘 수업의 과제 안내를 3줄로 요약해줘
+4. 헷갈리기 쉬운 용어를 표로 비교해줘
+5. 이 자료로 10분 분량 오디오 개요를 만들어줘
+6. 단원 마무리 퀴즈 8문항(정답·해설 포함)을 만들어줘</pre>
+    </div>
+  </div>
+
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <ol class="steps">
+      <li>Classroom에 해당 차시 자료와 "결석생 확인 질문" 자료를 게시합니다.</li>
+      <li>필요하면 쉬는 시간이나 방과 후에 Meet로 짧게 질문을 받습니다.</li>
+    </ol>
+  </div>
+
+  <div class="method c">
+    <h3>🔁 방법 C · 노트북 배정이 막혀 있을 때</h3>
+    <ol class="steps">
+      <li>교사 계정의 NotebookLM에서 요약과 확인 질문만 만듭니다.</li>
+      <li>결과를 Docs에 붙여넣어 교사가 고친 뒤, Classroom 자료로 학생에게 공유합니다.</li>
+    </ol>
+  </div>
+
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> 학생 화면(테스트 학생 계정)에서 배정된 노트북이 열리고 질문에 답이 나오거나, 방법 C의 요약 문서가 학생 화면에 보이면 성공입니다. 교사 화면의 수업 과제 페이지에서 열람 수가 보이는지도 확인합니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수</span>
+    <ul>
+      <li>NotebookLM 답변의 출처 표시(숫자)를 눌러 원문과 일치하는지 확인합니다.</li>
+      <li>오디오 개요는 끝까지 들어 보고, 강조점이 수업 의도와 다르면 학생에게 주지 않습니다.</li>
+      <li>퀴즈 정답·해설은 교사가 직접 풀어 확인합니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 수업 녹화에는 학생 얼굴·음성이 담기므로 학교 방침과 동의를 확인한 뒤에만 씁니다. 이 사례는 녹화 대신 <b>자료 중심 보충</b>을 기본으로 합니다. 학생 상담 내용은 노트북 소스나 Meet 채팅에 남기지 않습니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul>
+      <li>교외체험학습 사후 보충 노트북</li>
+      <li>학부모 상담 화상 진행(Meet 링크)</li>
+      <li>시험 전 학생 질문 시간</li>
+      <li>교과 연계 수업 기록 노트북(협력 교사와 공유)</li>
+      <li>전학생·복귀 학생용 단원 요약</li>
+    </ul>
+  </div>
+</section>
+
+<h2>잘 안 될 때</h2>
+<div class="tablewrap">
+<table class="trouble">
+  <thead><tr><th>이런 증상이면</th><th>이렇게 해 보세요</th></tr></thead>
+  <tbody>
+    <tr><td>Calendar <code>만들기</code>에 예약 일정이 없음</td><td>컴퓨터 웹에서 열었는지 확인합니다(모바일 앱에서는 만들 수 없음). 그래도 없으면 방법 C로 진행합니다.</td></tr>
+    <tr><td>Classroom Gemini 탭은 보이는데 생성이 안 됨</td><td>교사 인증과 연령 설정 문제일 수 있습니다. 학교 관리자에게 문의하고, 연수 중에는 Gemini 앱으로 진행합니다.</td></tr>
+    <tr><td>학생이 배정된 노트북을 못 엶</td><td>학생 계정에 NotebookLM 사용이 허용되어 있지 않은 경우입니다. 방법 C로 바꿉니다.</td></tr>
+    <tr><td>Meet에 녹화 버튼이 없음</td><td>기본 계정(Education Fundamentals)에서는 없는 것이 정상입니다. 녹화 대신 자료 중심 보충을 씁니다.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>더 알아보기</h3>
+<ul>
+  <li>Classroom 도움말: <a href="https://support.google.com/edu/classroom/" target="_blank" rel="noopener">support.google.com/edu/classroom</a> (Gemini in Classroom, 노트북·Gem 배정)</li>
+  <li>Calendar 도움말: <a href="https://support.google.com/calendar/" target="_blank" rel="noopener">support.google.com/calendar</a> (예약 일정 만들기)</li>
+  <li>Meet 도움말: <a href="https://support.google.com/meet/" target="_blank" rel="noopener">support.google.com/meet</a> (회의 녹화)</li>
+</ul>
+
+<nav class="pager" aria-label="이전·다음 문서">
+  <a class="prev" href="m3-forms-sheets.html"><span class="dir">← 이전</span>모듈 3: 설문·데이터</a>
+  <a class="next" href="m5-sites-chat-automation.html"><span class="dir">다음 →</span>모듈 5: 업무 효율화</a>
+</nav>
+
+<footer>
+  구글 워크스페이스 + AI 활용 연수 · 모듈 4: 수업 운영<br>
+  내용은 2026-10-14 기준 구글 공식 도움말로 확인해 작성했습니다. 메뉴 이름, 에디션별 제공 범위, 요금은 이후 바뀔 수 있으니 실습 전 학교 계정에서 다시 확인해 주세요.
+</footer>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>
