@@ -1,2 +1,4 @@
+# 전체 허용. 검색에 내보내지 않을 페이지는 그 페이지 안의
+# <meta name="robots" content="noindex, nofollow"> 로 막는다.
 User-agent: *
 Disallow:
