@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교장봇 연구소 · 교사용</title>
+<link rel="stylesheet" href="css/app.css?v=202610181154">
+<style>
+  /* 교사 화면 전용 — 보통 문서처럼 스크롤한다 */
+  body { height: auto !important; overflow: auto !important; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+  .wrap .card h2 { margin-bottom: 8px; }
+  table.t { width: 100%; border-collapse: collapse; font-size: 19px; }
+  table.t th, table.t td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  table.t th { background: #f1f5f9; }
+  .prn { display: flex; gap: 12px; flex-wrap: wrap; }
+  .sheet { display: none; }
+  .std { background: #f8fafc; border-radius: 10px; padding: 10px 14px; }
+
+  /* ---------- 인쇄 — 고른 활동지 한 장만 ---------- */
+  @media print {
+    @page { size: A4; margin: 14mm 12mm; }
+    body { background: #fff; font-size: 12pt; }
+    .top, .wrap > .card { display: none !important; }
+    .wrap { padding: 0; max-width: none; }
+    body[data-print="check"] #sheetCheck, body[data-print="case"] #sheetCase, body[data-print="design"] #sheetDesign { display: block; }
+    .sheet h1 { font-size: 18pt; margin: 0 0 4mm; }
+    .sheet .who { display: flex; gap: 8mm; font-size: 12pt; margin-bottom: 4mm; }
+    .sheet .who span { border-bottom: 1px solid #000; min-width: 34mm; display: inline-block; }
+    .sheet p.lead { margin: 0 0 4mm; font-size: 11pt; }
+    .sheet table { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+    .sheet th, .sheet td { border: 1px solid #000; padding: 1.6mm 2mm; vertical-align: top; }
+    .sheet th { background: #eee; }
+    .sheet td.blank { height: 13mm; }
+    .sheet td.tall { height: 22mm; }
+    .sheet h2 { font-size: 13pt; margin: 5mm 0 2mm; }
+    .sheet .box { border: 1px solid #000; min-height: 16mm; margin-bottom: 2mm; }
+    .sheet tr { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">🏫 교장봇 연구소 · 교사용</div>
+  <div class="spacer"></div>
+  <a class="tlink" href="index.html">◀ 학생 화면</a>
+</header>
+
+<div class="wrap">
+  <section class="card">
+    <h2>📘 이 시뮬레이터는</h2>
+    <p style="margin:0 0 8px">«교장선생님 챗봇 만들기» 동아리 4차시를 받치는 도구입니다. 교장봇은 <b>언어 모델이 아니라 규칙으로</b> 답합니다.
+      그 대신 챗봇 속(자료 검색 → 프롬프트 조립 → 답)을 모두 보여 줍니다. 진짜 모델은 VESSL 실습에서 만납니다.</p>
+    <table class="t">
+      <tr><th style="width:110px">차시</th><th>시뮬레이터에서</th><th>실습(VESSL)에서</th></tr>
+      <tr><td>1차시</td><td>🧪 실험실의 <b>🔍 자료 검색 · 🧩 프롬프트 조립</b> 탭으로 구조 설명(모델이 켜지기를 기다리는 동안)</td><td>세종 CLI 실행</td></tr>
+      <tr><td>2차시</td><td>🛠 내 교장봇 — 자료 카드 만들기 · <b>검색 시험</b>으로 우리 카드가 1등으로 잡히는지</td><td>(GPU 끔)</td></tr>
+      <tr><td>3차시</td><td>🕵 고장난 교장봇 <b>모둠 대항전</b>(15분) → 🖨 시험 질문 점검표로 실제 모델 점검</td><td>내려받은 data.json · 프롬프트로 CLI 시험</td></tr>
+      <tr><td>4차시</td><td>⬇ data.json · 프롬프트(.py) 내려받기</td><td>web-chat 으로 띄워 발표</td></tr>
+    </table>
+    <div class="std" style="margin-top:10px">관련 영역(교사용) : 2022 개정 고등학교 「정보」 — 인공지능 · 프로그래밍 · 디지털 문화(윤리). 학교 교육과정의 성취기준 코드는 직접 적어 넣으세요.
+      <span class="hint">(학생 화면·인쇄물에는 성취기준을 넣지 않습니다.)</span></div>
+  </section>
+
+  <section class="card">
+    <h2>🔑 고장난 교장봇 정답표 <span class="hint">(교사만)</span></h2>
+    <table class="t" id="answerTable"></table>
+    <p class="hint" style="margin:8px 0 0">점수 : 맞히면 10점 − (질문 3개를 넘긴 만큼) · 최소 4점 / 틀리면 0점. 모둠마다 사건 하나에 한 번만 지목할 수 있습니다.
+      점수는 그 PC 의 브라우저에만 남고 «↺ 점수판 비우기» 로 지웁니다.</p>
+  </section>
+
+  <section class="card">
+    <h2>🖨 인쇄용 활동지 <span class="hint">(정답 없음 · 브라우저 인쇄 → «PDF 로 저장» 도 됩니다)</span></h2>
+    <div class="prn">
+      <button type="button" class="btn main" data-print="check">🖨 시험 질문 점검표 (3차시)</button>
+      <button type="button" class="btn main" data-print="case">🖨 고장 진단 기록지 (대항전)</button>
+      <button type="button" class="btn main" data-print="design">🖨 페르소나 설계서 (2차시)</button>
+    </div>
+  </section>
+
+  <!-- 인쇄 전용 — 화면에는 보이지 않는다 -->
+  <section class="sheet" id="sheetCheck">
+    <h1>교장봇 시험 질문 점검표</h1>
+    <div class="who">모둠 <span></span> 이름 <span></span></div>
+    <p class="lead">우리 모둠 교장봇에게 아래 질문을 하나씩 던지고, 답을 그대로 적은 뒤 «설계한 대로 답했는지» 판단하세요. 고쳐야 하면 무엇을 고칠지(프롬프트의 어느 줄 / 자료 카드) 적습니다.</p>
+    <table><thead><tr><th style="width:8mm">#</th><th style="width:44mm">질문</th><th>교장봇의 답</th><th style="width:16mm">통과 / 고침</th><th style="width:40mm">고칠 곳과 방법</th></tr></thead><tbody id="checkRows"></tbody></table>
+  </section>
+
+  <section class="sheet" id="sheetCase">
+    <h1>고장난 교장봇 — 진단 기록지</h1>
+    <div class="who">모둠 <span></span> 이름 <span></span></div>
+    <p class="lead">사건마다 던진 질문과 «이상한 답» 을 적고, 꺼졌다고 생각하는 스위치를 고르세요. (스위치 : 충북 사투리 · 말실수 개그 · 진지 모드 · AI 임을 밝히기 · 지어내지 않기 · 개인정보 지키기 · 자료 검색 · 대화 기억)</p>
+    <table><thead><tr><th style="width:44mm">사건과 민원</th><th>던진 질문</th><th>이상한 답</th><th style="width:34mm">꺼진 스위치(추측)</th></tr></thead><tbody id="caseRows"></tbody></table>
+  </section>
+
+  <section class="sheet" id="sheetDesign">
+    <h1>우리 교장봇 페르소나 설계서</h1>
+    <div class="who">모둠 <span></span> 이름 <span></span></div>
+    <p class="lead">교장선생님께 동의받은 범위 안에서만 씁니다. 실존 인물의 사진·연락처·사생활은 적지 않습니다.</p>
+    <h2>① 성격과 판단 기준 (3가지)</h2><div class="box"></div><div class="box"></div><div class="box"></div>
+    <h2>② 말투 — 자주 쓰는 말 5개 · 하지 않는 말 3개</h2><div class="box"></div><div class="box"></div>
+    <h2>③ 꼭 지킬 대화 원칙 (위기 · 정체 · 지어내지 않기 · 개인정보)</h2><div class="box"></div><div class="box"></div>
+    <h2>④ 대화 예시 6쌍 (학생의 말 → 교장의 답)</h2>
+    <table><tbody id="pairRows"></tbody></table>
+    <h2>⑤ 학교 자료 카드 5장</h2>
+    <table><thead><tr><th style="width:8mm">#</th><th>내용 (모델에게 건넬 사실)</th><th style="width:52mm">검색어 (쉼표로)</th></tr></thead><tbody id="cardRows"></tbody></table>
+  </section>
+</div>
+
+<script src="js/missions.js?v=202610181154"></script>
+<script src="js/bm25.js?v=202610181154"></script>
+<script src="js/bot.js?v=202610181154"></script>
+<script>
+(function () {
+  "use strict";
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const M = window.PB_MISSIONS, R = PBBot.RULES;
+  const name = (k) => { const r = R.find((x) => x.key === k); return r.icon + " " + r.name; };
+  const HOW = { serious: "🆘 위기", nofake: "📅 학교 일정 · 🥋 없는 사실", honest: "🤖 정체 · 🎓 권한 밖", privacy: "🔒 남의 정보 · 😢 고민",
+                rag: "📱 학교 규칙 · 😢 고민", memory: "🙋 자기소개 → 🧠 기억", dialect: "아무 질문(말투)", gag: "📜 명언" };
+
+  /* 정답표 — 화면에만 */
+  document.getElementById("answerTable").innerHTML =
+    "<tr><th>사건</th><th>민원 쪽지</th><th>꺼진 스위치</th><th>드러내는 질문</th></tr>" +
+    M.cases.map((c) => `<tr><td>#${c.no} ${esc(c.title)}</td><td>${esc(c.memo)}</td><td><b>${c.off.map(name).join(" · ")}</b></td><td>${c.off.map((k) => HOW[k]).join(" / ")}</td></tr>`).join("");
+
+  /* 인쇄물 — 답(꺼진 스위치)은 넣지 않는다 */
+  document.getElementById("checkRows").innerHTML = M.deck.map((d, i) =>
+    `<tr><td>${i + 1}</td><td>${esc(d.q)}</td><td class="blank"></td><td></td><td></td></tr>`).join("");
+  document.getElementById("caseRows").innerHTML = M.cases.map((c) =>
+    `<tr><td>#${c.no} ${esc(c.title)}<br><small>${esc(c.memo.replace(/\s*\(꺼진 스위치 \d개\)/, ""))}</small></td><td class="tall"></td><td></td><td></td></tr>`).join("");
+  document.getElementById("pairRows").innerHTML = [1, 2, 3, 4, 5, 6].map((n) =>
+    `<tr><td style="width:8mm">${n}</td><td style="width:50%;height:12mm">학생 :</td><td>교장 :</td></tr>`).join("");
+  document.getElementById("cardRows").innerHTML = [1, 2, 3, 4, 5].map((n) =>
+    `<tr><td>${n}</td><td style="height:14mm"></td><td></td></tr>`).join("");
+
+  /* 고른 한 장만 인쇄 — 새 창을 열지 않는다(js/print.js 의 «두 번 뜨는» 함정을 피함) */
+  document.querySelectorAll("[data-print]").forEach((b) => b.addEventListener("click", () => {
+    document.body.dataset.print = b.dataset.print;
+    window.print();
+  }));
+  window.addEventListener("afterprint", () => { delete document.body.dataset.print; });
+})();
+</script>
+</body>
+</html>
