@@ -133,8 +133,8 @@
 </div>
 
 <!-- ============ 6 ============ -->
-<h2><span class="num">6</span> 노트북 실습 8가지</h2>
-<p>N1은 모두 함께 하고, 나머지는 수업용(N2~N4, N8)과 업무용(N5~N7) 중에서 골라 합니다.</p>
+<h2><span class="num">6</span> 노트북 실습 9가지</h2>
+<p>N1은 모두 함께 하고, 나머지는 수업용(N2~N4, N8, N9)과 업무용(N5~N7) 중에서 골라 합니다.</p>
 <div class="tablewrap">
 <table>
   <thead><tr><th style="width:10%">실습</th><th>노트북</th><th>배우는 것</th><th style="width:22%">가상 소스</th></tr></thead>
@@ -147,6 +147,7 @@
     <tr><td><a href="#n6">N6</a></td><td>학부모 FAQ 만들기</td><td>여러 문서 엮기, FAQ 보고서</td><td>parent-letters</td></tr>
     <tr><td><a href="#n7">N7</a></td><td>웹에서 수업 자료 찾기</td><td>찾아보기·빠른 조사, 출처 검증</td><td>(웹)</td></tr>
     <tr><td><a href="#n8">N8</a></td><td>학생 배정용 복습 노트북 설계</td><td>소스 고르기, 학생 안내문, 열람 확인</td><td>unit-algorithm</td></tr>
+    <tr><td><a href="#n9">N9</a></td><td>유튜브 영상으로 수업 자료 만들기 (김대식 교수 강연 사례)</td><td>Gemini 앱에 영상 주소로 요약·부분 고르기·수업 설계, 노트북 활동지·퀴즈, 확장 프로그램, 구글 렌즈</td><td>(공개 유튜브 영상)</td></tr>
   </tbody>
 </table>
 </div>
@@ -489,6 +490,251 @@
   <div class="callout warn"><span class="ct">⚠️ 주의</span> 학생 계정의 노트북 사용은 관리자 설정과 학교 방침을 먼저 확인합니다. 만 18세 미만 학생에게는 더 엄격한 콘텐츠 정책이 적용되지만, 교사가 배정 전 직접 시험해 봅니다.</div>
   <div class="variants"><span class="ct">변형 아이디어</span>
     <ul><li>시험 대비 복습 노트북</li><li>독서 활동 질문 노트북(작품 해설 자료)</li><li>실험 안전 수칙 질문 노트북</li><li>수행평가 안내 질문 노트북(<a href="ai-basics.html#adv-a">심화 A</a>의 Gem 대신)</li><li>전학생용 단원 따라잡기 노트북</li></ul>
+  </div>
+</section>
+
+<!-- ===================== N9 ===================== -->
+<section class="case" id="n9" aria-labelledby="n9-title">
+  <h2 id="n9-title"><span class="num">N9</span> 유튜브 영상으로 수업 자료 만들기 — 김대식 교수 강연 영상 사례</h2>
+  <dl class="casemeta">
+    <dt>이런 때 씁니다</dt><dd>긴 강연·인터뷰 영상을 수업에 쓸지 정하고, 중학생에게 맞는 부분을 골라 수업안·활동지·퀴즈로 바꿀 때</dd>
+    <dt>쓰는 도구</dt><dd><span class="badges"><span class="badge">Gemini 앱</span><span class="badge">NotebookLM</span><span class="badge tool">YouTube</span><span class="badge tool">Chrome 구글 렌즈</span><span class="badge ok">✅ Gemini 앱·노트북: 기본 계정</span><span class="badge chk">🔍 Gemini 앱의 YouTube 연결</span><span class="badge code">Notebook 버튼: 확장 프로그램</span></span></dd>
+    <dt>준비물</dt><dd>유튜브 채널 <b>지식인사이드</b>의 김대식 교수(KAIST) 출연 영상 주소(자막이 있는 공개 영상), 크롬, 학교 계정</dd>
+  </dl>
+
+  <div class="callout note">
+    <span class="ct">이 사례는 실제 기록입니다</span>
+    한 정보 교사가 학교 계정 Gemini 앱에 김대식 교수 강연 영상 주소를 붙여넣고 <b>세 번 물어</b> 수업안까지 만들었습니다(2026-11). 아래 요청 예시는 그때 쓴 말을 다듬은 것이고, "Gemini 답(요약)"은 실제 답을 줄인 것입니다. 같은 영상이 아니어도 흐름은 그대로 쓸 수 있습니다.
+  </div>
+
+  <ol class="flow" aria-label="N9 흐름">
+    <li><div class="flowstep"><div class="t">1 · Gemini 앱</div>영상 요약<br>(영상 시간 포함)</div><span class="flowarrow" aria-hidden="true">→</span></li>
+    <li><div class="flowstep"><div class="t">2 · Gemini 앱</div>중학생에게 좋은<br>부분 고르기</div><span class="flowarrow" aria-hidden="true">→</span></li>
+    <li><div class="flowstep"><div class="t">3 · Gemini 앱</div>바이브 코딩<br>1차시 수업 설계</div><span class="flowarrow" aria-hidden="true">→</span></li>
+    <li><div class="flowstep opt"><div class="t">선택 · 노트북</div>활동지·퀴즈·<br>사실/주장 표</div><span class="flowarrow" aria-hidden="true">→</span></li>
+    <li><div class="flowstep"><div class="t">4 · 교사</div>영상 시간을 눌러<br>직접 확인</div></li>
+  </ol>
+
+  <p>유튜브 화면에서는 아래 빨간 상자 세 곳과 크롬의 구글 렌즈를 씁니다.</p>
+  <figure class="shot">
+    <a href="assets/img/youtube-url.png" target="_blank" rel="noopener" title="그림을 크게 보기"><img src="assets/img/youtube-url.png" width="720" height="78" loading="lazy" alt="크롬 주소창에 youtube.com/watch?v= 로 시작하는 유튜브 영상 주소가 빨간 상자로 표시되어 있다."></a>
+    <figcaption>① <b>영상 주소</b>: 주소창의 <code>youtube.com/watch?v=…</code>를 복사해 Gemini 앱 대화창(방법 A)이나 노트북 소스(방법 A-2)에 붙여넣습니다.</figcaption>
+  </figure>
+  <figure class="shot">
+    <a href="assets/img/youtube-notebook-gemini-buttons.png" target="_blank" rel="noopener" title="그림을 크게 보기"><img src="assets/img/youtube-notebook-gemini-buttons.png" width="777" height="102" loading="lazy" alt="유튜브 영상 아래 버튼 줄. 좋아요·싫어요 옆의 Notebook 버튼과, 공유 버튼 옆의 별 모양 Gemini 버튼이 빨간 상자로 표시되어 있다."></a>
+    <figcaption>② <b>Notebook 버튼</b>: 크롬 확장 프로그램 <b>YouTube to NotebookLM</b>을 설치하면 생기는 버튼(방법 A-4). ③ <b>별 모양 Gemini 버튼</b>: 영상 내용을 바로 묻는 유튜브의 질문하기 기능(방법 A-3). 그림을 누르면 크게 볼 수 있습니다.</figcaption>
+  </figure>
+
+  <div class="callout verify"><span class="ct">🔍 확인한 범위 (2026-11-03)</span>
+    <ul>
+      <li><b>Gemini 앱 + 영상 주소</b>: 교사 기록에서 학교 계정 Gemini 앱이 영상 주소를 받아 내용을 요약하고, 답마다 <b>영상 시간([04:09] 같은 형식)</b>을 붙인 것을 확인했습니다. Gemini 앱이 유튜브를 읽으려면 앱 설정의 YouTube 연결이 켜져 있어야 하고, 학교 관리자가 막아 둘 수 있습니다. 교육용 계정 제공 여부를 밝힌 공식 문서는 찾지 못했습니다.</li>
+      <li><b>① 영상 주소 → 노트북</b>: 공개 유튜브 영상의 <b>자막(자동 자막 포함)</b>을 읽어 소스로 씁니다. 화면·그림은 읽지 않습니다. 비공개 영상이나 자막이 없는 영상은 "스크립트를 사용할 수 없음"으로 실패합니다.</li>
+      <li><b>② Notebook 버튼</b>: 유튜브·구글의 기본 기능이 아니라 교사가 설치한 크롬 확장 프로그램 "YouTube to NotebookLM"이 붙인 버튼입니다(교사 화면으로 확인).</li>
+      <li><b>③ Gemini 질문 버튼</b>: 유튜브 도움말 기준 로그인한 사용자 중 나이 기준을 충족하고, 지원하는 언어·국가에서, 일부 영상에만 나타납니다. 교사 화면에서 한국어 창("이 동영상에 대해 물어보세요")을 확인했습니다.</li>
+      <li><b>④ 구글 렌즈(크롬)</b>: 화면 일부를 골라 글자를 복사·번역·검색합니다. 학교 관리자가 크롬 정책으로 렌즈·AI 모드를 끌 수 있습니다.</li>
+    </ul>
+  </div>
+
+  <div class="method a">
+    <h3>🤖 방법 A · Gemini 앱에 영상 주소를 넣고 세 번 묻기 <span class="rec">추천</span> <span class="badge ok">✅ 기본 계정</span></h3>
+    <ol class="steps">
+      <li>유튜브에서 김대식 교수 출연 영상을 열고, 설명란의 <b>스크립트 표시</b>로 자막이 있는지 확인한 뒤 주소(①)를 복사합니다. 주소 뒤의 <code>&amp;t=</code>, <code>&amp;list=</code>는 지웁니다.</li>
+      <li><a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a>을 <b>학교 계정</b>으로 열고 새 채팅을 시작합니다.</li>
+      <li>요청 1을 영상 주소와 함께 넣습니다. 답에 붙은 영상 시간을 눌러 실제 장면이 맞는지 두세 곳 확인합니다.</li>
+      <li>같은 대화에서 요청 2로 중학생에게 설명하기 좋은 부분을 고르게 하고, 그중 하나를 골라 요청 3으로 수업안을 받습니다.</li>
+      <li>수업안을 아래 🧪 검수 항목대로 고친 뒤, 답 아래 <b>공유·내보내기 → Docs로 내보내기</b>로 문서를 만듭니다.</li>
+    </ol>
+
+    <div class="prompt"><div class="bar"><span class="label">요청 1 · 영상 요약 (영상 시간 포함)</span></div><pre>[유튜브 영상 주소]
+이 영상 내용을 요약해 주세요.
+- 핵심 주제 4가지, 주제마다 2~3줄
+- 각 내용 끝에 그 말이 나오는 영상 시간을 [분:초]로
+- 강연자의 의견·전망과 확인할 수 있는 사실을 구분해서</pre><p class="hint">실제 기록에서는 "영상 내용을 요약해줘" 한 줄만 써도 주제 4가지와 영상 시간을 받았습니다. 조건을 붙이면 수업에 쓰기 쉬운 형태로 나옵니다.</p></div>
+    <div class="callout note"><span class="ct">Gemini 답 (요약)</span>
+      <ol>
+        <li><b>패스트 팔로워(추격자) 방식의 한계</b>: 선진국을 따라가며 성장한 방식은 정답이 없는 AI 시대에 맞지 않으니 먼저 시도해야 한다 [04:09]~[06:14]</li>
+        <li><b>인터넷의 중심이 검색에서 대화로</b>: AI에게 말하면 필요한 앱을 찾거나 즉석에서 만들어 주는 시대(바이브 코딩) [18:16]~[18:23]</li>
+        <li><b>빅테크 지형 변화와 GPU 인프라 과제</b>: GPU를 확보해도 데이터센터·전력망·AI 서비스 생태계가 함께 필요 [20:00]~[24:21]</li>
+        <li><b>피지컬 AI라는 기회</b>: 숙련공의 움직임을 학습하는 AI 로봇, 제조 현장의 공정 데이터가 경쟁력 [25:12]~[30:08]</li>
+      </ol>
+    </div>
+
+    <div class="prompt"><div class="bar"><span class="label">요청 2 · 중학생에게 설명하기 좋은 부분 고르기</span></div><pre>이 내용 가운데 중학생에게 설명하기 좋은 부분 2가지를 추천해 주세요.
+- 고른 까닭
+- 중학생 말로 바꾼 설명 포인트 3개
+- 학생에게 던질 질문 1개
+- 근거가 되는 영상 시간 [분:초]</pre><p class="hint">교과를 정해 두면 더 잘 고릅니다. 예: "중학교 2학년 정보 수업에 쓸 부분"</p></div>
+    <div class="callout note"><span class="ct">Gemini 답 (요약)</span>
+      <ul>
+        <li><b>바이브 코딩 — "말 한마디로 나만의 게임 만들기"</b>: 어려운 프로그래밍 언어 대신 AI에게 쉬운 말로 부탁해 프로그램을 만드는 방식. 질문: "너라면 AI한테 어떤 게임이나 앱을 만들어 달라고 하고 싶니?"</li>
+        <li><b>피지컬 AI와 숙련공 — "로봇에게 장인의 손기술을 가르친다면"</b>: 로봇이 물병 하나 잡기도 어려운 까닭, 사람의 움직임을 보고 배우는 AI 로봇, 조선소·제조 공장(울산·창원 등) 숙련공의 데이터. 질문: "네 움직임을 따라 하는 로봇에게 어떤 기술을 가르치고 싶니?"</li>
+      </ul>
+    </div>
+
+    <div class="prompt"><div class="bar"><span class="label">요청 3 · 바이브 코딩 1차시 수업 설계</span></div><pre>바이브 코딩과 관련된 내용으로 중학교 [2]학년 [정보] 1차시 수업을 설계해 주세요.
+- 수업 목표 3개
+- 도입: 영상의 어느 부분([분:초])을 보여 주고 무엇을 물을지
+- 전개: AI에게 잘 부탁하는 법(역할, 목표와 규칙, 결과 형식)과 미니 게임 만들기 활동
+- 정리: 발표와 토의 질문
+- 학생 활동지 1쪽, 평가 관점 3개
+조건: 학생은 학교 계정 Gemini만 쓰거나 교사 시연으로 진행, 학생 이름 등 개인정보는 입력하지 않도록 안내</pre><p class="hint">실제 기록의 요청은 "바이브코딩과 관련된 내용으로 수업을 설계해봐" 한 줄이었습니다. 조건 마지막 줄은 아래 검수에서 고쳐야 했던 점을 미리 막는 문장입니다.</p></div>
+    <div class="callout note"><span class="ct">Gemini 답 (요약)</span>
+      <ul>
+        <li><b>주제</b>: "AI와 대화하여 나만의 미니 게임 만들기"</li>
+        <li><b>도입</b>: "게임 개발자가 되려면 코딩을 몇 년 배워야 할까?" 질문, 영상 속 비유([09:28]) 소개, 바이브 코딩 뜻 정리</li>
+        <li><b>전개 1</b>: AI는 인턴처럼 자세히 설명해 줘야 한다는 영상 내용([09:50]), 좋은 요청의 3요소(역할 · 목표와 규칙 · 결과 형식)</li>
+        <li><b>전개 2</b>: 게임 규칙 구상 → AI에게 요청 → 브라우저에서 실행 → "점수 효과음 넣어 줘"처럼 고쳐 달라고 다시 요청</li>
+        <li><b>정리</b>: 만든 게임과 요청 문장 발표, "AI 시대에 아이디어를 잘 설명하는 능력이 왜 중요할까?" 토의</li>
+        <li><b>교사 팁</b>: 오류가 나면 오류 메시지를 복사해 AI에게 "이 오류 고쳐 줘"라고 다시 요청하게 한다</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="aicheck"><span class="ct">🧪 이 사례에서 고쳐야 했던 점 — AI 수업안 검수</span>
+    <ul>
+      <li><b>학생이 쓸 AI 도구</b>: 실제 답은 준비물에 학교 밖 AI 챗봇(여러 회사 서비스)을 적었습니다. 중학생이 쓸 수 있는지는 각 서비스의 연령 기준과 학교 방침에 따라 다릅니다. 학교 계정 Gemini나 교사 시연으로 바꿉니다.</li>
+      <li><b>과장된 표현</b>: "5분 만에 완성" 같은 말은 강연 속 비유입니다. 실제 수업에서는 오류와 수정이 반복되므로, 학생에게 "여러 번 고쳐 가며 완성한다"고 안내합니다.</li>
+      <li><b>영상 시간과 인용</b>: [09:28], [09:50]처럼 수업에서 보여 줄 장면은 영상에서 직접 열어 그 말이 맞는지 확인합니다. AI가 시간이나 내용을 틀리게 붙일 수 있습니다.</li>
+      <li><b>사실과 전망</b>: "한국이 로봇 기술 1등 국가가 될 수 있다", "빅테크 절반이 위협받는다"는 강연자의 전망입니다. 수업에서는 "김대식 교수의 생각"으로 소개하고 학생이 동의·반대 이유를 말하게 합니다. 날짜·수치가 들어간 문장은 사실 확인 뒤 씁니다.</li>
+      <li><b>시간 배분</b>: AI가 붙인 분 단위 시간은 제안일 뿐입니다. 학교 시정과 학생 수준에 맞춰 교사가 정합니다.</li>
+    </ul>
+  </div>
+
+  <div class="method">
+    <h3>📚 방법 A-2 · 노트북에 영상을 넣고 활동지·퀴즈 만들기 <span class="badge ok">✅ 기본 계정</span></h3>
+    <p>Gemini 앱은 수업 아이디어를 빨리 얻는 데 좋고, 노트북은 답마다 <b>자막의 근거 문장</b>을 눌러 볼 수 있어 활동지·퀴즈처럼 정확해야 하는 자료에 좋습니다.</p>
+    <ol class="steps">
+      <li>Gemini Notebook에서 새 노트북 <code>2026_중2정보_바이브코딩_김대식강연</code>을 만듭니다.</li>
+      <li><code>소스 추가 → YouTube</code>에 영상 주소(①)를 붙여넣습니다. 소스 이름은 <code>[영상] 지식인사이드_김대식_올린날짜</code>처럼 바꿉니다.</li>
+      <li>방법 A에서 만든 수업안을 Docs로 내보냈다면 그 문서도 소스로 넣습니다.</li>
+      <li>아래 노트북 요청 1~5를 넣고, 답의 숫자(출처)를 눌러 자막의 어느 부분인지 확인합니다.</li>
+      <li>활동지는 스튜디오 <b>보고서 → 직접 만들기</b>에, 퀴즈는 스튜디오 <b>퀴즈</b>에서 만들고 Docs로 내보냅니다.</li>
+    </ol>
+    <div class="prompt"><div class="bar"><span class="label">노트북 요청 1 · 영상 보며 푸는 활동지</span></div><pre>영상 가운데 바이브 코딩을 설명하는 부분을 보며 학생이 푸는 활동지를 만들어 주세요.
+- 영상에 나오는 순서대로 질문 5개(빈칸 채우기 2, 짧은 답 3)
+- 마지막에 "AI에게 만들어 달라고 하고 싶은 게임" 쓰는 칸
+- 정답은 맨 끝에 따로, 각 정답의 근거가 된 영상 속 말을 한 줄로</pre><p class="hint">이렇게 바꿔 쓰세요: "피지컬 AI를 설명하는 부분"으로 바꾸면 기술·가정이나 진로 수업용이 됩니다.</p></div>
+    <div class="prompt"><div class="bar"><span class="label">노트북 요청 2 · 사실과 주장 구분하기</span></div><pre>이 강연에서 나온 말 가운데
+- 확인할 수 있는 사실 3개
+- 강연자의 주장이나 전망 3개
+를 골라 표로 정리해 주세요. 표(영상 속 말 | 사실/주장 | 그렇게 본 까닭).
+학생이 "이건 사실일까, 주장일까?"를 토론할 수 있게 써 주세요.</pre><p class="hint">강연·인터뷰 영상에 잘 맞습니다. 정보·사회·국어(매체) 수업에서 씁니다.</p></div>
+    <div class="prompt"><div class="bar"><span class="label">노트북 요청 3 · 용어 사전</span></div><pre>이 강연에 나오는 용어 8개를 골라 용어 사전을 만들어 주세요.
+(예: 패스트 팔로워, 바이브 코딩, 에이전트, GPU, 데이터센터, 피지컬 AI)
+표(용어 | 중학생용 뜻 한 줄 | 영상에서 나온 문장).
+영상에서 뜻을 설명하지 않은 용어는 "영상에 설명 없음"이라고 표시해 주세요.</pre><p class="hint">"영상에 설명 없음" 용어의 뜻은 교과서나 사전으로 교사가 채웁니다.</p></div>
+    <div class="prompt"><div class="bar"><span class="label">노트북 요청 4 · 확인 퀴즈</span></div><pre>영상 내용을 확인하는 4지선다 5문항을 만들어 주세요.
+- 영상에서 강연자가 직접 한 말로만 출제
+- 문항마다 정답과 근거가 된 영상 속 말
+- 강연자의 의견을 사실처럼 묻는 문항은 만들지 않기</pre><p class="hint">스튜디오 퀴즈로 만들 때도 "강연자의 의견은 묻지 않기"를 맞춤 설정에 넣습니다.</p></div>
+    <div class="prompt"><div class="bar"><span class="label">노트북 요청 5 · 두 영상 비교</span></div><pre>소스로 넣은 두 영상이 [AI 시대에 사람에게 필요한 능력]에 대해 말하는 내용을 비교해 주세요.
+표(관점 | 영상 1 | 영상 2 | 같은 점·다른 점).
+어느 영상의 말인지 출처를 꼭 달아 주세요.</pre><p class="hint">같은 교수의 다른 편이나, 다른 전문가의 강연 영상을 하나 더 소스로 넣습니다.</p></div>
+  </div>
+
+  <div class="method">
+    <h3>✨ 방법 A-3 · 유튜브의 Gemini 질문 버튼(③)으로 미리 보기 <span class="badge chk">🔍 보이는 계정·영상에서만</span></h3>
+    <ol class="steps">
+      <li>영상 아래 별 모양 Gemini 버튼(③)을 누르면 오른쪽에 <b>"이 동영상에 대해 물어보세요"</b> 창이 열립니다. 버튼이 없으면 건너뜁니다.</li>
+      <li>추천 질문 <code>동영상을 요약해 줘</code>를 누르거나 "바이브 코딩 이야기는 몇 분쯤 나와?"처럼 물어 영상을 고르는 데 씁니다. 창 아래 <code>Gemini에게 물어보기</code>로 Gemini에서 이어 물을 수도 있습니다.</li>
+      <li>AI는 실수할 수 있습니다. 영상을 고르는 데에만 쓰고, 수업 자료는 방법 A·A-2에서 만듭니다.</li>
+    </ol>
+  </div>
+
+  <div class="method">
+    <h3>📓 방법 A-4 · 확장 프로그램 "YouTube to NotebookLM"의 Notebook 버튼(②) <span class="badge code">제3자 확장 프로그램</span></h3>
+    <p>구글이 아닌 외부 개발자가 만든 크롬 확장 프로그램입니다. 설명에 따르면 지금 보는 영상뿐 아니라 재생목록·채널·검색 결과의 영상을 노트북으로 보낼 수 있습니다. 없어도 방법 A로 똑같이 할 수 있으니, 설치는 선택입니다.</p>
+
+    <p><b>① 설치하기</b></p>
+    <ol class="steps">
+      <li>크롬에서 <a href="https://chromewebstore.google.com/search/YouTube%20to%20NotebookLM" target="_blank" rel="noopener">Chrome 웹 스토어</a>를 열고 <code>YouTube to NotebookLM</code>을 검색합니다. 이름이 비슷한 확장 프로그램이 여러 개 있습니다.</li>
+      <li>설치 전에 상세 페이지에서 <b>개발자, 사용자 수, 평점·리뷰, 최근 업데이트 날짜, 개인정보 보호 관행</b>을 확인합니다(아래 안전 점검).</li>
+      <li><b>Chrome에 추가</b> → 권한 안내 창을 읽고 <b>확장 프로그램 추가</b>를 누릅니다.</li>
+      <li>주소창 오른쪽 <b>퍼즐 모양 아이콘(확장 프로그램)</b>을 누르면 설치된 목록이 보입니다. 압정 아이콘을 누르면 도구 모음에 고정됩니다.</li>
+      <li>유튜브 영상을 새로고침하면 좋아요 옆에 <b>Notebook</b> 버튼이 생깁니다. 처음 누를 때 Gemini Notebook(NotebookLM)에 로그인된 계정을 확인합니다.</li>
+    </ol>
+    <figure class="shot" style="max-width:360px">
+      <a href="assets/img/chrome-extensions-menu.png" target="_blank" rel="noopener" title="그림을 크게 보기"><img src="assets/img/chrome-extensions-menu.png" width="516" height="760" loading="lazy" alt="크롬 주소창 오른쪽 퍼즐 모양 확장 프로그램 아이콘을 누른 화면. 확장 프로그램 목록이 전체 액세스와 필요한 액세스 권한 없음으로 나뉘어 있고, YouTube to NotebookLM, BananaNL, 맨 아래 확장 프로그램 관리가 빨간 상자로 표시되어 있다."></a>
+      <figcaption>퍼즐 아이콘을 누르면 설치된 확장 프로그램이 <b>전체 액세스</b>(사이트 정보를 읽고 바꿀 수 있음)와 <b>필요한 액세스 권한 없음</b>으로 나뉘어 보입니다. YouTube to NotebookLM은 전체 액세스 쪽에 있습니다. 맨 아래 <b>확장 프로그램 관리</b>에서 끄기·삭제·사이트 액세스를 바꿉니다.</figcaption>
+    </figure>
+
+    <p><b>② 쓰기</b></p>
+    <ol class="steps">
+      <li>영상 아래 <b>Notebook</b> 버튼(②)을 누르고, 보낼 노트북을 고르거나 새 노트북을 만듭니다.</li>
+      <li>Gemini Notebook을 열어 소스 목록에 영상이 들어왔는지 확인한 뒤, 방법 A-2의 4단계부터 이어서 합니다.</li>
+    </ol>
+
+    <p><b>③ 사이트 액세스 줄이기·끄기·지우기</b></p>
+    <ol class="steps">
+      <li>퍼즐 아이콘 → <b>확장 프로그램 관리</b>(또는 주소창에 <code>chrome://extensions</code>) → 해당 확장 프로그램의 <b>세부정보</b>를 엽니다.</li>
+      <li><b>사이트 액세스</b>를 <b>특정 사이트에서</b>로 바꾸고 <code>youtube.com</code>만 넣으면, 다른 사이트(학교 업무 시스템 등)에서는 동작하지 않습니다. 개발자가 막아 둔 경우에는 바꿀 수 없습니다.</li>
+      <li>쓰지 않을 때는 스위치를 끄고, 필요 없어지면 <b>삭제</b>합니다.</li>
+    </ol>
+  </div>
+
+  <div class="callout warn"><span class="ct">⚠️ 확장 프로그램 설치 전 안전 점검</span>
+    <ul>
+      <li><b>"모든 사이트의 데이터를 읽고 변경"</b> 권한은 내가 여는 모든 웹페이지 내용을 볼 수 있다는 뜻입니다. 나이스·업무관리시스템·성적 화면을 연 브라우저에도 그대로 적용됩니다. 사이트 액세스를 <code>youtube.com</code>으로 줄이거나, 업무용 크롬 프로필에는 설치하지 않습니다.</li>
+      <li>구글 공식 프로그램이 아닙니다. 사용자 수가 적거나 오래 업데이트되지 않았거나, 설명에 없는 권한을 요구하면 설치하지 않습니다.</li>
+      <li><b>학교 계정으로 로그인한 크롬</b>은 학교 관리자가 확장 프로그램 설치를 막거나 허용 목록만 열어 둘 수 있습니다. "관리자가 차단함"이 나오면 학교 방침이므로 방법 A를 씁니다. 관리자가 "확장 프로그램 요청"을 열어 두었다면 요청 버튼으로 승인을 받을 수 있습니다.</li>
+      <li>학교 공용 컴퓨터에는 개인적으로 설치하지 않고, 정보 담당 교사와 먼저 상의합니다.</li>
+      <li>학생에게 설치를 안내하지 않습니다. 학생 계정의 노트북 사용은 관리자 설정을 따릅니다.</li>
+    </ul>
+  </div>
+
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th style="width:28%">교사 화면에 있던 확장 프로그램</th><th>하는 일 (스토어·검사 사이트 설명 기준)</th><th style="width:26%">확인할 점</th></tr></thead>
+    <tbody>
+      <tr><td>YouTube to NotebookLM</td><td>유튜브 영상·재생목록·채널·검색 결과를 Gemini Notebook(NotebookLM)으로 보냄. 좋아요·공유 옆에 Notebook 버튼을 붙임</td><td>사이트 액세스(전체 액세스). <code>youtube.com</code>으로 줄이기</td></tr>
+      <tr><td>BananaNL</td><td>NotebookLM에서 그림·슬라이드를 만들 때 쓰는 프롬프트 스타일을 저장·관리하고 공유</td><td>NotebookLM 밖의 사이트(외부 AI 서비스, 개발사 서버)에 접근하는 권한이 있다고 검사 사이트에 나옴. 설치 전 권한 확인</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="method">
+    <h3>🔎 방법 A-5 · 구글 렌즈로 영상 화면 속 글자 가져오기 <span class="badge chk">🔍 관리자 설정에 따라</span></h3>
+    <p>강연 영상의 <b>슬라이드 글자</b>(제목, 그래프 이름)는 자막에 없어서 노트북이 읽지 못합니다. 크롬의 구글 렌즈로 그 글자를 가져옵니다.</p>
+    <ol class="steps">
+      <li>글자가 보이는 장면에서 영상을 <b>일시정지</b>합니다.</li>
+      <li>영상 바깥의 빈 곳에서 마우스 오른쪽 버튼을 누르고 <b>Google 렌즈로 검색</b>을 고릅니다. 영상 위에서 누르면 유튜브 메뉴가 나오므로, 영상 위라면 오른쪽 버튼을 한 번 더 누르면 크롬 메뉴가 나옵니다. 메뉴 이름은 크롬 화면 문구를 따릅니다.</li>
+      <li>화면이 어두워지면 글자가 있는 부분을 마우스로 끌어 네모로 고릅니다.</li>
+      <li>고른 부분 위에 뜨는 메뉴를 씁니다.
+        <ul>
+          <li><b>텍스트 복사</b>: 슬라이드 글자를 복사해, 노트북 <code>소스 추가 → 복사한 텍스트</code>에 "[화면 글자] 장면 설명"과 함께 붙여넣습니다. 활동지·용어 사전에 바로 붙여도 됩니다.</li>
+          <li><b>번역</b>: 영어 슬라이드를 한국어로 봅니다. 번역은 뜻을 파악하는 데에만 쓰고, 수업 자료에는 교사가 다듬어 씁니다.</li>
+          <li><b>이미지로 복사</b>: 고른 장면을 그림으로 복사합니다. 수업 슬라이드에 넣을 때는 영상 제목·채널·주소를 출처로 적고, 수업 안에서만 씁니다.</li>
+        </ul>
+      </li>
+      <li>옆 창에는 고른 부분에 대한 검색 결과와 <b>AI 개요</b>가 나옵니다. 위쪽 탭(<code>AI 모드</code>, <code>전체</code>, <code>정확히 일치하는 결과</code>, <code>시각적으로 일치하는 결과</code>)으로 바꿔 보며, 슬라이드 문구의 뜻이나 원래 발표 자료를 찾습니다. 아래 입력창에 "이 문구를 중학생에게 설명해 줘"처럼 이어서 물을 수 있습니다.</li>
+    </ol>
+    <div class="prompt"><div class="bar"><span class="label">노트북 요청 6 · 렌즈로 가져온 화면 글자 쓰기</span></div><pre>소스 중 "[화면 글자]"로 시작하는 것은 영상 속 슬라이드에서 가져온 글자입니다.
+이 글자와 영상 자막을 함께 보고,
+1) 슬라이드 문구의 뜻을 중학생 말로 한 문장씩
+2) 발표자가 그 슬라이드를 보여 주며 한 말 요약
+을 표로 정리해 주세요. 표(슬라이드 문구 | 쉬운 뜻 | 발표자가 한 말).</pre><p class="hint">이렇게 바꿔 쓰세요: 렌즈로 3~4장면의 글자를 가져와 하나의 텍스트 소스로 넣으면 장면별 설명표가 됩니다.</p></div>
+  </div>
+
+  <div class="method">
+    <h3>⌨️ 방법 B · 직접 하기</h3>
+    <p>설명란의 <b>스크립트 표시</b>를 열어 필요한 부분을 읽고, 수업안과 활동지 질문을 직접 씁니다. 스크립트 글을 복사해 노트북에 <code>복사한 텍스트</code> 소스로 넣어도 됩니다.</p>
+  </div>
+  <div class="method c">
+    <h3>🔁 방법 C · 영상이 안 들어가거나 막혀 있을 때</h3>
+    <p>Gemini 앱이 영상을 읽지 못하면(YouTube 연결이 꺼져 있음) 방법 A-2의 노트북을 씁니다. 노트북에서 "스크립트를 사용할 수 없음"이 나오면 자막이 있는 다른 영상을 고르거나, 스크립트 글을 복사해 Gemini 앱에 붙여넣고 요청 1~3을 씁니다.</p>
+  </div>
+
+  <div class="checkpoint"><span class="ct">✅ 확인 포인트</span> Gemini 앱 답의 영상 시간 세 곳을 열었을 때 그 말이 실제로 나오고, 수업안의 학생 AI 도구·시간 배분·인용 문장을 검수 항목대로 고쳤으면 성공입니다.</div>
+  <div class="aicheck"><span class="ct">🧪 AI 결과 검수 (공통)</span>
+    <ul>
+      <li>자동 자막은 고유 명사·숫자·영어 용어를 잘못 받아쓰기 쉽습니다(예: 지역 이름, 회사 이름, 연도). 활동지의 숫자는 영상을 직접 돌려 확인합니다.</li>
+      <li>노트북은 화면의 그림·표·자료 글자를 읽지 못합니다. 강연 화면에 띄운 자료의 글자는 렌즈(방법 A-5)로 가져와 확인합니다.</li>
+      <li>자동 더빙으로 본 영상이라도 AI는 자막을 읽습니다. 원래 말과 번역이 다를 수 있으니 중요한 문장은 원어 자막과 비교합니다.</li>
+    </ul>
+  </div>
+  <div class="callout warn"><span class="ct">⚠️ 주의</span> 영상은 <b>유튜브 링크로 보여 주고</b>, 내려받거나 다시 올리지 않습니다. 자막 전체를 그대로 옮겨 나눠 주지 않고, 활동지에는 영상 제목·채널·주소와 강연자 이름을 출처로 적습니다. 강연자의 말을 인용할 때는 의견과 사실을 구분해 전합니다. 학생 계정은 학교의 유튜브 제한 설정 때문에 영상이 안 열릴 수 있으니 수업 전 학생 계정으로 확인합니다.</div>
+  <div class="variants"><span class="ct">변형 아이디어</span>
+    <ul><li>같은 강연의 피지컬 AI 부분 → 기술·가정, 진로 수업(로봇과 일자리)</li><li>"검색에서 대화로" 부분 → 정보 수업의 정보 검색·검증 활동</li><li>과학 강연 영상 → 실험 원리 정리와 퀴즈</li><li>뉴스 영상 → 매체 비판 읽기(사실·주장 구분)</li><li>영어 강연 영상 → 핵심 표현 정리, 렌즈 번역으로 자료 화면 어휘 정리</li></ul>
   </div>
 </section>
 

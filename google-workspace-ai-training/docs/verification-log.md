@@ -176,3 +176,45 @@
 | Slides 발표자 노트 생성 | 전용 기능 공식 문서 못 찾음 → 사이드 패널 결과를 붙여넣는 방식으로 씀 | — |
 | Docs 오디오 순서 | 도구 → 오디오 → 이 탭 듣기 / 문서 요약 듣기, 삽입 → 오디오 버튼 → 탭 듣기, `@` 칩, 버튼 이름·크기·색, 속도 0.5~2배. 적격 Workspace·Google AI 요금제 | https://support.google.com/docs/answer/16386234 |
 | 실습 샘플 | linear-function-taxi.pptx(5장, 노트 포함, 7,000원·9,000원 Python 계산 확인), english-reading.txt(가상 지문, UTF-8 BOM) | — |
+
+## 13. 모듈 7 N9 유튜브 영상으로 수업 자료 (2026-11-03)
+
+| 항목 | 결과 | 확인한 URL |
+|---|---|---|
+| 노트북 YouTube 소스 | 공개 영상의 자막(자동 자막 포함)만 읽음, 화면은 읽지 않음, 비공개·자막 없는 영상은 "Transcript not available"로 실패(대학 안내·보도). 공식 도움말 직접 확인 못 함 | https://blog.google/technology/ai/notebooklm-audio-video-sources/ , https://services.newschool.edu/TDClient/32/Portal/KB/ArticleDet?ID=1371 |
+| YouTube Gemini 질문(Ask) 버튼 | 로그인, 나이 기준(13세 이상 또는 국가 기준), 지원 언어·국가, 일부 영상. 2026-11 사용자 화면에서 한국어 창 "이 동영상에 대해 물어보세요"(추천 질문: 동영상을 요약해 줘, 관련 콘텐츠를 추천해 줘, Gemini에게 물어보기) 확인. 한국 출시 공식 안내는 못 찾음 | https://support.google.com/youtube/answer/14110396 |
+| YouTube 아래 "Notebook" 버튼 | 유튜브·구글 공식 기능이라는 안내 못 찾음. 같은 위치에 버튼을 붙이는 크롬 확장 프로그램 다수(YouTube to NotebookLM, yt to Gemini Notebook) → 페이지에 확장 프로그램일 수 있다고 표시, 공식 방법(주소 붙여넣기)을 기본으로 | https://chromewebstore.google.com/detail/youtube-to-notebooklm/dfleaiflbbfhlknlolhllcobaelgoajd , https://chromewebstore.google.com/detail/yt-to-gemini-notebook/mbgokepndpnkfokcplodepehjffmiigi |
+| 크롬 구글 렌즈 | 오른쪽 버튼 → Google 렌즈로 검색, 영역 끌어 고르기, 텍스트 복사·번역·이미지로 복사, 옆 창 검색 결과·AI 개요, 탭(AI 모드·전체·정확히 일치·시각적으로 일치)은 사용자 화면(2026-11)으로 확인. 글자를 못 찾으면 "이미지로 복사"만 나옴(보도) | https://www.androidpolice.com/google-lens-desktop-chrome-google-images-copy-translate/ , https://chromestory.com/2026/06/lens-copy-text-vanishing-from-chrome/ |
+| 학교 관리자 제어 | 크롬 정책 SearchContentSharingSettings(렌즈, 기존 LensRegionSearchEnabled 대체 예정), AIModeSettings(AI 모드) | https://storage.googleapis.com/support-kms-prod/hJV1RX4CcolDo0ldZOwjEddPf3mccfYHcEoD |
+| 그림 | youtube-url.png, youtube-notebook-gemini-buttons.png: 사용자 화면에서 주소창·버튼 줄만 잘라냄(영상 장면·인물·계정 표시 없음). 렌즈 화면 그림은 파일로 받지 못해 넣지 않음 | — |
+
+## 14. 학교 계정과 개인 계정의 개인정보 보호 비교 (2026-11-03, ai-basics.html 2절)
+
+| 항목 | 결과 | 확인한 URL |
+|---|---|---|
+| 교육용·Workspace: 학습·사람 검토 | Gemini 앱 대화·업로드 파일은 허락 없이 사람 검토·생성형 AI 학습에 쓰지 않음. 모든 Workspace for Education 기관에 적용 | https://knowledge.workspace.google.com/admin/generative-ai/generative-ai-in-google-workspace-privacy-hub , https://blog.google/products-and-platforms/products/education/gemini-enterprise-grade-data-protection/ |
+| Workspace 대화 보관·관리자 | 관리자가 대화 기록 보관 3·18·36개월 설정, Vault로 Gemini 앱 대화 검색·내보내기, 보존 규칙·보류(2026-06부터 사용자 삭제보다 우선) | https://workspaceupdates.googleblog.com/2026/02/gemini-conversation-history-is-coming-to-side-panel-in-google-workspace.html (보존 기간), 보안 블로그 요약(Vault) → Vault 세부는 공식 도움말 재확인 권장 |
+| 개인 계정: 학습·사람 검토·보관 | Gemini 앱 활동이 켜져 있으면 AI 개선(학습 포함)에 사용, 일부를 사람 검토자(외부 업체 포함)가 검토, 검토된 대화는 활동 삭제와 별도로 최대 3년 보관, 자동 삭제 기본 18개월(3·36개월·끄기), 임시 채팅은 사람 검토 개선에 쓰지 않음 | https://support.google.com/gemini/answer/13594961 |
+| 지난 대화 기억(지난 채팅→메모리) | 개인 계정: 2026-02 무료 사용자까지 확대(유럽 제외), "메모리"로 이름 변경 중, 유료는 Gmail·포토 등 연결(Personal Intelligence). 교육·업무 일부 요금제는 일부 기능 제외라는 릴리스 노트 → 🔍 | https://9to5google.com/2026/02/26/gemini-past-chats-free/ , https://gemini.google/release-notes/ |
+| 위치 | 기기의 대략적 위치·IP·계정에 저장한 집/직장 주소, 허락 시 정확한 위치 | https://support.google.com/gemini/answer/13594961 |
+| 실험 화면 | 사용자 학교 계정·개인 계정 화면(2026-11-03). 실명·지역·보직·연수 이름이 보여 그림은 넣지 않고 ○○로 가려 요약 | — |
+
+## 15. 크롬 확장 프로그램 설치 안내 (2026-11-03, 모듈 7 N9 방법 A-3)
+
+| 항목 | 결과 | 확인한 URL |
+|---|---|---|
+| Notebook 버튼의 정체 | 교사 화면(확장 프로그램 메뉴)으로 크롬 확장 프로그램 "YouTube to NotebookLM"임을 확인. 구글 제작 아님. 이름이 비슷한 확장이 여러 개라 특정 스토어 주소 대신 검색 링크를 씀 | https://chromewebstore.google.com/search/YouTube%20to%20NotebookLM |
+| YouTube to NotebookLM 기능·권한 | 영상·재생목록·채널·검색 결과를 NotebookLM으로 보냄, 좋아요·공유 옆 버튼(스토어·애드온 설명). 개발 빌드 검사에서 scripting·넓은 호스트 권한 → 사이트 액세스를 youtube.com으로 줄이도록 안내 | https://addons.mozilla.org/addon/2933728/ , https://extensionauditor.com/scan/youtube-to-notebooklm-dev-mhgfaicblmokknkjpeohafhldpigniph |
+| BananaNL | NotebookLM 그림·슬라이드용 프롬프트 스타일 저장·관리·공유, 호스트 권한 chatgpt.com·grok.com·개발사 서버(검사 사이트 기준) | https://extensionauditor.com/scan/banananl-mjennffndagebhgcbeblffhgooohling , https://chromeboard.com/extension/🍌-banananl-mjennffndagebhgcbeblffhgooohling |
+| 사이트 액세스 | 클릭 시 / 특정 사이트에서 / 모든 사이트에서, chrome://extensions → 세부정보 → 사이트 액세스, 개발자가 잠근 경우 변경 불가 | https://support.google.com/chrome/answer/160743 , https://chromestory.com/2026/07/chrome-extension-site-access/ |
+| 학교 관리자 제어 | 관리 콘솔 기기 → Chrome → 앱 및 확장 프로그램: 차단 목록/허용 목록, 사용자 요청 허용, 강제 설치·차단, 권한별 차단. 조직 단위별 설정 | https://support.google.com/chrome/a/answer/6177431 , https://support.google.com/chrome/a/answer/10405494 |
+| 그림 | chrome-extensions-menu.png: 교사 화면에서 확장 프로그램 메뉴만 잘라냄(계정 사진·이름·탭 제목 제외) | — |
+
+## 16. N9를 김대식 교수 강연 영상 사례로 다시 씀 (2026-11-03)
+
+| 항목 | 결과 | 확인한 URL·자료 |
+|---|---|---|
+| 사례 기록 | 교사가 보낸 PDF "김대식 교수의 AI 시대 생존 전략"(학교 계정 Gemini 앱 대화 4쪽): ① 영상 요약 ② 중학생에게 설명하기 좋은 부분 추천 ③ 바이브 코딩 수업 설계. 답의 영상 시간([04:09], [18:16], [09:28], [09:50] 등)과 내용을 요약해 실음. 영상 시간이 실제 발언과 맞는지는 이 작업 환경에서 확인 못 함 → 페이지에 교사 확인 단계 | 교사 제공 PDF |
+| 영상 | 유튜브 채널 지식인사이드의 김대식 교수(KAIST) 출연 영상. PDF에 영상 주소가 없어(googleusercontent 자리표시) 페이지에 특정 주소를 넣지 않음 | https://www.inven.co.kr/webzine/news/?news=310335&site=it (지식인사이드 인터뷰 보도) |
+| Gemini 앱의 YouTube | 앱 설정에서 YouTube 연결이 필요하고 Workspace는 관리자가 켜야 할 수 있다는 안내(보도·가이드). 교육용 제공 공식 문서 못 찾음 → 🔍, 교사 기록으로 학교 계정 동작 확인 | https://support.google.com/gemini/answer/16622858 |
+| AI 수업안 검수 | 실제 답이 학생 준비물에 학교 밖 AI 챗봇을 적음, "5분 만에" 표현, 분 단위 시간 배분 → 검수 항목으로 정리. 연수 사이트 규칙(시간 배분 표기 금지)에 따라 분 단위 시간은 싣지 않음 | — |
