@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>사례 2 가정통신문 초안 · 생성형 AI 첫걸음</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">사례 2 · Gemini 앱</div>
+  <h1>가정통신문 초안</h1>
+  <p class="sub">현장체험학습 가정통신문 초안을 구조화 프롬프트로 받고, 확정되지 않은 정보는 지어내지 않고 자리표시로 남기게 합니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · Gemini 앱</span>
+    <span class="badge learn">핵심 기법 · 구조화 프롬프트(역할·맥락·조건·출력 형식)</span>
+    <span class="badge">약 12분</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>12월 4일(금) 2학년 과학관 현장체험학습 가정통신문 초안</dd>
+    <dt>입력</dt><dd>행사 일시·장소·대상 학년 · 회신 방법(구글 설문지, 11월 27일(금)까지)</dd>
+    <dt>산출물</dt><dd>① A4 반 쪽 이내 통신문 초안 ② 회신용 설문지 문항 ③ 학생용 알림장 3줄</dd>
+    <dt>제약</dt><dd>참가비·동의 문구는 행정실과 협의 중(미확정) → 지어내지 않고 자리표시 · 이름·연락처도 자리표시 · 학교 결재 전 초안</dd>
+  </dl>
+</div>
+
+<p>가정통신문은 형식이 정형화된 장르라 모델이 잘 씁니다. 바로 그 때문에 빠진 정보(날짜·장소·금액)를 <b>«전형적인 값»으로 자연스럽게 채우고</b>, 그 값은 학부모에게 사실로 전달됩니다.
+이 사례는 같은 과업을 최소 프롬프트(A)와 구조화 프롬프트(B, 요소별로 나눠 쓴 지시문)로 보내 각 요소가 어떤 실패를 막는지 비교합니다.</p>
+
+<h2><span class="num">1</span> 프롬프트</h2>
+
+<p>A와 B는 <b>새 채팅</b>을 따로 열어 보냅니다. 한 대화에서 이어 보내면 A의 출력이 컨텍스트(모델이 답을 만들 때 참고하는 대화 내용)로 남아 B에 섞입니다.</p>
+
+<div class="vs">
+  <div class="vscard">
+    <div class="h"><span class="dot" style="background:var(--muted)"></span>A · 최소 프롬프트</div>
+    <ul><li>학부모님께 체험학습 안내 보내 줘</li></ul>
+  </div>
+  <div class="vscard">
+    <div class="h"><span class="dot"></span>B · 구조화 프롬프트</div>
+    <ul><li>아래 프롬프트 1 (역할 · 맥락 · 조건 · 출력 형식)</li></ul>
+  </div>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 1 · B 구조화 프롬프트</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 2학년 담임교사의 입장에서, 학부모님께 보낼 가정통신문 초안을 씁니다.
+맥락: 12월 4일(금) 2학년 과학관 현장체험학습. 회신은 구글 설문지로 11월 27일(금)까지 받습니다. 참가비와 동의 문구는 행정실과 협의 중입니다.
+조건:
+- 정중한 존댓말, A4 반 쪽 이내
+- 위에 없는 정보(참가비, 집합 시각, 준비물, 법적 동의 문구 등)는 지어내지 말고 [학교 확인]으로 비워 둘 것
+- 이름·연락처는 [담임 연락처]처럼 자리표시로
+출력 형식: 제목 / 인사말 / 일시·장소·준비물 표 / 회신 방법 / 문의처 / 맺음말</pre>
+</div>
+
+<p>네 요소는 <a href="start.html#elements">생성형 AI 한 장 «프롬프트의 구성 요소»</a> 가운데 안내문에 꼭 필요한 것만 고른 것입니다.</p>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:16%">요소</th><th style="width:36%">무엇을 적나</th><th>빠졌을 때의 실패와 이유</th></tr>
+  <tr><td><b>역할</b></td><td>학교급·학년·교과·담임 여부, 누구 입장에서 누구에게 쓰는 글인가</td><td>초등학생용이나 회사 공지 같은 말투. 필자·독자를 모르면 가장 일반적인 문체를 고릅니다.</td></tr>
+  <tr><td><b>맥락</b></td><td>확정된 사실: 무엇을, 누구에게, 언제까지</td><td>날짜·장소를 지어 채웁니다. 맥락은 출력에 쓸 사실의 유일한 근거입니다.</td></tr>
+  <tr><td><b>조건</b></td><td>분량, 말투, <b>하지 말 것</b>, 모를 때의 처리 방법</td><td>길어지고, 모르는 것을 그럴듯하게 씁니다. 빈칸을 표현할 방법([학교 확인])이 없으면 채우는 쪽을 택합니다.</td></tr>
+  <tr><td><b>출력 형식</b></td><td>표 · 번호 목록 · 문서 순서</td><td>매번 구조가 달라 검토가 어렵습니다. 순서를 고정하면 빠진 항목이 바로 보입니다.</td></tr>
+</table>
+</div>
+
+<h2><span class="num">2</span> 출력 예시</h2>
+
+<div class="vs">
+  <div class="result" style="margin:0">
+    <div class="t">A의 예시 결과</div>
+    <div class="body">학부모님께,
+안녕하십니까. 이번 체험학습 안내를 드립니다.
+일시: <mark>2024년 ○월 ○일</mark>
+장소: <mark>○○ 역사박물관</mark>
+참가비: <mark>15,000원 (교통비·입장료 포함)</mark>
+…</div>
+  </div>
+  <div class="result" style="margin:0">
+    <div class="t">B의 예시 결과</div>
+    <div class="body">2학년 과학관 현장체험학습 안내
+학부모님, 안녕하십니까. …
+| 일시 | 12월 4일(금) |
+| 장소 | 과학관 |
+| 준비물 | [학교 확인] |
+참가비: [학교 확인]
+회신: 구글 설문지, 11월 27일(금)까지
+문의: [담임 연락처]</div>
+  </div>
+</div>
+<p style="color:var(--muted); font-size:14.5px; margin-top:8px">두 결과 모두 예시입니다. 빨갛게 칠한 곳은 입력에 없어서 모델이 채워 넣은 것입니다.</p>
+
+<p>A는 모르는 정보를 <b>전형적인 값으로 채웠고</b>, B는 <b>비워 두었습니다.</b> A의 연도·장소·금액은 모두 환각(hallucination: 근거 없는 내용을 그럴듯하게 만들어 내는 현상)이며, 틀린 금액이 학부모님께 그대로 갈 수 있습니다.
+B도 «장소: 과학관»처럼 모호한 입력은 모호한 채로 둡니다. 정확한 기관명은 교사가 채웁니다.</p>
+
+<h2><span class="num">3</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 입력에 없는 숫자·고유명사</b> — 출력의 모든 숫자(금액·시각·날짜)와 고유명사(기관명)를 맥락 줄과 대조합니다. 맥락에 없으면 지우거나 [학교 확인]으로 바꿉니다.<br>
+  <b>② 단정된 미확정 정보</b> — «별도 비용은 없습니다»처럼 정해지지 않은 사항을 단정하는 문장도 환각입니다. 평서문 속에 숨어 있어 놓치기 쉽습니다.<br>
+  <b>③ 남은 자리표시</b> — 보내기 전에 «[»를 검색해(Ctrl+F) 0건이 될 때까지 채웁니다.<br>
+  <b>④ 요일</b> — 12월 4일과 11월 27일은 금요일입니다.<br>
+  <b>⑤ 결재</b> — AI 출력은 초안입니다. 동의가 필요한 통신문은 학교의 정식 절차와 결재를 거칩니다.
+</div>
+
+<h2><span class="num">4</span> 개선 프롬프트 — 같은 컨텍스트에서 파생 산출물</h2>
+
+<p>B의 대화에 이어 보냅니다. 맥락과 조건이 컨텍스트에 남아 있으므로 바꿀 것만 지정합니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 2 · 문체 조정(자리표시 유지)</span><button type="button">복사</button></div>
+  <pre>어려운 한자어를 쉬운 말로 바꾸고, 인사말을 두 문장으로 줄여 주세요. 다른 내용과 [학교 확인]·[담임 연락처] 자리는 그대로 두세요.</pre>
+</div>
+
+<p>문체를 고치게 하면 자리표시를 채우거나 지우는 일이 있어 «그대로 둘 것»을 함께 지정합니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 3 · 회신용 설문지 문항</span><button type="button">복사</button></div>
+  <pre>이 통신문의 회신을 받을 구글 설문지 문항을 만들어 주세요.
+- 문항: 학생 번호(숫자), 참가 여부(객관식), 보호자 확인(체크), 전달 사항(선택)
+- 꼭 필요한 것만 받고, 개인정보는 더 묻지 않음
+- 출력 형식: | 문항 | 응답 유형 | 필수 여부 |</pre>
+</div>
+
+<p>문항을 먼저 정하는 것은 데이터 최소화(목적에 필요한 정보만 수집) 때문입니다. 구성을 모델에게 맡기면 보호자 성명·연락처 같은 항목이 덧붙기 쉽습니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 4 · 학생용 알림장</span><button type="button">복사</button></div>
+  <pre>같은 내용을 학생에게 주는 알림장 3줄로 바꿔 주세요. [학교 확인] 항목은 "추후 안내"로 씁니다.</pre>
+</div>
+
+<h2><span class="num">5</span> 응용</h2>
+
+<p>역할·조건·출력 형식은 그대로 두고 <b>맥락</b> 줄만 바꾸면 대부분의 안내문에 재사용할 수 있습니다(프롬프트 템플릿).</p>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:28%">상황</th><th>맥락 줄을 이렇게</th></tr>
+  <tr><td>학부모 공개수업</td><td>"맥락: 다음 달 학부모 공개수업 안내문. 날짜는 [미정]으로 두세요."</td></tr>
+  <tr><td>수행평가 안내문 (학생용)</td><td>역할 줄의 독자를 학생으로 바꾸고, 맥락에 "포함: 과제 내용, 분량, 제출 방법, 평가 요소, AI 사용 표기 방법"</td></tr>
+  <tr><td>업무 메일 다듬기</td><td>"맥락: 아래 초안을 동료 교사에게 보낼 메일로 다듬어 주세요. 요청과 기한이 첫 두 줄에 보이게." + 초안 붙여넣기</td></tr>
+  <tr><td>상담 주간 안내</td><td>"맥락: 학부모 상담 주간 안내. 방문·전화 중 선택, 신청은 [링크 자리]." 희망 시간을 받아 배정까지 하려면 <a href="case-parent.html">사례 4</a>를 봅니다.</td></tr>
+</table>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  구조화 프롬프트의 네 요소는 각각 다른 실패를 막습니다. <b>역할</b>은 어조와 수준을, <b>맥락</b>은 사실의 근거를, <b>조건</b>은 허용 범위를, <b>출력 형식</b>은 구조를 고정합니다.
+  효과가 가장 큰 것은 조건의 <b>«하지 말 것»과 빈칸 처리 규칙</b>입니다. 모델은 빈칸을 채우는 쪽으로 기울기 때문에 «모르면 [학교 확인]»처럼 <b>빈칸을 표현할 방법</b>을 줘야 합니다. 그래도 숫자와 고유명사는 교사가 대조합니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b> — 표 모양이 깨져 보이면 "표를 마크다운이 아니라 일반 글로 써 주세요"라고 하거나, 답 아래 <b>공유·내보내기 → Docs로 내보내기</b>로 문서로 옮긴 뒤 다듬습니다. 메뉴 이름은 화면을 따릅니다.
+  분량이 넘치면 글자 수 대신 «항목마다 1~2문장»처럼 구조 단위로 제한하는 편이 잘 지켜집니다.
+</div>
+
+<div class="pager">
+  <a href="case-notice.html"><span class="k">← 이전</span>사례 1 · 알림장 문구</a>
+  <a class="next" href="case-minutes.html"><span class="k">다음 →</span>사례 3 · 회의 메모 → 회의록</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+</body>
+</html>

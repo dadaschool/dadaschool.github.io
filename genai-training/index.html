@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>생성형 AI 첫걸음 연수자료</title>
+<meta name="description" content="학교 구글 계정의 Gemini 앱 · 클래스룸 Gemini · Gemini Notebook · Gem 을 도구별 실무 사례로 익히는 교원 연수자료.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="home">
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">교원 연수 · Google Workspace for Education</div>
+  <h1>생성형 AI 첫걸음 연수자료</h1>
+  <p class="sub">도구별 실무 사례 10가지와 검증 방법</p>
+  <div class="chips" aria-hidden="true">
+    <span style="--c:#1A66D0">Gemini 앱</span><span style="--c:#1B7F3B">클래스룸</span><span style="--c:#6F42C1">Notebook</span><span style="--c:#C25E00">Gem</span><span style="--c:#00777F">크롬 도구</span>
+  </div>
+</header>
+
+<!-- 목차 — 메뉴를 누르면 하위 문서가 펼쳐진다 (details/summary · 스크립트 없이도 동작).
+     사례는 도구 기준으로 묶는다 (2026-11-03). 메뉴를 고칠 때는 guide.html 1절 표도 같이 고친다. -->
+<div class="menubar">
+  <span>메뉴를 눌러 펼칩니다</span>
+  <button type="button" class="allbtn" id="allBtn">모두 펼치기</button>
+</div>
+
+<nav class="menu" aria-label="목차">
+    <details class="mg" id="g-start" style="--c:#3C4043; --t:#ECEBE8" open>
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h11l-2.2 4L16 12H5"/></svg></span>
+        <span class="mt"><b>시작하기</b><small>사용법 · 계정 · 사전 점검</small></span>
+        <span class="cnt">3</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="guide.html"><span class="no dot"></span><span class="ti">사이트 사용법</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="accounts.html"><span class="no dot"></span><span class="ti">연수용 계정 고르기</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:2"><a href="prepare.html"><span class="no dot"></span><span class="ti">연수 전 점검</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-basic" style="--c:#D93A22; --t:#FDECE8">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg></span>
+        <span class="mt"><b>기본 개념</b><small>작동 원리 · 프롬프트 설계 · 안전</small></span>
+        <span class="cnt">2</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="start.html"><span class="no dot"></span><span class="ti">생성형 AI 한 장</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="safety.html"><span class="no dot"></span><span class="ti">안전하게 쓰기</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-app" style="--c:#1A66D0; --t:#E7EFFC">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.7 4.6 3.4 7.3 8 8-4.6.7-7.3 3.4-8 8-.7-4.6-3.4-7.3-8-8 4.6-.7 7.3-3.4 8-8z"/></svg></span>
+        <span class="mt"><b>Gemini 앱</b><small>대화로 초안 · 정리 · 요약</small></span>
+        <span class="cnt">5</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="case-notice.html"><span class="no">1</span><span class="ti">알림장 문구</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="case-letter.html"><span class="no">2</span><span class="ti">가정통신문 초안</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:2"><a href="case-minutes.html"><span class="no">3</span><span class="ti">회의 메모 → 회의록</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:3"><a href="case-parent.html"><span class="no">4</span><span class="ti">학부모 상담 일정</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:4"><a href="case-youtube.html"><span class="no">5</span><span class="ti">유튜브 강연 → 수업 자료</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-classroom" style="--c:#1B7F3B; --t:#E5F3E9">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20l4-4 4 4"/></svg></span>
+        <span class="mt"><b>클래스룸 Gemini</b><small>퀴즈 · 루브릭 · 평가</small></span>
+        <span class="cnt">2</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="case-quiz.html"><span class="no">6</span><span class="ti">형성평가 퀴즈</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="case-rubric.html"><span class="no">7</span><span class="ti">수행평가 루브릭</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-notebook" style="--c:#6F42C1; --t:#F0EAFB">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18H6z"/><path d="M9 3v18"/><path d="M12 8h3M12 12h3"/></svg></span>
+        <span class="mt"><b>Gemini Notebook</b><small>내 자료에 근거한 답</small></span>
+        <span class="cnt">2</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="case-notebook.html"><span class="no">8</span><span class="ti">학교 규정 질문 노트북</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="case-unit.html"><span class="no">9</span><span class="ti">단원 자료 한 번에</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-gem" style="--c:#C25E00; --t:#FCEEDF">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10l4 5-9 11L3 9z"/><path d="M3 9h18"/><path d="M10 4 8.5 9 12 20l3.5-11L14 4"/></svg></span>
+        <span class="mt"><b>Gem</b><small>자주 쓰는 지침 저장</small></span>
+        <span class="cnt">1</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="case-gem.html"><span class="no">10</span><span class="ti">나만의 수업 도우미</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-chrome" style="--c:#00777F; --t:#E0F2F3">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.6-4.6"/></svg></span>
+        <span class="mt"><b>크롬 도구</b><small>렌즈 · 확장 프로그램</small></span>
+        <span class="cnt">2</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="lens.html"><span class="no dot"></span><span class="ti">구글 렌즈 사용법</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="extensions.html"><span class="no dot"></span><span class="ti">확장 프로그램 사용법</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-appendix" style="--c:#5F6368; --t:#EEEFF1">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg></span>
+        <span class="mt"><b>부록</b><small>복사해 쓰는 프롬프트</small></span>
+        <span class="cnt">1</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="prompts.html"><span class="no dot"></span><span class="ti">바로 쓰는 프롬프트 모음</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+</nav>
+
+</div>
+
+<script>
+/* «모두 펼치기 / 모두 접기» — 없어도 메뉴는 그대로 동작한다 */
+(function () {
+  var btn = document.getElementById('allBtn');
+  var all = Array.prototype.slice.call(document.querySelectorAll('.menu details'));
+  function sync() { btn.textContent = all.every(function (d) { return d.open; }) ? '모두 접기' : '모두 펼치기'; }
+  btn.addEventListener('click', function () {
+    var open = !all.every(function (d) { return d.open; });
+    all.forEach(function (d) { d.open = open; });
+    sync();
+  });
+  all.forEach(function (d) { d.addEventListener('toggle', sync); });
+  sync();
+})();
+</script>
+</body>
+</html>

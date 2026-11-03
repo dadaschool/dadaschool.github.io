@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>연수용 계정 고르기 · 생성형 AI 첫걸음</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* 이 페이지에서만 쓰는 모양 */
+  .namebar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; background:#fff;
+    border:1.5px solid var(--ink); border-radius:12px; padding:14px 16px; margin:18px 0}
+  .namebar label{font-weight:800}
+  .namebar input{flex:1 1 200px; font:inherit; font-size:18px; padding:10px 12px;
+    border:1.5px solid var(--line); border-radius:8px; min-width:0}
+  .namebar input:focus{outline:2px solid var(--red); border-color:var(--red)}
+  .namebar .hint{flex-basis:100%; margin:0; color:var(--muted); font-size:14.5px}
+
+  .statusline{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:10px 0 0; font-size:15px; color:var(--muted)}
+  .statusline b{color:var(--ink)}
+  .btn{font:inherit; font-weight:800; font-size:14.5px; border:0; border-radius:8px; padding:8px 14px; cursor:pointer;
+    background:var(--red); color:#fff; white-space:nowrap}
+  .btn:hover{opacity:.88}
+  .btn:disabled{opacity:.45; cursor:default}
+  .btn.ghost{background:#fff; color:var(--ink); border:1.5px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--red); opacity:1}
+
+  #accTable td{vertical-align:middle}
+  #accTable td.mono{font-family:"D2Coding","Consolas",monospace; font-size:15px}
+  #accTable tr.taken td{color:var(--muted)}
+  #accTable tr.taken td.who{color:var(--ink); font-weight:800}
+  #accTable tr.mine td{background:#FFF0EC !important; color:var(--ink)}
+  .minetag{display:inline-block; margin-left:6px; font-size:12px; font-weight:800; color:#fff; background:var(--red);
+    padding:1px 8px; border-radius:999px; vertical-align:2px}
+
+  .minecard{background:#fff; border:2px solid var(--red); border-radius:14px; padding:20px 22px; margin:20px 0}
+  .minecard .t{font-weight:800; font-size:13px; color:var(--red); letter-spacing:.04em; margin-bottom:8px}
+  .minecard .kv{display:grid; grid-template-columns:auto 1fr auto; gap:8px 12px; align-items:center; margin:6px 0 12px}
+  .minecard .k{font-weight:800; font-size:15px}
+  .minecard .v{font-family:"D2Coding","Consolas",monospace; font-size:20px; font-weight:800; word-break:break-all}
+  @media (max-width:560px){ .minecard .kv{grid-template-columns:1fr auto} .minecard .k{grid-column:1 / -1; margin-top:6px} }
+
+  .msg{border-radius:10px; padding:12px 16px; margin:12px 0; font-size:15.5px}
+  .msg.err{background:#FFF4F2; border:1.5px dashed var(--red)}
+  .msg.ok{background:#EAF3EC; border:1px solid #CADFCE}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">시작하기 · 연수용 계정</div>
+  <h1>연수용 계정 고르기</h1>
+  <p class="sub">이름을 적고 빈 계정 하나를 고릅니다 &nbsp;|&nbsp; 약 2분</p>
+</header>
+
+<div class="note">
+  이 연수에서는 강사가 미리 만든 <b>임시 실습 계정</b>을 씁니다. 한 사람이 계정 <b>하나</b>를 골라 연수 내내 씁니다.<br>
+  이름을 적어 두는 것은 같은 계정을 두 사람이 쓰지 않게 하려는 것입니다. 실습 계정에는 <b>내 개인 자료나 학생 자료를 넣지 않습니다.</b> 연수가 끝나면 계정은 정리됩니다.
+</div>
+
+<!-- 계정을 고른 뒤에만 보이는 «내 계정» -->
+<div class="minecard" id="mineCard" hidden>
+  <div class="t">내 계정</div>
+  <div class="kv">
+    <span class="k">계정</span><span class="v" id="mineAcc"></span><button class="btn ghost" type="button" data-copy="mineAcc">복사</button>
+    <span class="k">비밀번호</span><span class="v" id="minePw"></span><button class="btn ghost" type="button" data-copy="minePw">복사</button>
+  </div>
+  <p style="margin:0 0 6px">이 계정으로 <a href="prepare.html">연수 전 점검</a>의 세 가지를 확인합니다. 크롬에 다른 계정이 로그인되어 있으면 <b>새 크롬 프로필</b>을 만들어 이 계정으로 로그인하세요.</p>
+  <p style="margin:0; font-size:14.5px; color:var(--muted)">잘못 골랐으면 <button class="btn ghost" type="button" id="releaseBtn" style="padding:4px 10px; font-size:13.5px">이 계정 취소</button> 를 누르고 다시 고릅니다. 취소는 고른 이 기기에서만 됩니다.</p>
+</div>
+
+<div id="notReady" class="msg err" hidden>
+  <b>아직 계정 목록이 연결되지 않았습니다.</b> 강사가 준비 중입니다. 잠시 뒤 다시 열어 주세요.
+</div>
+
+<div id="pickArea">
+  <div class="namebar" id="nameBar">
+    <label for="myName">내 이름</label>
+    <input id="myName" type="text" maxlength="20" autocomplete="off" placeholder="예: 김민수 (거제중)">
+    <p class="hint">이름을 먼저 쓰고, 아래 표에서 빈 계정의 <b>[여기 쓰기]</b>를 누릅니다. 같은 이름이 이미 있으면 학교 이름을 괄호로 붙여 주세요.</p>
+  </div>
+
+  <div class="statusline">
+    <span id="countText">목록을 불러오는 중…</span>
+    <button class="btn ghost" type="button" id="refreshBtn">↻ 새로 고침</button>
+    <span id="updatedText"></span>
+  </div>
+
+  <div id="msg" class="msg" hidden></div>
+
+  <div class="tablewrap">
+  <table id="accTable">
+    <thead><tr><th style="width:10%">번호</th><th>계정</th><th style="width:36%">사용자</th></tr></thead>
+    <tbody id="accBody"></tbody>
+  </table>
+  </div>
+</div>
+
+<div class="pager">
+  <a href="guide.html"><span class="k">← 이전</span>사이트 사용법</a>
+  <a class="next" href="prepare.html"><span class="k">다음 →</span>연수 전 점검</a>
+</div>
+
+</div>
+
+<!-- ?v= : 설정 파일을 바꾸면 이 번호도 바꾼다. 브라우저가 예전 설정(빈 주소)을 붙잡고 «준비 중» 을 보이지 않게 -->
+<script src="assets/accounts-config.js?v=20261103b"></script>
+<script>
+/* 연수용 계정 고르기
+   - 목록과 «누가 썼나» 는 구글 시트에 있고, 앱스 스크립트(웹 앱)가 읽고 쓴다.
+   - 두 사람이 같은 계정을 동시에 눌러도 스크립트가 줄을 세워 한 사람만 들어간다.
+   - 이 기기가 고른 계정을 알아보는 «취소 열쇠» 하나만 브라우저에 둔다(이름은 두지 않는다). */
+(function () {
+  var API = (window.ACCOUNTS_API || '').trim();
+  var $ = function (id) { return document.getElementById(id); };
+  var rows = [];
+  var busy = false;
+  var loadFailed = false;   // 목록 읽기 실패 안내가 떠 있는지 — 다음에 읽기가 되면 지운다
+
+  // 이 기기의 취소 열쇠 — 저장이 막힌 브라우저에서는 이 창에서만 유지된다
+  var KEY = 'genai-training.accountToken';
+  var token = null;
+  try { token = localStorage.getItem(KEY); } catch (e) {}
+  if (!token) {
+    var a = new Uint8Array(16);
+    (window.crypto || window.msCrypto).getRandomValues(a);
+    token = Array.prototype.map.call(a, function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+    try { localStorage.setItem(KEY, token); } catch (e) {}
+  }
+
+  if (!API) {
+    $('notReady').hidden = false;
+    $('pickArea').hidden = true;
+    return;
+  }
+
+  function showMsg(text, kind) {
+    loadFailed = false;
+    var m = $('msg');
+    m.textContent = text;
+    m.className = 'msg ' + (kind || 'err');
+    m.hidden = !text;
+  }
+
+  // 서버가 돌려준 실패 이유를 사람 말로
+  function explain(r) {
+    switch (r && r.code) {
+      case 'taken':    return '방금 다른 분(' + r.by + ')이 먼저 고른 계정입니다. 다른 빈 계정을 골라 주세요.';
+      case 'has_one':  return '이 기기는 이미 ' + r.account + ' 계정을 골랐습니다. 바꾸려면 위의 [이 계정 취소]를 먼저 누르세요.';
+      case 'dup_name': return '같은 이름이 이미 ' + r.account + ' 에 있습니다. 내가 고른 것이 아니라면 이름 뒤에 학교 이름을 괄호로 붙여 주세요.';
+      case 'bad_name': return '이름을 1~20자로 써 주세요.';
+      case 'not_yours':return '다른 기기에서 고른 계정은 여기서 취소할 수 없습니다. 강사에게 말해 주세요.';
+      case 'busy':     return '지금 여러 분이 한꺼번에 고르고 있습니다. 잠시 뒤 다시 눌러 주세요.';
+      default:         return '처리하지 못했습니다. 잠시 뒤 다시 눌러 주세요.';
+    }
+  }
+
+  function render() {
+    var body = $('accBody');
+    body.textContent = '';
+    var used = 0;
+    // 내 계정을 먼저 찾아 둔다 — 그래야 내 줄보다 위에 있는 빈 계정의 단추도 막힌다
+    var mine = rows.filter(function (r) { return r.mine; })[0] || null;
+    rows.forEach(function (r, i) {
+      if (r.user) used++;
+      var tr = document.createElement('tr');
+      if (r.user) tr.className = r.mine ? 'taken mine' : 'taken';
+      function td(text, cls) {
+        var c = document.createElement('td');
+        if (cls) c.className = cls;
+        c.textContent = text;
+        tr.appendChild(c);
+        return c;
+      }
+      td(String(i + 1));
+      td(r.account, 'mono');
+      // 비밀번호는 표에 싣지 않는다 — 화면 공유·옆자리에서 남의 계정 비밀번호가 보이지 않게.
+      // 내 비밀번호는 위 «내 계정» 카드에만 나온다.
+      var who = td('', 'who');
+      if (r.user) {
+        who.textContent = r.user;   // 이름은 남이 쓴 글이므로 늘 textContent 로
+        if (r.mine) {
+          var tag = document.createElement('span');
+          tag.className = 'minetag'; tag.textContent = '내 계정';
+          who.appendChild(tag);
+        }
+      } else {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'btn'; b.textContent = '여기 쓰기';
+        b.disabled = busy || !!mine;
+        b.addEventListener('click', function () { claim(r); });
+        who.appendChild(b);
+      }
+      body.appendChild(tr);
+    });
+
+    $('countText').innerHTML = '';
+    var ct = $('countText');
+    ct.appendChild(document.createTextNode('계정 ' + rows.length + '개 중 '));
+    var bEl = document.createElement('b'); bEl.textContent = used + '개';
+    ct.appendChild(bEl);
+    ct.appendChild(document.createTextNode(' 사용 중 · 남은 계정 ' + (rows.length - used) + '개'));
+
+    // 내 계정 카드
+    $('mineCard').hidden = !mine;
+    $('nameBar').hidden = !!mine;
+    if (mine) {
+      $('mineAcc').textContent = mine.account;
+      $('minePw').textContent = mine.password || '(강사에게 받으세요)';
+    }
+  }
+
+  function stamp() {
+    var d = new Date();
+    $('updatedText').textContent = '· ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2) + ' 기준 · 15초마다 저절로 새로 고침';
+  }
+
+  function load() {
+    if (busy) return Promise.resolve();
+    return fetch(API + '?t=' + encodeURIComponent(token), { cache: 'no-store' })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (!data || !data.ok) throw new Error('bad');
+        rows = data.rows || [];
+        if (loadFailed) { loadFailed = false; showMsg('', ''); }
+        render(); stamp();
+      })
+      .catch(function () {
+        showMsg('계정 목록을 불러오지 못했습니다. 인터넷 연결을 확인하고 [↻ 새로 고침]을 눌러 주세요. 학교망에서 script.google.com 이 막혀 있을 수도 있습니다.', 'err');
+        loadFailed = true;   // showMsg 가 내리므로 그 뒤에 올린다
+      });
+  }
+
+  function post(payload) {
+    // text/plain 으로 보내야 브라우저가 사전 확인(preflight) 없이 바로 보낸다
+    return fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function (res) { return res.json(); });
+  }
+
+  function claim(r) {
+    var name = $('myName').value.replace(/\s+/g, ' ').trim();
+    if (!name) { showMsg('먼저 위 칸에 이름을 써 주세요.', 'err'); $('myName').focus(); return; }
+    if (!confirm(r.account + '\n이 계정을 «' + name + '» 이름으로 고를까요?')) return;
+    busy = true; render(); showMsg('', '');
+    post({ action: 'claim', row: r.row, name: name, token: token })
+      .then(function (res) {
+        busy = false;
+        if (res && res.ok) showMsg('골랐습니다. 위의 «내 계정» 으로 로그인하세요.', 'ok');
+        else showMsg(explain(res), 'err');
+        return load();
+      })
+      .catch(function () { busy = false; showMsg('보내지 못했습니다. 인터넷 연결을 확인하고 다시 눌러 주세요.', 'err'); render(); });
+  }
+
+  $('releaseBtn').addEventListener('click', function () {
+    var mine = rows.filter(function (r) { return r.mine; })[0];
+    if (!mine) return;
+    if (!confirm(mine.account + ' 계정을 취소할까요?\n취소하면 다른 분이 고를 수 있게 됩니다.')) return;
+    busy = true; render();
+    post({ action: 'release', row: mine.row, token: token })
+      .then(function (res) {
+        busy = false;
+        showMsg(res && res.ok ? '취소했습니다. 다시 고를 수 있습니다.' : explain(res), res && res.ok ? 'ok' : 'err');
+        return load();
+      })
+      .catch(function () { busy = false; showMsg('보내지 못했습니다. 다시 눌러 주세요.', 'err'); render(); });
+  });
+
+  // 계정·비밀번호 복사
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = $(btn.getAttribute('data-copy')).textContent;
+      function ok() { btn.textContent = '복사됨 ✓'; setTimeout(function () { btn.textContent = '복사'; }, 1500); }
+      // 학교 PC 의 낡은 브라우저에서는 clipboard API 가 막힐 수 있어 예전 방식으로 한 번 더 (assets/copy.js 와 같은 방법)
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy') ? ok() : (btn.textContent = '복사 실패'); } catch (e) { btn.textContent = '복사 실패'; }
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+      else fallback();
+    });
+  });
+
+  $('refreshBtn').addEventListener('click', function () { showMsg('', ''); load(); });
+  load();
+  // 다른 분이 고르는 것이 보이도록 15초마다 다시 읽는다 (창이 숨어 있으면 쉰다)
+  setInterval(function () { if (!document.hidden) load(); }, 15000);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>확장 프로그램 사용법 · 생성형 AI 첫걸음</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">크롬 도구 · 확장 프로그램</div>
+  <h1>확장 프로그램 사용법</h1>
+  <p class="sub">크롬에 기능을 더하는 확장 프로그램을 설치하고, 권한을 읽고, 접근 범위를 줄이고, 지우는 방법입니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · Chrome 웹 스토어 · chrome://extensions</span>
+    <span class="badge learn">핵심 · 권한 최소화</span>
+    <span class="badge">약 15분</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">알고 쓰기</div>
+  <dl class="spec">
+    <dt>무엇인가</dt><dd>내 크롬 안에서 돌아가는 작은 프로그램입니다. 대부분 구글이 아닌 <b>외부 개발자</b>가 만듭니다.</dd>
+    <dt>왜 조심하나</dt><dd>«모든 사이트의 데이터를 읽고 변경» 권한이 있으면, 같은 크롬으로 연 <b>나이스·업무관리시스템·성적 화면</b>도 읽을 수 있습니다.</dd>
+    <dt>원칙</dt><dd>필요한 것만 · 믿을 만한 것만 · 필요한 사이트에서만 · 다 쓰면 지운다</dd>
+    <dt>조건</dt><dd>학교 계정으로 로그인한 크롬은 관리자가 설치를 막거나 허용 목록만 열어 둘 수 있습니다.</dd>
+  </dl>
+</div>
+
+<h2><span class="num">1</span> 설치하기</h2>
+
+<ol class="steps">
+  <li>크롬에서 <b>Chrome 웹 스토어</b>(chromewebstore.google.com)를 열고 이름으로 검색합니다. 이름이 비슷한 확장 프로그램이 여러 개 있으니 개발자 이름까지 봅니다.</li>
+  <li>설치 전에 상세 페이지에서 <b>개발자 · 사용자 수 · 평점과 리뷰 · 최근 업데이트 날짜 · 개인정보 보호 관행</b>을 확인합니다(아래 5절 점검표).</li>
+  <li><b>Chrome에 추가</b> → 권한 안내 창을 <b>끝까지 읽고</b> <b>확장 프로그램 추가</b>를 누릅니다.</li>
+  <li>주소창 오른쪽 <b>퍼즐 모양 아이콘</b>을 누르면 설치된 목록이 보입니다. 압정 아이콘을 누르면 도구 모음에 고정됩니다.</li>
+</ol>
+
+<figure class="shot" style="max-width:360px">
+  <img src="assets/img/chrome-extensions-menu.png" width="516" height="760" loading="lazy" alt="크롬 주소창 오른쪽 퍼즐 모양 아이콘을 누른 화면. 확장 프로그램 목록이 전체 액세스와 필요한 액세스 권한 없음으로 나뉘어 있고, YouTube to NotebookLM, BananaNL, 맨 아래 확장 프로그램 관리가 빨간 상자로 표시되어 있다.">
+  <figcaption>퍼즐 아이콘을 누른 화면. 설치된 확장 프로그램이 <b>전체 액세스</b>와 <b>필요한 액세스 권한 없음</b>으로 나뉘어 보입니다. 맨 아래 <b>확장 프로그램 관리</b>에서 끄기·삭제·사이트 액세스를 바꿉니다.</figcaption>
+</figure>
+
+<h2><span class="num">2</span> 권한 읽는 법</h2>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:30%">퍼즐 메뉴의 분류</th><th>뜻</th><th style="width:28%">판단</th></tr>
+  <tr><td><b>전체 액세스</b></td><td>내가 여는 페이지의 내용을 읽고 바꿀 수 있습니다. 입력한 글, 화면의 표도 포함됩니다.</td><td>업무용 크롬에서는 <b>사이트 액세스를 줄여서</b>만 씁니다</td></tr>
+  <tr><td>특정 사이트에서만</td><td>지정한 사이트(예: youtube.com)에서만 동작합니다.</td><td>권장하는 상태</td></tr>
+  <tr><td><b>필요한 액세스 권한 없음</b></td><td>페이지 내용에 접근하지 않습니다.</td><td>상대적으로 안전</td></tr>
+</table>
+</div>
+
+<h2><span class="num">3</span> 접근 범위 줄이기 · 끄기 · 지우기</h2>
+
+<ol class="steps">
+  <li>퍼즐 아이콘 → <b>확장 프로그램 관리</b>(또는 주소창에 <code>chrome://extensions</code>) → 해당 확장 프로그램의 <b>세부정보</b>를 엽니다.</li>
+  <li><b>사이트 액세스</b>를 <b>특정 사이트에서</b>로 바꾸고 필요한 주소만 넣습니다(예: <code>youtube.com</code>). 그러면 학교 업무 시스템 같은 다른 사이트에서는 동작하지 않습니다. 개발자가 막아 둔 경우에는 바꿀 수 없습니다.</li>
+  <li>쓰지 않을 때는 스위치를 끄고, 필요 없어지면 <b>삭제</b>합니다.</li>
+</ol>
+
+<div class="note">
+  <b>업무와 실습을 나누는 가장 확실한 방법</b> — 크롬 오른쪽 위 프로필 사진 → <b>추가</b>로 실습용 프로필을 따로 만들고, 확장 프로그램은 그 프로필에만 설치합니다. 나이스·업무관리시스템은 확장 프로그램이 없는 업무용 프로필에서만 엽니다.
+</div>
+
+<h2><span class="num">4</span> 예시 — YouTube to NotebookLM</h2>
+
+<p>유튜브 영상을 Gemini Notebook(NotebookLM) 소스로 바로 보내는 외부 확장 프로그램입니다. 설명에 따르면 지금 보는 영상뿐 아니라 재생목록·채널·검색 결과의 영상도 보낼 수 있습니다.
+없어도 Notebook에서 <b>소스 추가 → YouTube</b>로 주소를 넣으면 똑같이 할 수 있으므로(<a href="case-youtube.html">사례 5</a>), 설치는 선택입니다.</p>
+
+<figure class="shot">
+  <img src="assets/img/youtube-notebook-gemini-buttons.png" width="777" height="102" loading="lazy" alt="유튜브 영상 아래 버튼 줄. 좋아요·싫어요 옆의 Notebook 버튼과, 공유 버튼 옆의 별 모양 Gemini 버튼이 빨간 상자로 표시되어 있다.">
+  <figcaption>설치하면 좋아요 옆에 <b>Notebook</b> 버튼이 생깁니다(유튜브 기본 기능이 아님). 공유 옆 <b>별 모양 Gemini 버튼</b>은 확장 프로그램과 상관없는 유튜브의 질문하기 기능으로, 일부 영상·계정에만 보입니다.</figcaption>
+</figure>
+
+<ol class="steps">
+  <li>설치 후 유튜브 영상을 <b>새로고침</b>하면 Notebook 버튼이 보입니다.</li>
+  <li>버튼을 누르고 보낼 노트북을 고르거나 새 노트북을 만듭니다. 처음 누를 때 Notebook에 로그인된 계정이 <b>학교 계정</b>인지 확인합니다.</li>
+  <li>Gemini Notebook을 열어 소스 목록에 영상이 들어왔는지 확인하고 질문을 시작합니다.</li>
+  <li>설치 직후 3절대로 <b>사이트 액세스를 youtube.com으로</b> 줄입니다.</li>
+</ol>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:26%">한 교사의 크롬에 있던 확장 프로그램</th><th>하는 일 (스토어·검사 사이트 설명 기준)</th><th style="width:30%">확인할 점</th></tr>
+  <tr><td>YouTube to NotebookLM</td><td>유튜브 영상·재생목록·채널·검색 결과를 Gemini Notebook으로 보냄. 좋아요·공유 옆에 Notebook 버튼을 붙임</td><td>전체 액세스 권한. <code>youtube.com</code>으로 줄이기</td></tr>
+  <tr><td>BananaNL</td><td>NotebookLM에서 그림·슬라이드를 만들 때 쓰는 프롬프트 스타일을 저장·관리하고 공유</td><td>NotebookLM 밖의 사이트(외부 AI 서비스, 개발사 서버)에 접근하는 권한이 있다고 검사 사이트에 나옴. 설치 전 권한 확인</td></tr>
+</table>
+</div>
+
+<h2><span class="num">5</span> 설치 전 점검표</h2>
+
+<div class="warn">
+  <b>① 출처</b> — 구글 공식 프로그램인지, 개발자가 누구인지 봅니다. 사용자 수가 적거나, 오래 업데이트되지 않았거나, 설명에 없는 권한을 요구하면 설치하지 않습니다.<br>
+  <b>② 권한</b> — «모든 사이트의 데이터를 읽고 변경»이 필요한지 따져 보고, 필요하면 설치 직후 사이트 액세스를 줄입니다.<br>
+  <b>③ 프로필</b> — 업무용 크롬 프로필(나이스·업무관리시스템을 여는 곳)에는 설치하지 않습니다.<br>
+  <b>④ 학교 방침</b> — «관리자가 차단함»이 나오면 학교 방침이므로 따릅니다. 관리자가 <b>확장 프로그램 요청</b>을 열어 두었다면 요청 버튼으로 승인을 받을 수 있습니다.<br>
+  <b>⑤ 공용 PC · 학생</b> — 학교 공용 컴퓨터에는 개인적으로 설치하지 않고 정보 담당 교사와 먼저 상의합니다. 학생에게 설치를 안내하지 않습니다.
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  확장 프로그램은 «내 브라우저 안에서 도는 남의 코드»입니다. 편리함은 권한의 크기와 맞바꾼 것이므로,
+  <b>권한은 최소로, 동작 범위는 필요한 사이트로, 업무 환경과는 분리</b>합니다. 같은 일을 기본 기능으로 할 수 있으면 기본 기능을 씁니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b> — 버튼이 안 보이면 페이지를 새로고침하고, 퍼즐 메뉴에서 확장 프로그램이 켜져 있는지 봅니다. 크롬이나 사이트가 업데이트되면 확장 프로그램이 한동안 동작하지 않을 수 있습니다. 이때는 기본 기능(Notebook의 소스 추가 등)으로 진행합니다.
+  구글 렌즈는 확장 프로그램이 아니라 크롬 기본 기능입니다 → <a href="lens.html">구글 렌즈 사용법</a>
+</div>
+
+<div class="pager">
+  <a href="lens.html"><span class="k">← 이전</span>구글 렌즈 사용법</a>
+  <a class="next" href="prompts.html"><span class="k">다음 →</span>바로 쓰는 프롬프트 모음</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+</body>
+</html>

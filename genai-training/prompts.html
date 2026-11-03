@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>바로 쓰는 프롬프트 모음 · 생성형 AI 첫걸음</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">부록</div>
+  <h1>바로 쓰는 프롬프트 모음</h1>
+  <p class="sub">복사한 뒤 [ ]만 바꿔 씁니다. 업무 영역별 프롬프트, 교과별 변형 예, 문제 해결 점검표를 담았습니다.</p>
+  <div class="meta">
+    <span class="badge">프롬프트 17개</span>
+    <span class="badge">교과별 변형</span>
+    <span class="badge">문제 해결 점검표</span>
+  </div>
+</header>
+
+<div class="note">
+  모든 프롬프트(AI에게 주는 지시문)는 <b>역할 · 과업 · 조건 · 출력 형식</b>의 구조로 썼습니다. 구성 요소는 <a href="start.html#elements">생성형 AI 한 장</a> 5절, 구조화 연습은 <a href="case-letter.html">사례 2</a>에 있습니다.
+  [ ] 부분만 내 상황으로 바꾸고, 학생 이름·연락처·성적은 넣지 않습니다.
+  결과를 받은 뒤에는 <b>«더 짧게», «표로», «학생용 말로»</b>처럼 한 가지씩 이어서 고쳐 달라고 요청합니다(반복 수정).
+</div>
+
+<p>
+  <a href="#class">학급 운영</a> · <a href="#lesson">수업</a> · <a href="#assess">평가</a> · <a href="#parent">학부모</a> · <a href="#work">업무</a> · <a href="#subject">교과별로 바꾸기</a> · <a href="#fix">문제 해결</a>
+</p>
+
+<h2 id="class"><span class="num">1</span> 학급 운영</h2>
+
+<div class="code">
+  <div class="bar"><span class="label">1. 알림장 문구 · 사례 1</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [학년] 담임교사의 학급 안내 작성 보조
+과업: [날짜(요일)] 알림장 문구 작성
+알릴 내용: [준비물] / [제출 마감] / [행사]
+조건: 4줄 이내 · 학생이 읽는 말투 · 이모지 없음 · 위에 없는 설명은 더하지 않음
+출력 형식: 번호 목록</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">2. 학급 규칙 수립 발문</span><button type="button">복사</button></div>
+  <pre>역할: 학생 참여형 학급 운영에 익숙한 중학교 담임교사
+맥락: 중학교 [학년] 학기 초 학급 회의에서 학급 규칙을 학생과 함께 정하려 합니다.
+과업: 학생이 스스로 규칙을 떠올리도록 돕는 질문 7개
+조건: 정답을 유도하지 않는 열린 질문 · 중학생이 바로 답할 수 있는 말 · 질문마다 다루는 영역(수업·쉬는 시간·관계 등) 표시
+출력 형식: 표(번호 | 질문 | 영역)</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">3. 1인 1역 목록</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 학급 운영 보조
+과업: 중학교 [학년] [인원]명 학급의 1인 1역 목록 작성
+조건: 역할 수는 [인원]개 · 하는 일은 한 줄 · 하루 부담이 비슷하게 · 학생 이름은 넣지 않음
+출력 형식: 표(역할 | 하는 일 | 주기)</pre>
+</div>
+
+<h2 id="lesson"><span class="num">2</span> 수업</h2>
+
+<div class="code">
+  <div class="bar"><span class="label">4. 수업 도입 발문</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 수업 설계 보조
+과업: 중학교 [학년] [교과] '[단원]' 첫 차시 도입 질문 5개
+조건: 학생 일상(학교·가정)과 연결 · 정답이 하나로 정해지지 않는 질문 · 질문당 30자 이내
+출력 형식: 번호 목록. 질문마다 본 수업과 이어지는 지점을 한 줄로</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">5. 오개념 진단표</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 교육과정에 밝은 수업 설계 보조
+과업: 중학교 [학년] [교과] '[개념]'에서 학생들이 자주 보이는 오개념 5가지 정리
+조건: 오개념마다 학생이 실제로 할 법한 말 예시 · 왜 틀렸는지 한 줄 · 바로잡는 질문 하나
+출력 형식: 표(오개념 | 학생 말 예시 | 틀린 까닭 | 바로잡는 질문)</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">6. 모둠 활동지 틀</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 협동학습 설계 보조
+과업: 중학교 [학년] [교과] 모둠 활동지 틀 작성
+주제: [주제]
+포함 항목: 활동 목표 · 역할 표(이끔이·기록이·발표이·자료이) · 단계별 질문 3개 · 정리 칸
+조건: 학생이 읽는 쉬운 말 · A4 한 쪽 분량
+출력 형식: 항목별 소제목이 있는 문서</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">7. 수준별 읽기 자료</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 읽기 자료 편집자
+과업: 아래 글을 중학교 [학년] 학생용으로 두 수준으로 다시 쓰기
+- 기본: 문장을 짧게, 어려운 낱말은 괄호로 풀이
+- 심화: 원래 수준을 지키고, 생각해 볼 질문 2개 추가
+조건: 내용을 바꾸거나 원문에 없는 사실을 더하지 않음
+출력 형식: [기본] / [심화] 두 부분으로 나눠 제시
+
+[글 붙여넣기]</pre>
+</div>
+
+<h2 id="assess"><span class="num">3</span> 평가</h2>
+
+<div class="code">
+  <div class="bar"><span class="label">8. 형성평가 문항 · 사례 6</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 평가 문항 출제 보조
+과업: 중학교 [학년] [교과] '[단원]' 형성평가 작성
+구성: 객관식 [n]문항(4지선다) · 단답형 [m]문항 · 문항당 [점수]점
+조건
+1. 문항마다 정답과 해설 한 줄
+2. 오답 보기에는 학생 오개념([학생 오개념])을 반영
+3. 교과서 범위를 넘는 개념은 쓰지 않음
+4. 마지막에 정답과 해설이 서로 맞는지 문항별로 점검해 표시
+출력 형식: 문항 → 보기 → 정답 → 해설 순서, 문항 사이 빈 줄</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">9. 루브릭 · 사례 7</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 수행평가 설계 보조
+과업: 아래 과제 안내문에 맞는 채점 기준표(루브릭) 작성
+조건
+1. 평가 요소는 안내문의 이름 그대로, 요소마다 3수준(상·중·하)
+2. 수준 설명은 관찰할 수 있는 행동으로 (예: "[관찰 가능한 행동 한 문장]")
+3. 수준끼리 겹치거나 어느 수준에도 들지 않는 경우가 없게
+4. 안내문에 없는 배점·감점 규칙은 만들지 않음
+출력 형식: 표(평가 요소 | 상 | 중 | 하)
+
+[안내문 붙여넣기]</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">10. 정답률 기반 보충 활동 · 사례 6</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 수업 설계 보조
+맥락: 아래는 형성평가 문항별 정답률입니다(학생 이름 없는 집계).
+과업: 정답률이 낮은 문항의 원인 가설과 다음 차시 보충 활동 3가지 제안
+조건: 원인은 확정하지 말고 «가설»로 표시 · 활동마다 소요 시간과 준비물
+출력 형식: ① 표(문항 | 다루는 내용 | 정답률 | 원인 가설) ② 보충 활동 번호 목록
+
+[문항 번호 · 다루는 내용 · 정답률]</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">11. 수행평가 안내문 (학생용)</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [교과] 수행평가 안내문 작성 보조
+과업: 중학교 [학년] [교과] '[과제명]' 수행평가 안내문(학생용) 작성
+포함 항목: 과제 내용 · 분량 · 제출 방법 · 제출 기한([날짜(요일)]) · 평가 요소 · 유의사항(AI를 썼다면 "AI 사용:"으로 적기)
+조건: 학생이 읽는 쉬운 말 · A4 한 쪽 이내 · 정하지 않은 배점·기준은 [확인 필요]로 비워 둠
+출력 형식: 항목별 소제목이 있는 문서</pre>
+</div>
+
+<h2 id="parent"><span class="num">4</span> 학부모</h2>
+
+<div class="code">
+  <div class="bar"><span class="label">12. 가정통신문 초안 · 사례 2</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [학년] 담임교사의 가정통신문 작성 보조
+맥락: [날짜(요일)] [행사명] 안내. 회신은 [방법]으로 [기한]까지 받습니다.
+과업: 가정통신문 초안 작성
+조건: 정중한 존댓말 · A4 반 쪽 이내 · 비용·법적 동의 문구는 지어내지 말고 [학교 확인]으로 비워 둠 · 이름·연락처는 자리만 표시
+출력 형식: 제목 / 인사말 / 일시·장소·준비물 표 / 회신 방법 / 문의처 / 맺음말</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">13. 상담 신청 안내문</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 담임교사의 학부모 안내문 작성 보조
+과업: 학부모 상담 신청 안내문 작성
+내용: 상담 기간 [날짜] · 1회 [길이] · 방식 [방문/전화/화상] 중 선택 · 신청 방법 [링크 자리] · 취소·변경은 [기한]까지
+조건: 상담에서 다룰 수 있는 내용 예시 3가지 · 부담스럽지 않은 문체 · A4 반 쪽 · 요청하지 않은 약속(비용, 녹음 여부 등)은 쓰지 않음
+출력 형식: 제목 / 본문 / 신청 방법 / 문의처</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">14. 상담 일정 배정 · 사례 4</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 담임교사의 학부모 상담 일정 조율 보조
+과업: 아래 희망 시간 응답으로 상담 배정표 작성
+
+제약 조건
+1. 상담 1회 [길이]분, 다음 상담까지 [간격]분 간격
+2. 하루 최대 [n]건
+3. [방식별 제약 — 예: 화상 상담은 16:00 이후 시작]
+4. 1지망 우선. 겹치면 2지망 → 3지망 순서. 모두 안 되면 배정하지 말고 «조정 필요»로
+5. 응답에 없는 날짜·시간은 새로 만들지 않음
+
+출력 형식
+① 배정표: | 날짜(요일) | 시작 | 학생 번호 | 방식 | 몇 지망 |  — 날짜·시간 순
+② 조정 필요: | 학생 번호 | 까닭 |
+③ 점검: 제약 1~5를 하나씩 «지킴/어김»으로 표시
+
+[응답 표 붙여넣기 — 학생 번호·희망 시간·방식만, 메모 열은 지운 것]</pre>
+</div>
+
+<p style="color:var(--muted); font-size:15.5px">③ 점검은 보조 수단입니다. 모델의 자체 점검은 위반을 놓칠 수 있으므로, 겹침과 날짜별 건수는 시트에 붙여넣어 수식으로 확인합니다. 단계를 나눠 묻는 방법과 검증 수식은 <a href="case-parent.html">사례 4</a>에 있습니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">15. 학급 소식지 문단</span><button type="button">복사</button></div>
+  <pre>역할: 중학교 [학년] 담임교사의 학급 소식지 편집 보조
+과업: 학급 소식지 '이번 달 학급 소식' 문단 작성
+있었던 일: [행사1] / [행사2] / [수업 활동]
+조건: 학생 이름 없음 · 5문장 · 사실만 담백하게 · 위에 없는 일은 쓰지 않음
+출력 형식: 한 문단</pre>
+</div>
+
+<h2 id="work"><span class="num">5</span> 업무</h2>
+
+<div class="code">
+  <div class="bar"><span class="label">16. 회의록 정리 · 사례 3</span><button type="button">복사</button></div>
+  <pre>역할: 교과협의회 회의록 정리 담당
+과업: 아래 [협의회 이름] 메모를 회의록으로 정리
+조건
+1. 결정사항 / 할 일(담당·기한) / 미정 사항으로 구분
+2. 메모에 없는 담당자·기한·요일은 추측하지 말고 "미정"으로
+3. 사람 이름은 "교사A"처럼 바꿈
+출력 형식: 구분별 표
+
+[메모 붙여넣기 — 개인정보 없는 것]</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">17. 업무 메일 다듬기</span><button type="button">복사</button></div>
+  <pre>역할: 학교 업무 문서 편집자
+과업: 아래 업무 메일을 정중하고 간결하게 다듬기
+받는 사람: [동료 교사 / 학년부]
+조건: 요청 사항과 기한이 첫 두 줄에 보이게 · 5문장 이내 · 내용을 더하지 않음
+출력 형식: 제목 한 줄 + 본문
+
+[초안 붙여넣기]</pre>
+</div>
+
+<h2 id="subject"><span class="num">6</span> 교과별로 바꿔 쓰는 법</h2>
+
+<p>사례의 예는 대부분 정보 교과입니다. 프롬프트에서 <b>[교과]·[단원]·[학생 오개념]</b> 세 곳만 바꾸면 어느 교과에서나 씁니다. 아래는 형성평가 프롬프트(8번)를 바꿔 쓴 예입니다.</p>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:14%">교과</th><th style="width:26%">[단원] 예</th><th>[학생 오개념]에 넣을 말 예</th></tr>
+  <tr><td>국어</td><td>주장하는 글 쓰기</td><td>주장과 근거를 구분하지 못함, 감정 표현을 근거로 씀</td></tr>
+  <tr><td>수학</td><td>일차함수의 그래프</td><td>기울기의 부호와 그래프 방향을 헷갈림, y절편과 x절편을 바꿔 씀</td></tr>
+  <tr><td>과학</td><td>물질의 상태 변화</td><td>상태가 변할 때 질량도 변한다고 생각함</td></tr>
+  <tr><td>사회</td><td>민주주의와 정치</td><td>다수결이면 언제나 옳다고 생각함</td></tr>
+  <tr><td>영어</td><td>과거 시제</td><td>불규칙 동사에 -ed를 붙임</td></tr>
+  <tr><td>정보</td><td>알고리즘(순서도)</td><td>처리와 입출력 기호를 바꿔 씀, 마름모에 예/아니요를 안 씀</td></tr>
+</table>
+</div>
+
+<p style="color:var(--muted); font-size:15.5px">«학생 오개념»에는 수업에서 실제로 관찰한 것을 넣을 때 변별력 있는 문항이 나옵니다. 떠오르지 않으면 5번 프롬프트(오개념 진단표)를 먼저 씁니다. 모델은 우리 학교 교과서를 보고 있지 않으므로, 해당 차시의 학습 목표와 핵심 용어를 함께 붙여 넣으면 범위와 난이도가 맞습니다.</p>
+
+<h2 id="fix"><span class="num">7</span> 프롬프트가 기대대로 작동하지 않을 때</h2>
+
+<p>결과가 너무 길거나, 수준이 맞지 않거나, 사실이 틀리면 구성 요소 가운데 <b>빠진 것</b>을 찾아 한 줄을 더합니다.</p>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:16%">빠진 요소</th><th style="width:30%">증상</th><th>더할 문장 예</th></tr>
+  <tr><td>역할·대상</td><td>대학생·일반인 수준으로 나옴</td><td>대상 독자: 중학교 2학년 학생. 교과서 수준의 용어만 사용.</td></tr>
+  <tr><td>맥락</td><td>누구에게 주는지 모르는 글이 나옴</td><td>학생이 읽을 안내문입니다. 내일 조회 시간에 나눠 줍니다.</td></tr>
+  <tr><td>조건</td><td>너무 길거나, 말하지 않은 내용이 들어감</td><td>5줄 이내, 이모지 없이, 입력에 없는 정보는 "미정"으로.</td></tr>
+  <tr><td>출력 형식</td><td>옮겨 쓰기 불편한 모양</td><td>표(항목 | 내용)로 써 주세요.</td></tr>
+  <tr><td>예시</td><td>말투·길이·수준이 기대와 다름</td><td>아래 예시와 같은 말투와 길이로 써 주세요. [예시 1~2개]</td></tr>
+  <tr><td>근거</td><td>사실이 틀리거나 세부를 지어냄</td><td>아래 자료에 있는 내용만 근거로 쓰고, 없으면 "자료에 없음"으로 표시.</td></tr>
+</table>
+</div>
+
+<div class="do">
+  그래도 맞지 않으면 <b>어디가 왜 틀렸는지</b>를 구체적으로 지적해 이어서 고치게 합니다. 예: <code>3번 문항은 교과서 범위를 넘습니다. 교과서 수준으로 다시.</code><br>
+  대화가 길어져 앞의 조건이 흐려지면 <b>새 채팅</b>을 열고, 지금까지 유효했던 조건만 모아 한 번에 다시 요청합니다. 모델이 한 번에 참고하는 범위(컨텍스트 창)에는 한계가 있기 때문입니다.
+</div>
+
+<div class="pager">
+  <a href="extensions.html"><span class="k">← 이전</span>확장 프로그램 사용법</a>
+  <a class="next" href="index.html"><span class="k">목차 →</span>연수자료 목차</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+</body>
+</html>
