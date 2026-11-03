@@ -14,7 +14,7 @@
 <header>
   <div class="kicker">기본 개념 · 안전</div>
   <h1>안전하게 쓰기</h1>
-  <p class="sub">입력 통제, 계정·데이터 처리, 출력 검증, 공개·표기의 네 지점에서 위험을 관리합니다.</p>
+  <p class="sub">계정·데이터 처리, 입력 통제, 출력 검증, 공개·표기의 네 지점에서 위험을 관리합니다.</p>
   <div class="meta">
     <span class="badge">적용 · 모든 사례</span>
   </div>
@@ -26,16 +26,59 @@
 </div>
 
 <div class="flow">
-  <div class="flowstep"><div class="t">1 입력 통제</div>무엇을 넣는가 — 최소화·가명처리</div>
+  <div class="flowstep"><div class="t">1 계정·데이터 처리</div>어디에 넣는가 — 학교 계정 / 개인 계정</div>
   <div class="flowarrow">→</div>
-  <div class="flowstep"><div class="t">2 계정·데이터 처리</div>어디에 넣는가 — 학교 계정 / 개인 계정</div>
+  <div class="flowstep"><div class="t">2 입력 통제</div>무엇을 넣는가 — 최소화·가명처리</div>
   <div class="flowarrow">→</div>
   <div class="flowstep"><div class="t">3 출력 검증</div>무엇을 확인하는가 — 사실·제약·정답·출처</div>
   <div class="flowarrow">→</div>
   <div class="flowstep"><div class="t">4 공개·표기</div>어떻게 내보내는가 — 권리·AI 활용 표기</div>
 </div>
 
-<h2 id="input"><span class="num">1</span> 입력 통제 — 무엇을 넣는가</h2>
+<h2 id="account"><span class="num">1</span> 계정·데이터 처리 — 학교 계정과 개인 계정</h2>
+
+<p>한 교사가 두 계정의 Gemini에 똑같은 질문을 해 보았습니다(2026년 11월).</p>
+
+<div class="code">
+  <div class="bar"><span class="label">두 계정에 같은 질문</span><button type="button">복사</button></div>
+  <pre>니가 할 수 있는 모든 노력을 다해서 나에 대해 알려줘</pre>
+</div>
+
+<figure class="shot">
+  <img src="assets/img/gemini-school-account.png" width="1200" height="615" loading="lazy" alt="학교 계정(오른쪽 위에 교사·학교 표시)의 Gemini 화면. «니가 할 수 있는 모든 노력을 다해서 나에 대해 알려줘»라는 질문에, 개인정보 보호 및 보안 규정에 따라 사용자의 개인 정보나 과거 대화 기록 전체에 접근할 수 없고 현재 연결된 세션의 시스템 정보가 전부라고 답한 부분이 빨간 상자로 표시되어 있다. 이어서 언어, 접속 위치(경상남도 거제시), 접속 시간대만 나열했다.">
+  <figcaption><b>① 학교 계정</b> — 오른쪽 위 프로필에 «학교»가 보입니다. «개인정보 보호 및 보안 규정에 따라 과거 대화 기록 전체에 접근할 수 없다»고 답하고, 알려 준 것은 <b>사용 언어, 대략의 접속 지역, 시간대</b>뿐입니다.</figcaption>
+</figure>
+
+<figure class="shot">
+  <img src="assets/img/gemini-personal-account.png" width="1200" height="703" loading="lazy" alt="개인 계정의 Gemini 화면. 같은 질문에 «지금까지 저와의 대화를 통해 확인된 정보를 바탕으로 정리해 드립니다»라며 거주지, 직업(중학교 정보 교사), 교내 보직과 역할(생활지도, 디지털 선도학교 담당, 교원 연구회 강사), 전문 분야와 수업 내용까지 정리한 부분이 빨간 상자로 표시되어 있다.">
+  <figcaption><b>② 개인 계정</b> — 같은 질문에 «지금까지의 대화로 확인된 정보»라며 <b>사는 지역, 학교급과 교과, 맡은 보직과 업무, 진행한 연수, 연구회 활동, 수업 내용</b>까지 정리합니다. 한 번도 «나를 소개해 줘»라고 말한 적이 없어도, 그동안 업무 이야기를 하며 흘린 정보가 모인 결과입니다.</figcaption>
+</figure>
+
+<p style="color:var(--muted); font-size:14.5px">두 화면 모두 이름·프로필 사진·왼쪽 대화 목록과 노트북 제목은 가렸습니다(아래 «화면을 캡처해 나눌 때»).</p>
+
+<p>
+  개인 계정은 <b>지난 대화를 기억해 답에 쓰는 기능</b>(화면에서는 «메모리» 또는 «지난 채팅»)이 켜져 있으면,
+  여러 날에 걸쳐 조금씩 말한 것을 모아 한 사람의 자세한 프로필을 만들 수 있습니다. 하나하나는 사소한 정보도 모이면 개인을 특정합니다(2절 재식별 위험).
+</p>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:26%">항목</th><th>학교(교육용) 계정</th><th>개인 구글 계정</th></tr>
+  <tr><td>대화가 AI 학습에 쓰이나</td><td>허락 없이 쓰지 않는다고 안내</td><td>«Gemini 앱 활동»이 켜져 있으면 쓰일 수 있음</td></tr>
+  <tr><td>사람이 읽나</td><td>사람 검토자가 읽지 않는다고 안내</td><td>일부 대화를 사람 검토자가 읽을 수 있음</td></tr>
+  <tr><td>누가 볼 수 있나</td><td>학교 관리자가 보관·검색할 수 있음</td><td>본인 (그리고 위의 사람 검토)</td></tr>
+  <tr><td>지난 대화 기억</td><td>위 실험 화면에서는 쓰지 않음</td><td>메모리 기능이 켜져 있으면 씀</td></tr>
+</table>
+</div>
+<p style="color:var(--muted); font-size:14.5px">구글 공식 안내(Workspace 생성형 AI 개인정보 보호 센터 · Gemini 앱 개인정보 보호 센터)를 2026년 11월에 확인해 정리했습니다. 메뉴 이름과 기본값은 바뀔 수 있습니다.</p>
+
+<div class="do">
+  <b>학교 일은 학교 계정으로.</b> 시작할 때마다 오른쪽 위 프로필 사진을 눌러 확인합니다.<br>
+  <b>개인 계정을 쓴다면</b> 설정에서 «Gemini 앱 활동»과 «메모리(지난 채팅)»를 확인해, 필요 없으면 끄거나 지웁니다.<br>
+  <b>화면을 캡처해 나눌 때</b> 이름·프로필 사진·왼쪽 대화 목록 제목을 가립니다.
+</div>
+
+<h2 id="input"><span class="num">2</span> 입력 통제 — 무엇을 넣는가</h2>
 
 <p>
   기본 원칙은 <b>데이터 최소화</b>(과업에 필요한 최소한의 정보만 입력하는 것)입니다. 판단 기준은 하나입니다. <b>이 정보가 없으면 과업을 할 수 없는가?</b> 아니라면 뺍니다.
@@ -96,7 +139,7 @@
   <li><b>준식별자</b>(그 자체로는 이름이 아니지만 결합하면 개인을 특정하는 정보) — 반·번호, 전학 시기, 동아리, 형제 관계, 건강 상태, 가정 사정</li>
   <li><b>드문 조합</b> — «2학년 유일한 여자 축구부원», «이번 달 전학 온 쌍둥이»처럼 해당자가 한 명뿐인 묘사</li>
   <li><b>작은 집단의 통계</b> — «응답자 3명 중 2명»처럼 인원이 적으면 집계도 개인을 드러냅니다.</li>
-  <li><b>대화에 걸친 누적</b> — 하나하나는 사소해도, 여러 날에 걸쳐 말한 단서가 모이면 한 사람이 드러납니다(2절 실험).</li>
+  <li><b>대화에 걸친 누적</b> — 하나하나는 사소해도, 여러 날에 걸쳐 말한 단서가 모이면 한 사람이 드러납니다(1절 실험).</li>
 </ul>
 
 <div class="warn">
@@ -106,54 +149,6 @@
 
 <div class="note">
   <b>넣지 말아야 할 정보를 넣었다면</b> 그 대화를 삭제하고, 학교 방침에 따라 개인정보 보호 담당자에게 알립니다. 같은 자료를 다른 도구에 다시 넣지 않습니다.
-</div>
-
-<h2 id="account"><span class="num">2</span> 계정·데이터 처리 — 학교 계정과 개인 계정</h2>
-
-<p>한 교사가 두 계정의 Gemini에 똑같은 질문을 해 보았습니다(2026년 11월).</p>
-
-<div class="code">
-  <div class="bar"><span class="label">두 계정에 같은 질문</span><button type="button">복사</button></div>
-  <pre>니가 할 수 있는 모든 노력을 다해서 나에 대해 알려줘</pre>
-</div>
-
-<div class="vs">
-  <div class="vscard">
-    <div class="h"><span class="dot" style="background:#2E7D32"></span>학교 계정의 답 (요약)</div>
-    <ul>
-      <li>개인정보 보호 규정 때문에 지난 대화 기록에 접근할 수 없다고 답함</li>
-      <li>알려 준 것은 사용 언어, 대략의 접속 지역, 시간대뿐</li>
-    </ul>
-  </div>
-  <div class="vscard">
-    <div class="h"><span class="dot"></span>개인 계정의 답 (요약)</div>
-    <ul>
-      <li>«지금까지의 대화로 확인된 정보»라며 정리해 줌</li>
-      <li>사는 지역, 학교급과 교과, <b>맡은 보직과 업무, 진행한 연수, 연구회 활동</b>까지</li>
-    </ul>
-  </div>
-</div>
-
-<p>
-  개인 계정은 <b>지난 대화를 기억해 답에 쓰는 기능</b>(화면에서는 «메모리» 또는 «지난 채팅»)이 켜져 있으면,
-  여러 날에 걸쳐 조금씩 말한 것을 모아 한 사람의 자세한 프로필을 만들 수 있습니다. 하나하나는 사소한 정보도 모이면 개인을 특정합니다(1절 재식별 위험).
-</p>
-
-<div class="tablewrap">
-<table>
-  <tr><th style="width:26%">항목</th><th>학교(교육용) 계정</th><th>개인 구글 계정</th></tr>
-  <tr><td>대화가 AI 학습에 쓰이나</td><td>허락 없이 쓰지 않는다고 안내</td><td>«Gemini 앱 활동»이 켜져 있으면 쓰일 수 있음</td></tr>
-  <tr><td>사람이 읽나</td><td>사람 검토자가 읽지 않는다고 안내</td><td>일부 대화를 사람 검토자가 읽을 수 있음</td></tr>
-  <tr><td>누가 볼 수 있나</td><td>학교 관리자가 보관·검색할 수 있음</td><td>본인 (그리고 위의 사람 검토)</td></tr>
-  <tr><td>지난 대화 기억</td><td>위 실험 화면에서는 쓰지 않음</td><td>메모리 기능이 켜져 있으면 씀</td></tr>
-</table>
-</div>
-<p style="color:var(--muted); font-size:14.5px">구글 공식 안내(Workspace 생성형 AI 개인정보 보호 센터 · Gemini 앱 개인정보 보호 센터)를 2026년 11월에 확인해 정리했습니다. 메뉴 이름과 기본값은 바뀔 수 있습니다.</p>
-
-<div class="do">
-  <b>학교 일은 학교 계정으로.</b> 시작할 때마다 오른쪽 위 프로필 사진을 눌러 확인합니다.<br>
-  <b>개인 계정을 쓴다면</b> 설정에서 «Gemini 앱 활동»과 «메모리(지난 채팅)»를 확인해, 필요 없으면 끄거나 지웁니다.<br>
-  <b>화면을 캡처해 나눌 때</b> 이름·프로필 사진·왼쪽 대화 목록 제목을 가립니다.
 </div>
 
 <h2 id="verify"><span class="num">3</span> 출력 검증 — 내보내기 전에 확인할 다섯 가지</h2>
