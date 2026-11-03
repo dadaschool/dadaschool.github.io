@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>사례 9 단원 자료 한 번에 · 생성형 AI 첫걸음</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">사례 9 · Gemini Notebook</div>
+  <h1>단원 자료 한 번에</h1>
+  <p class="sub">단원 수업 자료 하나를 소스로 학습 가이드·플래시카드·퀴즈·오디오 개요를 만들고, 산출물마다 정확성과 일관성을 검증합니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · Gemini Notebook 스튜디오</span>
+    <span class="badge learn">핵심 기법 · 하나의 소스로 다중 산출물</span>
+    <span class="badge">약 20분</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>알고리즘 단원 종료 후 단원 정리 학습지, 시험 전 복습 카드, 결석생용 설명 자료를 함께 준비</dd>
+    <dt>입력</dt><dd>단원 수업 자료 — <a href="samples/unit-algorithm.txt" download>unit-algorithm.txt</a> (가상 자료)</dd>
+    <dt>산출물</dt><dd>① 학습 가이드(Docs로 내보내 학습지로 편집) ② 플래시카드·퀴즈 ③ 한국어 오디오 개요</dd>
+    <dt>조건</dt><dd>소스와 교과서 수준을 넘는 내용 금지 · 학생에게 주기 전 교사 검수 · AI 생성 음성임을 고지</dd>
+  </dl>
+</div>
+
+<p>학습지·복습 카드·듣기 자료를 따로 만들면 용어와 예시가 서로 어긋나기 쉽습니다. 하나의 소스에서 파생시키면 용어 체계가 맞춰지지만, 형식을 바꾸는 과정(특히 대화형 오디오)에서 <b>강조점이 옮겨 가거나 소스 밖 예시가 끼어드는</b> 실패가 생깁니다. 또 생성 시간은 줄어도 <b>검수할 산출물은 그 수만큼 늘어납니다.</b> 이 사례는 소스(노트북에 올린 근거 자료) 하나로 여러 산출물을 만들고, 산출물별 검증 기준을 세우는 연습입니다.</p>
+
+<h2><span class="num">1</span> 프롬프트</h2>
+
+<ol class="steps">
+  <li><a href="samples/unit-algorithm.txt" download>unit-algorithm.txt</a>(가상 단원 수업 자료)를 내려받습니다.</li>
+  <li><b>notebooklm.google.com</b> 에서 새 노트북 <code>2026_중2정보_알고리즘</code>을 만들고 파일을 소스로 올립니다.</li>
+  <li>오른쪽 <b>스튜디오</b>에서 아래 세 가지를 차례로 만듭니다. 생성에 몇 분 걸리는 것도 있으니, 하나를 눌러 두고 다음으로 넘어가도 됩니다.</li>
+</ol>
+
+<h3>① 학습 가이드 (학습지)</h3>
+<p>스튜디오 → <b>보고서</b> → <b>직접 만들기</b>를 고르고 아래 프롬프트를 넣습니다. 생성되면 <b>Docs로 내보내기</b>로 문서를 만들어 학습지 모양으로 다듬습니다.</p>
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 1 · 학습 가이드 (보고서 → 직접 만들기)</span><button type="button">복사</button></div>
+  <pre>중학교 2학년 학생이 읽는 단원 학습 가이드를 만들어 주세요.
+- 핵심 용어 6개와 한 줄 뜻
+- 순서도 기호 표
+- 헷갈리기 쉬운 점 4가지와 바른 설명
+- 스스로 확인하기 문제 5개 (정답은 맨 끝에 따로)
+- 자료에 없는 내용, 교과서 수준을 넘는 내용은 넣지 않기</pre>
+</div>
+<p>대상 독자를 지정해 어휘 수준을 정하고, 구성 요소를 개수까지 열거해 출력 형식을 고정합니다. 정답을 <b>맨 끝에 분리</b>하면 그대로 학습지로 배포할 수 있고, 마지막 줄은 소스 밖 내용을 막는 범위 제약입니다. 소스의 «5. 학생들이 자주 헷갈리는 점»이 «헷갈리기 쉬운 점» 항목의 근거가 됩니다.</p>
+
+<h3>② 플래시카드와 퀴즈 (복습)</h3>
+<p>스튜디오 → <b>플래시카드</b>, <b>퀴즈</b>를 누릅니다. 연필(맞춤 설정)을 누르면 개수와 난이도를 바꿀 수 있습니다. 카드에서 «알아요/몰라요»를 눌러 모르는 것만 다시 보는 흐름을 확인합니다.</p>
+
+<h3>③ 오디오 개요 (듣는 복습)</h3>
+<p>스튜디오 → <b>오디오 개요</b> 옆 연필을 누르고, 언어가 <b>한국어</b>인지 확인한 뒤 아래 내용을 «집중할 내용»에 넣습니다. 두 진행자가 대화하듯 설명하는 음성이 생성됩니다.</p>
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 2 · 오디오 개요 맞춤 설정</span><button type="button">복사</button></div>
+  <pre>중학교 2학년 학생이 듣는 복습용입니다.
+선택 구조와 반복 구조의 차이에 집중하고, 학교생활 예를 2개 이상 들어 주세요.
+어려운 영어 용어는 쓰지 말고, 마지막에 스스로 답해 볼 질문 2개로 끝내 주세요.</pre>
+</div>
+<p>«집중할 내용»을 비워 두면 소스 전반을 다루게 됩니다. 복습 목적에 맞게 <b>집중할 개념 하나</b>와 <b>마무리 방식</b>을 지정해 듣기 자료의 학습 목표를 분명히 합니다.</p>
+
+<h2><span class="num">2</span> 출력 예시</h2>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:22%">산출물</th><th>출력</th><th style="width:28%">수업 활용</th></tr>
+  <tr><td>학습 가이드</td><td>용어 표 · 기호 표 · 헷갈리는 점 · 확인 문제. Docs로 내보내 편집 가능</td><td>단원 정리 학습지, 보충 학습지</td></tr>
+  <tr><td>플래시카드·퀴즈</td><td>앞면 질문 / 뒷면 답 카드, 4지선다 퀴즈. 노트북 안에서 바로 풀어 봄</td><td>시험 전 복습, 수업 끝 확인</td></tr>
+  <tr><td>오디오 개요</td><td>두 사람이 대화하며 설명하는 한국어 음성. «짧게»를 고르면 몇 분 길이</td><td>결석생 보충, 등하굣길 복습</td></tr>
+</table>
+</div>
+
+<p>세 산출물이 <b>같은 소스</b>에서 나왔기 때문에 용어와 예시가 서로 맞습니다. 따로 만들면 학습지와 퀴즈의 표현이 어긋나기 쉬운데, 그 위험이 줄어듭니다. 다만 일관성은 <b>소스의 품질을 그대로 복제</b>한다는 뜻이기도 합니다. 소스에 오류가 있으면 모든 산출물에 같은 오류가 들어갑니다.</p>
+
+<h2><span class="num">3</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 용어 정의</b> — 학습 가이드의 용어 설명이 교과서 표현과 같은지 봅니다. 다르면 교과서 표현으로 고칩니다.<br>
+  <b>② 퀴즈·카드 정답</b> — <a href="case-quiz.html">사례 6</a>과 같은 기준입니다. 직접 풀어 보고, 정답이 하나뿐인지와 소스 내용과 맞는지 봅니다.<br>
+  <b>③ 산출물 간 일관성</b> — 같은 개념을 산출물마다 같은 용어로 부르는지 봅니다(예: 마름모를 한쪽은 «판단», 다른 쪽은 «조건» 기호로 쓰지 않는지).<br>
+  <b>④ 오디오는 끝까지 듣기</b> — 대화로 바꾸면서 강조점이 바뀌거나 소스에 없는 예가 들어갈 수 있습니다. 학생에게 주기 전에 한 번은 끝까지 듣습니다.<br>
+  <b>⑤ AI 음성 고지</b> — 학생에게 줄 때 «AI가 만든 음성»이라고 알립니다. 학생 목소리가 담긴 녹음은 소스로 올리지 않습니다.
+</div>
+
+<h2><span class="num">4</span> 개선 프롬프트</h2>
+
+<p>같은 소스에서 <b>수준별 판</b>(차별화 자료)과 <b>다른 형식</b>을 추가로 파생시킵니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 3 · 수준을 낮춘 판 (채팅창에)</span><button type="button">복사</button></div>
+  <pre>같은 학습 가이드를 이 단원을 어려워하는 학생용으로 다시 써 주세요. 문장은 짧게, 예는 하나씩 더, 문제는 3개로.</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 4 · 토론형 오디오 (오디오 맞춤 설정에)</span><button type="button">복사</button></div>
+  <pre>"모든 문제를 순서도로 먼저 그려야 한다"는 주장에 대해 두 진행자가 찬성과 반대로 토론해 주세요. 중학생 수준의 근거를 쓰고, 결론은 내리지 말고 학생에게 질문을 던지며 끝내 주세요.</pre>
+</div>
+
+<p style="color:var(--muted); font-size:15.5px">오디오 맞춤 설정의 형식에서 «토론»을 고르고 위 내용을 넣으면, 같은 소스로 성격이 다른 수업 도입 자료가 나옵니다. 결론을 열어 두게 한 것은 수업에서 학생 토론으로 이어 가기 위해서입니다.</p>
+
+<h2><span class="num">5</span> 응용</h2>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:30%">소스로 등록할 것</th><th>파생할 산출물</th></tr>
+  <tr><td>내 수업 슬라이드(구글 슬라이드·PDF)</td><td>학습 가이드 + 확인 퀴즈</td></tr>
+  <tr><td>영어 본문</td><td>단어 플래시카드 · 출력 언어를 영어로 바꾼 듣기 자료</td></tr>
+  <tr><td>과학 실험 안내</td><td>안전 수칙 퀴즈 · 실험 순서 오디오</td></tr>
+  <tr><td>사회 단원 읽기 자료</td><td>용어 카드 · 마인드맵(스튜디오) · 토론형 오디오</td></tr>
+</table>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  잘 정리된 소스 <b>하나</b>에서 학습지·복습 카드·듣기 자료를 파생시키면 산출물 간 용어와 예시가 일치합니다. 대신 <b>소스의 품질이 모든 산출물의 상한</b>이 되고, 검수 대상은 산출물 수만큼 늘어납니다.
+  교사의 역할은 «만드는 것»에서 <b>«고르고 검수하는 것»</b>으로 바뀝니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b> — 스튜디오에 원하는 산출물이 보이지 않으면, 채팅창에 프롬프트 1을 그대로 넣고 답을 <b>노트로 저장</b>한 뒤 Docs에 붙여넣습니다.
+  오디오가 막혀 있으면 채팅창에 "두 사람이 대화하는 대본으로 설명해 줘"라고 요청해 글로 된 대본을 씁니다.
+</div>
+
+<div class="pager">
+  <a href="case-notebook.html"><span class="k">← 이전</span>사례 8 · 학교 규정 질문 노트북</a>
+  <a class="next" href="case-gem.html"><span class="k">다음 →</span>사례 10 · 나만의 수업 도우미</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+</body>
+</html>

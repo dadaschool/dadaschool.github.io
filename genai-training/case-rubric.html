@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>사례 7 수행평가 루브릭 · 생성형 AI 첫걸음</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">사례 7 · 클래스룸 Gemini</div>
+  <h1>수행평가 루브릭</h1>
+  <p class="sub">수행평가 안내문을 기준 자료로 주고, 관찰 가능한 수준 기술을 갖춘 채점 기준표를 만든 뒤 경계 사례로 점검합니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 클래스룸 Gemini (+ Docs·Sheets)</span>
+    <span class="badge learn">핵심 기법 · 기준 제공(루브릭 앵커)</span>
+    <span class="badge">약 12분</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>2학기 수행평가 «학교생활 속 문제를 순서도로 표현하기»를 세 반 교사가 같은 기준으로 채점할 수 있는 루브릭(채점 기준표)</dd>
+    <dt>입력</dt><dd>작성해 둔 수행평가 안내문 — <a href="samples/assessment-guide.txt" download>assessment-guide.txt</a> (가상 자료). 평가 요소 네 가지는 교과협의회에서 확정</dd>
+    <dt>산출물</dt><dd>① 평가 요소 × 3수준(상·중·하) 루브릭 표 ② 경계 사례 판정과 기준 문장 수정안 ③ 학생용 안내</dd>
+    <dt>제약</dt><dd>평가 요소 이름은 안내문 그대로 · 안내문에 없는 배점·감점 규칙은 만들지 않음 · 학생 이름·성적은 입력하지 않음</dd>
+  </dl>
+</div>
+
+<p>루브릭은 LLM이 가장 «그럴듯하게» 만드는 문서 가운데 하나입니다. 기준 자료 없이 요청하면 일반적인 평가 요소와 «대체로·부족함» 같은 정도 부사로 수준을 나눈 표가 나옵니다. 형식은 루브릭이지만 <b>채점자 간 일관성</b>을 보장하지 못합니다. 이 사례는 같은 과업을 <b>기준 자료 유무만 바꿔 두 번</b> 실행해 차이를 확인합니다.</p>
+
+<h2><span class="num">1</span> 프롬프트</h2>
+
+<ol class="steps">
+  <li><b>classroom.google.com</b> → 왼쪽 메뉴 <b>Gemini</b> 를 엽니다. 루브릭 도구가 보이면 고르고, 없으면 일반 입력칸에 씁니다.</li>
+  <li>먼저 <b>프롬프트 1(A)</b>을 보내고 출력을 보관합니다.</li>
+  <li><a href="samples/assessment-guide.txt" download>assessment-guide.txt</a>를 열어 내용 전체를 복사합니다.</li>
+  <li>새로 <b>프롬프트 2(B)</b>를 보내면서 맨 아래 [ ] 자리에 안내문을 붙여넣습니다.</li>
+  <li>두 출력을 나란히 비교하고, 채택한 쪽을 <b>Docs나 Sheets로 내보내기</b> 해서 다듬습니다.</li>
+</ol>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 1 · A: 기준 자료 없이</span><button type="button">복사</button></div>
+  <pre>중학교 2학년 정보 '순서도로 문제 해결하기' 수행평가 루브릭을 만들어 주세요.</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 2 · B: 안내문을 기준으로 제공</span><button type="button">복사</button></div>
+  <pre>아래 수행평가 안내문에 맞는 채점 기준표(루브릭)를 만들어 주세요.
+- 평가 요소는 안내문 5번의 네 가지를 이름 그대로 쓰고, 각 3수준(상·중·하)
+- 수준 설명은 "잘함/보통" 같은 말 대신 눈으로 확인할 수 있는 행동으로 (예: "선택 구조와 반복 구조를 각각 1번 이상 바르게 쓴다")
+- 수준끼리 겹치거나 어느 수준에도 안 들어가는 경우가 없게
+- 표(평가 요소 | 상 | 중 | 하)로
+- 안내문에 없는 점수 환산이나 감점 규칙은 만들지 말 것
+
+[안내문 붙여넣기]</pre>
+</div>
+
+<p>B의 각 조건은 A에서 예상되는 실패를 하나씩 막습니다. <b>평가 요소 이름 고정</b>은 일반 요소(논리적 사고·태도 등)로의 치환을, <b>예시 문장 하나</b>는 나머지 수준 기술의 구체성 기준(앵커, anchor)을 제공합니다. <b>겹침·빈틈 금지</b>는 모든 작품이 정확히 한 수준에 들어가도록(상호 배타·포괄) 요구하고, <b>표 형식 지정</b>은 내보내기와 대조를 쉽게 합니다. 마지막 <b>부정 제약</b>은 학교 평가 계획에 없는 배점이 끼어드는 것을 막습니다.</p>
+
+<h2><span class="num">2</span> 출력 예시</h2>
+
+<div class="vs">
+  <div class="result" style="margin:0">
+    <div class="t">A의 예시 결과</div>
+    <div class="body">평가 요소: <mark>문제 분석력, 논리적 사고, 표현력, 태도</mark>
+상: 매우 우수하게 표현함
+중: <mark>대체로</mark> 잘 표현함
+하: 표현이 <mark>부족함</mark>
+<mark>총점 100점 = 각 25점</mark></div>
+  </div>
+  <div class="result" style="margin:0">
+    <div class="t">B의 예시 결과</div>
+    <div class="body">| 순서도 정확성 |
+상: 기호와 흐름 방향이 모두 맞고, 선택·반복 구조를 각각 1번 이상 바르게 씀
+중: 선택·반복 구조는 있으나 기호나 흐름 방향이 1~2곳 틀림
+하: 선택 또는 반복 구조가 빠졌거나 흐름을 따라갈 수 없음</div>
+  </div>
+</div>
+<p style="color:var(--muted); font-size:14.5px; margin-top:8px">두 결과 모두 예시입니다. 빨갛게 칠한 곳은 안내문·협의 내용과 맞지 않는 부분입니다.</p>
+
+<p>A는 형식은 갖췄지만 <b>이 학교 수행평가의 루브릭이 아닙니다.</b> 평가 요소 이름이 다르고, «대체로·부족함»은 채점자마다 달리 읽히며, 정한 적 없는 배점까지 붙었습니다.
+B는 안내문의 표현을 그대로 가져오고 수준 차이를 <b>«구조의 유무·오류 개수»라는 관찰 축</b>으로 기술해, 세 반 교사가 같은 기준으로 채점할 수 있습니다.</p>
+
+<h2><span class="num">3</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 평가 요소와 배점</b> — 학교 평가 계획서의 요소 이름·배점과 한 글자씩 대조합니다. 모델이 만든 배점은 쓰지 않습니다.<br>
+  <b>② 수준 간 구분 가능성</b> — 인접한 두 수준의 차이를 한 문장으로 말할 수 있는지 봅니다. «다소·대체로·매우» 같은 정도 부사가 남아 있으면 구분 기준이 없는 것입니다.<br>
+  <b>③ 관찰 가능한 행동 기술</b> — 각 기술이 제출물에서 확인할 수 있는 것인지 봅니다. «성실하게 노력함»처럼 작품으로 확인할 수 없는 기술은 바꿉니다.<br>
+  <b>④ 수준 사이의 빈틈</b> — «선택 구조만 있고 반복 구조가 없는» 작품은 어느 수준인가요? 이런 경계 사례를 두세 개 떠올려 표에 대입합니다.<br>
+  <b>⑤ 학년 수준</b> — 중학교 2학년 교과서에 없는 기호나 용어가 기준에 들어갔는지 봅니다.<br>
+  <b>⑥ 성적 처리</b> — 실제 성적은 학교 학업성적관리규정과 나이스 절차를 따릅니다. 루브릭은 그 안에서 쓰는 도구입니다.
+</div>
+
+<h2><span class="num">4</span> 개선 프롬프트</h2>
+
+<p>루브릭은 실제 작품에 적용해 봐야 결함이 드러납니다. 모델에게 경계 사례를 만들게 해 기준을 시험합니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 3 · 경계 사례로 기준 시험</span><button type="button">복사</button></div>
+  <pre>이 루브릭으로 채점하기 애매한 학생 작품의 예를 3가지 들어 주세요.
+각각 어느 수준으로 판정할지와 근거가 된 기준 문장을 인용해 적고, 두 수준에 동시에 해당하거나 어느 수준에도 해당하지 않으면 기준 문장을 고쳐 주세요.</pre>
+</div>
+
+<p>경계 사례의 판정을 세 반 교사가 협의해 확정해 두면, 그 자체가 <b>채점 협의용 기준 사례(앵커)</b>가 됩니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">프롬프트 4 · 학생용 안내로 변환</span><button type="button">복사</button></div>
+  <pre>같은 루브릭을 학생이 과제 전에 읽는 «이렇게 하면 '상'이에요» 안내로 바꿔 주세요. 요소마다 한 줄, 쉬운 말로.</pre>
+</div>
+
+<p style="color:var(--muted); font-size:15.5px">
+  클래스룸 <b>과제 만들기 → 루브릭</b> 화면에도 Gemini 초안 단추가 보이는 학교가 있습니다(2026년 8월 출시). 보이면 과제 내용을 바탕으로 바로 루브릭을 붙일 수 있고, 보이지 않으면 위에서 받은 표를 보고 직접 입력합니다. 어느 쪽이든 <b>최종 기준은 교사가 확정</b>합니다.
+</p>
+
+<h2><span class="num">5</span> 응용</h2>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:30%">과제 유형</th><th>함께 제공할 기준 자료</th></tr>
+  <tr><td>국어·사회 서술형</td><td>과제 안내문 + 평가 계획서의 평가 요소 표</td></tr>
+  <tr><td>과학 실험 보고서</td><td>보고서 양식 + «꼭 들어가야 하는 항목» 목록</td></tr>
+  <tr><td>체육·음악 실기</td><td>동작·연주의 단계 설명 + 지난해 쓰던 채점표</td></tr>
+  <tr><td>모둠 발표</td><td>발표 안내 + "질의응답 요소를 꼭 넣고, 모둠 점수와 개인 점수를 나눠서"</td></tr>
+</table>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  기준 자료가 없으면 모델은 <b>학습 데이터의 평균적인 루브릭</b>을 만들고, 기준 자료와 수준 기술 예시를 주면 출력이 <b>그 기준에 고정</b>됩니다.
+  루브릭의 품질은 표의 형식이 아니라 <b>수준 간 구분 가능성과 관찰 가능성</b>으로 판단하고, 경계 사례로 시험합니다. 기준 자료를 넣을 때도 학생 이름이나 성적은 넣지 않습니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b> — 클래스룸 Gemini가 막혀 있으면 프롬프트 2를 <b>gemini.google.com</b> 에 그대로 넣습니다. 안내문 파일을 입력칸 왼쪽 <b>+</b>(파일 추가)로 첨부해도 됩니다.
+  표가 나오면 답 아래 <b>내보내기 → Sheets</b>로 옮겨 다듬습니다.
+</div>
+
+<div class="pager">
+  <a href="case-quiz.html"><span class="k">← 이전</span>사례 6 · 형성평가 퀴즈</a>
+  <a class="next" href="case-notebook.html"><span class="k">다음 →</span>사례 8 · 학교 규정 질문 노트북</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+</body>
+</html>
