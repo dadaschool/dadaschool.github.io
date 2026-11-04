@@ -10,6 +10,7 @@
 exclude:
   # 개발용 문서 — 웹에 발행하지 않는다
   - CLAUDE.md
+  - "*/CLAUDE.md"   # 앱 폴더 안의 개발 메모 — exclude 는 루트 기준 경로에만 맞아서 따로 적는다
   # 아래는 Jekyll 기본 제외 목록 (위에서 덮어쓰지 않도록 다시 적은 것)
   - Gemfile
   - Gemfile.lock
