@@ -17,12 +17,12 @@
   <h1>생성형 AI 첫걸음 연수자료</h1>
   <p class="sub">도구별 실무 사례 10가지와 검증 방법</p>
   <div class="chips" aria-hidden="true">
-    <span style="--c:#1A66D0">Gemini 앱</span><span style="--c:#1B7F3B">클래스룸</span><span style="--c:#6F42C1">Notebook</span><span style="--c:#C25E00">Gem</span><span style="--c:#00777F">크롬 도구</span>
+    <span style="--c:#00777F">크롬 도구</span><span style="--c:#1A66D0">Gemini 앱</span><span style="--c:#6F42C1">Notebook</span><span style="--c:#1B7F3B">클래스룸</span><span style="--c:#C25E00">Gem</span>
   </div>
 </header>
 
 <!-- 목차 — 메뉴를 누르면 하위 문서가 펼쳐진다 (details/summary · 스크립트 없이도 동작).
-     사례는 도구 기준으로 묶는다 (2026-11-03). -->
+     사례는 도구 기준으로 묶는다 (2026-11-03). 순서: 시작하기 → 기본 개념 → 크롬 도구 → Gemini 앱 → Gemini Notebook → 클래스룸 → Gem → 부록 (2026-11-04). -->
 <div class="menubar">
   <span>메뉴를 눌러 펼칩니다</span>
   <button type="button" class="allbtn" id="allBtn">모두 펼치기</button>
@@ -53,6 +53,18 @@
         <li style="--i:1"><a href="safety.html"><span class="no dot"></span><span class="ti">안전하게 쓰기</span><span class="go" aria-hidden="true">→</span></a></li>
       </ol>
     </details>
+    <details class="mg" id="g-chrome" style="--c:#00777F; --t:#E0F2F3">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.6-4.6"/></svg></span>
+        <span class="mt"><b>크롬 도구</b><small>렌즈 · 확장 프로그램</small></span>
+        <span class="cnt">2</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="lens.html"><span class="no dot"></span><span class="ti">구글 렌즈 사용법</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="extensions.html"><span class="no dot"></span><span class="ti">확장 프로그램 사용법</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
     <details class="mg" id="g-app" style="--c:#1A66D0; --t:#E7EFFC">
       <summary>
         <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.7 4.6 3.4 7.3 8 8-4.6.7-7.3 3.4-8 8-.7-4.6-3.4-7.3-8-8 4.6-.7 7.3-3.4 8-8z"/></svg></span>
@@ -68,18 +80,6 @@
         <li style="--i:4"><a href="case-youtube.html"><span class="no">5</span><span class="ti">유튜브 강연 → 수업 자료</span><span class="go" aria-hidden="true">→</span></a></li>
       </ol>
     </details>
-    <details class="mg" id="g-classroom" style="--c:#1B7F3B; --t:#E5F3E9">
-      <summary>
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20l4-4 4 4"/></svg></span>
-        <span class="mt"><b>클래스룸 Gemini</b><small>퀴즈 · 루브릭 · 평가</small></span>
-        <span class="cnt">2</span>
-        <span class="chev" aria-hidden="true"></span>
-      </summary>
-      <ol>
-        <li style="--i:0"><a href="case-quiz.html"><span class="no">6</span><span class="ti">형성평가 퀴즈</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li style="--i:1"><a href="case-rubric.html"><span class="no">7</span><span class="ti">수행평가 루브릭</span><span class="go" aria-hidden="true">→</span></a></li>
-      </ol>
-    </details>
     <details class="mg" id="g-notebook" style="--c:#6F42C1; --t:#F0EAFB">
       <summary>
         <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18H6z"/><path d="M9 3v18"/><path d="M12 8h3M12 12h3"/></svg></span>
@@ -88,8 +88,20 @@
         <span class="chev" aria-hidden="true"></span>
       </summary>
       <ol>
-        <li style="--i:0"><a href="case-notebook.html"><span class="no">8</span><span class="ti">업무 지침 질문 노트북</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li style="--i:1"><a href="case-unit.html"><span class="no">9</span><span class="ti">단원 자료 한 번에</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:0"><a href="case-notebook.html"><span class="no">6</span><span class="ti">업무 지침 질문 노트북</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="case-unit.html"><span class="no">7</span><span class="ti">단원 자료 한 번에</span><span class="go" aria-hidden="true">→</span></a></li>
+      </ol>
+    </details>
+    <details class="mg" id="g-classroom" style="--c:#1B7F3B; --t:#E5F3E9">
+      <summary>
+        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20l4-4 4 4"/></svg></span>
+        <span class="mt"><b>클래스룸 Gemini</b><small>퀴즈 · 루브릭 · 평가</small></span>
+        <span class="cnt">2</span>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <ol>
+        <li style="--i:0"><a href="case-quiz.html"><span class="no">8</span><span class="ti">형성평가 퀴즈</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li style="--i:1"><a href="case-rubric.html"><span class="no">9</span><span class="ti">수행평가 루브릭</span><span class="go" aria-hidden="true">→</span></a></li>
       </ol>
     </details>
     <details class="mg" id="g-gem" style="--c:#C25E00; --t:#FCEEDF">
@@ -101,18 +113,6 @@
       </summary>
       <ol>
         <li style="--i:0"><a href="case-gem.html"><span class="no">10</span><span class="ti">나만의 수업 도우미</span><span class="go" aria-hidden="true">→</span></a></li>
-      </ol>
-    </details>
-    <details class="mg" id="g-chrome" style="--c:#00777F; --t:#E0F2F3">
-      <summary>
-        <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.6-4.6"/></svg></span>
-        <span class="mt"><b>크롬 도구</b><small>렌즈 · 확장 프로그램</small></span>
-        <span class="cnt">2</span>
-        <span class="chev" aria-hidden="true"></span>
-      </summary>
-      <ol>
-        <li style="--i:0"><a href="lens.html"><span class="no dot"></span><span class="ti">구글 렌즈 사용법</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li style="--i:1"><a href="extensions.html"><span class="no dot"></span><span class="ti">확장 프로그램 사용법</span><span class="go" aria-hidden="true">→</span></a></li>
       </ol>
     </details>
     <details class="mg" id="g-appendix" style="--c:#5F6368; --t:#EEEFF1">

@@ -367,3 +367,18 @@ figure.shot figcaption{margin-top:8px}
 .stepgroup > h3{margin:0 0 6px}
 kbd{font-family:inherit; font-size:.88em; font-weight:700; background:#fff; border:1px solid var(--line); border-bottom-width:2px;
     border-radius:5px; padding:1px 6px; white-space:nowrap}
+
+/* 대화 흐름 (사례 5 — 한 대화에서 질문을 이어 가기) */
+.turn{position:relative; background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:16px 18px 14px; margin:0 0 34px}
+.chat .turn:not(:last-child)::after{content:"↓ 같은 창에서 이어서 묻기"; position:absolute; left:50%; bottom:-27px; transform:translateX(-50%);
+  font-size:12.5px; font-weight:800; color:var(--red); white-space:nowrap}
+.turn .no{font-weight:900; font-size:13px; color:var(--red); letter-spacing:.04em; margin-bottom:10px}
+.turn .no small{color:var(--muted); font-weight:700; letter-spacing:0; margin-left:6px}
+.bubble{border-radius:16px; padding:10px 14px; font-size:15.5px; line-height:1.65}
+.bubble.me{background:var(--ink); color:#fff; margin-left:auto; border-bottom-right-radius:4px; width:fit-content; max-width:88%}
+.bubble.ai{background:var(--soft); border:1px solid var(--line); margin-top:10px; border-bottom-left-radius:4px; white-space:pre-wrap; max-width:96%}
+.bubble .who{display:block; font-weight:800; font-size:12.5px; color:var(--muted); margin-bottom:4px; white-space:normal}
+.bubble.me .who{color:#BDBDBD}
+.turn .check{margin-top:12px; font-size:14.5px; background:#FFF6E5; border-radius:10px; padding:9px 13px}
+.turn .check b{color:#9A6700}
+@media print{ .turn{break-inside:avoid} }
