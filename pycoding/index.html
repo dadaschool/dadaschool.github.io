@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>파이썬 코딩 연습장</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css">
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/python/python.min.js"></script>
+<script src="config.js"></script>
+<script src="runner.js"></script>
+<style>
+:root{
+  --bg:#f5f6f8; --panel:#fff; --ink:#1d2330; --muted:#5d6678; --line:#dfe3ea;
+  --brand:#2f6bff; --brand-ink:#fff; --brand-soft:#e8efff;
+  --ok:#14804a; --ok-soft:#e3f5ea; --bad:#c4321f; --bad-soft:#fdecea; --warn:#a15c00; --warn-soft:#fff4df;
+  --exam:#7a3cd6; --exam-soft:#f1e9ff;
+  --mono:"JetBrains Mono","Pretendard",monospace;
+  --radius:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard",system-ui,sans-serif;font-size:15px;line-height:1.55;word-break:keep-all}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.hidden,[hidden]{display:none!important}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:8px 14px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn:hover{border-color:#b9c1cf}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.btn.exam{background:var(--exam);border-color:var(--exam);color:#fff}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn.small{padding:4px 10px;font-size:13px}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700;background:var(--brand-soft);color:var(--brand)}
+.pill.exam{background:var(--exam-soft);color:var(--exam)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.gray{background:#eef0f4;color:var(--muted)}
+
+/* 로그인 */
+#login{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;width:100%;max-width:440px;box-shadow:0 6px 24px rgba(20,30,60,.06)}
+.card h1{margin:0 0 4px;font-size:24px}
+.card .sub{color:var(--muted);margin:0 0 20px}
+.field{display:block;margin-bottom:12px}
+.field span{display:block;font-size:13px;color:var(--muted);margin-bottom:4px;font-weight:600}
+.field input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin:16px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.msg{border-radius:8px;padding:10px 12px;font-size:14px;margin:10px 0}
+.msg.err{background:var(--bad-soft);color:var(--bad)}
+.msg.info{background:var(--brand-soft);color:#1f4bb8}
+.msg.warn{background:var(--warn-soft);color:var(--warn)}
+.engine{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:18px;padding-top:14px;border-top:1px dashed var(--line)}
+.dot{width:9px;height:9px;border-radius:50%;background:#c3c9d4;flex:none}
+.dot.loading{background:#f0a400;animation:blink 1s infinite}
+.dot.ready{background:var(--ok)}
+.dot.error{background:var(--bad)}
+@keyframes blink{50%{opacity:.3}}
+
+/* 앱 */
+#app{display:flex;flex-direction:column;height:100%}
+header.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+header.top h1{font-size:17px;margin:0;margin-right:auto;display:flex;align-items:center;gap:8px}
+.who{color:var(--muted);font-size:14px}
+#examBar{display:flex;align-items:center;gap:12px;padding:8px 16px;background:var(--exam-soft);color:#4b2390;border-bottom:1px solid #dccbff;font-weight:600;flex-wrap:wrap}
+#examBar .timer{font-family:var(--mono);font-size:18px;margin-left:auto}
+#examBar.ending .timer{color:var(--bad)}
+#examBar.warm{background:var(--brand-soft);color:#1f4bb8;border-bottom-color:#c9d8ff}
+#examBar.wait{background:var(--warn-soft);color:var(--warn);border-bottom-color:#f3dcae}
+.layout{display:grid;grid-template-columns:270px 1fr;min-height:0;flex:1}
+nav.side{background:var(--panel);border-right:1px solid var(--line);overflow:auto;padding:12px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 11px;cursor:pointer;font-size:13px;font-weight:600}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.lvl{margin:12px 0 4px;font-size:12px;font-weight:700;color:var(--muted)}
+.plist{list-style:none;margin:0;padding:0}
+.plist button{width:100%;text-align:left;border:0;background:transparent;padding:7px 8px;border-radius:7px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.plist button:hover{background:#f1f3f7}
+.plist button[aria-current="true"]{background:var(--brand-soft);color:#1f4bb8;font-weight:700}
+.plist .st{width:18px;text-align:center;flex:none}
+.plist .t{flex:1;min-width:0}
+.plist .n{font-size:12px;color:var(--muted)}
+.empty{color:var(--muted);font-size:14px;padding:8px}
+
+main.work{display:grid;grid-template-columns:minmax(300px,2fr) 3fr;min-height:0}
+.pane{overflow:auto;padding:18px 20px;min-width:0}
+.problem{border-right:1px solid var(--line);background:var(--panel)}
+.problem h2{margin:6px 0 10px;font-size:20px}
+.problem .meta{display:flex;gap:6px;flex-wrap:wrap}
+.problem h3{font-size:14px;margin:18px 0 6px;color:var(--muted)}
+.problem .body{white-space:pre-wrap}
+.ex{border:1px solid var(--line);border-radius:8px;margin:8px 0;overflow:hidden}
+.ex .row{display:grid;grid-template-columns:1fr 1fr}
+.ex .row.one{grid-template-columns:1fr}
+.ex .row>div{padding:8px 10px;min-width:0}
+.ex .row>div+div{border-left:1px solid var(--line)}
+.ex b{display:block;font-size:12px;color:var(--muted);margin-bottom:2px}
+pre.io{margin:0;font-family:var(--mono);font-size:13.5px;white-space:pre-wrap;word-break:break-all}
+.tip{font-size:13px;color:var(--muted);background:#f6f7f9;border-radius:8px;padding:8px 10px;margin-top:16px}
+
+.editorPane{display:flex;flex-direction:column;gap:10px}
+.CodeMirror{height:auto;min-height:260px;border:1px solid var(--line);border-radius:var(--radius);font-family:var(--mono);font-size:15px;line-height:1.5}
+.CodeMirror-scroll{min-height:260px;max-height:52vh}
+.CodeMirror-focused{outline:3px solid var(--brand);outline-offset:1px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toolbar .spacer{flex:1}
+.stdinBox textarea{width:100%;min-height:64px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:14px;resize:vertical;background:#fff}
+.stdinBox label{font-size:13px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+.result{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;min-height:80px}
+.result h4{margin:0 0 8px;font-size:15px}
+.result .score{font-size:20px;font-weight:800}
+.result .score.ok{color:var(--ok)}
+.result .score.bad{color:var(--bad)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{border-radius:6px;padding:3px 9px;font-size:13px;font-weight:600}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.errbox{background:var(--bad-soft);color:#7d1e12;border-radius:8px;padding:10px 12px;margin:8px 0;font-size:14px}
+.errbox .raw{font-family:var(--mono);font-size:12.5px;opacity:.8;margin-top:4px;white-space:pre-wrap}
+.cmp{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.cmp th,.cmp td{border:1px solid var(--line);padding:6px 8px;vertical-align:top;text-align:left}
+.cmp th{background:#f6f7f9;font-weight:700;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222a38;color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;z-index:50;max-width:90vw}
+dialog{border:1px solid var(--line);border-radius:14px;padding:22px;max-width:420px}
+dialog::backdrop{background:rgba(15,20,35,.45)}
+dialog h3{margin:0 0 8px}
+dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+
+@media (max-width:1000px){
+  main.work{grid-template-columns:1fr}
+  .problem{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:720px){
+  .layout{grid-template-columns:1fr}
+  nav.side{border-right:0;border-bottom:1px solid var(--line);max-height:40vh}
+  .pane{padding:14px 16px}
+  header.top{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ 로그인 ============ -->
+<section id="login">
+  <div class="card">
+    <h1>🐍 파이썬 코딩 연습장</h1>
+    <p class="sub">중학교 정보 수업 · 출력 → 입력 → 연산 → 조건 → 반복 → 함수</p>
+
+    <div id="onlineLogin" class="hidden">
+      <form id="pinForm" autocomplete="off">
+        <label class="field"><span>학번</span><input id="loginNo" inputmode="numeric" required placeholder="예: 10305"></label>
+        <label class="field"><span>PIN (선생님이 나눠 준 숫자)</span><input id="loginPin" type="password" inputmode="numeric" required></label>
+        <button class="btn primary" style="width:100%;justify-content:center" type="submit">학번으로 로그인</button>
+      </form>
+      <div id="googleArea" class="hidden">
+        <div class="or">또는</div>
+        <div id="googleBtn" style="display:flex;justify-content:center"></div>
+      </div>
+      <div class="or">또는</div>
+    </div>
+    <div id="loginMsg"></div>
+    <button id="guestBtn" class="btn" style="width:100%;justify-content:center" type="button">로그인 없이 연습하기</button>
+    <p id="guestNote" class="sub" style="font-size:13px;margin:8px 0 0">로그인 없이 하면 기본 연습 문제만 풀 수 있고, 결과는 이 기기에만 남습니다.</p>
+
+    <div class="engine" aria-live="polite">
+      <span class="dot" id="engineDot"></span>
+      <span id="engineText">파이썬 실행기를 준비하지 않았습니다.</span>
+      <button class="btn small" id="engineBtn" type="button" style="margin-left:auto">미리 준비</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 앱 ============ -->
+<section id="app" class="hidden">
+  <header class="top">
+    <h1>🐍 파이썬 코딩 연습장 <span id="modePill" class="pill">연습</span></h1>
+    <span class="dot" id="engineDot2" title="파이썬 실행기 상태"></span>
+    <span class="who" id="who"></span>
+    <button class="btn small" id="examEnterBtn" type="button" hidden>평가 시작하기</button>
+    <button class="btn small ghost" id="logoutBtn" type="button">나가기</button>
+  </header>
+  <div id="examBar" class="hidden" role="status">
+    <span id="examTitle"></span>
+    <span id="examRule" style="font-weight:500"></span>
+    <span class="timer" id="examTimer" aria-live="off"></span>
+  </div>
+  <div class="layout">
+    <nav class="side" aria-label="문제 목록">
+      <div class="tabs" id="topicTabs" role="group" aria-label="주제"></div>
+      <div id="plistArea"></div>
+    </nav>
+    <main class="work">
+      <article class="pane problem" id="problemPane" aria-live="polite">
+        <p class="empty">왼쪽에서 문제를 고르세요.</p>
+      </article>
+      <section class="pane editorPane" aria-label="코드 작성">
+        <div id="editorHost"></div>
+        <div class="stdinBox" id="stdinBox">
+          <label for="stdin">입력 칸 — «실행» 할 때 input() 이 여기서 한 줄씩 읽습니다</label>
+          <textarea id="stdin" spellcheck="false"></textarea>
+        </div>
+        <div class="toolbar">
+          <button class="btn" id="runBtn" type="button" title="Ctrl+Enter">▶ 실행</button>
+          <button class="btn primary" id="gradeBtn" type="button" title="Ctrl+Shift+Enter">✓ 채점하기</button>
+          <button class="btn exam hidden" id="submitBtn" type="button">📤 제출하기</button>
+          <span class="spacer"></span>
+          <button class="btn small ghost" id="resetBtn" type="button">처음 코드로</button>
+        </div>
+        <div class="result" id="result" aria-live="polite">
+          <p class="empty" style="padding:0">«실행» 으로 결과를 보고, «채점하기» 로 맞았는지 확인하세요.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</section>
+
+<dialog id="confirmDlg">
+  <h3 id="confirmTitle"></h3>
+  <div id="confirmBody"></div>
+  <div class="actions">
+    <button class="btn" value="cancel" id="confirmNo" type="button">취소</button>
+    <button class="btn primary" value="ok" id="confirmYes" type="button">확인</button>
+  </div>
+</dialog>
+
+<script>
+/* =========================================================
+   학생 화면
+   · 오프라인(로그인 없이): 아래 BUILTIN 연습 문제, 결과는 이 기기(localStorage)
+   · 온라인(로그인): 서버의 연습 문제, 채점할 때마다 서버에 저장
+   · 평가: 서버가 시간·횟수를 막는다. 붙여넣기 막기, 다른 창 이동 기록(참고용)
+   ========================================================= */
+"use strict";
+const CFG = window.PYCODING_CONFIG || {};
+const API = (CFG.API_BASE || "").replace(/\/+$/, "");
+const PC = window.PyCoding;
+
+// 로그인 없이 쓰는 기본 연습 문제 (정답 출력 대신 해시). server/sample-problems.json 의 연습 문제와 같다.
+const BUILTIN = /*BUILTIN_START*/[{"id": "out-1-01", "topic": "out", "level": 1, "kind": "practice", "type": "io", "title": "첫 인사 출력하기", "body": "print() 를 두 번 써서 아래처럼 두 줄을 출력하세요.", "inputDesc": "입력은 없습니다.", "outputDesc": "첫 줄에 안녕하세요, 둘째 줄에 파이썬 시작! 을 출력합니다.", "funcName": "", "starter": "", "examples": [{"input": "", "output": "안녕하세요\n파이썬 시작!"}], "tests": [{"input": "", "hash": "f9bf6e4c38e9054664f0f4b256015e3247b2225bfc1c6b5125ee18c87a052432"}]}, {"id": "in-1-01", "topic": "in", "level": 1, "kind": "practice", "type": "io", "title": "이름 받아 인사하기", "body": "이름을 한 줄 입력받아 「(이름)님 반가워요!」 를 출력하세요.", "inputDesc": "이름 한 줄이 입력됩니다.", "outputDesc": "(이름)님 반가워요! 를 출력합니다.", "funcName": "", "starter": "", "examples": [{"input": "민준", "output": "민준님 반가워요!"}], "tests": [{"input": "민준", "hash": "2d6c1f592e122f53a3bb86db4697a3a1a8211e759eabe206ff60d465d82a74af"}, {"input": "서연", "hash": "31febb6c840ccc49b42c7ffd8fa8565d326eae3790e577e8c19ef9627b6d8427"}, {"input": "Alex", "hash": "e580d4453fd162cb10d7bd2c33a23e6c3cb7baefbb288a4620571c67c74a5d5f"}]}, {"id": "calc-1-01", "topic": "calc", "level": 1, "kind": "practice", "type": "io", "title": "합·차·곱 구하기", "body": "두 정수 a, b 가 공백으로 구분되어 입력됩니다. a+b, a-b, a×b 를 한 줄에 하나씩 출력하세요.", "inputDesc": "두 정수가 공백으로 구분되어 입력됩니다.", "outputDesc": "합, 차, 곱을 차례대로 한 줄씩 출력합니다.", "funcName": "", "starter": "", "examples": [{"input": "7 3", "output": "10\n4\n21"}], "tests": [{"input": "7 3", "hash": "599f0b62021ce259a13461dec04593dc283cc3525dc926c0f11e4d01451a4f86"}, {"input": "2 10", "hash": "2b136ea15987aa29909726675d8d234ef0a227802170c06f0b164f14fd53cc5a"}, {"input": "-4 5", "hash": "565a7cab73ef872464edef2de27116da7586a5448149da5695efc88a1efb9e11"}, {"input": "0 0", "hash": "5de907511db80fb978b4cea4d19a9bc8b4a67d133f2bc2813cf41e04910d2fb5"}]}, {"id": "if-1-01", "topic": "if", "level": 1, "kind": "practice", "type": "io", "title": "짝수 홀수 판별", "body": "정수 하나를 입력받아 짝수이면 짝수, 홀수이면 홀수 를 출력하세요.", "inputDesc": "정수 하나가 입력됩니다.", "outputDesc": "짝수 또는 홀수 를 출력합니다.", "funcName": "", "starter": "", "examples": [{"input": "4", "output": "짝수"}, {"input": "7", "output": "홀수"}], "tests": [{"input": "4", "hash": "af508ba05e8f64b7179f95ae30380454889c18fdfe7a3fde266bb030204bee8d"}, {"input": "7", "hash": "84ab59af308862806b51fc79c6934933d95cc873686ba3437eaa21b4c8a447a3"}, {"input": "0", "hash": "b173fa37cd239ee4741568f92c8abc122964e491ad86b0efdbadcc47a1fbb5d0"}, {"input": "-3", "hash": "d06904fb29165221bcf4f701bad1f59b27310ddc759f15459636ca4f63b15a9a"}]}, {"id": "loop-1-01", "topic": "loop", "level": 1, "kind": "practice", "type": "io", "title": "1부터 n까지 출력", "body": "정수 n 을 입력받아 1부터 n 까지 한 줄에 하나씩 출력하세요.", "inputDesc": "1 이상 100 이하의 정수 n 이 입력됩니다.", "outputDesc": "1부터 n 까지 한 줄에 하나씩 출력합니다.", "funcName": "", "starter": "", "examples": [{"input": "3", "output": "1\n2\n3"}], "tests": [{"input": "3", "hash": "d453a5414766b465aa30bcc4235bd7ae73d4ad14990d18f19dabc5477c3e1e52"}, {"input": "1", "hash": "5e3930be15f540d8622e1f3392d68d1b160c1880c6612950512fed369e71855c"}, {"input": "10", "hash": "00ada220321d690f8cbcba2495d88ef31dfba8e3cb628b14dc907e72d207f117"}]}, {"id": "func-1-01", "topic": "func", "level": 1, "kind": "practice", "type": "func", "title": "두 수의 합을 돌려주는 함수", "body": "두 수 a, b 를 받아 a + b 를 «돌려주는(return)» 함수 add(a, b) 를 만드세요. print 가 아니라 return 을 써야 합니다.", "inputDesc": "add(a, b) 형태로 불립니다.", "outputDesc": "a + b 를 돌려줍니다.", "funcName": "add", "starter": "def add(a, b):\n    ", "examples": [{"call": "add(1, 2)", "output": "3"}], "tests": [{"call": "add(1, 2)", "hash": "63d513c9bb33b221fd590d75a4643b7f5618af0071dd69b1fad89de7de58f7f0"}, {"call": "add(10, -3)", "hash": "1533579321b2ba16cdf5c888f6af64f0a6f677d586bd5b80344b48fd4c19588f"}, {"call": "add(0, 0)", "hash": "3bd2f069114f8c6f8ff4e1ede4d9cf0073d90637e71a63f86574b435b379e523"}, {"call": "add(100, 250)", "hash": "c0d932a66f782d9a457a39fe11c3ce4565dc2a9654b3cc963f07983e388d8b06"}]}]/*BUILTIN_END*/;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} },
+};
+
+const S = {
+  online: false, token: null, student: null,
+  problems: [], solved: {}, topic: "out",
+  exam: null, examProblems: [], attempts: {}, lastSubs: {}, inExam: false, offset: 0,
+  current: null, cm: null, busy: false,
+  blur: 0, paste: 0, lastBlurAt: 0,
+};
+
+/* ---------- 파이썬 실행기 ---------- */
+const runner = new PC.Runner((st, err) => {
+  const text = { loading: "파이썬 실행기를 불러오는 중… (처음 한 번 약 10MB)", ready: "파이썬 준비 완료", error: "불러오기 실패: " + (err || "") }[st];
+  for (const id of ["engineDot", "engineDot2"]) $(id).className = "dot " + st;
+  $("engineText").textContent = text;
+  $("engineDot2").title = text;
+  $("engineBtn").hidden = st === "ready" || st === "loading";
+  if (st === "error") $("engineBtn").textContent = "다시 시도";
+});
+$("engineBtn").onclick = () => runner.ready().catch((e) => toast(e.message));
+
+/* ---------- 서버 ---------- */
+async function api(path, opt = {}) {
+  const res = await fetch(API + path, {
+    method: opt.method || "GET",
+    headers: Object.assign({ "Content-Type": "application/json" }, S.token ? { Authorization: "Bearer " + S.token } : {}),
+    body: opt.body ? JSON.stringify(opt.body) : undefined,
+    keepalive: !!opt.keepalive,
+  });
+  let data = {};
+  try { data = await res.json(); } catch {}
+  if (res.status === 401 && S.token && !opt.noLogout) { logout(true); throw new Error(data.error || "다시 로그인하세요."); }
+  if (!res.ok) throw new Error(data.error || "서버 오류 (" + res.status + ")");
+  return data;
+}
+
+/* ---------- 로그인 ---------- */
+function showLoginMsg(text, kind = "err") { $("loginMsg").innerHTML = text ? `<div class="msg ${kind}">${esc(text)}</div>` : ""; }
+
+async function initLogin() {
+  if (!API) { $("guestNote").textContent = "채점 서버가 아직 연결되지 않아 기본 연습 문제만 풀 수 있습니다."; return; }
+  $("onlineLogin").classList.remove("hidden");
+  const saved = store.get("pyc:token");
+  if (saved) {
+    S.token = saved;
+    try { const me = await api("/api/me", { noLogout: true }); return enterOnline(me.student); }
+    catch { S.token = null; store.del("pyc:token"); }
+  }
+  try {
+    const cfg = await api("/api/config");
+    if (cfg.google && cfg.googleClientId) setupGoogle(cfg.googleClientId);
+  } catch (e) { showLoginMsg("채점 서버에 연결하지 못했습니다. 로그인 없이 연습할 수 있습니다. (" + e.message + ")", "warn"); }
+}
+
+function setupGoogle(clientId) {
+  const s = document.createElement("script");
+  s.src = "https://accounts.google.com/gsi/client";
+  s.async = true;
+  s.onload = () => {
+    google.accounts.id.initialize({ client_id: clientId, callback: async (r) => {
+      try { const d = await api("/api/login/google", { method: "POST", body: { credential: r.credential } }); loginOk(d); }
+      catch (e) { showLoginMsg(e.message); }
+    } });
+    google.accounts.id.renderButton($("googleBtn"), { theme: "outline", size: "large", text: "signin_with", locale: "ko", width: 300 });
+    $("googleArea").classList.remove("hidden");
+  };
+  document.head.appendChild(s);
+}
+
+$("pinForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  showLoginMsg("");
+  try {
+    const d = await api("/api/login/pin", { method: "POST", body: { studentNo: $("loginNo").value.trim(), pin: $("loginPin").value.trim() } });
+    loginOk(d);
+  } catch (err) { showLoginMsg(err.message); }
+});
+
+function loginOk(d) {
+  S.token = d.token;
+  store.set("pyc:token", d.token);
+  $("loginPin").value = "";
+  enterOnline(d.student);
+}
+
+$("guestBtn").onclick = () => {
+  S.online = false;
+  S.student = null;
+  S.problems = BUILTIN.slice();
+  try { S.solved = JSON.parse(store.get("pyc:guest:solved") || "{}"); } catch { S.solved = {}; }
+  $("who").textContent = "로그인 없이 연습 중";
+  openApp();
+};
+
+async function enterOnline(student) {
+  S.online = true;
+  S.student = student;
+  $("who").textContent = `${student.className}반 ${student.studentNo} ${student.name}`;
+  openApp();
+  await loadPractice();
+  await checkExam(true);
+  pollLoop();
+}
+
+// 평가 상태 확인 주기: 평가 전 연습·대기 중에는 선생님의 «평가 시작» 을 빨리 알아채도록 5초
+function pollLoop() {
+  clearTimeout(S.pollId);
+  const ms = S.warm || S.waiting ? 5000 : S.inExam ? 20000 : 30000;
+  S.pollId = setTimeout(async () => { await checkExam(false); pollLoop(); }, ms);
+}
+
+async function loadPractice() {
+  try {
+    const d = await api("/api/problems");
+    S.problems = d.problems;
+    S.solved = {};
+    for (const m of d.mine) if (m.solved) S.solved[m.problem_id] = true;
+  } catch (e) { toast("문제를 불러오지 못했습니다: " + e.message); S.problems = []; }
+  renderNav();
+}
+
+function logout(expired) {
+  if (S.token && !expired) api("/api/logout", { method: "POST" }).catch(() => {});
+  store.del("pyc:token");
+  location.reload();
+}
+$("logoutBtn").onclick = async () => {
+  if (S.inExam && S.exam && remaining() > 0) {
+    if (!(await confirmBox("평가 중입니다", "나가도 이미 제출한 답은 남습니다. 다시 로그인하면 이어서 할 수 있습니다. 나갈까요?"))) return;
+  }
+  logout(false);
+};
+
+/* ---------- 앱 화면 ---------- */
+function openApp() {
+  $("login").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  runner.ready().catch((e) => toast(e.message));
+  if (!S.cm) setupEditor();
+  renderTabs();
+  renderNav();
+}
+
+function setupEditor() {
+  S.cm = CodeMirror($("editorHost"), {
+    mode: "python", lineNumbers: true, indentUnit: 4, tabSize: 4, indentWithTabs: false,
+    smartIndent: true, autofocus: false, viewportMargin: Infinity,
+    extraKeys: {
+      Tab: (cm) => cm.somethingSelected() ? cm.indentSelection("add") : cm.replaceSelection("    ", "end"),
+      "Shift-Tab": (cm) => cm.indentSelection("subtract"),
+      "Ctrl-Enter": () => doRun(), "Cmd-Enter": () => doRun(),
+      "Shift-Ctrl-Enter": () => S.inExam ? doSubmit() : doGrade(), "Shift-Cmd-Enter": () => S.inExam ? doSubmit() : doGrade(),
+      Esc: (cm) => cm.getInputField().blur(),
+    },
+  });
+  S.cm.getInputField().setAttribute("aria-label", "파이썬 코드 편집기 (Esc 로 빠져나오기)");
+  S.cm.on("beforeChange", (cm, ch) => {
+    if (S.inExam && S.exam && S.exam.blockPaste && (ch.origin === "paste" || ch.origin === "drop")) {
+      ch.cancel();
+      S.paste++;
+      toast("평가 중에는 붙여넣기를 할 수 없습니다.");
+    }
+  });
+  let t = null;
+  S.cm.on("change", () => { clearTimeout(t); t = setTimeout(saveDraft, 400); });
+}
+
+function renderTabs() {
+  const box = $("topicTabs");
+  if (S.inExam || S.warm || S.waiting) { box.innerHTML = ""; return; }
+  box.innerHTML = PC.TOPICS.map((t) => `<button type="button" data-t="${t.key}" aria-pressed="${t.key === S.topic}">${t.name}</button>`).join("");
+  box.querySelectorAll("button").forEach((b) => b.onclick = () => { S.topic = b.dataset.t; renderTabs(); renderNav(); });
+}
+
+function statusIcon(p) {
+  if (S.inExam) {
+    const last = S.lastSubs[p.id];
+    if (!last) return "○";
+    return last.client_passed === last.client_total ? "✅" : "🟡";
+  }
+  return S.solved[p.id] ? "✅" : "○";
+}
+
+function renderNav() {
+  const area = $("plistArea");
+  if (S.waiting) {
+    area.innerHTML = `<p class="empty">연습 시간이 끝났습니다.<br>선생님이 평가를 시작하면 평가 문제가 여기에 나옵니다.</p>`;
+    return;
+  }
+  if (S.warm) {
+    area.innerHTML = `<div class="lvl">평가 전 연습 문제</div><ul class="plist">` + S.warm.problems.map((p, i) =>
+      `<li><button type="button" data-id="${esc(p.id)}" aria-current="${S.current && S.current.id === p.id}">
+        <span class="st">${statusIcon(p)}</span><span class="t">${i + 1}. ${esc(p.title)}</span></button></li>`).join("") + `</ul>`;
+  } else if (S.inExam) {
+    area.innerHTML = `<div class="lvl">평가 문제</div><ul class="plist">` + S.examProblems.map((p, i) => {
+      const used = S.attempts[p.id] || 0;
+      return `<li><button type="button" data-id="${esc(p.id)}" aria-current="${S.current && S.current.id === p.id}">
+        <span class="st">${statusIcon(p)}</span><span class="t">${i + 1}. ${esc(p.title)}</span>
+        <span class="n">${used}/${S.exam.maxAttempts}</span></button></li>`;
+    }).join("") + `</ul>`;
+  } else {
+    const list = S.problems.filter((p) => p.topic === S.topic);
+    if (!list.length) { area.innerHTML = `<p class="empty">이 주제에는 아직 연습 문제가 없습니다.</p>`; return; }
+    let html = "";
+    for (const lv of [1, 2, 3, 4]) {
+      const ps = list.filter((p) => p.level === lv);
+      if (!ps.length) continue;
+      html += `<div class="lvl">${lv}단계 · ${PC.LEVELS[lv]}</div><ul class="plist">` + ps.map((p) =>
+        `<li><button type="button" data-id="${esc(p.id)}" aria-current="${S.current && S.current.id === p.id}">
+          <span class="st">${statusIcon(p)}</span><span class="t">${esc(p.title)}</span></button></li>`).join("") + `</ul>`;
+    }
+    area.innerHTML = html;
+  }
+  area.querySelectorAll("button[data-id]").forEach((b) => b.onclick = () => openProblem(b.dataset.id));
+}
+
+function findProblem(id) {
+  return (S.inExam ? S.examProblems : S.warm ? S.warm.problems : S.problems).find((p) => p.id === id);
+}
+
+function draftKey(p) {
+  const who = S.student ? S.student.studentNo : "guest";
+  return `pyc:draft:${who}:${S.inExam ? "e" + S.exam.id : "p"}:${p.id}`;
+}
+function saveDraft() { if (S.current && S.cm) store.set(draftKey(S.current), S.cm.getValue()); }
+
+function openProblem(id) {
+  saveDraft();
+  const p = findProblem(id);
+  if (!p) return;
+  S.current = p;
+  const topic = PC.TOPICS.find((t) => t.key === p.topic);
+  const isFunc = p.type === "func";
+  const noInput = !isFunc && (p.examples || []).concat(p.tests || []).every((x) => !x.input);
+  let html = `<div class="meta">
+    <span class="pill gray">${esc(topic ? topic.name : p.topic)}</span>
+    <span class="pill gray">${p.level}단계 · ${esc(PC.LEVELS[p.level] || "")}</span>
+    <span class="pill ${p.kind === "exam" ? "exam" : ""}">${p.kind === "exam" ? "평가" : "연습"}</span>
+    ${isFunc ? `<span class="pill gray">함수 작성</span>` : ""}
+  </div>
+  <h2>${esc(p.title)}</h2>
+  <div class="body">${esc(p.body)}</div>`;
+  if (p.inputDesc) html += `<h3>${isFunc ? "함수 호출" : "입력"}</h3><div class="body">${esc(p.inputDesc)}</div>`;
+  if (p.outputDesc) html += `<h3>${isFunc ? "돌려줄 값" : "출력"}</h3><div class="body">${esc(p.outputDesc)}</div>`;
+  if (p.examples && p.examples.length) {
+    html += `<h3>예시</h3>` + p.examples.map((e, i) => `<div class="ex"><div class="row${noInput ? " one" : ""}">
+      ${noInput ? "" : `<div><b>${isFunc ? "호출" : "입력 " + (i + 1)}</b><pre class="io">${esc(isFunc ? e.call : (e.input || "(없음)"))}</pre></div>`}
+      <div><b>${isFunc ? "돌려받는 값" : "출력 " + (i + 1)}</b><pre class="io">${esc(e.output)}</pre></div></div></div>`).join("");
+  }
+  html += `<p class="tip">${isFunc
+    ? "함수만 만들면 됩니다. 채점기가 함수를 직접 불러서 «돌려준 값(return)» 을 확인합니다."
+    : noInput
+    ? "줄 끝 공백은 무시하지만, 줄 앞 빈칸·빈 줄·문장부호는 똑같아야 합니다."
+    : "input(\"안내 문구\") 의 안내 문구는 채점에 들어가지 않습니다. 줄 끝 공백도 무시합니다."}
+    ${p.tests.length > (p.examples || []).length ? `채점 테스트 ${p.tests.length}개 중 일부는 숨겨져 있습니다.` : ""}</p>`;
+  $("problemPane").innerHTML = html;
+  $("problemPane").scrollTop = 0;
+
+  let code = store.get(draftKey(p));
+  if (code == null && S.inExam && S.lastSubs[p.id]) code = S.lastSubs[p.id].code;
+  if (code == null) code = p.starter || "";
+  S.cm.setValue(code);
+  S.cm.clearHistory();
+  S.cm.setOption("readOnly", S.inExam && remaining() <= 0 ? "nocursor" : false);
+  $("stdinBox").classList.toggle("hidden", isFunc || noInput);
+  $("stdin").value = isFunc ? "" : ((p.examples && p.examples[0] && p.examples[0].input) || "");
+  $("result").innerHTML = `<p class="empty" style="padding:0">${S.inExam ? "«실행» 으로 예시를 확인하고, 다 되면 «제출하기» 를 누르세요." : "«실행» 으로 결과를 보고, «채점하기» 로 맞았는지 확인하세요."}</p>`;
+  renderNav();
+  updateButtons();
+  S.cm.refresh();
+}
+
+$("resetBtn").onclick = async () => {
+  if (!S.current) return;
+  if (!(await confirmBox("처음 코드로", "지금 쓴 코드를 지우고 처음 코드로 돌립니다."))) return;
+  S.cm.setValue(S.current.starter || "");
+};
+
+function updateButtons() {
+  const has = !!S.current && !S.busy;
+  const over = S.inExam && remaining() <= 0;
+  $("runBtn").disabled = !has || over;
+  $("gradeBtn").classList.toggle("hidden", S.inExam);
+  $("gradeBtn").disabled = !has;
+  $("submitBtn").classList.toggle("hidden", !S.inExam);
+  const left = S.current && S.exam ? S.exam.maxAttempts - (S.attempts[S.current.id] || 0) : 0;
+  $("submitBtn").disabled = !has || over || left <= 0;
+  $("submitBtn").textContent = S.inExam ? `📤 제출하기 (남은 기회 ${Math.max(0, left)}번)` : "📤 제출하기";
+}
+
+/* ---------- 결과 그리기 ---------- */
+function errHtml(r) {
+  const x = PC.explain(r);
+  return `<div class="errbox"><strong>${esc(x.title)}</strong>${x.line ? ` — ${x.line}번째 줄` : ""}<br>${esc(x.hint)}
+    ${x.msg ? `<div class="raw">${esc(r.kind)}: ${esc(x.msg)}</div>` : ""}</div>`;
+}
+
+async function busy(fn) {
+  if (S.busy) return;
+  S.busy = true; updateButtons();
+  $("result").innerHTML = `<p class="empty" style="padding:0">실행 중…</p>`;
+  try { await fn(); }
+  catch (e) { $("result").innerHTML = `<div class="errbox">${esc(e.message)}</div>`; }
+  finally { S.busy = false; updateButtons(); }
+}
+
+function doRun() {
+  if (!S.current || $("runBtn").disabled) return;
+  const p = S.current;
+  busy(async () => {
+    const code = S.cm.getValue();
+    if (p.type === "func") {
+      const ex = await PC.checkExamples(runner, p, code);
+      $("result").innerHTML = `<h4>예시로 함수 불러 보기</h4>` + exampleTable(p, ex);
+      return;
+    }
+    const [r] = await runner.run(code, [{ stdin: $("stdin").value, call: "" }]);
+    $("result").innerHTML = `<h4>실행 결과 <span class="pill gray">${r.ms}ms</span></h4>
+      <pre class="io" style="background:#f6f7f9;border-radius:8px;padding:10px;min-height:2em">${esc(r.stdout) || '<span style="color:#999">(출력 없음)</span>'}</pre>
+      ${r.kind ? errHtml(r) : ""}`;
+  });
+}
+
+function exampleTable(p, ex) {
+  if (!ex.length) return `<p class="empty" style="padding:0">예시가 없는 문제입니다.</p>`;
+  const isFunc = p.type === "func";
+  return `<table class="cmp"><tr><th>${isFunc ? "호출" : "입력"}</th><th>기대 결과</th><th>내 결과</th><th></th></tr>` +
+    ex.map((e) => `<tr><td><pre class="io">${esc(isFunc ? e.call : (e.input || "(없음)"))}</pre></td>
+      <td><pre class="io">${esc(e.expected)}</pre></td>
+      <td>${e.kind ? errHtml(e) : `<pre class="io">${esc(e.actual)}</pre>`}</td>
+      <td>${e.ok ? "✅" : "❌"}</td></tr>`).join("") + `</table>`;
+}
+
+function gradeHtml(p, g, ex, title) {
+  const all = g.passed === g.total;
+  let html = `<h4>${esc(title)}</h4><div class="score ${all ? "ok" : "bad"}">${all ? "🎉 모두 통과!" : `${g.passed} / ${g.total} 통과`}</div>
+    <div class="chips">` + g.results.map((r, i) =>
+      `<span class="chip ${r.ok ? "ok" : "bad"}">테스트 ${i + 1} ${r.ok ? "✓" : r.kind ? "✗ " + esc(PC.explain(r).title) : "✗ 출력 다름"}</span>`).join("") + `</div>`;
+  const firstErr = g.results.find((r) => r.kind);
+  if (firstErr) html += errHtml(firstErr);
+  if (ex && ex.length && ex.some((e) => !e.ok)) html += `<h4 style="margin-top:12px">예시 비교</h4>` + exampleTable(p, ex);
+  else if (!all && !firstErr) html += `<p class="tip">예시는 맞지만 숨겨진 테스트에서 틀렸습니다. 다른 입력값(0, 음수, 큰 수 등)에서도 맞는지 생각해 보세요.</p>`;
+  return html;
+}
+
+function doGrade() {
+  if (!S.current || S.inExam || $("gradeBtn").disabled) return;
+  const p = S.current;
+  busy(async () => {
+    const code = S.cm.getValue();
+    if (!code.trim()) throw new Error("코드를 먼저 작성하세요.");
+    const ex = await PC.checkExamples(runner, p, code);
+    const g = await PC.grade(runner, p, code);
+    let html = gradeHtml(p, g, ex, "채점 결과");
+    if (g.passed === g.total) {
+      S.solved[p.id] = true;
+      if (!S.online) store.set("pyc:guest:solved", JSON.stringify(S.solved));
+    }
+    if (S.online) {
+      try { await api("/api/submit", { method: "POST", body: { problemId: p.id, code, passed: g.passed, total: g.total } }); html += `<p class="tip">✔ 선생님께 저장되었습니다.</p>`; }
+      catch (e) { html += `<div class="msg warn">채점은 되었지만 저장하지 못했습니다: ${esc(e.message)}</div>`; }
+    }
+    $("result").innerHTML = html;
+    renderNav();
+  });
+}
+
+$("runBtn").onclick = doRun;
+$("gradeBtn").onclick = doGrade;
+$("submitBtn").onclick = () => doSubmit();
+
+/* ---------- 평가 ---------- */
+function remaining() { return S.exam ? S.exam.endsAt - (Date.now() + S.offset) : 0; }
+
+async function checkExam(first) {
+  if (!S.online) return;
+  let d;
+  try { d = await api("/api/exam"); } catch { return; }
+  S.offset = d.now - Date.now();
+  const phase = d.exam ? d.phase : null;
+  if (phase !== "exam") {
+    if (S.inExam && !S.ended) {
+      S.exam && (S.exam.endsAt = Math.min(S.exam.endsAt, d.now));
+      updateExamBar();
+      toast("평가가 끝났습니다.");
+    }
+    $("examEnterBtn").hidden = true;
+  }
+  if (phase === "practice") return enterWarm(d);
+  if (phase === "wait") return enterWait(d);
+  if (!phase) { if (S.warm || S.waiting) leavePre(); return; }
+
+  // 평가 중
+  const fromPre = !!(S.warm || S.waiting);
+  if (fromPre) leavePre(true);
+  const changed = !S.exam || S.exam.id !== d.exam.id;
+  S.exam = d.exam;
+  S.examProblems = d.problems;
+  S.attempts = d.attempts;
+  S.lastSubs = d.last;
+  if (S.inExam) { renderNav(); updateExamBar(); updateButtons(); return; }
+  $("examEnterBtn").hidden = false;
+  $("examEnterBtn").className = "btn small exam";
+  if (first || changed || fromPre) {
+    confirmBox("평가가 시작되었습니다",
+      `<p><strong>${esc(d.exam.title)}</strong> — 문제 ${d.problems.length}개</p>
+       <ul style="padding-left:18px;margin:8px 0">
+         <li>문제마다 제출은 <strong>${d.exam.maxAttempts}번</strong>까지, <strong>마지막 제출</strong>이 점수가 됩니다.</li>
+         <li>«제출하기» 를 눌러야 채점됩니다. «실행» 은 예시만 확인합니다.</li>
+         ${d.exam.blockPaste ? "<li>코드 붙여넣기는 막혀 있습니다.</li>" : ""}
+         <li>다른 창이나 탭으로 나가면 기록이 남습니다.</li>
+       </ul>`, "평가 시작", true).then((ok) => { if (ok && !S.inExam) enterExam(); });
+  }
+}
+
+/* ---------- 평가 전 연습 · 대기 ---------- */
+function setPreBar(kind, title, rule) {
+  const bar = $("examBar");
+  bar.classList.remove("hidden", "ending", "warm", "wait");
+  bar.classList.add(kind);
+  $("examTitle").textContent = title;
+  $("examRule").textContent = rule;
+  $("examTimer").textContent = "";
+}
+
+function enterWarm(d) {
+  const isNew = !S.warm || S.warm.exam.id !== d.exam.id;
+  S.waiting = null;
+  S.warm = { exam: d.exam, problems: d.problems };
+  if (!isNew) { renderNav(); return; }
+  saveDraft();
+  S.current = null;
+  $("modePill").textContent = "평가 전 연습";
+  $("modePill").className = "pill";
+  setPreBar("warm", "📝 " + d.exam.title + " — 평가 전 연습 시간", "· 채점은 몇 번이든 할 수 있고 점수에 들어가지 않습니다");
+  S.cm.setOption("readOnly", false);
+  renderTabs();
+  renderNav();
+  $("problemPane").innerHTML = `<p class="empty">왼쪽에서 연습 문제를 고르세요.</p>`;
+  if (d.problems[0]) openProblem(d.problems[0].id);
+  if (!$("confirmDlg").open)
+    confirmBox("평가 전 연습 시간입니다", `<p><strong>${esc(d.exam.title)}</strong> 평가 전에 연습 문제 ${d.problems.length}개를 풀어 봅니다.</p>
+      <p>채점은 몇 번이든 할 수 있고 점수에 들어가지 않습니다. 선생님이 연습 시간을 끝내면 평가 문제가 나옵니다.</p>`, "연습 시작");
+}
+
+function enterWait(d) {
+  const isNew = !S.waiting;
+  S.warm = null;
+  S.waiting = d.exam;
+  if (!isNew) return;
+  saveDraft();
+  S.current = null;
+  $("modePill").textContent = "평가 대기";
+  $("modePill").className = "pill exam";
+  setPreBar("wait", "📝 " + d.exam.title, "· 연습 시간이 끝났습니다. 선생님이 평가를 시작할 때까지 기다리세요");
+  renderTabs();
+  renderNav();
+  $("problemPane").innerHTML = `<p class="empty">곧 평가가 시작됩니다.<br>평가 문제 ${d.exam.gradedCount}개 · ${d.exam.durationMin}분 · 문제마다 ${d.exam.maxAttempts}번 제출</p>`;
+  S.cm.setValue("");
+  S.cm.setOption("readOnly", "nocursor");
+  $("result").innerHTML = `<p class="empty" style="padding:0">평가가 시작되면 문제가 나옵니다.</p>`;
+  updateButtons();
+}
+
+function leavePre(toExam) {
+  S.warm = null;
+  S.waiting = null;
+  S.current = null;
+  S.cm.setOption("readOnly", false);
+  if (toExam) return;
+  $("examBar").classList.add("hidden");
+  $("examBar").classList.remove("warm", "wait");
+  $("modePill").textContent = "연습";
+  $("modePill").className = "pill";
+  renderTabs();
+  renderNav();
+  $("problemPane").innerHTML = `<p class="empty">왼쪽에서 문제를 고르세요.</p>`;
+  updateButtons();
+}
+$("examEnterBtn").onclick = () => enterExam();
+
+function enterExam() {
+  if (!S.exam) return;
+  saveDraft();
+  S.inExam = true;
+  S.current = null;
+  $("examEnterBtn").hidden = true;
+  $("modePill").textContent = "평가";
+  $("modePill").className = "pill exam";
+  $("examBar").classList.remove("hidden", "warm", "wait");
+  renderTabs();
+  renderNav();
+  $("problemPane").innerHTML = `<p class="empty">왼쪽에서 평가 문제를 고르세요.</p>`;
+  if (S.examProblems[0]) openProblem(S.examProblems[0].id);
+  updateExamBar();
+  if (!S.timerId) S.timerId = setInterval(updateExamBar, 1000);
+  if (!S.eventId) S.eventId = setInterval(flushEvents, 15000);
+}
+
+function fmt(ms) {
+  ms = Math.max(0, ms);
+  const s = Math.floor(ms / 1000);
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), r = s % 60;
+  return (h ? h + ":" : "") + String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0");
+}
+
+function updateExamBar() {
+  if (!S.inExam || !S.exam) return;
+  const left = remaining();
+  $("examTitle").textContent = "📝 " + S.exam.title;
+  $("examRule").textContent = `· 문제마다 ${S.exam.maxAttempts}번 제출 · 마지막 제출이 점수`;
+  $("examTimer").textContent = left > 0 ? "남은 시간 " + fmt(left) : "평가 종료";
+  $("examBar").classList.toggle("ending", left > 0 && left < 5 * 60000);
+  if (left <= 0 && !S.ended) {
+    S.ended = true;
+    S.cm.setOption("readOnly", "nocursor");
+    updateButtons();
+    flushEvents();
+  }
+}
+
+async function doSubmit() {
+  if (!S.inExam || !S.current || $("submitBtn").disabled) return;
+  const p = S.current;
+  const code = S.cm.getValue();
+  if (!code.trim()) return toast("코드를 먼저 작성하세요.");
+  const left = S.exam.maxAttempts - (S.attempts[p.id] || 0);
+  if (!(await confirmBox("제출할까요?", `제출하면 남은 기회가 <strong>${left - 1}번</strong>이 됩니다. 마지막 제출이 점수가 됩니다.`, "제출"))) return;
+  busy(async () => {
+    const g = await PC.grade(runner, p, code);
+    const d = await api("/api/submit", { method: "POST", body: { problemId: p.id, examId: S.exam.id, code, passed: g.passed, total: g.total } });
+    S.attempts[p.id] = (S.attempts[p.id] || 0) + 1;
+    S.lastSubs[p.id] = { problem_id: p.id, code, client_passed: g.passed, client_total: g.total, id: d.id };
+    $("result").innerHTML = gradeHtml(p, g, null, "제출 완료 — 채점 결과") +
+      `<p class="tip">남은 제출 기회: ${S.exam.maxAttempts - S.attempts[p.id]}번 · 제출 시각 ${new Date(d.at).toLocaleTimeString("ko-KR")}</p>`;
+    renderNav();
+  });
+}
+
+// 다른 창·탭으로 나간 기록 (참고용 — 알림이나 화면 꺼짐에도 찍힐 수 있다)
+window.addEventListener("blur", () => {
+  if (!S.inExam || remaining() <= 0) return;
+  const now = Date.now();
+  if (now - S.lastBlurAt > 1500) { S.blur++; S.lastBlurAt = now; }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") { saveDraft(); flushEvents(true); }
+});
+function flushEvents(keepalive) {
+  if (!S.inExam || !S.exam || (!S.blur && !S.paste)) return;
+  const body = { examId: S.exam.id, blur: S.blur, paste: S.paste };
+  S.blur = 0; S.paste = 0;
+  api("/api/exam/event", { method: "POST", body, keepalive: !!keepalive }).catch(() => { S.blur += body.blur; S.paste += body.paste; });
+}
+
+/* ---------- 작은 도구 ---------- */
+let toastTimer = null;
+function toast(text) {
+  let el = document.querySelector(".toast");
+  if (!el) { el = document.createElement("div"); el.className = "toast"; el.setAttribute("role", "status"); document.body.appendChild(el); }
+  el.textContent = text;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.remove(), 3200);
+}
+
+function confirmBox(title, html, okText = "확인", examStyle = false) {
+  return new Promise((resolve) => {
+    const dlg = $("confirmDlg");
+    if (dlg.open && S.dlgDone) S.dlgDone(false);   // 이전 창은 «취소» 로 닫고 새 창을 연다
+    $("confirmTitle").textContent = title;
+    $("confirmBody").innerHTML = html.startsWith("<") ? html : `<p>${esc(html)}</p>`;
+    $("confirmYes").textContent = okText;
+    $("confirmYes").className = "btn " + (examStyle ? "exam" : "primary");
+    const done = (v) => { if (dlg.open) dlg.close(); $("confirmYes").onclick = $("confirmNo").onclick = null; S.dlgDone = null; resolve(v); };
+    S.dlgDone = done;
+    $("confirmYes").onclick = () => done(true);
+    $("confirmNo").onclick = () => done(false);
+    dlg.oncancel = (e) => { e.preventDefault(); done(false); };
+    dlg.showModal();
+    $("confirmYes").focus();
+  });
+}
+
+window.addEventListener("beforeunload", saveDraft);
+initLogin();
+</script>
+</body>
+</html>
