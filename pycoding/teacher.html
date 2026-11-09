@@ -117,12 +117,14 @@ dialog h3{margin:0 0 10px}
     <button class="btn small" id="logoutBtn">나가기</button>
   </header>
   <main>
+    <div id="serverWarn" class="msg warn hidden" role="alert"></div>
 
     <!-- 평가 결과 -->
     <section data-panel="results">
       <div class="card">
         <div class="row">
-          <label class="field" style="min-width:300px"><span>배포 (평가 · 반)</span><select id="resExam"></select></label>
+          <label class="field" style="min-width:240px"><span>평가</span><select id="resExamPick"></select></label>
+          <label class="field" style="min-width:200px"><span>반</span><select id="resExam"></select></label>
           <button class="btn" id="resReload">새로고침</button>
           <label class="small"><input type="checkbox" id="resAuto" checked> 20초마다 자동 새로고침</label>
           <span style="flex:1"></span>
@@ -194,7 +196,9 @@ dialog h3{margin:0 0 10px}
       </div>
       <div class="card">
         <div class="row" style="margin-bottom:10px">
-          <h2 style="margin:0;margin-right:auto">배포 현황</h2>
+          <h2 style="margin:0">배포 현황</h2>
+          <label class="field" style="min-width:240px"><span>평가</span><select id="dpFilter"></select></label>
+          <span style="flex:1"></span>
           <button class="btn small" id="dpReload">새로고침</button>
         </div>
         <div class="row" id="dpBulk" style="margin-bottom:10px;padding:8px 10px;background:#f3f5f9;border-radius:10px">
@@ -325,6 +329,19 @@ dialog h3{margin:0 0 10px}
   </div>
 </dialog>
 
+<!-- 평가 시작: 시간 정하기 -->
+<dialog id="startDlg" style="max-width:460px">
+  <h3>③ 평가 시작</h3>
+  <p id="startWho" class="small"></p>
+  <label class="field" style="max-width:200px"><span>평가 시간 (분)</span>
+    <input id="startMin" type="number" min="1" max="300" step="1" inputmode="numeric"></label>
+  <p class="small muted" id="startHint" style="margin:6px 0 0"></p>
+  <div class="row" style="justify-content:flex-end;margin-top:14px">
+    <button class="btn" id="startNo" type="button">취소</button>
+    <button class="btn exam" id="startYes" type="button">평가 시작</button>
+  </div>
+</dialog>
+
 <!-- 코드 보기 -->
 <dialog id="codeDlg">
   <h3 id="codeTitle"></h3>
@@ -399,11 +416,25 @@ $("loginForm").addEventListener("submit", async (e) => {
 });
 $("logoutBtn").onclick = () => { api("/api/logout", { method: "POST" }).catch(() => {}); ss.del("pyc:teacher"); location.reload(); };
 
+// 이 화면이 기대하는 채점 서버 버전. server/src/index.js 의 VERSION 과 맞춘다.
+const NEED_SERVER = 20261109;
+async function checkServerVersion() {
+  try {
+    const c = await api("/api/config");
+    const v = Number(c.version) || 0;
+    if (v >= NEED_SERVER) return;
+    $("serverWarn").innerHTML = `⚠ <strong>채점 서버 코드가 예전 버전입니다</strong> (서버 ${v || "버전 표시 없음"} · 필요 ${NEED_SERVER}). 평가 저장·배포·평가 시간 설정 같은 기능이 제대로 동작하지 않을 수 있습니다.<br>
+      <a href="https://github.com/dadaschool/geoje/blob/main/pycoding/server/src/index.js" target="_blank" rel="noopener">서버 코드(index.js)</a> 를 복사해 Cloudflare → Workers &amp; Pages → <strong>pycoding-api</strong> → Edit code 에 붙여 넣고 <strong>Deploy</strong> 를 누른 뒤 이 화면을 새로 고치세요.`;
+    $("serverWarn").classList.remove("hidden");
+  } catch {}
+}
+
 async function start() {
   $("login").classList.add("hidden");
   $("app").classList.remove("hidden");
   runner.ready().catch((e) => toast(e.message));
   fillTopicSelects();
+  checkServerVersion();
   await Promise.all([loadClasses(), loadProblems(), loadExams()]);
   await refreshResults();
 }
@@ -459,11 +490,18 @@ const probById = (id) => T.problems.find((p) => p.id === id);
 let autoTimer = setInterval(() => { if ($("resAuto").checked && !$("app").classList.contains("hidden") && !document.querySelector('[data-panel="results"]').classList.contains("hidden")) refreshResults(true); }, 20000);
 
 async function refreshResults(silent) {
-  const sel = $("resExam");
+  const sel = $("resExam"), pick = $("resExamPick");
   const prev = sel.value;
   if (!T.exams.length) await loadExams();
-  sel.innerHTML = T.deps.map((d) => `<option value="${d.id}">${esc(examTitle(d.exam_id))} · ${esc(d.class_name)}반 ${examState(d).label}</option>`).join("") || `<option value="">(배포 없음)</option>`;
-  if (prev && T.deps.some((d) => String(d.id) === prev)) sel.value = prev;
+  // ① 평가 고르기 (배포한 평가만) → ② 그 평가가 배포된 반
+  const prevDep = T.deps.find((d) => String(d.id) === prev);
+  const exams = T.exams.filter((e) => depsOf(e.id).length);
+  const prevExam = pick.value || (prevDep ? String(prevDep.exam_id) : "");
+  pick.innerHTML = exams.map((e) => `<option value="${e.id}">${esc(e.title)}</option>`).join("") || `<option value="">(배포한 평가 없음)</option>`;
+  if (prevExam && exams.some((e) => String(e.id) === prevExam)) pick.value = prevExam;
+  const deps = depsOf(Number(pick.value));
+  sel.innerHTML = deps.map((d) => `<option value="${d.id}">${esc(d.class_name)}반 ${examState(d).label}</option>`).join("") || `<option value="">(반 없음)</option>`;
+  if (prev && deps.some((d) => String(d.id) === prev)) sel.value = prev;
   if (!sel.value) { $("resTable").innerHTML = ""; $("resInfo").textContent = "«평가 만들기» 에서 평가를 만들고 «배포» 에서 반에 배포하세요."; return; }
   try {
     T.results = await api("/api/teacher/results?depId=" + sel.value);
@@ -471,6 +509,7 @@ async function refreshResults(silent) {
   } catch (e) { if (!silent) toast(e.message); }
 }
 $("resExam").onchange = () => refreshResults();
+$("resExamPick").onchange = () => { $("resExam").value = ""; refreshResults(); };
 $("resReload").onclick = async () => { await loadExams(); refreshResults(); };
 
 function lastByCell(subs) {
@@ -726,6 +765,7 @@ $("dpCreate").onclick = async () => {
   try {
     await api("/api/teacher/deployments", { method: "POST", body: { examId: Number($("dpExam").value), classIds } });
     msg("dpMsg", `${classIds.length}개 반에 배포했습니다. 아래 «배포 현황» 에서 반마다(또는 한꺼번에) 시작하세요.`, "ok");
+    $("dpFilter").innerHTML = `<option value="${$("dpExam").value}"></option>`; $("dpFilter").value = $("dpExam").value;
     $("dpClasses").querySelectorAll("input").forEach((c) => { c.checked = c.disabled; });
     await loadExams();
   } catch (e) { msg("dpMsg", esc(e.message)); }
@@ -734,8 +774,15 @@ $("dpCreate").onclick = async () => {
 const dpPicked = new Set();
 function renderDeployList() {
   if (!$("dpList")) return;
-  for (const id of [...dpPicked]) if (!T.deps.some((d) => d.id === id)) dpPicked.delete(id);
-  const groups = T.exams.map((e) => ({ e, deps: depsOf(e.id) })).filter((g) => g.deps.length);
+  // 평가를 하나 골라 그 평가가 배포된 반만 보인다 (목록이 길어지지 않게)
+  const withDeps = T.exams.filter((e) => depsOf(e.id).length);
+  const f = $("dpFilter");
+  const fPrev = f.value;
+  f.innerHTML = withDeps.map((e) => `<option value="${e.id}">${esc(e.title)} (${depsOf(e.id).length}개 반)</option>`).join("") || `<option value="">(배포한 평가 없음)</option>`;
+  if (fPrev && withDeps.some((e) => String(e.id) === fPrev)) f.value = fPrev;
+  const shown = Number(f.value);
+  for (const id of [...dpPicked]) { const d = T.deps.find((x) => x.id === id); if (!d || d.exam_id !== shown) dpPicked.delete(id); }
+  const groups = withDeps.filter((e) => e.id === shown).map((e) => ({ e, deps: depsOf(e.id) }));
   if (!groups.length) { $("dpList").innerHTML = `<p class="muted" style="padding:10px">아직 배포한 평가가 없습니다.</p>`; updateDpSel(); return; }
   let html = `<table class="tbl"><tr><th style="width:34px"></th><th>반</th><th>상태</th><th>시각</th><th></th></tr>`;
   for (const { e, deps } of groups) {
@@ -777,6 +824,7 @@ function updateDpSel() {
 }
 $("dpBulk").querySelectorAll("button[data-bulk]").forEach((b) => b.onclick = () => depAction([...dpPicked], b.dataset.bulk));
 $("dpReload").onclick = () => loadExams();
+$("dpFilter").onchange = () => { dpPicked.clear(); $("dpResult").innerHTML = ""; renderDeployList(); };
 setInterval(() => { if (!document.querySelector('[data-panel="deploy"]').classList.contains("hidden")) renderDeployList(); }, 15000);
 
 const ACT_TEXT = {
@@ -786,10 +834,37 @@ const ACT_TEXT = {
   extend: ["+5분", "평가 중인 반의 끝나는 시각을 5분 늦춥니다."],
   end: ["종료·취소", "평가 중이면 지금 끝내고(더 이상 제출 불가), 연습·대기 중이면 처음 상태로 되돌립니다."],
 };
+// 평가 시작 전에 시간(분)을 묻는다. 기본값 = 평가에 정해 둔 시간 (반마다 다르면 첫 반 기준)
+function askDuration(ids, names) {
+  return new Promise((resolve) => {
+    const exams = [...new Set(ids.map((id) => (T.deps.find((x) => x.id === id) || {}).exam_id))].map((eid) => T.exams.find((e) => e.id === eid)).filter(Boolean);
+    const mins = [...new Set(exams.map((e) => e.duration_min))];
+    $("startWho").textContent = names.join(", ");
+    $("startMin").value = mins[0] || 45;
+    $("startHint").textContent = (mins.length > 1 ? `평가마다 정해 둔 시간이 다릅니다(${mins.join("·")}분). ` : `평가에 정해 둔 시간은 ${mins[0] || 45}분입니다. `) +
+      "여기서 바꾸면 이번 시작에만 적용되고, 고른 반 모두 같은 시간으로 시작합니다. 시작한 뒤에는 «+5분» 으로 늘릴 수 있습니다.";
+    const dlg = $("startDlg");
+    const done = (v) => { $("startYes").onclick = $("startNo").onclick = null; dlg.close(); resolve(v); };
+    $("startYes").onclick = () => {
+      const v = Math.floor(Number($("startMin").value));
+      if (!(v >= 1 && v <= 300)) { $("startHint").textContent = "1~300 사이의 분을 넣으세요."; $("startMin").focus(); return; }
+      done(v);
+    };
+    $("startNo").onclick = () => done(0);
+    dlg.oncancel = (e) => { e.preventDefault(); done(0); };
+    $("startMin").onkeydown = (e) => { if (e.key === "Enter") $("startYes").click(); };
+    dlg.showModal();
+    $("startMin").select();
+  });
+}
+
 async function depAction(ids, act) {
   if (act === "view") {
     document.querySelector('#tabs [data-tab="results"]').click();
-    $("resExam").value = String(ids[0]); refreshResults(); return;
+    const dep = T.deps.find((x) => x.id === ids[0]);
+    if (dep) $("resExamPick").value = String(dep.exam_id);
+    $("resExam").innerHTML = `<option value="${ids[0]}"></option>`; $("resExam").value = String(ids[0]);
+    refreshResults(); return;
   }
   const names = ids.map((id) => { const d = T.deps.find((x) => x.id === id); return d ? `${d.class_name}반(${examTitle(d.exam_id)})` : id; });
   try {
@@ -800,11 +875,16 @@ async function depAction(ids, act) {
       return await loadExams();
     }
     const [label, desc] = ACT_TEXT[act];
-    if (act !== "extend" && !confirm(`${label} — ${names.join(", ")}\n\n${desc}`)) return;
-    const d = await api("/api/teacher/deployments/action", { method: "POST", body: { ids, action: act, minutes: 5 } });
+    let durationMin = 0;
+    if (act === "start") {
+      durationMin = await askDuration(ids, names);
+      if (!durationMin) return;
+    } else if (act !== "extend" && !confirm(`${label} — ${names.join(", ")}\n\n${desc}`)) return;
+    const d = await api("/api/teacher/deployments/action", { method: "POST", body: { ids, action: act, minutes: 5, durationMin } });
     const okN = d.results.filter((r) => r.ok).length;
     const bad = d.results.filter((r) => !r.ok);
-    msg("dpResult", `${label}: ${okN}개 반 완료` + (bad.length ? ` · 건너뜀 ${bad.length}개 — ` + bad.map((r) => `${esc(r.className || r.id)}반: ${esc(r.error)}`).join(", ") : ""), bad.length ? "warn" : "ok");
+    const minNote = act === "start" && okN ? ` (${durationMin}분)` : "";
+    msg("dpResult", `${label}: ${okN}개 반 완료${minNote}` + (bad.length ? ` · 건너뜀 ${bad.length}개 — ` + bad.map((r) => `${esc(r.className || r.id)}반: ${esc(r.error)}`).join(", ") : ""), bad.length ? "warn" : "ok");
     await loadExams();
   } catch (e) { toast(e.message); }
 }
@@ -1111,15 +1191,28 @@ function parseRoster(text) {
   const rows = [];
   for (const line of text.replace(/\r/g, "").split("\n")) {
     if (!line.trim()) continue;
-    const c = line.split(line.includes("\t") ? "\t" : ",").map((s) => s.trim());
+    let c;
+    if (line.includes("\t")) c = line.split("\t").map((x) => x.trim());
+    else if (line.includes(",")) c = line.split(",").map((x) => x.trim());
+    else {
+      // 띄어쓰기로 나뉜 줄: 반 학번 이름 [PIN] [이메일] — PIN 은 숫자, 이메일은 @ 로 알아본다
+      const w = line.trim().split(/\s+/);
+      c = [w[0], w[1], w[2], "", ""];
+      for (const x of w.slice(3)) { if (x.includes("@")) c[4] = x; else if (/^\d+$/.test(x)) c[3] = x; else c[2] += " " + x; }
+    }
     if (/반|학번|이름/.test(c[0] + c[1] + c[2]) && !/\d{3,}/.test(c[1] || "")) continue;  // 제목 줄
-    rows.push({ className: c[0], studentNo: c[1], name: c[2], pin: c[3] || "", email: c[4] || "" });
+    rows.push({ className: c[0] || "", studentNo: c[1] || "", name: c[2] || "", pin: c[3] || "", email: c[4] || "" });
   }
   return rows;
 }
 $("stUpload").onclick = async () => {
   const rows = parseRoster($("stPaste").value);
   if (!rows.length) return msg("stMsg", "붙여 넣은 명단이 없습니다.");
+  const bad = rows.findIndex((r) => !r.className || !r.studentNo || !r.name || /\s/.test(r.className));
+  if (bad >= 0) return msg("stMsg", `${bad + 1}번째 줄을 반·학번·이름으로 나누지 못했습니다: «${esc(Object.values(rows[bad]).filter(Boolean).join(" "))}». 엑셀에서 반·학번·이름 열을 따로 두고 복사하세요.`);
+  const classes = [...new Set(rows.map((r) => r.className))];
+  const ex = rows.slice(0, 3).map((r) => `${r.className} | ${r.studentNo} | ${r.name}`).join("\n");
+  if (!confirm(`학생 ${rows.length}명, 반 ${classes.length}개(${classes.join(", ")})를 올립니다.\n\n처음 몇 줄 (반 | 학번 | 이름):\n${ex}\n\n맞으면 확인을 누르세요.`)) return;
   try {
     const d = await api("/api/teacher/students/import", { method: "POST", body: { rows, keepExistingPins: $("stKeep").checked } });
     msg("stMsg", `${d.students.length}명을 올렸습니다. 아래 PIN 은 <strong>지금만</strong> 볼 수 있습니다 — 인쇄하거나 내려받아 두세요.`, "ok");

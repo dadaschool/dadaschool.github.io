@@ -707,7 +707,7 @@ function enterWait(d) {
   setPreBar("wait", "📝 " + d.exam.title, "· 연습 시간이 끝났습니다. 선생님이 평가를 시작할 때까지 기다리세요");
   renderTabs();
   renderNav();
-  $("problemPane").innerHTML = `<p class="empty">곧 평가가 시작됩니다.<br>평가 문제 ${d.exam.gradedCount}개 · ${d.exam.durationMin}분 · 문제마다 ${d.exam.maxAttempts}번 제출</p>`;
+  $("problemPane").innerHTML = `<p class="empty">곧 평가가 시작됩니다.<br>평가 문제 ${d.exam.gradedCount}개 · 문제마다 ${d.exam.maxAttempts}번 제출</p>`;
   S.cm.setValue("");
   S.cm.setOption("readOnly", "nocursor");
   $("result").innerHTML = `<p class="empty" style="padding:0">평가가 시작되면 문제가 나옵니다.</p>`;
