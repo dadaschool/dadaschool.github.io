@@ -152,7 +152,8 @@ dialog h3{margin:0 0 10px}
             <label class="field" style="flex:1"><span>문제당 제출 횟수</span><input id="exAtt" type="number" min="1" max="50" value="3"></label>
           </div>
         </div>
-        <label class="small" style="display:block;margin:10px 0"><input type="checkbox" id="exPaste" checked> 코드 붙여넣기 막기</label>
+        <label class="small" style="display:block;margin:10px 0 4px"><input type="checkbox" id="exPaste" checked> 코드 붙여넣기 막기</label>
+        <label class="small" style="display:block;margin:0 0 10px"><input type="checkbox" id="exHints"> 평가 중 힌트 허용 — 감점은 없고, 누가 어느 문제에서 힌트를 봤는지 결과표에 남습니다</label>
         <div class="row" style="margin-bottom:6px">
           <span class="field"><span>문제 고르기</span></span>
           <select id="exFilterTopic"><option value="">모든 주제</option></select>
@@ -318,6 +319,8 @@ dialog h3{margin:0 0 10px}
   </div>
   <p class="small muted" id="fFormatHelp"></p>
   <div class="grid2">
+    <label class="field"><span>힌트 1 — 생각하는 방법 (비워도 됨)</span><textarea id="fHint1" rows="2"></textarea></label>
+    <label class="field"><span>힌트 2 — 쓸 문법·코드 일부 (정답 전체는 쓰지 마세요)</span><textarea id="fHint2" rows="2"></textarea></label>
     <label class="field"><span>정답 코드 (학생에게 보이지 않음)</span><textarea id="fRef" class="code" rows="9" spellcheck="false"></textarea></label>
     <label class="field"><span>처음 코드 (학생 편집기에 미리 들어감, 비워도 됨)</span><textarea id="fStarter" class="code" rows="9" spellcheck="false"></textarea></label>
   </div>
@@ -417,7 +420,7 @@ $("loginForm").addEventListener("submit", async (e) => {
 $("logoutBtn").onclick = () => { api("/api/logout", { method: "POST" }).catch(() => {}); ss.del("pyc:teacher"); location.reload(); };
 
 // 이 화면이 기대하는 채점 서버 버전. server/src/index.js 의 VERSION 과 맞춘다.
-const NEED_SERVER = 20261109;
+const NEED_SERVER = 2026110902;
 async function checkServerVersion() {
   try {
     const c = await api("/api/config");
@@ -481,7 +484,7 @@ function fromRow(r) {
   return {
     id: r.id, topic: r.topic, level: r.level, kind: r.kind, type: r.type, title: r.title, body: r.body,
     inputDesc: r.input_desc, outputDesc: r.output_desc, funcName: r.func_name, starter: r.starter,
-    examples: JSON.parse(r.examples || "[]"), tests: JSON.parse(r.tests || "[]"), refCode: r.ref_code, sort: r.sort,
+    examples: JSON.parse(r.examples || "[]"), tests: JSON.parse(r.tests || "[]"), refCode: r.ref_code, sort: r.sort, hints: JSON.parse(r.hints || "[]"),
   };
 }
 const probById = (id) => T.problems.find((p) => p.id === id);
@@ -529,36 +532,50 @@ function scoreOf(s) {
   return { p, t, verified, mismatch: verified && (s.verified_passed !== s.client_passed) };
 }
 
+// 평가 중 본 힌트: «학생|문제» → 본 단계 수, «n|학생» → 모두 몇 개
+function hintMap(R) {
+  const m = {};
+  for (const h of R.hints || []) {
+    const k = h.student_id + "|" + h.problem_id;
+    m[k] = Math.max(m[k] || 0, h.level);
+    m["n|" + h.student_id] = (m["n|" + h.student_id] || 0) + 1;
+  }
+  return m;
+}
+
 function renderResults() {
   const R = T.results;
   const ids = R.gradedIds || JSON.parse(R.exam.problem_ids || "[]");
   const SC = examScoring(R.exam, ids);
   const cells = lastByCell(R.submissions);
   const ev = Object.fromEntries(R.events.map((e) => [e.student_id, e]));
+  const hm = hintMap(R);
   const st = examState(R.exam, R.now);
   const nVer = R.submissions.filter((s) => s.verified_at != null).length;
   $("resInfo").innerHTML = `${esc(R.exam.class_name)}반 · 학생 ${R.students.length}명 · 채점 문제 ${ids.length}개 (만점 ${round1(SC.max)}점, ${SC.partial ? "부분 점수 있음" : "모두 통과해야 점수"}) · 제출 ${R.submissions.length}건 (재확인 ${nVer}건) ${st.label}` +
     ((R.warmIds || []).length ? `<br>평가 전 연습 문제 ${R.warmIds.length}개는 점수에 들어가지 않습니다 («연습 현황» 에서 볼 수 있음).` : "");
   let html = `<table class="tbl"><tr><th>학번</th><th>이름</th><th>점수<br><span class="small muted">/ ${round1(SC.max)}</span></th>` +
     ids.map((id, i) => { const p = probById(id); return `<th title="${esc(p ? p.title : id)}">${i + 1}. ${esc(p ? p.title.slice(0, 10) : id)}<br><span class="small muted">${round1(SC.points[id])}점</span></th>`; }).join("") +
-    `<th>완전 정답</th><th>통과율</th><th>창 이동</th><th>붙여넣기 시도</th></tr>`;
+    `<th>완전 정답</th><th>통과율</th><th>힌트</th><th>창 이동</th><th>붙여넣기 시도</th></tr>`;
   for (const s of R.students) {
     let full = 0, sumRate = 0, total = 0;
     let cellsHtml = "";
     for (const id of ids) {
       const c = cells[s.id + "|" + id];
-      if (!c) { cellsHtml += `<td><span class="cell none">-</span></td>`; continue; }
+      const hl = hm[s.id + "|" + id] || 0;
+      const hTag = hl ? ` <span class="small" title="힌트 ${hl}개 봄">💡${hl}</span>` : "";
+      if (!c) { cellsHtml += `<td><span class="cell none">-</span>${hTag}</td>`; continue; }
       const sc = scoreOf(c.last);
       const cls = sc.t && sc.p === sc.t ? "full" : sc.p > 0 ? "part" : "zero";
       if (sc.t && sc.p === sc.t) full++;
       sumRate += sc.t ? sc.p / sc.t : 0;
       total += pointsFor(SC, id, sc);
       cellsHtml += `<td><span class="cell ${cls} ${sc.mismatch ? "mismatch" : ""}" data-s="${s.id}" data-p="${esc(id)}" role="button" tabindex="0"
-        title="${sc.verified ? "재확인됨" : "학생 화면 결과"}${sc.mismatch ? " — 학생 화면 결과(" + c.last.client_passed + ")와 다름" : ""}">${sc.p}/${sc.t}${sc.verified ? "✓" : ""} (${c.n})</span></td>`;
+        title="${sc.verified ? "재확인됨" : "학생 화면 결과"}${sc.mismatch ? " — 학생 화면 결과(" + c.last.client_passed + ")와 다름" : ""}">${sc.p}/${sc.t}${sc.verified ? "✓" : ""} (${c.n})</span>${hTag}</td>`;
     }
     const e = ev[s.id] || {};
     html += `<tr><td>${esc(s.student_no)}</td><td>${esc(s.name)}</td><td><strong style="font-size:15px">${round1(total)}</strong></td>${cellsHtml}<td><strong>${full}</strong> / ${ids.length}</td><td>${ids.length ? Math.round((sumRate / ids.length) * 100) : 0}%</td>
-      <td>${e.blur_count ? `<span class="pill warn">${e.blur_count}</span>` : "0"}</td><td>${e.paste_count || 0}</td></tr>`;
+      <td>${hm["n|" + s.id] ? `<span class="pill">💡${hm["n|" + s.id]}</span>` : "0"}</td><td>${e.blur_count ? `<span class="pill warn">${e.blur_count}</span>` : "0"}</td><td>${e.paste_count || 0}</td></tr>`;
   }
   html += `</table>`;
   $("resTable").innerHTML = html;
@@ -617,25 +634,26 @@ $("resCsv").onclick = () => {
   const cells = lastByCell(R.submissions);
   const ev = Object.fromEntries(R.events.map((e) => [e.student_id, e]));
   const head = ["반", "학번", "이름", `점수 (만점 ${round1(SC.max)})`];
-  ids.forEach((id, i) => { const p = probById(id); head.push(`${i + 1}. ${p ? p.title : id} (통과/전체)`, `${i + 1} 점수 (배점 ${round1(SC.points[id])})`, `${i + 1} 제출횟수`, `${i + 1} 재확인`); });
-  head.push("완전정답 수", "통과율(%)", "창 이동", "붙여넣기 시도");
+  ids.forEach((id, i) => { const p = probById(id); head.push(`${i + 1}. ${p ? p.title : id} (통과/전체)`, `${i + 1} 점수 (배점 ${round1(SC.points[id])})`, `${i + 1} 제출횟수`, `${i + 1} 재확인`, `${i + 1} 힌트`); });
+  head.push("완전정답 수", "통과율(%)", "힌트 본 수", "창 이동", "붙여넣기 시도");
+  const hm = hintMap(R);
   const rows = [head];
   for (const s of R.students) {
     const row = [R.exam.class_name, s.student_no, s.name, 0];
     let full = 0, sum = 0, total = 0;
     for (const id of ids) {
       const c = cells[s.id + "|" + id];
-      if (!c) { row.push("", 0, 0, ""); continue; }
+      if (!c) { row.push("", 0, 0, "", hm[s.id + "|" + id] || 0); continue; }
       const sc = scoreOf(c.last);
       if (sc.t && sc.p === sc.t) full++;
       sum += sc.t ? sc.p / sc.t : 0;
       const pt = pointsFor(SC, id, sc);
       total += pt;
-      row.push(`${sc.p}/${sc.t}`, round1(pt), c.n, sc.verified ? (sc.mismatch ? "다름" : "확인") : "");
+      row.push(`${sc.p}/${sc.t}`, round1(pt), c.n, sc.verified ? (sc.mismatch ? "다름" : "확인") : "", hm[s.id + "|" + id] || 0);
     }
     row[3] = round1(total);
     const e = ev[s.id] || {};
-    row.push(full, ids.length ? Math.round((sum / ids.length) * 100) : 0, e.blur_count || 0, e.paste_count || 0);
+    row.push(full, ids.length ? Math.round((sum / ids.length) * 100) : 0, hm["n|" + s.id] || 0, e.blur_count || 0, e.paste_count || 0);
     rows.push(row);
   }
   csvDownload(`${R.exam.title}_${R.exam.class_name}반_결과.csv`, rows);
@@ -705,7 +723,7 @@ function renderExamList() {
       const deps = depsOf(e.id);
       const b = (act, text, cls = "") => `<button class="btn small ${cls}" data-act="${act}" data-id="${e.id}">${text}</button>`;
       return `<tr><td>${esc(e.title)}</td>
-        <td>${sp.warm.length ? `연습 ${sp.warm.length} · 평가 ${sp.graded.length}` : sp.graded.length + "개"}</td><td>${e.duration_min}분</td><td>${e.max_attempts}번</td>
+        <td>${sp.warm.length ? `연습 ${sp.warm.length} · 평가 ${sp.graded.length}` : sp.graded.length + "개"}</td><td>${e.duration_min}분${e.allow_hints ? ' <span class="pill">💡힌트</span>' : ""}</td><td>${e.max_attempts}번</td>
         <td class="wrap">${deps.length ? deps.map((d) => { const st = examState(d); return `<span class="pill ${pillCls(st.key)}" title="${esc(st.label.replace("· ", ""))}">${esc(d.class_name)}</span>`; }).join(" ") : '<span class="muted small">없음</span>'}</td>
         <td>${b("deploy", "배포", "primary")} ${b("edit", "수정")} ${b("del", "삭제")}</td></tr>`;
     }).join("") + `</table>`;
@@ -726,7 +744,7 @@ async function examAction(act, id) {
       editingExam = id;
       $("examFormTitle").textContent = "평가 수정 — " + e.title;
       $("exTitle").value = e.title;
-      $("exDur").value = e.duration_min; $("exAtt").value = e.max_attempts; $("exPaste").checked = !!e.block_paste;
+      $("exDur").value = e.duration_min; $("exAtt").value = e.max_attempts; $("exPaste").checked = !!e.block_paste; $("exHints").checked = !!e.allow_hints;
       pickedIds = new Set(JSON.parse(e.problem_ids || "[]"));
       { let sc = {}; try { sc = JSON.parse(e.scoring || "{}"); } catch {}
         scorePts = Object.assign({}, sc.points || {}); $("exPartial").checked = !!sc.partial;
@@ -961,7 +979,7 @@ $("exNone").onclick = () => { pickedIds.clear(); renderPicker(); };
 $("exFilterKind").onchange = renderPicker;
 $("exCancel").onclick = resetExamForm;
 function resetExamForm() {
-  editingExam = null; pickedIds = new Set(); scorePts = {}; scoreCustom = false; $("exPartial").checked = false;
+  editingExam = null; pickedIds = new Set(); scorePts = {}; scoreCustom = false; $("exPartial").checked = false; $("exHints").checked = false;
   $("examFormTitle").textContent = "새 평가 만들기";
   $("exTitle").value = ""; $("exCancel").classList.add("hidden");
   renderPicker();
@@ -973,7 +991,7 @@ $("exSave").onclick = async () => {
   const points = {};
   for (const id of graded) points[id] = Number(scorePts[id]) || 0;
   const body = { title: $("exTitle").value, problemIds: ids,
-    durationMin: Number($("exDur").value), maxAttempts: Number($("exAtt").value), blockPaste: $("exPaste").checked,
+    durationMin: Number($("exDur").value), maxAttempts: Number($("exAtt").value), blockPaste: $("exPaste").checked, allowHints: $("exHints").checked,
     scoring: { points, partial: $("exPartial").checked } };
   try {
     if (editingExam) {
@@ -1091,11 +1109,12 @@ function openEditor(p) {
   editingProblemId = p ? p.id : null;
   $("pbDlgTitle").textContent = p ? "문제 편집 — " + p.id : "새 문제";
   p = p || { id: "", topic: $("pbTopic").value || "out", level: Number($("pbLevel").value || 1), kind: "practice", type: "io",
-    title: "", body: "", inputDesc: "", outputDesc: "", funcName: "", starter: "", examples: [], tests: [], refCode: "" };
+    title: "", body: "", inputDesc: "", outputDesc: "", funcName: "", starter: "", examples: [], tests: [], refCode: "", hints: [] };
   $("fId").value = p.id; $("fTopic").value = p.topic; $("fLevel").value = String(p.level); $("fKind").value = p.kind; $("fType").value = p.type;
   $("fFunc").value = p.funcName || ""; $("fTitle").value = p.title; $("fBody").value = p.body; $("fInDesc").value = p.inputDesc; $("fOutDesc").value = p.outputDesc;
   $("fEx").value = casesText(p.type, p.examples); $("fTest").value = casesText(p.type, p.tests);
   $("fRef").value = p.refCode || ""; $("fStarter").value = p.starter || "";
+  $("fHint1").value = (p.hints || [])[0] || ""; $("fHint2").value = (p.hints || [])[1] || "";
   $("fPreview").innerHTML = "";
   updateFormLabels();
   $("pbDlg").showModal();
@@ -1111,6 +1130,7 @@ function formProblem() {
     id: $("fId").value.trim(), topic: $("fTopic").value, level: Number($("fLevel").value), kind: $("fKind").value, type,
     funcName: $("fFunc").value.trim(), title: $("fTitle").value.trim(), body: $("fBody").value, inputDesc: $("fInDesc").value, outputDesc: $("fOutDesc").value,
     examples: parseCases(type, $("fEx").value), tests, refCode: $("fRef").value, starter: $("fStarter").value,
+    hints: [$("fHint1").value.trim(), $("fHint2").value.trim()].filter(Boolean),
     sort: editingProblemId && probById(editingProblemId) ? probById(editingProblemId).sort : T.problems.length,
   };
 }
@@ -1179,7 +1199,7 @@ $("pbExport").onclick = () => {
     inputDesc: p.inputDesc, outputDesc: p.outputDesc, funcName: p.funcName, starter: p.starter, sort: p.sort,
     examples: p.examples.map((e) => p.type === "func" ? { call: e.call } : { input: e.input }),
     tests: p.tests.map((t) => p.type === "func" ? { call: t.call } : { input: t.input }),
-    refCode: p.refCode,
+    refCode: p.refCode, hints: p.hints || [],
   }));
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([JSON.stringify({ format: "pycoding-problems-v1", exportedAt: new Date().toISOString(), problems }, null, 1)], { type: "application/json" }));
