@@ -84,7 +84,27 @@ dialog h3{margin:0 0 10px}
 #login{max-width:400px;margin:12vh auto;padding:0 16px}
 .progress{height:8px;background:#eef0f4;border-radius:6px;overflow:hidden;margin:8px 0}
 .progress>div{height:100%;background:var(--brand);width:0}
-@media print{header.top,.noprint{display:none!important}main{padding:0}}
+.answer-sheet h2{font-size:20px;margin:0 0 4px}
+/* 코드 글꼴의 합자(== → ═, >= → ≥ 처럼 보이는 것)를 끈다 — 학생이 기호를 헷갈리지 않게 */
+pre,code,textarea.code,textarea.mono,.CodeMirror,.cell{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.ak-out{font-family:var(--mono);font-size:13px;white-space:pre-wrap;word-break:break-all;margin:0}
+.ak-prob{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.ak-prob h3{margin:0 0 6px;font-size:16px}
+.ak-prob .body{white-space:pre-wrap;margin:6px 0}
+.ak-prob h4{margin:10px 0 4px;font-size:13px;color:var(--muted)}
+.ak-prob pre.code{max-height:none}
+.ak-hint{background:#fff8e1;border-radius:6px;padding:6px 8px;margin:4px 0;white-space:pre-wrap}
+@media print{
+  header.top,.noprint{display:none!important}
+  main{padding:0;max-width:none}
+  body{background:#fff;font-size:12px}
+  .ak-prob{border:1px solid #999;padding:10px 12px;margin-bottom:8px}
+  .ak-prob h3,.ak-prob h4{break-after:avoid}
+  .ak-prob tr,.ak-prob pre{break-inside:avoid}
+  pre.code{white-space:pre-wrap;border-color:#999;padding:6px 8px}
+  .tbl th,.tbl td{padding:3px 6px}
+  .tbl th{position:static}
+}
 </style>
 </head>
 <body>
@@ -108,6 +128,7 @@ dialog h3{margin:0 0 10px}
       <button role="tab" data-tab="results" aria-selected="true">평가 결과</button>
       <button role="tab" data-tab="exams">평가 만들기</button>
       <button role="tab" data-tab="deploy">배포</button>
+      <button role="tab" data-tab="answers">정답지</button>
       <button role="tab" data-tab="practice">연습 현황</button>
       <button role="tab" data-tab="problems">문제</button>
       <button role="tab" data-tab="students">반·학생</button>
@@ -215,6 +236,24 @@ dialog h3{margin:0 0 10px}
         <p class="small muted">반마다 따로 진행됩니다. 연습 문제와 평가 문제가 함께 든 평가는 <strong>① 연습 시작</strong>(학생에게 연습 문제만, 점수 없음) → <strong>② 연습 시간 종료</strong>(학생은 대기) → <strong>③ 평가 시작</strong>(평가 문제가 열리고 시간이 흐름), 한 종류만 든 평가는 «평가 시작» 한 번이면 됩니다.
           한꺼번에 누르면 그 단계에 맞는 반만 바뀌고 나머지는 건너뛴 이유가 아래에 나옵니다. 한 반에서 동시에 진행할 수 있는 평가는 하나입니다.</p>
       </div>
+    </section>
+
+    <!-- 정답지 -->
+    <section data-panel="answers" class="hidden">
+      <div class="card noprint">
+        <div class="row">
+          <label class="field" style="min-width:260px"><span>평가</span><select id="akExam"></select></label>
+          <label class="small"><input type="checkbox" id="akBody" checked> 문제 설명</label>
+          <label class="small"><input type="checkbox" id="akCode" checked> 정답 코드</label>
+          <label class="small"><input type="checkbox" id="akTests" checked> 테스트 입력·정답 출력</label>
+          <label class="small"><input type="checkbox" id="akHints"> 힌트</label>
+          <label class="small"><input type="checkbox" id="akWarm" checked> 평가 전 연습 문제도</label>
+          <span style="flex:1"></span>
+          <button class="btn primary" id="akPrint">🖨 인쇄</button>
+        </div>
+        <p class="small muted" style="margin:8px 0 0">정답 출력은 이 컴퓨터에서 정답 코드를 실행해 만듭니다. ⚠ 학생에게 보이지 않게 주의하세요 (인쇄물·화면 공유).</p>
+      </div>
+      <div id="akSheet" class="answer-sheet"></div>
     </section>
 
     <!-- 연습 현황 -->
@@ -456,6 +495,7 @@ $("tabs").querySelectorAll("button").forEach((b) => b.onclick = () => {
   if (t === "exams") { loadExams(); renderPicker(); }
   if (t === "deploy") loadExams();
   if (t === "practice") loadPractice();
+  if (t === "answers") renderAnswerKey();
   if (t === "students") loadStudents();
   if (t === "problems") renderProblems();
 });
@@ -725,7 +765,7 @@ function renderExamList() {
       return `<tr><td>${esc(e.title)}</td>
         <td>${sp.warm.length ? `연습 ${sp.warm.length} · 평가 ${sp.graded.length}` : sp.graded.length + "개"}</td><td>${e.duration_min}분${e.allow_hints ? ' <span class="pill">💡힌트</span>' : ""}</td><td>${e.max_attempts}번</td>
         <td class="wrap">${deps.length ? deps.map((d) => { const st = examState(d); return `<span class="pill ${pillCls(st.key)}" title="${esc(st.label.replace("· ", ""))}">${esc(d.class_name)}</span>`; }).join(" ") : '<span class="muted small">없음</span>'}</td>
-        <td>${b("deploy", "배포", "primary")} ${b("edit", "수정")} ${b("del", "삭제")}</td></tr>`;
+        <td>${b("deploy", "배포", "primary")} ${b("edit", "수정")} ${b("answers", "정답지")} ${b("del", "삭제")}</td></tr>`;
     }).join("") + `</table>`;
   $("examList").querySelectorAll("button[data-act]").forEach((b) => b.onclick = () => examAction(b.dataset.act, Number(b.dataset.id)));
 }
@@ -733,6 +773,10 @@ function renderExamList() {
 async function examAction(act, id) {
   const e = T.exams.find((x) => x.id === id);
   try {
+    if (act === "answers") {
+      document.querySelector('#tabs [data-tab="answers"]').click();
+      $("akExam").value = String(id); renderAnswerKey(); return;
+    }
     if (act === "deploy") {
       document.querySelector('#tabs [data-tab="deploy"]').click();
       $("dpExam").value = String(id); renderDeployForm(); return;
@@ -1007,6 +1051,66 @@ $("exSave").onclick = async () => {
     resetExamForm();
     await loadExams();
   } catch (e) { msg("exMsg", esc(e.message)); }
+};
+
+/* ================= 정답지 =================
+   평가를 고르면 문제마다 정답 코드와, 정답 코드를 이 컴퓨터에서 실행해 얻은 테스트별 정답 출력을 보여 주고 인쇄한다. */
+let akSeq = 0;
+async function renderAnswerKey() {
+  const sel = $("akExam");
+  const prev = sel.value;
+  sel.innerHTML = T.exams.map((e) => `<option value="${e.id}">${esc(e.title)}</option>`).join("") || `<option value="">(평가 없음)</option>`;
+  if (prev && T.exams.some((e) => String(e.id) === prev)) sel.value = prev;
+  const ex = T.exams.find((e) => String(e.id) === sel.value);
+  const sheet = $("akSheet");
+  if (!ex) { sheet.innerHTML = `<p class="muted">«평가 만들기» 에서 평가를 먼저 만드세요.</p>`; return; }
+  const seq = ++akSeq;
+  const sp = splitIds(JSON.parse(ex.problem_ids || "[]"));
+  const SC = examScoring(ex, sp.graded);
+  const show = { body: $("akBody").checked, code: $("akCode").checked, tests: $("akTests").checked, hints: $("akHints").checked, warm: $("akWarm").checked };
+  const groups = [];
+  if (show.warm && sp.warm.length) groups.push({ name: "평가 전 연습 문제 (점수 없음)", ids: sp.warm, graded: false });
+  groups.push({ name: sp.warm.length ? "평가 문제" : "문제", ids: sp.graded, graded: true });
+  const deps = depsOf(ex.id).map((d) => d.class_name + "반").join(", ");
+  let html = `<div class="card" style="margin-bottom:12px"><h2>📄 정답지 — ${esc(ex.title)}</h2>
+    <div class="small muted">채점 문제 ${sp.graded.length}개 · 만점 ${round1(SC.max)}점 (${SC.partial ? "부분 점수 있음" : "모두 통과해야 점수"}) · ${ex.duration_min}분 · 문제마다 ${ex.max_attempts}번 제출${ex.allow_hints ? " · 힌트 허용" : ""}${deps ? " · 배포: " + esc(deps) : ""}</div></div>`;
+  for (const g of groups) {
+    html += `<h3 style="margin:16px 0 8px">${esc(g.name)}</h3>`;
+    g.ids.forEach((id, i) => {
+      const p = probById(id);
+      if (!p) return;
+      html += `<div class="ak-prob" id="ak-${esc(id)}">
+        <h3>${i + 1}. ${esc(p.title)} <span class="small muted">${esc(id)} · ${esc(topicName(p.topic))} ${p.level}단계${p.type === "func" ? " · 함수 " + esc(p.funcName) : ""}${g.graded ? " · 배점 " + round1(SC.points[id]) + "점" : ""}</span></h3>
+        ${show.body ? `<div class="body">${esc(p.body)}</div>${p.inputDesc ? `<div class="small"><b>${p.type === "func" ? "호출" : "입력"}</b> ${esc(p.inputDesc)}</div>` : ""}${p.outputDesc ? `<div class="small"><b>${p.type === "func" ? "돌려줄 값" : "출력"}</b> ${esc(p.outputDesc)}</div>` : ""}` : ""}
+        ${show.code ? `<h4>정답 코드</h4><pre class="code">${esc(p.refCode || "(정답 코드 없음)")}</pre>` : ""}
+        ${show.tests ? `<h4>테스트 입력과 정답 출력</h4><div class="ak-tests small muted">정답 코드를 실행하는 중…</div>` : ""}
+        ${show.hints && (p.hints || []).length ? `<h4>힌트</h4>` + p.hints.map((h, k) => `<div class="ak-hint">💡 ${k + 1}. ${esc(h)}</div>`).join("") : ""}
+      </div>`;
+    });
+  }
+  sheet.innerHTML = html;
+  if (!show.tests) return;
+  // 정답 출력 채우기 (정답 코드 실행)
+  try { await runner.ready(); } catch (e) { sheet.querySelectorAll(".ak-tests").forEach((el) => { el.textContent = "파이썬 실행기를 불러오지 못했습니다: " + e.message; }); return; }
+  for (const g of groups) for (const id of g.ids) {
+    if (seq !== akSeq) return;   // 다른 평가를 고르면 멈춘다
+    const p = probById(id);
+    const box = document.querySelector(`#ak-${CSS.escape(id)} .ak-tests`);
+    if (!p || !box) continue;
+    if (!p.refCode) { box.textContent = "정답 코드가 없어 출력을 만들 수 없습니다."; continue; }
+    const isFunc = p.type === "func";
+    const raw = await runner.run(p.refCode, p.tests.map((t) => isFunc ? { stdin: "", call: t.call } : { stdin: t.input || "", call: "" }));
+    box.className = "ak-tests";
+    box.innerHTML = `<table class="tbl"><tr><th style="width:40px">#</th><th>${isFunc ? "호출" : "입력"}</th><th>정답 ${isFunc ? "(돌려주는 값)" : "출력"}</th></tr>` +
+      raw.map((r, k) => `<tr><td>${k + 1}${k < (p.examples || []).length ? '<br><span class="pill">예시</span>' : ""}</td>
+        <td class="wrap"><pre class="ak-out">${esc(isFunc ? p.tests[k].call : (p.tests[k].input || "(입력 없음)"))}</pre></td>
+        <td class="wrap"><pre class="ak-out">${r.kind ? "⚠ 정답 코드 오류: " + esc(PyCoding.explain(r).title) : esc(isFunc ? r.ret : PyCoding.normalize(r.stdout))}</pre></td></tr>`).join("") + `</table>`;
+  }
+}
+["akExam", "akBody", "akCode", "akTests", "akHints", "akWarm"].forEach((id) => $(id).onchange = renderAnswerKey);
+$("akPrint").onclick = () => {
+  if (document.querySelector("#akSheet .ak-tests.muted")) return toast("정답 출력을 만드는 중입니다. 잠시 뒤 다시 누르세요.");
+  window.print();
 };
 
 /* ================= 연습 현황 ================= */
