@@ -101,6 +101,8 @@ main.work{display:grid;grid-template-columns:minmax(300px,2fr) 3fr;min-height:0}
 .ex .row>div{padding:8px 10px;min-width:0}
 .ex .row>div+div{border-left:1px solid var(--line)}
 .ex b{display:block;font-size:12px;color:var(--muted);margin-bottom:2px}
+/* 코드 글꼴의 합자(== → ═, >= → ≥)를 끈다 — 기호를 헷갈리지 않게 */
+pre,code,.CodeMirror,textarea{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
 pre.io{margin:0;font-family:var(--mono);font-size:13.5px;white-space:pre-wrap;word-break:break-all}
 .hintBox{margin-top:14px}
 .hintBox .hint{background:#fff8e1;border:1px solid #f3dcae;border-radius:8px;padding:10px 12px;margin:8px 0;white-space:pre-wrap}
