@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>동아리 파이썬 교사 화면</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+<script src="config.js"></script>
+<script src="runner.js"></script>
+<style>
+:root{
+  --bg:#f4f5f7; --panel:#fff; --ink:#1b2130; --muted:#5b6476; --line:#dde1e8;
+  --brand:#0f766e; --brand-soft:#dff3f0; --ok:#14804a; --ok-soft:#e3f5ea; --bad:#c4321f; --bad-soft:#fdecea;
+  --warn:#9a5800; --warn-soft:#fff4df; --mono:"JetBrains Mono","Pretendard",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Pretendard",system-ui,sans-serif;font-size:14.5px;line-height:1.55;word-break:keep-all}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.hidden,[hidden]{display:none!important}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.danger{color:var(--bad);border-color:#f0c4bd}
+.btn.small{padding:3px 9px;font-size:13px}
+.pill{display:inline-block;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:700;background:#eef0f4;color:var(--muted)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.club{background:var(--brand-soft);color:var(--brand)}
+.msg{border-radius:8px;padding:9px 12px;margin:8px 0}
+.msg.err{background:var(--bad-soft);color:var(--bad)}
+.msg.warn{background:var(--warn-soft);color:var(--warn)}
+.msg.ok{background:var(--ok-soft);color:var(--ok)}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;max-width:400px;width:100%}
+.card input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin:8px 0 12px}
+header{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap}
+header h1{font-size:17px;margin:0;margin-right:auto}
+nav.tabs{display:flex;gap:4px;padding:8px 16px;background:#fff;border-bottom:1px solid var(--line);overflow-x:auto}
+nav.tabs button{border:0;background:transparent;padding:7px 12px;border-radius:8px;cursor:pointer;font-weight:700;color:var(--muted);white-space:nowrap}
+nav.tabs button[aria-selected="true"]{background:var(--brand-soft);color:var(--brand)}
+main{padding:16px;max-width:1280px;margin:0 auto}
+section.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+section.panel h2{font-size:16px;margin:0 0 10px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.row input[type=search],.row input[type=text],.row select{padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tablewrap{overflow:auto;max-height:62vh;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#f6f7f9;position:sticky;top:0;z-index:1;font-weight:700;color:var(--muted)}
+td.num,th.num{text-align:right;font-family:var(--mono)}
+tr.sel{background:#f1faf8}
+.drop{border:2px dashed #b9c9c6;border-radius:12px;padding:22px;text-align:center;color:var(--muted);cursor:pointer;background:#fafcfc}
+.drop.over{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
+pre.code{background:#f6f7f9;border-radius:8px;padding:10px;font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;max-height:50vh;overflow:auto;margin:6px 0}
+dialog{border:1px solid var(--line);border-radius:14px;padding:20px;max-width:760px;width:calc(100% - 32px)}
+dialog::backdrop{background:rgba(15,20,35,.45)}
+dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.small{font-size:12.5px;color:var(--muted)}
+.bar{height:7px;background:#eef0f4;border-radius:99px;overflow:hidden;min-width:60px}
+.bar>i{display:block;height:100%;background:var(--ok)}
+.log{font-family:var(--mono);font-size:12.5px;background:#f6f7f9;border-radius:8px;padding:8px 10px;max-height:240px;overflow:auto;white-space:pre-wrap}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<section id="login">
+  <form class="card" id="loginForm">
+    <h1 style="margin:0 0 4px;font-size:20px">🧩 동아리 파이썬 · 교사</h1>
+    <p class="small">컴퓨터 동아리 파이썬 채점 시스템 교사 화면</p>
+    <label>비밀번호<input type="password" id="pass" required autocomplete="current-password"></label>
+    <button class="btn primary" style="width:100%;justify-content:center" type="submit">로그인</button>
+    <div id="loginMsg"></div>
+  </form>
+</section>
+
+<div id="app" class="hidden">
+  <header>
+    <h1>🧩 동아리 파이썬 · 교사</h1>
+    <span class="small" id="serverInfo"></span>
+    <a class="btn small" href="./" target="_blank" rel="noopener">학생 화면 ↗</a>
+    <button class="btn small" id="logoutBtn" type="button">나가기</button>
+  </header>
+  <div id="verWarn"></div>
+  <nav class="tabs" role="tablist" id="tabs">
+    <button role="tab" data-tab="members" aria-selected="true">👥 동아리 명단</button>
+    <button role="tab" data-tab="practice" aria-selected="false">📊 연습 현황</button>
+    <button role="tab" data-tab="problems" aria-selected="false">📚 문제 은행</button>
+    <button role="tab" data-tab="status" aria-selected="false">⚙️ 서버 상태</button>
+  </nav>
+  <main>
+    <!-- 동아리 명단 -->
+    <div data-panel="members">
+      <section class="panel">
+        <h2>모둠</h2>
+        <p class="small">동아리 안의 모둠(예: 중등부·고등부). 나중에 평가를 모둠 단위로 엽니다. 모둠 없이 써도 됩니다.</p>
+        <div class="row" id="groupList"></div>
+        <form class="row" id="groupForm"><input type="text" id="groupName" placeholder="새 모둠 이름" maxlength="30" aria-label="새 모둠 이름"><button class="btn" type="submit">모둠 만들기</button></form>
+      </section>
+      <div class="grid2">
+        <section class="panel">
+          <h2>pycoding 학생에서 고르기</h2>
+          <p class="small">PIN 은 pycoding 과 같습니다 (PIN 다시 만들기·명단 고치기는 pycoding 교사 화면에서).</p>
+          <div class="row">
+            <select id="pyClass" aria-label="반"><option value="">모든 반</option></select>
+            <input type="search" id="pySearch" placeholder="학번·이름 찾기" aria-label="학번·이름 찾기">
+            <label class="small"><input type="checkbox" id="pyHideMembers" checked> 이미 동아리인 학생 숨기기</label>
+          </div>
+          <div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="pyAll" aria-label="모두 고르기"></th><th>반</th><th>학번</th><th>이름</th><th></th></tr></thead><tbody id="pyBody"></tbody></table></div>
+          <div class="row">
+            <span id="pyCount" class="small"></span>
+            <select id="addGroup" aria-label="넣을 모둠"><option value="">모둠 없음</option></select>
+            <button class="btn primary" id="addBtn" type="button">고른 학생을 동아리에 넣기</button>
+          </div>
+        </section>
+        <section class="panel">
+          <h2>동아리 명단 <span class="pill club" id="memCount">0명</span></h2>
+          <div class="row"><select id="memGroupFilter" aria-label="모둠으로 거르기"><option value="">모든 모둠</option></select></div>
+          <div class="tablewrap"><table><thead><tr><th><input type="checkbox" id="memAll" aria-label="모두 고르기"></th><th>학번</th><th>이름</th><th>반</th><th>모둠</th></tr></thead><tbody id="memBody"></tbody></table></div>
+          <div class="row">
+            <select id="moveGroup" aria-label="옮길 모둠"><option value="">모둠 없음</option></select>
+            <button class="btn" id="moveBtn" type="button">고른 학생 모둠 바꾸기</button>
+            <button class="btn danger" id="removeBtn" type="button">고른 학생 동아리에서 빼기</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- 연습 현황 -->
+    <div data-panel="practice" hidden>
+      <section class="panel">
+        <h2>연습 현황</h2>
+        <div class="row">
+          <select id="prGroup" aria-label="모둠"><option value="">모든 모둠</option></select>
+          <select id="prPeriod" aria-label="기간">
+            <option value="0">전체 기간</option><option value="7">최근 7일</option><option value="30">최근 30일</option>
+          </select>
+          <button class="btn" id="prLoad" type="button">불러오기</button>
+          <button class="btn" id="prCsv" type="button">CSV 내려받기</button>
+          <span class="small">많이 푼 순서 · 학생을 누르면 문제별 기록</span>
+        </div>
+        <div class="tablewrap" id="prTable"><p class="small" style="padding:8px">«불러오기» 를 누르세요.</p></div>
+      </section>
+    </div>
+
+    <!-- 문제 은행 -->
+    <div data-panel="problems" hidden>
+      <section class="panel">
+        <h2>문제 가져오기</h2>
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="문제 JSON 파일 고르기">
+          문제 JSON 파일을 여기에 끌어다 놓거나 눌러서 고르세요 (여러 개 가능) — 확인 단계 없이 바로 들어갑니다.<br>
+          <span class="small">같은 문제 번호는 덮어씁니다. 파일에 없는 문제는 지우지 않습니다. 해시가 없는 문제는 이 브라우저가 정답 코드를 실행해 만듭니다.</span>
+        </div>
+        <input type="file" id="fileIn" accept=".json,application/json" multiple hidden>
+        <div class="log hidden" id="importLog" aria-live="polite"></div>
+      </section>
+      <section class="panel">
+        <h2>문제 목록</h2>
+        <div class="row">
+          <select id="pbBank" aria-label="묶음"><option value="pyclub">🧩 동아리</option><option value="pycoding">🐍 pycoding</option></select>
+          <select id="pbTopic" aria-label="주제"></select>
+          <select id="pbLevel" aria-label="단계"><option value="">모든 단계</option></select>
+          <input type="search" id="pbSearch" placeholder="번호·제목 찾기" aria-label="번호·제목 찾기">
+          <span class="small" id="pbCount"></span>
+        </div>
+        <div id="pbNote"></div>
+        <div class="tablewrap"><table><thead><tr><th>번호</th><th>제목</th><th>형식</th><th>단계</th><th>힌트</th><th>⏱</th><th></th></tr></thead><tbody id="pbBody"></tbody></table></div>
+      </section>
+    </div>
+
+    <!-- 서버 상태 -->
+    <div data-panel="status" hidden>
+      <section class="panel"><h2>서버 상태</h2><div id="statusBox"></div></section>
+    </div>
+  </main>
+</div>
+
+<dialog id="viewDlg"><div id="viewBody"></div><div class="actions"><button class="btn primary" type="button" onclick="this.closest('dialog').close()">닫기</button></div></dialog>
+
+<script>
+"use strict";
+const NEED_SERVER = 2026111001;   // server/src/index.js 의 VERSION 과 같이 올린다
+const CFG = window.PYCLUB_CONFIG || {};
+const API = (CFG.API_BASE || "").replace(/\/+$/, "");
+const PC = window.PyClub;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const T = { token: null, py: [], members: [], groups: [], problems: [], practice: null };
+let runner = null;
+const getRunner = () => (runner = runner || new PC.Runner());
+
+async function api(path, opt = {}) {
+  const res = await fetch(API + path, {
+    method: opt.method || "GET",
+    headers: Object.assign({ "Content-Type": "application/json" }, T.token ? { Authorization: "Bearer " + T.token } : {}),
+    body: opt.body ? JSON.stringify(opt.body) : undefined,
+  });
+  let d = {};
+  try { d = await res.json(); } catch {}
+  if (res.status === 401 && T.token) { sessionStorage.removeItem("pcl:teacher"); location.reload(); }
+  if (!res.ok) throw new Error(d.error || "서버 오류 (" + res.status + ")");
+  return d;
+}
+const fmtTime = (t) => t ? new Date(t).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
+
+/* ---------- 로그인 ---------- */
+$("loginForm").onsubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const d = await api("/api/teacher/login", { method: "POST", body: { password: $("pass").value } });
+    T.token = d.token; sessionStorage.setItem("pcl:teacher", d.token); start();
+  } catch (err) { $("loginMsg").innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+};
+$("logoutBtn").onclick = () => { api("/api/logout", { method: "POST" }).catch(() => {}); sessionStorage.removeItem("pcl:teacher"); location.reload(); };
+
+async function start() {
+  $("login").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  await loadStatus();
+  await loadMembers();
+}
+
+document.querySelectorAll("#tabs button").forEach((b) => b.onclick = () => {
+  document.querySelectorAll("#tabs button").forEach((x) => x.setAttribute("aria-selected", x === b));
+  document.querySelectorAll("[data-panel]").forEach((p) => p.hidden = p.dataset.panel !== b.dataset.tab);
+  if (b.dataset.tab === "problems" && !T.problemsLoaded) loadProblems();
+  if (b.dataset.tab === "status") loadStatus();
+});
+
+/* ---------- 서버 상태 ---------- */
+async function loadStatus() {
+  try {
+    const s = await api("/api/teacher/status");
+    $("serverInfo").textContent = `서버 ${s.version}`;
+    $("verWarn").innerHTML = s.version < NEED_SERVER ? `<div class="msg warn" style="margin:8px 16px">채점 서버 코드가 예전 버전입니다 (${s.version} < ${NEED_SERVER}). server/src/index.js 를 Cloudflare 에 다시 올려 주세요.</div>` : "";
+    const bank = Object.fromEntries(s.bank.map((b) => [b.bank, b.n]));
+    $("statusBox").innerHTML = `<table><tbody>
+      <tr><th>서버 코드 버전</th><td>${s.version} ${s.version < NEED_SERVER ? '<span class="pill">예전 버전</span>' : '<span class="pill ok">최신</span>'}</td></tr>
+      <tr><th>학번+PIN 확인 방식</th><td>${{ service: "pycoding 서버에 맡김 (서비스 바인딩 PYCODING) ✅", pepper: "PIN_PEPPER 로 직접 확인", none: "⚠ 설정 안 됨 — 학생이 로그인할 수 없습니다 (설치 설명서 5단계)" }[s.pinMode]}</td></tr>
+      <tr><th>문제 자동 가져오기</th><td>${s.importKey ? "켜짐 (IMPORT_KEY 있음)" : "꺼짐 — IMPORT_KEY 를 넣으면 깃허브에 올린 문제가 자동으로 들어옵니다"}</td></tr>
+      <tr><th>문제 은행</th><td>동아리 ${bank.pyclub || 0}문제 · pycoding ${bank.pycoding || 0}문제 ${s.pycodingFallback ? "(아직 은행으로 옮기기 전 — pycoding 연습 문제만 동아리에 보임)" : ""}</td></tr>
+      <tr><th>동아리 학생</th><td>${s.members}명</td></tr>
+      <tr><th>저장된 동아리 제출</th><td>${s.submissions}개 (연습은 학생·문제마다 최근 3개 + 처음 통과한 것만 남김)</td></tr>
+    </tbody></table>`;
+  } catch (e) { $("statusBox").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+}
+
+/* ---------- 명단 ---------- */
+async function loadMembers() {
+  try {
+    const [py, mem] = await Promise.all([api("/api/teacher/pycoding-students"), api("/api/teacher/members")]);
+    T.py = py.students; T.members = mem.members; T.groups = mem.groups;
+  } catch (e) { $("pyBody").innerHTML = `<tr><td colspan="5"><div class="msg err">${esc(e.message)}</div></td></tr>`; return; }
+  const groupOpts = `<option value="">모둠 없음</option>` + T.groups.map((g) => `<option value="${g.id}">${esc(g.name)}</option>`).join("");
+  for (const id of ["addGroup", "moveGroup"]) { const v = $(id).value; $(id).innerHTML = groupOpts; $(id).value = v; }
+  for (const id of ["memGroupFilter", "prGroup"]) {
+    const v = $(id).value;
+    $(id).innerHTML = `<option value="">모든 모둠</option>` + T.groups.map((g) => `<option value="${g.id}">${esc(g.name)}</option>`).join("");
+    $(id).value = v;
+  }
+  $("groupList").innerHTML = T.groups.length ? T.groups.map((g) =>
+    `<span class="pill club">${esc(g.name)} · ${g.n}명 <button class="btn small" type="button" data-del="${g.id}" aria-label="${esc(g.name)} 모둠 지우기" style="padding:0 6px;border:0;background:transparent">✕</button></span>`).join("")
+    : `<span class="small">모둠이 없습니다.</span>`;
+  $("groupList").querySelectorAll("[data-del]").forEach((b) => b.onclick = async () => {
+    if (!confirm("이 모둠을 지울까요? 학생은 동아리에 남고 «모둠 없음» 이 됩니다.")) return;
+    await api("/api/teacher/groups/" + b.dataset.del, { method: "DELETE" }); loadMembers();
+  });
+  const classes = [...new Set(T.py.map((s) => s.class_name || ""))].filter(Boolean).sort();
+  const cv = $("pyClass").value;
+  $("pyClass").innerHTML = `<option value="">모든 반</option>` + classes.map((c) => `<option>${esc(c)}</option>`).join("");
+  $("pyClass").value = cv;
+  renderPy(); renderMembers();
+}
+
+function renderPy() {
+  const cls = $("pyClass").value, q = $("pySearch").value.trim(), hide = $("pyHideMembers").checked;
+  const list = T.py.filter((s) => (!cls || s.class_name === cls) && (!q || s.student_no.includes(q) || s.name.includes(q)) && !(hide && s.member));
+  $("pyBody").innerHTML = list.map((s) => `<tr><td><input type="checkbox" class="pyChk" value="${s.id}" aria-label="${esc(s.name)} 고르기"${s.member ? " disabled" : ""}></td>
+    <td>${esc(s.class_name || "")}</td><td>${esc(s.student_no)}</td><td>${esc(s.name)}</td><td>${s.member ? '<span class="pill club">동아리</span>' : ""}</td></tr>`).join("") ||
+    `<tr><td colspan="5" class="small">학생이 없습니다. (pycoding 교사 화면에서 명단을 먼저 올리세요)</td></tr>`;
+  $("pyAll").checked = false;
+  $("pyCount").textContent = `${list.length}명 표시`;
+}
+["pyClass", "pySearch", "pyHideMembers"].forEach((id) => $(id).addEventListener("input", renderPy));
+$("pyAll").onchange = () => document.querySelectorAll(".pyChk:not(:disabled)").forEach((c) => c.checked = $("pyAll").checked);
+$("addBtn").onclick = async () => {
+  const ids = [...document.querySelectorAll(".pyChk:checked")].map((c) => Number(c.value));
+  if (!ids.length) return alert("동아리에 넣을 학생을 고르세요.");
+  try { await api("/api/teacher/members/add", { method: "POST", body: { ids, groupId: $("addGroup").value || null } }); loadMembers(); }
+  catch (e) { alert(e.message); }
+};
+
+function renderMembers() {
+  const g = $("memGroupFilter").value;
+  const list = T.members.filter((m) => !g || String(m.group_id) === g);
+  $("memCount").textContent = T.members.length + "명";
+  $("memBody").innerHTML = list.map((m) => `<tr><td><input type="checkbox" class="memChk" value="${m.id}" aria-label="${esc(m.name)} 고르기"></td>
+    <td>${esc(m.student_no)}</td><td>${esc(m.name)}</td><td>${esc(m.class_name || "")}</td><td>${esc(m.group_name || "—")}</td></tr>`).join("") ||
+    `<tr><td colspan="5" class="small">동아리 학생이 없습니다. 왼쪽에서 골라 넣으세요.</td></tr>`;
+  $("memAll").checked = false;
+}
+$("memGroupFilter").onchange = renderMembers;
+$("memAll").onchange = () => document.querySelectorAll(".memChk").forEach((c) => c.checked = $("memAll").checked);
+const memSel = () => [...document.querySelectorAll(".memChk:checked")].map((c) => Number(c.value));
+$("moveBtn").onclick = async () => {
+  const ids = memSel(); if (!ids.length) return alert("학생을 고르세요.");
+  await api("/api/teacher/members/group", { method: "POST", body: { ids, groupId: $("moveGroup").value || null } }); loadMembers();
+};
+$("removeBtn").onclick = async () => {
+  const ids = memSel(); if (!ids.length) return alert("학생을 고르세요.");
+  if (!confirm(`${ids.length}명을 동아리에서 뺄까요? (pycoding 학생 명단과 PIN 은 그대로 남습니다)`)) return;
+  const withRecords = confirm("동아리 연습 기록(제출·푼 문제)도 함께 지울까요?\n확인 = 기록도 지우기 / 취소 = 기록은 남기기 (다시 넣으면 이어서 볼 수 있음)");
+  await api("/api/teacher/members/remove", { method: "POST", body: { ids, withRecords } }); loadMembers();
+};
+$("groupForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const name = $("groupName").value.trim(); if (!name) return;
+  try { await api("/api/teacher/groups", { method: "POST", body: { name } }); $("groupName").value = ""; loadMembers(); } catch (err) { alert(err.message); }
+};
+
+/* ---------- 문제 은행 ---------- */
+function fillTopicFilters() {
+  const b = PC.BANKS[$("pbBank").value];
+  $("pbTopic").innerHTML = `<option value="">모든 주제</option>` + b.topics.map((t) => `<option value="${t.key}">${t.name}</option>`).join("");
+  $("pbLevel").innerHTML = `<option value="">모든 단계</option>` + Object.entries(b.levels).map(([k, v]) => `<option value="${k}">${k}단계 · ${v}</option>`).join("");
+}
+$("pbBank").onchange = () => { fillTopicFilters(); loadProblems(); };
+["pbTopic", "pbLevel", "pbSearch"].forEach((id) => $(id).addEventListener("input", renderProblems));
+
+async function loadProblems() {
+  if (!$("pbTopic").options.length) fillTopicFilters();
+  T.problemsLoaded = true;
+  $("pbBody").innerHTML = `<tr><td colspan="7" class="small">불러오는 중…</td></tr>`;
+  try {
+    const d = await api("/api/teacher/problems?bank=" + $("pbBank").value);
+    T.problems = d.problems;
+    $("pbNote").innerHTML = d.fallback ? `<div class="msg warn">pycoding 문제가 아직 공동 문제 은행으로 옮겨지지 않았습니다. 지금은 pycoding 의 «연습» 문제만 동아리 학생에게 보이고, «평가» 문제는 보이지 않습니다.</div>` : "";
+  } catch (e) { $("pbBody").innerHTML = `<tr><td colspan="7"><div class="msg err">${esc(e.message)}</div></td></tr>`; return; }
+  renderProblems();
+}
+
+function renderProblems() {
+  const t = $("pbTopic").value, lv = $("pbLevel").value, q = $("pbSearch").value.trim().toLowerCase();
+  const list = T.problems.filter((p) => (!t || p.topic === t) && (!lv || String(p.level) === lv) && (!q || p.id.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)));
+  $("pbCount").textContent = `${list.length}문제`;
+  const kind = { io: "입출력", func: "함수", choice: "객관식", short: "단답" };
+  $("pbBody").innerHTML = list.map((p) => `<tr><td style="font-family:var(--mono)">${esc(p.id)}</td><td>${esc(p.title)} ${p.club_hidden ? '<span class="pill">동아리에 숨김</span>' : ""}</td>
+    <td>${kind[p.type] || p.type}</td><td>${p.level}</td><td>${JSON.parse(p.hints || "[]").length}</td><td>${p.scale ? "⏱" : ""}</td>
+    <td><button class="btn small" type="button" data-view="${esc(p.id)}">보기</button>
+    ${p.bank === "pyclub" ? `<button class="btn small danger" type="button" data-delp="${esc(p.id)}">지우기</button>` : ""}</td></tr>`).join("") ||
+    `<tr><td colspan="7" class="small">문제가 없습니다.</td></tr>`;
+  $("pbBody").querySelectorAll("[data-view]").forEach((b) => b.onclick = () => viewProblem(T.problems.find((p) => p.id === b.dataset.view)));
+  $("pbBody").querySelectorAll("[data-delp]").forEach((b) => b.onclick = async () => {
+    if (!confirm(b.dataset.delp + " 문제를 지울까요? (학생 기록은 남지만 문제는 사라집니다)")) return;
+    try { await api("/api/teacher/problems/" + b.dataset.delp, { method: "DELETE" }); loadProblems(); } catch (e) { alert(e.message); }
+  });
+}
+
+function viewProblem(p) {
+  const J = (s, d) => { try { return s ? JSON.parse(s) : d; } catch { return d; } };
+  const code = J(p.code, null), sc = J(p.scale, null), ex = J(p.examples, []), hints = J(p.hints, []), choices = J(p.choices, []);
+  const paper = p.type === "choice" || p.type === "short";
+  $("viewBody").innerHTML = `<h3 style="margin:0 0 6px">${esc(p.id)} · ${esc(p.title)}</h3>
+    <p class="small">${esc(PC.topicName(p.topic))} · ${p.level}단계 · ${esc(p.type)} ${p.time_limit ? "· 테스트당 " + p.time_limit + "초" : ""} · 테스트 ${J(p.tests, []).length}개</p>
+    <div style="white-space:pre-wrap">${esc(p.body)}</div>
+    ${p.input_desc ? `<p><b>입력</b><br><span style="white-space:pre-wrap">${esc(p.input_desc)}</span></p>` : ""}
+    ${p.output_desc ? `<p><b>출력</b><br><span style="white-space:pre-wrap">${esc(p.output_desc)}</span></p>` : ""}
+    ${code ? `<b>${code.lang === "c" ? "C 코드" : "파이썬 코드"}</b><pre class="code">${esc(code.text)}</pre>` : ""}
+    ${choices.length ? `<ol>${choices.map((c) => `<li>${esc(c)}</li>`).join("")}</ol>` : ""}
+    ${ex.length ? `<b>예시</b>` + ex.map((e) => `<pre class="code">${esc(e.call || e.input || "")}\n→ ${esc(e.output)}</pre>`).join("") : ""}
+    ${sc ? `<p><b>⏱ 실제 크기</b> ${esc(sc.here)} → ${esc(sc.full)}<br>${(sc.estimates || []).map((e) => `${esc(e.label)}: ${e.sec == null ? "안 잼" : (e.how === "estimated" ? "약 " : "") + PC.fmtSec(e.sec)}`).join(" · ")}</p>` : ""}
+    <b>${paper ? "정답" : "정답 코드"}</b><pre class="code">${esc(p.ref_code)}</pre>
+    ${hints.map((h, i) => `<p><b>💡 힌트 ${i + 1}</b> ${esc(h)}</p>`).join("")}`;
+  $("viewDlg").showModal();
+}
+
+/* 파일 가져오기: 끌어다 놓기·고르기 → 바로 넣기 (50문제씩) */
+const drop = $("drop");
+drop.onclick = () => $("fileIn").click();
+drop.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("fileIn").click(); } };
+drop.ondragover = (e) => { e.preventDefault(); drop.classList.add("over"); };
+drop.ondragleave = () => drop.classList.remove("over");
+drop.ondrop = (e) => { e.preventDefault(); drop.classList.remove("over"); importFiles([...e.dataTransfer.files]); };
+$("fileIn").onchange = () => { importFiles([...$("fileIn").files]); $("fileIn").value = ""; };
+
+function log(line) { const l = $("importLog"); l.classList.remove("hidden"); l.textContent += line + "\n"; l.scrollTop = l.scrollHeight; }
+
+async function importFiles(files) {
+  if (!files.length) return;
+  $("importLog").textContent = "";
+  let added = 0, updated = 0, failed = 0;
+  for (const f of files) {
+    let list;
+    try {
+      const data = JSON.parse(await f.text());
+      list = Array.isArray(data) ? data : data.problems;
+      if (!Array.isArray(list) || !list.length) throw new Error("problems 배열이 없습니다");
+    } catch (e) { log(`✗ ${f.name}: 읽지 못함 — ${e.message}`); failed++; continue; }
+    log(`■ ${f.name}: ${list.length}문제`);
+    // 해시가 없는 문제는 정답 코드를 돌려 만든다
+    const need = list.filter((p) => !(p.tests || []).length || (p.tests || []).some((t) => !t.hash));
+    if (need.length) {
+      log(`  해시가 없는 ${need.length}문제: 정답 코드를 실행해 만드는 중… (파이썬 실행기 준비에 몇 초)`);
+      for (let i = 0; i < list.length; i++) {
+        const p = list[i];
+        if (!need.includes(p)) continue;
+        try { list[i] = await PC.buildFromReference(getRunner(), p); }
+        catch (e) { log(`  ✗ ${e.message}`); list[i] = null; failed++; }
+      }
+      list = list.filter(Boolean);
+    }
+    for (let i = 0; i < list.length; i += 50) {
+      const part = list.slice(i, i + 50);
+      try {
+        const d = await api("/api/teacher/problems", { method: "PUT", body: { problems: part } });
+        added += d.added; updated += d.updated;
+        log(`  ✓ ${i + 1}~${i + part.length}: 새로 ${d.added} · 덮어씀 ${d.updated}`);
+      } catch (e) { failed += part.length; log(`  ✗ ${i + 1}~${i + part.length}: ${e.message} (이 묶음은 하나도 들어가지 않았습니다)`); }
+    }
+  }
+  log(`완료 — 새로 ${added} · 덮어씀 ${updated}${failed ? ` · 실패 ${failed}` : ""}`);
+  loadProblems();
+}
+
+/* ---------- 연습 현황 ---------- */
+$("prLoad").onclick = loadPractice;
+async function loadPractice() {
+  $("prTable").innerHTML = `<p class="small" style="padding:8px">불러오는 중…</p>`;
+  try {
+    const g = $("prGroup").value;
+    const [d, bankA, bankB] = await Promise.all([
+      api("/api/teacher/practice" + (g ? "?groupId=" + g : "")),
+      T.metaA || api("/api/teacher/problems?bank=pyclub"), T.metaB || api("/api/teacher/problems?bank=pycoding"),
+    ]);
+    T.metaA = bankA; T.metaB = bankB;
+    T.meta = {};
+    for (const p of bankA.problems.concat(bankB.problems)) T.meta[p.id] = { topic: p.topic, level: p.level, title: p.title, bank: p.bank };
+    T.practice = d;
+  } catch (e) { $("prTable").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; return; }
+  renderPractice();
+}
+$("prPeriod").onchange = () => T.practice && renderPractice();
+
+function practiceRows() {
+  const days = Number($("prPeriod").value);
+  const since = days ? Date.now() - days * 86400000 : 0;
+  const topics = PC.BANKS.pyclub.topics;
+  return T.practice.members.map((m) => {
+    const mine = T.practice.progress.filter((x) => x.student_id === m.id);
+    const solved = mine.filter((x) => x.solved_at && x.solved_at >= since);
+    const by = {};
+    for (const x of solved) { const t = (T.meta[x.problem_id] || {}).topic || "?"; by[t] = (by[t] || 0) + 1; }
+    const pyc = solved.filter((x) => (T.meta[x.problem_id] || {}).bank === "pycoding").length;
+    const last = Math.max(0, ...mine.map((x) => x.last_at));
+    return { m, total: solved.length, by, pyc, tried: mine.filter((x) => !x.solved_at).length, last, mine, topics };
+  }).sort((a, b) => b.total - a.total || a.m.student_no.localeCompare(b.m.student_no));
+}
+
+function renderPractice() {
+  const rows = practiceRows();
+  const topics = PC.BANKS.pyclub.topics;
+  const max = Math.max(1, ...rows.map((r) => r.total));
+  $("prTable").innerHTML = `<table><thead><tr><th>#</th><th>학번</th><th>이름</th><th>모둠</th><th class="num">푼 문제</th><th></th>
+    ${topics.map((t) => `<th class="num">${t.name}</th>`).join("")}<th class="num">pycoding</th><th class="num">시도 중</th><th>마지막</th></tr></thead><tbody>` +
+    rows.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(r.m.student_no)}</td><td><button class="btn small" type="button" data-sid="${r.m.id}">${esc(r.m.name)}</button></td><td>${esc(r.m.group_name || "")}</td>
+      <td class="num"><b>${r.total}</b></td><td><div class="bar"><i style="width:${(100 * r.total / max).toFixed(0)}%"></i></div></td>
+      ${topics.map((t) => `<td class="num">${r.by[t.key] || 0}</td>`).join("")}<td class="num">${r.pyc}</td><td class="num">${r.tried}</td><td class="small">${fmtTime(r.last)}</td></tr>`).join("") +
+    `</tbody></table>`;
+  $("prTable").querySelectorAll("[data-sid]").forEach((b) => b.onclick = () => studentDetail(rows.find((r) => r.m.id === Number(b.dataset.sid))));
+}
+
+function studentDetail(r) {
+  const list = r.mine.slice().sort((a, b) => b.last_at - a.last_at);
+  $("viewBody").innerHTML = `<h3 style="margin:0 0 6px">${esc(r.m.student_no)} ${esc(r.m.name)} — 푼 문제 ${r.mine.filter((x) => x.solved_at).length}개</h3>
+    <div class="tablewrap"><table><thead><tr><th>문제</th><th>제목</th><th class="num">시도</th><th>결과</th><th>마지막</th><th></th></tr></thead><tbody>` +
+    list.map((x) => { const mt = T.meta[x.problem_id] || {}; return `<tr><td style="font-family:var(--mono)">${esc(x.problem_id)}</td><td>${esc(mt.title || "")}</td>
+      <td class="num">${x.attempts}</td><td>${x.solved_at ? '<span class="pill ok">통과</span>' : `${x.best}/${x.total}`}</td><td class="small">${fmtTime(x.last_at)}</td>
+      <td><button class="btn small" type="button" data-code="${esc(x.problem_id)}">제출 보기</button></td></tr>`; }).join("") +
+    `</tbody></table></div><div id="codeArea"></div>`;
+  $("viewBody").querySelectorAll("[data-code]").forEach((b) => b.onclick = async () => {
+    const d = await api(`/api/teacher/submissions?studentId=${r.m.id}&problemId=${encodeURIComponent(b.dataset.code)}`);
+    $("codeArea").innerHTML = `<h4>${esc(b.dataset.code)} 제출 (최근 3개 + 처음 통과)</h4>` + d.submissions.map((s) =>
+      `<p class="small">${fmtTime(s.created_at)} · ${s.client_passed}/${s.client_total}${s.ms ? " · " + s.ms + "ms" : ""}</p><pre class="code">${esc(s.code)}</pre>`).join("");
+  });
+  $("viewDlg").showModal();
+}
+
+$("prCsv").onclick = () => {
+  if (!T.practice) return alert("먼저 «불러오기» 를 누르세요.");
+  const topics = PC.BANKS.pyclub.topics;
+  const head = ["학번", "이름", "반", "모둠", "푼 문제", ...topics.map((t) => t.name), "pycoding", "시도 중", "마지막"];
+  const lines = [head].concat(practiceRows().map((r) => [r.m.student_no, r.m.name, r.m.class_name || "", r.m.group_name || "", r.total,
+    ...topics.map((t) => r.by[t.key] || 0), r.pyc, r.tried, r.last ? new Date(r.last).toLocaleString("ko-KR") : ""]));
+  const csv = "﻿" + lines.map((l) => l.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+  a.download = "동아리_연습현황.csv"; a.click();
+};
+
+/* ---------- 시작 ---------- */
+(async () => {
+  if (!API) { $("loginMsg").innerHTML = `<div class="msg warn">config.js 의 API_BASE(채점 서버 주소)가 비어 있습니다.</div>`; return; }
+  const t = sessionStorage.getItem("pcl:teacher");
+  if (t) { T.token = t; try { await api("/api/teacher/status"); start(); } catch { T.token = null; sessionStorage.removeItem("pcl:teacher"); } }
+})();
+</script>
+</body>
+</html>
