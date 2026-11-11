@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="robots" content="noindex, nofollow">
+<title>가계부 안내</title>
+<meta name="description" content="혼자 쓰는 가계부 — 설치 · 백업 · 업그레이드 안내">
+<meta name="theme-color" content="#f3f5f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1412" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<style>
+:root { --bg: #f3f5f4; --card: #fff; --text: #18211d; --muted: #5d6964; --line: #e0e5e2; --soft: #edf1ef; --brand: #16775c; --brand-ink: #fff; --warn-bg: #fff4e2; --warn-ink: #6e4300; color-scheme: light dark; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0e1412; --card: #17201c; --text: #e4ebe7; --muted: #98a49f; --line: #28332e; --soft: #1f2a25; --brand: #3db38a; --brand-ink: #08170f; --warn-bg: #3a2a12; --warn-ink: #ffd9a3; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 system-ui, -apple-system, "Noto Sans KR", sans-serif; word-break: keep-all; overflow-wrap: anywhere; }
+main { max-width: 640px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top)) 16px 48px; }
+a { color: var(--brand); }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; border-radius: 6px; }
+header { display: flex; align-items: center; gap: 12px; margin: 8px 0 16px; }
+header img { width: 52px; height: 52px; border-radius: 14px; }
+h1 { font-size: 24px; margin: 0; }
+h2 { font-size: 18px; margin: 0 0 8px; }
+.card { background: var(--card); border-radius: 16px; padding: 16px; margin: 0 0 12px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 18px; border-radius: 12px; background: var(--brand); color: var(--brand-ink); text-decoration: none; font-weight: 700; }
+.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+ol, ul { padding-left: 22px; margin: 6px 0; }
+li { margin: 4px 0; }
+.ver { font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icons/icon-192.png" alt="">
+    <div><h1>가계부 안내</h1><p class="muted small" style="margin:0">혼자 쓰는 가계부 — 데이터는 내 휴대폰에만</p></div>
+  </header>
+  <p><a class="btn" href="./">가계부 열기</a></p>
+
+  <section class="card">
+    <h2>어떤 앱인가요</h2>
+    <ul>
+      <li>수입 · 지출 · 저축을 적고, 예산에서 얼마 남았는지 · 하루에 얼마 쓸 수 있는지 보여 줘요.</li>
+      <li>월세 · 통신비 같은 반복 항목, 신용카드 결제 예정액 · 할부, 목돈 마련 계산(예금 · 적금)이 들어 있어요.</li>
+      <li>가계부를 여러 개 만들 수 있어요 (내 가계부 · 생활비 · 모임 회비 등 — 서로 따로).</li>
+      <li><b>입력한 내역은 인터넷으로 나가지 않아요.</b> 서버가 없고, 이 휴대폰 크롬 안에만 저장돼요.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>휴대폰에 설치하기 (안드로이드 크롬)</h2>
+    <ol>
+      <li>크롬으로 이 주소의 가계부를 엽니다.</li>
+      <li>오른쪽 위 ⋮ 메뉴 → <b>홈 화면에 추가</b> 또는 <b>앱 설치</b>.</li>
+      <li>홈 화면에 생긴 «가계부» 아이콘으로 엽니다. 인터넷이 없어도 열려요.</li>
+      <li>아이콘을 길게 누르면 «지출 입력» 바로가기가 있어요.</li>
+    </ol>
+    <p class="small muted">처음 할 일: 설정에서 한 달 시작일(월급날)을 정하고, 쓰는 카드를 등록하세요.</p>
+  </section>
+
+  <section class="card warn">
+    <h2>⚠ 데이터가 사라지는 경우</h2>
+    <ul>
+      <li>크롬 «인터넷 사용 기록 삭제» 에서 <b>쿠키 및 사이트 데이터</b>를 지웠을 때</li>
+      <li>휴대폰 설정에서 크롬의 저장 공간 · 데이터를 지웠거나 크롬을 다시 설치했을 때</li>
+      <li>휴대폰을 바꿨을 때</li>
+      <li>가계부 주소가 바뀌었을 때 (주소가 다르면 서로 다른 앱으로 취급돼요 — 백업 파일로 옮기세요)</li>
+    </ul>
+    <p class="small">그래서 <b>백업 파일을 휴대폰 밖에도</b> 한 부 두세요.</p>
+  </section>
+
+  <section class="card">
+    <h2>백업 · 옮기기</h2>
+    <ul>
+      <li>⚙ 설정 → <b>백업 · 가져오기</b> → [💾 백업 파일 저장] — «다운로드» 폴더에 저장돼요.</li>
+      <li>[📤 공유로 백업] — 구글 드라이브 · 카카오톡 «나와의 채팅» · 메일로 바로 보내요.</li>
+      <li>새 휴대폰(또는 새 주소)에서는 [📥 백업 파일 가져오기] 로 그대로 이어서 써요. 백업 파일 하나에 모든 가계부가 들어 있어요.</li>
+      <li>마지막 백업 뒤 정한 날이 지나면 홈 아래에 알려 줘요 (기본 7일).</li>
+      <li>엑셀로 보고 싶으면 [📊 CSV 내보내기].</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>잠금</h2>
+    <p>⚙ 설정 → <b>잠금</b> 에서 PIN 또는 지문 + PIN 을 고를 수 있어요. PIN 을 정할 때 보여 주는 12자리 <b>복구 코드</b>를 꼭 적어 두세요. 잠금은 화면을 가리는 것이지 데이터를 암호화하는 것은 아니에요.</p>
+  </section>
+
+  <section class="card">
+    <h2>업그레이드 — 내가 누를 때만 바뀌어요</h2>
+    <ol>
+      <li>새 판이 있으면 ⚙ 설정 아이콘에 빨간 점이 찍혀요 (하루 한 번 확인만 해요).</li>
+      <li>⚙ 설정 맨 아래 <b>⬆ 업그레이드</b> → [🔎 새 판이 있는지 확인] → [⬆ 지금 받기].</li>
+      <li>받기 전에 휴대폰 안에 자동 백업해요. 다 받으면 [🔄 새 판으로 다시 시작].</li>
+      <li>새 판이 이상하면 [↩ 이전 판으로 되돌리기]. 기록은 그대로예요.</li>
+    </ol>
+    <div id="latest" class="small muted" aria-live="polite">최신 판 정보를 읽는 중…</div>
+  </section>
+  <p class="small muted">이 페이지는 검색에 나오지 않아요.</p>
+</main>
+<script>
+'use strict';
+// 최신 판과 바뀐 내용은 update/latest.json 을 읽어 스스로 채운다 — 판을 올려도 이 페이지는 고칠 일이 없다
+(async () => {
+  const box = document.getElementById('latest');
+  try {
+    const r = await fetch('update/latest.json?lg-dl=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.status);
+    const j = await r.json();
+    box.textContent = '';
+    const p = document.createElement('p');
+    p.className = 'ver';
+    p.innerHTML = '<b></b>';
+    p.firstChild.textContent = `최신 판 ${j.version} (${j.date})`;
+    box.append(p);
+    if (Array.isArray(j.notes) && j.notes.length) {
+      const ul = document.createElement('ul');
+      for (const n of j.notes) { const li = document.createElement('li'); li.textContent = n; ul.append(li); }
+      box.append(ul);
+    }
+  } catch (e) {
+    box.textContent = '지금은 최신 판 정보를 읽을 수 없어요 (인터넷 연결을 확인하세요).';
+  }
+})();
+</script>
+</body>
+</html>
