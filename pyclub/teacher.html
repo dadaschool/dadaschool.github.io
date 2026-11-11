@@ -64,6 +64,16 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 .small{font-size:12.5px;color:var(--muted)}
 .bar{height:7px;background:#eef0f4;border-radius:99px;overflow:hidden;min-width:60px}
 .bar>i{display:block;height:100%;background:var(--ok)}
+.cell{display:inline-block;min-width:54px;padding:2px 6px;border-radius:6px;font-family:var(--mono);font-size:12.5px;cursor:pointer;border:2px solid transparent}
+.cell.full{background:var(--ok-soft);color:var(--ok)}.cell.part{background:var(--warn-soft);color:var(--warn)}.cell.zero{background:var(--bad-soft);color:var(--bad)}.cell.none{color:var(--muted);cursor:default}
+.cell.mismatch{border-color:var(--bad)}
+.picker{border:1px solid var(--line);border-radius:8px;max-height:46vh;overflow:auto;padding:6px 10px}
+.picker .grp{display:block;font-weight:700;margin:8px 0 2px;background:#f6f7f9;padding:3px 6px;border-radius:6px}
+.picker .item{display:block;padding:2px 0 2px 18px}
+.btn.exam{background:#7a3cd6;border-color:#7a3cd6;color:#fff}
+.pill.live{background:#f1e9ff;color:#7a3cd6}.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.progress{height:6px;background:#eef0f4;border-radius:99px;overflow:hidden;margin-top:8px}.progress>div{height:100%;width:0;background:#7a3cd6}
+#editDlg textarea{border:1px solid var(--line);border-radius:7px;padding:6px 8px;background:#fff}
 .log{font-family:var(--mono);font-size:12.5px;background:#f6f7f9;border-radius:8px;padding:8px 10px;max-height:240px;overflow:auto;white-space:pre-wrap}
 @media (max-width:900px){.grid2{grid-template-columns:1fr}}
 </style>
@@ -90,6 +100,9 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
   <div id="verWarn"></div>
   <nav class="tabs" role="tablist" id="tabs">
     <button role="tab" data-tab="members" aria-selected="true">👥 동아리 명단</button>
+    <button role="tab" data-tab="results" aria-selected="false">📝 평가 결과</button>
+    <button role="tab" data-tab="exams" aria-selected="false">🛠 평가 만들기</button>
+    <button role="tab" data-tab="deploy" aria-selected="false">🚀 배포</button>
     <button role="tab" data-tab="practice" aria-selected="false">📊 연습 현황</button>
     <button role="tab" data-tab="problems" aria-selected="false">📚 문제 은행</button>
     <button role="tab" data-tab="status" aria-selected="false">⚙️ 서버 상태</button>
@@ -132,6 +145,84 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
       </div>
     </div>
 
+
+    <!-- 평가 결과 -->
+    <div data-panel="results" hidden>
+      <section class="panel">
+        <div class="row">
+          <select id="resExamPick" aria-label="평가"></select>
+          <select id="resDep" aria-label="모둠"></select>
+          <button class="btn" id="resReload" type="button">새로고침</button>
+          <label class="small"><input type="checkbox" id="resAuto" checked> 20초마다 자동 새로고침</label>
+          <span style="flex:1"></span>
+          <button class="btn exam" id="resVerify" type="button" title="제출된 코드를 이 컴퓨터에서 다시 채점합니다">🔁 재확인 (다시 채점)</button>
+          <button class="btn" id="resCsv" type="button">CSV 내려받기</button>
+        </div>
+        <div id="resInfo" class="small"></div>
+        <div class="progress hidden" id="resProg"><div></div></div>
+        <div class="tablewrap" id="resTable" style="margin-top:10px"></div>
+        <p class="small">칸 = 마지막 제출의 «통과/전체» (괄호 = 제출 횟수). 칸을 누르면 제출을 봅니다. 1교시 문제는 서버가 채점한 값이라 재확인할 필요가 없습니다.
+          <strong>재확인</strong> 은 코드 문제 제출을 이 컴퓨터에서 다시 채점해, 학생 화면이 보고한 값과 다르면 빨간 테두리로 표시합니다. «창 이동» 은 참고용입니다.</p>
+      </section>
+    </div>
+
+    <!-- 평가 만들기 -->
+    <div data-panel="exams" hidden>
+      <section class="panel">
+        <h2 id="exFormTitle">새 평가 만들기</h2>
+        <p class="small">문제·배점·시간만 정합니다. 모둠은 «배포» 탭에서 고릅니다. 평가를 고치면 배포된 모든 모둠에 바로 반영됩니다.
+          동아리 문제와 pycoding 문제(«동아리에 숨기기» 를 켠 문제 제외)를 모두 고를 수 있고, 연습 문제와 겹쳐도 됩니다.</p>
+        <div class="row">
+          <input type="text" id="exTitle" placeholder="평가 이름 (예: 11월 모의 1차)" aria-label="평가 이름" style="flex:1;min-width:220px">
+          <label class="small">시간(분) <input type="number" id="exDur" min="1" max="300" value="60" style="width:70px"></label>
+          <label class="small">문제당 제출 <input type="number" id="exAtt" min="1" max="50" value="5" style="width:60px"></label>
+        </div>
+        <div class="row">
+          <label class="small"><input type="checkbox" id="exPaste" checked> 코드 붙여넣기 막기</label>
+          <label class="small"><input type="checkbox" id="exHints"> 평가 중 힌트 허용 (감점 없음, 결과표에 기록)</label>
+          <label class="small"><input type="checkbox" id="exPartial"> 부분 점수 (통과한 테스트 비율만큼)</label>
+        </div>
+        <div class="row">
+          <select id="exBank" aria-label="묶음"><option value="pyclub">🧩 동아리</option><option value="pycoding">🐍 pycoding</option></select>
+          <select id="exTopic" aria-label="주제"></select>
+          <select id="exLevel" aria-label="단계"></select>
+          <input type="search" id="exSearch" placeholder="번호·제목 찾기" aria-label="번호·제목 찾기">
+          <button class="btn small" id="exRandom" type="button">🎲 이 범위에서 무작위로</button>
+          <input type="number" id="exRandomN" min="1" max="30" value="3" style="width:56px" aria-label="무작위 개수">
+          <button class="btn small" id="exAll" type="button">보이는 문제 모두 선택</button>
+          <button class="btn small" id="exNone" type="button">모두 해제</button>
+          <span class="small" id="exCount"></span>
+        </div>
+        <div class="picker" id="exPicker"></div>
+        <div id="exScore" style="margin-top:12px"></div>
+        <div class="row"><button class="btn primary" id="exSave" type="button">저장</button><button class="btn hidden" id="exCancel" type="button">수정 취소</button></div>
+        <div id="exMsg"></div>
+      </section>
+      <section class="panel">
+        <h2>평가 목록</h2>
+        <div class="tablewrap" id="examList"></div>
+      </section>
+    </div>
+
+    <!-- 배포 -->
+    <div data-panel="deploy" hidden>
+      <section class="panel">
+        <h2>모둠에 배포하기</h2>
+        <div class="row"><select id="dpExam" aria-label="평가"></select></div>
+        <div class="row" id="dpGroups"></div>
+        <div class="row"><button class="btn primary" id="dpCreate" type="button">고른 모둠에 배포</button></div>
+        <div id="dpMsg"></div>
+      </section>
+      <section class="panel">
+        <div class="row"><h2 style="margin:0">배포 현황</h2><select id="dpFilter" aria-label="평가"></select><button class="btn small" id="dpReload" type="button">새로고침</button></div>
+        <div class="tablewrap" id="dpList"></div>
+        <div id="dpResult"></div>
+        <p class="small">평가 전 연습 문제가 있는 평가는 <strong>① 연습 시작 → ② 연습 시간 종료 → ③ 평가 시작</strong>, 없으면 «평가 시작» 한 번이면 됩니다.
+          «동아리 전체» 배포는 모든 동아리 학생에게, 모둠 배포는 그 모둠 학생에게만 보입니다. 한 학생에게 동시에 두 평가가 열리지 않게 겹치는 배포는 시작되지 않습니다.
+          평가 중에는 그 학생들의 일반 연습 화면이 잠깁니다.</p>
+      </section>
+    </div>
+
     <!-- 연습 현황 -->
     <div data-panel="practice" hidden>
       <section class="panel">
@@ -168,6 +259,8 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
           <select id="pbLevel" aria-label="단계"><option value="">모든 단계</option></select>
           <input type="search" id="pbSearch" placeholder="번호·제목 찾기" aria-label="번호·제목 찾기">
           <span class="small" id="pbCount"></span>
+          <span style="flex:1"></span>
+          <button class="btn primary small" id="pbNew" type="button">＋ 새 문제</button>
         </div>
         <div id="pbNote"></div>
         <div class="tablewrap"><table><thead><tr><th>번호</th><th>제목</th><th>형식</th><th>단계</th><th>힌트</th><th>⏱</th><th></th></tr></thead><tbody id="pbBody"></tbody></table></div>
@@ -181,11 +274,56 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
   </main>
 </div>
 
+<dialog id="editDlg" style="max-width:980px">
+  <h3 id="edTitleH" style="margin:0 0 6px">문제 편집</h3>
+  <p class="small" style="margin:0 0 8px">⚠ 문제 원본은 저장소(<code>pyclub/server/tools/problems/</code>)에 있습니다. 여기서 고친 내용은 서버에만 저장되고, 나중에 깃허브 자동 가져오기로 같은 번호가 다시 들어오면 원본 내용으로 덮어씁니다. 오래 남길 수정은 저장 뒤 «JSON 내려받기» 를 눌러 저장소에도 반영하세요.</p>
+  <div class="grid2">
+    <div>
+      <div class="row">
+        <label class="small">번호 <input type="text" id="edId" style="width:110px;font-family:var(--mono)"></label>
+        <label class="small">주제 <select id="edTopic"></select></label>
+        <label class="small">단계 <select id="edLevel"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <label class="small">형식 <select id="edType"><option value="io">입출력</option><option value="func">함수</option><option value="choice">객관식</option><option value="short">단답</option></select></label>
+      </div>
+      <label class="small" style="display:block">제목<input type="text" id="edTitle" style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:7px"></label>
+      <label class="small" style="display:block;margin-top:6px">문제 설명<textarea id="edBody" rows="7" style="width:100%"></textarea></label>
+      <div class="edCode">
+        <label class="small" style="display:block">입력 설명 (함수형은 호출 설명)<textarea id="edInp" rows="2" style="width:100%"></textarea></label>
+        <label class="small" style="display:block">출력 설명 (함수형은 돌려줄 값)<textarea id="edOut" rows="2" style="width:100%"></textarea></label>
+      </div>
+      <label class="small" style="display:block">힌트 1 (생각하는 방법)<textarea id="edH1" rows="2" style="width:100%"></textarea></label>
+      <label class="small" style="display:block">힌트 2 (쓸 알고리즘·코드 조각)<textarea id="edH2" rows="2" style="width:100%"></textarea></label>
+    </div>
+    <div>
+      <div class="edCode">
+        <div class="row"><label class="small">테스트당 시간(초) <input type="number" id="edTime" min="0.5" max="20" step="0.5" style="width:70px"></label>
+          <label class="small edFunc">함수 이름 <input type="text" id="edFn" style="width:100px;font-family:var(--mono)"></label></div>
+        <label class="small" style="display:block">정답 코드<textarea id="edRef" rows="8" style="width:100%;font-family:var(--mono);font-size:12.5px" spellcheck="false"></textarea></label>
+        <label class="small" style="display:block">예시 입력 — <span class="edSep"></span><textarea id="edEx" rows="3" style="width:100%;font-family:var(--mono);font-size:12.5px" spellcheck="false"></textarea></label>
+        <label class="small" style="display:block">채점 테스트 입력 — <span class="edSep"></span><textarea id="edTests" rows="6" style="width:100%;font-family:var(--mono);font-size:12.5px" spellcheck="false"></textarea></label>
+        <div class="small" id="edBigNote"></div>
+      </div>
+      <div class="edPaper">
+        <div class="row"><label class="small">보여 줄 코드 <select id="edLang"><option value="">없음</option><option value="python">파이썬</option><option value="c">C</option></select></label></div>
+        <textarea id="edCodeText" rows="8" style="width:100%;font-family:var(--mono);font-size:12.5px" spellcheck="false"></textarea>
+        <label class="small edChoice" style="display:block">보기 (한 줄에 하나, 5개)<textarea id="edChoices" rows="5" style="width:100%"></textarea></label>
+        <label class="small" style="display:block">정답 <span class="edChoice">(보기 번호 1~5)</span><input type="text" id="edAnswer" style="width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:7px;font-family:var(--mono)"></label>
+      </div>
+    </div>
+  </div>
+  <div id="edMsg"></div>
+  <div class="actions">
+    <button class="btn" type="button" id="edJson">JSON 내려받기</button>
+    <span style="flex:1"></span>
+    <button class="btn" type="button" id="edCancel">닫기</button>
+    <button class="btn primary" type="button" id="edSave">정답 다시 만들고 저장</button>
+  </div>
+</dialog>
 <dialog id="viewDlg"><div id="viewBody"></div><div class="actions"><button class="btn primary" type="button" onclick="this.closest('dialog').close()">닫기</button></div></dialog>
 
 <script>
 "use strict";
-const NEED_SERVER = 2026111001;   // server/src/index.js 의 VERSION 과 같이 올린다
+const NEED_SERVER = 2026111201;   // server/src/index.js 의 VERSION 과 같이 올린다
 const CFG = window.PYCLUB_CONFIG || {};
 const API = (CFG.API_BASE || "").replace(/\/+$/, "");
 const PC = window.PyClub;
@@ -196,11 +334,17 @@ let runner = null;
 const getRunner = () => (runner = runner || new PC.Runner());
 
 async function api(path, opt = {}) {
-  const res = await fetch(API + path, {
+  let res;
+  try {
+    res = await fetch(API + path, {
     method: opt.method || "GET",
     headers: Object.assign({ "Content-Type": "application/json" }, T.token ? { Authorization: "Bearer " + T.token } : {}),
     body: opt.body ? JSON.stringify(opt.body) : undefined,
-  });
+    });
+  } catch (e) {
+    // 서버가 없거나(아직 설치 전) 주소가 다르거나, 서버가 이 주소(ALLOWED_ORIGINS)를 막으면 브라우저는 «Failed to fetch» 만 알려 준다
+    throw new Error("채점 서버에 연결하지 못했습니다. 선생님께 알려 주세요 — 서버(pyclub-api)가 아직 설치되지 않았거나, 주소(config.js)·허용 주소(ALLOWED_ORIGINS)가 맞지 않을 수 있습니다. (" + API + ")");
+  }
   let d = {};
   try { d = await res.json(); } catch {}
   if (res.status === 401 && T.token) { sessionStorage.removeItem("pcl:teacher"); location.reload(); }
@@ -231,6 +375,7 @@ document.querySelectorAll("#tabs button").forEach((b) => b.onclick = () => {
   document.querySelectorAll("[data-panel]").forEach((p) => p.hidden = p.dataset.panel !== b.dataset.tab);
   if (b.dataset.tab === "problems" && !T.problemsLoaded) loadProblems();
   if (b.dataset.tab === "status") loadStatus();
+  if (["results", "exams", "deploy"].includes(b.dataset.tab)) openExamTab(b.dataset.tab);
 });
 
 /* ---------- 서버 상태 ---------- */
@@ -351,11 +496,18 @@ function renderProblems() {
   $("pbCount").textContent = `${list.length}문제`;
   const kind = { io: "입출력", func: "함수", choice: "객관식", short: "단답" };
   $("pbBody").innerHTML = list.map((p) => `<tr><td style="font-family:var(--mono)">${esc(p.id)}</td><td>${esc(p.title)} ${p.club_hidden ? '<span class="pill">동아리에 숨김</span>' : ""}</td>
-    <td>${kind[p.type] || p.type}</td><td>${p.level}</td><td>${JSON.parse(p.hints || "[]").length}</td><td>${p.scale ? "⏱" : ""}</td>
+    <td>${kind[p.type] || p.type}</td><td>${p.level}</td><td>${p.has_hints ? "✓" : ""}</td><td>${p.has_scale ? "⏱" : ""}</td>
     <td><button class="btn small" type="button" data-view="${esc(p.id)}">보기</button>
-    ${p.bank === "pyclub" ? `<button class="btn small danger" type="button" data-delp="${esc(p.id)}">지우기</button>` : ""}</td></tr>`).join("") ||
+    ${p.bank === "pyclub" ? `<button class="btn small" type="button" data-editp="${esc(p.id)}">편집</button> <button class="btn small danger" type="button" data-delp="${esc(p.id)}">지우기</button>` : ""}</td></tr>`).join("") ||
     `<tr><td colspan="7" class="small">문제가 없습니다.</td></tr>`;
-  $("pbBody").querySelectorAll("[data-view]").forEach((b) => b.onclick = () => viewProblem(T.problems.find((p) => p.id === b.dataset.view)));
+  $("pbBody").querySelectorAll("[data-view]").forEach((b) => b.onclick = async () => {
+    try { viewProblem((await api("/api/teacher/problems/" + encodeURIComponent(b.dataset.view))).problem); }
+    catch (e) { alert(e.message); }
+  });
+  $("pbBody").querySelectorAll("[data-editp]").forEach((b) => b.onclick = async () => {
+    try { openEditor((await api("/api/teacher/problems/" + encodeURIComponent(b.dataset.editp))).problem); }
+    catch (e) { alert(e.message); }
+  });
   $("pbBody").querySelectorAll("[data-delp]").forEach((b) => b.onclick = async () => {
     if (!confirm(b.dataset.delp + " 문제를 지울까요? (학생 기록은 남지만 문제는 사라집니다)")) return;
     try { await api("/api/teacher/problems/" + b.dataset.delp, { method: "DELETE" }); loadProblems(); } catch (e) { alert(e.message); }
@@ -389,6 +541,19 @@ drop.ondragleave = () => drop.classList.remove("over");
 drop.ondrop = (e) => { e.preventDefault(); drop.classList.remove("over"); importFiles([...e.dataTransfer.files]); };
 $("fileIn").onchange = () => { importFiles([...$("fileIn").files]); $("fileIn").value = ""; };
 
+// 무료 Worker 는 요청 하나에 CPU 10ms — 큰 JSON 을 한 번에 보내면 끊긴다. 약 300KB 씩(최대 50문제) 나눈다
+function chunksBySize(list, maxBytes = 300000, maxCount = 50) {
+  const out = [];
+  let cur = [], size = 0, start = 0;
+  list.forEach((p, i) => {
+    const n = JSON.stringify(p).length;
+    if (cur.length && (size + n > maxBytes || cur.length >= maxCount)) { out.push([start, cur]); cur = []; size = 0; start = i; }
+    cur.push(p); size += n;
+  });
+  if (cur.length) out.push([start, cur]);
+  return out;
+}
+
 function log(line) { const l = $("importLog"); l.classList.remove("hidden"); l.textContent += line + "\n"; l.scrollTop = l.scrollHeight; }
 
 async function importFiles(files) {
@@ -415,8 +580,7 @@ async function importFiles(files) {
       }
       list = list.filter(Boolean);
     }
-    for (let i = 0; i < list.length; i += 50) {
-      const part = list.slice(i, i + 50);
+    for (const [i, part] of chunksBySize(list)) {
       try {
         const d = await api("/api/teacher/problems", { method: "PUT", body: { problems: part } });
         added += d.added; updated += d.updated;
@@ -427,6 +591,129 @@ async function importFiles(files) {
   log(`완료 — 새로 ${added} · 덮어씀 ${updated}${failed ? ` · 실패 ${failed}` : ""}`);
   loadProblems();
 }
+
+
+/* ---------- 문제 편집 · 새 문제 ----------
+   저장할 때 정답 코드로 예시 출력과 테스트 해시를 이 브라우저에서 다시 만든다 (runner.js buildFromReference).
+   테스트 입력이 아주 큰 문제는 글 상자로 고치기 어려우므로, 입력을 바꾸지 않으면 기존 테스트를 그대로 쓴다. */
+const ED_BIG = 150000;
+let edOrig = null;
+const SEP_IO = "\n---\n";
+function edSplit(type, text) {
+  if (type === "func") return text.split("\n").map((x) => x.trim()).filter(Boolean).map((call) => ({ call }));
+  // 입력은 그대로 둔다 (끝의 빈 줄도 입력의 일부일 수 있다). «---» 한 줄로만 나눈다
+  const t = text.replace(/\r/g, "");
+  return t.trim() === "" ? [] : t.split("\n---\n").map((input) => ({ input }));
+}
+function edJoin(type, list) {
+  return type === "func" ? list.map((t) => t.call).join("\n") : list.map((t) => t.input || "").join(SEP_IO);
+}
+function edTypeUI() {
+  const t = $("edType").value, paper = t === "choice" || t === "short";
+  document.querySelectorAll("#editDlg .edCode").forEach((el) => el.hidden = paper);
+  document.querySelectorAll("#editDlg .edPaper").forEach((el) => el.hidden = !paper);
+  document.querySelectorAll("#editDlg .edChoice").forEach((el) => el.hidden = t !== "choice");
+  document.querySelectorAll("#editDlg .edFunc").forEach((el) => el.hidden = t !== "func");
+  document.querySelectorAll("#editDlg .edSep").forEach((el) => el.textContent = t === "func" ? "한 줄에 함수 호출 하나 (예: rotate([1, 2, 3], 1))" : "입력끼리는 «---» 한 줄로 구분");
+}
+$("edType").onchange = edTypeUI;
+function openEditor(r) {
+  const J = (v, d) => { try { return v ? JSON.parse(v) : d; } catch { return d; } };
+  edOrig = r;
+  const isNew = !r;
+  r = r || { id: "", topic: $("pbTopic").value || "ds", level: Number($("pbLevel").value) || 1, type: "io", title: "", body: "", input_desc: "", output_desc: "",
+    ref_code: "", examples: "[]", tests: "[]", hints: "[]", time_limit: 2, code: "", choices: "[]", func_name: "" };
+  $("edTitleH").textContent = isNew ? "새 문제" : `문제 편집 — ${r.id}`;
+  $("edTopic").innerHTML = PC.BANKS.pyclub.topics.map((t) => `<option value="${t.key}">${t.name}</option>`).join("");
+  $("edId").value = r.id; $("edId").disabled = !isNew;
+  $("edTopic").value = r.topic; $("edLevel").value = String(r.level); $("edType").value = r.type;
+  $("edTitle").value = r.title; $("edBody").value = r.body; $("edInp").value = r.input_desc || ""; $("edOut").value = r.output_desc || "";
+  const hints = J(r.hints, []); $("edH1").value = hints[0] || ""; $("edH2").value = hints[1] || "";
+  $("edTime").value = r.time_limit || 2; $("edFn").value = r.func_name || "";
+  $("edRef").value = r.type === "choice" || r.type === "short" ? "" : (r.ref_code || "");
+  const ex = J(r.examples, []), tests = J(r.tests, []);
+  $("edEx").value = edJoin(r.type, ex);
+  const big = JSON.stringify(tests).length > ED_BIG;
+  $("edTests").value = big ? "" : edJoin(r.type, tests);
+  $("edTests").placeholder = big ? "(테스트 입력이 커서 여기 보이지 않습니다. 비워 두면 기존 테스트를 그대로 씁니다. 새로 넣으면 바뀝니다)" : "";
+  $("edBigNote").textContent = big ? `기존 테스트 ${tests.length}개 (합 ${Math.round(JSON.stringify(tests).length / 1000)}KB) — 비워 두면 그대로 둡니다.` : "";
+  $("edTests").dataset.big = big ? "1" : "";
+  const code = J(r.code, null);
+  $("edLang").value = code ? code.lang : ""; $("edCodeText").value = code ? code.text : "";
+  $("edChoices").value = J(r.choices, []).join("\n");
+  $("edAnswer").value = r.type === "choice" || r.type === "short" ? (r.ref_code || "") : "";
+  $("edMsg").innerHTML = "";
+  edTypeUI();
+  $("editDlg").showModal();
+}
+$("pbNew").onclick = () => openEditor(null);
+$("edCancel").onclick = () => $("editDlg").close();
+
+function edCollect() {
+  const type = $("edType").value, paper = type === "choice" || type === "short";
+  const id = $("edId").value.trim();
+  if (!/^[A-Za-z0-9_-]{1,40}$/.test(id)) throw new Error("번호는 영문·숫자·-·_ 로 (예: ds-2-31)");
+  if (!$("edTitle").value.trim() || !$("edBody").value.trim()) throw new Error("제목과 문제 설명을 넣으세요.");
+  const p = { id, bank: "pyclub", topic: $("edTopic").value, level: Number($("edLevel").value), type, title: $("edTitle").value.trim(), body: $("edBody").value,
+    hints: [$("edH1").value.trim(), $("edH2").value.trim()].filter(Boolean), sort: edOrig ? edOrig.sort : 999 };
+  if (edOrig && edOrig.scale) { try { p.scale = JSON.parse(edOrig.scale); } catch {} }
+  if (paper) {
+    p.answer = $("edAnswer").value.trim();
+    if (!p.answer) throw new Error("정답을 넣으세요.");
+    if ($("edLang").value && $("edCodeText").value.trim()) p.code = { lang: $("edLang").value, text: $("edCodeText").value };
+    if (type === "choice") {
+      p.choices = $("edChoices").value.split("\n").map((x) => x.trim()).filter(Boolean);
+      if (p.choices.length < 2) throw new Error("보기를 두 개 이상 넣으세요.");
+      if (!/^[1-9]$/.test(p.answer) || Number(p.answer) > p.choices.length) throw new Error("객관식 정답은 보기 번호입니다.");
+    }
+    p.tests = [];
+    return p;
+  }
+  p.inputDesc = $("edInp").value; p.outputDesc = $("edOut").value;
+  p.timeLimit = Number($("edTime").value) || 2;
+  p.refCode = $("edRef").value;
+  if (!p.refCode.trim()) throw new Error("정답 코드를 넣으세요.");
+  if (type === "func") {
+    p.funcName = $("edFn").value.trim() || ((/^def\s+(\w+)/m.exec(p.refCode) || [])[1] || "");
+    const head = new RegExp("^def\\s+" + p.funcName + "\\((.*?)\\):", "m").exec(p.refCode);
+    p.starter = edOrig && edOrig.starter ? edOrig.starter : `def ${p.funcName}(${head ? head[1] : ""}):\n    `;
+  } else if (edOrig && edOrig.starter) p.starter = edOrig.starter;
+  p.examples = edSplit(type, $("edEx").value);
+  const testsText = $("edTests").value;
+  if (!testsText.trim() && $("edTests").dataset.big && edOrig) {
+    const old = JSON.parse(edOrig.tests || "[]");
+    p.tests = old.map((t) => (type === "func" ? { call: t.call } : { input: t.input }));
+  } else p.tests = edSplit(type, testsText);
+  if (p.tests.length < 1) throw new Error("채점 테스트를 하나 이상 넣으세요.");
+  return p;
+}
+
+$("edSave").onclick = async () => {
+  let p;
+  try { p = edCollect(); } catch (e) { $("edMsg").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; return; }
+  const btn = $("edSave"); btn.disabled = true;
+  $("edMsg").innerHTML = `<div class="msg warn">정답 코드를 실행해 예시 출력과 테스트 정답을 만드는 중… (처음은 파이썬을 불러오느라 몇 초)</div>`;
+  try {
+    const built = await PC.buildFromReference(getRunner(), p);
+    const d = await api("/api/teacher/problems", { method: "PUT", body: { problems: [built] } });
+    T.full = {}; T.metaLoaded = false;
+    const exOut = (built.examples || []).map((e, i) => `예시 ${i + 1} 출력: ${String(e.output).slice(0, 80)}`).join(" · ");
+    $("edMsg").innerHTML = `<div class="msg ok">${d.added ? "새로 저장했습니다" : "고쳐 저장했습니다"} — 테스트 ${built.tests.length}개. ${esc(exOut)}</div>`;
+    edOrig = (await api("/api/teacher/problems/" + encodeURIComponent(p.id))).problem;
+    $("edId").disabled = true; $("edTitleH").textContent = `문제 편집 — ${p.id}`;
+    loadProblems();
+  } catch (e) { $("edMsg").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+  finally { btn.disabled = false; }
+};
+
+// 저장소 원본에 반영하기 쉽게: 지금 편집 중인 문제를 bank 형식 JSON 으로 내려받는다
+$("edJson").onclick = () => {
+  let p;
+  try { p = edCollect(); } catch (e) { return alert(e.message); }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify({ problems: [p] }, null, 1)], { type: "application/json" }));
+  a.download = `${p.id}.json`; a.click();
+};
 
 /* ---------- 연습 현황 ---------- */
 $("prLoad").onclick = loadPractice;
@@ -501,6 +788,355 @@ $("prCsv").onclick = () => {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
   a.download = "동아리_연습현황.csv"; a.click();
+};
+
+
+/* ================= 평가 (pycoding 평가와 같은 흐름, 배포는 모둠 단위) ================= */
+T.exams = []; T.deps = []; T.offset = 0; T.meta = T.meta || {}; T.full = {};
+const round1 = (x) => Math.round(x * 10) / 10;
+const fmtT = (ms) => ms ? new Date(ms).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "-";
+const isPaperT = (t) => t === "choice" || t === "short";
+
+async function loadMeta(force) {
+  if (T.metaLoaded && !force) return;
+  const [a, b] = await Promise.all([api("/api/teacher/problems?bank=pyclub"), api("/api/teacher/problems?bank=pycoding")]);
+  T.metaList = a.problems.concat(b.problems);
+  T.meta = {};
+  for (const p of T.metaList) T.meta[p.id] = p;
+  T.metaLoaded = true;
+}
+// 재확인·정답 확인용 전체 문제 (runner.js 형식)
+async function fullProblem(id) {
+  if (T.full[id]) return T.full[id];
+  const r = (await api("/api/teacher/problems/" + encodeURIComponent(id))).problem;
+  const J = (v, d) => { try { return v ? JSON.parse(v) : d; } catch { return d; } };
+  return (T.full[id] = { id: r.id, type: r.type, topic: r.topic, level: r.level, title: r.title, funcName: r.func_name, tests: J(r.tests, []),
+    examples: J(r.examples, []), timeLimit: r.time_limit || 0, refCode: r.ref_code });
+}
+const metaTitle = (id) => (T.meta[id] ? T.meta[id].title : id);
+
+async function openExamTab(tab) {
+  try { await loadMeta(); await loadExams(); } catch (e) { alert(e.message); return; }
+  if (tab === "exams") { fillExFilters(); renderPicker(); }
+  if (tab === "results") refreshResults();
+}
+
+async function loadExams() {
+  const d = await api("/api/teacher/exams");
+  T.exams = d.exams; T.deps = d.deployments; T.offset = d.now - Date.now();
+  renderExamList(); renderDeployForm(); renderDeployList();
+}
+const depsOf = (examId) => T.deps.filter((d) => d.exam_id === examId);
+const examTitleOf = (id) => (T.exams.find((e) => e.id === id) || { title: "(지운 평가)" }).title;
+function idsOf(e) { const all = JSON.parse(e.problem_ids || "[]"), w = new Set(JSON.parse(e.warm_ids || "[]")); return { warm: all.filter((x) => w.has(x)), graded: all.filter((x) => !w.has(x)) }; }
+function equalSplit(ids) { const n = ids.length, out = {}; if (!n) return out; const base = Math.floor(100 / n), rem = 100 - base * n; ids.forEach((id, i) => { out[id] = base + (i >= n - rem ? 1 : 0); }); return out; }
+function examScoring(ex, graded) {
+  let sc = {}; try { sc = JSON.parse(ex.scoring || "{}"); } catch {}
+  const eq = equalSplit(graded), pts = {};
+  for (const id of graded) pts[id] = sc.points && sc.points[id] != null ? Number(sc.points[id]) : eq[id];
+  return { points: pts, partial: !!sc.partial, max: graded.reduce((a, id) => a + pts[id], 0) };
+}
+function pointsFor(SC, id, sc) { const pt = SC.points[id] || 0; if (!sc.t) return 0; return SC.partial ? pt * sc.p / sc.t : (sc.p === sc.t ? pt : 0); }
+function examState(e, now) {
+  now = now || (Date.now() + T.offset);
+  if (e.starts_at) return now < e.ends_at ? { key: "live", label: `평가 중 (${Math.ceil((e.ends_at - now) / 60000)}분 남음)` } : { key: "done", label: "종료" };
+  if (e.practice_state === 1) return { key: "practice", label: "평가 전 연습 중" };
+  if (e.practice_state === 2) return { key: "wait", label: "연습 끝 · 평가 대기" };
+  return { key: "ready", label: "시작 전" };
+}
+const pillCls = (k) => (k === "live" ? "live" : k === "practice" || k === "wait" ? "warn" : "");
+
+/* ----- 평가 만들기 ----- */
+let editingExam = null, picked = [], warmSet = new Set(), scorePts = {}, scoreCustom = false;
+function fillExFilters() {
+  const b = PC.BANKS[$("exBank").value];
+  const t = $("exTopic").value;
+  $("exTopic").innerHTML = `<option value="">모든 주제</option>` + b.topics.map((x) => `<option value="${x.key}">${x.name}</option>`).join("");
+  if (b.topics.some((x) => x.key === t)) $("exTopic").value = t;
+  $("exLevel").innerHTML = `<option value="">모든 단계</option>` + Object.entries(b.levels).map(([k, v]) => `<option value="${k}">${k}단계 · ${v}</option>`).join("");
+}
+$("exBank").onchange = () => { fillExFilters(); renderPicker(); };
+["exTopic", "exLevel", "exSearch"].forEach((id) => $(id).addEventListener("input", renderPicker));
+function pickable() {
+  const bank = $("exBank").value, t = $("exTopic").value, lv = $("exLevel").value, q = $("exSearch").value.trim().toLowerCase();
+  return (T.metaList || []).filter((p) => p.bank === bank && !p.club_hidden && (!t || p.topic === t) && (!lv || String(p.level) === lv) &&
+    (!q || p.id.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)));
+}
+function renderPicker() {
+  const list = pickable().slice(0, 400);
+  const kind = { io: "", func: "함수", choice: "객관식", short: "단답" };
+  let html = "", key = "";
+  for (const p of list) {
+    const k = p.topic + p.level;
+    if (k !== key) {
+      key = k;
+      const grp = list.filter((x) => x.topic === p.topic && x.level === p.level);
+      const n = grp.filter((x) => picked.includes(x.id)).length;
+      html += `<label class="grp"><input type="checkbox" data-grp="${esc(p.topic)}|${p.level}" ${n && n === grp.length ? "checked" : ""} data-some="${n > 0 && n < grp.length ? 1 : 0}">
+        ${esc(PC.topicName(p.topic))} · ${p.level}단계 <span class="small">(${n}/${grp.length} 선택)</span></label>`;
+    }
+    html += `<label class="item"><input type="checkbox" value="${esc(p.id)}" ${picked.includes(p.id) ? "checked" : ""}> ${esc(p.title)} <span class="small">${esc(p.id)} ${kind[p.type] || ""}</span></label>`;
+  }
+  $("exPicker").innerHTML = html || `<p class="small">문제가 없습니다.</p>`;
+  $("exPicker").querySelectorAll("input[data-some='1']").forEach((c) => { c.indeterminate = true; });
+  $("exPicker").querySelectorAll("input[data-grp]").forEach((c) => c.onchange = () => {
+    const [t, lv] = c.dataset.grp.split("|");
+    const grp = list.filter((x) => x.topic === t && String(x.level) === lv);
+    const all = grp.every((x) => picked.includes(x.id));
+    for (const x of grp) {
+      if (all) { picked = picked.filter((id) => id !== x.id); warmSet.delete(x.id); }
+      else if (!picked.includes(x.id)) picked.push(x.id);
+    }
+    renderPicker();
+  });
+  $("exPicker").querySelectorAll("input[value]").forEach((c) => c.onchange = () => {
+    if (c.checked) { if (!picked.includes(c.value)) picked.push(c.value); } else { picked = picked.filter((x) => x !== c.value); warmSet.delete(c.value); }
+    renderScore();
+  });
+  renderScore();
+}
+$("exRandom").onclick = () => {
+  const pool = pickable().filter((p) => !picked.includes(p.id));
+  const n = Math.max(1, Math.min(30, Number($("exRandomN").value) || 3));
+  for (let i = 0; i < n && pool.length; i++) picked.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0].id);
+  renderPicker();
+};
+// 지금 묶음·주제·단계·찾기 조건에 맞는 문제를 모두 고른다 (이미 고른 문제는 그대로)
+$("exAll").onclick = () => {
+  const list = pickable();
+  if (list.length > 60 && !confirm(`보이는 문제 ${list.length}개를 모두 고를까요? (한 평가는 60문제까지 저장됩니다)`)) return;
+  for (const p of list) if (!picked.includes(p.id)) picked.push(p.id);
+  renderPicker();
+};
+$("exNone").onclick = () => { picked = []; warmSet.clear(); renderPicker(); };
+function gradedIds() { return picked.filter((id) => !warmSet.has(id)); }
+function renderScore() {
+  $("exCount").textContent = `고른 문제 ${picked.length}개`;
+  const graded = gradedIds();
+  if (!scoreCustom) scorePts = equalSplit(graded); else graded.forEach((id) => { if (scorePts[id] == null) scorePts[id] = 0; });
+  if (!picked.length) { $("exScore").innerHTML = ""; return; }
+  $("exScore").innerHTML = `<div class="row"><b>고른 문제 · 배점</b> <button class="btn small" id="exEqual" type="button">채점 문제에 100점 똑같이</button> <span class="small">합계 <strong id="exTotal"></strong>점</span></div>
+    <div class="tablewrap"><table><thead><tr><th>#</th><th>문제</th><th>평가 전 연습</th><th>배점</th><th></th></tr></thead><tbody>` +
+    picked.map((id, i) => { const p = T.meta[id] || { title: id, topic: "", level: "" }; const w = warmSet.has(id);
+      return `<tr><td>${i + 1}</td><td>${esc(p.title)} <span class="small">${esc(id)} · ${esc(PC.topicName(p.topic))} ${p.level}</span></td>
+        <td><input type="checkbox" data-warm="${esc(id)}" ${w ? "checked" : ""} aria-label="평가 전 연습 문제로"></td>
+        <td>${w ? '<span class="small">점수 없음</span>' : `<input type="number" min="0" max="1000" step="0.5" value="${scorePts[id]}" data-pt="${esc(id)}" style="width:70px" aria-label="배점">`}</td>
+        <td><button class="btn small" type="button" data-rm="${esc(id)}" aria-label="빼기">✕</button></td></tr>`; }).join("") + `</tbody></table></div>`;
+  const total = () => { $("exTotal").textContent = round1(gradedIds().reduce((a, id) => a + (Number(scorePts[id]) || 0), 0)); };
+  $("exScore").querySelectorAll("input[data-pt]").forEach((inp) => inp.oninput = () => { scoreCustom = true; scorePts[inp.dataset.pt] = Number(inp.value); total(); });
+  $("exScore").querySelectorAll("input[data-warm]").forEach((c) => c.onchange = () => { c.checked ? warmSet.add(c.dataset.warm) : warmSet.delete(c.dataset.warm); renderScore(); });
+  $("exScore").querySelectorAll("[data-rm]").forEach((b) => b.onclick = () => { picked = picked.filter((x) => x !== b.dataset.rm); warmSet.delete(b.dataset.rm); renderPicker(); });
+  $("exEqual").onclick = () => { scoreCustom = false; renderScore(); };
+  total();
+}
+function resetExamForm() {
+  editingExam = null; picked = []; warmSet = new Set(); scorePts = {}; scoreCustom = false;
+  $("exTitle").value = ""; $("exPartial").checked = false; $("exHints").checked = false; $("exPaste").checked = true;
+  $("exFormTitle").textContent = "새 평가 만들기"; $("exCancel").classList.add("hidden");
+  renderPicker();
+}
+$("exCancel").onclick = resetExamForm;
+$("exSave").onclick = async () => {
+  if (picked.length > 60) { $("exMsg").innerHTML = `<div class="msg err">한 평가는 60문제까지입니다. 지금 ${picked.length}개를 골랐습니다 — ${picked.length - 60}개를 빼 주세요.</div>`; return; }
+  const graded = gradedIds(), points = {};
+  for (const id of graded) points[id] = Number(scorePts[id]) || 0;
+  const body = { title: $("exTitle").value, problemIds: picked, warmIds: [...warmSet], durationMin: Number($("exDur").value), maxAttempts: Number($("exAtt").value),
+    blockPaste: $("exPaste").checked, allowHints: $("exHints").checked, scoring: { points, partial: $("exPartial").checked } };
+  try {
+    if (editingExam) await api("/api/teacher/exams/" + editingExam, { method: "PUT", body });
+    else await api("/api/teacher/exams", { method: "POST", body });
+    $("exMsg").innerHTML = `<div class="msg ok">${editingExam ? "수정했습니다. 배포된 모든 모둠에 반영됩니다." : "저장했습니다. «배포» 탭에서 모둠에 배포하세요."}</div>`;
+    resetExamForm(); await loadExams();
+  } catch (e) { $("exMsg").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+};
+function renderExamList() {
+  if (!T.exams.length) { $("examList").innerHTML = `<p class="small" style="padding:8px">아직 평가가 없습니다.</p>`; return; }
+  $("examList").innerHTML = `<table><thead><tr><th>평가</th><th>문제</th><th>시간</th><th>제출</th><th>배포</th><th></th></tr></thead><tbody>` + T.exams.map((e) => {
+    const sp = idsOf(e), deps = depsOf(e.id);
+    return `<tr><td>${esc(e.title)}</td><td>${sp.warm.length ? `연습 ${sp.warm.length} · 평가 ${sp.graded.length}` : sp.graded.length + "개"}</td><td>${e.duration_min}분${e.allow_hints ? " 💡" : ""}</td><td>${e.max_attempts}번</td>
+      <td>${deps.map((d) => `<span class="pill ${pillCls(examState(d).key)}">${esc(d.group_name)}</span>`).join(" ") || '<span class="small">없음</span>'}</td>
+      <td><button class="btn small" data-ex="edit" data-id="${e.id}" type="button">수정</button> <button class="btn small danger" data-ex="del" data-id="${e.id}" type="button">삭제</button></td></tr>`;
+  }).join("") + `</tbody></table>`;
+  $("examList").querySelectorAll("[data-ex]").forEach((b) => b.onclick = async () => {
+    const e = T.exams.find((x) => x.id === Number(b.dataset.id));
+    if (b.dataset.ex === "del") {
+      if (!confirm(`「${e.title}」 을(를) 지울까요? 배포와 제출 기록도 모두 지워집니다.`)) return;
+      await api("/api/teacher/exams/" + e.id, { method: "DELETE" }); return loadExams();
+    }
+    editingExam = e.id; picked = JSON.parse(e.problem_ids || "[]"); warmSet = new Set(JSON.parse(e.warm_ids || "[]"));
+    let sc = {}; try { sc = JSON.parse(e.scoring || "{}"); } catch {}
+    scorePts = Object.assign({}, sc.points || {}); scoreCustom = Object.keys(scorePts).length > 0;
+    $("exTitle").value = e.title; $("exDur").value = e.duration_min; $("exAtt").value = e.max_attempts;
+    $("exPaste").checked = !!e.block_paste; $("exHints").checked = !!e.allow_hints; $("exPartial").checked = !!sc.partial;
+    $("exFormTitle").textContent = "평가 수정 — " + e.title; $("exCancel").classList.remove("hidden");
+    renderPicker(); window.scrollTo({ top: 0 });
+  });
+}
+
+/* ----- 배포 ----- */
+function renderDeployForm() {
+  const sel = $("dpExam"), prev = sel.value;
+  sel.innerHTML = T.exams.map((e) => `<option value="${e.id}">${esc(e.title)}</option>`).join("") || `<option value="">(먼저 평가를 만드세요)</option>`;
+  if (prev && T.exams.some((e) => String(e.id) === prev)) sel.value = prev;
+  const done = new Set(depsOf(Number(sel.value)).map((d) => d.group_id));
+  const opts = [{ id: 0, name: "동아리 전체" }].concat(T.groups || []);
+  $("dpGroups").innerHTML = opts.map((g) => done.has(g.id) ? `<label class="small"><input type="checkbox" checked disabled> ${esc(g.name)} (배포됨)</label>`
+    : `<label class="small"><input type="checkbox" value="${g.id}"> ${esc(g.name)}</label>`).join(" ");
+}
+$("dpExam").onchange = renderDeployForm;
+$("dpCreate").onclick = async () => {
+  const groupIds = [...$("dpGroups").querySelectorAll("input:checked:not(:disabled)")].map((c) => Number(c.value));
+  if (!$("dpExam").value || !groupIds.length) return $("dpMsg").innerHTML = `<div class="msg err">평가와 모둠을 고르세요.</div>`;
+  try { await api("/api/teacher/deployments", { method: "POST", body: { examId: Number($("dpExam").value), groupIds } });
+    $("dpMsg").innerHTML = `<div class="msg ok">배포했습니다. 아래 «배포 현황» 에서 시작하세요.</div>`; $("dpFilter").value = $("dpExam").value; await loadExams();
+  } catch (e) { $("dpMsg").innerHTML = `<div class="msg err">${esc(e.message)}</div>`; }
+};
+function renderDeployList() {
+  const withDeps = T.exams.filter((e) => depsOf(e.id).length), f = $("dpFilter"), prev = f.value;
+  f.innerHTML = withDeps.map((e) => `<option value="${e.id}">${esc(e.title)}</option>`).join("") || `<option value="">(배포한 평가 없음)</option>`;
+  if (prev && withDeps.some((e) => String(e.id) === prev)) f.value = prev;
+  const e = T.exams.find((x) => String(x.id) === f.value);
+  if (!e) { $("dpList").innerHTML = ""; return; }
+  const sp = idsOf(e);
+  $("dpList").innerHTML = `<table><thead><tr><th>모둠</th><th>상태</th><th>시각</th><th></th></tr></thead><tbody>` + depsOf(e.id).map((d) => {
+    const st = examState(d), b = (act, text, cls = "") => `<button class="btn small ${cls}" data-dact="${act}" data-id="${d.id}" type="button">${text}</button>`;
+    let main = "";
+    if (st.key === "ready") main = sp.warm.length ? b("practice-start", "① 연습 시작", "primary") + " " + b("start", "평가 바로 시작") : b("start", "평가 시작", "exam");
+    if (st.key === "practice") main = b("practice-end", "② 연습 시간 종료", "primary") + " " + b("end", "취소");
+    if (st.key === "wait") main = b("start", "③ 평가 시작", "exam") + " " + b("end", "취소");
+    if (st.key === "live") main = b("extend", "+5분") + " " + b("end", "종료", "danger");
+    if (st.key === "done") main = b("start", "다시 시작");
+    return `<tr><td><strong>${esc(d.group_name)}</strong></td><td><span class="pill ${pillCls(st.key)}">${st.label}</span></td>
+      <td class="small">${d.starts_at ? fmtT(d.starts_at) + " ~ " + fmtT(d.ends_at) : ""}</td><td>${main} ${b("view", "결과")} ${b("undeploy", "배포 취소")}</td></tr>`;
+  }).join("") + `</tbody></table>`;
+  $("dpList").querySelectorAll("[data-dact]").forEach((b) => b.onclick = () => depAction(Number(b.dataset.id), b.dataset.dact));
+}
+$("dpFilter").onchange = renderDeployList;
+$("dpReload").onclick = loadExams;
+setInterval(() => { if (!document.querySelector('[data-panel="deploy"]').hidden) renderDeployList(); }, 15000);
+async function depAction(id, act) {
+  const d = T.deps.find((x) => x.id === id);
+  if (act === "view") { document.querySelector('#tabs [data-tab="results"]').click(); $("resExamPick").value = String(d.exam_id); T.resDep = id; return; }
+  try {
+    if (act === "undeploy") {
+      if (!confirm(`${d.group_name} 배포를 취소할까요? 이 모둠의 이 평가 제출 기록도 지워집니다.`)) return;
+      await api("/api/teacher/deployments/" + id, { method: "DELETE" }); return loadExams();
+    }
+    let durationMin = 0;
+    if (act === "start") {
+      const ex = T.exams.find((e) => e.id === d.exam_id);
+      const v = prompt(`${d.group_name} — 평가 시간(분)`, String(ex ? ex.duration_min : 60));
+      if (v == null) return;
+      durationMin = Math.floor(Number(v));
+      if (!(durationMin >= 1 && durationMin <= 300)) return alert("1~300 사이의 분을 넣으세요.");
+    } else if (act === "end" && !confirm("평가 중이면 지금 끝내고, 연습·대기 중이면 처음 상태로 돌립니다. 진행할까요?")) return;
+    const r = await api("/api/teacher/deployments/action", { method: "POST", body: { ids: [id], action: act, minutes: 5, durationMin } });
+    const bad = r.results.filter((x) => !x.ok);
+    $("dpResult").innerHTML = bad.length ? `<div class="msg warn">${bad.map((x) => esc(x.groupName + ": " + x.error)).join(", ")}</div>` : `<div class="msg ok">완료</div>`;
+    await loadExams();
+  } catch (e) { alert(e.message); }
+}
+
+/* ----- 결과 ----- */
+setInterval(() => { if ($("resAuto").checked && !document.querySelector('[data-panel="results"]').hidden) refreshResults(true); }, 20000);
+async function refreshResults(silent) {
+  const pick = $("resExamPick"), sel = $("resDep");
+  const exams = T.exams.filter((e) => depsOf(e.id).length);
+  const pv = pick.value;
+  pick.innerHTML = exams.map((e) => `<option value="${e.id}">${esc(e.title)}</option>`).join("") || `<option value="">(배포한 평가 없음)</option>`;
+  if (pv && exams.some((e) => String(e.id) === pv)) pick.value = pv;
+  const deps = depsOf(Number(pick.value)), dv = T.resDep ? String(T.resDep) : sel.value;
+  T.resDep = null;
+  sel.innerHTML = deps.map((d) => `<option value="${d.id}">${esc(d.group_name)} · ${examState(d).label}</option>`).join("") || `<option value="">(모둠 없음)</option>`;
+  if (dv && deps.some((d) => String(d.id) === dv)) sel.value = dv;
+  if (!sel.value) { $("resTable").innerHTML = ""; $("resInfo").textContent = "«평가 만들기» 에서 평가를 만들고 «배포» 에서 모둠에 배포하세요."; return; }
+  try { T.results = await api("/api/teacher/results?depId=" + sel.value); renderResults(); }
+  catch (e) { if (!silent) alert(e.message); }
+}
+$("resExamPick").onchange = () => { $("resDep").value = ""; refreshResults(); };
+$("resDep").onchange = () => refreshResults();
+$("resReload").onclick = async () => { await loadExams(); refreshResults(); };
+function lastByCell(subs) {
+  const m = {};
+  for (const s of subs) { const k = s.student_id + "|" + s.problem_id; if (!m[k]) m[k] = { last: s, n: 0, all: [] }; m[k].n++; m[k].all.push(s); if (s.id > m[k].last.id) m[k].last = s; }
+  return m;
+}
+function scoreOf(s) {
+  const v = s.verified_at != null;
+  return { p: v ? s.verified_passed : s.client_passed, t: v ? s.verified_total : s.client_total, verified: v, mismatch: v && s.verified_passed !== s.client_passed };
+}
+function hintMap(R) { const m = {}; for (const h of R.hints || []) { const k = h.student_id + "|" + h.problem_id; m[k] = Math.max(m[k] || 0, h.level); m["n|" + h.student_id] = (m["n|" + h.student_id] || 0) + 1; } return m; }
+function resultRows() {
+  const R = T.results, ids = R.gradedIds, SC = examScoring(R.exam, ids), cells = lastByCell(R.submissions), hm = hintMap(R);
+  const ev = Object.fromEntries(R.events.map((e) => [e.student_id, e]));
+  return { R, ids, SC, cells, hm, ev, rows: R.students.map((s) => {
+    let total = 0, full = 0;
+    const per = ids.map((id) => { const c = cells[s.id + "|" + id]; if (!c) return null; const sc = scoreOf(c.last); if (sc.t && sc.p === sc.t) full++; const pt = pointsFor(SC, id, sc); total += pt; return { c, sc, pt }; });
+    return { s, per, total, full, e: ev[s.id] || {} };
+  }) };
+}
+function renderResults() {
+  const { R, ids, SC, hm, rows } = resultRows();
+  const nVer = R.submissions.filter((x) => x.verified_at != null).length;
+  $("resInfo").innerHTML = `${esc(R.exam.group_name)} · 학생 ${R.students.length}명 · 채점 문제 ${ids.length}개 (만점 ${round1(SC.max)}, ${SC.partial ? "부분 점수" : "모두 통과해야 점수"}) · 제출 ${R.submissions.length}건 (재확인 ${nVer}) · ${examState(R.exam, R.now).label}` +
+    (R.warmIds.length ? ` · 평가 전 연습 ${R.warmIds.length}개는 점수 없음` : "");
+  $("resTable").innerHTML = `<table><thead><tr><th>학번</th><th>이름</th><th class="num">점수 /${round1(SC.max)}</th>` +
+    ids.map((id, i) => `<th title="${esc(metaTitle(id))}">${i + 1}. ${esc(metaTitle(id).slice(0, 10))}<br><span class="small">${round1(SC.points[id])}점</span></th>`).join("") +
+    `<th>완전 정답</th><th>힌트</th><th>창 이동</th><th>붙여넣기</th></tr></thead><tbody>` + rows.map((r) =>
+      `<tr><td>${esc(r.s.student_no)}</td><td>${esc(r.s.name)}</td><td class="num"><strong>${round1(r.total)}</strong></td>` + r.per.map((x, i) => {
+        const id = ids[i], hl = hm[r.s.id + "|" + id] ? ` <span class="small">💡${hm[r.s.id + "|" + id]}</span>` : "";
+        if (!x) return `<td><span class="cell none">-</span>${hl}</td>`;
+        const cls = x.sc.t && x.sc.p === x.sc.t ? "full" : x.sc.p > 0 ? "part" : "zero";
+        return `<td><span class="cell ${cls} ${x.sc.mismatch ? "mismatch" : ""}" data-s="${r.s.id}" data-p="${esc(id)}" role="button" tabindex="0">${x.sc.p}/${x.sc.t}${x.sc.verified ? "✓" : ""} (${x.c.n})</span>${hl}</td>`;
+      }).join("") + `<td>${r.full}/${ids.length}</td><td>${hm["n|" + r.s.id] || 0}</td><td>${r.e.blur_count || 0}</td><td>${r.e.paste_count || 0}</td></tr>`).join("") + `</tbody></table>`;
+  const cells = lastByCell(R.submissions);
+  $("resTable").querySelectorAll(".cell[data-s]").forEach((el) => {
+    const open = () => {
+      const s = R.students.find((x) => x.id === Number(el.dataset.s));
+      $("viewBody").innerHTML = `<h3 style="margin:0">${esc(s.student_no)} ${esc(s.name)} — ${esc(metaTitle(el.dataset.p))}</h3>` +
+        cells[el.dataset.s + "|" + el.dataset.p].all.slice().sort((a, b) => b.id - a.id).map((x) => { const sc = scoreOf(x);
+          return `<p class="small">${fmtT(x.created_at)} · 학생 화면 ${x.client_passed}/${x.client_total}${sc.verified ? ` · 재확인 ${x.verified_passed}/${x.verified_total}${sc.mismatch ? " ⚠ 다름" : ""}` : ""}</p><pre class="code">${esc(x.code)}</pre>`; }).join("");
+      $("viewDlg").showModal();
+    };
+    el.onclick = open; el.onkeydown = (e) => { if (e.key === "Enter") open(); };
+  });
+}
+$("resVerify").onclick = async () => {
+  const R = T.results;
+  if (!R) return;
+  const subs = R.submissions.filter((x) => T.meta[x.problem_id] && !isPaperT(T.meta[x.problem_id].type));
+  if (!subs.length) return alert("다시 채점할 코드 제출이 없습니다 (1교시 문제는 서버가 채점함).");
+  const btn = $("resVerify"); btn.disabled = true;
+  $("resProg").classList.remove("hidden");
+  const bar = $("resProg").firstElementChild, items = [];
+  try {
+    for (let i = 0; i < subs.length; i++) {
+      bar.style.width = Math.round(((i + 1) / subs.length) * 100) + "%";
+      const p = await fullProblem(subs[i].problem_id);
+      const g = await PC.grade(getRunner(), p, subs[i].code);
+      items.push({ id: subs[i].id, passed: g.passed, total: g.total });
+    }
+    await api("/api/teacher/verify", { method: "POST", body: { items } });
+    await refreshResults();
+  } catch (e) { alert(e.message); }
+  finally { btn.disabled = false; setTimeout(() => $("resProg").classList.add("hidden"), 800); }
+};
+$("resCsv").onclick = () => {
+  if (!T.results) return;
+  const { R, ids, SC, hm, rows } = resultRows();
+  const head = ["학번", "이름", "반", "모둠", `점수 (만점 ${round1(SC.max)})`];
+  ids.forEach((id, i) => head.push(`${i + 1}. ${metaTitle(id)} (통과/전체)`, `${i + 1} 점수`, `${i + 1} 제출횟수`, `${i + 1} 재확인`));
+  head.push("완전정답 수", "힌트 본 수", "창 이동", "붙여넣기 시도");
+  const lines = [head].concat(rows.map((r) => {
+    const row = [r.s.student_no, r.s.name, r.s.class_name || "", R.exam.group_name, round1(r.total)];
+    r.per.forEach((x) => { if (!x) row.push("", 0, 0, ""); else row.push(`${x.sc.p}/${x.sc.t}`, round1(x.pt), x.c.n, x.sc.verified ? (x.sc.mismatch ? "다름" : "확인") : ""); });
+    row.push(r.full, hm["n|" + r.s.id] || 0, r.e.blur_count || 0, r.e.paste_count || 0);
+    return row;
+  }));
+  const csv = "﻿" + lines.map((l) => l.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+  a.download = `${R.exam.title}_${R.exam.group_name}_결과.csv`; a.click();
 };
 
 /* ---------- 시작 ---------- */
