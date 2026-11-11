@@ -1,10 +1,10 @@
 {
-  "version": "1.3.4",
-  "date": "2026-09-11",
-  "zip": "https://dadaschool.github.io/ai-coordinator/update/aicodi-1.3.4.zip",
-  "size": 189082,
-  "sha256": "efff44652303c86ad063a25ad0310ee11643a41bbbbc08b8a7754dfa55f13436",
+  "version": "1.3.5",
+  "date": "2026-11-11",
+  "zip": "https://dadaschool.github.io/ai-coordinator/update/aicodi-1.3.5.zip",
+  "size": 192072,
+  "sha256": "470570d9f89221ea76033ad1a3f0207bcf652c0acb8e09aeb048409d86ef21a0",
   "notes": [
-    "시스템관리자가 직접 사진을 올리고, 코디네이터가 올린 사진 중에서 결과보고서(Ⅱ장 운영 결과 사진)에 넣을 것을 고를 수 있게 했습니다. [설정] → 🖼 결과보고서에 들어갈 사진 에서 하시면 됩니다."
+    "점검·서명 화면에서 시스템관리자가 활동 기록의 날짜·출근·퇴근·유휴(휴게) 시간을 직접 고칠 수 있게 했습니다. 기록 카드의 [✏️ 날짜·시간 고치기] 를 누르세요. 점검 서명은 그대로 남고, 고친 내역이 카드에 기록됩니다."
   ]
 }
