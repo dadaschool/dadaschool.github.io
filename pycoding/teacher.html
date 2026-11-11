@@ -177,6 +177,7 @@ pre,code,textarea.code,textarea.mono,.CodeMirror,.cell{font-variant-ligatures:no
         <label class="small" style="display:block;margin:0 0 10px"><input type="checkbox" id="exHints"> 평가 중 힌트 허용 — 감점은 없고, 누가 어느 문제에서 힌트를 봤는지 결과표에 남습니다</label>
         <div class="row" style="margin-bottom:6px">
           <span class="field"><span>문제 고르기</span></span>
+          <select id="exFilterBank" aria-label="문제 묶음"><option value="pyc">pycoding 문제</option><option value="club">동아리 문제 (입출력·함수)</option></select>
           <select id="exFilterTopic"><option value="">모든 주제</option></select>
           <select id="exFilterKind"><option value="exam">평가용만</option><option value="">연습용 포함</option></select>
           <button class="btn small" id="exAll" type="button">보이는 문제 모두 선택</button>
@@ -404,7 +405,9 @@ const ss = {
   del(k) { try { sessionStorage.removeItem(k); } catch {} },
 };
 const T = { token: null, classes: [], problems: [], exams: [], deps: [], students: [], results: null, now: 0, offset: 0 };
-const topicName = (k) => (PC.TOPICS.find((t) => t.key === k) || { name: k }).name;
+const CLUB_LEVELS = { 1: "기초", 2: "기본", 3: "중급", 4: "심화", 5: "고급" };
+const CLUB_TOPICS = { ds: "동아리·자료구조", al: "동아리·알고리즘", koi: "동아리·정올대비", w1: "동아리·1교시" };
+const topicName = (k) => (PC.TOPICS.find((t) => t.key === k) || { name: CLUB_TOPICS[k] || k }).name;
 
 const runner = new PC.Runner((st, err) => {
   $("engine").textContent = "파이썬: " + ({ loading: "불러오는 중…", ready: "준비됨", error: "실패 " + (err || "") }[st] || st);
@@ -459,7 +462,7 @@ $("loginForm").addEventListener("submit", async (e) => {
 $("logoutBtn").onclick = () => { api("/api/logout", { method: "POST" }).catch(() => {}); ss.del("pyc:teacher"); location.reload(); };
 
 // 이 화면이 기대하는 채점 서버 버전. server/src/index.js 의 VERSION 과 맞춘다.
-const NEED_SERVER = 2026110902;
+const NEED_SERVER = 2026111202;
 async function checkServerVersion() {
   try {
     const c = await api("/api/config");
@@ -517,14 +520,27 @@ async function loadClasses() {
   $("stClass").innerHTML = `<option value="">전체</option>` + opts;
 }
 async function loadProblems() {
-  T.problems = (await api("/api/teacher/problems")).problems.map(fromRow);
+  const mine = (await api("/api/teacher/problems")).problems.map(fromRow);
+  // 동아리(pyclub) 입출력·함수형 문제 — 평가에 넣을 수 있다. 목록만 받고, 평가에 쓰면 그때 전체를 받는다
+  let club = [];
+  try { club = (await api("/api/teacher/club-problems")).problems.map((r) => ({ id: r.id, topic: r.topic, level: r.level, kind: "exam", type: r.type, title: r.title, club: true, light: true, tests: [], examples: [], hints: [] })); } catch {}
+  T.problems = mine.concat(club);
   renderProblems();
+}
+// 평가에 든 동아리 문제는 결과·재확인·정답지에 전체 내용(테스트·정답 코드)이 필요하다
+async function ensureClubFull(ids) {
+  for (const id of ids) {
+    const i = T.problems.findIndex((p) => p.id === id);
+    if (i < 0 || !T.problems[i].light) continue;
+    try { const r = (await api("/api/teacher/club-problems/" + encodeURIComponent(id))).problem; T.problems[i] = Object.assign(fromRow(r), { club: true, kind: "exam" }); } catch {}
+  }
 }
 function fromRow(r) {
   return {
     id: r.id, topic: r.topic, level: r.level, kind: r.kind, type: r.type, title: r.title, body: r.body,
     inputDesc: r.input_desc, outputDesc: r.output_desc, funcName: r.func_name, starter: r.starter,
     examples: JSON.parse(r.examples || "[]"), tests: JSON.parse(r.tests || "[]"), refCode: r.ref_code, sort: r.sort, hints: JSON.parse(r.hints || "[]"),
+    clubHidden: !!r.club_hidden, timeLimit: r.time_limit || 0,
   };
 }
 const probById = (id) => T.problems.find((p) => p.id === id);
@@ -534,6 +550,7 @@ let autoTimer = setInterval(() => { if ($("resAuto").checked && !$("app").classL
 
 async function refreshResults(silent) {
   const sel = $("resExam"), pick = $("resExamPick");
+  if (T.exams && T.problems) await ensureClubFull([...new Set(T.exams.flatMap((e) => JSON.parse(e.problem_ids || "[]")))]);
   const prev = sel.value;
   if (!T.exams.length) await loadExams();
   // ① 평가 고르기 (배포한 평가만) → ② 그 평가가 배포된 반
@@ -750,6 +767,7 @@ const pillCls = (k) => (k === "live" ? "live" : k === "practice" || k === "wait"
 async function loadExams() {
   const d = await api("/api/teacher/exams");
   T.exams = d.exams; T.deps = d.deployments; T.offset = d.now - Date.now();
+  if (T.problems) await ensureClubFull([...new Set(T.exams.flatMap((e) => JSON.parse(e.problem_ids || "[]")))]);
   renderExamList();
   renderDeployForm();
   renderDeployList();
@@ -954,14 +972,22 @@ async function depAction(ids, act) {
 let editingExam = null;
 let pickedIds = new Set();
 function renderPicker() {
-  const t = $("exFilterTopic").value, k = $("exFilterKind").value;
-  const list = T.problems.filter((p) => (!t || p.topic === t) && (!k || p.kind === k || pickedIds.has(p.id)));
+  const club = $("exFilterBank").value === "club";
+  const tSel = $("exFilterTopic");
+  const want = club ? ["ds", "al", "koi"] : PC.TOPICS.map((x) => x.key);
+  if (tSel.dataset.bank !== (club ? "club" : "pyc")) {
+    tSel.dataset.bank = club ? "club" : "pyc";
+    tSel.innerHTML = `<option value="">모든 주제</option>` + want.map((k) => `<option value="${k}">${esc(topicName(k))}</option>`).join("");
+  }
+  $("exFilterKind").disabled = club;
+  const t = tSel.value, k = club ? "" : $("exFilterKind").value;
+  const list = T.problems.filter((p) => !!p.club === club && (!t || p.topic === t) && (!k || p.kind === k || pickedIds.has(p.id)));
   // 묶음(주제·단계)별로 나눈다. 묶음 체크박스는 «지금 보기 조건(평가용만 등)에 맞는 문제» 만 고른다
   const groups = [];
   for (const p of list) {
     const key = p.topic + "|" + p.level;
     let g = groups[groups.length - 1];
-    if (!g || g.key !== key) { g = { key, name: `${topicName(p.topic)} · ${p.level}단계 · ${PC.LEVELS[p.level] || ""}`, items: [] }; groups.push(g); }
+    if (!g || g.key !== key) { g = { key, name: `${topicName(p.topic)} · ${p.level}단계 · ${(p.club ? CLUB_LEVELS : PC.LEVELS)[p.level] || ""}`, items: [] }; groups.push(g); }
     g.items.push(p);
   }
   const members = (g) => g.items.filter((p) => !k || p.kind === k);
@@ -973,7 +999,7 @@ function renderPicker() {
       <span>${esc(g.name)} <span class="small muted">(${n}/${m.length} 선택)</span></span></label>`;
     for (const p of g.items) {
       html += `<label class="item"><input type="checkbox" value="${esc(p.id)}" ${pickedIds.has(p.id) ? "checked" : ""}>
-        <span>${esc(p.title)} <span class="small muted">${esc(p.id)}</span> ${p.kind === "practice" ? '<span class="pill">연습</span>' : ""}</span></label>`;
+        <span>${esc(p.title)} <span class="small muted">${esc(p.id)}</span> ${p.kind === "practice" ? '<span class="pill">연습</span>' : ""}${p.club ? '<span class="pill">동아리</span>' : ""}</span></label>`;
     }
   });
   const box = $("exPicker");
@@ -1018,6 +1044,7 @@ function renderScore() {
   total();
 }
 $("exFilterTopic").onchange = renderPicker;
+$("exFilterBank").onchange = renderPicker;
 $("exAll").onclick = () => { (T.pickerVisible || []).forEach((p) => pickedIds.add(p.id)); renderPicker(); };
 $("exNone").onclick = () => { pickedIds.clear(); renderPicker(); };
 $("exFilterKind").onchange = renderPicker;
@@ -1057,6 +1084,7 @@ $("exSave").onclick = async () => {
    평가를 고르면 문제마다 정답 코드와, 정답 코드를 이 컴퓨터에서 실행해 얻은 테스트별 정답 출력을 보여 주고 인쇄한다. */
 let akSeq = 0;
 async function renderAnswerKey() {
+  if (T.exams && T.problems) await ensureClubFull([...new Set(T.exams.flatMap((e) => JSON.parse(e.problem_ids || "[]")))]);
   const sel = $("akExam");
   const prev = sel.value;
   sel.innerHTML = T.exams.map((e) => `<option value="${e.id}">${esc(e.title)}</option>`).join("") || `<option value="">(평가 없음)</option>`;
@@ -1126,7 +1154,7 @@ async function loadPractice() {
 }
 function renderPractice() {
   const topic = $("prTopic").value;
-  const probs = T.problems.filter((p) => p.kind === "practice" && p.topic === topic);
+  const probs = T.problems.filter((p) => !p.club && p.kind === "practice" && p.topic === topic);
   const m = {};
   for (const s of T.prSubs || []) m[s.student_id + "|" + s.problem_id] = s;
   let html = `<table class="tbl"><tr><th>학번</th><th>이름</th>` + probs.map((p) => `<th title="${esc(p.title)}">${p.level}-${esc(p.title.slice(0, 8))}</th>`).join("") + `<th>해결</th></tr>`;
@@ -1150,7 +1178,7 @@ $("prClass").onchange = loadPractice;
 $("prTopic").onchange = renderPractice;
 $("prReload").onclick = loadPractice;
 $("prCsv").onclick = () => {
-  const probs = T.problems.filter((p) => p.kind === "practice");
+  const probs = T.problems.filter((p) => !p.club && p.kind === "practice");
   const m = {};
   for (const s of T.prSubs || []) m[s.student_id + "|" + s.problem_id] = s;
   const rows = [["학번", "이름", ...probs.map((p) => `${topicName(p.topic)} ${p.level}단계 ${p.title}`), "해결 수"]];
@@ -1165,19 +1193,33 @@ $("prCsv").onclick = () => {
 /* ================= 문제 ================= */
 function renderProblems() {
   const t = $("pbTopic").value, l = $("pbLevel").value, k = $("pbKind").value;
-  const list = T.problems.filter((p) => (!t || p.topic === t) && (!l || String(p.level) === l) && (!k || p.kind === k));
+  const mine = T.problems.filter((p) => !p.club);
+  const list = mine.filter((p) => (!t || p.topic === t) && (!l || String(p.level) === l) && (!k || p.kind === k));
   // 주제·난이도별 채운 개수 (목표: 연습 5 · 평가 10)
   let sum = `<tr><th colspan="7" style="white-space:normal">채운 개수 (연습/평가) — ` + PC.TOPICS.map((tp) =>
     `${tp.name} ` + [1, 2, 3, 4].map((lv) => {
-      const ps = T.problems.filter((p) => p.topic === tp.key && p.level === lv);
+      const ps = mine.filter((p) => p.topic === tp.key && p.level === lv);
       return `${ps.filter((p) => p.kind === "practice").length}/${ps.filter((p) => p.kind === "exam").length}`;
     }).join(" · ")).join(" &nbsp;|&nbsp; ") + `</th></tr>`;
-  $("pbTable").innerHTML = `<table class="tbl">${sum}<tr><th>번호</th><th>주제</th><th>난이도</th><th>구분</th><th>제목</th><th>테스트</th><th></th></tr>` +
+  const nHid = list.filter((p) => p.clubHidden).length;
+  $("pbTable").innerHTML = `<div class="row" style="margin:6px 0">
+      <strong>동아리에 숨기기</strong> <span class="small muted">— 켠 문제는 동아리(컴퓨터 동아리 파이썬) 화면 어디에도 나오지 않습니다. 수업 평가 문제를 지킬 때 쓰세요. 보이는 문제 ${list.length}개 중 ${nHid}개 숨김</span>
+      <button class="btn small" id="pbHideAll" type="button">보이는 문제 모두 숨기기</button>
+      <button class="btn small" id="pbShowAll" type="button">보이는 문제 모두 보이기</button></div>
+    <table class="tbl">${sum}<tr><th>번호</th><th>주제</th><th>난이도</th><th>구분</th><th>제목</th><th>테스트</th><th>동아리</th><th></th></tr>` +
     list.map((p) => `<tr><td>${esc(p.id)}</td><td>${esc(topicName(p.topic))}</td><td>${p.level}</td>
       <td><span class="pill ${p.kind === "exam" ? "exam" : ""}">${p.kind === "exam" ? "평가" : "연습"}</span>${p.type === "func" ? ' <span class="pill">함수</span>' : ""}</td>
       <td class="wrap">${esc(p.title)}</td><td>${p.tests.length}개</td>
+      <td><button class="btn small" data-hide="${esc(p.id)}" aria-pressed="${p.clubHidden}" title="동아리에 숨기기 켜기/끄기">${p.clubHidden ? "🔒 숨김" : "보임"}</button></td>
       <td><button class="btn small" data-edit="${esc(p.id)}">편집</button> <button class="btn small" data-del="${esc(p.id)}">삭제</button></td></tr>`).join("") + `</table>`;
   $("pbTable").querySelectorAll("[data-edit]").forEach((b) => b.onclick = () => openEditor(probById(b.dataset.edit)));
+  const setHidden = async (ids, hidden) => {
+    try { await api("/api/teacher/problems/club-hidden", { method: "POST", body: { ids, hidden } }); ids.forEach((id) => { const p = probById(id); if (p) p.clubHidden = hidden; }); renderProblems(); }
+    catch (e) { toast(e.message); }
+  };
+  $("pbTable").querySelectorAll("[data-hide]").forEach((b) => b.onclick = () => setHidden([b.dataset.hide], !probById(b.dataset.hide).clubHidden));
+  $("pbHideAll").onclick = () => { if (confirm(`보이는 문제 ${list.length}개를 모두 동아리에 숨길까요?`)) setHidden(list.map((p) => p.id), true); };
+  $("pbShowAll").onclick = () => { if (confirm(`보이는 문제 ${list.length}개를 모두 동아리에 보이게 할까요? (수업 평가 문제가 동아리 학생에게 보이게 됩니다)`)) setHidden(list.map((p) => p.id), false); };
   $("pbTable").querySelectorAll("[data-del]").forEach((b) => b.onclick = async () => {
     if (!confirm(`${b.dataset.del} 문제를 지울까요? 이 문제를 쓰는 평가 결과에서도 보이지 않게 됩니다.`)) return;
     try { await api("/api/teacher/problems/" + encodeURIComponent(b.dataset.del), { method: "DELETE" }); await loadProblems(); } catch (e) { toast(e.message); }
@@ -1298,7 +1340,7 @@ $("pbFile").onchange = async (ev) => {
 
 $("pbExport").onclick = () => {
   // 백업: 정답 코드와 테스트 «입력» 을 담는다 (해시는 다시 만들 수 있어 뺀다). ⚠ 정답이 들어 있으니 학생에게 주지 말 것
-  const problems = T.problems.map((p) => ({
+  const problems = T.problems.filter((p) => !p.club).map((p) => ({
     id: p.id, topic: p.topic, level: p.level, kind: p.kind, type: p.type, title: p.title, body: p.body,
     inputDesc: p.inputDesc, outputDesc: p.outputDesc, funcName: p.funcName, starter: p.starter, sort: p.sort,
     examples: p.examples.map((e) => p.type === "func" ? { call: e.call } : { input: e.input }),
@@ -1377,7 +1419,7 @@ function renderStudents() {
   for (const id of [...T.stPicked]) if (!T.students.some((s) => s.id === id)) T.stPicked.delete(id);
   const allOn = list.length && list.every((s) => T.stPicked.has(s.id));
   $("stTable").innerHTML = `<table class="tbl"><tr><th style="width:34px"><input type="checkbox" id="stAll" ${allOn ? "checked" : ""} aria-label="보이는 학생 모두 선택"></th><th>반</th><th>학번</th><th>이름</th><th>이메일</th><th>상태</th><th></th></tr>` +
-    list.map((s) => `<tr><td><input type="checkbox" data-st="${s.id}" ${T.stPicked.has(s.id) ? "checked" : ""} aria-label="${esc(s.name)}"></td><td>${esc(s.class_name)}</td><td>${esc(s.student_no)}</td><td>${esc(s.name)}</td><td>${esc(s.email || "")}</td>
+    list.map((s) => `<tr><td><input type="checkbox" data-st="${s.id}" ${T.stPicked.has(s.id) ? "checked" : ""} aria-label="${esc(s.name)}"></td><td>${esc(s.class_name)}</td><td>${esc(s.student_no)}</td><td>${esc(s.name)}${s.club ? ' <span class="pill" title="컴퓨터 동아리 학생">🧩동아리</span>' : ""}</td><td>${esc(s.email || "")}</td>
       <td>${s.locked_until > now ? `<span class="pill bad">잠김</span> <button class="btn small" data-unlock="${s.id}">풀기</button>` : ""}</td>
       <td><button class="btn small" data-pin="${s.id}">PIN 새로 발급</button> <button class="btn small" data-delst="${s.id}">삭제</button></td></tr>`).join("") + `</table>`;
   $("stAll").onchange = () => { const on = $("stAll").checked; list.forEach((s) => on ? T.stPicked.add(s.id) : T.stPicked.delete(s.id)); renderStudents(); };
@@ -1394,7 +1436,7 @@ function renderStudents() {
   });
   $("stTable").querySelectorAll("[data-delst]").forEach((b) => b.onclick = async () => {
     const s = T.students.find((x) => x.id === Number(b.dataset.delst));
-    if (!confirm(`${s.student_no} ${s.name} 과(와) 그 학생의 제출 기록을 모두 지울까요?`)) return;
+    if (!confirm(`${s.student_no} ${s.name} 과(와) 그 학생의 제출 기록을 모두 지울까요?` + (s.club ? "\n\n⚠ 컴퓨터 동아리 학생입니다. 동아리 명단과 동아리 기록도 함께 지워져 동아리에 로그인할 수 없게 됩니다." : ""))) return;
     try { await api("/api/teacher/students/" + s.id, { method: "DELETE" }); loadStudents(); } catch (e) { toast(e.message); }
   });
 }
@@ -1407,29 +1449,38 @@ function updateStButtons() {
   $("stDelClass").disabled = !c;
   $("stDelClass").textContent = c ? `${c.name}반 삭제` : "이 반 삭제";
 }
+// 지울 학생 중 동아리 학생이 있으면 남길지 묻는다. null = 취소
+function askKeepClub(students, what) {
+  const club = students.filter((s) => s.club);
+  if (!club.length) return false;
+  const names = club.slice(0, 8).map((s) => `${s.student_no} ${s.name}`).join(", ") + (club.length > 8 ? ` 외 ${club.length - 8}명` : "");
+  return confirm(`${what} 중 컴퓨터 동아리 학생이 ${club.length}명 있습니다:\n${names}\n\n[확인] 동아리 학생은 남기기 (PIN·동아리 기록 유지)\n[취소] 동아리 학생도 함께 지우기 (동아리 명단·기록도 지워짐)`);
+}
 async function bulkDeleteStudents(body, what) {
   try {
     const d = await api("/api/teacher/students/delete", { method: "POST", body });
     T.stPicked.clear();
-    toast(`${what} — ${d.n}명을 지웠습니다.`);
+    toast(`${what} — ${d.n}명을 지웠습니다.` + (d.kept ? ` 동아리 학생 ${d.kept}명은 남겼습니다.` : ""));
     await loadStudents();
   } catch (e) { toast(e.message); }
 }
 $("stDelSel").onclick = () => {
   const ids = [...T.stPicked];
   if (!confirm(`체크한 학생 ${ids.length}명과 그 학생들의 제출 기록을 모두 지울까요? 되돌릴 수 없습니다.`)) return;
-  bulkDeleteStudents({ ids }, "체크한 학생");
+  const keepClub = askKeepClub(T.students.filter((s) => T.stPicked.has(s.id)), "체크한 학생");
+  bulkDeleteStudents({ ids, keepClub }, "체크한 학생");
 };
 $("stDelClass").onclick = async () => {
   const c = T.classes.find((x) => String(x.id) === $("stClass").value);
   if (!c) return;
   const n = T.students.filter((s) => s.class_id === c.id).length;
   if (!confirm(`${c.name}반을 지울까요?\n학생 ${n}명, 그 학생들의 제출 기록, 이 반에 배포한 평가가 모두 지워집니다. 되돌릴 수 없습니다.`)) return;
+  const keepClub = askKeepClub(T.students.filter((s) => s.class_id === c.id), `${c.name}반 학생`);
   try {
-    await api("/api/teacher/classes/" + c.id, { method: "DELETE" });
+    const d = await api("/api/teacher/classes/" + c.id + (keepClub ? "?keepClub=1" : ""), { method: "DELETE" });
     T.stPicked.clear();
     $("stClass").value = "";
-    toast(`${c.name}반을 지웠습니다.`);
+    toast(`${c.name}반을 지웠습니다.` + (d.kept ? ` 동아리 학생 ${d.kept}명은 «동아리» 반으로 옮겨 남겼습니다.` : ""));
     await Promise.all([loadClasses(), loadExams()]);
     await loadStudents();
   } catch (e) { toast(e.message); }
@@ -1440,7 +1491,7 @@ $("stDelAll").onclick = () => {
   const typed = prompt(`전체 학생 ${n}명과 모든 제출 기록을 지웁니다. 반과 배포는 남습니다.\n계속하려면 «전체삭제» 를 입력하세요.`);
   if (typed == null) return;
   if (typed.trim() !== "전체삭제") return toast("확인 문구가 맞지 않아 지우지 않았습니다.");
-  bulkDeleteStudents({ all: true }, "전체 학생");
+  bulkDeleteStudents({ all: true, keepClub: askKeepClub(T.students, "전체 학생") }, "전체 학생");
 };
 $("stClass").onchange = () => { renderStudents(); };
 
@@ -1448,9 +1499,12 @@ $("stClass").onchange = () => { renderStudents(); };
 $("wipeBtn").onclick = async () => {
   if ($("wipeText").value.trim() !== "학생기록삭제") return msg("wipeMsg", "확인 문구가 맞지 않습니다.");
   if (!confirm("정말 모든 학생 기록을 지울까요? 되돌릴 수 없습니다.")) return;
+  let all = [];
+  try { all = (await api("/api/teacher/students")).students; } catch {}
+  const keepClub = askKeepClub(all, "모든 학생");
   try {
-    await api("/api/teacher/wipe", { method: "POST", body: { confirm: "학생기록삭제" } });
-    msg("wipeMsg", "지웠습니다. 문제와 평가는 그대로 남아 있습니다.", "ok");
+    const d = await api("/api/teacher/wipe", { method: "POST", body: { confirm: "학생기록삭제", keepClub } });
+    msg("wipeMsg", "지웠습니다. 문제와 평가는 그대로 남아 있습니다." + (d.kept ? ` 동아리 학생 ${d.kept}명은 «동아리» 반으로 옮겨 남겼습니다 (pycoding 제출 기록은 지움).` : ""), "ok");
     $("wipeText").value = "";
     await Promise.all([loadClasses(), loadExams()]);
   } catch (e) { msg("wipeMsg", esc(e.message)); }

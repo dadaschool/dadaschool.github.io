@@ -65,6 +65,13 @@ header.top h1{font-size:17px;margin:0;margin-right:auto;display:flex;align-items
 .who{color:var(--muted);font-size:14px}
 .solvedNum{font-weight:800;color:var(--ok)}
 .layout{display:grid;grid-template-columns:300px 1fr;min-height:0;flex:1}
+#examBar{display:flex;align-items:center;gap:12px;padding:8px 16px;background:#f1e9ff;color:#4b2390;border-bottom:1px solid #dccbff;font-weight:600;flex-wrap:wrap}
+#examBar .timer{font-family:var(--mono);font-size:18px;margin-left:auto}
+#examBar.ending .timer{color:var(--bad)}
+#examBar.warm{background:var(--brand-soft);color:#0b4f4a;border-bottom-color:#bfe3dd}
+#examBar.wait{background:var(--warn-soft);color:var(--warn);border-bottom-color:#f3dcae}
+.btn.exam{background:#7a3cd6;border-color:#7a3cd6;color:#fff}
+body.examMode .practiceOnly{display:none!important}
 nav.side{background:var(--panel);border-right:1px solid var(--line);overflow:auto;padding:12px}
 .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-bottom:10px}
 .seg button{flex:1;border:0;background:#fff;padding:6px 8px;cursor:pointer;font-weight:700;font-size:14px}
@@ -201,18 +208,32 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
     <h1>🧩 컴퓨터 동아리 파이썬</h1>
     <span class="dot" id="engineDot2" title="파이썬 실행기 상태"></span>
     <span class="who" id="who"></span>
-    <button class="btn small" id="statsBtn" type="button">📈 내 기록 · <span class="solvedNum" id="solvedNum">0</span>문제</button>
+    <button class="btn small exam" id="examEnterBtn" type="button" hidden>📝 평가 시작하기</button>
+    <button class="btn small practiceOnly" id="statsBtn" type="button">📈 내 기록 · <span class="solvedNum" id="solvedNum">0</span>문제</button>
     <button class="btn small ghost" id="logoutBtn" type="button">나가기</button>
   </header>
+  <div id="examBar" class="hidden" role="status">
+    <span id="examTitle"></span>
+    <span id="examRule" style="font-weight:500"></span>
+    <span class="timer" id="examTimer" aria-live="off"></span>
+    <button class="btn small hidden" id="examLeaveBtn" type="button">연습으로 돌아가기</button>
+  </div>
   <div class="layout">
     <nav class="side" aria-label="문제 고르기">
-      <div class="seg" id="bankSeg" role="group" aria-label="문제 묶음"></div>
-      <div class="tabs" id="topicTabs" role="group" aria-label="주제"></div>
-      <div class="filters">
+      <form class="practiceOnly" id="searchForm" role="search" style="margin-bottom:10px">
+        <div style="display:flex;gap:6px">
+          <input type="search" id="searchQ" placeholder="🔍 문제 찾기 (제목·설명·번호)" aria-label="문제 찾기" style="flex:1;min-width:0;padding:7px 10px;border:1px solid var(--line);border-radius:8px">
+          <button class="btn small" type="submit">찾기</button>
+        </div>
+        <label style="font-size:12.5px;color:var(--muted)"><input type="checkbox" id="searchHints"> 풀이 방법(힌트)에서도 찾기 — 예: 다익스트라, 힙, 누적합</label>
+      </form>
+      <div class="seg practiceOnly" id="bankSeg" role="group" aria-label="문제 묶음"></div>
+      <div class="tabs practiceOnly" id="topicTabs" role="group" aria-label="주제"></div>
+      <div class="filters practiceOnly">
         <label>단계 <select id="levelSel" aria-label="단계"></select></label>
         <label><input type="checkbox" id="unsolvedOnly"> 안 푼 것만</label>
       </div>
-      <button class="btn primary small" id="randomBtn" type="button" style="width:100%;justify-content:center">🎲 무작위로 한 문제 (안 푼 문제 먼저)</button>
+      <button class="btn primary small practiceOnly" id="randomBtn" type="button" style="width:100%;justify-content:center">🎲 무작위로 한 문제 (안 푼 문제 먼저)</button>
       <div id="plistArea" style="margin-top:8px"></div>
     </nav>
     <main class="work" id="work">
@@ -228,6 +249,7 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
         <div class="toolbar">
           <button class="btn" id="runBtn" type="button" title="Ctrl+Enter">▶ 실행</button>
           <button class="btn primary" id="gradeBtn" type="button" title="Ctrl+Shift+Enter">✓ 채점하기</button>
+          <button class="btn exam hidden" id="submitBtn" type="button">📤 제출하기</button>
           <span class="spacer"></span>
           <button class="btn small ghost" id="resetBtn" type="button">처음 코드로</button>
         </div>
@@ -278,6 +300,9 @@ const S = {
   list: [], prog: {}, cache: {},
   bank: store.get("pcl:bank") || "pyclub", topic: null, level: "all", unsolvedOnly: false,
   current: null, cm: null, busy: false, revealed: {},
+  mode: "practice",           // practice · warm(평가 전 연습) · wait(대기) · exam(평가 중)
+  exam: null, examProblems: [], attempts: {}, lastSubs: {}, hintsSeen: {}, offset: 0, ended: false,
+  blur: 0, paste: 0, lastBlurAt: 0, locked: false,
 };
 
 /* ---------- 파이썬 실행기 ---------- */
@@ -293,11 +318,17 @@ $("engineBtn").onclick = () => runner.ready().catch((e) => toast(e.message));
 
 /* ---------- 서버 ---------- */
 async function api(path, opt = {}) {
-  const res = await fetch(API + path, {
+  let res;
+  try {
+    res = await fetch(API + path, {
     method: opt.method || "GET",
     headers: Object.assign({ "Content-Type": "application/json" }, S.token ? { Authorization: "Bearer " + S.token } : {}),
     body: opt.body ? JSON.stringify(opt.body) : undefined,
-  });
+    });
+  } catch (e) {
+    // 서버가 없거나(아직 설치 전) 주소가 다르거나, 서버가 이 주소(ALLOWED_ORIGINS)를 막으면 브라우저는 «Failed to fetch» 만 알려 준다
+    throw new Error("채점 서버에 연결하지 못했습니다. 선생님께 알려 주세요 — 서버(pyclub-api)가 아직 설치되지 않았거나, 주소(config.js)·허용 주소(ALLOWED_ORIGINS)가 맞지 않을 수 있습니다. (" + API + ")");
+  }
   let data = {};
   try { data = await res.json(); } catch {}
   if (res.status === 401 && S.token && !opt.noLogout) { logout(true); throw new Error(data.error || "다시 로그인하세요."); }
@@ -345,11 +376,15 @@ async function enter(student) {
   runner.ready().catch((e) => toast(e.message));
   setupEditor();
   await loadList();
+  await checkExam(true);
+  pollLoop();
 }
 
 async function loadList() {
   try {
     const d = await api("/api/problems");
+    S.locked = !!d.locked;
+    if (d.locked) return;          // 평가 중에는 연습 목록이 잠긴다 (평가가 끝나면 다시 불러온다)
     S.list = d.problems;
     S.prog = {};
     for (const m of d.mine) S.prog[m.problem_id] = m;
@@ -366,6 +401,7 @@ function banksPresent() { return ["pyclub", "pycoding"].filter((b) => S.list.som
 
 /* ---------- 왼쪽: 묶음 · 주제 · 단계 · 목록 ---------- */
 function renderSide() {
+  if (S.mode !== "practice") return renderExamNav();
   const banks = banksPresent();
   $("bankSeg").innerHTML = (banks.length ? banks : ["pyclub"]).map((b) =>
     `<button type="button" data-b="${b}" aria-pressed="${b === S.bank}">${b === "pyclub" ? "🧩 동아리 문제" : "🐍 pycoding 문제"}</button>`).join("");
@@ -400,6 +436,7 @@ function icon(p) { return isSolved(p.id) ? "✅" : isTried(p.id) ? "🟡" : "○
 
 function renderList() {
   const area = $("plistArea");
+  if (S.search) return renderSearch();
   const all = filtered();
   const done = all.filter((p) => isSolved(p.id)).length;
   const list = S.unsolvedOnly ? all.filter((p) => !isSolved(p.id)) : all;
@@ -416,6 +453,36 @@ function renderList() {
         <span class="st">${icon(p)}</span><span class="t">${esc(p.title)}</span><span class="n">${esc(p.id)}</span></button></li>`).join("") + `</ul>`;
   }
   area.innerHTML = html;
+  area.querySelectorAll("button[data-id]").forEach((b) => b.onclick = () => openProblem(b.dataset.id));
+}
+
+/* ---------- 문제 찾기 ---------- */
+$("searchForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const q = $("searchQ").value.trim();
+  if (!q) { S.search = null; return renderList(); }
+  $("plistArea").innerHTML = `<p class="empty">찾는 중…</p>`;
+  try {
+    const d = await api("/api/search?q=" + encodeURIComponent(q) + ($("searchHints").checked ? "&hints=1" : ""));
+    S.search = { q, items: d.problems };
+  } catch (err) { S.search = { q, items: [], error: err.message }; }
+  renderList();
+});
+$("searchQ").addEventListener("input", () => { if (!$("searchQ").value.trim() && S.search) { S.search = null; renderList(); } });
+function renderSearch() {
+  const { q, items, error } = S.search;
+  const area = $("plistArea");
+  let html = `<div class="summary">«${esc(q)}» 찾은 문제 ${items.length}개${items.length >= 80 ? " (앞 80개만)" : ""}
+    <button class="btn small ghost" type="button" id="searchClear">✕ 지우기</button></div>`;
+  if (error) html += `<div class="errbox">${esc(error)}</div>`;
+  else if (!items.length) html += `<p class="empty">찾은 문제가 없습니다. 다른 낱말로 찾아보세요.</p>`;
+  else html += `<ul class="plist">` + items.map((p) => {
+    const B = PC.BANKS[p.bank] || PC.BANKS.pyclub;
+    return `<li><button type="button" data-id="${esc(p.id)}" aria-current="${S.current && S.current.id === p.id}">
+      <span class="st">${icon(p)}</span><span class="t">${esc(p.title)}<br><small style="color:var(--muted)">${esc(B.name)} · ${esc(PC.topicName(p.topic))} · ${p.level}단계</small></span><span class="n">${esc(p.id)}</span></button></li>`;
+  }).join("") + `</ul>`;
+  area.innerHTML = html;
+  $("searchClear").onclick = () => { $("searchQ").value = ""; S.search = null; renderList(); };
   area.querySelectorAll("button[data-id]").forEach((b) => b.onclick = () => openProblem(b.dataset.id));
 }
 
@@ -460,21 +527,25 @@ function setupEditor() {
   S.cm.getInputField().setAttribute("aria-label", "파이썬 코드 편집기 (Esc 로 빠져나오기)");
   let t = null;
   S.cm.on("change", () => { clearTimeout(t); t = setTimeout(saveDraft, 400); });
+  S.cm.on("beforeChange", examPasteGuard);
 }
-function draftKey(p) { return `pcl:draft:${S.student ? S.student.studentNo : "x"}:${p.id}`; }
+function draftKey(p) { return `pcl:draft:${S.student ? S.student.studentNo : "x"}:${S.mode === "exam" && S.exam ? "e" + S.exam.id + ":" : ""}${p.id}`; }
 function saveDraft() { if (S.current && S.cm && !PC.isPaper(S.current)) store.set(draftKey(S.current), S.cm.getValue()); }
 
 /* ---------- 문제 열기 ---------- */
 async function openProblem(id) {
   saveDraft();
-  let p = S.cache[id];
+  let p = S.mode !== "practice" ? S.examProblems.find((x) => x.id === id) : S.cache[id];
+  if (S.mode !== "practice" && !p) return;
   if (!p) {
     $("problemPane").innerHTML = `<p class="empty">문제를 불러오는 중…</p>`;
     try { p = S.cache[id] = (await api("/api/problems/" + encodeURIComponent(id))).problem; }
     catch (e) { $("problemPane").innerHTML = `<div class="errbox">${esc(e.message)}</div>`; return; }
   }
   S.current = p;
-  if (p.bank !== S.bank || p.topic !== S.topic) {
+  if (S.mode !== "practice") renderExamNav();
+  else if (S.search) renderList();
+  else if (p.bank !== S.bank || p.topic !== S.topic) {
     S.bank = p.bank; S.topic = p.topic; renderSide();
   } else renderList();
   const paper = PC.isPaper(p);
@@ -487,9 +558,11 @@ async function openProblem(id) {
   if (paper) return setupPaper(p);
 
   let code = store.get(draftKey(p));
+  if (code == null && S.mode === "exam" && S.lastSubs[p.id]) code = S.lastSubs[p.id].code;
   if (code == null) code = p.starter || "";
   S.cm.setValue(code);
   S.cm.clearHistory();
+  S.cm.setOption("readOnly", S.mode === "exam" && remaining() <= 0 ? "nocursor" : false);
   const isFunc = p.type === "func";
   $("stdinBox").classList.toggle("hidden", isFunc);
   $("stdin").value = isFunc ? "" : ((p.examples && p.examples[0] && p.examples[0].input) || "");
@@ -575,6 +648,15 @@ function showCode(code) {
 }
 
 function setupPaper(p) {
+  if (S.mode === "exam") {
+    const used = S.attempts[p.id] || 0, left = S.exam.maxAttempts - used;
+    $("paperBtn").textContent = `📤 제출하기 (남은 기회 ${Math.max(0, left)}번)`;
+    $("paperBtn").className = "btn exam";
+    $("paperBtn").disabled = left <= 0 || remaining() <= 0;
+    const last = S.lastSubs[p.id];
+    $("paperResult").innerHTML = last ? `<p class="tip" style="margin:0">마지막으로 낸 답: <strong>${esc(last.code)}</strong> — 평가 중에는 맞았는지 알려 주지 않습니다. 마지막 제출이 점수가 됩니다.</p>`
+      : `<p class="empty" style="padding:0">답을 고르고 «제출하기» 를 누르세요. 평가 중에는 맞았는지 알려 주지 않고, 마지막 제출이 점수가 됩니다.</p>`;
+  }
   const input = $("shortInput");
   if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") checkPaper(p); });
   $("paperBtn").onclick = () => checkPaper(p);
@@ -583,6 +665,7 @@ function setupPaper(p) {
 async function checkPaper(p) {
   const ans = p.type === "choice" ? ((document.querySelector('input[name="choice"]:checked') || {}).value || "") : $("shortInput").value;
   if (!String(ans).trim()) return toast("답을 먼저 고르거나 입력하세요.");
+  if (S.mode === "exam") return submitPaperExam(p, ans);
   const box = $("paperResult");
   box.innerHTML = `<p class="empty" style="padding:0">확인 중…</p>`;
   try {
@@ -598,6 +681,7 @@ async function checkPaper(p) {
 function renderHints(p) {
   const box = $("hintBox");
   if (!box) return;
+  if (S.mode === "exam") return renderExamHints(p, box);
   const hints = p.hints || [];
   if (!hints.length) { box.innerHTML = ""; return; }
   const n = S.revealed[p.id] || 0;
@@ -610,8 +694,14 @@ function renderHints(p) {
 /* ---------- 실행 · 채점 ---------- */
 function updateButtons() {
   const has = !!S.current && !S.busy && !PC.isPaper(S.current);
-  $("runBtn").disabled = !has;
+  const exam = S.mode === "exam", over = exam && remaining() <= 0;
+  $("runBtn").disabled = !has || over;
+  $("gradeBtn").classList.toggle("hidden", exam);
   $("gradeBtn").disabled = !has;
+  $("submitBtn").classList.toggle("hidden", !exam);
+  const left = S.current && S.exam ? S.exam.maxAttempts - (S.attempts[S.current.id] || 0) : 0;
+  $("submitBtn").disabled = !has || over || left <= 0;
+  $("submitBtn").textContent = exam ? `📤 제출하기 (남은 기회 ${Math.max(0, left)}번)` : "📤 제출하기";
 }
 
 function errHtml(r) {
@@ -677,6 +767,7 @@ function record(p, passed, total) {
 }
 
 function doGrade() {
+  if (S.mode === "exam") return doSubmit();
   if (!S.current || $("gradeBtn").disabled) return;
   const p = S.current;
   busy(async () => {
@@ -696,11 +787,13 @@ function doGrade() {
     if (firstErr) html += errHtml(firstErr);
     if (ex.length && ex.some((e) => !e.ok)) html += `<h4 style="margin-top:12px">예시 비교</h4>` + exampleTable(p, ex);
     else if (!all && !firstErr) html += `<p class="tip">예시는 맞지만 숨겨진 테스트에서 틀렸습니다. 경계값(최소·최대, 0, 음수, 같은 값)을 생각해 보세요.</p>`;
-    try {
-      await api("/api/submit", { method: "POST", body: { problemId: p.id, code, passed: g.passed, total: g.total, ms: g.maxMs } });
-      record(p, g.passed, g.total);
-    } catch (e) { html += `<div class="msg warn">채점은 되었지만 기록하지 못했습니다: ${esc(e.message)}</div>`; }
-    if (all) html += nextHtml();
+    if (S.mode === "practice") {
+      try {
+        await api("/api/submit", { method: "POST", body: { problemId: p.id, code, passed: g.passed, total: g.total, ms: g.maxMs } });
+        record(p, g.passed, g.total);
+      } catch (e) { html += `<div class="msg warn">채점은 되었지만 기록하지 못했습니다: ${esc(e.message)}</div>`; }
+    } else html += `<p class="tip">평가 전 연습입니다 — 점수에 들어가지 않고 기록하지 않습니다.</p>`;
+    if (all && S.mode === "practice") html += nextHtml();
     $("result").innerHTML = html;
     bindNext();
     if (p.scale && $("mineScale")) $("mineScale").innerHTML = all ? mineScaleHtml(p.scale, g.maxMs) : "";
@@ -709,11 +802,229 @@ function doGrade() {
 
 $("runBtn").onclick = doRun;
 $("gradeBtn").onclick = doGrade;
+$("submitBtn").onclick = () => doSubmit();
 $("resetBtn").onclick = async () => {
   if (!S.current) return;
   if (!(await confirmBox("처음 코드로", "지금 쓴 코드를 지우고 처음 코드로 돌립니다."))) return;
   S.cm.setValue(S.current.starter || "");
 };
+
+
+/* ---------- 평가 ----------
+   서버가 시간·제출 횟수를 막는다. 평가 중에는 일반 연습이 잠긴다.
+   평가 전 연습(warm): 연습 문제만, 채점 몇 번이든·기록 없음 → 대기(wait) → 평가(exam) */
+function remaining() { return S.exam ? S.exam.endsAt - (Date.now() + S.offset) : 0; }
+
+function pollLoop() {
+  clearTimeout(S.pollId);
+  const ms = S.mode === "warm" || S.mode === "wait" ? 5000 : S.mode === "exam" ? 20000 : 30000;
+  S.pollId = setTimeout(async () => { await checkExam(false); pollLoop(); }, ms);
+}
+
+async function checkExam(first) {
+  let d;
+  try { d = await api("/api/exam"); } catch { return; }
+  S.offset = d.now - Date.now();
+  const phase = d.exam ? d.phase : null;
+  if (phase !== "exam" && S.mode === "exam" && !S.ended) {
+    S.exam.endsAt = Math.min(S.exam.endsAt, d.now);
+    updateExamBar();
+    toast("평가가 끝났습니다.");
+  }
+  if (phase !== "exam") $("examEnterBtn").hidden = true;
+  if (phase === "practice") return enterPre("warm", d);
+  if (phase === "wait") return enterPre("wait", d);
+  if (!phase) {
+    if (S.mode === "warm" || S.mode === "wait") leaveExam();
+    else if (S.mode === "exam") $("examLeaveBtn").classList.remove("hidden");   // 끝난 평가: 제출한 것을 보다가 직접 돌아간다
+    return;
+  }
+  // 평가 중
+  const changed = !S.exam || S.exam.id !== d.exam.id;
+  S.exam = d.exam; S.examProblems = d.problems; S.attempts = d.attempts || {}; S.lastSubs = d.last || {}; S.hintsSeen = d.hintsSeen || {};
+  if (S.mode === "exam") { renderExamNav(); updateExamBar(); updateButtons(); return; }
+  if (S.mode === "warm" || S.mode === "wait") return enterExam();
+  $("examEnterBtn").hidden = false;
+  if (first || changed) {
+    confirmBox("평가가 시작되었습니다",
+      `<p><strong>${esc(d.exam.title)}</strong> — 문제 ${d.problems.length}개</p>
+       <ul style="padding-left:18px;margin:8px 0">
+         <li>문제마다 제출은 <strong>${d.exam.maxAttempts}번</strong>까지, <strong>마지막 제출</strong>이 점수가 됩니다.</li>
+         <li>코드 문제는 «제출하기» 를 눌러야 채점됩니다. 1교시 문제는 평가 중에 맞았는지 알려 주지 않습니다.</li>
+         ${d.exam.blockPaste ? "<li>코드 붙여넣기는 막혀 있습니다.</li>" : ""}
+         <li>평가 중에는 연습 문제를 열 수 없고, 다른 창이나 탭으로 나가면 기록이 남습니다.</li>
+       </ul>`, "평가 시작").then((ok) => { if (ok && S.mode !== "exam") enterExam(); });
+  }
+}
+
+function setBar(kind, title, rule) {
+  const bar = $("examBar");
+  bar.classList.remove("hidden", "ending", "warm", "wait");
+  if (kind) bar.classList.add(kind);
+  $("examTitle").textContent = title;
+  $("examRule").textContent = rule;
+  $("examTimer").textContent = "";
+}
+
+function enterPre(kind, d) {
+  const isNew = S.mode !== kind || !S.exam || S.exam.id !== d.exam.id;
+  S.exam = d.exam;
+  S.examProblems = d.problems;
+  if (!isNew) { renderExamNav(); return; }
+  saveDraft();
+  S.mode = kind; S.current = null;
+  document.body.classList.add("examMode");
+  if (kind === "warm") {
+    setBar("warm", "📝 " + d.exam.title + " — 평가 전 연습 시간", "· 채점은 몇 번이든 할 수 있고 점수에 들어가지 않습니다");
+    $("problemPane").innerHTML = `<p class="empty">왼쪽에서 연습 문제를 고르세요.</p>`;
+    renderExamNav();
+    if (d.problems[0]) openProblem(d.problems[0].id);
+  } else {
+    setBar("wait", "📝 " + d.exam.title, "· 연습 시간이 끝났습니다. 선생님이 평가를 시작할 때까지 기다리세요");
+    $("work").classList.add("paper"); $("editorPane").classList.add("hidden");
+    $("problemPane").innerHTML = `<p class="empty">곧 평가가 시작됩니다.<br>평가 문제 ${d.exam.gradedCount}개 · 문제마다 ${d.exam.maxAttempts}번 제출</p>`;
+    renderExamNav();
+  }
+  updateButtons();
+}
+
+function enterExam() {
+  if (!S.exam) return;
+  saveDraft();
+  S.mode = "exam"; S.current = null; S.ended = false;
+  $("examLeaveBtn").classList.add("hidden");
+  document.body.classList.add("examMode");
+  $("examEnterBtn").hidden = true;
+  setBar("", "📝 " + S.exam.title, "");
+  $("problemPane").innerHTML = `<p class="empty">왼쪽에서 평가 문제를 고르세요.</p>`;
+  renderExamNav();
+  if (S.examProblems[0]) openProblem(S.examProblems[0].id);
+  updateExamBar();
+  if (!S.timerId) S.timerId = setInterval(updateExamBar, 1000);
+  if (!S.eventId) S.eventId = setInterval(flushEvents, 15000);
+}
+
+function leaveExam() {
+  S.mode = "practice"; S.current = null; S.exam = null; S.examProblems = [];
+  document.body.classList.remove("examMode");
+  $("examBar").classList.add("hidden");
+  $("work").classList.remove("paper"); $("editorPane").classList.remove("hidden");
+  $("problemPane").innerHTML = `<p class="empty">왼쪽에서 문제를 고르거나 «🎲 무작위» 를 누르세요.</p>`;
+  clearInterval(S.timerId); clearInterval(S.eventId); S.timerId = S.eventId = null;
+  loadList();
+  updateButtons();
+}
+$("examEnterBtn").onclick = () => enterExam();
+$("examLeaveBtn").onclick = () => { $("examLeaveBtn").classList.add("hidden"); leaveExam(); };
+
+function renderExamNav() {
+  const area = $("plistArea");
+  if (S.mode === "wait") { area.innerHTML = `<p class="empty">연습 시간이 끝났습니다.<br>선생님이 평가를 시작하면 평가 문제가 여기에 나옵니다.</p>`; return; }
+  const exam = S.mode === "exam";
+  area.innerHTML = `<div class="lvl"><span>${exam ? "평가 문제" : "평가 전 연습 문제"}</span></div><ul class="plist">` + S.examProblems.map((p, i) => {
+    const last = S.lastSubs[p.id], used = S.attempts[p.id] || 0;
+    const st = !exam ? "○" : !last ? "○" : PC.isPaper(p) ? "📤" : last.client_passed === last.client_total ? "✅" : "🟡";
+    return `<li><button type="button" data-id="${esc(p.id)}" aria-current="${S.current && S.current.id === p.id}">
+      <span class="st">${st}</span><span class="t">${i + 1}. ${esc(p.title)}</span>${exam ? `<span class="n">${used}/${S.exam.maxAttempts}</span>` : ""}</button></li>`;
+  }).join("") + `</ul>`;
+  area.querySelectorAll("button[data-id]").forEach((b) => b.onclick = () => openProblem(b.dataset.id));
+}
+
+function fmt(ms) {
+  ms = Math.max(0, ms);
+  const s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), r = s % 60;
+  return (h ? h + ":" : "") + String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0");
+}
+
+function updateExamBar() {
+  if (S.mode !== "exam" || !S.exam) return;
+  const left = remaining();
+  $("examTitle").textContent = "📝 " + S.exam.title;
+  $("examRule").textContent = `· 문제마다 ${S.exam.maxAttempts}번 제출 · 마지막 제출이 점수`;
+  $("examTimer").textContent = left > 0 ? "남은 시간 " + fmt(left) : "평가 종료";
+  $("examBar").classList.toggle("ending", left > 0 && left < 5 * 60000);
+  if (left <= 0 && !S.ended) {
+    S.ended = true;
+    S.cm.setOption("readOnly", "nocursor");
+    updateButtons();
+    if (S.current && PC.isPaper(S.current)) setupPaper(S.current);
+    flushEvents();
+    setTimeout(() => checkExam(false), 3000);
+  }
+}
+
+async function doSubmit() {
+  if (S.mode !== "exam" || !S.current || $("submitBtn").disabled) return;
+  const p = S.current;
+  const code = S.cm.getValue();
+  if (!code.trim()) return toast("코드를 먼저 작성하세요.");
+  const left = S.exam.maxAttempts - (S.attempts[p.id] || 0);
+  if (!(await confirmBox("제출할까요?", `제출하면 남은 기회가 <strong>${left - 1}번</strong>이 됩니다. 마지막 제출이 점수가 됩니다.`, "제출"))) return;
+  busy(async () => {
+    const g = await PC.grade(runner, p, code);
+    const d = await api("/api/submit", { method: "POST", body: { problemId: p.id, examId: S.exam.id, code, passed: g.passed, total: g.total, ms: g.maxMs } });
+    S.attempts[p.id] = (S.attempts[p.id] || 0) + 1;
+    S.lastSubs[p.id] = { problem_id: p.id, code, client_passed: g.passed, client_total: g.total, id: d.id };
+    const all = g.passed === g.total;
+    $("result").innerHTML = `<h4>제출 완료 — 채점 결과</h4><div class="score ${all ? "ok" : "bad"}">${all ? "🎉 모두 통과!" : `${g.passed} / ${g.total} 통과`}</div>
+      <div class="chips">` + g.results.map((r, i) => `<span class="chip ${r.ok ? "ok" : "bad"}">테스트 ${i + 1} ${r.ok ? "✓" : r.kind ? "✗ " + esc(PC.explain(r).title) : "✗"}</span>`).join("") + `</div>
+      <p class="tip">남은 제출 기회: ${S.exam.maxAttempts - S.attempts[p.id]}번 · 제출 시각 ${new Date(d.at).toLocaleTimeString("ko-KR")}</p>`;
+    renderExamNav();
+  });
+}
+
+async function submitPaperExam(p, ans) {
+  const left = S.exam.maxAttempts - (S.attempts[p.id] || 0);
+  if (left <= 0) return toast("제출 기회를 모두 썼습니다.");
+  if (!(await confirmBox("제출할까요?", `답 <strong>${esc(ans)}</strong> 을(를) 냅니다. 남은 기회가 <strong>${left - 1}번</strong>이 됩니다. 마지막 제출이 점수가 됩니다.`, "제출"))) return;
+  try {
+    const d = await api("/api/submit", { method: "POST", body: { problemId: p.id, examId: S.exam.id, answer: ans } });
+    S.attempts[p.id] = (S.attempts[p.id] || 0) + 1;
+    S.lastSubs[p.id] = { problem_id: p.id, code: PC.normalizeShort(ans), id: d.id };
+    setupPaper(p);
+    renderExamNav();
+    toast("제출했습니다.");
+  } catch (e) { toast(e.message); }
+}
+
+function renderExamHints(p, box) {
+  const total = S.exam && S.exam.allowHints ? p.hintCount || 0 : 0;
+  if (!total) { box.innerHTML = ""; return; }
+  const shown = S.hintsSeen[p.id] || {};
+  const texts = [];
+  for (let lv = 1; lv <= total && shown[lv]; lv++) texts.push(`<div class="hint"><b>💡 힌트 ${lv}</b>${esc(shown[lv])}</div>`);
+  const next = texts.length + 1;
+  box.innerHTML = texts.join("") + (next <= total ? `<button class="btn small" type="button" id="hintBtn">💡 힌트 ${next} 보기</button>
+    <span style="font-size:12.5px;color:var(--muted)">평가 중 힌트를 보면 선생님 결과표에 기록됩니다 (점수는 깎이지 않아요)</span>` : "");
+  const b = $("hintBtn");
+  if (b) b.onclick = async () => {
+    if (!(await confirmBox("힌트를 볼까요?", `힌트 ${next}를 보면 선생님 결과표에 «힌트 봄» 이 기록됩니다. 점수는 깎이지 않습니다.`, "힌트 보기"))) return;
+    try {
+      const d = await api("/api/hint", { method: "POST", body: { examId: S.exam.id, problemId: p.id, level: next } });
+      (S.hintsSeen[p.id] = S.hintsSeen[p.id] || {})[next] = d.hint;
+      renderExamHints(p, box);
+    } catch (e) { toast(e.message); }
+  };
+}
+
+// 붙여넣기 막기 · 다른 창 이동 기록 (참고용)
+function examPasteGuard(cm, ch) {
+  if (S.mode === "exam" && S.exam && S.exam.blockPaste && (ch.origin === "paste" || ch.origin === "drop")) {
+    ch.cancel(); S.paste++; toast("평가 중에는 붙여넣기를 할 수 없습니다.");
+  }
+}
+window.addEventListener("blur", () => {
+  if (S.mode !== "exam" || remaining() <= 0) return;
+  const now = Date.now();
+  if (now - S.lastBlurAt > 2000) { S.blur++; S.lastBlurAt = now; }
+});
+async function flushEvents() {
+  if (S.mode !== "exam" || !S.exam || (!S.blur && !S.paste)) return;
+  const blur = S.blur, paste = S.paste;
+  S.blur = 0; S.paste = 0;
+  try { await api("/api/exam/event", { method: "POST", body: { examId: S.exam.id, blur, paste } }); }
+  catch { S.blur += blur; S.paste += paste; }
+}
 
 /* ---------- 내 기록 ---------- */
 function dayKey(t) { const d = new Date(t); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
