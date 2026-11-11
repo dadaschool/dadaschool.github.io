@@ -1,0 +1,47 @@
+{
+ "version": "1.0.0",
+ "date": "2026-11-11",
+ "notes": [
+  "첫 정식 판이에요. 이제 진짜 기록을 넣어도 돼요.",
+  "점검 주소에서 넣은 기록은 따라오지 않아요. 옮기려면 점검 주소에서 [백업 파일 저장] 뒤 여기서 [백업 파일 가져오기].",
+  "처음 할 일: 설정에서 한 달 시작일(월급날) · 카드 등록 · 홈 화면에 설치 · 백업 한 번."
+ ],
+ "dataVersion": 2,
+ "files": [
+  {
+   "path": "guide.html",
+   "size": 7630,
+   "sha256": "e8db1cc72bb32e529e4ef34650f2d1817b2da6b5985e94bca532b0e8ee8d2114"
+  },
+  {
+   "path": "icons/icon-192.png",
+   "size": 10416,
+   "sha256": "19769634e95d9820cd6399f32c9882585dead77bec5b51d05742cfc90bd462d4"
+  },
+  {
+   "path": "icons/icon-512.png",
+   "size": 28291,
+   "sha256": "e1752e3be310b16a1b33c8fb82a6ad0a1d686c04718d0472cacc94520d4b63e2"
+  },
+  {
+   "path": "icons/icon-maskable-512.png",
+   "size": 16533,
+   "sha256": "8027461525b6dd2ebde498ff2104b5f79be24478d8f13003ab32478843e99574"
+  },
+  {
+   "path": "icons/icon.svg",
+   "size": 337,
+   "sha256": "257fa343295b708db1b876a46c8fd74df7e0b24b0602cb41f891dd2182ff8aa9"
+  },
+  {
+   "path": "index.html",
+   "size": 190961,
+   "sha256": "ffe05eb6b4a69ff2a4a6bd917cb7f75cbf0340b9e8f66157bd6126366a24da2e"
+  },
+  {
+   "path": "manifest.webmanifest",
+   "size": 958,
+   "sha256": "a90f9d680719d7900dd429059edd515e07f29f82f7b50ca8c2a89dbfb21b6c21"
+  }
+ ]
+}
