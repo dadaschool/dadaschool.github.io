@@ -76,6 +76,15 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 #editDlg textarea{border:1px solid var(--line);border-radius:7px;padding:6px 8px;background:#fff}
 .log{font-family:var(--mono);font-size:12.5px;background:#f6f7f9;border-radius:8px;padding:8px 10px;max-height:240px;overflow:auto;white-space:pre-wrap}
 @media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.ak-prob{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:#fff;break-inside:avoid}
+.ak-prob h3{margin:0 0 6px;font-size:15px}
+.ak-prob h4{margin:10px 0 4px;font-size:13px;color:var(--muted)}
+.ak-prob .body{white-space:pre-wrap;font-size:13.5px}
+pre.ak-out{margin:0;font-family:var(--mono);font-size:12px;white-space:pre-wrap;word-break:break-all;max-height:none}
+@media print{
+  header,nav.tabs,#verWarn,.noprint,[data-panel]:not([data-panel="answers"]){display:none!important}
+  body{background:#fff} main{padding:0;max-width:none} .ak-prob{border-color:#999}
+}
 </style>
 </head>
 <body>
@@ -103,6 +112,7 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
     <button role="tab" data-tab="results" aria-selected="false">📝 평가 결과</button>
     <button role="tab" data-tab="exams" aria-selected="false">🛠 평가 만들기</button>
     <button role="tab" data-tab="deploy" aria-selected="false">🚀 배포</button>
+    <button role="tab" data-tab="answers" aria-selected="false">📄 정답지</button>
     <button role="tab" data-tab="practice" aria-selected="false">📊 연습 현황</button>
     <button role="tab" data-tab="problems" aria-selected="false">📚 문제 은행</button>
     <button role="tab" data-tab="status" aria-selected="false">⚙️ 서버 상태</button>
@@ -221,6 +231,23 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
           «동아리 전체» 배포는 모든 동아리 학생에게, 모둠 배포는 그 모둠 학생에게만 보입니다. 한 학생에게 동시에 두 평가가 열리지 않게 겹치는 배포는 시작되지 않습니다.
           평가 중에는 그 학생들의 일반 연습 화면이 잠깁니다.</p>
       </section>
+    </div>
+
+    <!-- 정답지 -->
+    <div data-panel="answers" hidden>
+      <section class="panel noprint">
+        <div class="row">
+          <select id="akSrc" aria-label="무엇의 정답지"></select>
+          <label class="small"><input type="checkbox" id="akBody" checked> 문제 설명</label>
+          <label class="small"><input type="checkbox" id="akCode" checked> 정답 코드</label>
+          <label class="small"><input type="checkbox" id="akTests" checked> 테스트 입력·정답 출력</label>
+          <label class="small"><input type="checkbox" id="akHints"> 힌트</label>
+          <span style="flex:1"></span>
+          <button class="btn primary" id="akPrint" type="button">🖨 인쇄</button>
+        </div>
+        <p class="small" style="margin:6px 0 0">정답 출력은 이 컴퓨터에서 정답 코드를 실행해 만듭니다. 입력·출력이 아주 긴 테스트는 앞부분만 보여 줍니다. ⚠ 학생에게 보이지 않게 주의하세요 (인쇄물·화면 공유).</p>
+      </section>
+      <div id="akSheet"></div>
     </div>
 
     <!-- 연습 현황 -->
@@ -376,6 +403,7 @@ document.querySelectorAll("#tabs button").forEach((b) => b.onclick = () => {
   if (b.dataset.tab === "problems" && !T.problemsLoaded) loadProblems();
   if (b.dataset.tab === "status") loadStatus();
   if (["results", "exams", "deploy"].includes(b.dataset.tab)) openExamTab(b.dataset.tab);
+  if (b.dataset.tab === "answers") openAnswers();
 });
 
 /* ---------- 서버 상태 ---------- */
@@ -714,6 +742,109 @@ $("edJson").onclick = () => {
   a.href = URL.createObjectURL(new Blob([JSON.stringify({ problems: [p] }, null, 1)], { type: "application/json" }));
   a.download = `${p.id}.json`; a.click();
 };
+
+
+/* ---------- 정답지 ----------
+   평가 하나, 또는 문제 은행의 주제·단계를 골라 문제마다 정답 코드와 테스트별 정답 출력(이 브라우저에서 정답 코드 실행)을 보여 주고 인쇄한다.
+   1교시 문제는 보여 줄 코드·보기·정답. */
+let akSeq = 0;
+const AK_CUT = 1500;
+const akCut = (t) => { t = String(t == null ? "" : t); return t.length > AK_CUT ? t.slice(0, AK_CUT) + `\n… (${t.length.toLocaleString("ko-KR")}자 중 앞부분만)` : t; };
+async function openAnswers() {
+  try { await loadMeta(); await loadExams(); } catch (e) { alert(e.message); return; }
+  const sel = $("akSrc"), prev = sel.value;
+  const opts = [];
+  if (T.exams.length) opts.push(`<optgroup label="평가">` + T.exams.map((e) => `<option value="exam:${e.id}">${esc(e.title)}</option>`).join("") + `</optgroup>`);
+  for (const b of ["pyclub", "pycoding"]) {
+    const B = PC.BANKS[b];
+    opts.push(`<optgroup label="${b === "pyclub" ? "동아리 문제" : "pycoding 문제"} (주제·단계)">` + B.topics.flatMap((t) => Object.keys(B.levels).map((lv) => {
+      const n = (T.metaList || []).filter((p) => p.bank === b && p.topic === t.key && String(p.level) === lv).length;
+      return n ? `<option value="set:${b}:${t.key}:${lv}">${esc(t.name)} ${lv}단계 (${n}문제)</option>` : "";
+    })).join("") + `</optgroup>`);
+  }
+  sel.innerHTML = opts.join("");
+  if (prev && [...sel.options].some((o) => o.value === prev)) sel.value = prev;
+  renderAnswers();
+}
+["akSrc", "akBody", "akCode", "akTests", "akHints"].forEach((id) => $(id).addEventListener("change", renderAnswers));
+$("akPrint").onclick = () => {
+  if (document.querySelector("#akSheet .ak-pending")) return alert("정답 출력을 만드는 중입니다. 잠시 뒤 다시 누르세요.");
+  window.print();
+};
+
+async function renderAnswers() {
+  const v = $("akSrc").value, sheet = $("akSheet");
+  if (!v) { sheet.innerHTML = `<p class="small">문제가 없습니다.</p>`; return; }
+  const seq = ++akSeq;
+  const show = { body: $("akBody").checked, code: $("akCode").checked, tests: $("akTests").checked, hints: $("akHints").checked };
+  let title, groups;
+  if (v.startsWith("exam:")) {
+    const ex = T.exams.find((e) => String(e.id) === v.slice(5));
+    const sp = idsOf(ex), SC = examScoring(ex, sp.graded);
+    title = `📄 정답지 — ${ex.title}`;
+    groups = [];
+    if (sp.warm.length) groups.push({ name: "평가 전 연습 문제 (점수 없음)", ids: sp.warm });
+    groups.push({ name: sp.warm.length ? "평가 문제" : "문제", ids: sp.graded, points: SC.points });
+    title += ` <span class="small">· 만점 ${round1(SC.max)}점 · ${ex.duration_min}분 · 문제마다 ${ex.max_attempts}번 제출</span>`;
+  } else {
+    const [, b, t, lv] = v.split(":");
+    const ids = (T.metaList || []).filter((p) => p.bank === b && p.topic === t && String(p.level) === lv).map((p) => p.id);
+    title = `📄 정답지 — ${PC.topicName(t)} ${lv}단계 (${ids.length}문제)`;
+    groups = [{ name: "", ids }];
+  }
+  sheet.innerHTML = `<section class="panel"><h2 style="margin:0">${title}</h2></section><p class="small">문제를 불러오는 중…</p>`;
+  // 전체 문제 받기
+  const rows = {};
+  for (const g of groups) for (const id of g.ids) {
+    if (seq !== akSeq) return;
+    try { rows[id] = (await api("/api/teacher/problems/" + encodeURIComponent(id))).problem; } catch {}
+  }
+  const J = (x, d) => { try { return x ? JSON.parse(x) : d; } catch { return d; } };
+  let html = `<section class="panel"><h2 style="margin:0">${title}</h2></section>`;
+  for (const g of groups) {
+    if (g.name) html += `<h3 style="margin:14px 0 6px">${esc(g.name)}</h3>`;
+    g.ids.forEach((id, i) => {
+      const r = rows[id];
+      if (!r) { html += `<div class="ak-prob"><h3>${i + 1}. ${esc(id)}</h3><p class="small">문제를 불러오지 못했습니다.</p></div>`; return; }
+      const paper = isPaperT(r.type), code = J(r.code, null), choices = J(r.choices, []), hints = J(r.hints, []);
+      const kind = { io: "입출력", func: "함수 " + (r.func_name || ""), choice: "객관식", short: "단답" }[r.type];
+      html += `<div class="ak-prob" id="ak-${esc(id)}"><h3>${i + 1}. ${esc(r.title)} <span class="small">${esc(id)} · ${esc(PC.topicName(r.topic))} ${r.level}단계 · ${esc(kind)}${g.points && g.points[id] != null ? " · 배점 " + round1(g.points[id]) + "점" : ""}</span></h3>`;
+      if (show.body) {
+        html += `<div class="body">${esc(r.body)}</div>`;
+        if (r.input_desc) html += `<div class="small"><b>${r.type === "func" ? "호출" : "입력"}</b> ${esc(r.input_desc)}</div>`;
+        if (r.output_desc) html += `<div class="small"><b>${r.type === "func" ? "돌려줄 값" : "출력"}</b> ${esc(r.output_desc)}</div>`;
+      }
+      if (paper) {
+        if (code && code.text) html += `<h4>${code.lang === "c" ? "C 코드" : "파이썬 코드"}</h4><pre class="code ak-out">${esc(code.text)}</pre>`;
+        if (choices.length) html += `<ol style="margin:6px 0">${choices.map((c, k) => `<li${String(k + 1) === String(r.ref_code) ? ' style="font-weight:700;color:var(--ok)"' : ""}>${esc(c)}</li>`).join("")}</ol>`;
+        html += `<h4>정답</h4><div style="font-size:16px;font-weight:800;color:var(--ok)">${esc(r.type === "choice" ? "①②③④⑤⑥"[Number(r.ref_code) - 1] + " " + (choices[Number(r.ref_code) - 1] || "") : r.ref_code)}</div>`;
+      } else {
+        if (show.code) html += `<h4>정답 코드</h4><pre class="code ak-out">${esc(r.ref_code || "(정답 코드 없음)")}</pre>`;
+        if (show.tests) html += `<h4>테스트 입력과 정답 출력</h4><div class="ak-tests ak-pending small">정답 코드를 실행하는 중…</div>`;
+      }
+      if (show.hints && hints.length) html += `<h4>힌트</h4>` + hints.map((h, k) => `<div class="small">💡 ${k + 1}. ${esc(h)}</div>`).join("");
+      html += `</div>`;
+    });
+  }
+  sheet.innerHTML = html;
+  if (!show.tests) return;
+  for (const g of groups) for (const id of g.ids) {
+    if (seq !== akSeq) return;
+    const r = rows[id];
+    const box = document.querySelector(`#ak-${CSS.escape(id)} .ak-tests`);
+    if (!r || !box) continue;
+    const isFunc = r.type === "func";
+    const tests = J(r.tests, []);
+    let raw;
+    try { raw = await getRunner().run(r.ref_code, tests.map((t) => (isFunc ? { stdin: "", call: t.call } : { stdin: t.input || "", call: "" })), (r.time_limit || 2) * 3); }
+    catch (e) { box.className = "ak-tests small"; box.textContent = "파이썬 실행기를 불러오지 못했습니다: " + e.message; continue; }
+    box.className = "ak-tests";
+    box.innerHTML = `<table><thead><tr><th style="width:40px">#</th><th>${isFunc ? "호출" : "입력"}</th><th>정답 ${isFunc ? "(돌려주는 값)" : "출력"}</th></tr></thead><tbody>` +
+      raw.map((x, k) => `<tr><td>${k + 1}</td>
+        <td><pre class="ak-out">${esc(akCut(isFunc ? tests[k].call : (tests[k].input || "(입력 없음)")))}</pre></td>
+        <td><pre class="ak-out">${x.kind ? "⚠ 정답 코드 오류: " + esc(PC.explain(x).title) : esc(akCut(isFunc ? x.ret : PC.normalize(x.stdout)))}</pre></td></tr>`).join("") + `</tbody></table>`;
+  }
+}
 
 /* ---------- 연습 현황 ---------- */
 $("prLoad").onclick = loadPractice;
