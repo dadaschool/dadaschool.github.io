@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>재난안전 AI로봇 운용관 · 학생 활동지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* ── 원본 활동지 스타일 (tools/원본_활동지.html) ── */
+*{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Malgun Gothic','Apple SD Gothic Neo',-apple-system,'Segoe UI',sans-serif;color:#222;background:#e9edf2;line-height:1.6;font-size:14.5px}
+  .top{max-width:900px;margin:0 auto;padding:22px 18px 6px;text-align:center}
+  .top h1{font-size:1.5em;font-weight:900;color:#b71c1c;letter-spacing:-.5px}
+  .top p{color:#566;font-size:.92em;margin-top:4px}
+  nav.toc{position:sticky;top:0;z-index:9;background:rgba(255,255,255,.97);box-shadow:0 2px 10px rgba(0,0,0,.07);
+       padding:8px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+  nav.toc a{padding:5px 11px;border-radius:14px;background:#eef2f8;color:#3a4a5e;font-size:.8em;font-weight:700}
+  nav.toc a:hover{background:#e64a19;color:#fff}
+  .wrap{max-width:900px;margin:0 auto;padding:0 14px 40px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 3px 14px rgba(0,0,0,.08);padding:24px 26px;margin:0 auto 22px}
+  .shead{display:flex;align-items:center;gap:14px;color:#fff;border-radius:12px;padding:13px 18px;margin-bottom:14px}
+  .shead .sn{font-size:1.2em;font-weight:900;background:rgba(255,255,255,.22);min-width:64px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+  .shead h2{font-size:1.22em;font-weight:800;letter-spacing:-.4px;line-height:1.25}
+  .shead .stg{font-size:.78em;font-weight:700;opacity:.92}
+  .c1{background:linear-gradient(135deg,#ff8a65,#f4511e)}
+  .c2{background:linear-gradient(135deg,#7e57c2,#4527a0)}
+  .c4{background:linear-gradient(135deg,#5c6bc0,#283593)}
+  .idline{display:flex;gap:18px;flex-wrap:wrap;font-size:.9em;color:#445;margin-bottom:10px;padding:8px 12px;background:#f6f8fb;border-radius:8px}
+  .idline .u{display:inline-block;min-width:90px;border-bottom:1.5px solid #aab; margin-left:4px}
+  .obj{background:#fdeccf;border-left:5px solid #e64a19;border-radius:8px;padding:9px 13px;margin-bottom:14px;font-size:.95em}
+  .obj b{color:#bf360c;margin-right:6px}
+  .actsec{margin:14px 0;padding-left:14px;border-left:4px solid #e0e5ec}
+  .actsec .ah{font-weight:800;color:#1a2735;font-size:1.03em;margin-bottom:5px}
+  .actsec .ins{color:#3a4656;font-size:.95em;margin-bottom:8px}
+  .warmsec{border-color:#43a047}.reflsec{border-color:#5e35b1}
+  .small{font-weight:400;color:#7a8699;font-size:.82em}
+  .wl{margin:6px 0}
+  .wline{display:block;border-bottom:1.4px solid #c7cfda;height:26px}
+  .prompts .pr{display:flex;align-items:flex-end;gap:8px;margin:7px 0}
+  .pr .pl{font-size:.93em;color:#33414f;white-space:nowrap}
+  .pr .pf,.pr{flex-wrap:wrap}
+  .pr .pf{flex:1;border-bottom:1.4px solid #c7cfda;height:22px;min-width:120px}
+  .reflsec .pl{font-weight:600}
+  table.ws{width:100%;border-collapse:collapse;margin:8px 0;font-size:.92em}
+  table.ws th,table.ws td{border:1px solid #cfd6e0;padding:7px 9px;text-align:left}
+  table.ws th{background:#f3f6fb;font-weight:800;color:#33414f}
+  table.ws td.cc,table.ws th.cc{text-align:center}
+  table.ws tbody td{height:30px}
+  .eval td:first-child{width:auto}
+  .cap{font-size:.82em;color:#7a8699;margin-top:-2px}
+  ul.chk{list-style:none;margin:6px 0}
+  ul.chk li{position:relative;padding:4px 0 4px 28px;font-size:.94em}
+  ul.chk li:before{content:'';position:absolute;left:0;top:6px;width:16px;height:16px;border:2px solid #888;border-radius:4px}
+  pre.blk{background:#1e2733;color:#e6edf3;border-radius:9px;padding:12px 14px;overflow-x:auto;white-space:pre-wrap;
+       font-family:'D2Coding','Consolas',monospace;font-size:12.5px;line-height:1.55;margin:8px 0}
+  .drawbox{border:2px dashed #b0bac8;border-radius:10px;color:#9aa7b5;display:flex;align-items:center;justify-content:center;font-size:.9em;margin:8px 0}
+  .mgoal{background:#ede7f6;border-left:5px solid #5e35b1;border-radius:8px;padding:8px 12px;font-weight:700;color:#4527a0;margin-bottom:8px;font-size:.93em}
+  .box.note{background:#fff4e2;border-left:5px solid #fb8c00;border-radius:8px;padding:10px 13px;font-size:.93em}
+  .tnote{margin-top:16px;background:#eef4ff;border:1px dashed #9bb4e0;border-radius:8px;padding:9px 13px;font-size:.86em;color:#33455f}
+  .tnote b{color:#1f3a6b;margin-right:6px}
+  .foot{text-align:center;color:#8a96a6;font-size:.82em;padding:10px 0 30px}
+  @media print{
+    body{background:#fff;font-size:11.5pt}
+    nav.toc,.top p,.printhide{display:none}
+    .top{padding:0}
+    .wrap{max-width:none;padding:0}
+    .sheet{box-shadow:none;border:none;border-radius:0;margin:0;padding:0 0 0 0;page-break-after:always}
+    .tnote{page-break-inside:avoid}
+    @page{size:A4;margin:14mm}
+  }
+
+/* ── 입력 웹앱 덧붙임 ── */
+body{font-family:'Pretendard Variable',Pretendard,'Malgun Gothic','Apple SD Gothic Neo',-apple-system,'Segoe UI',sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid #1565c0;outline-offset:2px;border-radius:4px}
+.top{padding-bottom:10px}
+.top .sub{color:#566;font-size:.9em;margin-top:4px}
+
+/* 머리 막대: 차시 탭 + 도구 */
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);box-shadow:0 2px 10px rgba(0,0,0,.08);margin-bottom:12px}
+.bar-in{max-width:900px;margin:0 auto;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
+.tabs button{flex:0 0 auto;border:0;cursor:pointer;padding:6px 11px 5px;border-radius:14px;background:#eef2f8;color:#3a4a5e;font:inherit;font-size:.82em;font-weight:700;line-height:1.2;text-align:center}
+.tabs button .pg{display:block;font-size:.78em;font-weight:600;opacity:.75}
+.tabs button.done{background:#e3f4e5;color:#2e7d32}
+.tabs button[aria-selected="true"]{background:#e64a19;color:#fff}
+.tabs button:hover:not([aria-selected="true"]){background:#ffd9cc}
+.tools{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tools button,.btn{border:1px solid #c9d2de;background:#fff;color:#33414f;border-radius:8px;padding:6px 10px;font:inherit;font-size:.82em;font-weight:700;cursor:pointer}
+.tools button:hover,.btn:hover{background:#f3f6fb}
+.tools .save-state{margin-left:auto;font-size:.78em;color:#6b7a8c}
+.tools .save-state.ok{color:#2e7d32}
+
+/* 학생 정보 */
+.me{background:#fff;border-radius:12px;box-shadow:0 3px 14px rgba(0,0,0,.08);padding:14px 18px;margin:0 auto 16px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-end}
+.me label{display:flex;flex-direction:column;font-size:.85em;font-weight:700;color:#445;gap:3px;flex:1 1 140px}
+.me .hint{flex-basis:100%;font-size:.82em;color:#6b7a8c}
+
+/* 입력 칸 공통 */
+.f{font:inherit;color:#1a2735;background:#fbfcfe;border:1.4px solid #c7cfda;border-radius:6px;padding:6px 8px;width:100%}
+.f:hover{border-color:#9fb0c4}
+.f:focus{background:#fff;border-color:#1565c0;outline:none;box-shadow:0 0 0 3px rgba(21,101,192,.18)}
+textarea.f{resize:vertical;line-height:1.6;min-height:2.4em;display:block}
+.wl{margin:6px 0}
+.prompts .pr,.reflsec .pr{display:block;margin:10px 0 4px}
+.pr .pl{white-space:normal;display:block;margin-bottom:4px}
+.pr .f{margin-top:2px}
+.idline .f{width:auto;min-width:100px;padding:2px 6px;margin-left:4px;display:inline-block}
+.idline .gl{display:inline-block;min-width:90px;border-bottom:1.5px solid #aab;margin-left:4px;font-weight:700;color:#1a2735}
+table.ws td.in{padding:3px}
+table.ws td.in textarea.f{border-color:transparent;background:#fbfcfe;min-height:30px;padding:4px 6px;resize:none}
+table.ws td.in textarea.f:focus{border-color:#1565c0}
+.tblwrap{overflow-x:auto}
+table.ws{min-width:520px}
+table.ws.eval{min-width:0}
+table.ws.eval td.cc{padding:0}
+table.ws.eval label{display:flex;align-items:center;justify-content:center;min-height:38px;cursor:pointer}
+table.ws.eval input{width:20px;height:20px;accent-color:#e64a19;cursor:pointer}
+ul.chk li{padding-left:0}
+ul.chk li:before{display:none}
+ul.chk label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+ul.chk input{width:20px;height:20px;margin-top:3px;flex:0 0 auto;accent-color:#2e7d32}
+pre.blk .b{font:inherit;color:#ffe082;background:#2c3a4b;border:0;border-bottom:2px solid #ffb300;border-radius:3px;padding:0 4px;min-width:3ch;max-width:100%}
+pre.blk .b:focus{outline:2px solid #ffb300;background:#34465b}
+.draw{margin:8px 0}
+.draw canvas{display:block;width:100%;height:auto;border:2px dashed #b0bac8;border-radius:10px;background:#fff;touch-action:none;cursor:crosshair}
+.draw .dtools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;align-items:center}
+.draw .dtools button{border:1px solid #c9d2de;background:#fff;border-radius:8px;padding:5px 10px;font:inherit;font-size:.82em;font-weight:700;cursor:pointer}
+.draw .dtools button[aria-pressed="true"]{background:#33414f;color:#fff;border-color:#33414f}
+.draw .dtools .sw{width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:-2px;margin-right:4px}
+.sheet-nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:18px}
+.sheet-nav .btn-save{background:#e64a19;border-color:#e64a19;color:#fff}
+.sheet-nav .btn-save:hover{background:#bf360c}
+@media (max-width:600px){.sheet-nav .btn-save{order:-1;flex-basis:100%}}
+.foot .btn{margin:6px 4px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#263238;color:#fff;padding:10px 16px;border-radius:10px;font-size:.9em;z-index:50;box-shadow:0 4px 16px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}
+.toast[hidden]{display:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 한 번에 한 차시만 보인다 (인쇄 «전체» 때는 모두) */
+article.sheet{display:none}
+article.sheet.on{display:block}
+body.print-all article.sheet{display:block}
+
+@media (max-width:600px){
+  .tools{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+  .tools button{flex:0 0 auto;padding:5px 8px}
+  .tools .save-state{flex:0 0 auto;white-space:nowrap}
+  .sheet{padding:18px 14px}
+  .shead{padding:11px 12px;gap:10px}
+  .shead .sn{min-width:54px;height:46px;font-size:1.05em}
+  .wrap{padding:0 8px 40px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media print{
+  .bar,.me,.sheet-nav,.foot,.draw .dtools,.toast{display:none!important}
+  .f{border:0;border-bottom:1px solid #999;border-radius:0;background:none;padding:2px 0;box-shadow:none}
+  textarea.f{resize:none;overflow:hidden}
+  table.ws td.in textarea.f{border:0}
+  table.ws{min-width:0}
+  pre.blk .b{color:#000;background:none;border-bottom:1px solid #000}
+  .draw canvas{border:1px solid #999}
+  article.sheet.on{display:block}
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>재난안전 AI로봇 운용관 — 학생 활동지</h1>
+  <p class="sub">8차시 · 무선캠 영상만 보고 원격으로! · 쓴 내용은 이 기기 브라우저에 저절로 저장됩니다</p>
+</div>
+
+<div class="bar" role="region" aria-label="차시 선택과 도구">
+  <div class="bar-in">
+    <div class="tabs" role="tablist" aria-label="차시"></div>
+    <div class="tools">
+      <button type="button" id="bExportOne" title="지금 보는 차시만 파일로 내려받습니다 (선생님께 제출용)">💾 <span id="bExportOneT">이 차시</span> 저장</button>
+      <button type="button" id="bExport" title="8개 차시를 모두 파일 하나로 내려받습니다">💾 전체 저장</button>
+      <button type="button" id="bImport" title="저장해 둔 파일(차시 파일 · 전체 파일)을 다시 불러옵니다">📂 불러오기</button>
+      <button type="button" id="bPrint" title="지금 보는 차시를 인쇄하거나 PDF로 저장합니다">🖨 이 차시 인쇄</button>
+      <button type="button" id="bReset" title="이 기기에 저장된 내용을 모두 지웁니다">🧹 새로 시작</button>
+      <span class="save-state" id="saveState" aria-live="polite"></span>
+      <input type="file" id="fileIn" accept=".json,application/json" hidden>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="me">
+    <label>이름 <input class="f" id="gName" autocomplete="off" placeholder="예: 홍길동"></label>
+    <label>모둠 <input class="f" id="gGroup" autocomplete="off" placeholder="예: 3모둠"></label>
+    <p class="hint">이름·모둠은 한 번만 쓰면 8개 차시에 모두 들어갑니다. 함께 쓰는 컴퓨터라면 수업이 끝날 때 <b>💾 저장</b>으로 내려받은 뒤 <b>🧹 새로 시작</b>을 눌러 주세요.</p>
+  </div>
+
+<div id="l1"></div><article class="sheet">
+  <div class="shead c1">
+    <div class="sn">1차시</div>
+    <div class="stit"><div class="stg">진입기 · 학생 활동지</div><h2>재난 로봇과 AI의 눈</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 재난현장에서 로봇이 필요한 이유에 공감하고, AI가 영상으로 사물을 알아보는 두 가지 방법(이미지분류·포즈추정)을 직접 체험해 그 차이를 설명할 수 있다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">무너진 건물 안, 연기가 가득하고 가스가 새는 곳에 갇힌 사람을 찾아야 한다. 사람 구조대원 대신 로봇을 먼저 들여보낸다면 그 이유는 무엇일까? 떠오르는 대로 적어 보자.</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">활동 1. 재난 로봇 영상 보고 공감하기</div><div class="ins">재난현장에서 활약하는 로봇 영상을 본 뒤, 아래 세 질문에 내 생각을 적어 보자. 정답은 없으니 솔직하게 쓰면 된다.</div><div class="prompts"><div class="pr"><span class="pl">왜 사람이 직접 들어가지 않고 '로봇'을 보냈을까? (위험 요소를 떠올려 보자)</span><span class="pf"></span></div><div class="pr"><span class="pl">조종하는 사람은 현장을 직접 눈으로 보지 못하고 '로봇이 보내온 영상'만 본다. 직접 보는 것과 영상으로만 보는 것은 무엇이 다를까?</span><span class="pf"></span></div><div class="pr"><span class="pl">만약 영상이 끊기거나 흐릿하면 어떤 일이 생길까?</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div><div class="actsec"><div class="ah">활동 2. 우리 운용관의 약속 (차폐 원칙)</div><div class="box note">이 수업에서 우리는 '재난안전 AI로봇 운용관'이 된다. 운용관에게는 꼭 지켜야 할 약속이 있다. 아래 안내를 읽고, 마지막 칸에 약속을 내 손으로 한 번 더 적어 보자.
+
+[운용관 차폐 원칙] 운용관은 로봇(우노카)이 달리는 실제 코스를 절대 직접 눈으로 보지 않는다. 오직 무선 카메라(ESP32-CAM)가 보내오는 영상만 보고 로봇을 움직인다. 진짜 재난현장에서는 운용관이 위험 구역 밖, 멀리 떨어진 안전한 곳에 있기 때문이다.
+
+나의 약속(따라 적기): "나는 코스를 직접 보지 않고, 캠 영상만 보고 로봇을 조종하겠다."</div></div><div class="actsec"><div class="ah">활동 3. AI의 눈 비교하기 (이미지분류 vs 포즈추정)</div><div class="ins">AI가 영상을 이해하는 방법에는 크게 두 가지가 있다. 선생님 설명과 예시를 보고, 표의 빈칸을 채워 둘의 차이를 정리해 보자. '비교 항목' 칸의 위 두 줄('무엇을 출력하나', '언제 쓰면 좋나')은 예시로 미리 적어 두었으니, 그 두 줄을 먼저 채운 뒤 나머지 비교 항목은 우리 팀이 스스로 떠올려 채운다.</div><table class="ws"><thead><tr><th>비교 항목</th><th>이미지분류 (Image)</th><th>포즈추정 (Pose)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">이미지분류와 포즈추정 비교표 (비교 항목 1~2행은 미리 제시: 무엇을 출력하나 / 언제 쓰면 좋나)</div></div><div class="actsec"><div class="ah">활동 4. 티처블머신 이미지 모델 즉석 체험</div><div class="ins">티처블머신으로 손이나 주변 사물 2~3가지를 직접 학습시킨 뒤, 카메라에 보여주며 AI가 잘 맞히는지 확인해 보자. 각 클래스 이름과 사진 장수를 정하고, 실제로 보여줬을 때 AI가 표시한 결과(클래스명)와 확신도(%)를 기록한다.</div><div class="mgoal">🎯 미션 목표: 내가 만든 클래스를 AI가 실시간으로 맞히게 하고, 그 결과를 표에 기록한다.</div><table class="ws"><thead><tr><th>클래스 이름</th><th>학습 사진 장수</th><th>보여준 것</th><th>AI 인식 결과(클래스)</th><th>확신도(%)</th><th>맞았나? (O/X)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">이미지 모델 학습·체험 기록표</div></div><div class="actsec"><div class="ah">활동 5. 티처블머신 포즈 체험</div><div class="ins">이번엔 포즈(자세) 모델을 체험해 보자. 만세, 한 팔 들기, 앉기 같은 자세 2가지를 학습시킨다. 그다음 [포즈 모델 시작] 블록으로 모델을 켜고, [인식 결과] 블록으로 지금 AI가 어떤 자세로 읽는지 확인하면서 카메라 앞에서 자세를 바꿔 본다. 체험하며 알게 된 점을 적어 보자.</div><div class="prompts"><div class="pr"><span class="pl">내가 학습시킨 자세 2가지는?</span><span class="pf"></span></div><div class="pr"><span class="pl">자세를 천천히/빠르게 바꿀 때 [인식 결과]가 어떻게 달라졌나?</span><span class="pf"></span></div><div class="pr"><span class="pl">포즈추정은 우리 로봇 운용에서 어떤 상황에 쓰면 좋을까? (예: 갇힌 사람이 손을 흔드는 자세 찾기)</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div><div class="actsec"><div class="ah">활동 6. 포즈 체험 블록 점검 (빈칸 채우기)</div><div class="ins">활동 5에서 사용한 포즈 블록의 순서를 떠올리며, 아래 의사코드의 빈칸(____)에 알맞은 블록명을 채워 보자. 실제로 사용한 블록명을 그대로 적으면 된다.</div><pre class="blk">// 포즈 자세를 화면으로 확인하기
+[____]              // 포즈 모델을 켠다
+계속 반복하기
+  만약 [____] = "만세" (이)라면
+    "손을 흔드는 사람 발견!" 말하기</pre></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">이미지분류와 포즈추정의 가장 큰 차이를 친구에게 한 문장으로 설명한다면 어떻게 말하겠는가?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">AI의 확신도(%)가 낮게 나온 경우가 있었다면, 더 잘 맞히게 하려면 무엇을 바꿔야 할까?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">운용관이 코스를 직접 보지 않고 영상만 보는 약속이 진짜 재난현장에서 왜 중요한지 다시 생각해 적어 보자.</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>재난현장에 로봇이 필요한 이유를 내 말로 설명할 수 있다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>운용관 차폐 원칙(코스를 직접 보지 않고 캠 영상만 본다)을 이해했다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>이미지분류와 포즈추정의 차이를 구분해 말할 수 있다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>티처블머신으로 모델을 학습시키고 결과를 읽을 수 있다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>[포즈 모델 시작]과 [인식 결과] 블록의 역할을 안다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+<div id="l2"></div><article class="sheet">
+  <div class="shead c1">
+    <div class="sn">2차시</div>
+    <div class="stit"><div class="stg">진입기 · 학생 활동지</div><h2>로봇 깨우기 - 블루투스, 기본 주행, 영상 조종</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 우노카의 부품 역할을 이해하고, 블루투스로 연결해 기본 주행을 제어하며, 무선캠 영상만 보고 로봇을 원격조종할 수 있다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">1차시에서 우리는 '운용관은 코스를 직접 보지 않고 무선캠 화면만 보고 조종한다'고 약속했어요. 실제 재난 현장(무너진 건물, 연기 가득한 방)을 떠올리며, 이 차폐 규칙이 왜 꼭 필요한지 한 줄로 다시 적어 보세요.</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">활동 1. 우노카 부품 탐험 - 누가 무슨 일을 할까?</div><div class="ins">우노카를 손에 들고 친구와 함께 부품을 찾아보세요. 아래 표의 '부품 이름'을 보고, 그 부품이 우리 재난로봇에서 맡는 역할을 오른쪽 칸에 직접 써넣으세요. (힌트: 움직임 / 방향 / 신호 받기 / 눈 / 글자 표시)</div><table class="ws"><thead><tr><th>부품 이름</th><th>어디에 붙어 있나? (위치)</th><th>우리 로봇에서 맡는 역할</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">우노카 부품 역할 매칭표</div></div><div class="actsec"><div class="ah">활동 2. 로봇을 깨우는 순서 - 시작 코드 빈칸 채우기</div><div class="ins">로봇은 켜자마자 바로 달리지 못해요. ①블루투스로 연결하고 ②모터 드라이버를 켜야 비로소 '깨어'납니다. 아래 의사코드의 빈칸(____)에 알맞은 실제 블록 이름을 보기에서 골라 채우세요. [보기: 자동차 보드 연결하기 / 보드가 연결되었는가? / 🚗 DC모터 드라이버 시작 (I2C 주소 0x40) / OLED 1칸 1줄에 [READY] 표시]</div><pre class="blk">초록 깃발을 클릭했을 때
+  [ ____________________ ]        ← 블루투스로 우노카를 연결
+  만약 &lt; ____________________ &gt; (이)라면   ← 연결됐는지 확인
+    [ ____________________ ]      ← 모터 드라이버(바퀴) 켜기
+    [ ____________________ ]      ← 화면에 준비 완료 표시
+  아니면
+    [OLED 1칸 1줄에 [연결 실패] 표시]</pre></div><div class="actsec"><div class="ah">활동 3. 전·후진·좌우 회전 코딩 &amp; 주행 감각 실험</div><div class="ins">이번엔 직접 바퀴를 굴려 봅니다! 우노카 주행 블록은 [🚗 [전진] A바퀴 속도 [40]% B바퀴 속도 [40]%] 처럼 앞쪽 [ ]가 방향을 고르는 드롭다운이에요. 방향을 [전진]/[후진]/[왼쪽 회전]/[오른쪽 회전] 중에서 바꿔 가며 하나씩 코딩해 실행하고, '속도 %'와 '실행 시간(초)'을 바꿔가며 로봇이 실제로 얼마나 가는지/도는지 표에 기록하세요. 멈출 땐 [🚗 모터 정지 [전체]]. ★팁(스텝-앤-센스): 짧게 움직이고-멈추고-확인! 한 번에 오래 달리지 말고 1~2초씩 조금씩 시험하세요.</div><div class="mgoal">🎯 미션 목표: 속도와 시간을 바꿔가며 '90도 회전'과 '한 칸 직진'에 딱 맞는 값을 찾아낸다.</div><table class="ws"><thead><tr><th>방향 ([전진]/[후진]/[왼쪽 회전]/[오른쪽 회전])</th><th>A바퀴 속도%</th><th>B바퀴 속도%</th><th>실행 시간(초)</th><th>실제 결과 (얼마나 갔나/돌았나)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">주행 실험 기록표</div></div><div class="actsec"><div class="ah">활동 4. [차폐 미션] 눈을 가리고, 영상만 보고 통과하기</div><div class="ins">★절대 규칙: 운용관(조종하는 사람)은 지금부터 실제 코스를 '직접 보면 안 됩니다'. 등을 돌리거나 칸막이를 세우고, 오직 노트북의 무선캠 화면만 보세요! ESP32-CAM을 [Connect to Agent]로 연결하고 [turn video [on]]으로 영상을 켠 뒤, 짝이 만든 간단한 경로(출발선→반환점→도착선)를 영상만 보며 주행 블록([🚗 [전진] A바퀴 속도 [ ]% B바퀴 속도 [ ]%] 등)으로 통과시키세요. 운전수와 짝(안전 감독)은 역할을 한 번씩 바꿔 모두 성공해 보세요.</div><div class="mgoal">🎯 미션 목표: 코스를 직접 보지 않고, 무선캠 영상만으로 출발선에서 도착선까지 통과시킨다.</div><table class="ws"><thead><tr><th>운전수 이름</th><th>영상만 보고 했나? (O/X)</th><th>성공/실패</th><th>어려웠던 점</th><th>다음 번 개선 아이디어</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">차폐 원격조종 미션 기록표</div></div><div class="actsec"><div class="ah">안전 &amp; 차폐 점검 (출발 전 필수 체크!)</div><div class="ins">미션을 시작하기 전과 진행 중에 아래 항목을 반드시 확인하고 V표 하세요. 하나라도 안 되어 있으면 출발 금지!</div><ul class="chk"><li>우노카의 [보드가 연결되었는가?]가 참(연결됨)인지 확인했다</li><li>[🚗 DC모터 드라이버 시작 (I2C 주소 0x40)]을 실행해 바퀴가 깨어 있다</li><li>운용관(조종자)은 실제 코스를 등지고 있어, 눈으로 직접 보지 않는다 (차폐!)</li><li>노트북 화면에 무선캠 영상([turn video [on]])이 잘 나온다</li><li>로봇이 책상에서 떨어지지 않게 짝이 안전 감독을 맡고 있다</li><li>속도는 낮게(예: 40~60%) 시작하고, 짧게 움직였다가 바로 멈춘다 (스텝-앤-센스)</li></ul></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">무선캠 영상만 보고 조종할 때, 직접 눈으로 볼 때와 비교해 무엇이 가장 불편했나요? 그 불편함이 실제 재난 현장에서는 어떤 의미가 있을까요?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">우리 로봇이 '한 칸 직진'과 '90도 회전'을 정확히 하려면 속도%와 시간을 각각 얼마로 정해야 했나요? 그렇게 정한 이유를 써 보세요.</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">다음 차시에서는 AI(티처블머신)가 영상을 보고 '어디로 가야 할지'를 알려줄 거예요. 만약 AI가 길을 안내해 준다면, 오늘 내가 한 일 중 어떤 부분이 더 쉬워질까요?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>우노카 부품 5가지의 역할을 친구에게 설명할 수 있다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>블루투스 연결과 모터 드라이버 시작 코드를 순서대로 완성할 수 있다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>[🚗 [전진/후진/왼쪽 회전/오른쪽 회전]] 블록의 방향·속도·시간을 조절해 원하는 만큼 움직일 수 있다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>코스를 직접 보지 않고 무선캠 영상만으로 로봇을 조종해 미션을 완수했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+<div id="l3"></div><article class="sheet">
+  <div class="shead c2">
+    <div class="sn">3차시</div>
+    <div class="stit"><div class="stg">도약기 · 학생 활동지</div><h2>위험물 AI 모델 학습시키기 — "AI에게 위험을 가르쳐라"</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 위험물 사진을 모아 AI 이미지 분류 모델을 학습시키고, 위험의 '위치'까지 구분해 정확도 90% 이상으로 만들 수 있다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">우리 운용관은 코스를 직접 보지 못하고 ESP32-CAM 영상만 본다. 그렇다면 '저기 위험물 있어!'만 알아서는 부족하다. AI가 무엇까지 알려줘야 운용관이 핸들을 어느 쪽으로 꺾을지 정할 수 있을까? 자유롭게 적어보자.</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">활동 1. 머신러닝 3단계 정리하기 (보기에서 골라 빈칸 채우기)</div><div class="ins">AI 모델은 사람이 코딩으로 규칙을 일일이 짜주는 게 아니라, '예시 데이터'를 보고 스스로 규칙을 찾는다. 머신러닝의 큰 흐름은 [모으기 → 가르치기 → 써먹기] 3단계다. 아래 빈칸에 알맞은 말을 &lt;&lt; 보기 &gt;&gt;에서 골라 적고, 마지막 칸에는 우리 프로젝트 상황을 직접 써 보자.
+
+&lt;&lt; 보기 &gt;&gt;  수집 · 학습 · 분류(추론)</div><div class="prompts"><div class="pr"><span class="pl">1단계 (    ) : 클래스(위험-왼쪽/가운데/오른쪽·안전)별로 사진을 많이 모으는 단계 → 빈칸에 들어갈 단어:</span><span class="pf"></span></div><div class="pr"><span class="pl">2단계 (    ) : 모은 사진으로 AI에게 패턴을 익히게 하는 단계 → 빈칸에 들어갈 단어:</span><span class="pf"></span></div><div class="pr"><span class="pl">3단계 (    ) : 새로운 캠 영상이 들어오면 어느 클래스인지 판단하는 단계 → 빈칸에 들어갈 단어:</span><span class="pf"></span></div><div class="pr"><span class="pl">우리 프로젝트에서 3단계(분류)가 '실제로' 일어나는 순간은 언제인가? (예: 주행 중 ESP32-CAM 영상이 들어와 [인식 결과]가 나올 때) — 내 말로 써 보기:</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div><div class="actsec"><div class="ah">활동 2. 클래스 설계표 — '위치'까지 가르치기 (정확히 4클래스)</div><div class="ins">AI에게 단순히 '위험/안전'만 가르치면 운용관은 어디로 피할지 모른다. 그래서 위험을 '왼쪽/가운데/오른쪽'으로 쪼개고 '안전'을 더해 정확히 4개 클래스로 학습시킨다. 즉 [인식 결과]가 곧 방향 명령이 된다! 아래 표의 1~4행에 우리 팀 4클래스를 정해 채우고(이 4개를 활동4 정확도 측정에 그대로 사용한다), 5행은 나중에 클래스를 더 늘릴 때 쓸 '예비 칸'으로 비워 둬도 된다.</div><table class="ws"><thead><tr><th>클래스 이름(영문/한글)</th><th>이 클래스의 사진 예시(무엇을 찍나)</th><th>이 결과가 나오면 차의 행동</th><th>사용할 주행 블록 방향</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">우리 팀 위험물 AI 클래스 설계표 — 1~4행=필수 4클래스(위험-왼쪽/위험-가운데/위험-오른쪽/안전), 5행=예비</div></div><div class="actsec"><div class="ah">활동 3. 데이터 수집 기록표 — 다양하게, 충분하게</div><div class="ins">좋은 AI는 좋은 데이터에서 나온다. 같은 각도·같은 조명 사진만 모으면 실제 주행 영상에서 못 맞힌다. ★차폐 원칙 환기: 운용관은 코스를 직접 보지 않고 캠 영상만 본다 → 캠이 실제로 보게 될 '낮은 시점·흔들리는·다양한 밝기'의 영상과 비슷하게 데이터를 모아야 한다. 활동2에서 정한 4클래스(위험-왼쪽/가운데/오른쪽·안전)에 대해 각도·거리·조명을 바꿔가며 수집하고 장수를 기록하자.</div><div class="mgoal">🎯 미션 목표: 4클래스 각각 사진 30장 이상씩(총 120장+), 각도·거리·조명을 3종류 이상 섞어서 수집하기</div><table class="ws"><thead><tr><th>클래스 이름</th><th>각도 다양화(예: 정면/위/옆 √체크)</th><th>조명 다양화(밝음/보통/어두움)</th><th>수집한 사진 장수</th><th>캠 시점과 비슷한가? (○/△/✕)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">데이터 수집 기록표 (활동2의 4클래스를 1~4행에 그대로 적기)</div></div><div class="actsec"><div class="ah">활동 4. 모델 학습 + 실시간 테스트 (빈칸 코드 → 정확도 기록)</div><div class="ins">티처블머신에서 학습(Train)을 누르고, 모델 URL을 복사해 아래 코드의 빈칸을 채우자. 그다음 활동2에서 정한 4클래스를 캠 앞에서 클래스별로 10번씩 보여주며 '몇 번 맞혔는지' 기록한다. 클래스가 4개이므로 전체 시도는 4×10=40번 → 분모는 40이다. 임계값은 80%로 설정해 애매한 인식은 걸러낸다. (활동2를 5클래스로 늘렸다면 분모도 5×10=50으로 바꿔 계산할 것.)</div><pre class="blk">▶ 우리 팀 모델 URL: ________________________________
+
+[이미지 모델 URL을 [____________] 로 설정]
+[인식 임계값을 [____] % 로 설정]
+[이미지 모델 시작]
+
+무한 반복하기
+   만약 &lt; [인식 결과] = (____________) &gt; 이라면
+        [OLED [1][1]에 [____________] 표시]   ← 어느 방향인지 화면에 띄우기
+   끝
+끝
+
+───── 클래스별 정확도 기록 (각 10번 중 맞힌 횟수) ─────
+위험-왼쪽 :  __ / 10
+위험-가운데:  __ / 10
+위험-오른쪽:  __ / 10
+안전     :  __ / 10
+클래스 4개 × 10번 = 시도 40번
+전체 정확도 = (맞힌 총합 ÷ 40) × 100 = ____ %   (목표 90% 이상!)</pre></div><div class="actsec"><div class="ah">활동 5. 오분류 사례 분석 &amp; 데이터 보강 작전</div><div class="ins">정확도가 90% 미만이거나 자꾸 틀리는 클래스가 있다면 원인을 찾아 데이터를 보강한다. ⚠과적합 주의: 특정 배경·특정 물건만 외워버리면 새 영상에서 틀린다. 어떤 상황에서 틀렸는지(오분류), 왜 그랬을지(원인), 어떻게 고칠지(보강 작전)를 적어보자.</div><div class="prompts"><div class="pr"><span class="pl">가장 많이 틀린 클래스와, 그것을 무엇으로 잘못 인식했는가? (예: 위험-왼쪽 → 안전으로 인식)</span><span class="pf"></span></div><div class="pr"><span class="pl">왜 틀렸을까? (조명? 배경? 사진 부족? 비슷하게 생긴 물건?)</span><span class="pf"></span></div><div class="pr"><span class="pl">데이터 보강 작전 — 어떤 사진을 몇 장 더 모아 다시 학습할까?</span><span class="pf"></span></div><div class="pr"><span class="pl">보강 후 다시 측정한 전체 정확도는? (____ % → ____ %)</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">AI에게 위험을 '왼쪽/가운데/오른쪽'으로 나눠 가르친 덕분에, 운용관이 코스를 직접 보지 않아도 캠 영상만으로 조종할 수 있게 된 이유를 한 문장으로 설명해보자.</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">데이터를 다양하게(각도·조명·거리) 모으는 것과, 한 종류만 많이 모으는 것 중 왜 다양한 쪽이 더 좋은 모델을 만들까?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">우리 모델이 실제 주행에서도 잘 맞히려면 4차시 전에 무엇을 더 보강해야 할까?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>머신러닝 3단계(수집-학습-분류)를 보기에 의존하지 않고 내 말로 설명할 수 있다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>위험을 위치(왼쪽/가운데/오른쪽)까지 나눠 정확히 4클래스를 설계하고 그 이유를 안다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>각도·조명·거리를 다양화해 4클래스별로 30장 이상씩 충분히 수집했다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>클래스 4개×10번=40번 기준으로 정확도를 측정하고 오분류를 분석해 90% 이상으로 끌어올렸다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+<div id="l4"></div><article class="sheet">
+  <div class="shead c2">
+    <div class="sn">4차시</div>
+    <div class="stit"><div class="stg">도약기 · 학생 활동지</div><h2>무선캠+AI 위험물 탐지와 방향 안내 -- "보이지 않는 코스를 화면으로 뚫어라"</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 무선캠 영상과 AI 분류를 연동해 이동 중 위험물을 탐지하고, 인식 결과에 따라 경고와 방향을 자동으로 안내하는 탐지 시스템을 만든다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">운용관인 너는 실제 주행 코스를 직접 볼 수 없고 ESP32-CAM 화면만 본다. 만약 카메라 화면 한가운데에 위험물이 보인다면 차를 어떻게 움직여야 안전할까? 이유와 함께 적어보자.</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">[활동 1] 탐지 파이프라인 순서 맞추기 (영상→AI→임계값→행동)</div><div class="ins">AI 위험물 탐지는 정해진 순서로 흐른다. 아래 5개 단계가 어떤 순서로 일어나는지 번호(1~5)를 빈 칸에 적고, 각 단계에서 어떤 블록이 쓰이는지 '사용 블록' 칸에 실제 블록명으로 적어보자. (힌트: 영상이 먼저 켜져야 AI가 볼 수 있다)</div><table class="ws"><thead><tr><th>순서(1~5)</th><th>단계 설명</th><th>사용 블록 (실제 블록명)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">탐지 파이프라인 단계 정리표</div></div><div class="actsec"><div class="ah">[활동 2] 인식 결과별 행동 분기 빈칸 코드 완성</div><div class="ins">티처블머신 클래스를 '위치까지' 학습시켰다: 안전 / 위험-왼쪽 / 위험-가운데 / 위험-오른쪽. 이제 [인식 결과] 값에 따라 차가 스스로 방향을 정하도록 빈칸(____)을 채워 코드를 완성하자. '안전'이면 전진 탐색, '위험-왼쪽'이면 왼쪽을 피해 우회전(또는 설계에 맞게), 표시는 다음 줄 의사코드 규칙을 따른다. 운용관은 코스를 직접 못 보므로 모든 판단은 화면(인식 결과)에만 의지한다는 점을 기억하자.</div><pre class="blk">[자동차 보드 연결하기]
+[🚗 DC모터 드라이버 시작 (I2C 주소 0x40)]
+[turn video [____]]   ← 무선캠 영상 켜기
+[이미지 모델 URL을 [____] 로 설정]
+[인식 임계값을 [____]% 로 설정]
+[이미지 모델 시작]
+
+무한 반복:
+  만약 &lt;[인식 결과] = [____]&gt; 이면      ← 안전
+      [🚗 [____] A바퀴 속도 [40]% B바퀴 속도 [40]%]   (전진 탐색)
+  아니고 만약 &lt;[인식 결과] = [위험-왼쪽]&gt; 이면
+      [🚗 [____] A바퀴 속도 [35]% B바퀴 속도 [35]%]   (오른쪽으로 피함)
+  아니고 만약 &lt;[인식 결과] = [____]&gt; 이면      ← 위험-오른쪽
+      [🚗 [왼쪽 회전] A바퀴 속도 [35]% B바퀴 속도 [35]%]
+  아니고 만약 &lt;[인식 결과] = [위험-가운데]&gt; 이면
+      [🚗 모터 정지 [____]]      ← 즉시 정지
+      [OLED [1][1]에 [____] 표시]   ← 경고 문구</pre></div><div class="actsec"><div class="ah">[활동 3] 경고 신호 설계 (OLED 문구 + 네오픽셀 색)</div><div class="ins">위험 수준에 따라 운용관에게 보내는 경고 신호를 직접 설계하자. 색 규칙은 노랑=주의, 빨강=위험이다. 각 상황에서 OLED에 띄울 짧은 문구와 네오픽셀 색을 정해 빈칸에 적어보자. 운용관은 화면만 보므로, 글자와 색만으로 상황이 한눈에 전달되어야 한다.</div><div class="prompts"><div class="pr"><span class="pl">[안전] OLED 표시 문구</span><span class="pf"></span></div><div class="pr"><span class="pl">[안전] 네오픽셀 색</span><span class="pf"></span></div><div class="pr"><span class="pl">[위험-왼쪽/오른쪽=주의] OLED 표시 문구</span><span class="pf"></span></div><div class="pr"><span class="pl">[위험-왼쪽/오른쪽=주의] 네오픽셀 색</span><span class="pf"></span></div><div class="pr"><span class="pl">[위험-가운데=위험] OLED 표시 문구</span><span class="pf"></span></div><div class="pr"><span class="pl">[위험-가운데=위험] 네오픽셀 색</span><span class="pf"></span></div><div class="pr"><span class="pl">내가 정한 경고 규칙을 한 문장으로 요약하면</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span></div></div><div class="actsec"><div class="ah">[활동 4] 차폐 탐색 미션 -- 발견 위험물 기록표</div><div class="ins">★차폐 원칙: 운전하는 사람(운용관)은 절대 실제 코스를 직접 보지 않는다! 오직 ESP32-CAM 화면만 보며 조종한다. 짝과 역할을 나눠(운용관/기록자) 코스를 돌며 위험물을 탐지하고, 발견할 때마다 아래 표에 기록하자. '화면 위치'는 화면 기준 왼쪽/가운데/오른쪽, 'AI 판단 일치'는 AI가 말한 방향이 실제와 맞았는지 O/X로 적는다.</div><div class="mgoal">🎯 미션 목표: 무선캠 화면만 보며 위험물 4개 이상을 탐지하고, AI 판단이 실제와 맞았는지 검증해 기록한다.</div><table class="ws"><thead><tr><th>발견 순서</th><th>위험물 종류</th><th>화면 위치(좌/중/우)</th><th>AI 인식 결과</th><th>AI 판단 일치(O/X)</th><th>비고(틀린 이유 등)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">차폐 탐색 미션 기록표</div></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">우리 탐지 시스템이 위험물을 가장 자주 '틀리게' 판단한 상황은 언제였고, 왜 그랬을까? (조명, 거리, 학습 데이터 부족 등)</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">임계값을 더 높이면(예: 90%) 탐지 시스템은 어떻게 달라질까? 더 안전해질까, 아니면 위험물을 놓치게 될까?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">운용관이 실제 코스를 직접 볼 수 없는 '차폐' 상황이기 때문에 경고 신호(OLED·색)는 왜 더 중요해질까?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>탐지 파이프라인(영상→AI분류→임계값→행동)의 순서를 설명할 수 있다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>[인식 결과] 값에 따라 방향이 갈라지는 분기 코드를 완성했다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>위험 수준에 맞는 경고 신호(OLED 문구·네오픽셀 색)를 설계했다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>차폐 원칙을 지키며(화면만 보며) 미션을 수행하고 AI 판단을 검증해 기록했다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+<div id="l5"></div><article class="sheet">
+  <div class="shead c2">
+    <div class="sn">5차시</div>
+    <div class="stit"><div class="stg">도약기 · 학생 활동지</div><h2>서보 집게로 위험물 제거 — 탐지에서 복귀까지 한 번에</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 서보모터로 집게를 정확히 열고 닫아 위험물을 집고, 탐지→접근→제거→복귀 시퀀스를 하나의 프로그램으로 완성할 수 있다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">운용관인 나는 코스를 직접 보지 못하고 ESP32-CAM 영상만 본다. 화면 속 위험물을 집게로 집으려면, 차가 '어디서' 멈춰야 집게가 닿을지 어떻게 알 수 있을까? 영상만 보고 거리를 가늠하는 나만의 방법을 적어 보자.</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">활동 1. 서보 집게의 원리 — 각도가 곧 손가락이다</div><div class="ins">서보모터는 '정해진 각도'로 정확히 회전하는 모터다. 우리 집게는 보낸 각도에 따라 입을 벌리거나 다문다. 짝과 실제 집게를 손으로 천천히 움직여 보며, '각도와 집게의 관계'를 원리 중심으로 정리하자. (구체적인 도수는 아직 정하지 않는다 — 다음 활동에서 직접 찾는다!)</div><div class="prompts"><div class="pr"><span class="pl">각도를 작게 보낼수록 집게의 입은 (벌어진다 / 다물린다) 중 무엇일까? 직접 움직여 보고 동그라미</span><span class="pf"></span></div><div class="pr"><span class="pl">각도를 크게 보낼수록 집게의 입은 (벌어진다 / 다물린다) 중 무엇일까? 직접 움직여 보고 동그라미</span><span class="pf"></span></div><div class="pr"><span class="pl">각도를 보내자마자 바로 다음 명령으로 넘어가면 안 되는 이유(서보가 다 움직일 때까지 무엇이 필요한지)</span><span class="pf"></span></div><div class="pr"><span class="pl">집게가 연결된 서보모터의 핀 번호는 몇 번인가</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span></div></div><div class="actsec"><div class="ah">활동 2. 집게 보정 실험 — 몇 도에서 가장 잘 집힐까?</div><div class="ins">[서보모터 핀 [PIN] 각도 [DEG] 도] 블록의 각도와, 그 뒤 대기시간을 조금씩 바꿔 가며 위험물(작은 물체)을 집어 보자. 실제로 집힌 결과를 '집힘 / 놓침'으로 솔직하게 기록한다. 가장 잘 집힌 조합에 별표(★)를 그려 두고, 그 '여는 각도'와 '닫는 각도'는 활동 3에서 그대로 코드에 쓸 것이다.</div><table class="ws"><thead><tr><th>시도</th><th>여는 각도(도)</th><th>닫는 각도(도)</th><th>대기시간(초)</th><th>결과(집힘/놓침)</th><th>메모(왜?)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">집게 각도·대기시간 보정 실험 기록표</div></div><div class="actsec"><div class="ah">활동 2-1. 내가 찾은 정답 적기 — 활동 3에서 쓸 값</div><div class="ins">활동 2 기록표에서 별표(★)를 친 가장 잘 집히는 조합의 값을 여기에 옮겨 적자. 이 값이 곧 다음 통합 코드의 빈칸에 들어갈 '나의 정답'이다.</div><div class="prompts"><div class="pr"><span class="pl">내가 찾은 '집게 여는(투하) 각도' = ____ 도</span><span class="pf"></span></div><div class="pr"><span class="pl">내가 찾은 '집게 닫는(집기) 각도' = ____ 도</span><span class="pf"></span></div><div class="pr"><span class="pl">내가 찾은 '서보가 움직일 때까지 기다리는 대기시간' = ____ 초</span><span class="pf"></span></div></div></div><div class="actsec"><div class="ah">활동 3. 통합 시퀀스 빈칸코드 — 탐지→접근→제거→복귀</div><div class="ins">차폐 원칙을 잊지 말자: 나는 코스를 직접 보지 않고 캠 영상만 보고 조종한다. 티처블머신이 '위험-가운데'를 인식하면 차가 위험물 앞에 와 있다는 뜻이다. 아래 통합 코드의 빈칸(____)을 실제 블록명과 '활동 2-1에서 내가 찾은 각도 값'으로 채워 시퀀스를 완성하자.</div><pre class="blk">[자동차 보드 연결하기]
+[🚗 DC모터 드라이버 시작 (I2C 주소 0x40)]
+[이미지 모델 URL을 [위험물모델URL]로 설정]
+[인식 임계값을 [80]% 로 설정]
+[이미지 모델 시작]
+무한 반복:
+  만약 &lt; [인식 결과] = "____" &gt; 이면:        ← (예: 위험-가운데)
+    [🚗 모터 정지 [전체]]
+    [OLED [0][0]에 [위험물 발견-접근] 표시]
+    [🚗 전진 A바퀴 속도 [40] % B바퀴 속도 [40] %]   ← 위험물 앞까지 천천히 접근
+    1 초 기다리기
+    [🚗 모터 정지 [전체]]
+    [서보모터 핀 [집게핀] 각도 [____] 도]    ← 집게 닫기(활동2-1 '닫는 각도')
+    ____ 초 기다리기                          ← 활동2-1에서 찾은 대기시간
+    [🚗 ____ A바퀴 속도 [40] % B바퀴 속도 [40] %]   ← 안전지대로 후진
+    2 초 기다리기
+    [🚗 모터 정지 [전체]]
+    [서보모터 핀 [집게핀] 각도 [____] 도]    ← 집게 열기(활동2-1 '여는 각도', 투하)
+    [OLED [0][0]에 [____] 표시]            ← 임무 완료 메시지</pre></div><div class="actsec"><div class="ah">활동 4. 차폐 제거 미션 — 성공률을 기록하라</div><div class="ins">이제 진짜 미션이다. ★반드시 캠 영상 화면만 보고 조종할 것 — 책상 위 코스를 직접 눈으로 보면 실격! 위험물 1개를 탐지→접근→집기→복귀→투하까지 한 번에 성공시켜 보자. 5번 시도하고 결과를 기록한다. 실패하면 원인을 '헛집기 / 놓침 / 거리 어긋남 / 기타' 중에서 골라 적는다.</div><div class="mgoal">🎯 미션 목표: 캠 영상만 보고 위험물을 집어 안전지대에 투하하기(5회 시도, 성공률 계산)</div><table class="ws"><thead><tr><th>시도</th><th>성공/실패</th><th>실패 원인(헛집기/놓침/거리/기타)</th><th>다음에 바꿀 점</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">차폐 제거 미션 성공률 기록표</div></div><div class="actsec"><div class="ah">활동 5. 윤리 미리보기 — AI가 잘못 판단하면 책임은?</div><div class="ins">다음 차시에서 깊이 다룰 질문을 먼저 생각해 보자. AI(티처블머신)가 '안전한 물건'을 '위험물'로 잘못 인식해서 우리 로봇이 그것을 치워 버렸다. 누구의 책임일까? 짝과 이야기한 뒤 내 생각을 적는다.</div><div class="prompts"><div class="pr"><span class="pl">이런 오판이 실제 재난 현장에서 일어나면 어떤 문제가 생길까?</span><span class="pf"></span></div><div class="pr"><span class="pl">오판의 책임은 누구에게 있다고 생각하나(AI를 학습시킨 사람 / 운용관 / 로봇 제작자 등) 그 이유는?</span><span class="pf"></span></div><div class="pr"><span class="pl">오판을 줄이려면 우리가 코드나 학습에서 무엇을 더 할 수 있을까?</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">이번 통합 시퀀스에서 가장 자주 실패한 단계는 어디였고, 그 원인은 무엇이었나?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">캠 영상만 보고 조종할 때 가장 어려웠던 점과, 그것을 극복한 나만의 요령은?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">활동 2 보정 실험으로 직접 찾은 각도·대기시간을 활동 3 코드에 넣었을 때 성공률은 어떻게 달라졌나?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>서보 각도와 집게(열기/닫기)의 관계를 원리로 설명할 수 있다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>보정 실험으로 가장 잘 집히는 각도 조합을 직접 찾아냈다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>내가 찾은 각도 값으로 탐지→접근→제거→복귀 통합 코드를 완성했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>캠 영상만 보고(차폐 원칙) 미션을 수행했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+<div id="l6"></div><article class="sheet">
+  <div class="shead c4">
+    <div class="sn">6차시</div>
+    <div class="stit"><div class="stg">성장기 · 학생 활동지</div><h2>재난안전 AI로봇 운용관 6차시 — 재난 시나리오 분석과 미션 전략 설계</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 미션필드의 재난 시나리오를 분석하고, '탐색→탐지→분류→접근→제거→복귀' 알고리즘을 예외 상황(오탐지·집기실패·경로이탈)까지 고려한 순서도로 설계할 수 있다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">우리 팀은 실제 코스를 눈으로 직접 볼 수 없고 ESP32-CAM이 보내주는 화면만 보며 로봇을 조종한다. 이렇게 '화면만 보고' 움직일 때 가장 위험하거나 헷갈릴 것 같은 순간은 언제일까? 우리 팀의 작전 회의를 시작하며 자유롭게 적어 보자.</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">활동 1. 미션필드 지도 분석표 작성</div><div class="ins">운용관 화면(ESP32-CAM 영상)에 나타날 미션필드를 머릿속으로 그려 보자. 위험물의 종류, 화면에서 보이는 위치(왼쪽/가운데/오른쪽), 배치 형태, 위험등급(상/중/하)을 표에 정리한다. 위험등급은 '제거 우선순위'를 정하는 근거가 되므로 팀이 합의해서 적는다. 행이 모자라면 빈 칸에 더 적어도 된다.</div><table class="ws"><thead><tr><th>번호</th><th>위험물 종류</th><th>화면 속 위치(좌/중/우)</th><th>배치 형태(흩어짐·뭉침 등)</th><th>위험등급(상/중/하)</th><th>그렇게 판단한 이유</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">미션필드 위험물 분석표 (운용관은 캠 화면으로만 확인)</div></div><div class="actsec"><div class="ah">활동 2. 제거 우선순위와 이동경로 계획 적기</div><div class="ins">활동 1의 위험등급을 바탕으로 '무엇을 먼저 제거할지'와 '어떤 순서로 이동할지'를 계획한다. 운용관은 코스를 직접 못 보고 캠 화면만 보므로, '화면 어느 쪽에 보이면 어떤 명령'까지 구체적으로 약속해 적어야 한다. 빈칸을 채우며 우리 팀의 작전을 확정하자.</div><div class="prompts"><div class="pr"><span class="pl">1순위로 제거할 위험물과 그 이유</span><span class="pf"></span></div><div class="pr"><span class="pl">2순위·3순위 제거 순서</span><span class="pf"></span></div><div class="pr"><span class="pl">이동경로 계획(출발 → 어디 → 어디 → 복귀 지점)</span><span class="pf"></span></div><div class="pr"><span class="pl">티처블머신 [인식 결과]가 '위험-왼쪽'일 때 내릴 조종 명령</span><span class="pf"></span></div><div class="pr"><span class="pl">[인식 결과]가 '위험-가운데'일 때 / '위험-오른쪽'일 때 명령</span><span class="pf"></span></div><div class="pr"><span class="pl">[인식 결과]가 '안전'일 때 명령</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div><div class="actsec"><div class="ah">활동 3. 미션 알고리즘 순서도 그리기 (예외로직 포함)</div><div class="ins">탐색 → 탐지 → 분류 → 접근 → 제거 → 복귀의 6단계를 순서도로 그린다. 판단(마름모)에는 [보드가 연결되었는가?], [Is connected?], 티처블머신 [인식 결과]가 '안전인가?', 임계값(예: [인식 임계값을 [80]% 로 설정]) 통과 여부를 넣자. 반드시 아래 3가지 예외 상황의 대응 경로(화살표)도 그려 넣을 것: ① 오탐지(낮은 확신도/잘못 분류) ② 집기 실패(서보·집게 동작 후에도 제거 안 됨) ③ 경로이탈(캠 화면에 목표가 사라짐). 큰 칸에 도형과 화살표로 자유롭게 그린다.</div><div class="drawbox" style="height:572px">✏️ 여기에 그리세요</div></div><div class="actsec"><div class="ah">활동 4. 예외 상황 대응 약속표</div><div class="ins">순서도에 그린 예외로직을 글로 정리한다. 각 예외가 '캠 화면에서 어떻게 보이는지'와 '운용관이 무슨 명령을 내릴지'를 짝지어 적는다. 실제 코스를 못 보기 때문에 '화면 단서'를 정확히 약속하는 것이 핵심이다.</div><table class="ws"><thead><tr><th>예외 상황</th><th>캠 화면에서 보이는 단서</th><th>운용관의 대응 명령(블록 포함)</th><th>사용할 블록 예시</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">예외 상황 대응 약속표 (판단 근거는 오직 캠 화면)</div></div><div class="actsec"><div class="ah">활동 5. 모둠 전략 발표 준비 · 피드백 적기</div><div class="ins">다른 모둠 앞에서 우리 팀 전략을 1분 안에 설명할 준비를 한다. 발표 후 다른 모둠에게 받은 피드백과, 우리 팀이 고칠 점을 적어 순서도를 보완하자.</div><div class="prompts"><div class="pr"><span class="pl">우리 팀 전략 한 줄 요약(가장 자신 있는 부분)</span><span class="pf"></span></div><div class="pr"><span class="pl">발표에서 강조할 예외로직 1가지</span><span class="pf"></span></div><div class="pr"><span class="pl">다른 모둠에게 받은 피드백</span><span class="pf"></span></div><div class="pr"><span class="pl">피드백을 반영해 순서도/약속표에서 고칠 점</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">우리 팀 순서도에서 '오탐지·집기실패·경로이탈' 중 가장 자주 일어날 것 같은 예외는 무엇이고, 왜 그렇게 생각하나?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">운용관이 실제 코스를 못 보고 캠 화면만 본다는 점이 우리 전략 설계를 어떻게 바꾸게 만들었나?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">AI(티처블머신)의 [인식 결과]를 그대로 방향 명령으로 믿어도 될까? 믿기 어려운 순간을 막기 위해 우리가 넣은 안전장치는 무엇인가?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>미션필드 지도 분석표에 위험물 종류·위치·위험등급을 근거와 함께 채웠다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>탐색→탐지→분류→접근→제거→복귀 6단계를 빠짐없이 순서도로 그렸다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>오탐지·집기실패·경로이탈 3가지 예외 대응 경로를 순서도에 모두 넣었다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>운용관이 캠 화면만 본다는 원칙을 전략(화면 단서·명령)에 반영했다.</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+<div id="l7"></div><article class="sheet">
+  <div class="shead c4">
+    <div class="sn">7차시</div>
+    <div class="stit"><div class="stg">성장기 · 학생 활동지</div><h2>재난안전 AI로봇 운용관 7차시 — 미션 통합 코딩과 차폐 실전 최적화</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 이동·탐지·분류·접근·제거·복귀·예외처리를 하나의 시퀀스로 통합 코딩하고, 캠 화면만 보는 차폐 실전 테스트로 실패 지점을 찾아 한 번에 하나씩 값을 바꿔 탐지정확도와 제거성공률을 높일 수 있다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">오늘 우리 팀은 운용관이 '실제 코스를 직접 보지 않고' ESP32-CAM 영상만으로 미션 전체를 끝내야 한다. 우리 로봇이 가장 실패할 것 같은 단계는 어디일까? 왜 그렇게 생각하는지 적어 보자.</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">활동 1. 통합 시퀀스 코딩 체크리스트 (핵심 7단계 + 보조 2가지)</div><div class="ins">지난 차시까지 만든 블록들을 하나의 프로그램으로 합친다. 핵심 7단계(연결→탐지→분류→접근→제거→복귀→예외)와 이를 받쳐 주는 보조 2가지(차폐 자리배치·OLED 표시), 모두 9가지가 코드에 들어갔는지 팀이 함께 확인하며 V 표시하자. 실제 블록을 가져왔는지 눈으로 보고 체크할 것.</div><ul class="chk"><li>[핵심1·연결] 시작할 때 [자동차 보드 연결하기] + [🚗 DC모터 드라이버 시작 (I2C 주소 0x40)] + [Connect to Agent]를 넣었다</li><li>[핵심2·탐지] [이미지 모델 URL을 [URL]로 설정] + [인식 임계값을 [80]% 로 설정] + [이미지 모델 시작]을 넣었다</li><li>[핵심3·분류·방향] [인식 결과]가 '위험-왼쪽/위험-가운데/위험-오른쪽/안전' 중 무엇인지에 따라 분기(만약~라면)했다</li><li>[핵심4·접근·이동] 결과가 위험-OO이면 그 방향으로 [🚗 [전진/왼쪽 회전/오른쪽 회전] A바퀴 속도 % B바퀴 속도 %]를 보내 가까이 간다</li><li>[핵심5·제거] 위험물 앞에서 [서보모터 핀 [PIN] 각도 [DEG] 도]로 집게/밀대를 움직여 제거한다</li><li>[핵심6·복귀·정지] 미션 후 [🚗 모터 정지 [전체]] 후 출발점 방향으로 복귀한다</li><li>[핵심7·예외] [보드가 연결되었는가?]/[Is connected?]가 거짓일 때 멈추도록 처리했다. 그리고 [인식 결과]가 '안전'이면 4차시 정의대로 '천천히 전진하며 탐색'하도록 처리했다</li><li>[보조1·차폐] 운용관 자리에서 [turn video [on]]으로 캠 영상만 보고 코스는 직접 보지 않도록 자리를 배치했다</li><li>[보조2·표시] 현재 상태를 [OLED [칸][줄]에 [글자] 표시]로 운용관이 볼 수 있게 띄웠다</li></ul></div><div class="actsec"><div class="ah">활동 2. 통합 코드 빈칸 완성 (메인 루프)</div><div class="ins">우리 팀의 통합 시퀀스다. ____ 빈칸을 실제 블록명/값으로 채워 완성하자. 분기와 예외처리가 빠지지 않게 주의! ★'안전'일 때의 행동은 4차시와 똑같이 '천천히 전진하며 탐색'으로 맞춘다(차시마다 다르면 헷갈린다).</div><pre class="blk">[자동차 보드 연결하기]
+[🚗 DC모터 드라이버 시작 (I2C 주소 0x40)]
+[Connect to Agent]
+[turn video [____]]            (운용관은 이 영상만 본다 — 차폐!)
+[이미지 모델 URL을 [____]로 설정]
+[인식 임계값을 [____]% 로 설정]
+[이미지 모델 시작]
+
+무한 반복:
+  만약 &lt; [보드가 연결되었는가?] 그리고 [Is connected?] &gt; 아니면:
+     [🚗 모터 정지 [전체]] / [OLED [1][1]에 [____] 표시]   (예외처리)
+  아니면:
+     만약 &lt; [인식 결과] = [____] &gt; 이면:          (위험-왼쪽)
+        [🚗 [____] A바퀴 속도 [__]% B바퀴 속도 [__]%]
+     만약 &lt; [인식 결과] = [위험-가운데] &gt; 이면:
+        [🚗 [전진] A바퀴 속도 [__]% B바퀴 속도 [__]%]
+        [서보모터 핀 [____] 각도 [____] 도]   (집게로 제거)
+     만약 &lt; [인식 결과] = [____] &gt; 이면:          (위험-오른쪽)
+        [🚗 [오른쪽 회전] A바퀴 속도 [__]% B바퀴 속도 [__]%]
+     만약 &lt; [인식 결과] = [안전] &gt; 이면:          (4차시와 동일: 안전=천천히 전진 탐색)
+        [🚗 [전진] A바퀴 속도 [__]% B바퀴 속도 [__]%]   (낮은 속도로 천천히 탐색)</pre></div><div class="actsec"><div class="ah">활동 3. 차폐 실전 테스트 — 단계별 실패 기록표</div><div class="ins">운용관은 ★코스를 등지고 캠 영상만★ 보면서 미션을 3회 시도한다. 한 사람은 운용관(조종), 한 사람은 관찰자(코스 옆에서 실패만 기록). 각 단계에서 실패한 횟수와 그 원인을 적자. (관찰자는 조종에 개입 금지!)</div><div class="mgoal">🎯 미션 목표: 캠 영상만으로 위험물 탐지→집기→이탈 미션 3회 시도, 실패 지점과 원인 기록</div><table class="ws"><thead><tr><th>단계</th><th>실패 횟수(정자 표시)</th><th>주요 실패 원인(캠으로 본 그대로)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">단계별 실패 기록표 (시도 3회 합산)</div></div><div class="actsec"><div class="ah">활동 4. 최적화 기록표 — 한 번에 하나씩 바꾸기</div><div class="ins">활동 3에서 가장 많이 실패한 곳을 고치자. 규칙: 한 번에 한 항목만 바꾸고 다시 테스트한다(둘 이상 바꾸면 무엇이 효과였는지 모른다). 바꾼 값과 성공률 변화를 기록하자.</div><div class="mgoal">🎯 미션 목표: 임계값/집게각도/주행속도 중 하나씩만 바꿔 성공률 변화 측정</div><table class="ws"><thead><tr><th>바꾼 항목</th><th>전(前) 값</th><th>후(後) 값</th><th>테스트 횟수</th><th>성공 횟수 → 성공률</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">최적화 기록표 (항목 예: 인식 임계값 % / 서보 집게 각도 ° / 주행속도 %)</div></div><div class="actsec"><div class="ah">활동 5. 우리 팀의 다음 개선 한 가지</div><div class="ins">오늘 테스트로 알게 된 것을 바탕으로, 다음에 딱 한 가지만 더 개선한다면 무엇을 어떻게 바꿀지 구체적으로 적자. (왜 그게 성공률을 올릴지 근거도 함께)</div><div class="prompts"><div class="pr"><span class="pl">개선할 항목(블록/값)</span><span class="pf"></span></div><div class="pr"><span class="pl">현재 값 → 바꿀 값</span><span class="pf"></span></div><div class="pr"><span class="pl">이렇게 바꾸면 좋아지는 이유(근거)</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">운용관이 코스를 직접 보지 않고 캠 영상만 봤을 때, 실제로 가장 답답하거나 위험했던 순간은 언제였고 코드로 어떻게 보완했나?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">값을 '한 번에 하나씩' 바꾸는 규칙을 지켰을 때와 안 지켰을 때, 원인을 찾기에 어느 쪽이 쉬웠을까?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">'안전'일 때의 행동을 4차시와 똑같이 '천천히 전진 탐색'으로 맞춘 이유는 무엇일까? 만약 차시마다 다르게 정했다면 어떤 문제가 생겼을까?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>이동·탐지·분류·접근·제거·복귀·예외 7단계를 하나의 시퀀스로 통합해 코딩했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>운용관이 캠 영상만 보고 미션을 끝내는 차폐 원칙을 테스트 내내 지켰다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>'안전' 행동을 4차시와 동일하게(천천히 전진 탐색) 일관되게 코딩했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>값을 한 번에 하나씩 바꿔 성공률 변화를 측정하고 다음 개선안을 정했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+<div id="l8"></div><article class="sheet">
+  <div class="shead c4">
+    <div class="sn">8차시</div>
+    <div class="stit"><div class="stg">성장기 · 학생 활동지</div><h2>재난 구조 경진대회 &amp; AI 윤리 토론관</h2></div>
+  </div>
+  <div class="idline"><span>이름 <b class="u"></b></span><span>모둠 <b class="u"></b></span><span>날짜 <b class="u"></b></span></div>
+  <div class="obj"><b>학습목표</b> 경진대회로 우리 팀의 AI 구조로봇 성과를 기록·발표하고, AI 로봇이 재난 현장에서 갖는 사회적 역할과 윤리·안전 문제를 친구들과 토론하며 깊이 생각해 본다.</div>
+  <div class="actsec warmsec"><div class="ah">💭 생각 열기</div><div class="ins">지금까지 만든 '재난안전 AI로봇'은 운용관이 코스를 직접 보지 않고 무선캠(ESP32-CAM) 영상만으로 조종한다. 만약 그 카메라 영상이 흐릿하거나 끊긴다면, 우리 로봇은 어떤 잘못된 판단을 할 수 있을까? 그리고 그 잘못의 '책임'은 누구에게 있을까?</div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">① 출전 전 점검 — 차폐 규칙과 시스템 확인</div><div class="ins">경기 시작 전, 우리 팀 로봇이 대회 규칙대로 작동하는지 확인하자. 특히 '차폐 원칙'을 어기면 즉시 실격이다. 운용관은 코스를 절대 직접 보지 않고 오직 ESP32-CAM 영상만 보며 조종해야 한다. 아래 항목을 모두 점검하고 체크(V)하라.</div><ul class="chk"><li>[자동차 보드 연결하기] 실행 후 [보드가 연결되었는가?]가 '참'이다</li><li>[🚗 DC모터 드라이버 시작 (I2C 주소 0x40)]을 한 번 실행했다</li><li>ESP32-CAM [Connect to Agent] 후 [Is connected?]가 '참'이고, [turn video [on]]으로 영상이 무대에 나온다</li><li>[이미지 모델 URL을 [URL]로 설정] + [이미지 모델 시작/중지]로 티처블머신 모델이 작동한다</li><li>★차폐 준수: 운용관은 실제 코스를 등지고 앉아 모니터(무선캠 영상)만 본다 — 위반 시 실격!</li><li>운용관과 짝(보조)의 역할을 정했다 (조종 / 기록·타이머)</li></ul></div><div class="actsec"><div class="ah">② 라운드별 대회 기록표</div><div class="ins">각 라운드(시도)가 끝날 때마다 기록을 적어라. '탐지 정확도'는 위험 물체를 올바른 위치(왼쪽/가운데/오른쪽)로 인식한 비율, '제거 성공률'은 미션 물체를 실제로 처리한 비율이다. '차폐 준수'는 운용관이 코스를 직접 보지 않았으면 O, 한 번이라도 봤으면 X(=실격 처리)다.</div><table class="ws"><thead><tr><th>라운드</th><th>탐지 정확도(%)</th><th>제거 성공률(%)</th><th>소요 시간(초)</th><th>차폐 준수 O/X</th><th>메모(실수·돌발상황)</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">재난 구조 경진대회 라운드 기록표</div></div><div class="actsec"><div class="ah">③ 결과 분석 — 우리 팀 성과 정리</div><div class="ins">②의 기록표를 보고 우리 팀의 성과를 분석해 빈칸을 채워라. 숫자뿐 아니라 '왜 그랬는지' 이유도 함께 적자.</div><div class="prompts"><div class="pr"><span class="pl">가장 잘 나온 라운드와 그 기록 (정확도/성공률/시간)</span><span class="pf"></span></div><div class="pr"><span class="pl">그 라운드가 잘된 이유 (어떤 코딩·전략 덕분?)</span><span class="pf"></span></div><div class="pr"><span class="pl">가장 아쉬웠던 라운드와 무엇이 문제였는지</span><span class="pf"></span></div><div class="pr"><span class="pl">티처블머신이 위치(왼쪽/가운데/오른쪽)를 잘 맞춘 클래스 vs 헷갈린 클래스</span><span class="pf"></span></div><div class="pr"><span class="pl">다시 한다면 바꾸고 싶은 코드나 작전 한 가지</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div><div class="actsec"><div class="ah">④ 발표 준비 — 우리 로봇 소개 대본</div><div class="ins">다른 팀 앞에서 1~2분간 발표할 내용을 미리 정리하자. 핵심은 'AI가 어떻게 방향을 안내했는지'다. 티처블머신 [인식 결과]가 곧 방향 명령(위험-왼쪽 → 오른쪽으로 피하기 등)이 되도록 설계한 우리 팀의 아이디어를 자랑스럽게 설명하라. ※ '핵심 코딩 흐름'은 분량이 크니 아래 넓은 칸에 충분히 적어라.</div><div class="prompts"><div class="pr"><span class="pl">우리 팀 로봇 이름과 한 줄 콘셉트</span><span class="pf"></span></div><div class="pr"><span class="pl">핵심 코딩 흐름 — [인식 결과]가 '위험-왼쪽/가운데/오른쪽/안전'일 때 각각 로봇이 어떻게 움직였는지 순서대로 (넓은 칸)</span><span class="pf"></span></div><div class="pr"><span class="pl">우리만의 특별한 전략·아이디어</span><span class="pf"></span></div><div class="pr"><span class="pl">발표에서 보여줄 장면 (영상 시연 / OLED 표시 / 스냅샷 등)</span><span class="pf"></span></div><div class="pr"><span class="pl">발표 역할 분담 (누가 말하고 누가 조종/시연?)</span><span class="pf"></span></div></div><div class="wl"><span class="wline"></span><span class="wline"></span><span class="wline"></span><span class="wline"></span></div></div><div class="actsec"><div class="ah">⑤ AI 윤리 토론 — 4가지 쟁점</div><div class="ins">재난 구조에 AI 로봇을 쓰는 것에 대해 팀(또는 모둠)과 토론하고, 4가지 쟁점에 대한 우리 생각과 친구들의 다른 의견을 기록하라. 정답은 없다. 서로 다른 생각을 존중하며 적어 보자.</div><table class="ws"><thead><tr><th>쟁점</th><th>우리 팀 생각</th><th>친구들의 다른 의견</th><th>내가 새로 깨달은 점</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><div class="cap">AI 윤리 토론 기록표</div></div>
+  <div class="actsec reflsec"><div class="ah">🔎 마무리 성찰</div><div class="pr"><span class="pl">AI 로봇이 사람 대신 위험한 재난 현장에 들어가는 것은 좋은 일일까? 그래도 사람이 꼭 해야 하는 부분은 무엇이라고 생각하나?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">운용관이 무선캠 영상만 보고 조종한 경험에서, '눈에 보이는 것만 믿으면 안 되는 이유'를 무엇이라 느꼈나?</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div><div class="pr"><span class="pl">무선캠에 코스 밖 사람이나 사생활이 찍힌다면, 그 영상은 어떻게 다뤄야 안전할까? (개인정보 보호)</span></div><div class="wl"><span class="wline"></span><span class="wline"></span></div></div>
+  <div class="actsec"><div class="ah">⭐ 스스로 평가 <span class="small">(1 매우못함 ~ 5 매우잘함)</span></div>
+    <table class="ws eval"><thead><tr><th>항목</th><th class="cc">1</th><th class="cc">2</th><th class="cc">3</th><th class="cc">4</th><th class="cc">5</th></tr></thead><tbody><tr><td>나는 대회에서 차폐 원칙(코스를 직접 보지 않기)을 끝까지 지켰다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>라운드 기록표와 결과 분석을 성실하게 작성했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>우리 팀 발표 준비에 적극적으로 참여하고 내 역할을 해냈다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr><tr><td>AI 윤리 토론에서 내 생각을 말하고 친구의 다른 의견도 존중했다</td><td class="cc">①</td><td class="cc">②</td><td class="cc">③</td><td class="cc">④</td><td class="cc">⑤</td></tr></tbody></table></div>
+  
+</article>
+</div>
+
+<div class="foot">
+  <div>
+    <button type="button" class="btn" id="bPrintAll">🖨 8차시 모두 인쇄</button>
+  </div>
+  재난안전 AI로봇 운용관 · 학생 활동지(8차시) | 브릭셀AI(우노카·ESP32-CAM·티처블머신) | ※ 모든 미션은 무선캠 영상만 보고 수행
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'disaster-robot:v1';
+  var APP = 'disaster-robot-worksheet';
+  var state = load() || { name: '', group: '', data: {}, updated: '' };
+  var sheets = [].slice.call(document.querySelectorAll('article.sheet'));
+  var fieldsBySheet = sheets.map(function () { return []; });
+  var draws = [];
+  var checkBoxes = [];   // [상자, 키] — 불러오기 때 다시 맞춘다
+
+  function load() {
+    try { var s = JSON.parse(localStorage.getItem(KEY)); return s && s.data ? s : null; } catch (e) { return null; }
+  }
+  var saveTimer = null, saveState = document.getElementById('saveState');
+  function save() {
+    clearTimeout(saveTimer);
+    saveState.textContent = '저장하는 중…'; saveState.className = 'save-state';
+    saveTimer = setTimeout(function () {
+      state.updated = new Date().toISOString();
+      try {
+        localStorage.setItem(KEY, JSON.stringify(state));
+        saveState.textContent = '✓ 저장됨 ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        saveState.className = 'save-state ok';
+      } catch (e) {
+        saveState.textContent = '⚠ 브라우저에 저장하지 못했습니다 — 💾 저장으로 내려받아 두세요';
+      }
+      updateProgress();
+    }, 350);
+  }
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    for (var k in attrs) if (attrs[k] != null) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function autoGrow(t) { t.style.height = 'auto'; t.style.height = (t.scrollHeight + 2) + 'px'; }
+  function bindText(input, key, si) {
+    input.dataset.key = key;
+    input.value = state.data[key] || '';
+    input.addEventListener('input', function () {
+      if (input.value) state.data[key] = input.value; else delete state.data[key];
+      if (input.tagName === 'TEXTAREA') autoGrow(input);
+      save();
+    });
+    fieldsBySheet[si].push(key);
+  }
+  function plainText(node) { return node.textContent.replace(/ /g, ' ').trim(); }
+  function labelOf(node) {
+    var pr = node.closest('.pr'); if (pr) { var pl = pr.querySelector('.pl'); if (pl) return plainText(pl); }
+    var sec = node.closest('.actsec'); if (sec) { var ah = sec.querySelector('.ah'); if (ah) return plainText(ah); }
+    return '';
+  }
+
+  // 넓은 표는 좁은 화면에서 옆으로 밀어 본다
+  [].forEach.call(document.querySelectorAll('table.ws:not(.eval)'), function (t) {
+    var w = el('div', { 'class': 'tblwrap' }); t.parentNode.insertBefore(w, t); w.appendChild(t);
+  });
+
+  /* ── 원본 활동지의 빈 칸을 입력 칸으로 바꾼다 (차시마다 문서 순서대로 번호를 붙인다) ── */
+  var SEL = '.idline .u, .pf, .wl, table.ws tbody td, table.ws.eval tbody tr, ul.chk li, pre.blk, .drawbox';
+  sheets.forEach(function (sh, si) {
+    var no = si + 1, n = 0;
+    function k() { return 's' + no + '-' + (n++); }
+    sh.id = 'l' + no;
+    var prev = sh.previousElementSibling; if (prev && prev.id === 'l' + no && !prev.firstChild) prev.remove();
+
+    [].slice.call(sh.querySelectorAll(SEL)).forEach(function (node) {
+      if (node.matches('.idline .u')) {
+        var lab = plainText(node.parentNode).replace(/\s+/g, '');
+        if (lab.indexOf('이름') === 0 || lab.indexOf('모둠') === 0) {
+          var span = el('span', { 'class': 'gl', 'data-global': lab.indexOf('이름') === 0 ? 'name' : 'group' });
+          node.replaceWith(span);
+        } else {
+          var d = el('input', { type: 'date', 'class': 'f', 'aria-label': no + '차시 날짜' });
+          node.replaceWith(d); bindText(d, k(), si);
+        }
+      } else if (node.matches('.pf')) {
+        var t = el('textarea', { 'class': 'f', rows: '1', 'aria-label': labelOf(node) });
+        node.replaceWith(t); bindText(t, k(), si);
+      } else if (node.matches('.wl')) {
+        var lines = node.querySelectorAll('.wline').length || 2;
+        var ta = el('textarea', { 'class': 'f', rows: String(lines), 'aria-label': labelOf(node) });
+        node.replaceWith(ta); bindText(ta, k(), si);
+      } else if (node.matches('table.ws.eval tbody tr')) {
+        var cells = node.querySelectorAll('td.cc'), key = k(), item = plainText(node.cells[0]);
+        fieldsBySheet[si].push(key);
+        [].forEach.call(cells, function (td, i) {
+          var v = String(i + 1);
+          var lb = el('label'), r = el('input', { type: 'radio', name: key, value: v, 'aria-label': item + ' — ' + v + '점' });
+          if (state.data[key] === v) r.checked = true;
+          r.addEventListener('change', function () { state.data[key] = v; save(); });
+          lb.appendChild(r); td.textContent = ''; td.appendChild(lb);
+        });
+      } else if (node.matches('table.ws tbody td')) {
+        if (node.closest('table.eval')) return;
+        if (plainText(node) !== '') return;           // 원본에 미리 적힌 칸은 그대로
+        var table = node.closest('table'), col = node.cellIndex;
+        var th = table.tHead && table.tHead.rows[0] && table.tHead.rows[0].cells[col];
+        var row = node.parentNode.rowIndex;
+        var c = el('textarea', { 'class': 'f', rows: '1', 'aria-label': (th ? plainText(th) : '칸') + ' ' + row + '행' });
+        node.textContent = ''; node.classList.add('in'); node.appendChild(c); bindText(c, k(), si);
+      } else if (node.matches('ul.chk li')) {
+        var key2 = k(), lb2 = el('label'), cb = el('input', { type: 'checkbox' }), txt = el('span');
+        while (node.firstChild) txt.appendChild(node.firstChild);
+        cb.checked = state.data[key2] === '1'; checkBoxes.push([cb, key2]);
+        cb.addEventListener('change', function () { if (cb.checked) state.data[key2] = '1'; else delete state.data[key2]; save(); });
+        lb2.appendChild(cb); lb2.appendChild(txt); node.appendChild(lb2);
+        fieldsBySheet[si].push(key2);
+      } else if (node.matches('pre.blk')) {
+        // 밑줄(__, ____ …) 빈칸을 한 줄 입력 칸으로
+        var base = k(), j = 0;
+        node.innerHTML = node.innerHTML.replace(/_{2,}/g, function (m) {
+          var w = Math.max(4, Math.min(m.length, 24));
+          return '<input class="b" data-b="' + (j++) + '" size="' + w + '" autocomplete="off" spellcheck="false">';
+        });
+        [].forEach.call(node.querySelectorAll('input.b'), function (inp) {
+          inp.setAttribute('aria-label', no + '차시 빈칸 코드 ' + (+inp.dataset.b + 1) + '번 빈칸');
+          bindText(inp, base + '-' + inp.dataset.b, si);
+        });
+      } else if (node.matches('.drawbox')) {
+        makeDraw(node, k(), si);
+      }
+    });
+  });
+
+  /* ── 그림 칸 ── */
+  function makeDraw(box, key, si) {
+    var h = parseInt(box.style.height, 10) || 400, W = 900, H = Math.round(h * 900 / 820);
+    var wrap = el('div', { 'class': 'draw' }), tools = el('div', { 'class': 'dtools' });
+    var cv = el('canvas', { width: W, height: H, 'aria-label': '그림 그리는 칸 — 마우스나 손가락으로 그립니다' });
+    var ctx = cv.getContext('2d'), color = '#1a2735', erase = false, drawing = false, last = null;
+    var pens = [['검정', '#1a2735'], ['빨강', '#d32f2f'], ['파랑', '#1565c0'], ['초록', '#2e7d32']];
+    var btns = [];
+    pens.forEach(function (p, i) {
+      var b = el('button', { type: 'button', 'aria-pressed': i === 0 ? 'true' : 'false' });
+      var sw = el('span', { 'class': 'sw' }); sw.style.background = p[1];
+      b.appendChild(sw); b.appendChild(document.createTextNode(p[0]));
+      b.onclick = function () { color = p[1]; erase = false; press(b); };
+      tools.appendChild(b); btns.push(b);
+    });
+    var be = el('button', { type: 'button', 'aria-pressed': 'false' }, '지우개');
+    be.onclick = function () { erase = true; press(be); }; tools.appendChild(be); btns.push(be);
+    var bc = el('button', { type: 'button' }, '🗑 모두 지우기');
+    bc.onclick = function () { if (confirm('그림을 모두 지울까요?')) { ctx.clearRect(0, 0, W, H); store(); } };
+    tools.appendChild(bc);
+    function press(b) { btns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); }
+    function pos(e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; }
+    function line(a, b) {
+      ctx.globalCompositeOperation = erase ? 'destination-out' : 'source-over';
+      ctx.strokeStyle = color; ctx.lineWidth = erase ? 26 : 3.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    }
+    cv.addEventListener('pointerdown', function (e) { drawing = true; last = pos(e); cv.setPointerCapture(e.pointerId); line(last, last); e.preventDefault(); });
+    cv.addEventListener('pointermove', function (e) { if (!drawing) return; var p = pos(e); line(last, p); last = p; });
+    function end() { if (drawing) { drawing = false; store(); } }
+    cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+    function isBlank() { var d = ctx.getImageData(0, 0, W, H).data; for (var i = 3; i < d.length; i += 4) if (d[i]) return false; return true; }
+    function store() { if (isBlank()) delete state.data[key]; else state.data[key] = cv.toDataURL('image/png'); save(); }
+    function paint() {
+      ctx.globalCompositeOperation = 'source-over'; ctx.clearRect(0, 0, W, H);
+      if (state.data[key]) { var img = new Image(); img.onload = function () { ctx.drawImage(img, 0, 0, W, H); }; img.src = state.data[key]; }
+    }
+    paint();
+    wrap.appendChild(tools); wrap.appendChild(cv); box.replaceWith(wrap);
+    fieldsBySheet[si].push(key);
+    draws.push(paint);
+  }
+
+  /* ── 이름 · 모둠 (한 번 쓰면 모든 차시에) ── */
+  var gName = document.getElementById('gName'), gGroup = document.getElementById('gGroup');
+  function paintGlobal() {
+    gName.value = state.name || ''; gGroup.value = state.group || '';
+    [].forEach.call(document.querySelectorAll('[data-global]'), function (s) { s.textContent = state[s.dataset.global] || ' '; });
+  }
+  [[gName, 'name'], [gGroup, 'group']].forEach(function (p) {
+    p[0].addEventListener('input', function () { state[p[1]] = p[0].value.trim(); paintGlobal(); save(); });
+  });
+
+  /* ── 차시 탭 ── */
+  var tabs = document.querySelector('.tabs'), current = 0;
+  var tabBtns = sheets.map(function (sh, i) {
+    var title = plainText(sh.querySelector('.shead h2'));
+    var b = el('button', { type: 'button', role: 'tab', 'aria-controls': sh.id, title: title });
+    b.appendChild(document.createTextNode((i + 1) + '차시'));
+    b.appendChild(el('span', { 'class': 'pg' }));
+    b.onclick = function () { show(i, true); };
+    tabs.appendChild(b);
+    sh.setAttribute('role', 'tabpanel'); sh.setAttribute('aria-label', (i + 1) + '차시 ' + title);
+    // 차시 끝 «이전 · 다음» 단추
+    var nav = el('div', { 'class': 'sheet-nav' });
+    var pv = el('button', { type: 'button', 'class': 'btn' }, '← ' + i + '차시'); pv.onclick = function () { show(i - 1, true); };
+    var nx = el('button', { type: 'button', 'class': 'btn' }, (i + 2) + '차시 →'); nx.onclick = function () { show(i + 1, true); };
+    var sv = el('button', { type: 'button', 'class': 'btn btn-save' }, '💾 ' + (i + 1) + '차시 저장(제출용)');
+    sv.onclick = function () { exportFile(i); };
+    nav.appendChild(i > 0 ? pv : el('span')); nav.appendChild(sv); nav.appendChild(i < sheets.length - 1 ? nx : el('span'));
+    sh.appendChild(nav);
+    return b;
+  });
+  function show(i, scroll) {
+    current = Math.max(0, Math.min(sheets.length - 1, i));
+    sheets.forEach(function (s, j) { s.classList.toggle('on', j === current); });
+    tabBtns.forEach(function (b, j) { b.setAttribute('aria-selected', j === current ? 'true' : 'false'); b.tabIndex = j === current ? 0 : -1; });
+    tabBtns[current].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (location.hash !== '#l' + (current + 1)) history.replaceState(null, '', '#l' + (current + 1));
+    document.getElementById('bExportOneT').textContent = (current + 1) + '차시';
+    try { localStorage.setItem(KEY + ':tab', String(current)); } catch (e) {}
+    [].forEach.call(sheets[current].querySelectorAll('textarea.f'), autoGrow);
+    if (scroll) window.scrollTo(0, 0);
+  }
+  tabs.addEventListener('keydown', function (e) {
+    var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (d) { show(current + d); tabBtns[current].focus(); e.preventDefault(); }
+  });
+  function updateProgress() {
+    sheets.forEach(function (sh, i) {
+      var keys = fieldsBySheet[i], done = 0;
+      keys.forEach(function (key) { if (state.data[key]) done++; });
+      tabBtns[i].querySelector('.pg').textContent = done + '/' + keys.length;
+      tabBtns[i].classList.toggle('done', keys.length > 0 && done === keys.length);
+    });
+  }
+
+  /* ── 파일로 저장 · 불러오기 · 새로 시작 · 인쇄 ── */
+  var toastT;
+  function toast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(function () { t.hidden = true; }, 3200); }
+  function refreshAll() {
+    [].forEach.call(document.querySelectorAll('[data-key]'), function (inp) { inp.value = state.data[inp.dataset.key] || ''; });
+    [].forEach.call(document.querySelectorAll('table.eval input[type=radio]'), function (r) { r.checked = state.data[r.name] === r.value; });
+    checkBoxes.forEach(function (c) { c[0].checked = state.data[c[1]] === '1'; });
+    draws.forEach(function (p) { p(); });
+    paintGlobal(); updateProgress();
+    [].forEach.call(sheets[current].querySelectorAll('textarea.f'), autoGrow);
+  }
+  function lessonKeys(data, i) {   // i 차시(0부터)의 답만 골라 낸다
+    var pre = 's' + (i + 1) + '-', out = {};
+    Object.keys(data).forEach(function (key) { if (key.indexOf(pre) === 0) out[key] = data[key]; });
+    return out;
+  }
+  // i 가 숫자면 그 차시만, null 이면 8차시 전체
+  function exportFile(i) {
+    var one = typeof i === 'number';
+    var data = one ? lessonKeys(state.data, i) : state.data;
+    if (one && !Object.keys(data).length && !confirm((i + 1) + '차시에 쓴 내용이 없습니다. 그래도 저장할까요?')) return;
+    var now = new Date(), ymd = now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+    var payload = { app: APP, version: 1, lesson: one ? i + 1 : null, name: state.name, group: state.group, exported: now.toISOString(), data: data };
+    var blob = new Blob([JSON.stringify(payload, null, 1)], { type: 'application/json' });
+    var fname = '재난로봇활동지_' + (one ? (i + 1) + '차시_' : '전체_') + (state.group ? state.group + '_' : '') + (state.name || '이름없음') + '_' + ymd + '.json';
+    var a = el('a', { href: URL.createObjectURL(blob), download: fname });
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    if (!state.name) toast('이름을 쓰지 않았어요. 위 «이름» 칸을 채운 뒤 다시 저장하면 좋아요.');
+    else toast((one ? (i + 1) + '차시' : '8차시 전체') + ' 파일을 내려받았습니다. 선생님이 알려 준 곳에 제출하세요.');
+  }
+  document.getElementById('bExportOne').onclick = function () { exportFile(current); };
+  document.getElementById('bExport').onclick = function () { exportFile(null); };
+  var fileIn = document.getElementById('fileIn');
+  document.getElementById('bImport').onclick = function () { fileIn.value = ''; fileIn.click(); };
+  fileIn.onchange = function () {
+    var f = fileIn.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      try {
+        var p = JSON.parse(rd.result);
+        if (p.app !== APP || !p.data) throw new Error('형식');
+        var who = p.name || '이름없음', has = Object.keys(state.data).length > 0;
+        var L = +p.lesson;
+        if (L >= 1 && L <= sheets.length) {
+          // 차시 파일 — 같은 학생이면 그 차시만 바꾸고, 다른 학생이면 이 파일 내용만 남긴다
+          var same = !has || (p.name || '') === (state.name || '');
+          if (same) {
+            var mine = lessonKeys(state.data, L - 1);
+            if (Object.keys(mine).length && !confirm(L + '차시에 쓴 내용을 «' + who + '» ' + L + '차시 파일 내용으로 바꿀까요?\n(다른 차시는 그대로 둡니다)')) return;
+            Object.keys(mine).forEach(function (key) { delete state.data[key]; });
+            var got = lessonKeys(p.data, L - 1);
+            Object.keys(got).forEach(function (key) { state.data[key] = got[key]; });
+            state.name = p.name || state.name; state.group = p.group || state.group;
+          } else {
+            if (!confirm('다른 학생(«' + who + '»)의 ' + L + '차시 파일입니다.\n지금 이 기기에 쓴 «' + (state.name || '이름없음') + '» 내용을 지우고 이 파일을 열까요?')) return;
+            state = { name: p.name || '', group: p.group || '', data: lessonKeys(p.data, L - 1), updated: '' };
+          }
+          save(); refreshAll(); show(L - 1, true); toast('불러왔습니다: ' + who + ' · ' + L + '차시');
+        } else {
+          if (has && !confirm('지금 이 기기에 쓴 내용을 «' + who + '» 전체 파일 내용으로 바꿀까요?\n(지금 내용은 사라집니다)')) return;
+          state = { name: p.name || '', group: p.group || '', data: p.data, updated: '' };
+          save(); refreshAll(); toast('불러왔습니다: ' + who + ' · 8차시 전체');
+        }
+      } catch (e) { alert('이 활동지에서 저장한 파일이 아닙니다.'); }
+    };
+    rd.readAsText(f, 'utf-8');
+  };
+  document.getElementById('bReset').onclick = function () {
+    if (!confirm('이 기기에 저장된 활동지 내용(8차시 전부)을 모두 지울까요?\n제출할 내용이 있다면 먼저 «💾 저장»으로 내려받으세요.')) return;
+    state = { name: '', group: '', data: {}, updated: '' };
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    refreshAll(); show(0, true); saveState.textContent = ''; toast('새로 시작합니다.');
+  };
+  function doPrint(all) {
+    document.body.classList.toggle('print-all', all);
+    if (all) [].forEach.call(document.querySelectorAll('textarea.f'), autoGrow);
+    setTimeout(function () { window.print(); }, 50);
+  }
+  window.addEventListener('afterprint', function () { document.body.classList.remove('print-all'); });
+  document.getElementById('bPrint').onclick = function () { doPrint(false); };
+  document.getElementById('bPrintAll').onclick = function () { doPrint(true); };
+
+  // 다른 탭(같은 기기)에서 고친 내용 따라가기
+  window.addEventListener('storage', function (e) { if (e.key === KEY) { var s = load(); if (s) { state = s; refreshAll(); } } });
+
+  paintGlobal(); updateProgress();
+  var m = /^#l(\d)$/.exec(location.hash), start = m ? +m[1] - 1 : 0;
+  if (!m) { try { start = +(localStorage.getItem(KEY + ':tab') || 0); } catch (e) {} }
+  show(start || 0, false);
+})();
+</script>
+</body></html>
