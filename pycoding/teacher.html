@@ -109,9 +109,6 @@ pre,code,textarea.code,textarea.mono,.CodeMirror,.cell{font-variant-ligatures:no
   .tbl th,.tbl td{padding:3px 6px}
   .tbl th{position:static}
 }
-body[data-pbro="1"] #pbNew, body[data-pbro="1"] label[for="pbFile"], body[data-pbro="1"] [data-edit], body[data-pbro="1"] [data-del],
-body[data-pbro="1"] #pbHideAll, body[data-pbro="1"] #pbShowAll { display: none !important; }
-body[data-pbro="1"] [data-hide] { pointer-events: none; }
 body:not([data-login="pin"]) [data-pin], body:not([data-login="pin"]) #stResult .pinonly { display: none !important; }
 </style>
 </head>
@@ -124,7 +121,8 @@ body:not([data-login="pin"]) [data-pin], body:not([data-login="pin"]) #stResult 
     <form id="loginForm">
       <div id="schoolFields" class="hidden">
         <p class="small" style="margin:0">«들어가기» 를 누르면 에듀폼 화면에서 로그인한 뒤 돌아옵니다.
-          <span id="loginWhoNote">교사 화면은 선생님마다 자기 평가 · 결과만 보입니다.</span></p>
+          에듀폼 <strong>관리자</strong>와 승인한 선생님만 들어올 수 있습니다. 처음 들어오면 «승인 대기» 로 남고,
+          에듀폼 관리자 계정이나 아래 비상용 비밀번호로 들어가 «반·학생 → 교사 화면 권한» 에서 승인합니다.</p>
         <details id="emergency" style="margin-top:10px"><summary class="small">에듀폼이 꺼져 있을 때 — 비상용 비밀번호로 들어가기</summary></details>
       </div>
       <label class="field" id="pwField"><span>교사 비밀번호</span><input id="pw" type="password" required autocomplete="current-password"></label>
@@ -136,22 +134,17 @@ body:not([data-login="pin"]) [data-pin], body:not([data-login="pin"]) #stResult 
 
 <div id="app" class="hidden">
   <header class="top">
-    <h1 id="screenTitle">🐍 교사 화면</h1>
-    <span class="small muted" id="whoami"></span>
-    <a class="small hidden" id="otherScreen" href="#"></a>
+    <h1>🐍 교사 화면</h1>
     <nav class="tabs" role="tablist" id="tabs">
-      <button role="tab" data-tab="results" data-scope="teacher" aria-selected="true">평가 결과</button>
-      <button role="tab" data-tab="feedback" data-scope="teacher">피드백</button>
-      <button role="tab" data-tab="exams" data-scope="teacher">평가 만들기</button>
-      <button role="tab" data-tab="deploy" data-scope="teacher">배포</button>
-      <button role="tab" data-tab="answers" data-scope="teacher">정답지</button>
-      <button role="tab" data-tab="practice" data-scope="teacher">연습 현황</button>
-      <button role="tab" data-tab="teachers" data-scope="school-admin" class="hidden">교사</button>
+      <button role="tab" data-tab="results" aria-selected="true">평가 결과</button>
+      <button role="tab" data-tab="feedback">피드백</button>
+      <button role="tab" data-tab="exams">평가 만들기</button>
+      <button role="tab" data-tab="deploy">배포</button>
+      <button role="tab" data-tab="answers">정답지</button>
+      <button role="tab" data-tab="practice">연습 현황</button>
       <button role="tab" data-tab="problems">문제</button>
-      <button role="tab" data-tab="students" data-scope="admin">반·학생</button>
-      <button role="tab" data-tab="allexams" data-scope="school-admin" class="hidden">전체 평가</button>
-      <button role="tab" data-tab="wipe" data-scope="admin">학년도 정리</button>
-      <button role="tab" data-tab="server" data-scope="school-admin" class="hidden">서버 · AI</button>
+      <button role="tab" data-tab="students">반·학생</button>
+      <button role="tab" data-tab="wipe">학년도 정리</button>
     </nav>
     <span class="small muted" id="engine">파이썬: 대기</span>
     <button class="btn small" id="logoutBtn">나가기</button>
@@ -353,7 +346,11 @@ body:not([data-login="pin"]) [data-pin], body:not([data-login="pin"]) #stResult 
           아직 로그인하지 않은 학생도 결과표에 보이게 하려면 아래 «명단 올리기» 에 반·학번·이름 명단을 붙여 넣으세요 — 로그인하면 그 줄에 이어집니다.
           (에듀폼 «외부용 명단» CSV 는 외부 연습을 허용한 학생만 담습니다.)</p>
       </div>
-
+      <div class="card hidden" id="stTeachersCard">
+        <h2>교사 화면 권한</h2>
+        <p class="small muted" style="margin-top:0">이 화면은 정보 선생님 한 분이 씁니다. 에듀폼 <strong>관리자</strong>는 늘 들어옵니다. 다른 선생님은 처음 들어오면 «승인 대기» 로 여기에 나타납니다.</p>
+        <div class="tbl-wrap" id="stTeachers"></div>
+      </div>
       <div class="card" id="stImportCard">
         <h2>명단 올리기</h2>
         <p class="small muted" style="margin-top:0">엑셀에서 열을 복사해 붙여 넣으세요. 순서: <strong>반, 학번, 이름, PIN(비우면 자동 6자리), 이메일(구글 로그인용, 없어도 됨)</strong>. 첫 줄이 제목이면 건너뜁니다.</p>
@@ -379,35 +376,6 @@ body:not([data-login="pin"]) [data-pin], body:not([data-login="pin"]) #stResult 
         </div>
         <div class="tbl-wrap" id="stTable"></div>
         <p class="small muted" id="stPinNote">PIN 은 서버에 해시로만 저장되어 다시 볼 수 없습니다. 잊은 학생은 «PIN 새로 발급» 을 누르세요.</p>
-      </div>
-    </section>
-
-    <!-- 관리자: 교사 (교내판) -->
-    <section data-panel="teachers" class="hidden">
-      <div class="card">
-        <h2>교사</h2>
-        <p class="small muted" style="margin-top:0">교사 화면은 <strong>교사별</strong>입니다 — 선생님마다 자기가 만든 평가 · 결과 · 피드백만 봅니다. 에듀폼으로 한 번이라도 들어온 선생님이 여기에 나타납니다.
-          에듀폼 <strong>관리자</strong>는 이 관리자 화면에 들어올 수 있고, 막을 수 없습니다.</p>
-        <div class="tbl-wrap" id="stTeachers"></div>
-      </div>
-    </section>
-
-    <!-- 관리자: 전체 평가 (교내판) -->
-    <section data-panel="allexams" class="hidden">
-      <div class="card">
-        <h2>전체 평가</h2>
-        <p class="small muted" style="margin-top:0">모든 선생님의 평가와 배포 상태입니다 (보기만). 결과 · 피드백은 각 선생님이 교사 화면에서 봅니다.</p>
-        <div class="tbl-wrap" id="axTable"></div>
-      </div>
-    </section>
-
-    <!-- 관리자: 서버 · AI (교내판) -->
-    <section data-panel="server" class="hidden">
-      <div class="card">
-        <h2>서버 · AI</h2>
-        <div id="svInfo" class="small"></div>
-        <div class="row" style="margin-top:10px"><button class="btn" id="svAiTest" type="button">큐웬(LM Studio) 연결 시험</button></div>
-        <p class="small muted">설정 파일 <code>C:\ProgramData\PySchool\config.json</code> · 기록 <code>server-log.txt</code> · 백업 <code>backups\</code> (하루 한 번, 최근 14개). 자세한 것은 설치 설명서.</p>
       </div>
     </section>
 
@@ -493,9 +461,6 @@ const ss = {
   set(k, v) { try { sessionStorage.setItem(k, v); } catch {} },
   del(k) { try { sessionStorage.removeItem(k); } catch {} },
 };
-// 교내판: teacher.html = 교사 화면(교사별), admin.html = 관리자 화면 (서버가 window.PYC_SCREEN="admin" 을 넣어 낸다)
-const SCREEN = window.PYC_SCREEN === "admin" ? "admin" : "teacher";
-const TOKEN_KEY = SCREEN === "admin" ? "pyc:admin" : "pyc:teacher";
 const T = { token: null, classes: [], problems: [], exams: [], deps: [], students: [], results: null, now: 0, offset: 0 };
 const CLUB_LEVELS = { 1: "기초", 2: "기본", 3: "중급", 4: "심화", 5: "고급" };
 const CLUB_TOPICS = { ds: "동아리·자료구조", al: "동아리·알고리즘", koi: "동아리·정올대비", w1: "동아리·1교시" };
@@ -513,7 +478,7 @@ async function api(path, opt = {}) {
   });
   let data = {};
   try { data = await res.json(); } catch {}
-  if (res.status === 401 && T.token) { ss.del(TOKEN_KEY); alert("로그인이 만료되었습니다. 다시 들어오세요."); location.reload(); }
+  if (res.status === 401 && T.token) { ss.del("pyc:teacher"); alert("로그인이 만료되었습니다. 다시 들어오세요."); location.reload(); }
   if (!res.ok) throw new Error(data.error || "서버 오류 (" + res.status + ")");
   return data;
 }
@@ -549,10 +514,6 @@ function applyTeacherLogin(mode) {
   const school = mode === "school";
   $("schoolFields").classList.toggle("hidden", !school);
   if (school) { $("emergency").appendChild($("pwField")); $("pw").required = false; }
-  if (school && SCREEN === "admin") {
-    document.querySelector("#login h2").textContent = "🛠 파이썬 채점 · 관리자 화면";
-    $("loginWhoNote").textContent = "에듀폼 관리자만 들어올 수 있습니다. 교사 · 학생 명단 · 문제 은행 · 학년도 정리를 합니다.";
-  }
 }
 applyTeacherLogin(T.loginMode);
 if (API) api("/api/config").then((c) => { T.config = c; if (c.loginMode && c.loginMode !== T.loginMode) applyTeacherLogin(c.loginMode); }).catch(() => {});
@@ -562,21 +523,22 @@ $("loginForm").addEventListener("submit", async (e) => {
   if (!API) return msg("loginMsg", "서버 주소를 먼저 설정하세요.");
   try {
     if (T.loginMode === "school" && !$("emergency").open) {
-      location.href = API + "/api/sso/start?as=" + SCREEN + "&return=" + encodeURIComponent(location.pathname);
+      location.href = API + "/api/sso/start?as=teacher&return=" + encodeURIComponent(location.pathname);
       return;
     }
     const d = await api("/api/teacher/login", { method: "POST", body: { password: $("pw").value } });
-    T.token = d.token; ss.set(TOKEN_KEY, d.token); $("pw").value = "";
+    T.token = d.token; ss.set("pyc:teacher", d.token); $("pw").value = "";
     start();
   } catch (err) { msg("loginMsg", esc(err.message)); }
 });
-$("logoutBtn").onclick = () => { api("/api/logout", { method: "POST" }).catch(() => {}); ss.del(TOKEN_KEY); location.reload(); };
+$("logoutBtn").onclick = () => { api("/api/logout", { method: "POST" }).catch(() => {}); ss.del("pyc:teacher"); location.reload(); };
 
 // 로그인 방식에 따라 화면을 고친다: school = 명단·PIN 숨김 / name = PIN 숨김, 평가 시작 못 함 안내
 function applyModeUi(c) {
   const mode = c.loginMode || "pin";
   document.body.dataset.login = mode;
   $("stSchoolNote").classList.toggle("hidden", mode !== "school");
+  $("stTeachersCard").classList.toggle("hidden", mode !== "school");
   $("stPinNote").classList.toggle("hidden", mode !== "pin");
   if (mode === "school") {
     $("stKeep").closest("label").classList.add("hidden");
@@ -614,45 +576,16 @@ async function checkServerVersion() {
 async function start() {
   $("login").classList.add("hidden");
   $("app").classList.remove("hidden");
-  try { T.me = await api("/api/teacher/me"); } catch { T.me = { admin: true, scoped: false }; }
-  applyScreen();
-  if (!(SCREEN === "admin" && T.me.loginMode === "school")) runner.ready().catch((e) => toast(e.message));
+  runner.ready().catch((e) => toast(e.message));
   fillTopicSelects();
   checkServerVersion();
   await Promise.all([loadClasses(), loadProblems(), loadExams()]);
-  const first = document.querySelector("#tabs button:not(.hidden)");
-  if (first && first.dataset.tab !== "results") first.click(); else await refreshResults();
-}
-
-// 어떤 탭을 보일지: 교내판 교사 화면 = 수업 탭 + 문제(보기만) / 교내판 관리자 화면 = 관리 탭 / Cloudflare 판(비밀번호 교사) = 예전처럼 다
-function applyScreen() {
-  const me = T.me || {};
-  const school = me.loginMode === "school";
-  const show = (scope) => {
-    if (!school) return scope !== "school-admin";
-    if (SCREEN === "admin") return scope === "admin" || scope === "school-admin" || !scope;
-    return scope === "teacher" || !scope;
-  };
-  document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("hidden", !show(b.dataset.scope || "")));
-  document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-selected", "false"));
-  const first = document.querySelector("#tabs button:not(.hidden)");
-  if (first) first.setAttribute("aria-selected", "true");
-  document.querySelectorAll("[data-panel]").forEach((pn) => pn.classList.toggle("hidden", !first || pn.dataset.panel !== first.dataset.tab));
-  // 교내판 교사 화면에서 문제는 보기만 (문제 은행 편집은 관리자 화면)
-  document.body.dataset.pbro = school && SCREEN === "teacher" && me.scoped ? "1" : "";
-  if (school) {
-    $("screenTitle").textContent = SCREEN === "admin" ? "🛠 관리자 화면" : "🐍 교사 화면";
-    $("whoami").textContent = me.name ? (/선생님$/.test(me.name) ? me.name : `${me.name} 선생님`) : me.admin ? "비상용 비밀번호" : "";
-    const other = $("otherScreen");
-    if (SCREEN === "teacher" && me.isAdmin) { other.href = "admin.html"; other.textContent = "관리자 화면 →"; other.classList.remove("hidden"); }
-    if (SCREEN === "admin") { other.href = "teacher.html"; other.textContent = "교사 화면 →"; other.classList.remove("hidden"); }
-    document.title = SCREEN === "admin" ? "관리자 화면 · 파이썬 채점" : document.title;
-  }
+  await refreshResults();
 }
 
 (async () => {
-  const t = ss.get(TOKEN_KEY);
-  if (t && API) { T.token = t; try { await api("/api/teacher/classes"); start(); } catch { T.token = null; ss.del(TOKEN_KEY); } }
+  const t = ss.get("pyc:teacher");
+  if (t && API) { T.token = t; try { await api("/api/teacher/classes"); start(); } catch { T.token = null; ss.del("pyc:teacher"); } }
 })();
 
 /* ================= 피드백 (2026-11-15) =================
@@ -1025,33 +958,6 @@ $("fbCsv").onclick = () => {
   csvDownload(`${T.fb.R.exam.title}_${T.fb.R.exam.class_name}_피드백.csv`, rows);
 };
 
-/* ---------- 관리자 화면: 전체 평가 · 서버 ---------- */
-async function renderAllExams() {
-  await loadExams();
-  const now = Date.now() + T.offset;
-  $("axTable").innerHTML = T.exams.length ? `<table class="tbl"><tr><th>선생님</th><th>평가</th><th>문제</th><th>배포한 반 (상태)</th><th>만든 날</th></tr>` + T.exams.map((e) => {
-    const deps = depsOf(e.id);
-    return `<tr><td>${esc(e.owner_name || (e.owner ? "(이름 모름)" : "비밀번호 교사"))}</td><td class="wrap">${esc(e.title)}</td><td>${JSON.parse(e.problem_ids || "[]").length}개</td>
-      <td class="wrap">${deps.map((d) => `${esc(d.class_name)} <span class="small muted">${examState(d, now).label}</span>`).join(" · ") || "-"}</td><td class="small">${fmtTime(e.created_at)}</td></tr>`;
-  }).join("") + `</table>` : `<p class="small muted" style="padding:8px">평가가 없습니다.</p>`;
-}
-async function renderServer() {
-  let h = {}, ai = {};
-  try { h = await (await fetch("/health")).json(); } catch {}
-  try { ai = await api("/api/teacher/ai/status"); } catch {}
-  $("svInfo").innerHTML = `교내 서버 판 <strong>${esc(h.version || "-")}</strong> · Node ${esc(h.node || "-")}<br>` +
-    `큐웬: ${ai.model ? esc(ai.model) + " (" + esc(ai.url || "") + ")" : "꺼짐 (config.json 의 llmUrl · llmModel)"}` +
-    (ai.model ? ` · ${ai.busy ? "만드는 중" : "쉬는 중"} · 만든 초안 ${ai.done || 0}개${ai.lastError ? " · 마지막 오류: " + esc(ai.lastError) : ""}` : "");
-}
-$("svAiTest").onclick = async () => {
-  const b = $("svAiTest"); b.disabled = true; const t0 = b.textContent; b.textContent = "시험 중…";
-  try {
-    const r = await api("/api/teacher/ai/test");
-    alert(r.ok ? `큐웬 연결 성공 — ${r.model} (${Math.round(r.ms / 100) / 10}초)\n답: ${r.sample}` : `큐웬 연결 실패: ${r.error}${r.models && r.models.length ? "\nLM Studio 에 있는 모델: " + r.models.join(", ") : ""}`);
-  } catch (e) { alert(e.message); }
-  finally { b.disabled = false; b.textContent = t0; }
-};
-
 /* ---------- 탭 ---------- */
 $("tabs").querySelectorAll("button").forEach((b) => b.onclick = () => {
   $("tabs").querySelectorAll("button").forEach((x) => x.setAttribute("aria-selected", x === b));
@@ -1059,9 +965,6 @@ $("tabs").querySelectorAll("button").forEach((b) => b.onclick = () => {
   const t = b.dataset.tab;
   if (t === "results") refreshResults();
   if (t === "feedback") loadFeedbackTab();
-  if (t === "teachers") loadSchoolTeachers();
-  if (t === "allexams") renderAllExams();
-  if (t === "server") renderServer();
   if (t === "exams") { loadExams(); renderPicker(); }
   if (t === "deploy") loadExams();
   if (t === "practice") loadPractice();
@@ -2010,19 +1913,18 @@ function printPins(list) {
 async function loadStudents() {
   try { T.students = (await api("/api/teacher/students")).students; } catch (e) { return toast(e.message); }
   renderStudents();
+  if (T.config && T.config.loginMode === "school") loadSchoolTeachers();
 }
 // 교내판 교사 화면 권한 (에듀폼 관리자는 늘 들어옴)
 async function loadSchoolTeachers() {
   let d;
   try { d = await api("/api/teacher/school-teachers"); } catch (e) { $("stTeachers").innerHTML = `<p class="small muted" style="padding:8px">${esc(e.message)}</p>`; return; }
-  const all = d.access !== "approve";
-  const off = all ? "막힘" : "승인 대기";
-  $("stTeachers").innerHTML = (all ? "" : `<p class="small" style="padding:8px 8px 0">서버 설정이 «승인한 교사만» (teacherAccess=approve) 입니다. 처음 들어온 선생님은 «승인 대기» 로 남습니다.</p>`) +
-    (d.teachers.length ? `<table class="tbl"><tr><th>이름</th><th>상태</th><th>평가 수</th><th>처음 · 마지막</th><th></th></tr>` + d.teachers.map((t) =>
-    `<tr><td>${esc(t.name)}</td><td>${t.is_admin ? `<span class="pill ok">에듀폼 관리자</span>` : t.approved ? `<span class="pill ok">쓸 수 있음</span>` : `<span class="pill warn">${off}</span>`}</td>
-      <td>${t.exams || 0}</td><td class="small">${fmtTime(t.first_seen)} · ${fmtTime(t.last_seen)}</td>
-      <td>${t.is_admin ? "" : `<button class="btn small" data-tapprove="${esc(t.sub)}" data-on="${t.approved ? 0 : 1}">${t.approved ? "막기" : all ? "풀기" : "승인"}</button>`}</td></tr>`).join("") + `</table>`
-    : `<p class="small muted" style="padding:8px">아직 에듀폼으로 들어온 선생님이 없습니다.</p>`);
+  if (d.access === "all") { $("stTeachers").innerHTML = `<p class="small" style="padding:8px">서버 설정이 «모든 에듀폼 교사» (teacherAccess=all) 라 승인이 필요 없습니다.</p>`; return; }
+  $("stTeachers").innerHTML = d.teachers.length ? `<table class="tbl"><tr><th>이름</th><th>상태</th><th>처음 · 마지막</th><th></th></tr>` + d.teachers.map((t) =>
+    `<tr><td>${esc(t.name)}</td><td>${t.is_admin ? `<span class="pill ok">에듀폼 관리자</span>` : t.approved ? `<span class="pill ok">승인</span>` : `<span class="pill warn">승인 대기</span>`}</td>
+      <td class="small">${fmtTime(t.first_seen)} · ${fmtTime(t.last_seen)}</td>
+      <td>${t.is_admin ? "" : `<button class="btn small" data-tapprove="${esc(t.sub)}" data-on="${t.approved ? 0 : 1}">${t.approved ? "권한 빼기" : "승인"}</button>`}</td></tr>`).join("") + `</table>`
+    : `<p class="small muted" style="padding:8px">아직 에듀폼으로 들어온 선생님이 없습니다.</p>`;
   $("stTeachers").querySelectorAll("[data-tapprove]").forEach((b) => b.onclick = async () => {
     try { await api("/api/teacher/school-teachers", { method: "POST", body: { sub: b.dataset.tapprove, approved: b.dataset.on === "1" } }); loadSchoolTeachers(); }
     catch (e) { toast(e.message); }
