@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>15차시 발표자료를 영상으로 바꾸기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">15차시 · Ⅳ. 영상과 소리</div>
+  <h1>발표자료를 영상으로 바꾸기</h1>
+  <p class="sub">HTML 발표자료의 슬라이드 한 장을 장면 하나로, 발표자 노트를 자막으로 바꿔 MP4 영상을 만듭니다. 결석한 학생의 복습용이나 사전 학습용으로 올리기 좋습니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 클로드 코드 (Code 탭) + HyperFrames (무료 오픈소스)</span>
+    <span class="badge learn">핵심 기법 · 슬라이드 한 장 = 장면 하나, 발표자 노트 = 자막</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>4장짜리 HTML 발표자료를 자막과 장면 전환이 들어간 40초 안팎의 영상으로 바꾼다 (예시: 중학교 영어 «Asking for Directions — 길 묻고 답하기»)</dd>
+    <dt>준비물</dt><dd>9차시에서 만든 발표자료의 복사본, 또는 연습용 발표자료 <a href="samples/l15-slides/slides.html" download>slides.html</a>(4장, 발표자 노트 포함, 연수용 가상 자료)을 넣은 <code>15차시</code> 폴더 · Node.js 와 FFmpeg (14차시 4단계에서 점검)</dd>
+    <dt>결과물</dt><dd><code>길묻기_영상.mp4</code> (1280×720) + 장면별 시작·끝 시각표</dd>
+    <dt>주의</dt><dd>원본 발표자료는 고치지 않기 · 영어 문장과 자막은 교사가 검수 · 교과서 지문·그림은 넣지 않기</dd>
+  </dl>
+</div>
+
+<p>14차시는 영상을 처음부터 새로 짰다면, 이번에는 <b>이미 검수한 발표자료</b>를 재료로 씁니다. 화면에 들어갈 글과 그림, 교사가 할 말(발표자 노트)이 이미 정해져 있으니 장면표를 새로 쓸 필요가 거의 없습니다. 핵심은 둘입니다. <b>슬라이드 한 장을 장면 하나로</b> 옮기고, <b>발표자 노트를 그대로 자막으로</b> 쓰는 것입니다. 그러면 화면의 글과 자막이 서로 다른 말을 하지 않습니다.</p>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=3X-1nlR_OSw" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/3X-1nlR_OSw/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">12:28</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">AI로 PPT만 만드시나요? 발표 자료를 영상으로 만드는 법 (Claude × HyperFrames)</span><span class="ch">아빠너구리 TV · 유튜브</span><span class="why">AI로 만든 발표 자료를 HyperFrames 로 영상 발표 자료로 바꾸는 방법을 다룹니다.</span></span>
+  </a>
+</div>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><code>클로드연수</code> 안에 빈 폴더 <code>15차시</code> 를 만듭니다.</li>
+  <li>9차시에서 만든 발표자료 <code>index.html</code> 을 <b>복사</b>해 <code>15차시</code> 에 넣습니다. 9차시를 하지 않았다면 연습용 <a href="samples/l15-slides/slides.html" download>slides.html</a> 을 받아 넣습니다. 브라우저로 열어 <kbd>→</kbd> 로 넘기고 <kbd>N</kbd> 으로 발표자 노트를 볼 수 있습니다.</li>
+  <li>14차시를 하지 않았다면 14차시 따라 하기 <a href="l14.html">4단계(내 컴퓨터 점검)</a>를 먼저 합니다. Node.js 와 FFmpeg 가 필요합니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다.</p>
+
+<ol class="steps">
+  <li>데스크톱 앱 사이드바 맨 위의 <b>Code</b> 탭을 누릅니다.</li>
+
+  <li>프롬프트 상자 아래 줄의 환경 단추에서 <b>Local</b> 묶음의 맨 위 항목(내 컴퓨터)을 고르고, 폴더 단추의 <b>Open folder…</b> 로 <code>클로드연수/15차시</code> 를 고릅니다.</li>
+
+  <li>같은 줄의 권한 모드 단추를 <b>Plan</b> 으로 바꿉니다.</li>
+
+  <li><b>장면 계획</b>을 받습니다. 연습용이 아닌 9차시 발표자료를 쓴다면 프롬프트의 <code>slides.html</code> 을 <code>index.html</code> 로 바꿉니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · Plan 모드에서 장면 계획 받기</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(slides.html)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 장면 안의 글과 그림은 자막에 맞춰 하나씩 나타나게
+- 장면 사이 전환은 0.6초 밀어내기
+- 확인 문제 슬라이드는 문제를 보여 주고 5초 뒤 정답 공개
+- 1280×720, 전체 40초 안팎, 소리 없음
+- 원본 slides.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+    </div>
+    <p class="why"><b>«노트 한 문장 = 자막 하나»</b>로 정하면 자막이 교사가 수업에서 하는 말과 같아지고, 클로드가 문장을 새로 지어내지 않습니다. <b>«원본은 고치지 않고 video 폴더에 따로»</b>는 9차시 결과물을 지키는 문장입니다. 영상용으로 바꾸다 보면 글자 크기나 배치를 고치게 되는데, 그 변경이 원본 발표자료에 섞이지 않게 합니다.</p>
+    <div class="capture" id="cap-L15-1" data-cap="L15-1" data-caption="Plan 모드에서 받은 장면 계획 표 — 장면·시간·나타나는 순서·자막.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L15-1</b><br>장면 계획 표 (따라 하기 4번).
+        <ul><li>빨간 상자: «자막(발표자 노트)» 열</li></ul></div>
+    </div>
+  </li>
+
+  <li>권한 모드를 <b>Manual</b> 로 바꾸고 <b>만들기</b>를 맡깁니다. 장면 그림부터 받습니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 2 · 만들고 장면 그림 먼저 보기</span><button type="button">복사</button></div><pre>계획대로 만들어 주세요.
+내보내기 전에 장면마다 전환 직후와 끝 무렵 두 장씩 장면 그림을 찍어 보여 주세요.
+자막이 슬라이드 글을 가리는 곳이 있으면 먼저 고쳐 주세요.</pre>
+    </div>
+    <div class="capture" id="cap-L15-2" data-cap="L15-2" data-caption="대화창에 나온 장면 그림들 — 장면마다 전환 직후와 끝 무렵.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L15-2</b><br>장면 그림 확인 (따라 하기 5번).
+        <ul><li>장면 그림 여러 장이 보이게</li></ul></div>
+    </div>
+  </li>
+
+  <li>장면 그림을 보고 고칠 점을 하나씩 말합니다. 예: «3번 장면의 지도와 대화문이 너무 작아요. 글자를 키워 주세요»</li>
+
+  <li><b>MP4로 내보냅니다.</b>
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 3 · MP4로 내보내기</span><button type="button">복사</button></div><pre>MP4 로 내보내 주세요. 파일 이름은 길묻기_영상.mp4, 1280×720, 30fps, 10MB 이하.
+다 되면 장면마다 시작·끝 시각을 표로 알려 주세요.</pre>
+    </div>
+    <div class="capture" id="cap-L15-3" data-cap="L15-3" data-caption="완성한 길묻기_영상.mp4 를 앱 안 창에서 재생하는 모습과 장면별 시각표.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L15-3</b><br>완성 영상과 시각표 (따라 하기 7번).
+        <ul><li>빨간 상자: 장면별 시작·끝 시각표</li></ul></div>
+    </div>
+  </li>
+
+  <li>아래 프롬프트로 <b>검수</b>하게 합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 4 · 영상 검수</span><button type="button">복사</button></div><pre>영상을 검수해 주세요.
+1. 자막이 발표자 노트와 같은지 (빠지거나 바뀐 문장)
+2. 영어 문장의 철자·대소문자·문장 부호가 발표자료와 같은지
+3. 지도에서 길을 따라간 방향이 대화(한 블록 곧장 간 뒤 왼쪽으로)와 맞는지
+4. 자막 하나가 화면에 3초 이상 머무는지
+5. 원본 slides.html 이 바뀌지 않았는지
+틀린 곳은 고친 뒤 다시 내보내고, 고친 내용을 한 줄씩 알려 주세요.</pre>
+    </div>
+  </li>
+</ol>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l15-flow.webp" width="1600" height="719" loading="lazy" alt="위아래 두 줄로 놓은 그림. 위 줄 «① HTML 발표자료 4장(발표자 메모 포함)»: 1장 제목 «Asking for Directions, 길 묻고 답하기, How can I get to the library?», 2장 «Key Expressions» 표현 카드 네 개(Go straight one block, Turn left at the corner, It's next to the bank, It's across from the park), 3장 지도(Bank, Library, School, Park, You are here 별표와 빨간 점선 길)와 A·B 대화문, 4장 «Check» 빈칸 문제. 가운데 화살표 띠에 «장면 하나 = 슬라이드 한 장 · 발표자 메모 → 자막 · 밀어내기 전환 0.6초». 아래 줄 «② MP4 영상 42초(1280×720, 자막·전환)»: 같은 네 화면에 검은 자막 띠가 붙어 있고 4장 장면에서는 빈칸에 bank, park 정답이 빨갛게 채워져 있다. 각 장면 아래에 0:00–0:08, 0:08–0:20, 0:20–0:32, 0:32–0:42 시각.">
+  <figcaption><b>발표자료 4장 → 영상 42초.</b> 화면은 발표자료 그대로이고, 아래 자막은 각 슬라이드의 발표자 노트 문장입니다.</figcaption>
+</figure>
+
+<figure class="shot result-shot">
+  <video controls preload="metadata" playsinline width="1280" height="720" style="display:block; width:100%; height:auto; border:1.5px dashed #B9B4AC; border-radius:10px; background:#000">
+    <source src="samples/l15-slides/directions.mp4" type="video/mp4">
+    이 브라우저에서는 영상을 재생할 수 없습니다. <a href="samples/l15-slides/directions.mp4">영상 파일 받기</a>
+  </video>
+  <figcaption><b>완성 영상 (42초, 1280×720, 0.6MB, 소리 없음).</b> 3번 장면에서는 대화에 맞춰 지도 위 길이 그려지고, 4번 장면은 5초 뒤 정답이 나타납니다.</figcaption>
+</figure>
+
+<p><a href="samples/l15-slides/slides.html" target="_blank" rel="noopener"><b>연습용 발표자료 직접 열어 보기 →</b></a> &nbsp; <a href="samples/l15-slides/directions.mp4" target="_blank" rel="noopener"><b>예시 영상 파일 열기 →</b></a></p>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">연수자료를 만들 때 연습용 발표자료 slides.html 을 직접 쓰고, 같은 화면과 발표자 노트를 HyperFrames 0.9.33 장면 파일로 옮겨 이 연수자료 제작용 컴퓨터에서 실제로 내보낸 영상입니다(클로드 앱 화면이 아닙니다). 자막 9개는 slides.html 의 발표자 노트 문장을 그대로 썼고, 지도의 길(한 블록 곧장 간 뒤 왼쪽으로 돌면 은행 옆 도서관, 맞은편 공원)이 대화와 맞는지 확인했습니다. 클로드 코드의 실제 결과는 전환 방식과 배치가 매번 다릅니다.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 자막 = 발표자 노트</b> — 자막과 발표자 노트를 나란히 놓고 빠지거나 바뀐 문장이 없는지 봅니다. 클로드가 «더 자연스럽게» 고쳐 쓴 문장도 찾아냅니다.<br>
+  <b>② 화면 글</b> — 영어 철자·대소문자·문장 부호가 발표자료와 같은지 봅니다. 영상으로 옮기며 글자를 다시 입력하는 과정에서 틀리기 쉽습니다.<br>
+  <b>③ 시간</b> — 자막을 읽을 시간, 확인 문제를 생각할 시간이 충분한지 학생 입장에서 봅니다.<br>
+  <b>④ 전환</b> — 전환 효과가 너무 화려하거나 빨라 어지럽지 않은지 봅니다. 0.5~0.8초의 단순한 전환이 무난합니다.<br>
+  <b>⑤ 원본 보존</b> — 원본 발표자료 파일의 수정한 날짜가 바뀌지 않았는지 파일 탐색기에서 봅니다.<br>
+  <b>⑥ 재생</b> — 학교 PC와 휴대폰에서 모두 재생되는지 봅니다.<br>
+  <b>⑦ 저작권</b> — 교과서 지문·그림, 음원이 들어가지 않았는지 봅니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>4단계 프롬프트 대신</b> 아래 교과 프롬프트를 씁니다. 9차시처럼 발표자료가 <code>index.html</code> 이라고 보고 썼습니다. 5단계는 그대로, 7단계는 파일 이름만 바꾸고, 8단계는 아래 <b>공통 프롬프트</b>로 바꿔 씁니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">공통 · 8단계 대신 (검수)</span><button type="button">복사</button></div><pre>영상을 검수해 주세요.
+1. 계획의 «다 만든 뒤 확인할 것»을 하나씩 점검
+2. 자막이 발표자 노트와 같은지, 화면 글이 발표자료와 한 글자도 다르지 않은지
+3. 자막 하나가 화면에 3초 이상 머무는지
+4. 원본 index.html 이 바뀌지 않았는지
+틀린 곳은 고친 뒤 다시 내보내고, 고친 내용을 한 줄씩 알려 주세요.</pre>
+</div>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">시 감상</span><span class="gist">시가 한 행씩 나타나고 감상 질문에서 멈춤</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 시 감상</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 국어 '시 감상' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 시는 한 행씩 낭독 속도로 나타나게 (교사가 쓴 시나 저작권이 끝난 시만)
+- 감상 질문 장면에서는 5초 동안 생각할 시간
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 시의 행·연 구분과 문장 부호가 발표자료와 같은지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">문제 풀이</span><span class="gist">풀이 과정이 한 줄씩, 바뀐 부분 강조</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 문제 풀이</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 수학 '일차방정식 문제 풀이' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 풀이 슬라이드는 식이 한 줄씩 나타나고, 앞 줄에서 바뀐 부분에 색 강조
+- 문제 슬라이드에서는 풀이를 보여 주기 전에 5초 멈춤
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 식의 기호(−, ×, ÷, 지수)가 발표자료와 같은지
+- 풀이 순서가 뒤바뀌지 않았는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">실험 안내</span><span class="gist">실험 단계 순서대로, 안전 수칙은 더 길게</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 실험 안내</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 과학 '실험 안내' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 준비물·과정 슬라이드는 단계 번호 순서대로 하나씩
+- 안전 수칙 슬라이드는 다른 장면보다 2초 더 길게, 빨간 테두리로 강조
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 실험 단계 순서가 발표자료와 같은지
+- 안전 수칙이 하나도 빠지지 않았는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">지도 읽기</span><span class="gist">설명하는 지역을 차례로 확대·강조</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 지도 읽기</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 사회 '지도 읽기' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 지도 슬라이드는 설명하는 지역을 차례로 확대하거나 테두리로 강조
+- 지도 아래 출처 표시는 영상에도 그대로 남기기
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 강조한 지역이 자막의 지역 이름과 맞는지
+- 출처 표시가 남아 있는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">연표</span><span class="gist">사건이 연도 순서대로 하나씩</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 연표</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 역사 '시대 흐름 연표' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 연표 슬라이드는 사건이 연도 순서대로 왼쪽에서 오른쪽으로 하나씩 나타나게
+- 연도 숫자는 크게
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 연도와 사건이 발표자료와 같은지
+- 나타나는 순서가 연도 순서와 같은지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">대화문</span><span class="gist">A·B 대사가 말풍선으로 번갈아</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 대화문</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 영어 '대화문 익히기' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 대화 슬라이드는 A·B 대사가 말풍선으로 번갈아 나타나게 (대사 하나에 3초 이상)
+- 새 낱말은 처음 나올 때 굵게
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 영어 문장의 철자·대소문자·문장 부호가 발표자료와 같은지
+- 대사 순서가 바뀌지 않았는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">토론 주제</span><span class="gist">찬성·반대 근거를 같은 무게로 나란히</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 토론 주제</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 도덕 '토론 주제 살펴보기' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 찬반 슬라이드는 왼쪽 찬성, 오른쪽 반대 근거가 하나씩 번갈아 나타나게
+- 어느 쪽도 더 강조하지 않기 (색·크기·머무는 시간 같게)
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 찬성과 반대 근거의 수와 강조가 균형을 이루는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">조리 실습 순서</span><span class="gist">단계별 번호와 칼·불 주의 표시</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 조리 실습 순서</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 기술·가정 '조리 실습' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 조리 순서 슬라이드는 단계 번호와 함께 하나씩
+- 칼이나 불을 쓰는 단계에는 주의 표시
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 단계 순서와 분량(g·mL)이 발표자료와 같은지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">코드 설명</span><span class="gist">설명하는 줄에 형광펜 강조가 옮겨 감</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 코드 설명</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 정보 '파이썬 반복문' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 코드 슬라이드는 설명하는 줄에 형광펜 강조가 차례로 옮겨 가게
+- 코드는 고정폭 글꼴, 글자 크기 24px 이상
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 코드가 들여쓰기까지 한 글자도 바뀌지 않았는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">감상곡 소개</span><span class="gist">작곡가·시대·편성·특징 카드 (음원 없이)</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 감상곡 소개</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 음악 '감상곡 소개' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 작곡가·시대·악기 편성·특징을 카드로 하나씩
+- 음원은 넣지 않음 (수업에서 따로 들려줌)
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 작곡가 이름의 철자와 연도가 발표자료와 같은지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">작품 감상</span><span class="gist">전체를 보인 뒤 설명하는 부분을 확대</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 작품 감상</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 미술 '작품 감상' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 작품 슬라이드는 전체를 보여 준 뒤 설명하는 부분을 천천히 확대
+- 작품 그림은 이용 조건을 확인한 공유 저작물만, 출처 표시 유지
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 확대한 부분이 자막이 말하는 부분과 맞는지
+- 작가·연도 등 작품 정보가 발표자료와 같은지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">경기 규칙</span><span class="gist">규칙 하나씩, 반칙 예시는 빨간 표시</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 경기 규칙</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 체육 '경기 규칙' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 규칙 슬라이드는 규칙이 하나씩 나타나고, 반칙 예시는 빨간 표시
+- 경기장 그림의 선 이름을 자막과 함께 강조
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 규칙 문장이 발표자료와 같은지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">직업 소개</span><span class="gist">하는 일 → 필요한 능력 → 준비 과정</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 직업 소개</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 진로 '직업 탐색' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 직업 카드 슬라이드는 하는 일 → 필요한 능력 → 준비 과정 순서로 나타나게
+- 실존 인물 사진은 쓰지 않음
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 직업 정보의 출처가 영상 끝에 남아 있는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임</span><span class="topic">학부모 총회 안내</span><span class="gist">날짜·시간·장소를 크게, 한 장면 한 정보</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임 · 학부모 총회 안내</span><button type="button">복사</button></div><pre>이 폴더의 발표자료(index.html, 중학교 담임 '학부모 총회 안내' 수업용)를 HyperFrames 로 MP4 영상으로 바꾸려고 합니다. 먼저 계획만 세워 주세요.
+
+요구 사항
+- 슬라이드 한 장 = 장면 하나. 화면 구성과 글은 발표자료 그대로
+- 각 슬라이드의 발표자 노트를 자막으로 (노트 한 문장 = 자막 하나, 한 줄 30자 안팎)
+- 안내 슬라이드는 날짜·시간·장소를 크게, 한 장면에 한 가지 정보만
+- 학생 이름·사진 같은 개인정보는 넣지 않음
+- 장면 사이 전환은 0.6초 밀어내기
+- 1280×720, 소리 없음
+- 원본 index.html 은 고치지 않고, 영상용 파일은 video 폴더에 따로
+
+다 만든 뒤 확인할 것
+- 자막이 발표자 노트와 같은지
+- 날짜·요일·시간이 발표자료와 같은지
+- 개인정보가 들어가지 않았는지
+
+계획은 표로 보여 주세요: 장면 | 시간 | 화면에 나타나는 순서 | 자막(발표자 노트)</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  발표자료를 영상으로 바꿀 때는 <b>새로 만들지 않고 옮기는 것</b>이 원칙입니다. 슬라이드 한 장은 장면 하나, 발표자 노트는 자막이 되므로 이미 검수한 내용이 그대로 영상에 들어갑니다. 원본은 고치지 않고 영상용 파일을 따로 두면, 발표자료와 영상을 각각 고치고 다시 만들 수 있습니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>발표자 노트가 없는 발표자료다</b> — 먼저 «슬라이드마다 내가 할 말을 두 문장씩 발표자 노트로 써 주세요. 원본은 고치지 말고 노트만 표로 보여 주세요»라고 요청해 검수한 뒤 진행합니다.<br>
+  · <b>슬라이드 글이 영상에서 작아 보인다</b> — 영상 화면(1280×720)이 발표 화면보다 작을 수 있습니다. «영상용 파일에서만 글자를 1.2배로 키워 주세요»라고 요청합니다.<br>
+  · <b>파워포인트 파일만 있다</b> — Code 탭에서 «이 pptx 의 슬라이드는 그림으로, 노트는 글로 뽑아 영상 재료로 써 주세요»라고 요청해 봅니다. 컴퓨터에 따라 LibreOffice 같은 무료 프로그램을 설치해야 할 수 있으니, 설치 전에 묻게 합니다.<br>
+  · <b>Node.js·FFmpeg 오류</b> — <a href="l14.html">14차시</a>의 문제 해결을 봅니다.<br>
+  · <b>영상에 소리를 넣고 싶다</b> — <a href="l17.html">17차시</a>에서 발표자 노트를 내레이션으로 읽게 하고 배경음악을 넣습니다.
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=KTTFfbI5sEQ" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/KTTFfbI5sEQ/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">13:12</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">편집 프로그램 없이 말 한마디로 만든 모션그래픽 | 클로드 코드 + 하이퍼프레임</span><span class="ch">G-CREATOR · 유튜브</span><span class="why">클로드 코드에 HyperFrames 깃허브 주소를 주고 말로 요청해 15초 모션그래픽을 만드는 과정을 다룹니다.</span></span>
+  </a>
+</div>
+
+<p><small>출처: npm 패키지 정보 <code>hyperframes</code> 0.9.33 · Claude Code 문서 <a href="https://code.claude.com/docs/en/desktop" target="_blank" rel="noopener">Use Claude Code Desktop</a> — 권한 모드(Plan · Manual), 앱 안 창에서 파일 열기 (2026-11-11 확인)</small></p>
+
+<div class="pager">
+  <a href="l14.html"><span class="k">← 이전</span>14차시 · 1분 설명 영상 만들기</a>
+  <a class="next" href="l16.html"><span class="k">다음 →</span>16차시 · 수업 녹화 편집하기</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

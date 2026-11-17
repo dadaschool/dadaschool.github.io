@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>4차시 한글(HWPX) 학습지 만들기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">4차시 · Ⅰ. 코워크</div>
+  <h1>한글(HWPX) 학습지 만들기</h1>
+  <p class="sub">코워크로 워드 학습지를 만들어 학교 PC의 한글 프로그램에서 HWPX로 저장하는 가장 확실한 길과, HWPX 스킬이 있을 때 바로 만드는 길을 함께 봅니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 코워크 (데스크톱 앱) + 한글 프로그램</span>
+    <span class="badge learn">핵심 기법 · 한글에서 열기 좋은 조건 쓰기, 답은 대입해 검산</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>문제·답 칸·정답지가 있는 학습지를 만들어 한글(HWPX) 파일로 저장한다 (예시: 중학교 1학년 수학 — «일차방정식의 활용»)</dd>
+    <dt>준비물</dt><dd><code>클로드연수</code> 안에 만든 빈 <code>4차시</code> 폴더, 한글 프로그램이 깔린 PC(학교 PC)</dd>
+    <dt>결과물</dt><dd>① <code>일차방정식_활용_학습지.docx</code> ② 검산 표 ③ <code>일차방정식_활용_학습지.hwpx</code></dd>
+    <dt>주의</dt><dd>수학 답은 모두 대입해 검산 · 정답지가 학생용 쪽에 섞이지 않게 · 남이 만든 스킬은 내용을 확인한 뒤 설치</dd>
+  </dl>
+</div>
+
+<p>학교 문서는 대부분 한글 파일입니다. 그런데 클로드 도움말의 <b>«만들 수 있는 파일»</b>(엑셀·파워포인트·워드·PDF)과 <b>«올릴 수 있는 문서»</b>(PDF·DOCX·CSV·TXT·HTML·ODT·RTF·EPUB·JSON·XLSX) 목록에는 한글(HWP·HWPX) 파일이 없습니다(2026-11-11 확인). 영상에서는 코워크와 스킬로 HWPX를 바로 만드는 모습이 나오지만, 공식 문서로 확인되지 않은 기능이라 이 연수에서는 단정하지 않습니다. 그래서 이 차시는 <b>(가) 공식 목록에 있는 워드(docx)로 만들어 한글에서 HWPX로 저장하는 길</b>을 기본으로 하고, <b>(나) HWPX 스킬이 있을 때의 길</b>을 덧붙입니다. 핵심은 <b>한글에서 열어도 모양이 덜 흐트러지는 조건을 프롬프트에 쓰는 것</b>과 <b>답을 모두 대입해 검산하는 것</b>입니다.</p>
+
+<div class="vs">
+  <div class="vscard">
+    <div class="h"><span class="dot"></span>(가) 가장 확실한 길</div>
+    <ol>
+      <li>코워크로 워드(docx) 학습지 만들기</li>
+      <li>학교 PC의 한글 프로그램에서 열기</li>
+      <li>«다른 이름으로 저장»에서 hwpx 고르기</li>
+    </ol>
+    <p style="margin:6px 0 0; font-size:14.5px; color:var(--muted)">공식으로 확인된 파일 형식만 씁니다. 어느 유료 플랜에서나 됩니다. 한글에서 한 번 다듬는 시간이 듭니다.</p>
+  </div>
+  <div class="vscard">
+    <div class="h"><span class="dot"></span>(나) HWPX 스킬이 있을 때</div>
+    <ol>
+      <li>HWPX 스킬 설치 (11·12차시)</li>
+      <li>hwpx 파일을 바로 만들거나</li>
+      <li>학교 한글 양식(hwpx)의 칸 채우기</li>
+    </ol>
+    <p style="margin:6px 0 0; font-size:14.5px; color:var(--muted)">학교 양식을 그대로 쓸 수 있습니다. Anthropic의 공식 스킬이 아니므로 결과를 한글에서 꼭 열어 확인합니다.</p>
+  </div>
+</div>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=ZLp8TJhTSTc" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/ZLp8TJhTSTc/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">51:38</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">[현장강의] 클로드 코워크 기초부터 한글(HWPX) 자동 생성까지! 폴더 연결 하나로 끝내는 실전 AI 업무 자동화</span><span class="ch">김에듀 AI강사 · 유튜브</span><span class="why">코워크 기초부터 폴더 연결로 한글(HWPX) 문서를 만드는 데까지 다루는 현장 강의입니다. 길어서 HWPX 부분을 골라 보세요.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=Dy1FF3eu5Aw" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/Dy1FF3eu5Aw/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">11:28</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">[학원/학교 선생님 필수] 시험지(PDF)만 있으면 한글 파일(HWPX)로 자동 채우기 | PDF TO HWPX by claude skill | 파일 무료 제공</span><span class="ch">오피스마스터 · 유튜브</span><span class="why">스킬로 시험지 PDF 내용을 한글(HWPX) 양식에 채우는 방법을 다룹니다. 이 차시의 (나) 길에 해당합니다.</span></span>
+  </a>
+</div>
+<p class="vidnote">두 영상 모두 HWPX를 바로 만드는 (나) 길을 보여 줍니다. 둘째 영상은 제목에 «파일 무료 제공»이라고 적혀 있어, 영상 설명 기준으로는 스킬 파일을 받을 수 있다고 합니다. 연수자료에서 그 파일을 받아 확인하지는 않았습니다.</p>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><code>클로드연수</code> 안에 빈 폴더 <code>4차시</code> 를 만듭니다.</li>
+  <li>한글 프로그램이 있는 PC를 확인합니다. 개인 노트북에 한글이 없으면 6단계(워드 파일 만들기와 검수)까지 하고, 파일을 USB나 클라우드로 학교 PC에 옮겨 7단계부터 이어서 합니다.</li>
+  <li>(나) 길까지 해 보려면 HWPX 스킬과 학교 학습지 양식 파일(<code>학습지양식.hwpx</code>)을 준비합니다. 스킬 설치는 11차시에서 다룹니다. 처음이라면 (가) 길만 해도 됩니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다.</p>
+
+<h3>(가) 워드로 만들고 한글에서 HWPX로 저장 — 가장 확실한 길</h3>
+
+<ol class="steps">
+  <li>클로드 데스크톱 앱에서 새 대화를 엽니다.<br>
+      <span class="layout new">새 화면</span> 메시지 상자에 바로 요청합니다. <span class="layout old">예전 화면</span> 메시지 상자에서 <b>Cowork</b> 를 먼저 고릅니다.</li>
+
+  <li>메시지 상자에서 <b>내 컴퓨터 폴더를 연결하는 단추</b>를 눌러 <code>클로드연수/4차시</code> 폴더를 고릅니다. 단추 이름은 화면 문구를 따릅니다.</li>
+
+  <li>권한 설정을 <b>Manual</b>(수동)로 둡니다.</li>
+
+  <li><b>워드 학습지</b>를 만듭니다. 아래 프롬프트를 보내고, 클로드가 허락을 구하면 내용을 보고 승인합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · 워드(docx) 학습지 만들기</span><button type="button">복사</button></div><pre>중학교 1학년 수학 «일차방정식의 활용» 학습지를 워드 파일로 만들어 4차시 폴더에 «일차방정식_활용_학습지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 1학년 반·번호·이름 칸
+- 문제를 푸는 네 단계 정리 상자 (x로 놓기 → 방정식 세우기 → 풀기 → 확인하기)
+- 예제 1개: 빈칸을 채우며 따라 풀기
+- 문제 5개 + 도전 1개: 어떤 수, 연속하는 수, 나이, 개수와 가격, 거리·속력·시간, 도형의 둘레, 과부족 가운데에서 고르기
+- 문제마다 답 칸 표: x로 놓은 것 | 방정식 | 해 | 확인 | 답
+- 마지막 쪽(새 쪽)에 정답과 풀이: 방정식, 풀이, 확인, 답
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형·수식 개체는 쓰지 않기
+- 식은 글자로 쓰기 (예: 3x − 5 = x + 7, 분수는 x/4)
+- 학생용은 2쪽, 정답지는 1쪽 안에
+
+다 만든 뒤 모든 답을 문제에 직접 대입해 검산하고, 결과를 표로 알려 주세요: 문제 | 방정식 | 답 | 검산 결과</pre>
+    </div>
+    <p class="why"><b>«텍스트 상자·도형·수식 개체는 쓰지 않기»</b>가 이 차시의 핵심 문장입니다. 워드 파일을 한글에서 열 때 이런 개체는 위치나 모양이 달라지기 쉽습니다. 칸을 표로만 만들어 두면 한글에서도 거의 그대로 열립니다. <b>«직접 대입해 검산»</b>은 수학 학습지의 사고를 막는 문장입니다. 검산 표를 받아 두면 교사가 다시 확인할 때도 빠릅니다.</p>
+    <div class="capture" id="cap-L04-1" data-cap="L04-1" data-caption="코워크가 4차시 폴더에 만든 일차방정식_활용_학습지.docx 와, 답을 문제에 대입해 확인한 검산 표.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L04-1</b><br>워드 학습지와 검산 표 (따라 하기 4번).
+        <ul><li>대화에 나온 결과 파일 <code>일차방정식_활용_학습지.docx</code></li><li>빨간 상자: «문제 | 방정식 | 답 | 검산 결과» 표</li></ul></div>
+    </div>
+  </li>
+
+  <li>아래 프롬프트로 <b>검수</b>하게 하고, 인쇄 모양을 볼 PDF도 받습니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 2 · 검수와 PDF 저장</span><button type="button">복사</button></div><pre>만든 학습지를 검수해 주세요.
+1. 정답지의 답을 문제에 다시 대입해 검산 (계산이 없는 문항은 정답의 근거를 한 줄로)
+2. 해와 답을 구분했는지, 답에 단위가 붙었는지
+3. 문제 상황이 현실에 맞는지 (나이·가격·거리 등), 답이 깔끔한 수로 떨어지는지
+4. 한글에서 열 때 모양이 달라질 수 있는 요소 — 텍스트 상자, 도형, 수식 개체, 특이한 글꼴 — 가 남아 있는지
+5. 학생용 쪽에 정답이 섞이지 않았는지
+
+고칠 곳을 표로 먼저 보여 주고, 제가 허락하면 고쳐 주세요.
+다 고친 뒤 같은 내용을 PDF로도 저장해 주세요 (인쇄 모양 확인용).</pre>
+    </div>
+    <p class="why">PDF는 한글로 옮기기 전의 «원래 모양»입니다. 한글에서 연 모양과 나란히 놓고 비교하면 어디가 흐트러졌는지 금방 보입니다.</p>
+  </li>
+
+  <li>파일 탐색기에서 <code>4차시</code> 폴더의 docx와 PDF를 열어 봅니다. 개인 노트북이라면 두 파일을 USB나 클라우드로 학교 PC에 옮깁니다.</li>
+
+  <li>학교 PC에서 <b>한글 프로그램</b>을 열고 <b>불러오기</b>(<kbd>Alt</kbd>+<kbd>O</kbd>)로 docx 파일을 엽니다. 파일 목록에 docx가 보이지 않으면 파일 형식을 «모든 파일»로 바꿉니다. docx 파일을 마우스 오른쪽 단추로 눌러 연결 프로그램에서 한글을 골라도 됩니다.</li>
+
+  <li>한글에서 PDF와 비교하며 <b>다듬습니다</b>. 표 너비, 쪽 나눔(정답지가 새 쪽에서 시작하는지), 깨진 글자를 봅니다. 학교 양식 글꼴로 바꾸려면 전체를 선택해 글꼴을 바꿉니다. <code>x/4</code> 같은 분수를 수식으로 바꾸고 싶으면 한글의 수식 편집기로 다시 씁니다.</li>
+
+  <li><b>다른 이름으로 저장하기</b>(<kbd>Alt</kbd>+<kbd>V</kbd>)를 열어 파일 형식에서 <b>hwpx</b> 형식을 고르고 저장합니다. 파일 형식의 이름은 한글 판에 따라 조금 다릅니다. 저장한 hwpx 파일을 닫았다가 다시 열어 확인합니다.
+    <div class="capture" id="cap-L04-2" data-cap="L04-2" data-caption="한글 프로그램의 «다른 이름으로 저장하기» 창에서 파일 형식을 hwpx 로 고르는 모습.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L04-2</b><br>한글에서 hwpx로 저장하기 (따라 하기 9번).
+        <ul><li>빨간 상자: 파일 형식 목록에서 hwpx 항목</li><li>번호 표시: ① 파일 이름 ② 파일 형식 ③ 저장 단추</li></ul></div>
+    </div>
+  </li>
+</ol>
+
+<h3>(나) HWPX 스킬이 있을 때 — 바로 만들거나 학교 양식 채우기</h3>
+
+<ol class="steps" style="counter-reset:s 9">
+  <li><b>스킬을 확인합니다.</b> 스킬은 «이 일은 이렇게 하라»는 작업 설명서(<code>SKILL.md</code>)와 필요한 파일을 묶은 것입니다. HWPX 스킬은 Anthropic이 만든 공식 스킬이 아니라 개인·회사가 만들어 나눈 것입니다. 설치하기 전에 <code>SKILL.md</code> 와 함께 든 파일을 열어 무엇을 하는지 확인합니다. 설치 방법은 11차시, 직접 만드는 방법은 12차시에서 다룹니다.</li>
+
+  <li><code>학습지양식.hwpx</code>(학교 양식)를 <code>4차시</code> 폴더에 넣고 아래 프롬프트를 보냅니다. 양식 없이 새로 만들려면 첫 줄을 «HWPX 스킬을 써서 일차방정식_활용_학습지.docx 의 내용으로 hwpx 파일을 만들어 주세요»로 바꿉니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 3 · HWPX 스킬로 학교 양식 채우기</span><button type="button">복사</button></div><pre>HWPX 스킬을 써서 4차시 폴더의 «학습지양식.hwpx»에 «일차방정식_활용_학습지.docx»의 내용을 채워 주세요.
+
+- 원본 «학습지양식.hwpx»는 고치지 말고, 새 파일 «일차방정식_활용_학습지.hwpx»로 저장
+- 양식의 머리말, 학교 이름, 표 모양, 글꼴은 그대로 두기
+- 양식의 칸이 모자라면 마음대로 늘리지 말고 먼저 알려 주기
+- 다 만들면 어떤 스킬을 썼는지, 양식의 어느 칸에 무엇을 넣었는지 표로 알려 주기
+
+HWPX 스킬이 없거나 쓸 수 없으면 파일을 만들지 말고 그렇다고만 알려 주세요.</pre>
+    </div>
+    <p class="why">마지막 줄이 중요합니다. 스킬이 없을 때 클로드가 다른 방법으로 «비슷한 파일»을 만들어 내면, 한글에서 열리지 않거나 양식이 깨진 파일을 받게 될 수 있습니다. <b>«원본은 고치지 말고 새 파일로»</b>를 적어 두면 학교 양식이 덮어써지지 않습니다.</p>
+    <div class="capture" id="cap-L04-3" data-cap="L04-3" data-caption="HWPX 스킬로 학교 양식을 채운 뒤의 답 — 쓴 스킬과, 양식의 어느 칸에 무엇을 넣었는지 정리한 표.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L04-3</b><br>스킬로 양식을 채운 결과 (따라 하기 11번).
+        <ul><li>스킬이 쓰였다는 표시(화면 문구를 따릅니다)와 결과 파일 <code>일차방정식_활용_학습지.hwpx</code></li><li>빨간 상자: 채운 칸을 정리한 표</li></ul></div>
+    </div>
+  </li>
+
+  <li>만든 hwpx 파일을 한글에서 열어 확인합니다. 열리지 않거나 양식이 깨졌으면 (가) 길로 만듭니다.</li>
+</ol>
+<p class="why"><b>참고 — 한글 MCP.</b> 받은 공문처럼 한글 파일을 자주 읽거나, 작년 문서의 연도만 바꾸는 일이 많다면 한글 파일을 직접 읽고 쓰는 외부 도구를 Code 탭에 붙이는 방법도 있습니다. 옛 형식(<code>.hwp</code>)은 글 읽기까지만 믿을 수 있고, 표 읽기와 고치기는 한글에서 HWPX 로 저장한 사본으로 합니다. Anthropic 공식 도구가 아니어서 검토 결과와 함께 부록으로 정리했습니다 → <a href="hwp-mcp.html">부록 · 한글 MCP</a>.</p>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l04-worksheet.webp" width="1600" height="1037" loading="lazy" alt="A4 두 쪽짜리 학습지. 첫 쪽 맨 위에 «일차방정식의 활용», «중학교 1학년 수학 · 학습지 · 연수용 가상 자료», 1학년 반·번호·이름 칸이 있다. 파란 테두리 상자 «문제를 푸는 네 단계»에 ① 구하려는 것을 x로 놓는다 ② 문제의 뜻에 맞게 방정식을 세운다 ③ 방정식을 푼다 ④ 구한 해가 문제의 뜻에 맞는지 확인한다가 적혀 있다. 그 아래 «예제 빈칸을 채워 보자»는 어떤 수의 3배에서 5를 빼면 그 수에 7을 더한 것과 같다는 문제와, x로 놓은 것·방정식·해·확인·답 다섯 줄 표에 빈칸이 있다. 이어서 문제 1 연속하는 세 자연수의 합이 48, 문제 2 어머니 42세 아들 12세의 나이 문제가 같은 다섯 줄 답 칸 표와 함께 있다. 둘째 쪽에는 문제 3 연필과 볼펜 10자루 6800원, 문제 4 시속 4 km와 시속 6 km로 오간 2시간 30분, 문제 5 직사각형 둘레 36 cm, 도전 사탕 나누기 문제가 답 칸 표와 함께 있다.">
+  <figcaption><b>학생용 2쪽.</b> 모든 칸을 표로 만들었고, 식은 글자로 썼습니다. 답 칸에 «해»와 «답»을 따로 두어, 예를 들어 문제 1에서 해 x = 16 과 답 15, 16, 17 을 구분하게 했습니다.</figcaption>
+</figure>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l04-answers.webp" width="1600" height="1090" loading="lazy" alt="정답과 풀이 쪽. 문항, 방정식, 풀이, 확인, 답 다섯 열의 표이다. 예제는 3x − 5 = x + 7, x = 6, 확인 3 × 6 − 5 = 13과 6 + 7 = 13, 답 6. 문제 1은 가운데 수를 x로 놓아 (x − 1) + x + (x + 1) = 48, x = 16, 답 15, 16, 17. 문제 2는 42 + x = 2(12 + x), x = 18, 18년 후 어머니 60세가 아들 30세의 2배. 문제 3은 500x + 800(10 − x) = 6800, x = 4, 답 연필 4자루 볼펜 6자루. 문제 4는 x/4 + x/6 = 5/2, 양변에 12를 곱해 x = 6, 답 6 km. 문제 5는 2{x + (x + 4)} = 36, x = 7, 답 가로 11 cm 세로 7 cm. 도전은 4x + 6 = 5x − 3, x = 9, 답 학생 9명 사탕 42개. 아래에 «분수는 x/4 처럼 한 줄로 썼습니다. 한글에서 열어 수식 편집기로 바꿔 써도 됩니다»라는 안내가 있다.">
+  <figcaption><b>정답과 풀이 (새 쪽).</b> 모든 답을 문제에 다시 대입한 «확인» 열을 두었습니다. 학생용만 인쇄할 때는 이 쪽을 빼고 인쇄합니다.</figcaption>
+</figure>
+
+<p><a href="samples/l04-equation/worksheet.docx" download="일차방정식_활용_학습지.docx"><b>예시 학습지 내려받기 (docx) →</b></a> 학교 PC의 한글에서 열어 7~9단계를 바로 연습해 볼 수 있습니다.</p>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">클로드 앱 화면도, 한글 프로그램 화면도 아닙니다. 연수자료를 만들 때 프롬프트 1의 조건(칸은 표로, 텍스트 상자·도형·수식 개체 없이, 식은 글자로, 학생용 2쪽 + 정답지 1쪽)대로 파이썬(python-docx)으로 실제 워드 파일을 만들고, 리눅스의 LibreOffice로 열어 찍었습니다. 이 작업 환경에는 한글 프로그램이 없어 <b>hwpx로 저장하는 단계(7~9단계)는 해 보지 못했습니다.</b> 모든 답은 문제에 대입해 검산했습니다: 3 × 6 − 5 = 6 + 7 = 13, 15 + 16 + 17 = 48, 42 + 18 = 60 = 2 × (12 + 18), 500 × 4 + 800 × 6 = 6800, 6/4 + 6/6 = 2.5시간, 2 × (7 + 11) = 36, 4 × 9 + 6 = 5 × 9 − 3 = 42. 코워크의 실제 결과는 문제와 배치가 매번 다릅니다.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 정답 검산</b> — 정답지의 답을 문제에 직접 대입해 봅니다. 예: 문제 3에서 연필 4자루·볼펜 6자루면 500 × 4 + 800 × 6 = 6800원이 맞습니다.<br>
+  <b>② 해와 답</b> — 방정식의 해(x = 16)와 문제의 답(15, 16, 17)이 다른 문제에서 둘을 구분했는지 봅니다.<br>
+  <b>③ 단위</b> — 2시간 30분을 5/2시간으로 바꾸는 것처럼 단위를 맞춰 식을 세웠는지, 답에 단위(km, cm, 자루)가 붙었는지 봅니다.<br>
+  <b>④ 문제 상황</b> — 나이·가격·속력이 현실적인지, 답이 자연수나 간단한 수로 떨어지는지 봅니다.<br>
+  <b>⑤ 한글에서 연 모양</b> — PDF와 나란히 놓고 표 너비, 쪽 나눔, 깨진 글자를 봅니다. 정답지가 학생용 쪽에 붙어 있지 않은지 봅니다.<br>
+  <b>⑥ 저장 형식</b> — 파일 이름 끝이 <code>.hwpx</code> 인지, 닫았다가 다시 열어도 그대로인지 봅니다.<br>
+  <b>⑦ 스킬 결과 (나)</b> — 원본 양식이 바뀌지 않았는지, 양식의 머리말·표 모양이 그대로인지, 칸이 넘친 곳이 없는지 봅니다.<br>
+  <b>⑧ 인쇄</b> — 학생에게 나눠 줄 때 정답지 쪽을 빼고 인쇄합니다.<br>
+  <b>⑨ 양식 채우기·문구 바꾸기 결과</b> — 결과 파일이 원본과 <b>다른 이름</b>인지, 원본 양식이 그대로인지 봅니다. 시작 전에 원본 사본을 따로 둡니다. «바꾼 곳 0개», «찾지 못함»이 나오면 한글 문서 속 문구가 글꼴·색이 바뀐 곳에서 여러 조각으로 나뉘어 저장돼 있을 수 있습니다. 더 짧은 낱말로 다시 부탁하거나 한글에서 직접 고칩니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>4단계 프롬프트 대신</b> 아래 교과 프롬프트를 씁니다. 5단계 검수 프롬프트는 교과와 상관없이 그대로 씁니다. 7~9단계(한글에서 열어 hwpx로 저장)도 같습니다. (나) 길에서는 11단계 프롬프트의 파일 이름만 바꿉니다. 교과를 눌러 펼친 뒤 <b>복사</b>합니다.</p>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">헷갈리는 맞춤법</span><span class="gist">문장 속 바른 말 고르기 20문항, 정답 까닭 한 줄씩</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 헷갈리는 맞춤법</span><button type="button">복사</button></div><pre>중학교 국어 «헷갈리는 맞춤법» 학습지를 워드 파일로 만들어 연결한 폴더에 «맞춤법_학습지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 헷갈리는 짝 정리 표 (되/돼, 안/않, 웬/왠, -든지/-던지, 맞추다/맞히다)
+- 문장 속에서 바른 말 고르기 20문항 (괄호 안 둘 중 하나에 표시)
+- 마지막 쪽(새 쪽)에 정답과 까닭 한 줄씩
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 학생용은 2쪽, 정답지는 1쪽 안에
+
+다 만든 뒤 정답을 한글 맞춤법 규정에 비추어 다시 확인하고, 판단이 애매한 문항이 있으면 표로 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">단원 낱말과 문장</span><span class="gist">낱말 뜻 쓰기 → 문장 배열 → 우리말을 영어로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 단원 낱말과 문장</span><button type="button">복사</button></div><pre>연결한 폴더의 단원 낱말 목록을 읽고, 중학교 영어 단원 복습 학습지를 워드 파일로 만들어 «영어_단원복습_학습지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 낱말 뜻 쓰기 15개 (목록에 있는 낱말만)
+- 낱말 순서를 바르게 배열하기 5문항
+- 우리말 문장을 영어로 쓰기 5문항 (목록의 낱말을 써서)
+- 마지막 쪽(새 쪽)에 정답
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕 (영어도 같은 글꼴)
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 학생용은 2쪽, 정답지는 1쪽 안에
+
+다 만든 뒤 철자와 문법을 다시 확인하고, 정답이 여러 개일 수 있는 영작 문항은 다른 정답 예도 정답지에 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">실험 보고서 양식</span><span class="gist">가설·변인·과정·결과 표·결론 칸, 안전 수칙 먼저</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 실험 보고서 양식</span><button type="button">복사</button></div><pre>연결한 폴더의 실험 안내 자료를 읽고, 중학교 과학 실험 보고서 학습지를 워드 파일로 만들어 «실험보고서_학습지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 실험 제목, 학년 반·모둠·이름 칸
+- 안전 수칙 상자 (실험 안내 자료에 있는 것만)
+- 칸: 탐구 문제 | 가설 | 다르게 할 변인 · 같게 할 변인 | 준비물 | 과정 | 결과 표 | 결론
+- 결과 표는 실험 안내 자료의 측정 항목에 맞춰 빈 표로
+- 마지막 쪽(새 쪽)에 교사용 예시 답안
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형·수식 개체는 쓰지 않기
+- 그림이 필요한 곳은 «그림 자리» 칸으로 비우기
+
+다 만든 뒤 용어가 교과서 표기와 같은지, 안전 수칙이 빠지지 않았는지 확인하고 결과를 표로 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">지도 읽기 활동지</span><span class="gist">지도 자리 + 지도만 보고 답하는 질문 8개</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 지도 읽기 활동지</span><button type="button">복사</button></div><pre>연결한 폴더의 수업 자료를 읽고, 중학교 사회 «지도 읽기» 활동지를 워드 파일로 만들어 «지도읽기_활동지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 지도가 들어갈 «그림 자리» 칸 (교사가 한글에서 넣음, 출처 적을 줄 함께)
+- 지도만 보고 답하는 질문 8개 (방위, 축척, 기호, 등고선 등 수업 자료에 있는 내용만)
+- 마지막에 우리 동네 지도를 떠올려 쓰는 서술형 1개
+- 마지막 쪽(새 쪽)에 정답
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 학생용은 2쪽, 정답지는 1쪽 안에
+
+다 만든 뒤 질문마다 지도만 보고 답할 수 있는지, 축척 계산이 있으면 검산하고 결과를 표로 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">연표 채우기</span><span class="gist">연표 표의 빈칸, 연도·사건은 수업 자료 기준</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 연표 채우기</span><button type="button">복사</button></div><pre>연결한 폴더의 수업 자료를 읽고, 중학교 역사 단원 연표 채우기 학습지를 워드 파일로 만들어 «연표_학습지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 연표 표: 연도 | 사건 | 관련 인물 | 의미 — 일부 칸을 빈칸으로
+- 연도·사건·인물은 수업 자료에 있는 것만 쓰기
+- 아래에 사건 순서 배열 문제 3개
+- 마지막 쪽(새 쪽)에 정답
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 학생용은 2쪽, 정답지는 1쪽 안에
+
+다 만든 뒤 모든 연도와 순서가 수업 자료와 같은지 한 줄씩 대조하고, 결과를 표로 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">토론 준비 활동지</span><span class="gist">주장·근거·예상 반론·다시 반박 표, 정답 대신 예시</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 토론 준비 활동지</span><button type="button">복사</button></div><pre>연결한 폴더의 수업 자료를 읽고, 중학교 도덕 토론 준비 활동지를 워드 파일로 만들어 «토론준비_활동지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 토론 주제, 학년 반·모둠·이름 칸
+- 칸: 나의 입장 | 주장 | 근거 1·2 | 예상 반론 | 다시 반박 | 토론 뒤 생각이 바뀐 점
+- 근거 칸 옆에 «근거의 출처» 칸
+- 마지막 쪽(새 쪽)에 정답 대신 교사용 예시 (찬성·반대 양쪽 모두)
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 학생용은 1쪽, 교사용 예시는 1쪽
+
+다 만든 뒤 예시가 한쪽 입장에 치우치지 않았는지 확인하고 결과를 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">실습 계획서</span><span class="gist">재료·순서·역할 나누기·안전 점검 표</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 실습 계획서</span><button type="button">복사</button></div><pre>연결한 폴더의 실습 안내 자료를 읽고, 중학교 기술·가정 모둠 실습 계획서를 워드 파일로 만들어 «실습계획서.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 실습 제목, 학년 반·모둠·이름 칸
+- 재료 표: 재료 | 양 | 준비할 사람
+- 순서 표: 단계 | 할 일 | 맡은 사람 | 걸리는 시간
+- 안전 점검 표: 점검 항목 | 확인 (실습 안내 자료에 있는 안전 수칙만)
+- 실습 뒤 돌아보기 칸
+- 마지막 쪽(새 쪽)에 교사용 예시
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 학생용은 2쪽 안에
+
+다 만든 뒤 안전 수칙이 안내 자료와 같은지 확인하고 결과를 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">알고리즘 짜기</span><span class="gist">순서도 대신 단계 표, 실행 결과 예측 칸</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 알고리즘 짜기</span><button type="button">복사</button></div><pre>연결한 폴더의 수업 자료를 읽고, 중학교 정보 «알고리즘 짜기» 학습지를 워드 파일로 만들어 «알고리즘_학습지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 생활 문제 3개 (예: 라면 끓이기), 문제마다 단계 표: 단계 번호 | 할 일 | 조건(만약 ~라면) | 반복
+- 짧은 파이썬 코드 2개와 실행 결과 예측 칸 (코드는 고정폭 글꼴)
+- 마지막 쪽(새 쪽)에 예시 답안과 실제 실행 결과
+
+한글에서 열 때를 위한 조건
+- A4 세로, 본문 글꼴은 맑은 고딕
+- 순서도 도형은 쓰지 말고 단계 표로 나타내기 (도형은 한글에서 모양이 달라질 수 있음)
+- 칸은 모두 표로 만들기. 텍스트 상자는 쓰지 않기
+
+다 만든 뒤 코드를 실제로 실행해 정답지의 실행 결과와 같은지 확인하고 결과를 표로 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">감상 기록지</span><span class="gist">곡 정보·악기·빠르기·느낌 칸, 곡은 교사가 정한 것만</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 감상 기록지</span><button type="button">복사</button></div><pre>연결한 폴더의 감상곡 목록을 읽고, 중학교 음악 감상 기록지를 워드 파일로 만들어 «감상기록지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 곡마다 한 칸: 곡 이름 · 작곡가(목록에 있는 것만) | 들린 악기 | 빠르기 | 셈여림의 변화 | 떠오른 느낌과 까닭
+- 빠르기·셈여림은 고를 수 있게 낱말 보기를 함께
+- 마지막에 가장 마음에 든 곡 소개 칸
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 1쪽에 곡 3개
+
+다 만든 뒤 곡 이름·작곡가가 목록과 같은지, 음악 용어가 교과서 표기와 같은지 확인하고 결과를 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">작품 감상문</span><span class="gist">묘사 → 분석 → 해석 → 판단 네 칸, 작품 자리</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 작품 감상문</span><button type="button">복사</button></div><pre>연결한 폴더의 수업 자료를 읽고, 중학교 미술 작품 감상문 학습지를 워드 파일로 만들어 «작품감상문.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 작품이 들어갈 «그림 자리» 칸 (교사가 넣음, 작품 이름·작가·출처 줄 함께)
+- 감상 네 칸: 묘사(보이는 것) | 분석(조형 요소와 원리) | 해석(전하려는 뜻) | 판단(나의 평가와 까닭)
+- 칸마다 생각을 돕는 질문 하나씩
+- 마지막 쪽(새 쪽)에 교사용 예시
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 학생용은 1쪽
+
+다 만든 뒤 조형 요소·원리 용어가 교과서 표기와 같은지 확인하고 결과를 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">나의 운동 계획표</span><span class="gist">4주 운동 계획과 실천 확인 칸, 측정 기록은 넣지 않기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 나의 운동 계획표</span><button type="button">복사</button></div><pre>중학교 체육 «나의 운동 계획표» 학습지를 워드 파일로 만들어 연결한 폴더에 «운동계획표.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 나의 목표 칸 (기를 체력 요소 고르기: 심폐 지구력, 근력, 근지구력, 유연성, 순발력)
+- 4주 계획 표: 주 | 운동 | 횟수·시간 | 요일별 실천 확인
+- 운동 전후 준비·정리 운동 칸
+- 4주 뒤 돌아보기 칸
+- 학생 기록(측정값·점수)은 미리 채우지 않기
+
+한글에서 열 때를 위한 조건
+- A4 가로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 1쪽 안에
+
+다 만든 뒤 체력 요소 이름이 교과서 표기와 같은지 확인하고 결과를 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">직업 탐색 활동지</span><span class="gist">하는 일·필요한 능력·준비 방법, 정보 출처 칸</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 직업 탐색 활동지</span><button type="button">복사</button></div><pre>중학교 진로 «직업 탐색» 활동지를 워드 파일로 만들어 연결한 폴더에 «직업탐색_활동지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 학년 반·번호·이름 칸
+- 관심 직업 2개를 나란히 적는 표: 하는 일 | 필요한 능력 | 관련 학과·자격 | 일하는 곳 | 좋은 점·어려운 점 | 정보 출처
+- 정보 출처 칸에는 학생이 찾은 누리집 이름을 적게 안내
+- 마지막에 «지금 할 수 있는 준비 한 가지» 칸
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 1쪽 안에
+
+다 만든 뒤 특정 직업을 낮춰 보거나 성별로 나누는 표현이 없는지 확인하고 결과를 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임</span><span class="topic">가정통신문</span><span class="gist">현장 체험 학습 안내, 날짜·장소는 계획 파일과 대조</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임 · 가정통신문</span><button type="button">복사</button></div><pre>연결한 폴더의 현장 체험 학습 계획 파일을 읽고, 학부모께 보낼 가정통신문을 워드 파일로 만들어 «가정통신문_현장체험학습.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 학교 양식에 옮기고 hwpx로 저장할 파일입니다.
+
+구성
+- 제목, 인사말 두세 문장
+- 안내 표: 날짜 | 장소 | 출발·도착 시각 | 준비물 | 복장 | 비용 | 문의
+- 날짜·장소·시각·비용은 계획 파일에 있는 것만 쓰고, 없는 것은 «(확인 필요)»로 비우기
+- 아래에 참가 동의서 절취선과 학생 이름·보호자 서명 칸 (이름은 비워 두기)
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형은 쓰지 않기
+- 1쪽 안에
+
+다 만든 뒤 안내 표의 모든 날짜·시각·비용을 계획 파일과 한 줄씩 대조하고, 결과를 표로 알려 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">정비례와 반비례</span><span class="gist">x·y 값 표 채우기와 식 쓰기, 표의 값은 모두 검산</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 정비례와 반비례</span><button type="button">복사</button></div><pre>중학교 1학년 수학 «정비례와 반비례» 학습지를 워드 파일로 만들어 연결한 폴더에 «정비례반비례_학습지.docx»로 저장해 주세요.
+학교 PC의 한글 프로그램에서 열어 hwpx로 저장할 파일입니다.
+
+구성
+- 맨 위: 제목, 1학년 반·번호·이름 칸
+- 개념 정리 상자: 정비례 y = ax, 반비례 y = a/x (a ≠ 0)
+- 생활 상황 6개 (정비례 3, 반비례 3): 상황마다 x·y 값 표의 빈칸 채우기와 식 쓰기
+- 정비례인지 반비례인지 고르는 문제 4개
+- 좌표평면 그래프가 필요하면 «그림 자리» 칸으로 비우기
+- 마지막 쪽(새 쪽)에 정답
+
+한글에서 열 때를 위한 조건
+- A4 세로, 글꼴은 맑은 고딕
+- 칸은 모두 표로 만들기. 텍스트 상자·도형·수식 개체는 쓰지 않기
+- 식은 글자로 쓰기 (분수는 a/x)
+- 학생용은 2쪽, 정답지는 1쪽 안에
+
+다 만든 뒤 표의 모든 값을 식에 대입해 검산하고, 결과를 표로 알려 주세요: 문제 | 식 | 검산 결과</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  공식으로 확인된 형식(<b>워드 docx</b>)으로 만들고, <b>한글 프로그램에서 hwpx로 저장</b>하는 길이 가장 확실합니다. 한글로 옮길 파일은 <b>칸을 표로만</b> 만들고 텍스트 상자·도형·수식 개체를 피하면 모양이 덜 흐트러집니다. HWPX 스킬은 편리하지만 공식 기능이 아니므로 <b>결과를 한글에서 열어 확인</b>하고, 수학 답은 언제나 <b>대입해 검산</b>합니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>한글에서 docx가 열리지 않는다</b> — 한글 프로그램을 최신으로 업데이트하거나, 클로드에게 PDF로도 저장해 달라고 해서 내용을 보며 한글에 옮깁니다.<br>
+  · <b>한글에서 열었더니 표가 어긋난다</b> — 클로드에게 «표의 너비를 쪽 너비에 맞추고, 칸 안의 글자 크기를 10pt로 통일해 주세요»라고 고친 뒤 다시 엽니다.<br>
+  · <b>파일 형식에 hwpx가 보이지 않는다</b> — 한글 판이 오래된 것일 수 있습니다. 정보 담당 선생님께 확인하거나 hwp로 저장합니다.<br>
+  · <b>클로드가 «한글 파일을 바로 만들었다»고 한다</b> — 한글에서 직접 열어 확인하기 전에는 믿지 않습니다. 열리지 않거나 깨지면 (가) 길로 만듭니다.<br>
+  · <b>학교 양식·받은 공문(hwp)을 클로드에게 보여 주고 싶다</b> — 옛 형식 <code>.hwp</code> 는 클로드가 읽지 못할 수 있습니다. 한글에서 <b>파일 → 다른 이름으로 저장</b>으로 형식을 PDF(표·모양까지 보여 줄 때) 또는 HWPX·docx 로 바꿔 폴더에 넣고 «이 양식과 같은 칸 구성으로 만들어 주세요»라고 요청합니다. 급하면 한글에서 전체 선택(<kbd>Ctrl</kbd>+<kbd>A</kbd>)·복사해 붙여 넣어도 되지만 표 모양은 깨질 수 있습니다. 자주 다룬다면 <a href="hwp-mcp.html">부록 · 한글 MCP</a>.<br>
+  · <b>고친 뒤 원본 양식이 비었거나 깨졌다</b> — 따로 둔 사본으로 되돌리고, «원본은 그대로 두고 새 이름으로 저장»을 넣어 다시 부탁합니다.<br>
+  · <b>스킬을 어디서 받아야 할지 모르겠다</b> — 11차시를 먼저 봅니다. 남이 만든 스킬은 믿을 수 있는 곳에서 받은 것만, 내용을 확인한 뒤 설치합니다.
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=UCV3lAo0fhQ" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/UCV3lAo0fhQ/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">19:55</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">[AI 팁] 스킬을 만드는 방법 대공개! 한글 영어 문제지를 클로드로!</span><span class="ch">편집자P · 유튜브</span><span class="why">스킬 구조를 복습하고, 기존 수학 HWPX 스킬을 참고해 영어 문제지 스킬을 만드는 과정을 다룹니다. 12차시와 이어집니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=S7p8_jcwPo0" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/S7p8_jcwPo0/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">14:36</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">(공무원 필수) 아래한글 .hwpx 템플릿 자동 채우기 | 클로드(claude) skill로 .hwpx 양식을 자동으로 완성하는 방법 (공무원 필수) | 무료 파일 배포</span><span class="ch">오피스마스터 · 유튜브</span><span class="why">스킬로 한글(.hwpx) 양식을 채우는 방법을 다룹니다. 설명란에 영상 이후 스킬 화면이 바뀌었다는 공지가 있습니다.</span></span>
+  </a>
+</div>
+
+<p style="font-size:14px; color:var(--muted); margin-top:28px">출처: Claude 도움말 <a href="https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude" target="_blank" rel="noopener">Create and edit files with Claude</a> (만들 수 있는 파일: xlsx·pptx·docx·PDF) · <a href="https://support.claude.com/en/articles/8241126-upload-files-to-claude" target="_blank" rel="noopener">Upload files to Claude</a> (올릴 수 있는 문서: PDF·DOCX·CSV·TXT·HTML·ODT·RTF·EPUB·JSON·XLSX) · <a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener">Get started with Claude Cowork</a> · Claude Code 문서 <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Skills</a> (SKILL.md 구조) (2026-11-11 확인). 한글(HWP·HWPX) 파일은 위 두 목록에 없어, 클로드가 기본으로 읽고 쓰는지는 이 연수에서 단정하지 않았습니다.</p>
+
+<div class="pager">
+  <a href="l03.html"><span class="k">← 이전</span>3차시 · 형성평가 문항 만들기</a>
+  <a class="next" href="l05.html"><span class="k">다음 →</span>5차시 · 클로드 코드 시작하기</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

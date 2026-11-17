@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>캡처 올리기 (강사용) · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">부록 · 강사용</div>
+  <h1>캡처 올리기</h1>
+  <p class="sub">앱 화면 캡처는 강사가 이 연수자료에서 직접 올립니다. 연수생에게는 올린 그림만 보이고, «캡처 넣을 곳» 상자와 올리기 단추는 보이지 않습니다.</p>
+  <div class="meta">
+    <span class="badge">필요한 것 · GitHub 토큰 (처음 한 번)</span>
+    <span class="badge learn">반영 · 올리고 1~2분 뒤 모두에게</span>
+  </div>
+</header>
+
+<h2><span class="num">1</span> 어떻게 동작하나</h2>
+
+<div class="flow">
+  <div class="flowstep"><div class="t">① 편집 모드</div>주소 끝에 <code>?edit</code></div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">② 토큰</div>처음 한 번 붙여넣기</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">③ 올리기</div>붙여넣고 빨간 상자·번호 표시</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">④ 저장</div>그림이 저장소에 바로 커밋됨</div>
+  <div class="flowarrow">→</div>
+  <div class="flowstep"><div class="t">⑤ 반영</div>1~2분 뒤 모두에게 보임</div>
+</div>
+
+<p>따로 서버를 두지 않고, 그림과 그림 목록(<code>captures/captures.json</code>)을 이 연수자료가 들어 있는 GitHub 저장소에 직접 넣습니다. 그래서 <b>저장소에 쓸 권한이 있는 토큰을 가진 사람만</b> 올릴 수 있고, 나머지 사람은 올라간 그림만 봅니다.</p>
+
+<h2><span class="num">2</span> GitHub 토큰 만들기 (처음 한 번)</h2>
+
+<ol class="steps">
+  <li>github.com 에 로그인하고 오른쪽 위 프로필 사진 → <b>Settings</b> → 왼쪽 맨 아래 <b>Developer settings</b> 로 갑니다.</li>
+  <li><b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b> 을 누릅니다.</li>
+  <li>이름(예: <code>연수자료 캡처</code>)을 쓰고, 만료 기간을 고릅니다. 연수 기간에 맞춰 짧게 둘수록 안전합니다.</li>
+  <li><b>Resource owner</b> 는 <code>dadaschool</code> 를 고릅니다.</li>
+  <li><b>Repository access</b> 에서 <b>Only select repositories</b> 를 고르고 <code>geoje</code> 를 고릅니다. 메인 사이트로 옮긴 뒤에는 <code>dadaschool.github.io</code> 도 더합니다.</li>
+  <li><b>Permissions</b> 의 저장소 권한에서 <b>Contents</b> 를 <b>Read and write</b> 로 바꿉니다. 다른 권한은 건드리지 않습니다.</li>
+  <li><b>Generate token</b> 을 누르고, 나온 토큰을 바로 복사해 둡니다. 토큰은 이때 한 번만 보입니다.</li>
+</ol>
+<p style="font-size:14px; color:var(--muted)">화면 문구는 GitHub 화면을 따릅니다. 출처: GitHub Docs <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">Managing your personal access tokens</a></p>
+
+<h2><span class="num">3</span> 편집 모드 켜기</h2>
+
+<ol class="steps">
+  <li>아무 쪽이나 주소 끝에 <code>?edit</code> 를 붙여 엽니다. 아래 단추를 눌러도 됩니다.</li>
+  <li>화면 아래에 검은 막대가 나오면 토큰을 붙여넣고 <b>토큰 저장</b>을 누릅니다. <b>토큰 연결됨 ✓</b> 이 보이면 준비가 끝났습니다.</li>
+  <li>한 번 켜면 이 브라우저에서는 다른 쪽으로 옮겨도 편집 모드가 계속 켜져 있습니다. 끌 때는 막대의 <b>편집 끝내기</b>를 누릅니다.</li>
+</ol>
+<p><a class="btnlink" href="prepare.html?edit"><b>이 브라우저에서 편집 모드 켜고 «연수 전 점검»으로 →</b></a></p>
+
+<h2><span class="num">4</span> 캡처 올리기</h2>
+
+<ol class="steps">
+  <li>편집 모드에서는 쪽마다 노란 «캡처 넣을 곳» 상자가 보입니다. 상자에 적힌 대로 화면을 캡처합니다.<br>
+      <span style="color:var(--muted); font-size:15px">윈도우 <kbd>⊞ Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> · 맥 <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>4</kbd></span></li>
+  <li>상자의 <b>캡처 올리기</b>를 누르고, 열린 창에서 <kbd>Ctrl</kbd>+<kbd>V</kbd>(맥 <kbd>⌘</kbd>+<kbd>V</kbd>)로 붙여넣습니다. 파일을 끌어다 놓거나 <b>파일 고르기</b>로 골라도 됩니다.</li>
+  <li><b>□ 빨간 상자</b>를 고른 채 그림 위를 끌면 빨간 상자가, <b>① 번호</b>를 고르고 누르면 ①②③ 번호가 찍힙니다. 잘못 그렸으면 <b>되돌리기</b>.</li>
+  <li><b>그림 아래 설명</b>을 확인합니다. 기본 문장이 들어 있으니 필요하면 고칩니다. 이 글은 그림을 못 보는 사람에게 읽어 주는 글로도 쓰입니다.</li>
+  <li><b>올리기</b>를 누릅니다. 내 화면에는 바로 그림이 나오고, 다른 사람에게는 1~2분 뒤에 보입니다.</li>
+</ol>
+<p>올린 그림은 상자의 <b>그림 바꾸기</b>로 바꾸거나 <b>그림 지우기</b>로 지웁니다. 그림은 너비 1600픽셀 이하로 줄여 저장합니다.</p>
+
+<h2><span class="num">5</span> 주의</h2>
+
+<div class="warn">
+  <b>공용 PC에서는 토큰을 넣지 않습니다.</b> 토큰은 이 브라우저에만 저장됩니다. 다 쓰면 <b>편집 끝내기</b>에서 토큰도 지웁니다.<br>
+  <b>토큰이 새어 나갔다면</b> GitHub의 Fine-grained tokens 화면에서 그 토큰을 바로 지웁니다(Delete).<br>
+  <b>캡처에 학생 이름·연락처, 다른 사람의 대화가 보이지 않게</b> 찍습니다. 빨간 상자는 가리는 도구가 아닙니다.<br>
+  <b>올릴 때마다 저장소에 커밋이 하나씩</b> 생깁니다(«claude-intermediate: 캡처 P-1 올림»).<br>
+  <b>메인 사이트로 옮긴 뒤</b> 거기서 올리면 공개 저장소에 바로 들어가 곧바로 공개됩니다.
+</div>
+
+<div class="note"><b>반영이 안 될 때</b> — 점검 사이트는 Cloudflare 가 새 판을 만들어야 보입니다. 몇 분이 지나도 그대로면 Cloudflare 대시보드에서 빌드가 멈췄는지 봅니다. 올린 사람 화면에서 그림이 사라졌다면 새로고침 전에 반영이 끝나지 않은 것이니 잠시 뒤 다시 엽니다.</div>
+
+<h2><span class="num">6</span> 캡처 목록</h2>
+
+<p>모두 86개입니다. 올린 그림이 있으면 «상태»에 <span class="ok">올림 ✓</span> 이 보입니다. «쪽»을 누르면 그 캡처 상자로 갑니다(편집 모드에서 보임).</p>
+
+<div class="tablewrap">
+<table id="caplist">
+  <tr><th style="width:12%">번호</th><th style="width:22%">쪽</th><th>찍을 화면</th><th style="width:14%">상태</th></tr>
+  <tr data-id="P-1"><td><b>P-1</b></td><td><a href="prepare.html#cap-P-1">연수 전 점검</a><br><small>연수 전 점검</small></td><td>데스크톱 앱에 로그인한 첫 화면. 사이드바 맨 위 탭 줄에 Code 탭이 있습니다.</td><td class="st">아직</td></tr>
+  <tr data-id="P-2"><td><b>P-2</b></td><td><a href="prepare.html#cap-P-2">연수 전 점검</a><br><small>연수 전 점검</small></td><td>새 화면의 메시지 상자. 모드를 고르는 단추가 없습니다.</td><td class="st">아직</td></tr>
+  <tr data-id="P-3"><td><b>P-3</b></td><td><a href="prepare.html#cap-P-3">연수 전 점검</a><br><small>연수 전 점검</small></td><td>예전 화면의 메시지 상자. Chat 과 Cowork 를 고르는 단추가 있습니다.</td><td class="st">아직</td></tr>
+  <tr data-id="S-1"><td><b>S-1</b></td><td><a href="safety.html#cap-S-1">안전하게 쓰기</a><br><small>안전하게 쓰기</small></td><td>대화(코워크)에서 권한 설정을 고르는 곳. Auto 와 Manual 이 있습니다.</td><td class="st">아직</td></tr>
+  <tr data-id="S-2"><td><b>S-2</b></td><td><a href="safety.html#cap-S-2">안전하게 쓰기</a><br><small>안전하게 쓰기</small></td><td>Code 탭에서 권한 모드를 고르는 곳. Plan · Manual · Accept edits · Auto 가 있습니다.</td><td class="st">아직</td></tr>
+  <tr data-id="O-1"><td><b>O-1</b></td><td><a href="overview.html#cap-O-1">바뀐 클로드 한 장</a><br><small>바뀐 클로드 한 장</small></td><td>새 화면의 첫 화면. ① 메시지 상자 ② 사이드바 위 Code 탭.</td><td class="st">아직</td></tr>
+  <tr data-id="O-2"><td><b>O-2</b></td><td><a href="overview.html#cap-O-2">바뀐 클로드 한 장</a><br><small>바뀐 클로드 한 장</small></td><td>Code 탭 첫 화면. 프롬프트 상자 아래 줄에 ① 환경 ② 프로젝트 폴더 ③ 권한 모드 ④ 모델 단추가 있습니다.</td><td class="st">아직</td></tr>
+  <tr data-id="L01-1"><td><b>L01-1</b></td><td><a href="l01.html#cap-L01-1">1차시</a><br><small>수업 자료 폴더 정리하기</small></td><td>메시지 상자에서 폴더를 연결하는 단추와, 연결된 1차시 폴더.</td><td class="st">아직</td></tr>
+  <tr data-id="L01-2"><td><b>L01-2</b></td><td><a href="l01.html#cap-L01-2">1차시</a><br><small>수업 자료 폴더 정리하기</small></td><td>프롬프트 1에 대한 답 — 파일마다 옮길 폴더·새 이름·판단 근거를 적은 정리 계획 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L01-3"><td><b>L01-3</b></td><td><a href="l01.html#cap-L01-3">1차시</a><br><small>수업 자료 폴더 정리하기</small></td><td>Manual 설정에서 파일을 옮기기 전에 허락을 구하는 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L02-1"><td><b>L02-1</b></td><td><a href="l02.html#cap-L02-1">2차시</a><br><small>강의자료 PPT 만들기</small></td><td>프롬프트 1에 대한 답 — 장마다 제목·핵심 문장·그림 자리·발표자 노트 요약을 적은 슬라이드 구성안 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L02-2"><td><b>L02-2</b></td><td><a href="l02.html#cap-L02-2">2차시</a><br><small>강의자료 PPT 만들기</small></td><td>코워크가 만든 광합성_수업자료.pptx — 대화에서 결과 파일을 미리 보고 내려받는 곳.</td><td class="st">아직</td></tr>
+  <tr data-id="L03-1"><td><b>L03-1</b></td><td><a href="l03.html#cap-L03-1">3차시</a><br><small>형성평가 문항 만들기</small></td><td>프롬프트 1에 대한 답 — 문항마다 유형·난이도·측정할 학습 목표·오답에 쓸 오해를 적은 출제 계획 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L03-2"><td><b>L03-2</b></td><td><a href="l03.html#cap-L03-2">3차시</a><br><small>형성평가 문항 만들기</small></td><td>코워크가 3차시 폴더에 만든 진달래꽃_형성평가.docx 와 진달래꽃_정답해설.xlsx — 대화에서 미리 본 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L04-1"><td><b>L04-1</b></td><td><a href="l04.html#cap-L04-1">4차시</a><br><small>한글(HWPX) 학습지 만들기</small></td><td>코워크가 4차시 폴더에 만든 일차방정식_활용_학습지.docx 와, 답을 문제에 대입해 확인한 검산 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L04-2"><td><b>L04-2</b></td><td><a href="l04.html#cap-L04-2">4차시</a><br><small>한글(HWPX) 학습지 만들기</small></td><td>한글 프로그램의 «다른 이름으로 저장하기» 창에서 파일 형식을 hwpx 로 고르는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L04-3"><td><b>L04-3</b></td><td><a href="l04.html#cap-L04-3">4차시</a><br><small>한글(HWPX) 학습지 만들기</small></td><td>HWPX 스킬로 학교 양식을 채운 뒤의 답 — 쓴 스킬과, 양식의 어느 칸에 무엇을 넣었는지 정리한 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L05-1"><td><b>L05-1</b></td><td><a href="l05.html#cap-L05-1">5차시</a><br><small>클로드 코드 시작하기</small></td><td>Code 탭을 처음 연 화면 — 사이드바의 Code 탭과, 프롬프트 상자 아래 줄의 ① 환경 ② 폴더 ③ 권한 모드 ④ 모델 단추.</td><td class="st">아직</td></tr>
+  <tr data-id="L05-2"><td><b>L05-2</b></td><td><a href="l05.html#cap-L05-2">5차시</a><br><small>클로드 코드 시작하기</small></td><td>Manual 모드에서 index.html 을 만들기 전에 바뀔 내용과 승인 단추가 나온 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L05-3"><td><b>L05-3</b></td><td><a href="l05.html#cap-L05-3">5차시</a><br><small>클로드 코드 시작하기</small></td><td>대화창의 index.html 경로를 눌러 앱 안 브라우저 창에 학급 안내 페이지가 열린 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L05-4"><td><b>L05-4</b></td><td><a href="l05.html#cap-L05-4">5차시</a><br><small>클로드 코드 시작하기</small></td><td>(선택) PowerShell 에서 설치 명령을 실행해 «Claude Code successfully installed!» 가 나오고, 새 창에서 claude --version 으로 버전 번호가 나온 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L06-1"><td><b>L06-1</b></td><td><a href="l06.html#cap-L06-1">6차시</a><br><small>개념 시뮬레이터 만들기</small></td><td>Code 탭에서 ① 환경(Local) ② 폴더(Open folder…) ③ 권한 모드(Plan)를 고르는 곳.</td><td class="st">아직</td></tr>
+  <tr data-id="L06-2"><td><b>L06-2</b></td><td><a href="l06.html#cap-L06-2">6차시</a><br><small>개념 시뮬레이터 만들기</small></td><td>Plan 모드에서 나온 계획.</td><td class="st">아직</td></tr>
+  <tr data-id="L06-3"><td><b>L06-3</b></td><td><a href="l06.html#cap-L06-3">6차시</a><br><small>개념 시뮬레이터 만들기</small></td><td>Manual 모드에서 파일을 만들기 전에 바뀔 내용과 승인 단추가 나온 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L06-4"><td><b>L06-4</b></td><td><a href="l06.html#cap-L06-4">6차시</a><br><small>개념 시뮬레이터 만들기</small></td><td>대화창의 index.html 경로를 눌러 앱 안 브라우저 창에 시뮬레이터가 열린 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L07-1"><td><b>L07-1</b></td><td><a href="l07.html#cap-L07-1">7차시</a><br><small>복습 퀴즈 게임 만들기</small></td><td>Plan 모드에서 나온 퀴즈 게임 계획 — 화면 구성, questions.csv 를 게임에 넣는 방법, 확인 방법.</td><td class="st">아직</td></tr>
+  <tr data-id="L07-2"><td><b>L07-2</b></td><td><a href="l07.html#cap-L07-2">7차시</a><br><small>복습 퀴즈 게임 만들기</small></td><td>앱 안 브라우저 창에서 퀴즈 게임을 직접 풀어 보는 모습 — 고른 답의 × 오답, 정답의 ○ 표시와 해설.</td><td class="st">아직</td></tr>
+  <tr data-id="L07-3"><td><b>L07-3</b></td><td><a href="l07.html#cap-L07-3">7차시</a><br><small>복습 퀴즈 게임 만들기</small></td><td>프롬프트 3에 대한 답 — questions.csv 와 게임 안 문제를 한 문항씩 대조한 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L08-1"><td><b>L08-1</b></td><td><a href="l08.html#cap-L08-1">8차시</a><br><small>인터넷에 올리고 QR로 나누기</small></td><td>GitHub 새 저장소 만들기 화면 — ① 저장소 이름 ② Public ③ README 추가 ④ Create repository.</td><td class="st">아직</td></tr>
+  <tr data-id="L08-2"><td><b>L08-2</b></td><td><a href="l08.html#cap-L08-2">8차시</a><br><small>인터넷에 올리고 QR로 나누기</small></td><td>Add file → Upload files 화면에 index.html 을 끌어다 놓고 저장(커밋)하는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L08-3"><td><b>L08-3</b></td><td><a href="l08.html#cap-L08-3">8차시</a><br><small>인터넷에 올리고 QR로 나누기</small></td><td>Settings → Pages 에서 Source 를 Deploy from a branch, Branch 를 main 과 / (root) 로 고르고 Save 를 누르는 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L08-4"><td><b>L08-4</b></td><td><a href="l08.html#cap-L08-4">8차시</a><br><small>인터넷에 올리고 QR로 나누기</small></td><td>Pages 화면 위쪽에 나온 사이트 주소와 Visit site 단추, 그 주소로 열린 퀴즈 게임.</td><td class="st">아직</td></tr>
+  <tr data-id="L09-1"><td><b>L09-1</b></td><td><a href="l09.html#cap-L09-1">9차시</a><br><small>HTML 발표자료 만들기</small></td><td>Plan 모드에서 받은 슬라이드별 구성안 표 — 번호, 제목, 영어 문장, 발표자 노트 요지, 시간.</td><td class="st">아직</td></tr>
+  <tr data-id="L09-2"><td><b>L09-2</b></td><td><a href="l09.html#cap-L09-2">9차시</a><br><small>HTML 발표자료 만들기</small></td><td>대화창의 index.html 경로를 눌러 앱 안 브라우저 창에 발표자료가 열린 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L09-3"><td><b>L09-3</b></td><td><a href="l09.html#cap-L09-3">9차시</a><br><small>HTML 발표자료 만들기</small></td><td>크롬 인쇄 창에서 대상을 «PDF로 저장»으로 고른 모습 — 미리 보기에 한 장에 슬라이드 하나씩.</td><td class="st">아직</td></tr>
+  <tr data-id="L10-1"><td><b>L10-1</b></td><td><a href="l10.html#cap-L10-1">10차시</a><br><small>카드뉴스·개념 도식 만들기</small></td><td>Plan 모드에서 받은 구성안 — 카드별 제목·문장·아이콘·색 표와 도식 갈래 목록.</td><td class="st">아직</td></tr>
+  <tr data-id="L10-2"><td><b>L10-2</b></td><td><a href="l10.html#cap-L10-2">10차시</a><br><small>카드뉴스·개념 도식 만들기</small></td><td>앱 안 브라우저 창에 카드뉴스 4장과 개념 도식이 열린 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L10-3"><td><b>L10-3</b></td><td><a href="l10.html#cap-L10-3">10차시</a><br><small>카드뉴스·개념 도식 만들기</small></td><td>다운로드 폴더에 저장된 카드 PNG 4개와 도식 PNG 1개.</td><td class="st">아직</td></tr>
+  <tr data-id="L11-1"><td><b>L11-1</b></td><td><a href="l11.html#cap-L11-1">11차시</a><br><small>스킬 설치해서 쓰기</small></td><td>Code 탭 프롬프트 상자에 / 를 입력해 나온 목록에 lesson-check 스킬이 보이는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L11-2"><td><b>L11-2</b></td><td><a href="l11.html#cap-L11-2">11차시</a><br><small>스킬 설치해서 쓰기</small></td><td>/lesson-check 로 연습 학습지를 검수한 결과 — 한 줄 요약과 번호·위치·종류·원문·고칠 안·근거 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L11-3"><td><b>L11-3</b></td><td><a href="l11.html#cap-L11-3">11차시</a><br><small>스킬 설치해서 쓰기</small></td><td>Customize → Skills 에서 zip 으로 올린 lesson-check 스킬이 목록에 켜져 있는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L11-4"><td><b>L11-4</b></td><td><a href="l11.html#cap-L11-4">11차시</a><br><small>스킬 설치해서 쓰기</small></td><td>계획 세우기 스킬이 선택지를 붙여 질문하는 모습 — 번호로 고르는 질문과 추천 기본값.</td><td class="st">아직</td></tr>
+  <tr data-id="L11-5"><td><b>L11-5</b></td><td><a href="l11.html#cap-L11-5">11차시</a><br><small>스킬 설치해서 쓰기</small></td><td>계획실습 폴더에 저장된 CLAUDE.md 를 메모장으로 연 모습 — 위쪽 작업 규칙과 아래쪽 체크박스 단계.</td><td class="st">아직</td></tr>
+  <tr data-id="L12-1"><td><b>L12-1</b></td><td><a href="l12.html#cap-L12-1">12차시</a><br><small>나만의 학습지 스킬 만들기</small></td><td>코워크에서 클로드가 학습지 양식을 정하려고 질문을 세 개씩 하는 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L12-2"><td><b>L12-2</b></td><td><a href="l12.html#cap-L12-2">12차시</a><br><small>나만의 학습지 스킬 만들기</small></td><td>연결한 12차시 폴더에 만들어진 school-worksheet 폴더(SKILL.md, template.docx)와 school-worksheet.zip.</td><td class="st">아직</td></tr>
+  <tr data-id="L12-3"><td><b>L12-3</b></td><td><a href="l12.html#cap-L12-3">12차시</a><br><small>나만의 학습지 스킬 만들기</small></td><td>새 대화에서 양식을 말하지 않고 부탁했을 때 school-worksheet 스킬을 쓰며 학습지와 정답지를 만든 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L13-1"><td><b>L13-1</b></td><td><a href="l13.html#cap-L13-1">13차시</a><br><small>모션으로 개념 애니메이션</small></td><td>Code 탭에서 13차시 폴더를 열고 권한 모드를 Plan 으로 바꾼 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L13-2"><td><b>L13-2</b></td><td><a href="l13.html#cap-L13-2">13차시</a><br><small>모션으로 개념 애니메이션</small></td><td>Plan 모드에서 받은 장면표 — 단계마다 움직이는 것, 넓이가 그대로인 까닭, 설명 문장.</td><td class="st">아직</td></tr>
+  <tr data-id="L13-3"><td><b>L13-3</b></td><td><a href="l13.html#cap-L13-3">13차시</a><br><small>모션으로 개념 애니메이션</small></td><td>대화창의 index.html 경로를 눌러 앱 안 브라우저 창에서 애니메이션을 재생하는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L14-1"><td><b>L14-1</b></td><td><a href="l14.html#cap-L14-1">14차시</a><br><small>1분 설명 영상 만들기</small></td><td>프롬프트 1에 대한 답 — Node.js·FFmpeg 점검 결과와 명령 실행 승인 단추.</td><td class="st">아직</td></tr>
+  <tr data-id="L14-2"><td><b>L14-2</b></td><td><a href="l14.html#cap-L14-2">14차시</a><br><small>1분 설명 영상 만들기</small></td><td>Plan 모드에서 받은 장면표 — 시간·화면·움직임·자막.</td><td class="st">아직</td></tr>
+  <tr data-id="L14-3"><td><b>L14-3</b></td><td><a href="l14.html#cap-L14-3">14차시</a><br><small>1분 설명 영상 만들기</small></td><td>대화창의 mp4 경로를 눌러 앱 안 창에서 완성 영상을 재생하는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L15-1"><td><b>L15-1</b></td><td><a href="l15.html#cap-L15-1">15차시</a><br><small>발표자료를 영상으로 바꾸기</small></td><td>Plan 모드에서 받은 장면 계획 표 — 장면·시간·나타나는 순서·자막.</td><td class="st">아직</td></tr>
+  <tr data-id="L15-2"><td><b>L15-2</b></td><td><a href="l15.html#cap-L15-2">15차시</a><br><small>발표자료를 영상으로 바꾸기</small></td><td>대화창에 나온 장면 그림들 — 장면마다 전환 직후와 끝 무렵.</td><td class="st">아직</td></tr>
+  <tr data-id="L15-3"><td><b>L15-3</b></td><td><a href="l15.html#cap-L15-3">15차시</a><br><small>발표자료를 영상으로 바꾸기</small></td><td>완성한 길묻기_영상.mp4 를 앱 안 창에서 재생하는 모습과 장면별 시각표.</td><td class="st">아직</td></tr>
+  <tr data-id="L16-1"><td><b>L16-1</b></td><td><a href="l16.html#cap-L16-1">16차시</a><br><small>수업 녹화 편집하기</small></td><td>Plan 모드에서 받은 편집 기준표와 작업 계획.</td><td class="st">아직</td></tr>
+  <tr data-id="L16-2"><td><b>L16-2</b></td><td><a href="l16.html#cap-L16-2">16차시</a><br><small>수업 녹화 편집하기</small></td><td>Manual 모드에서 FFmpeg 명령을 실행하기 전에 나온 승인 화면과, 찾은 조용한 구간·남길 구간 표.</td><td class="st">아직</td></tr>
+  <tr data-id="L16-3"><td><b>L16-3</b></td><td><a href="l16.html#cap-L16-3">16차시</a><br><small>수업 녹화 편집하기</small></td><td>받아쓰기 결과와 대본을 비교한 «받아쓰기 → 고친 글» 표, 만들어진 SRT 파일.</td><td class="st">아직</td></tr>
+  <tr data-id="L17-1"><td><b>L17-1</b></td><td><a href="l17.html#cap-L17-1">17차시</a><br><small>내레이션과 배경음악 넣기</small></td><td>프롬프트 1에 대한 답 — 이 컴퓨터의 음성 목록과 한국어 음성 이름.</td><td class="st">아직</td></tr>
+  <tr data-id="L17-2"><td><b>L17-2</b></td><td><a href="l17.html#cap-L17-2">17차시</a><br><small>내레이션과 배경음악 넣기</small></td><td>Manual 모드에서 FFmpeg 로 소리를 섞는 명령을 실행하기 전에 나온 승인 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L17-3"><td><b>L17-3</b></td><td><a href="l17.html#cap-L17-3">17차시</a><br><small>내레이션과 배경음악 넣기</small></td><td>소리를 넣은 주요3화음_안내.mp4 를 앱 안 창에서 재생하는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="L18-1"><td><b>L18-1</b></td><td><a href="l18.html#cap-L18-1">18차시</a><br><small>학교 디자인 시스템으로 활동지 만들기</small></td><td>대화에서 만든 «○○중 수업자료» 디자인 시스템 — 색 견본, 글꼴, 구성 요소가 보이는 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L18-2"><td><b>L18-2</b></td><td><a href="l18.html#cap-L18-2">18차시</a><br><small>학교 디자인 시스템으로 활동지 만들기</small></td><td>메시지 상자에서 출력 → 디자인을 고르고, 디자인 시스템으로 «○○중 수업자료»를 고른 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L18-3"><td><b>L18-3</b></td><td><a href="l18.html#cap-L18-3">18차시</a><br><small>학교 디자인 시스템으로 활동지 만들기</small></td><td>캔버스에서 활동지의 표를 눌러 «칸 높이를 늘려 주세요» 댓글을 단 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="L18-4"><td><b>L18-4</b></td><td><a href="l18.html#cap-L18-4">18차시</a><br><small>학교 디자인 시스템으로 활동지 만들기</small></td><td>디자인 화면 오른쪽 위 내보내기 메뉴 — PDF로 내보내기를 고르는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="P1-1"><td><b>P1-1</b></td><td><a href="p1.html#cap-P1-1">P1</a><br><small>단원 설계와 자료 모으기</small></td><td>프롬프트 1에 대한 답 — 8차시 단원 계획 표와 자료 폴더 구조안.</td><td class="st">아직</td></tr>
+  <tr data-id="P1-2"><td><b>P1-2</b></td><td><a href="p1.html#cap-P1-2">P1</a><br><small>단원 설계와 자료 모으기</small></td><td>Manual 설정에서 폴더와 단원계획표.xlsx 를 만들기 전에 허락을 구하는 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="P1-3"><td><b>P1-3</b></td><td><a href="p1.html#cap-P1-3">P1</a><br><small>단원 설계와 자료 모으기</small></td><td>엑셀에서 연 단원계획표.xlsx — 준비 상태를 «완료»로 바꾸자 진행현황의 숫자가 바뀐 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="P2-1"><td><b>P2-1</b></td><td><a href="p2.html#cap-P2-1">P2</a><br><small>수업 PPT</small></td><td>프롬프트 1에 대한 답 — 번호·제목·내용·그림·노트 요지를 적은 슬라이드 8장 구성안 표.</td><td class="st">아직</td></tr>
+  <tr data-id="P2-2"><td><b>P2-2</b></td><td><a href="p2.html#cap-P2-2">P2</a><br><small>수업 PPT</small></td><td>PowerPoint에서 연 상태변화_개념.pptx — 가열 곡선 슬라이드와 화면 아래 노트 칸의 발표자 노트.</td><td class="st">아직</td></tr>
+  <tr data-id="P3-1"><td><b>P3-1</b></td><td><a href="p3.html#cap-P3-1">P3</a><br><small>입자 운동 시뮬레이터</small></td><td>Plan 모드에서 나온 시뮬레이터 계획 — 가한 열에 따라 온도·상태를 계산하는 구간이 적힌 부분.</td><td class="st">아직</td></tr>
+  <tr data-id="P3-2"><td><b>P3-2</b></td><td><a href="p3.html#cap-P3-2">P3</a><br><small>입자 운동 시뮬레이터</small></td><td>프롬프트 2에 대한 답 — 온도마다 화면에 나온 상태·상태 변화 이름·열 출입을 정리한 표.</td><td class="st">아직</td></tr>
+  <tr data-id="P3-3"><td><b>P3-3</b></td><td><a href="p3.html#cap-P3-3">P3</a><br><small>입자 운동 시뮬레이터</small></td><td>대화창의 index.html 경로를 눌러 앱 안 브라우저 창에 입자 운동 시뮬레이터가 열린 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="P4-1"><td><b>P4-1</b></td><td><a href="p4.html#cap-P4-1">P4</a><br><small>복습 게임</small></td><td>엑셀의 저장 창에서 파일 형식을 «CSV UTF-8»로 고르는 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="P4-2"><td><b>P4-2</b></td><td><a href="p4.html#cap-P4-2">P4</a><br><small>복습 게임</small></td><td>Plan 모드에서 나온 복습 게임 계획 — CSV를 페이지 안에 넣는 방법과 두 활동의 화면 구성.</td><td class="st">아직</td></tr>
+  <tr data-id="P4-3"><td><b>P4-3</b></td><td><a href="p4.html#cap-P4-3">P4</a><br><small>복습 게임</small></td><td>앱 안 브라우저 창에 열린 복습 게임 — 틀린 답을 고르자 정답과 해설이 나온 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="P5-1"><td><b>P5-1</b></td><td><a href="p5.html#cap-P5-1">P5</a><br><small>설명 영상과 내레이션</small></td><td>프롬프트 1에 대한 답 — 장면·시간·화면·내레이션을 적은 대본.md 표.</td><td class="st">아직</td></tr>
+  <tr data-id="P5-2"><td><b>P5-2</b></td><td><a href="p5.html#cap-P5-2">P5</a><br><small>설명 영상과 내레이션</small></td><td>대화창의 scenes.html 경로를 눌러 앱 안 브라우저 창에 설명 영상 장면이 열린 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="P5-3"><td><b>P5-3</b></td><td><a href="p5.html#cap-P5-3">P5</a><br><small>설명 영상과 내레이션</small></td><td>프롬프트 4에 대한 답 — 이 컴퓨터에 설치된 한국어 음성 목록과 장면별 내레이션 길이 확인.</td><td class="st">아직</td></tr>
+  <tr data-id="P6-1"><td><b>P6-1</b></td><td><a href="p6.html#cap-P6-1">P6</a><br><small>단원 허브 페이지로 묶어 나누기</small></td><td>Plan 모드에서 나온 허브 계획 — site 폴더 구조(slides.pdf, sim, game, video.mp4)와 화면 구성.</td><td class="st">아직</td></tr>
+  <tr data-id="P6-2"><td><b>P6-2</b></td><td><a href="p6.html#cap-P6-2">P6</a><br><small>단원 허브 페이지로 묶어 나누기</small></td><td>앱 안 브라우저 창에 열린 단원 허브 — 번호를 붙인 큰 단추 4개와 오늘의 질문.</td><td class="st">아직</td></tr>
+  <tr data-id="P6-3"><td><b>P6-3</b></td><td><a href="p6.html#cap-P6-3">P6</a><br><small>단원 허브 페이지로 묶어 나누기</small></td><td>휴대폰에서 GitHub Pages 주소로 연 단원 허브 — 단추를 눌러 영상·게임이 열리는 모습.</td><td class="st">아직</td></tr>
+  <tr data-id="H-1"><td><b>H-1</b></td><td><a href="hwp-mcp.html#cap-H-1">부록 · 한글 MCP</a><br><small>한글 MCP로 한글 파일 읽고 쓰기</small></td><td>PowerShell 에서 uv 설치 명령을 실행해 설치가 끝나고, 새 창에서 uvx --version 으로 버전 번호가 나온 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="H-2"><td><b>H-2</b></td><td><a href="hwp-mcp.html#cap-H-2">부록 · 한글 MCP</a><br><small>한글 MCP로 한글 파일 읽고 쓰기</small></td><td>터미널에서 claude mcp add 로 한글 MCP(hwp)를 연결해 Added stdio MCP server hwp … to user config 가 나오고, claude mcp list 에서 hwp 옆에 Connected 가 나온 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="H-3"><td><b>H-3</b></td><td><a href="hwp-mcp.html#cap-H-3">부록 · 한글 MCP</a><br><small>한글 MCP로 한글 파일 읽고 쓰기</small></td><td>Code 탭에서 한글 MCP 도구를 물었을 때 read_hwp 부터 create_hwpx_document 까지 도구 8개를 표로 답한 화면.</td><td class="st">아직</td></tr>
+  <tr data-id="H-4"><td><b>H-4</b></td><td><a href="hwp-mcp.html#cap-H-4">부록 · 한글 MCP</a><br><small>한글 MCP로 한글 파일 읽고 쓰기</small></td><td>Manual 모드에서 문구 바꾸기(replace_hwp_text) 승인 창 — 원본 파일 경로와 다른 새 저장 경로(output_path)가 보이는 모습.</td><td class="st">아직</td></tr>
+</table>
+</div>
+<p style="font-size:14px; color:var(--muted)">«쪽» 링크는 편집 모드에서 열어야 상자가 보입니다.</p>
+
+<div class="pager">
+  <a href="index.html"><span class="k">← 목차</span>연수자료 목차</a>
+</div>
+
+</div>
+<script src="assets/captures.js"></script>
+<script>
+/* 캡처 목록의 «상태» — captures/captures.json 을 읽어 표시한다 */
+fetch('captures/captures.json?v=' + Date.now(), { cache: 'no-store' })
+  .then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
+  .then(function (m) {
+    document.querySelectorAll('#caplist tr[data-id]').forEach(function (tr) {
+      var e = m && m[tr.getAttribute('data-id')];
+      if (e) { var td = tr.querySelector('.st'); td.textContent = '올림 ✓'; td.className = 'st ok'; }
+    });
+  });
+</script>
+</body>
+</html>

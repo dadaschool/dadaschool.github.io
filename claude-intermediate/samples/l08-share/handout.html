@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>복습 퀴즈 안내지</title>
+<!-- 클로드 중급과정 8차시 «결과 예시». 한 파일 · 인터넷 없이 열린다. QR 그림(qr.png)을 이 파일 안에 넣었다.
+     연수 예시라 QR에는 GitHub Pages 소개 페이지 주소(https://pages.github.com/)를 담았다. 실제로는 내 GitHub Pages 주소를 넣는다. -->
+<style>
+  :root{ --ink:#111; --muted:#555; --line:#222; --accent:#1F4E9E; }
+  *{box-sizing:border-box}
+  body{margin:0; background:#E9E9E5; color:var(--ink); font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif; word-break:keep-all; line-height:1.55}
+  .bar{max-width:210mm; margin:16px auto 0; padding:0 12px; display:flex; justify-content:flex-end}
+  .bar button{font:inherit; font-size:16px; font-weight:800; color:#fff; background:var(--accent); border:0; border-radius:10px; padding:9px 16px; cursor:pointer}
+  .bar button:focus-visible{outline:3px solid #F2B705; outline-offset:2px}
+  .page{width:210mm; max-width:calc(100% - 24px); min-height:297mm; margin:12px auto 24px; background:#fff; padding:18mm 16mm 14mm; box-shadow:0 2px 14px rgba(0,0,0,.12); display:flex; flex-direction:column}
+  .top{display:flex; justify-content:space-between; align-items:baseline; gap:8px; border-bottom:2.5px solid var(--line); padding-bottom:8px; font-size:15px; font-weight:700}
+  h1{font-size:34px; line-height:1.25; margin:18px 0 4px; letter-spacing:-.02em}
+  .sub{font-size:18px; color:var(--muted); margin:0}
+  .qrbox{margin:22px auto 6px; text-align:center}
+  .qrbox img{width:88mm; max-width:100%; height:auto; image-rendering:pixelated; display:block; margin:0 auto}
+  .url{font-family:"D2Coding","Consolas","Menlo",monospace; font-size:19px; font-weight:700; margin:6px 0 0; word-break:break-all}
+  .hint{font-size:14px; color:var(--muted); margin:2px 0 0}
+  ol.steps{list-style:none; counter-reset:s; padding:0; margin:22px 0 0; display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+  ol.steps li{counter-increment:s; border:1.5px solid var(--line); border-radius:10px; padding:10px 12px 12px; font-size:16px}
+  ol.steps li::before{content:counter(s); display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:var(--ink); color:#fff; font-weight:800; font-size:14px; margin-bottom:4px}
+  ol.steps b{display:block; font-size:17px}
+  @media (max-width:640px){ ol.steps{grid-template-columns:1fr} .page{padding:20px 16px; min-height:0} h1{font-size:28px} }
+  table{border-collapse:collapse; width:100%; margin:18px 0 0; font-size:16px}
+  th,td{border:1.5px solid var(--line); padding:8px 10px; text-align:left}
+  th{width:26%; background:#F2F2EF}
+  .fill{color:#888}
+  .note{margin-top:16px; font-size:14.5px; color:#333; border-left:4px solid var(--line); padding:2px 0 2px 10px}
+  .demo{margin-top:auto; padding-top:14px; font-size:12.5px; color:var(--muted); border-top:1px dashed #999}
+  @page{ size:A4; margin:0 }
+  @media print{
+    body{background:#fff}
+    .bar{display:none}
+    .page{margin:0; box-shadow:none; width:210mm; max-width:none; min-height:297mm}
+    th{background:#fff}
+  }
+</style>
+</head>
+<body>
+<div class="bar"><button type="button" onclick="window.print()">인쇄하기</button></div>
+<main class="page">
+  <div class="top"><span>2학년 역사 · 가정 학습</span><span>조선 전기의 문화</span></div>
+  <h1>조선 전기의 문화 복습 퀴즈</h1>
+  <p class="sub">휴대폰 카메라로 QR 코드를 찍으면 퀴즈가 열립니다. 10문제 · 4지선다</p>
+
+  <div class="qrbox">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhAAAAIQAQAAAAD4e2okAAACF0lEQVR4nO3cQY7DIAxAUXuU+1/Zs6gItgPRSIURiJ9Fmrb0CTYWGBc1+fb6+VqAgICAgICAgICAgICAgICAeLmu8qDhYwufmYioWLPNKgOBgICYTlz1sWY+a5xQqdGi3WaVgUBAQEwnLv/mEwPK3MLuKFHe5zbDegEBAbEDcfW/Unef3AsICIgdiJd4Ifca5Jm7GNwLCAiIHYgQL3LtVl2PaLfNKgOBgICYTrh4kWcQFqJEf3WyxkAgICCmE3e8aNWF14jxmWm0a8fXGAgEBMR0QuuKw9KqQ9Nrb1WyxkAgICCmE+ozFHbvovrMhbnX+G5YLyAgIHYgtF2lZXedhYa7r/SkvhMC4jBC4zzCx4HUUERifSfxAgLiMELjjqmlWUZcp0hoQ7yAgDiMaOQ78xwi33Ol+BoDgYCAmE6k+s5PzNCQt5DHswjrEQiIA4lU3xmjhUidbfi8Z6zlWmMgEBAQ04nm/1P9TCL+Z7W0M9YjEBDnEdreDfHVWs+arfibNQYCAQExnUj7I+XyEeGZ6WR/BALiSKJ7vlbNYvidVBG/kzKsFxAQEDsQ3fO1SlzQ9G2tzBjYCwgIiB2Il/Ny4ryi5kJVYhZjjYFAQEBMJ/5wvpaG6BArMwb1AgICYgeie75W3Rt5nsfH/ggExJFE93ytfJ6WNTIZw3oBAQGxA9Gtv/jXXkBAQEBAQEBAQEBAQEBAQED0r18KLIM22/VlwwAAAABJRU5ErkJggg==" alt="퀴즈 주소를 담은 QR 코드" width="528" height="528">
+    <p class="url">https://pages.github.com/</p>
+    <p class="hint">QR이 찍히지 않으면 위 주소를 인터넷 주소창에 직접 입력합니다.</p>
+  </div>
+
+  <ol class="steps">
+    <li><b>QR 찍기</b>휴대폰 카메라를 QR 코드에 대고 화면에 뜨는 주소를 누릅니다.</li>
+    <li><b>시간 제한 고르기</b>처음에는 «없음», 익숙해지면 «20초»에 도전합니다.</li>
+    <li><b>틀린 문제 다시 풀기</b>결과 화면에서 틀린 문제만 다시 풀고 해설을 읽습니다.</li>
+  </ol>
+
+  <table>
+    <tr><th scope="row">기간</th><td class="fill">[채울 곳]</td></tr>
+    <tr><th scope="row">결과 알리기</th><td class="fill">[채울 곳]</td></tr>
+  </table>
+
+  <p class="note">이 퀴즈는 이름이나 점수를 따로 저장하지 않습니다. 휴대폰이 없으면 학교 컴퓨터실이나 집 컴퓨터에서 위 주소로 엽니다.</p>
+
+  <p class="demo">연수 예시 · 이 안내지의 QR 코드는 GitHub Pages 소개 페이지(https://pages.github.com/)로 연결됩니다. 실제로 쓸 때는 내가 올린 GitHub Pages 주소로 다시 만듭니다.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>18차시 학교 디자인 시스템으로 활동지 만들기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">18차시 · Ⅴ. 클로드 디자인</div>
+  <h1>학교 디자인 시스템으로 활동지 만들기</h1>
+  <p class="sub">학교 상징색과 무료 공개 글꼴을 «디자인 시스템»으로 한 번 정해 두고, 그것으로 A4 학생 활동지를 만들어 PDF로 내보냅니다. 다음에 만드는 안내장·포스터·평가지도 같은 모양으로 나옵니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 클로드 디자인 (claude.ai · 데스크톱 앱)</span>
+    <span class="badge learn">핵심 기법 · 디자인 시스템 먼저 정하기, 캔버스에서 그 자리를 콕 집어 고치기</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>학교 상징색 3개와 무료 공개 글꼴로 «○○중 수업자료» 디자인 시스템을 만들고, 그것으로 A4 활동지 한 장을 만들어 학생용·교사용 PDF로 내보낸다 (예시: 중학교 1학년 사회 — «위도와 경도로 위치 나타내기» 활동지)</dd>
+    <dt>준비물</dt><dd>claude.ai(웹) 또는 클로드 데스크톱 앱, (있으면) 학교 교표 그림 파일과 상징색 값. 없으면 이 차시의 예시 값과 견본 <a href="samples/l18-latlong/디자인시스템_견본.pdf" download>디자인시스템_견본.pdf</a> 를 씁니다 (모두 가상 자료)</dd>
+    <dt>결과물</dt><dd>① 디자인 시스템 «○○중 수업자료» — 색 3 · 글꼴 · 구성 요소 · 규칙 ② 위도·경도 활동지 디자인 (A4 1쪽) ③ <code>위도경도_활동지.pdf</code> 와 <code>위도경도_활동지_교사용.pdf</code></dd>
+    <dt>주의</dt><dd>디자인 시스템은 Pro·Max·Ultra·Team·Enterprise 의 <b>베타</b> 기능입니다. 무료 플랜은 클로드 디자인은 되지만 디자인 시스템이 없으니 색·글꼴을 프롬프트에 직접 적습니다(문제 해결 참고). Enterprise 는 소유자가 디자인 시스템을 켜야 합니다. 기관 계정에서 클로드 디자인이 꺼져 있으면 <a href="l12.html">12차시</a> 학습지 스킬이나 <a href="l04.html">4차시</a>처럼 코워크로 Word·한글 활동지를 만듭니다 · 학생 개인정보 넣지 않기 · 교표 사용은 학교 규정 확인</dd>
+  </dl>
+</div>
+
+<p>지금까지 활동지는 코워크로 Word·한글 파일을 만들거나(4·12차시) Code 탭으로 웹페이지를 만들었습니다. 이번에는 <b>보기 좋게 꾸민 한 장</b>을 만드는 클로드 디자인을 씁니다. Claude 도움말에 따르면 클로드 디자인은 대화로 디자인·프로토타입·원페이저 같은 시각 자료를 만드는 도구로, 결과가 대화 옆 캔버스에 나타나고 대화·댓글·직접 편집으로 다듬습니다. 핵심은 둘입니다. 색과 글꼴을 매번 말하지 말고 <b>디자인 시스템으로 한 번 정해 두는 것</b>, 그리고 고칠 곳은 <b>캔버스에서 그 자리를 눌러 콕 집어 말하는 것</b>입니다.</p>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=To5nrYqvR44" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/To5nrYqvR44/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">1:35</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상 · 공식 · 영어</span><span class="tt">Meet Claude Slides, Claude Design and Claude Docs</span><span class="ch">Claude · 유튜브</span><span class="why">대화를 떠나지 않고 기획 글 하나로 발표자료·홍보 이미지·원페이저를 만드는 공식 소개 영상입니다. 클로드 디자인이 Slides·Docs 와 함께 대화 안으로 들어온 모습을 봅니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=WaZIdKxw038" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/WaZIdKxw038/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">18:06</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">클로드 아티팩트 활용: 클로드 디자인으로 포스터 만들기·인라인 댓글·내보내기, 작은 도구 만들기 | 클로드 바이블 010</span><span class="ch">세모강 | 세상의 모든 강의 · 유튜브</span><span class="why">클로드 디자인으로 한 장짜리 포스터를 만들고 대화·인라인 댓글·캔버스 직접 편집으로 다듬는 방법, 내보내기와 공유 권한을 다룹니다. 이 차시의 흐름과 가장 가깝습니다.</span></span>
+  </a>
+</div>
+<p class="vidnote">영상마다 찍은 시기가 달라 메뉴 위치가 이 차시와 다를 수 있습니다. 예전의 독립 화면(claude.ai/design)은 2026년 12월 14일에 닫히고, 그 뒤로는 대화와 아티팩트 탭에서 씁니다.</p>
+
+<h3>클로드 디자인 한눈에</h3>
+<ul>
+  <li><b>여는 곳</b> — 대화에서 «활동지를 디자인해 줘»처럼 부탁하거나, 메시지 상자의 <b>출력(Output) → 디자인(Design)</b> 을 고릅니다. 사이드바 <b>아티팩트(Artifacts)</b> 탭에서 Design 템플릿으로 시작할 수도 있고, Code 탭에서는 <code>/design</code> 으로 부릅니다. 따로 설치하지 않습니다.</li>
+  <li><b>넣을 수 있는 것</b> — 프롬프트, 그림·스크린샷, 본뜨고 싶은 발표자료나 문서. 디자인 시스템은 올린 파일·로고·글꼴·발표자료에서 만들 수 있습니다.</li>
+  <li><b>고치는 법</b> — 전체를 바꾸는 일은 대화로, 한 곳은 캔버스를 눌러 <b>댓글</b>로, 위치·크기는 캔버스에서 <b>직접</b> 끌어 옮깁니다.</li>
+  <li><b>내보내기</b> — 오른쪽 위 <b>내보내기(Export)</b>: zip, PDF, PPTX, Google Slides, 단독 HTML, Canva 같은 다른 도구로 보내기, Claude Code 로 넘기기.</li>
+  <li><b>사용량</b> — 따로 정해진 몫 없이 채팅·코워크·Code 와 같은 사용 한도에서 씁니다. 고치는 횟수가 많을수록 많이 씁니다.</li>
+  <li><b>아직 안 되는 것</b> — 버전 기록이 없고, 여럿이 동시에 고치는 것은 아직 불안정하다고 도움말이 밝힙니다.</li>
+</ul>
+
+<div class="tablewrap">
+<table>
+  <tr><th style="width:24%"></th><th>무료 (Free)</th><th>Pro · Max · Ultra</th><th>Team</th><th>Enterprise</th></tr>
+  <tr><td><b>클로드 디자인</b></td><td class="c"><span class="ok">✓</span></td><td class="c"><span class="ok">✓</span></td><td class="c"><span class="ok">✓</span><br><small>기본으로 켜짐</small></td><td class="c"><small>베타. 2026-10-15부터 기본으로 켜짐(소유자가 끌 수 있음)</small></td></tr>
+  <tr><td><b>디자인 시스템</b></td><td class="c"><span class="no-x">✕</span></td><td class="c"><small>베타, 기본으로 켜짐</small></td><td class="c"><small>베타, 기본으로 켜짐</small></td><td class="c"><small>베타, 소유자가 켜야 함</small></td></tr>
+  <tr><td><b>링크로 나누기</b></td><td class="c"><span class="no-x">✕</span></td><td class="c"><span class="ok">✓</span></td><td class="c"><small>기관 안이 기본, 밖은 소유자가 허용</small></td><td class="c"><small>기관 안이 기본, 밖은 소유자가 허용</small></td></tr>
+</table>
+</div>
+<p style="font-size:14px; color:var(--muted)">모든 플랜에서 <b>설정 → Capabilities</b> 의 «Cloud code execution and file creation»(새 설정 화면에서는 «Create and edit files»)이 켜져 있어야 합니다. Team·Enterprise 는 조직 설정에서 켭니다. 메뉴 이름은 앱의 표시 언어에 따라 한국어로 보일 수 있습니다. 화면 문구를 따릅니다.</p>
+
+<h3>클로드 디자인 · 코워크 · Code 탭, 언제 무엇을</h3>
+<div class="tablewrap">
+<table>
+  <tr><th style="width:16%"></th><th>클로드 디자인</th><th>코워크 (문서 파일)</th><th>Code 탭 (움직이는 웹페이지)</th></tr>
+  <tr><td><b>잘 맞는 것</b></td><td><b>모양이 중요한 한두 쪽</b>: 활동지, 포스터, 안내장, 카드뉴스, 원페이저</td><td><b>내용이 많고 계속 고쳐 쓸 문서</b>: Word·한글 학습지, 엑셀, 여러 파일 한꺼번에</td><td><b>눌러서 움직이는 것</b>: 시뮬레이터, 게임, 퀴즈</td></tr>
+  <tr><td><b>고치는 법</b></td><td>대화 + 캔버스 댓글 + 직접 끌어 옮기기</td><td>대화로 고친 뒤 Word·한글에서 마무리</td><td>대화로 고치고 앱 안 브라우저 창에서 확인</td></tr>
+  <tr><td><b>받는 것</b></td><td>PDF·PPTX·HTML 등으로 내보내기, 링크로 나누기</td><td>내 폴더의 docx·xlsx·pptx</td><td>내 폴더의 HTML 파일</td></tr>
+  <tr><td><b>이 연수</b></td><td>18차시</td><td>1~4, 12차시</td><td>5~10, 13~17차시</td></tr>
+</table>
+</div>
+<p style="font-size:14px; color:var(--muted)">학생에게 나눠 줄 한 장을 «예쁘고 읽기 좋게»가 목표라면 클로드 디자인, 다음 학기에도 Word 로 고쳐 쓸 문서라면 코워크가 편합니다. 발표 슬라이드는 같은 자리의 Slides 템플릿이 따로 있습니다.</p>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><b>설정 → Capabilities</b> 에서 «Cloud code execution and file creation»(새 설정 화면 «Create and edit files»)이 켜져 있는지 봅니다. Team·Enterprise 계정에서 이 항목이 없거나 바꿀 수 없으면 기관 관리자에게 묻습니다.</li>
+  <li>같은 화면에 <b>Design systems</b> 항목이 있는지 봅니다(없으면 설정 → <b>Design systems</b>). 둘 다 없으면 무료 플랜이거나 기관에서 꺼 둔 것이므로, 아래 «문제 해결»의 첫 항목대로 합니다.</li>
+  <li>학교 교표 그림(학교 누리집에 공개된 PNG 등)과 상징색 값을 준비합니다. 없으면 이 차시의 예시 색을 그대로 쓰고, 학교 문서 견본 대신 <a href="samples/l18-latlong/디자인시스템_견본.pdf" download>디자인시스템_견본.pdf</a> 를 받아 둡니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다.</p>
+
+<ol class="steps">
+  <li>claude.ai 또는 클로드 데스크톱 앱에서 <b>새 대화</b>를 엽니다. <span class="layout new">새 화면</span> 메시지 상자에 바로 요청합니다. <span class="layout old">예전 화면</span> 에서도 같은 메시지 상자에 요청합니다.</li>
+
+  <li><b>디자인 시스템을 만듭니다.</b> 메시지 상자의 첨부 단추로 교표 그림(또는 견본 PDF)을 올리고 아래 프롬프트를 보냅니다. 단추 이름은 화면 문구를 따릅니다. 올릴 그림이 없으면 프롬프트의 마지막 줄을 지우고 보냅니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · 디자인 시스템 만들기</span><button type="button">복사</button></div><pre>우리 학교 수업 자료를 늘 같은 색과 글꼴로 만들고 싶습니다. 아래 내용으로 디자인 시스템을 만들어 주세요.
+이름: ○○중 수업자료
+
+색 (세 가지만)
+- 주색: 바다 남색 #1F3A5F — 머리띠, 큰 제목, 표 머리
+- 보조색: 솔 초록 #2E7D5B — 활동 번호, 소제목, 기준선
+- 강조색: 햇살 주황 #F2A33A — 꼬리표·예시 표시처럼 작은 면에만, 한 쪽에 1~2곳. 글자색으로 쓰지 않기
+- 상자 바탕 #E8F0F7 (주색을 옅게), 도움말 바탕 #FDF1DF, 본문 글자 #222222, 종이는 흰색
+
+글꼴 (무료 공개 글꼴만)
+- 제목: Pretendard ExtraBold / 본문: Pretendard Regular
+- Pretendard 를 쓸 수 없으면 나눔고딕으로 바꾸고 알려 주세요.
+
+구성 요소
+- 머리띠: 왼쪽 교표, 학교 이름·교과·학년, 제목, 오른쪽 꼬리표(활동지·형성평가 등)
+- 학년·반·번호·이름 칸, 학습 목표 상자, 활동 번호(1 2 3)와 소제목, 표, 도움말 상자, '오늘 배운 점' 상자, 바닥글
+
+규칙
+- 기본은 A4 세로 인쇄용. 여백 15mm, 본문은 인쇄해서 11pt 이상
+- 색만으로 뜻을 전하지 않기. 색을 쓴 곳에는 글자·기호·모양을 함께
+- 흑백으로 인쇄해도 세 색이 구별되게
+- 학생 이름·사진 같은 개인정보는 넣지 않기
+- 바닥글에 'AI 도움을 받아 만들고 교사가 검토함'
+
+올린 그림은 우리 학교 교표입니다. 머리띠 왼쪽에 작게 넣어 주세요.</pre>
+    </div>
+    <p class="why"><b>색은 값(#1F3A5F)과 쓰임을 함께</b> 적어야 «남색 비슷한 색»이 아니라 정확히 그 색이 정해진 자리에 쓰입니다. <b>글꼴도 저작권이 있습니다.</b> 내 컴퓨터에 깔려 있다고 해서 인쇄해 나눠 주거나 웹에 올리는 것까지 모두 되는 것은 아니고, 허용 범위는 글꼴마다 다릅니다. Pretendard 와 나눔고딕은 <b>SIL 오픈 폰트 라이선스(OFL)</b>라 문서·인쇄물·PDF·웹에 자유롭게 쓸 수 있습니다(글꼴 파일만 따로 파는 것은 안 됨). Pretendard 는 굵기가 9단계라 제목과 본문을 한 글꼴로 맞추기 좋습니다.</p>
+    <div class="capture" id="cap-L18-1" data-cap="L18-1" data-caption="대화에서 만든 «○○중 수업자료» 디자인 시스템 — 색 견본, 글꼴, 구성 요소가 보이는 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L18-1</b><br>만들어진 디자인 시스템 (따라 하기 2번).
+        <ul><li>대화 옆에 열린 디자인 시스템 전체</li><li>번호 표시: ① 색 견본 세 가지와 색 값 ② 글꼴 견본 ③ 구성 요소(머리띠·학습 목표 상자)</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>인쇄용으로 점검합니다.</b> 같은 대화에서 아래 프롬프트를 보냅니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 2 · 대비·흑백·색약 점검</span><button type="button">복사</button></div><pre>방금 만든 '○○중 수업자료' 디자인 시스템을 인쇄용으로 점검해 주세요.
+1. 색과 글자색을 짝지은 명도 대비 비율을 표로 보여 주세요 (흰 글자, 남색 글자, 검은 글자). 4.5:1 이 안 되는 짝은 규칙에 '쓰지 않기'로 적어 주세요.
+2. 흑백으로 인쇄하면 세 색이 각각 어떤 회색이 되는지, 서로 구별되는지 알려 주세요.
+3. 적록 색약이 있는 학생이 초록과 주황을 헷갈릴 수 있는 쓰임이 있는지 보고, 있으면 기호나 모양을 더하는 규칙을 넣어 주세요.
+고친 것이 있으면 디자인 시스템에 반영하고, 무엇을 바꿨는지 짧게 알려 주세요.</pre>
+    </div>
+    <p class="why">도움말은 클로드가 접근성·대비·정보 위계를 검토할 수 있다고 안내합니다. <b>4.5:1</b> 은 웹 접근성 기준(WCAG)이 본문 글자에 권하는 대비입니다. 이 차시의 예시 색은 흰 글자/남색 11.5:1, 흰 글자/초록 5.0:1, 남색 글자/주황 5.5:1 이고, 흰 글자/주황은 2.1:1 이라 쓰지 않습니다. 흑백으로는 짙은 회색·중간 회색·옅은 회색으로 갈립니다. 클로드가 낸 숫자가 이와 크게 다르면 다시 물어봅니다.</p>
+    <p class="why">만든 디자인 시스템은 사이드바 <b>아티팩트</b> 탭에 저장되고, <b>설정 → Capabilities</b> 의 Design systems 옆 <b>Manage</b>(없으면 설정 → Design systems)에서 관리합니다.</p>
+  </li>
+
+  <li><b>새 디자인을 시작합니다.</b> 새 대화를 열고 메시지 상자에서 <b>출력(Output) → 디자인(Design)</b> 을 고릅니다(또는 아티팩트 탭 → Design 템플릿). 쓸 디자인 시스템을 고르는 곳이 나오면 <b>○○중 수업자료</b> 를 고릅니다. 기관에서 기본으로 정해 둔 디자인 시스템이 미리 골라져 있을 수 있으니 확인합니다. 단추 이름은 화면 문구를 따릅니다.
+    <div class="capture" id="cap-L18-2" data-cap="L18-2" data-caption="메시지 상자에서 출력 → 디자인을 고르고, 디자인 시스템으로 «○○중 수업자료»를 고른 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L18-2</b><br>디자인 시작하기 (따라 하기 4번).
+        <ul><li>번호 표시: ① 메시지 상자의 출력(Output) 단추 ② 디자인(Design) 항목 ③ 디자인 시스템 «○○중 수업자료»를 고른 곳</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>활동지를 부탁합니다.</b> 색·글꼴 이야기는 빼고 <b>크기·대상·내용</b>만 씁니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 3 · 활동지 만들기 (위도와 경도)</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 학생 활동지 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (여백 15mm, 본문 11pt 이상)
+- 대상: 중학교 1학년 사회
+- 제목: 위도와 경도로 위치 나타내기 / 꼬리표: 활동지
+- 학습 목표: 위도와 경도의 뜻을 설명할 수 있다. / 위도와 경도로 장소의 위치를 나타낼 수 있다.
+
+활동 1 개념 정리 — 빈칸 채우기 (학생용에는 괄호 안을 비워 두기)
+- 위도는 (적도)를 0°로 하여 남북으로 각각 90°까지 나타낸다. 북쪽은 북위, 남쪽은 남위이다.
+- 경도는 영국 런던의 그리니치 천문대를 지나는 (본초 자오선)을 0°로 하여 동서로 각각 (180)°까지 나타낸다. 동쪽은 동경, 서쪽은 서경이다.
+- 같은 위도를 이은 선은 (위선), 같은 경도를 이은 선은 (경선)이다.
+
+활동 2 지도에서 위치 읽기
+- 위선·경선을 30°마다 그린 세계 지도 (위도 남위 60°~북위 75°, 경도 서경 180°~동경 180°). 적도와 본초 자오선은 굵게, 이름을 적기
+- 점 A~D를 정확한 위도·경도 자리에: A 뉴욕(북위 40.7°, 서경 74.0°), B 리우데자네이루(남위 22.9°, 서경 43.2°), C 뭄바이(북위 19.1°, 동경 72.9°), D 멜버른(남위 37.8°, 동경 145.0°)
+- 지도에는 도시 이름을 쓰지 말고 기호만. 점은 모양(● ▲ ■ ◆)으로도 구별
+- 예시로 서울(북위 37.6°, 동경 127.0°)을 ★로 표시
+- 표: 기호 | 위도(어느 위선 사이?) | 경도(어느 경선 사이?) | 도시. 첫 줄은 예시 '서울 — 북위 30°~60°, 동경 120°~150°'
+- 표 아래 보기: 네 도시의 이름과 위도·경도를 A~D와 다른 순서로
+
+활동 3 생각 넓히기
+- 독도(북위 37.2°, 동경 131.9°)는 서울(북위 37.6°, 동경 127.0°)보다 (동·서)쪽, (남·북)쪽에 있다. 까닭 쓰기 2줄
+
+마지막에 '오늘 배운 점' 2줄과 스스로 평가 ☆☆☆☆☆
+바닥글: '연수용 가상 자료 · AI 도움을 받아 만들고 교사가 검토함'</pre>
+    </div>
+    <p class="why">디자인 시스템을 골랐으므로 프롬프트에 색·글꼴이 하나도 없습니다. 그런데도 남색 머리띠와 초록 활동 번호가 나오면 디자인 시스템이 쓰인 것입니다. 도움말이 권하는 대로 <b>목표·배치·내용·대상</b>을 분명히 쓰고, 지도처럼 틀리기 쉬운 부분은 <b>숫자로</b> 정해 줍니다. 네 도시는 북위·서경, 남위·서경, 북위·동경, 남위·동경에 하나씩 있어 네 방향을 모두 연습합니다.</p>
+  </li>
+
+  <li><b>캔버스에서 다듬습니다.</b> 고칠 곳을 캔버스에서 직접 눌러 댓글로 말하면, 대화로 «위에서 세 번째 표의…»라고 설명하지 않아도 됩니다. 예를 들면 이렇게 씁니다.
+    <ul>
+      <li>(표를 눌러) «학생이 손으로 쓸 수 있게 칸 높이를 9mm 이상으로 늘려 주세요.»</li>
+      <li>(점 B를 눌러) «점 모양을 ▲로 바꾸고, 기호 B를 점 오른쪽에 붙여 주세요.»</li>
+      <li>(보기 상자를 눌러) «한 줄에 들어가게 해 주세요. 도시 순서는 그대로.»</li>
+    </ul>
+    글자 하나, 상자 위치처럼 작은 것은 캔버스에서 직접 끌어 옮기거나 크기를 바꿉니다. 전체 분위기를 바꾸는 일은 대화로 합니다.
+    <p class="why">도움말은 <b>한 곳은 댓글, 구조 변경은 대화, 빠른 모양 조정은 직접 편집</b>으로 나눠 쓰라고 안내합니다. 댓글이 반영되지 않을 때가 가끔 있다고 알려진 문제이니, 그럴 때는 같은 내용을 대화창에 붙여 넣습니다.</p>
+    <div class="capture" id="cap-L18-3" data-cap="L18-3" data-caption="캔버스에서 활동지의 표를 눌러 «칸 높이를 늘려 주세요» 댓글을 단 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L18-3</b><br>캔버스 댓글 (따라 하기 6번).
+        <ul><li>왼쪽 대화, 오른쪽 캔버스의 활동지가 함께 보이게</li><li>빨간 상자: 표를 눌러 단 댓글 상자</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>인쇄하기 전에 점검</b>을 맡깁니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 4 · 인쇄 전 점검</span><button type="button">복사</button></div><pre>인쇄하기 전에 점검해 주세요.
+1. 지금 활동지는 그대로 두고, 흑백(회색조)으로 바꾼 모습을 옆에 하나 더 보여 주세요.
+2. 인쇄와 접근성 관점에서 검토해 주세요: 11pt보다 작은 글자, 대비가 낮은 글자, 색으로만 구별한 곳, A4 여백을 벗어난 곳, 손으로 쓰기에 좁은 칸
+3. 지도에서 점 A~D가 보기의 위도·경도와 맞는 격자 칸에 있는지 하나씩 확인해 주세요.
+4. 고칠 곳을 표로 보여 주고, 제가 좋다고 하면 고쳐 주세요.</pre>
+    </div>
+    <p class="why">학교에서는 흑백으로 인쇄할 때가 많습니다. 화면에서 예쁜 활동지가 흑백으로는 머리띠 글자가 묻히거나 점이 구별되지 않을 수 있습니다. 클로드의 점검은 참고이고, 지도와 정답은 교사가 다시 봅니다(검증 포인트 ①).</p>
+  </li>
+
+  <li><b>교사용 정답본</b>을 따로 만듭니다. 클로드 디자인에는 아직 버전 기록이 없으니, 지금 것을 저장해 두라고 먼저 말합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 5 · 교사용 정답본</span><button type="button">복사</button></div><pre>지금 활동지는 그대로 저장해 두고, 정답을 채운 교사용 사본을 따로 만들어 주세요.
+- 빈칸과 표에 정답을 굵은 남색 글씨와 밑줄로 (빨간색만으로 표시하지 않기)
+- 꼬리표를 '교사용 · 정답'으로
+- 활동 2 표 아래에 판단 근거(어느 위선·경선 사이인지)를 한 줄씩
+- 학생용과 교사용이 섞이지 않게 이름을 '위도경도_활동지'와 '위도경도_활동지_교사용'으로</pre>
+    </div>
+  </li>
+
+  <li><b>PDF로 내보냅니다.</b> 디자인을 연 화면 오른쪽 위의 <b>내보내기(Export)</b> → <b>PDF로 내보내기(Export as PDF)</b> 를 눌러 학생용과 교사용을 각각 받습니다. 받은 PDF를 열어 인쇄 미리보기에서 <b>실제 크기(100%)</b>, <b>흑백</b>으로 한 번 봅니다.
+    <p class="why">PDF는 대개 어느 컴퓨터에서 열어도 모양이 같아 인쇄·배포에 알맞습니다. PowerPoint 에서 고쳐 쓰려면 PPTX 로, 캔바에서 이어 꾸미려면 Canva 로 보낼 수 있습니다. PPTX 는 학교 PC에 Pretendard 가 없으면 다른 글꼴로 보일 수 있으니, 그때는 글꼴을 설치하거나 대체 글꼴(나눔고딕)로 바꿉니다.</p>
+    <div class="capture" id="cap-L18-4" data-cap="L18-4" data-caption="디자인 화면 오른쪽 위 내보내기 메뉴 — PDF로 내보내기를 고르는 모습.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L18-4</b><br>내보내기 메뉴 (따라 하기 9번).
+        <ul><li>빨간 상자: 오른쪽 위 내보내기(Export) 단추</li><li>번호 표시: ① PDF ② PPTX ③ Canva 등 다른 도구로 보내기</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>나누고 다시 씁니다.</b> 동료 교사에게 검토를 받으려면 <b>공유(Share)</b> 를 눌러 사람과 권한(보기·댓글·편집)을 고릅니다. 디자인은 처음에 나만 보입니다. 다음에 안내장이나 포스터를 만들 때는 4단계에서 같은 디자인 시스템을 고르기만 하면 같은 색·글꼴·머리띠로 나옵니다. Team·Enterprise 에서 디자인 시스템을 <b>학교 전체에 나누거나 기본값으로 정하는 것</b>은 소유자(Owner)만 할 수 있으니, 학교 공용으로 쓰려면 관리자에게 부탁합니다.</li>
+</ol>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<p>위 흐름대로 만든 디자인 시스템과, 그 디자인 시스템으로 만든 활동지입니다.</p>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l18-system.webp" width="1600" height="1143" loading="lazy" alt="«○○중 수업자료 디자인 시스템» 견본 카드. 오른쪽 위에 «연수용 가상 자료». 맨 위 «색 — 세 가지만»에 주색 바다 남색 #1F3A5F(제목 띠·큰 제목·표 머리, 흰 글자 11.5:1, 흑백 인쇄 #393939), 보조색 솔 초록 #2E7D5B(활동 번호·소제목·기준선, 흰 글자 5.0:1, 흑백 #6F6F6F), 강조색 햇살 주황 #F2A33A(꼬리표·예시 표시·도움말 띠, 한 쪽에 1~2곳, 남색 글자 5.5:1, 흰 글자 ✕, 흑백 #B4B4B4) 견본이 있고, 그 아래 상자 바탕 #E8F0F7, 도움말 바탕 #FDF1DF, 본문 글자 #222222, 종이 바탕 흰색. 왼쪽 아래 «글꼴 — 무료 공개 글꼴»에 제목 Pretendard ExtraBold «위도와 경도로 위치 나타내기», 본문 Pretendard Regular 견본과 «둘 다 SIL 오픈 폰트 라이선스(OFL 1.1), 대체 글꼴 나눔고딕» 설명. 그 아래 규칙 여섯 줄(A4 세로 인쇄·본문 11pt 이상, 색만으로 뜻을 전하지 않기, 흑백 인쇄에도 구별, 강조색 한 쪽에 1~2곳, 개인정보 넣지 않기, 바닥글 AI 도움 표시). 오른쪽에 구성 요소(교표가 있는 남색 머리띠와 주황 «활동지» 꼬리표, 학습 목표 상자, 초록 활동 번호, 표, 도움말 상자, 오늘 배운 점 상자)와 «이 디자인 시스템으로 만들 것: 학생 활동지, 형성평가지, 가정통신문, 행사 포스터, 수업 안내 한 장, 교실 게시물».">
+  <figcaption><b>디자인 시스템 견본.</b> 프롬프트 1·2에서 정한 색·글꼴·구성 요소·규칙을 한 장에 모은 모습입니다. 색마다 쓰임, 글자 대비, 흑백으로 인쇄했을 때의 회색을 함께 적었습니다.</figcaption>
+</figure>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l18-worksheet.webp" width="1600" height="1508" loading="lazy" alt="디자인 시스템으로 만든 «위도와 경도로 위치 나타내기» A4 활동지와, 그 위에 빨간 번호 ①~⑥으로 디자인 시스템 규칙이 들어간 곳을 표시한 그림. ① 남색 머리띠에 교표, «○○중학교 · 사회 · 1학년 | 지도와 위치», 제목. ⑤ 머리띠 오른쪽 주황 «활동지» 꼬리표. 그 아래 학년·반·번·이름 칸. ② 옅은 파랑 학습 목표 상자. ③ 초록 동그라미 1 «개념 정리» — 적도, 본초 자오선, 180°, 위선, 경선을 쓰는 빈칸 세 문장. 2 «지도에서 위치 읽기» — ④ 위선·경선을 30°마다 그린 세계 지도에 점 A(●, 북아메리카 동쪽 해안), B(▲, 남아메리카 동쪽 해안), C(■, 인도 서쪽 해안), D(◆, 오스트레일리아 남동쪽)와 예시 서울(주황 ★). 지도 아래 표(기호, 위도, 경도, 도시)의 첫 줄은 예시 서울 «북위 30°~60°, 동경 120°~150°», 나머지 줄은 «북위 · 남위 ___°~___°» 처럼 비어 있다. 보기에 멜버른, 뉴욕, 뭄바이, 리우데자네이루의 위도·경도. 3 «생각 넓히기» — 독도와 서울의 위치 비교와 까닭 쓰는 줄, 오른쪽에 «오늘 배운 점» 상자와 스스로 평가. ⑥ 바닥글 «연수용 가상 자료 · AI 도움을 받아 만들고 교사가 검토함». 오른쪽에는 번호별 설명과 «흑백으로 인쇄하면» 회색조 미리보기가 있다.">
+  <figcaption><b>디자인 시스템으로 만든 활동지.</b> 프롬프트 3에는 색·글꼴을 한 줄도 쓰지 않았는데 ①~⑥처럼 디자인 시스템의 규칙이 들어간 모습입니다. 오른쪽 흑백 미리보기에서 세 색이 서로 다른 회색으로 갈리는지 봅니다.</figcaption>
+</figure>
+
+<p><a href="samples/l18-latlong/위도경도_활동지.pdf" download><b>학생용 PDF 받기 →</b></a> · <a href="samples/l18-latlong/위도경도_활동지_교사용.pdf" download>교사용(정답) PDF</a> · <a href="samples/l18-latlong/디자인시스템_견본.pdf" download>디자인 시스템 견본 PDF</a></p>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">디자인 시스템 견본과 활동지는 프롬프트 1·3의 내용을 그대로 따라 연수자료를 만들면서 직접 HTML로 꾸미고 Pretendard 글꼴로 찍거나 PDF로 저장한 것입니다(클로드 디자인 화면에서 받은 결과가 아닙니다). 지도는 공개 지도 자료 Natural Earth(1:1억 1천만 육지)를 위도·경도 1°가 같은 간격인 정거 원통 도법으로 그렸고, 점은 각 도시의 위도·경도 자리에 찍었습니다. 확인한 값: 서울 북위 37.6°·동경 127.0°, 뉴욕 북위 40.7°·서경 74.0°, 리우데자네이루 남위 22.9°·서경 43.2°, 뭄바이 북위 19.1°·동경 72.9°, 멜버른 남위 37.8°·동경 145.0°, 독도 북위 37.2°(37°14′)·동경 131.9°(131°52′). 대비 비율과 흑백 회색은 WCAG 계산식으로 직접 계산했습니다. 실제 클로드 디자인 결과는 배치·지도 모양·글자 크기가 다를 수 있으니 검증 포인트로 확인하세요. 모두 연수용 가상 자료입니다.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 교과 내용</b> — 기준선(위도는 적도, 경도는 본초 자오선)과 범위(위도 90°, 경도 180°), 용어(위선·경선, 북위·남위·동경·서경)가 맞는지 봅니다. 지도에서 점 A~D가 보기의 위도·경도와 맞는 격자 칸에 있는지 하나씩 셉니다. AI가 그린 지도는 대륙 모양이나 점 위치가 틀릴 수 있습니다.<br>
+  <b>② 정답지</b> — 교사용 정답을 직접 풀어 보고, 학생용 PDF에 정답이 섞여 들어가지 않았는지 봅니다.<br>
+  <b>③ 글꼴 라이선스</b> — 디자인 시스템에 적은 글꼴(Pretendard·나눔고딕 같은 OFL 글꼴)이 실제로 쓰였는지 PDF 보기 프로그램의 문서 속성(글꼴 목록)에서 확인합니다. 출처를 모르는 글꼴로 바뀌었으면 웹 게시·인쇄 배포 전에 고칩니다.<br>
+  <b>④ 흑백·색약</b> — 흑백 인쇄 미리보기에서 머리띠 글자, 활동 번호, 지도 점이 모두 읽히는지, 색으로만 구별한 곳이 없는지 봅니다. 흰 글자는 남색·초록 바탕에만 씁니다.<br>
+  <b>⑤ 인쇄 크기</b> — A4 실제 크기(100%)로 한 장 뽑아 본문이 11pt 이상인지, 여백 안에 들어오는지, 학생이 손으로 쓸 칸이 넉넉한지 봅니다.<br>
+  <b>⑥ 개인정보·저작권</b> — 학생 이름·사진이 없는지, 교표 사용이 학교 규정에 맞는지, 교과서의 그림·지도를 그대로 옮기지 않았는지 봅니다.<br>
+  <b>⑦ AI 도움 표시</b> — 바닥글에 «AI 도움을 받아 만들고 교사가 검토함»이 있는지 봅니다. 학교·교육청 지침이 따로 있으면 그 문구를 따릅니다.<br>
+  <b>⑧ 공유 범위</b> — 공유할 때 «링크가 있는 모든 사용자»(Anyone with the link)를 고르면 링크를 아는 누구나 열 수 있습니다. 학생 정보가 들어간 디자인은 그렇게 나누지 않습니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>5단계 프롬프트 대신</b> 아래 교과 프롬프트를 씁니다. 디자인 시스템(2~3단계)은 한 번 만들어 두었으면 다시 만들지 않고, 4단계에서 같은 디자인 시스템을 고른 뒤 시작합니다. 6·9단계는 그대로, 7단계는 프롬프트 4에서 지도 이야기(3번 줄)만 빼고 씁니다. 8단계는 아래 <b>공통 프롬프트</b>로 바꿔 씁니다. 활동지뿐 아니라 포스터·안내장·형성평가지도 같은 디자인 시스템으로 만듭니다. 교과를 눌러 펼친 뒤 <b>복사</b>합니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">공통 · 8단계 대신 (교사용·정답본)</span><button type="button">복사</button></div><pre>지금 디자인은 그대로 저장해 두고, 교사용 사본을 따로 만들어 주세요.
+- 빈칸·문항에 정답을 굵은 남색 글씨와 밑줄로 (빨간색만으로 표시하지 않기)
+- 꼬리표를 '교사용 · 정답'으로
+- 정답마다 판단 근거나 풀이를 한 줄씩
+- 정답이 없는 자료(포스터·안내장)라면, 대신 날짜·요일·연락처·숫자처럼 틀리기 쉬운 곳을 표로 뽑아 확인해 달라고 표시해 주세요.</pre>
+</div>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">비유 표현 찾기 활동지</span><span class="gist">직유·은유·의인 예문을 교사가 쓴 문장으로, 찾기 → 바꿔 쓰기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 비유 표현 찾기 활동지</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 학생 활동지 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 중학교 1학년 국어 / 꼬리표: 활동지
+- 제목: 비유 표현 찾고 바꿔 쓰기
+- 학습 목표: 직유법·은유법·의인법을 구별할 수 있다. / 비유 표현을 써서 문장을 바꿀 수 있다.
+
+활동 1 개념 정리 — 표: 표현 방법 | 뜻 | 알아보는 단서 (직유는 '~처럼, ~같이, ~듯이', 은유는 'A는 B이다', 의인은 사람이 아닌 것을 사람처럼)
+활동 2 찾기 — 아래 예문(교사가 쓴 문장)에서 비유 표현에 밑줄을 긋고 종류 쓰기
+- 운동장은 끝없는 바다 같았다.
+- 시간은 흐르는 강물이다.
+- 바람이 창문을 똑똑 두드렸다.
+- 별빛이 보석처럼 반짝였다.
+- 우리 반은 한 그루의 커다란 나무이다.
+활동 3 바꿔 쓰기 — '아침 교실'을 직유·은유·의인으로 한 문장씩
+
+예문 옆에는 그림 대신 작은 아이콘만, 교과서 지문·실제 작품은 넣지 않기
+마지막에 '오늘 배운 점' 2줄, 바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">정수와 유리수의 덧셈 형성평가지</span><span class="gist">5문항 + 풀이 칸, 수직선 그림 한 개</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 정수와 유리수의 덧셈 형성평가지</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 형성평가지 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 중학교 1학년 수학 / 꼬리표: 형성평가
+- 제목: 정수와 유리수의 덧셈
+- 학습 목표: 부호가 같은 수와 다른 수의 덧셈을 할 수 있다.
+
+문항 (번호마다 풀이 칸을 넉넉히)
+1. (+3) + (−5)
+2. (−4) + (−6)
+3. (+2/3) + (−1/6)
+4. (−0.5) + (+1.2)
+5. 수직선 위에서 −3에서 오른쪽으로 7만큼 간 점이 나타내는 수를 구하고, 수직선에 화살표로 나타내기
+
+- 1번 옆에 −6부터 +6까지 눈금이 있는 수직선 그림 하나 (풀이 예시 자리)
+- 분수는 가로선 분수로 바르게 쓰기, 음수 부호는 하이픈 말고 빼기 기호(−)로
+- 정답(−2, −10, 1/2, 0.7, 4)은 학생용에 넣지 말고, 만든 뒤 직접 다시 계산해서 맞는지 알려 주기
+- 맨 아래 '스스로 평가: 몇 문제 맞았나요? ___ / 5'
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">교실 영어 표현 포스터</span><span class="gist">A3 세로, 상황별 질문 표현 6개를 크게</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 교실 영어 표현 포스터</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 교실에 붙일 포스터를 만들어 주세요.
+
+- 크기: A3 세로 1쪽 (교실 뒤에서도 읽히게 영어 문장은 크게) / 대상: 중학교 1학년 영어 / 꼬리표: 교실 영어
+- 제목: Ask in English!
+
+상황별 카드 6개 (영어 문장을 크게, 아래에 작은 한국어 뜻)
+- 다시 말해 달라고 할 때: Could you say that again, please?
+- 철자를 물을 때: How do you spell it?
+- 질문이 있을 때: I have a question.
+- 화장실에 가고 싶을 때: May I go to the restroom?
+- 물건을 빌릴 때: Can I borrow your eraser?
+- 뜻을 물을 때: What does this word mean?
+
+- 카드마다 상황을 나타내는 단순한 아이콘 (사람 얼굴 사진은 쓰지 않기)
+- 카드 구분은 색만이 아니라 번호와 아이콘으로도
+- 영어 문법·철자를 다시 확인하고, 고친 곳이 있으면 알려 주기
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">과학실 안전 수칙 포스터</span><span class="gist">A3 세로, 그림 기호 + 짧은 문장 6개, 비상시 행동</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 과학실 안전 수칙 포스터</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 과학실에 붙일 안전 수칙 포스터를 만들어 주세요.
+
+- 크기: A3 세로 1쪽 / 대상: 중학생 / 꼬리표: 과학실 안전
+- 제목: 실험 전에 꼭 지켜요
+
+수칙 6개 (단순한 그림 기호 + 한 줄 문장)
+1. 실험복과 보안경을 바르게 착용한다.
+2. 실험대 위에서 음식을 먹거나 마시지 않는다.
+3. 가열 중인 시험관의 입구를 사람 쪽으로 향하지 않는다.
+4. 약품 냄새는 손으로 바람을 일으켜 조심스럽게 맡는다.
+5. 깨진 유리는 맨손으로 줍지 말고 선생님께 알린다.
+6. 실험이 끝나면 정리하고 손을 씻는다.
+
+- 아래 띠: '다치거나 약품이 몸에 묻으면 바로 선생님께 알려요'
+- 금지·주의 표시는 색만이 아니라 ✕·! 같은 기호로도 구별
+- 그림 기호는 직접 그린 단순한 모양으로 (다른 곳의 안전 표지 그림을 베끼지 않기)
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">지도의 기본 요소 형성평가지</span><span class="gist">방위·축척·범례·등고선, 축척 계산 한 문항</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 지도의 기본 요소 형성평가지</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 형성평가지 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 중학교 1학년 사회 / 꼬리표: 형성평가
+- 제목: 지도의 기본 요소
+- 학습 목표: 방위·축척·범례·등고선을 이용해 지도를 읽을 수 있다.
+
+- 가상의 마을 지도 한 장: 학교, 우체국, 하천, 산(등고선 3줄), 방위표(북쪽 화살표), 축척 막대, 범례. 실제 지역 지도를 베끼지 않기
+문항
+1. 학교에서 보아 우체국은 어느 방위에 있는가? (8방위 중에서)
+2. 범례를 보고 지도에 나온 기호 3개의 뜻 쓰기
+3. 축척이 1:50,000 인 지도에서 2cm 는 실제 거리로 몇 km 인가? (풀이 칸 — 정답 1km)
+4. 등고선 간격이 좁은 곳과 넓은 곳 중 경사가 급한 곳은?
+- 정답은 학생용에 넣지 말고, 3번 계산을 다시 해서 맞는지 알려 주기
+- 지도의 기호는 색만이 아니라 모양으로도 구별
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">박물관 관람 활동지</span><span class="gist">유물 3점 관찰 기록 칸, 관람 예절, 체험학습 날 들고 가는 한 장</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 박물관 관람 활동지</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 박물관 현장 체험 학습 활동지를 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상), 반으로 접어 들고 다니기 좋게 / 대상: 중학교 2학년 역사 / 꼬리표: 체험 학습
+- 제목: 박물관에서 유물과 대화하기
+
+- 맨 위: 관람 예절 4가지 (뛰지 않기, 유물에 손대지 않기, 플래시 끄기, 작은 목소리)
+- 관찰 기록 칸 3개: 유물 이름 | 시대 | 무엇에 썼을까? | 생김새 스케치 칸 | 더 알고 싶은 점
+- 마지막: '가장 기억에 남는 유물과 그 까닭' 3줄
+- 특정 박물관의 전시 내용이나 유물 설명은 지어내지 말고 빈칸으로 두기
+- 학생 사진·이름 칸 없이, 학년·반·번호만
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">사이버 언어폭력 예방 캠페인 포스터</span><span class="gist">A3, 바꿔 말하기 예시와 신고 창구 117</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 사이버 언어폭력 예방 포스터</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 교내 캠페인 포스터를 만들어 주세요.
+
+- 크기: A3 세로 1쪽 / 대상: 중학생 / 꼬리표: 바른 말 캠페인
+- 제목: 보내기 전에 한 번 더
+
+- 가운데: 단톡방 말풍선 그림 3쌍 — 상처 주는 말 대신 바꿔 말하기 예시 (욕설·비하 표현은 쓰지 않고 '놀리는 말' 정도로 순화해서)
+- 아래: '보내기 전 세 가지 질문' — 사실인가? 필요한가? 친절한가?
+- 맨 아래 띠: '도움이 필요하면 담임 선생님, 학교폭력 신고·상담 117'
+- 특정 학생이나 실제 사건을 떠올리게 하는 이름·사진은 넣지 않기
+- 말풍선 구분은 색만이 아니라 ✕·○ 기호로도
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">조리 실습 안내장과 알레르기 회신서</span><span class="gist">실습 일정·준비물 안내 + 절취선 아래 알레르기 확인 회신</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 조리 실습 안내장</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 가정에 보낼 조리 실습 안내장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 중학교 1학년 보호자 / 꼬리표: 가정 안내
+- 제목: 조리 실습 안내와 식품 알레르기 확인
+
+- 위쪽 안내: 실습 날짜 [날짜], 요리 [요리 이름], 준비물 [준비물], 위생 수칙(손 씻기, 앞치마·두건)
+- 문장은 보호자께 드리는 높임말로 짧게
+- 가운데 절취선(✂ 표시)
+- 아래 회신서: 학년·반·번호, 식품 알레르기 있음/없음 체크, 있으면 식품 이름 쓰는 칸, 보호자 확인 칸
+- 연락처는 학교 대표 번호 [전화번호]만, 교사 개인 번호는 넣지 않기
+- [ ] 자리는 비워 두고, 날짜를 넣으면 요일이 맞는지 확인해 달라고 표시
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">안전한 비밀번호 포스터</span><span class="gist">A3, 좋은 비밀번호 습관 5가지와 나쁜 예·좋은 예</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 안전한 비밀번호 포스터</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 컴퓨터실에 붙일 포스터를 만들어 주세요.
+
+- 크기: A3 세로 1쪽 / 대상: 중학생 / 꼬리표: 정보 보호
+- 제목: 내 계정을 지키는 비밀번호 습관
+
+습관 5가지 (아이콘 + 한 줄)
+1. 짧은 단어 대신 길게 — 여러 낱말을 이은 문장형
+2. 사이트마다 다른 비밀번호
+3. 생일·전화번호·이름처럼 알아내기 쉬운 정보 쓰지 않기
+4. 친구에게도 알려 주지 않기
+5. 2단계 인증 켜기
+
+- 가운데: '나쁜 예 ✕ / 좋은 예 ○' 비교 상자 (예시는 실제로 쓰지 않을 가짜 비밀번호로, '이 예시를 그대로 쓰지 마세요' 문구)
+- 나쁜 예·좋은 예 구분은 색만이 아니라 ✕·○ 기호로도
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">빠르기말 감상 활동지</span><span class="gist">빠르기말 5개 표 + 감상하며 고르기 + 느낌 쓰기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 빠르기말 감상 활동지</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 음악 감상 활동지 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 중학교 1학년 음악 / 꼬리표: 감상 활동
+- 제목: 빠르기말을 듣고 느껴요
+- 학습 목표: 빠르기말의 뜻을 알고, 음악을 들으며 빠르기를 구별할 수 있다.
+
+활동 1 표: 빠르기말 | 읽는 법 | 뜻 — Largo(라르고, 아주 느리고 폭넓게), Andante(안단테, 느리게·걷는 빠르기로), Moderato(모데라토, 보통 빠르게), Allegro(알레그로, 빠르게), Presto(프레스토, 아주 빠르게)
+- 느린 것에서 빠른 것 순서로, 거북이 → 토끼 같은 단순한 그림 막대로 빠르기를 함께 나타내기
+활동 2 감상 — 곡 1~3을 듣고 빠르기말 고르기 표 (곡 이름·작곡가·음원 출처 칸은 비워 두기, 곡은 교사가 정함)
+활동 3 느낌 쓰기 — 가장 마음에 든 곡과 그 까닭 2줄
+- 가사·악보는 넣지 않기
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">색의 3요소 활동지</span><span class="gist">색상·명도·채도 개념 + 단계 칠하기 칸 + 우리 학교 색 분석</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 색의 3요소 활동지</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 미술 활동지 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 중학교 1학년 미술 / 꼬리표: 활동지
+- 제목: 색의 3요소로 색 읽기
+- 학습 목표: 색상·명도·채도의 뜻을 설명하고, 색을 세 요소로 나누어 말할 수 있다.
+
+활동 1 개념 — 색상(빨강·노랑·파랑처럼 색의 이름), 명도(밝고 어두운 정도), 채도(맑고 탁한 정도)를 한 줄씩
+활동 2 칠하기 — 명도 5단계 칸, 채도 5단계 칸 (흑백으로 인쇄해도 칸 테두리와 번호가 보이게, 칸은 비워 두기)
+활동 3 우리 학교 색 분석 — 디자인 시스템의 주색·보조색·강조색 견본을 작게 보여 주고, 각각 색상·명도·채도를 말로 적는 칸
+활동 4 생각 — 흑백으로 인쇄하면 세 색이 어떻게 보일지 예상 쓰기
+- 색 견본 아래에는 색 이름도 글자로 적기
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">학급 대항 경기 안내 포스터</span><span class="gist">A3, 종목·일정·안전 수칙, 날짜는 자리만</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 학급 대항 경기 안내 포스터</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 복도에 붙일 안내 포스터를 만들어 주세요.
+
+- 크기: A3 세로 1쪽 / 대상: 중학교 전교생 / 꼬리표: 체육 행사
+- 제목: 학급 대항 피구·줄넘기 대회
+
+- 일정 표: 종목 | 날짜 [날짜] | 시간 [시간] | 장소 [장소] — [ ] 자리는 비워 두기
+- 참가 방법: 학급별 [인원]명, 담임 선생님께 신청
+- 안전 수칙 4가지: 준비 운동, 실내화 말고 운동화, 몸이 아프면 바로 말하기, 심판 판정 존중
+- 종목 그림은 단순한 사람 실루엣 (실제 학생 사진은 쓰지 않기)
+- 날짜를 넣으면 요일이 맞는지 확인해 달라고 표시
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">직업인 인터뷰 활동지</span><span class="gist">질문 준비 → 인터뷰 기록 → 나와의 연결</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 직업인 인터뷰 활동지</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 진로 활동지 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 중학교 2학년 진로 / 꼬리표: 진로 활동
+- 제목: 직업인 인터뷰 — 일의 세계 들여다보기
+- 학습 목표: 직업인 인터뷰로 직업의 하는 일과 필요한 능력을 알아볼 수 있다.
+
+활동 1 질문 준비 — 기본 질문 3개(하는 일, 필요한 능력, 이 일을 하게 된 계기)와 내가 만든 질문 2개 칸
+활동 2 인터뷰 기록 — 질문별 답 기록 칸, 인터뷰 날짜와 방법(만남·전화·영상) 체크
+활동 3 나와의 연결 — 이 직업과 나의 흥미·강점이 닮은 점 / 더 알아보고 싶은 것
+- 인터뷰한 분의 실명·연락처는 쓰지 않고 '직업 이름'만 쓰는 칸
+- 성별·나이로 직업을 짐작하는 표현이나 그림은 넣지 않기
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임업무</span><span class="topic">학부모 상담 주간 가정통신문</span><span class="gist">안내 + 절취선 아래 상담 희망 시간 회신서</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임업무 · 학부모 상담 주간 가정통신문</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 가정통신문 한 장을 만들어 주세요.
+
+- 크기: A4 세로 1쪽, 인쇄용 (본문 11pt 이상) / 대상: 보호자 / 꼬리표: 가정통신문
+- 제목: 학부모 상담 주간 안내
+
+- 머리: 학교 이름, 문서 번호 자리 [  ], 날짜 [날짜]
+- 본문: 상담 기간 [기간], 방법(방문·전화), 신청 방법과 마감 [날짜]. 높임말로 짧게, 3문단 이내
+- 가운데 절취선(✂ 표시)
+- 아래 회신서: 학년·반·번호, 학생 이름 칸(보호자가 손으로 씀), 상담 방법 체크, 희망 날짜·시간 표(요일별 칸), 상담하고 싶은 내용 칸
+- 연락처는 학교 대표 번호 [전화번호]만
+- [ ] 자리는 비워 두고, 날짜를 넣으면 요일이 맞는지 확인해 달라고 표시
+바닥글: '○○중학교장' (AI 도움 표시는 학교 지침에 따름)</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임업무</span><span class="topic">우리 반 1인 1역할 게시물</span><span class="gist">A3 가로, 역할 카드 12개, 이름은 출력 뒤 손으로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임업무 · 1인 1역할 게시물</span><button type="button">복사</button></div><pre>'○○중 수업자료' 디자인 시스템으로 교실 게시물을 만들어 주세요.
+
+- 크기: A3 가로 1쪽 / 대상: 우리 반 학생 / 꼬리표: 우리 반
+- 제목: 우리 반을 움직이는 1인 1역할
+
+- 역할 카드 12개 (아이콘 + 역할 이름 + 한 줄 설명 + 이름 쓰는 빈칸): 칠판 정리, 분리배출, 창문 관리, 우유·급식 도우미, 우편함 정리, 화분 물 주기, 전등 끄기, 출석부 전달, 게시판 관리, 체육 기구 정리, 컴퓨터·TV 끄기, 학급 문고 정리
+- 학생 이름은 넣지 말고 빈칸으로 (출력한 뒤 손으로 씀)
+- 맨 아래: '한 달마다 역할을 바꿔요'
+- 카드 구분은 색만이 아니라 번호와 아이콘으로도
+바닥글: 'AI 도움을 받아 만들고 교사가 검토함'</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  디자인 시스템은 <b>«매번 하던 꾸미기 설명»을 한 번 정해 둔 것</b>입니다. 12차시 스킬이 학습지의 <b>양식</b>을 굳혔다면, 디자인 시스템은 <b>색·글꼴·모양</b>을 굳힙니다. 그래서 활동지를 부탁할 때는 내용만 말합니다. 고칠 때는 <b>큰 변화는 대화로, 한 곳은 댓글로, 작은 위치는 직접</b> 고칩니다. 그리고 «예쁘게»보다 <b>«인쇄했을 때 읽히게»</b>가 먼저입니다 — 흑백, 글자 크기, 쓰기 칸. 내용이 맞는지는 끝까지 교사가 봅니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>디자인 시스템 메뉴가 없다</b> — 무료 플랜에는 디자인 시스템이 없습니다. 프롬프트 1의 «색»부터 «규칙»까지를 복사해 프롬프트 3의 첫 줄 대신 붙여 넣으면 같은 모양을 부탁할 수 있습니다(다음에도 매번 붙여 넣어야 함). Enterprise 는 소유자가 조직 설정 → 아티팩트에서 «디자인 시스템»을 켜야 합니다.<br>
+  · <b>출력(Output)에 디자인이 없다 / 아티팩트 탭이 없다</b> — 설정 → Capabilities 의 «Cloud code execution and file creation»이 켜져 있는지 봅니다. 기관 계정은 관리자가 Design 템플릿을 꺼 두었을 수 있습니다. 그때는 <a href="l12.html">12차시</a>나 <a href="l04.html">4차시</a> 방법으로 코워크에서 문서 활동지를 만듭니다.<br>
+  · <b>색·글꼴이 디자인 시스템과 다르게 나온다</b> — 4단계에서 디자인 시스템을 골랐는지 봅니다. «'○○중 수업자료' 디자인 시스템의 색 값·글꼴과 다른 곳을 찾아 고쳐 주세요»라고 부탁합니다.<br>
+  · <b>댓글이 반영되지 않는다</b> — 도움말이 밝힌 알려진 문제입니다. 같은 내용을 대화창에 붙여 넣습니다. 캔버스에 댓글이 안 보이면 댓글 보기에서 찾습니다.<br>
+  · <b>«chat upstream error» 가 뜬다</b> — 도움말은 같은 프로젝트에서 새 채팅 탭을 열어 다시 해 보라고 안내합니다.<br>
+  · <b>사용 한도에 닿았다</b> — 한도가 초기화될 때까지 클로드 디자인을 쓸 수 없습니다. 고칠 점을 하나씩 보내지 말고 여러 개를 묶어 한 번에 말하면 덜 씁니다.<br>
+  · <b>지도가 어색하다</b> — «대륙은 빼고 위선·경선 격자와 점만 남겨 주세요»라고 단순하게 바꾸거나, 저작권을 확인한 지도 그림을 올려 그 위에 점을 찍게 합니다.<br>
+  · <b>예전 독립 화면(claude.ai/design)에서 만든 디자인 시스템이 있다</b> — 2026년 12월 14일에 닫히기 전에 옮깁니다. 사이드바 아래 <b>Design</b> 탭의 배너에서 «Move team design systems» 를 누르면 대화에서 쓸 수 있는 아티팩트가 됩니다.
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=q8wJ1WjtdN4" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/q8wJ1WjtdN4/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">7:35</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">Claude Design 디자인 시스템 만들고 앱·슬라이드에 같은 스타일 재사용하기 - 클로드 디자인 강좌 03</span><span class="ch">디자인베이스 · 유튜브</span><span class="why">만든 결과물을 디자인 시스템으로 정리하고, 다른 작업에서도 같은 스타일을 다시 쓰는 방법을 다룹니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=yxTOMFDIsbA" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/yxTOMFDIsbA/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">6:51</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">Claude Design 퀄리티 높이는 법 | 디자인 브리프와 레퍼런스 활용하기 - 클로드 디자인 강좌 02</span><span class="ch">디자인베이스 · 유튜브</span><span class="why">모든 판단을 AI에게 맡기지 않고 디자인 브리프와 참고 자료로 결과물의 방향을 잡는 방법을 다룹니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=a90soXnSCD8" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/a90soXnSCD8/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">8:32</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">강의안·카드뉴스, 클로드 디자인으로 10분 컷</span><span class="ch">유튜브신쌤 · 유튜브</span><span class="why">클로드 디자인으로 강의 슬라이드와 카드뉴스를 만드는 과정을 다룹니다. 수업 자료를 만드는 교사에게 가까운 예입니다.</span></span>
+  </a>
+</div>
+
+<p><small>출처: Claude 도움말 <a href="https://support.claude.com/ko/articles/14604416" target="_blank" rel="noopener">Claude Design 시작하기</a>(<a href="https://support.claude.com/en/articles/14604416-get-started-with-claude-design" target="_blank" rel="noopener">영어판</a>) — 플랜, 여는 곳, 넣을 수 있는 것, 대화·댓글·직접 편집, 내보내기 형식, 공유, 사용량, 알려진 제한 · <a href="https://support.claude.com/en/articles/14604397-set-up-your-design-system-in-claude-design" target="_blank" rel="noopener">Set up your design system in Claude Design</a> — 디자인 시스템 플랜(베타), 채팅에서 만들기, 관리 위치, 독립 화면에서 옮기기 · <a href="https://support.claude.com/en/articles/17153992-what-are-artifacts-and-how-do-i-use-them" target="_blank" rel="noopener">What are artifacts and how do I use them?</a> — 템플릿, 출력 메뉴, 켜야 할 설정, 내보내기 · <a href="https://support.claude.com/en/articles/9547008" target="_blank" rel="noopener">Share artifacts</a> — 플랜별 공유 범위와 권한 · <a href="https://support.claude.com/en/articles/16994751" target="_blank" rel="noopener">Artifacts admin guide for Team and Enterprise plans</a> — Enterprise 기본값, 디자인 시스템을 기관 전체에 나누는 권한 · <a href="https://support.claude.com/en/articles/14604406-claude-design-admin-guide-for-team-and-enterprise-plans" target="_blank" rel="noopener">Claude Design admin guide for Team and Enterprise plans</a> · <a href="https://support.claude.com/en/articles/12138966-release-notes" target="_blank" rel="noopener">Release notes</a>(2026-09-16, Enterprise 베타) (2026-11-15 확인). 글꼴 라이선스: Pretendard(OFL-1.1, npm 패키지 정보), 나눔고딕(SIL OFL 1.1). 결과 예시 지도는 Natural Earth 공개 자료를 world-atlas 2.0.2 로 그렸습니다.</small></p>
+
+<div class="pager">
+  <a href="l17.html"><span class="k">← 이전</span>17차시 · 내레이션과 배경음악 넣기</a>
+  <a class="next" href="p1.html"><span class="k">다음 →</span>P1 · 단원 설계와 자료 모으기</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>가정의 에너지 절약 — 카드뉴스와 개념 도식</title>
+<!-- 클로드 중급과정 10차시 «결과 예시». 한 파일 · 인터넷 없이 열린다. 연수용 가상 자료.
+     카드는 SVG로 그렸고, «PNG로 저장» 단추가 브라우저 안에서 SVG → 캔버스 → PNG 로 바꿔 내려받는다(외부 라이브러리 없음).
+     통계 수치는 넣지 않고 일반적인 실천 방법만 담았다. -->
+<style>
+  :root{--bg:#F3EEE5; --ink:#1F2A2E; --muted:#5E6B6E; --teal:#0F5257; --line:#DDD3C2}
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+       font-size:17px; line-height:1.6; word-break:keep-all}
+  .wrap{max-width:1240px; margin:0 auto; padding:24px 16px 48px}
+  h1{font-size:clamp(24px,4vw,32px); margin:0 0 4px}
+  h2{font-size:21px; margin:34px 0 10px}
+  .sub{color:var(--muted); margin:0 0 14px}
+  .bar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:10px 0 18px}
+  button{font:inherit; font-weight:800; font-size:15.5px; color:#fff; background:var(--teal); border:0; border-radius:10px; padding:8px 14px; cursor:pointer}
+  button:focus-visible{outline:3px solid #E8743B; outline-offset:3px}
+  .cards{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+  @media (max-width:980px){ .cards{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:480px){ .cards{grid-template-columns:1fr} }
+  figure{margin:0}
+  figure svg{display:block; width:100%; height:auto; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.12); background:#fff}
+  figcaption{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:8px; color:var(--muted); font-size:14.5px}
+  .msg{color:var(--teal); font-weight:700; min-height:1.6em}
+  .note{color:var(--muted); font-size:14.5px; margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>가정의 에너지 절약</h1>
+  <p class="sub">중학교 기술·가정 카드뉴스 4장과 개념 도식 1장 · 연수용 가상 자료</p>
+  <div class="bar">
+    <button type="button" id="all">카드 4장 모두 PNG로 저장</button>
+    <button type="button" data-png="diagram" data-w="1600" data-h="1000" data-name="energy-diagram.png">개념 도식 PNG로 저장</button>
+    <span class="msg" id="msg" aria-live="polite"></span>
+  </div>
+
+  <h2>카드뉴스 (1080×1350)</h2>
+  <div class="cards">
+<figure class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif" role="img" aria-label="카드 1 표지: 우리 집 에너지, 새는 곳을 막아라! 오늘부터 할 수 있는 실천 3가지 — 전기, 냉난방, 가전제품" id="card1">
+<rect width="1080" height="1350" fill="#FFF8EC"/>
+<rect width="1080" height="18" fill="#0F5257"/>
+<text x="80" y="104" font-size="30" font-weight="700" fill="#1B7A80">카드뉴스 · 가정의 에너지 절약</text>
+<text x="1000" y="104" font-size="30" font-weight="700" fill="#5E6B6E" text-anchor="end">1 / 4</text>
+<text x="80" y="300" font-size="100" font-weight="900" fill="#1F2A2E" letter-spacing="-3">우리 집 에너지,</text>
+<text x="80" y="420" font-size="100" font-weight="900" fill="#E8743B" letter-spacing="-3">새는 곳을 막아라!</text>
+<text x="80" y="505" font-size="42" fill="#5E6B6E">오늘부터 할 수 있는 실천 3가지</text>
+<g transform="translate(540 860)">
+  <path d="M-300 -40 L0 -280 L300 -40" fill="none" stroke="#0F5257" stroke-width="26" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="-240" y="-60" width="480" height="330" rx="22" fill="#fff" stroke="#0F5257" stroke-width="14"/>
+  <rect x="-170" y="10" width="140" height="120" rx="12" fill="#FFC845"/>
+  <path d="M-100 10 v120 M-170 70 h140" stroke="#fff" stroke-width="8"/>
+  <rect x="40" y="70" width="120" height="200" rx="12" fill="#1B7A80"/>
+  <circle cx="140" cy="175" r="9" fill="#fff"/>
+  <g transform="translate(-120 210)" fill="none" stroke="#E8743B" stroke-width="10" stroke-linecap="round"><rect x="-40" y="-26" width="80" height="52" rx="12" fill="#fff"/><path d="M-16 -26 v-20 M16 -26 v-20"/></g>
+  <path d="M260 -10 l40 -30 M280 40 l50 -6 M262 90 l42 28" stroke="#E8743B" stroke-width="12" stroke-linecap="round"/>
+  <path d="M-262 -10 l-40 -30 M-280 40 l-50 -6" stroke="#E8743B" stroke-width="12" stroke-linecap="round"/>
+</g>
+<g font-size="36" font-weight="800">
+  <rect x="80" y="1160" width="240" height="70" rx="35" fill="#E8743B"/><text x="200" y="1208" fill="#fff" text-anchor="middle">① 전기</text>
+  <rect x="340" y="1160" width="270" height="70" rx="35" fill="#1B7A80"/><text x="475" y="1208" fill="#fff" text-anchor="middle">② 냉난방</text>
+  <rect x="630" y="1160" width="300" height="70" rx="35" fill="#0F5257"/><text x="780" y="1208" fill="#fff" text-anchor="middle">③ 가전제품</text>
+</g>
+<text x="80" y="1290" font-size="26" fill="#5E6B6E">중학교 기술·가정 · 연수용 가상 자료</text>
+</svg>
+  <figcaption><span>카드 1 · 1080×1350</span><button type="button" data-png="card1" data-w="1080" data-h="1350" data-name="energy-card-1.png">PNG로 저장</button></figcaption>
+</figure><figure class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif" role="img" aria-label="카드 2 전기: 대기전력을 잡아요 — 멀티탭 스위치 끄기, 다 쓴 충전기는 뽑기, 빈 방 불 끄기" id="card2">
+<rect width="1080" height="1350" fill="#FFF8EC"/>
+<rect width="1080" height="18" fill="#0F5257"/>
+<text x="80" y="104" font-size="30" font-weight="700" fill="#1B7A80">가정의 에너지 절약</text>
+<text x="1000" y="104" font-size="30" font-weight="700" fill="#5E6B6E" text-anchor="end">2 / 4</text>
+<rect x="80" y="150" width="236" height="70" rx="35" fill="#E8743B"/>
+<text x="110" y="200" font-size="40" font-weight="800" fill="#fff">① 전기</text>
+<text x="80" y="320" font-size="78" font-weight="900" fill="#1F2A2E" letter-spacing="-2">대기전력을 잡아요</text>
+<rect x="80" y="370" width="920" height="200" rx="28" fill="#0F5257"/>
+<text x="120" y="432" font-size="34" font-weight="800" fill="#FFC845">대기전력이란?</text>
+<text x="120" y="492" font-size="36" fill="#fff">제품을 쓰지 않을 때도 플러그가 꽂혀 있으면</text>
+<text x="120" y="540" font-size="36" fill="#fff">조금씩 쓰일 수 있는 전기예요.</text>
+<g transform="translate(80 615)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#E8743B"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><rect x="-44" y="-18" width="88" height="40" rx="10"/><circle cx="-20" cy="2" r="6"/><circle cx="6" cy="2" r="6"/><rect x="24" y="-6" width="12" height="16" rx="3" fill="#fff"/><path d="M-44 2 h-10 q-10 0 -10 14"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">멀티탭 스위치 끄기</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">잘 때·외출할 때 한 번에 딸깍</text>
+</g><g transform="translate(80 830)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#E8743B"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><rect x="-22" y="-20" width="44" height="34" rx="8"/><path d="M-10 -20 v-18 M10 -20 v-18 M0 14 v14 q0 14 16 14 h14"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">다 쓴 충전기는 뽑기</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">충전이 끝나면 콘센트에서 빼요</text>
+</g><g transform="translate(80 1045)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#E8743B"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M-22 6 a30 30 0 1 1 44 0 q-8 9 -8 18 h-28 q0 -9 -8 -18z"/><path d="M-12 34 h24 M-8 44 h16"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">빈 방 불 끄기</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">전등을 바꿀 때는 LED 조명으로</text>
+</g>
+<text x="80" y="1290" font-size="26" fill="#5E6B6E">중학교 기술·가정 · 연수용 가상 자료</text>
+</svg>
+  <figcaption><span>카드 2 · 1080×1350</span><button type="button" data-png="card2" data-w="1080" data-h="1350" data-name="energy-card-2.png">PNG로 저장</button></figcaption>
+</figure><figure class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif" role="img" aria-label="카드 3 냉난방: 알맞은 온도를 지켜요 — 여름엔 선풍기와 함께, 겨울엔 옷을 겹쳐 입기, 틈새 바람 막기" id="card3">
+<rect width="1080" height="1350" fill="#FFF8EC"/>
+<rect width="1080" height="18" fill="#0F5257"/>
+<text x="80" y="104" font-size="30" font-weight="700" fill="#1B7A80">가정의 에너지 절약</text>
+<text x="1000" y="104" font-size="30" font-weight="700" fill="#5E6B6E" text-anchor="end">3 / 4</text>
+<rect x="80" y="150" width="280" height="70" rx="35" fill="#1B7A80"/>
+<text x="110" y="200" font-size="40" font-weight="800" fill="#fff">② 냉난방</text>
+<text x="80" y="320" font-size="78" font-weight="900" fill="#1F2A2E" letter-spacing="-2">알맞은 온도를 지켜요</text><g transform="translate(80 380)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#1B7A80"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><circle r="38"/><circle r="6" fill="#fff"/><path d="M0 -6 q-6 -22 6 -28 q12 6 0 28 M5 3 q22 -4 26 10 q-8 12 -26 -6 M-5 3 q-14 18 -26 10 q0 -14 26 -10"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">여름엔 선풍기와 함께</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">냉방 중에는 문과 창문을 닫아요</text>
+</g><g transform="translate(80 600)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#1B7A80"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M-16 -34 l-28 14 l10 22 l10 -5 v41 h48 v-41 l10 5 l10 -22 l-28 -14 q-16 14 -32 0z"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">겨울엔 옷을 겹쳐 입기</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">내복·카디건으로 체온을 지켜요</text>
+</g><g transform="translate(80 820)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#1B7A80"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><rect x="-40" y="-36" width="80" height="72" rx="4"/><path d="M-40 -36 q14 36 0 72 M40 -36 q-14 36 0 72 M-40 -36 h80"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">틈새 바람 막기</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">문풍지·두꺼운 커튼을 활용해요</text>
+</g>
+<rect x="80" y="1050" width="920" height="150" rx="28" fill="#FFC845"/>
+<text x="540" y="1112" font-size="36" font-weight="800" fill="#1F2A2E" text-anchor="middle">냉방·난방 온도를 조금만 조절해도</text>
+<text x="540" y="1162" font-size="36" font-weight="800" fill="#1F2A2E" text-anchor="middle">에너지를 아낄 수 있어요.</text>
+<text x="80" y="1290" font-size="26" fill="#5E6B6E">중학교 기술·가정 · 연수용 가상 자료</text>
+</svg>
+  <figcaption><span>카드 3 · 1080×1350</span><button type="button" data-png="card3" data-w="1080" data-h="1350" data-name="energy-card-3.png">PNG로 저장</button></figcaption>
+</figure><figure class="card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif" role="img" aria-label="카드 4 가전제품: 고르고 쓰는 습관 — 효율 등급 라벨 확인, 냉장고 문은 짧게, 빨래는 모아서 한 번에" id="card4">
+<rect width="1080" height="1350" fill="#FFF8EC"/>
+<rect width="1080" height="18" fill="#0F5257"/>
+<text x="80" y="104" font-size="30" font-weight="700" fill="#1B7A80">가정의 에너지 절약</text>
+<text x="1000" y="104" font-size="30" font-weight="700" fill="#5E6B6E" text-anchor="end">4 / 4</text>
+<rect x="80" y="150" width="324" height="70" rx="35" fill="#0F5257"/>
+<text x="110" y="200" font-size="40" font-weight="800" fill="#fff">③ 가전제품</text>
+<text x="80" y="320" font-size="78" font-weight="900" fill="#1F2A2E" letter-spacing="-2">고르고 쓰는 습관</text><g transform="translate(80 380)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#0F5257"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><rect x="-32" y="-40" width="64" height="80" rx="6"/><path d="M-18 -22 h14 M-18 -6 h22 M-18 10 h30 M-18 26 h36" stroke-width="8"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">효율 등급 라벨 확인</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">1등급에 가까울수록 효율이 높아요</text>
+</g><g transform="translate(80 600)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#0F5257"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><rect x="-26" y="-40" width="52" height="80" rx="7"/><path d="M-26 -8 h52 M-14 -26 v8 M-14 6 v14"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">냉장고 문은 짧게</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">뜨거운 음식은 한 김 식혀서 넣어요</text>
+</g><g transform="translate(80 820)">
+  <rect width="920" height="190" rx="28" fill="#fff" stroke="#EADFCB" stroke-width="3"/>
+  <circle cx="110" cy="95" r="66" fill="#0F5257"/><g transform="translate(110 95)"><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><rect x="-36" y="-38" width="72" height="76" rx="8"/><circle cy="8" r="20"/><path d="M-24 -26 h12"/></g></g>
+  <text x="212" y="84" font-size="46" font-weight="800" fill="#1F2A2E">빨래는 모아서 한 번에</text>
+  <text x="212" y="138" font-size="32" fill="#5E6B6E">세탁기 돌리는 횟수를 줄여요</text>
+</g>
+<rect x="80" y="1050" width="920" height="150" rx="28" fill="#E8743B"/>
+<text x="540" y="1120" font-size="44" font-weight="900" fill="#fff" text-anchor="middle">오늘 하나만 골라 실천해 봐요!</text>
+<text x="540" y="1170" font-size="28" fill="#fff" text-anchor="middle">카드에 담은 내용은 일반적인 실천 방법이에요.</text>
+<text x="80" y="1290" font-size="26" fill="#5E6B6E">중학교 기술·가정 · 연수용 가상 자료</text>
+</svg>
+  <figcaption><span>카드 4 · 1080×1350</span><button type="button" data-png="card4" data-w="1080" data-h="1350" data-name="energy-card-4.png">PNG로 저장</button></figcaption>
+</figure>
+  </div>
+
+  <h2>개념 도식 (1600×1000)</h2>
+  <figure class="dia"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif" role="img" aria-label="개념 도식: 가운데 가정의 에너지 절약에서 전기, 냉난방, 가전제품 세 갈래로 나뉘고, 갈래마다 실천 방법 세 가지가 이어진다. 맨 위에는 왜 아껴야 할까 — 에너지 자원 아끼기, 온실가스 줄이기, 전기 요금 줄이기." id="diagram"><rect width="1600" height="1000" fill="#FFF8EC"/><path d="M800 158 V270" stroke="#5E6B6E" stroke-width="5" stroke-dasharray="4 10" stroke-linecap="round"/><path d="M800 390 C800 480 270 480 270 575" fill="none" stroke="#E8743B" stroke-width="8"/><path d="M270 665 V875" stroke="#E8743B" stroke-width="5"/><path d="M800 390 C800 480 800 480 800 575" fill="none" stroke="#1B7A80" stroke-width="8"/><path d="M800 665 V875" stroke="#1B7A80" stroke-width="5"/><path d="M800 390 C800 480 1330 480 1330 575" fill="none" stroke="#0F5257" stroke-width="8"/><path d="M1330 665 V875" stroke="#0F5257" stroke-width="5"/><rect x="210.0" y="62.0" width="1180" height="96" rx="26" fill="#fff" stroke="#EADFCB" stroke-width="3"/><text x="800" y="121.52" font-size="32" font-weight="700" fill="#1F2A2E" text-anchor="middle">왜 아껴야 할까?  에너지 자원 아끼기 · 온실가스 줄이기 · 전기 요금 줄이기</text><rect x="570.0" y="270.0" width="460" height="120" rx="26" fill="#1F2A2E"/><text x="800" y="347.28" font-size="48" font-weight="800" fill="#fff" text-anchor="middle">가정의 에너지 절약</text><rect x="140.0" y="575.0" width="260" height="90" rx="26" fill="#E8743B"/><text x="270" y="635.12" font-size="42" font-weight="800" fill="#fff" text-anchor="middle">전기</text><rect x="40.0" y="695.0" width="460" height="70" rx="26" fill="#fff" stroke="#E8743B" stroke-width="3"/><text x="270" y="740.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">멀티탭 스위치 끄기</text><rect x="40.0" y="785.0" width="460" height="70" rx="26" fill="#fff" stroke="#E8743B" stroke-width="3"/><text x="270" y="830.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">다 쓴 충전기 뽑기</text><rect x="40.0" y="875.0" width="460" height="70" rx="26" fill="#fff" stroke="#E8743B" stroke-width="3"/><text x="270" y="920.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">빈 방 불 끄기·LED 조명</text><rect x="670.0" y="575.0" width="260" height="90" rx="26" fill="#1B7A80"/><text x="800" y="635.12" font-size="42" font-weight="800" fill="#fff" text-anchor="middle">냉난방</text><rect x="570.0" y="695.0" width="460" height="70" rx="26" fill="#fff" stroke="#1B7A80" stroke-width="3"/><text x="800" y="740.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">알맞은 실내 온도 지키기</text><rect x="570.0" y="785.0" width="460" height="70" rx="26" fill="#fff" stroke="#1B7A80" stroke-width="3"/><text x="800" y="830.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">옷 겹쳐 입기·선풍기 함께</text><rect x="570.0" y="875.0" width="460" height="70" rx="26" fill="#fff" stroke="#1B7A80" stroke-width="3"/><text x="800" y="920.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">문풍지·커튼으로 틈새 막기</text><rect x="1200.0" y="575.0" width="260" height="90" rx="26" fill="#0F5257"/><text x="1330" y="635.12" font-size="42" font-weight="800" fill="#fff" text-anchor="middle">가전제품</text><rect x="1100.0" y="695.0" width="460" height="70" rx="26" fill="#fff" stroke="#0F5257" stroke-width="3"/><text x="1330" y="740.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">효율 등급 라벨 확인하기</text><rect x="1100.0" y="785.0" width="460" height="70" rx="26" fill="#fff" stroke="#0F5257" stroke-width="3"/><text x="1330" y="830.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">냉장고 문 짧게 열기</text><rect x="1100.0" y="875.0" width="460" height="70" rx="26" fill="#fff" stroke="#0F5257" stroke-width="3"/><text x="1330" y="920.44" font-size="29" font-weight="600" fill="#1F2A2E" text-anchor="middle">빨래 모아서 한 번에</text><text x="1560" y="980" font-size="22" fill="#5E6B6E" text-anchor="end">중학교 기술·가정 · 일반적인 실천 방법 · 연수용 가상 자료</text></svg></figure>
+
+  <p class="note">카드에는 통계 수치를 넣지 않고 일반적인 실천 방법만 담았습니다. 숫자를 넣을 때는 출처(기관·연도)를 함께 적습니다. «PNG로 저장»은 인터넷 없이 브라우저 안에서 바뀝니다. 여러 장을 한 번에 저장할 때 브라우저가 «여러 파일 다운로드»를 물으면 허용합니다.</p>
+</div>
+<script>
+(function(){
+  var msg = document.getElementById('msg');
+  function save(id, w, h, name){
+    return new Promise(function(done){
+      var svg = document.getElementById(id).cloneNode(true);
+      svg.setAttribute('width', w); svg.setAttribute('height', h);
+      var src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+      var img = new Image();
+      img.onload = function(){
+        var c = document.createElement('canvas'); c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        c.toBlob(function(b){
+          var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name;
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+          msg.textContent = name + ' 저장 ✓'; done();
+        }, 'image/png');
+      };
+      img.onerror = function(){ msg.textContent = '바꾸지 못했습니다. 크롬이나 엣지에서 열어 주세요.'; done(); };
+      img.src = src;
+    });
+  }
+  document.querySelectorAll('button[data-png]').forEach(function(b){
+    b.addEventListener('click', function(){ save(b.dataset.png, +b.dataset.w, +b.dataset.h, b.dataset.name); });
+  });
+  document.getElementById('all').addEventListener('click', function(){
+    var bs = Array.prototype.slice.call(document.querySelectorAll('.cards button[data-png]'));
+    bs.reduce(function(p, b){ return p.then(function(){ return save(b.dataset.png, +b.dataset.w, +b.dataset.h, b.dataset.name); }).then(function(){ return new Promise(function(r){ setTimeout(r, 400); }); }); }, Promise.resolve())
+      .then(function(){ msg.textContent = '카드 4장 저장 ✓'; });
+  });
+})();
+</script>
+</body>
+</html>

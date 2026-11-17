@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>16차시 수업 녹화 편집하기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">16차시 · Ⅳ. 영상과 소리</div>
+  <h1>수업 녹화 편집하기</h1>
+  <p class="sub">혼자 녹화한 개념 설명 영상에서 쉬는 구간과 말 실수를 잘라 내고, 음량을 맞추고, 받아쓰기로 자막 파일(SRT)을 만듭니다. 편집 프로그램 없이 편집 기준을 말로 맡깁니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 클로드 코드 (Code 탭) + FFmpeg · 받아쓰기(Whisper 등) — 모두 무료</span>
+    <span class="badge learn">핵심 기법 · 편집 기준표를 먼저 쓰고, 클립 목록으로 검수</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>1분 남짓한 녹화에서 앞뒤 준비 화면·긴 쉼·말 실수를 잘라 40초 안팎의 편집본과 자막 파일을 만든다 (예시: 중학교 국어 «품사의 갈래» 설명 녹화)</dd>
+    <dt>준비물</dt><dd>내가 <b>혼자</b> 녹화한 영상의 복사본, 또는 연습용 <a href="samples/l16-practice.zip" download>l16-practice.zip</a>(원본_품사설명.mp4 + 대본.txt, 연수용 가상 자료)을 푼 <code>16차시</code> 폴더</dd>
+    <dt>결과물</dt><dd><code>국어_품사_편집본.mp4</code> · 같은 이름의 <code>.srt</code> 자막 · <code>국어_품사_클립목록.csv</code> · 편집 기준표</dd>
+    <dt>주의</dt><dd>원본은 지우거나 덮어쓰지 않기 · 학생 얼굴·목소리가 나온 영상은 쓰지 않기 (아래 상자)</dd>
+  </dl>
+</div>
+
+<div class="warn">
+  <b>학생이 나온 영상은 이 실습에 쓰지 않습니다.</b><br>
+  학생의 <b>얼굴·이름·목소리</b>가 나오는 수업 녹화는 편집 연습에 쓰지 않습니다. 꼭 써야 한다면 학생과 보호자의 <b>동의</b>를 먼저 받고, 얼굴은 흐리게 가리고, 이름이 들리거나 보이는 구간과 학생 목소리는 잘라 냅니다. 받아쓰기는 내 컴퓨터에서 돌아가지만, 클로드에게 편집을 맡기는 동안 <b>받아쓴 글과 클로드가 확인하려고 뽑은 장면 그림은 클로드에게 전달</b>될 수 있습니다. 화면에 비친 명단·메신저 알림도 확인합니다. 자세한 내용은 <a href="safety.html">안전하게 쓰기</a>를 봅니다.
+</div>
+
+<p>혼자 녹화한 설명 영상에는 녹화 버튼을 누르고 자리에 앉는 준비 화면, 생각하느라 멈춘 긴 쉼, 말 실수와 다시 말한 부분, 마이크와의 거리에 따라 들쭉날쭉한 음량이 섞입니다. Code 탭은 무료 영상 도구 <b>FFmpeg</b> 로 실제로 자르고 이어 붙이고 음량을 맞추며, 오픈소스 받아쓰기(<b>Whisper</b> 등)를 내 컴퓨터에서 돌려 자막을 만듭니다. 핵심은 둘입니다. <b>편집 기준표를 먼저 쓰는 것</b>(남길 구간·쉼의 길이·말 실수 시각·음량·자막 규칙·파일 이름), 그리고 <b>결과를 클립 목록으로 받아 원본 시각과 맞춰 보는 것</b>입니다.</p>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=SXyDvvFxgK8" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/SXyDvvFxgK8/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">6:16</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">클로드 코드가 라이브 1개를 영상 13개로 편집한 과정 | AI 영상 편집 맡기는 법</span><span class="ch">윤자동 · 유튜브</span><span class="why">라이브 녹화 하나를 영상 13개로 편집한 사례로, 전사·편집 기준·결과 파일·반복 검수를 먼저 정하는 방법을 다룹니다.</span></span>
+  </a>
+</div>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><code>클로드연수</code> 안에 빈 폴더 <code>16차시</code> 를 만들고, 내 녹화 영상의 <b>복사본</b>을 넣습니다. 연습용으로 하려면 <a href="samples/l16-practice.zip" download>l16-practice.zip</a> 을 받아 이 폴더에 풉니다.</li>
+  <li>녹화하며 말 실수한 곳이 기억나면 시각을 <code>대본.txt</code> 맨 위에 적습니다(예: «말 실수: 0:31 ~ 0:38»). 대본이 있으면 같은 파일에 함께 둡니다. 받아쓰기의 틀린 글자를 고칠 때 씁니다.</li>
+  <li>연습용 영상은 소리가 사람 말이 아니라 «말소리 비슷한 소리»입니다. 그래서 받아쓰기를 하면 글자가 거의 나오지 않으니, 7단계에서는 대본 문장으로 자막을 만듭니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다.</p>
+
+<ol class="steps">
+  <li>데스크톱 앱 사이드바 맨 위의 <b>Code</b> 탭을 누릅니다.</li>
+
+  <li>프롬프트 상자 아래 줄의 환경 단추에서 <b>Local</b> 묶음의 맨 위 항목(내 컴퓨터)을 고르고, 폴더 단추의 <b>Open folder…</b> 로 <code>클로드연수/16차시</code> 를 고릅니다.</li>
+
+  <li>같은 줄의 권한 모드 단추를 <b>Plan</b> 으로 바꿉니다.</li>
+
+  <li><b>편집 기준표</b>를 받습니다. 내 영상이라면 파일 이름과 결과 파일 이름을 바꿉니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · Plan 모드에서 편집 기준표 받기</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(원본_품사설명.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 남길 구간: 설명하는 부분만. 녹화 시작·끝의 준비 화면은 자르기
+- 쉬는 구간: 1초보다 길게 조용한 곳은 자르고, 말 앞뒤로 0.3초만 남기기
+- 말 실수: 대본.txt 맨 위에 적은 시각의 구간은 자르기
+- 음량: 클립마다 같은 크기(-16 LUFS)로 맞추기
+- 자막: 내 컴퓨터에서 돌아가는 오픈소스 받아쓰기(Whisper 등)로 SRT 를 만들고, 대본.txt 와 다른 글자는 대본대로 고치기. 한 줄 20자 안팎, 최대 2줄, 자막 하나에 1~7초
+- 결과 파일 이름: 국어_품사_편집본.mp4 / 국어_품사_편집본.srt / 국어_품사_클립목록.csv
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+계획에는 쓸 도구(FFmpeg, 받아쓰기 도구)가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+    </div>
+    <p class="why">편집 기준표는 편집자에게 주는 <b>작업 지시서</b>입니다. «적당히 자르기» 대신 <b>숫자</b>(1초, 0.3초, -16 LUFS)로 적어야 결과를 확인할 수 있습니다. LUFS 는 사람이 느끼는 음량의 단위로, 클립마다 같은 숫자로 맞추면 이어 붙인 곳에서 소리가 갑자기 커지거나 작아지지 않습니다. <b>«대본대로 고치기»</b>는 받아쓰기가 «체언»을 «채언»처럼 틀리게 받아쓴 교과 용어를 바로잡게 합니다.</p>
+    <div class="capture" id="cap-L16-1" data-cap="L16-1" data-caption="Plan 모드에서 받은 편집 기준표와 작업 계획.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L16-1</b><br>편집 기준표와 작업 계획 (따라 하기 4번).
+        <ul><li>빨간 상자: 편집 기준표, 도구 확인 방법</li></ul></div>
+    </div>
+  </li>
+
+  <li>권한 모드를 <b>Manual</b> 로 바꾸고 <b>편집</b>을 맡깁니다. FFmpeg 명령을 실행하기 전에 승인 단추가 나옵니다. FFmpeg 가 없다면 클로드가 설치 방법을 먼저 알려 줍니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 2 · Manual 모드로 바꾸고 편집하기</span><button type="button">복사</button></div><pre>계획대로 편집해 주세요.
+1. 조용한 구간을 찾은 결과와 남길 구간을 먼저 표로 보여 주기
+2. 자르고 음량을 맞춘 클립을 이어 붙여 편집본 만들기
+3. 국어_품사_클립목록.csv: 번호 | 원본 시작 | 원본 끝 | 길이 | 맞추기 전·후 음량
+다 되면 원본과 편집본의 길이를 알려 주세요.</pre>
+    </div>
+    <div class="capture" id="cap-L16-2" data-cap="L16-2" data-caption="Manual 모드에서 FFmpeg 명령을 실행하기 전에 나온 승인 화면과, 찾은 조용한 구간·남길 구간 표.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L16-2</b><br>편집 실행 (따라 하기 5번).
+        <ul><li>빨간 상자: FFmpeg 명령 승인 단추</li><li>번호 표시: ① 조용한 구간 표 ② 남길 구간 표</li></ul></div>
+    </div>
+  </li>
+
+  <li>대화창의 <code>국어_품사_편집본.mp4</code> 경로를 눌러 재생하며 <b>클립이 이어지는 곳</b>을 들어 봅니다. 연습용 영상은 화면 오른쪽 아래에 원본 시각이 찍혀 있어, 클립 목록의 «원본 시작·끝»과 맞는지 바로 볼 수 있습니다.</li>
+
+  <li><b>자막</b>을 만듭니다. 받아쓰기 도구를 처음 쓰면 설치와 모델 파일 내려받기(모델 크기에 따라 수십 MB~몇 GB)가 필요할 수 있어, 먼저 묻게 합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 3 · 받아쓰기로 자막 만들기</span><button type="button">복사</button></div><pre>편집본의 자막을 만들어 주세요.
+- 내 컴퓨터에서 돌아가는 오픈소스 받아쓰기로 받아쓴 뒤, 대본.txt 와 비교해 틀린 글자를 고치기
+- 고친 곳은 «받아쓰기 → 고친 글» 표로 따로 보여 주기
+- 자막 규칙은 편집 기준표대로
+- 받아쓰기 결과가 거의 비어 있으면(사람 말이 아닌 연습용 소리), 대본.txt 문장을 편집본의 말소리 구간에 맞춰 나눠 자막 만들기
+처음 쓰는 받아쓰기 도구라 설치나 모델 내려받기가 필요하면, 무엇을 얼마나 받는지 먼저 알려 주고 허락을 받으세요.</pre>
+    </div>
+    <p class="why">받아쓰기 모델은 작을수록 빠르고 클수록 정확합니다. 한국어 교과 용어는 작은 모델에서 자주 틀리므로, 대본과 비교해 고치는 과정이 꼭 필요합니다. SRT 파일은 유튜브 등에 영상과 함께 올리면 자막으로 나오고, «자막을 영상에 입힌 판도 만들어 주세요»라고 하면 화면에 글자를 새긴 영상도 만듭니다.</p>
+    <div class="capture" id="cap-L16-3" data-cap="L16-3" data-caption="받아쓰기 결과와 대본을 비교한 «받아쓰기 → 고친 글» 표, 만들어진 SRT 파일.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L16-3</b><br>자막 만들기 결과 (따라 하기 7번).
+        <ul><li>빨간 상자: «받아쓰기 → 고친 글» 표</li><li>대화창의 <code>.srt</code> 파일 경로</li></ul></div>
+    </div>
+  </li>
+
+  <li>파일 탐색기에서 결과 파일 세 개와 <b>원본 영상이 그대로 있는지</b> 확인합니다. 원본의 크기와 수정한 날짜가 바뀌지 않았어야 합니다.</li>
+</ol>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l16-timeline.webp" width="1600" height="519" loading="lazy" alt="편집 전후를 시간 막대로 비교한 그림. 위쪽 «원본 58초» 막대: 준비 화면(0~3초, 잘라 냄, 회색 빗금), ① 품사란?(3~15초, 남김, 파랑), 쉼 4초(15~19초, 회색 빗금), ② 체언(작게 녹음, 19~31초, 옅은 파랑), 말 실수 NG(31~37초, 빨간 빗금), 쉼(37~40초), ③ 용언(40~54초, 파랑), 녹화 끝(54~58초). 그 아래 초록 막대 세 개가 «남길 구간 3개(말 앞뒤 0.3초 여유 포함)». 화살표 «자르기 → 클립마다 음량 맞추기(−16 LUFS) → 이어 붙이기». 아래 «편집본 39.6초, 전체 −16.0 LUFS» 막대: 클립 1 원본 0:02.7–0:15.3, −20.0 → −15.9 LUFS / 클립 2 원본 0:18.7–0:31.0, −32.0 → −16.0 LUFS / 클립 3 원본 0:39.7–0:54.3, −20.0 → −15.9 LUFS. 맨 아래 자막(SRT) 8개의 위치를 번호 상자로 표시.">
+  <figcaption><b>원본 58초 → 편집본 39.6초.</b> 작게 녹음된 클립 2는 -32.0 LUFS 에서 -16.0 LUFS 로 커져, 세 클립의 음량이 같아졌습니다.</figcaption>
+</figure>
+
+<figure class="shot result-shot">
+  <video controls preload="metadata" playsinline width="1280" height="720" style="display:block; width:100%; height:auto; border:1.5px dashed #B9B4AC; border-radius:10px; background:#000">
+    <source src="samples/l16-edit/edited.mp4" type="video/mp4">
+    이 브라우저에서는 영상을 재생할 수 없습니다. <a href="samples/l16-edit/edited.mp4">영상 파일 받기</a>
+  </video>
+  <figcaption><b>편집본 (39.6초).</b> 오른쪽 아래의 «원본 시각»이 클립 경계에서 건너뛰는 것으로 잘린 곳을 확인할 수 있습니다. 소리는 사람 말 대신 넣은 시험용 소리입니다.</figcaption>
+</figure>
+
+<h3>편집 기준표 (결과 예시에 쓴 것)</h3>
+<div class="tablewrap"><table>
+  <tr><th>항목</th><th>기준</th></tr>
+  <tr><td>남길 구간</td><td>설명하는 부분만. 녹화 시작·끝의 준비 화면은 자름</td></tr>
+  <tr><td>쉬는 구간</td><td>1초보다 긴 조용한 구간(-40 dB 아래)은 자르고, 말 앞뒤로 0.3초만 남김</td></tr>
+  <tr><td>말 실수</td><td>교사가 적어 준 구간(원본 0:31 ~ 0:38)은 자름</td></tr>
+  <tr><td>음량</td><td>클립마다 -16 LUFS 로 맞춤 (두 번 재서 맞추기)</td></tr>
+  <tr><td>자막</td><td>한 줄 20자 안팎, 최대 2줄, 자막 하나에 1~7초. 교과 용어는 대본 표기 그대로</td></tr>
+  <tr><td>결과 파일 이름</td><td>교과_주제_편집본.mp4 / 같은 이름의 .srt / 교과_주제_클립목록.csv</td></tr>
+  <tr><td>원본</td><td>지우거나 덮어쓰지 않음</td></tr>
+</table></div>
+
+<h3>클립 목록</h3>
+<div class="tablewrap"><table>
+  <tr><th>번호</th><th>원본 시작</th><th>원본 끝</th><th>길이(초)</th><th>맞추기 전 (LUFS)</th><th>맞춘 뒤 (LUFS)</th></tr>
+  <tr><td class="c">1</td><td>0:02.71</td><td>0:15.30</td><td>12.59</td><td>-20.0</td><td>-15.9</td></tr>
+  <tr><td class="c">2</td><td>0:18.71</td><td>0:31.00</td><td>12.29</td><td>-32.0</td><td>-16.0</td></tr>
+  <tr><td class="c">3</td><td>0:39.71</td><td>0:54.26</td><td>14.56</td><td>-20.0</td><td>-15.9</td></tr>
+</table></div>
+
+<h3>자막(SRT) 예시 — 앞부분</h3>
+<div class="code">
+  <div class="bar"><span class="label">국어_품사_편집본.srt (앞의 5개)</span><button type="button">복사</button></div><pre>1
+00:00:00,300 --&gt; 00:00:04,000
+오늘은 품사에 대해 알아보겠습니다.
+
+2
+00:00:04,000 --&gt; 00:00:08,500
+품사는 단어를 문법적 성질에 따라
+나눈 갈래입니다.
+
+3
+00:00:08,500 --&gt; 00:00:12,400
+국어의 품사는 모두 아홉 가지입니다.
+
+4
+00:00:12,900 --&gt; 00:00:17,500
+명사, 대명사, 수사를 묶어
+체언이라고 합니다.
+
+5
+00:00:17,500 --&gt; 00:00:24,400
+체언은 조사와 함께
+문장의 주어나 목적어가 됩니다.</pre>
+</div>
+
+<p><a href="samples/l16-practice.zip" download><b>연습용 원본 영상과 대본 받기 (zip, 1MB) →</b></a> &nbsp; 결과 파일: <a href="samples/l16-edit/edited.srt" target="_blank" rel="noopener">자막 SRT</a> · <a href="samples/l16-edit/clips.csv" target="_blank" rel="noopener">클립 목록 CSV</a> · <a href="samples/l16-edit/rules.md" target="_blank" rel="noopener">편집 기준표</a> · <a href="samples/l16-edit/edit.py" target="_blank" rel="noopener">실행한 스크립트</a></p>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">연수자료를 만들 때 FFmpeg 로 «연수용 가상 시험 영상»(58초)을 만들고, 위 편집 기준대로 실제로 잘라 본 결과입니다(클로드 앱 화면이 아니라, 클로드 코드가 하는 일을 같은 방식으로 직접 실행했습니다). 조용한 구간은 FFmpeg 의 silencedetect(-40 dB, 1초 이상)로 네 곳을 찾았고, 말 앞뒤 0.3초 여유를 붙이고 말 실수 구간을 빼 세 구간을 남긴 뒤, 클립마다 두 번 재서 음량을 맞추고(loudnorm) 이어 붙였습니다. 시험 영상의 소리는 사람 말이 아니라 «말소리 비슷한 소리»라서 <b>받아쓰기(Whisper)는 실행하지 않았습니다.</b> 위 SRT 는 대본 문장을 편집본 시각에 맞춰 나눈 예시입니다. 실제 녹화에서는 받아쓴 글을 대본과 비교해 고칩니다.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 잘린 곳</b> — 클립 목록의 원본 시각을 보며 원본과 편집본을 비교합니다. 문장의 첫 글자나 끝 글자가 잘리지 않았는지, 필요한 설명이 빠지지 않았는지 봅니다.<br>
+  <b>② 말 실수 구간</b> — 적어 준 구간이 정말 빠졌는지, 그 앞뒤 문장이 자연스럽게 이어지는지 봅니다.<br>
+  <b>③ 음량</b> — 이어폰을 끼고 클립이 바뀌는 곳에서 소리가 갑자기 커지거나 작아지지 않는지 듣습니다.<br>
+  <b>④ 자막의 교과 용어</b> — 받아쓰기는 «체언·용언·관형사» 같은 용어를 자주 틀립니다. 대본과 하나씩 대조합니다.<br>
+  <b>⑤ 자막 시간</b> — 말소리와 자막이 0.5초 넘게 어긋나는 곳이 없는지 봅니다.<br>
+  <b>⑥ 원본 보존</b> — 원본 영상의 크기와 수정한 날짜가 그대로인지 봅니다.<br>
+  <b>⑦ 개인정보</b> — 학생 얼굴·이름·목소리, 화면에 비친 명단이나 메신저 알림이 남아 있지 않은지 끝까지 봅니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>4단계 프롬프트 대신</b> 아래 교과 프롬프트를 씁니다. 교과마다 편집 기준이 다르고, «다 만든 뒤 확인할 것»을 넣어 두었으니 5단계는 아래 <b>공통 프롬프트</b>로 바꿔 씁니다. 7단계(자막)는 결과 파일 이름만 바꿔 씁니다. 모든 사례는 <b>교사 혼자 나오는 영상</b>을 전제로 합니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">공통 · 5단계 대신 (편집 실행)</span><button type="button">복사</button></div><pre>계획대로 편집해 주세요.
+1. 찾은 구간과 남길 구간(또는 바꿀 구간)을 먼저 표로 보여 주기
+2. 편집 기준대로 결과 파일 만들기
+3. 클립목록.csv: 번호 | 원본 시작 | 원본 끝 | 길이 | 한 일(자름·빨리 감기·멈춤 등)
+다 되면 계획의 «다 만든 뒤 확인할 것»을 하나씩 점검한 결과를 표로 알려 주세요.</pre>
+</div>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">판서 풀이 녹화</span><span class="gist">말 없이 쓰는 구간은 자르지 않고 2배 빠르기로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 판서 풀이 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(수학_풀이녹화.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 판서하느라 말이 없는 구간은 자르지 말고 2배 빠르기로 (그 구간 화면 오른쪽 위에 «2배속» 표시)
+- 3초보다 긴 쉼만 자르고, 말 앞뒤 0.3초는 남기기
+- 결과 파일 이름: 수학_풀이_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 풀이 식이 쓰이는 장면이 잘리지 않았는지
+- «2배속» 표시가 빨라진 구간에만 나오는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">실험 시연 녹화</span><span class="gist">기다리는 구간은 빨리 감고 «약 ○분 뒤» 자막</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 실험 시연 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(과학_실험시연.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 가열·반응을 기다리는 구간(교사가 적어 준 시각)은 8배 빠르기로 줄이고 «약 ○분 뒤» 자막
+- 안전 수칙을 말하는 구간은 절대 자르거나 빠르게 하지 않기
+- 결과 파일 이름: 과학_실험_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 안전 수칙 구간이 그대로 남았는지
+- «약 ○분 뒤» 자막의 시간이 실제 줄인 길이와 맞는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">교사 낭독 녹화</span><span class="gist">문장마다 짧은 듣기 파일로 나누기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 교사 낭독 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(영어_낭독.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 대본.txt 의 문장마다 한 파일로 나누기 (문장 앞뒤 0.3초 여유)
+- 파일 이름: 영어_낭독_01.mp4, 영어_낭독_02.mp4 … (대본 순서)
+- 파일마다 같은 이름의 영어 자막(SRT)도 만들기
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 파일 수가 대본의 문장 수와 같은지
+- 각 파일에 문장의 처음부터 끝까지 담겼는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">낭독 녹화</span><span class="gist">문단별로 나누고 일정한 잡음 줄이기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 낭독 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(국어_낭독.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 문단 사이의 긴 쉼을 기준으로 문단마다 클립 나누기
+- 에어컨 같은 일정한 잡음은 줄이되 목소리가 먹먹해지지 않게
+- 결과 파일 이름: 국어_낭독_문단01.mp4 …
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 문단 수와 파일 수가 같은지
+- 잡음을 줄인 앞뒤를 비교할 10초짜리 견본을 함께 만들어 목소리가 또렷한지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">긴 강의 녹화</span><span class="gist">주제별 5분 안팎 영상 여러 개로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 긴 강의 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(사회_강의40분.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 받아쓰기로 주제가 바뀌는 곳을 찾아 5분 안팎 영상 여러 개로 나누기
+- 각 영상 앞에 2초짜리 제목 화면
+- 결과 파일 이름: 사회_강의_01_주제.mp4 … 와 영상목록.csv (번호 | 제목 | 원본 시작·끝 | 길이)
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 나눈 영상들을 이으면 원본 내용이 빠짐없는지
+- 제목이 실제 내용과 맞는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">답사 설명 녹화</span><span class="gist">바람 소리 줄이기와 장소 자막</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 답사 설명 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(역사_답사설명.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 교사 혼자 찍은 유적지 설명 영상에서 바람 소리 같은 낮은 잡음 줄이기
+- 장소가 바뀔 때마다 장소 이름 자막 (교사가 적은 장소목록.txt 기준)
+- 다른 관람객 얼굴이 보이는 구간을 찾아 표로 알려 주기
+- 결과 파일 이름: 역사_답사_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 장소 자막이 장소목록.txt 와 같은지
+- 다른 사람 얼굴이 보이는 구간 표가 있는지 (교사가 보고 가리거나 자를지 결정)
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">사례 이야기 녹화</span><span class="gist">질문 장면에서 5초 멈춤</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 사례 이야기 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(도덕_사례이야기.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 교사가 적어 준 시각마다 화면을 5초 멈추고 «생각해 보기» 질문 자막 넣기 (질문은 질문.txt 에 있는 것만)
+- 1.5초보다 긴 쉼은 자르기
+- 결과 파일 이름: 도덕_사례_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 멈춤 위치와 질문이 질문.txt 와 같은지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">조리 시연 녹화</span><span class="gist">단계 제목 자막과 챕터 목록</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 조리 시연 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(기가_조리시연.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 손과 조리대만 나오는 영상에서 단계가 바뀔 때마다 단계 제목 자막 (단계.txt 기준)
+- 영상 설명란에 붙일 챕터 목록(00:00 단계 제목) 만들기
+- 결과 파일 이름: 기가_조리_편집본.mp4, 챕터.txt
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 챕터 시각이 편집본의 실제 단계 시작 시각과 맞는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">코딩 시연 화면 녹화</span><span class="gist">타이핑 구간 빨리 감기, 알림·개인정보 가리기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 코딩 시연 화면 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(정보_코딩시연.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 타이핑만 하는 구간은 2배 빠르기로
+- 메신저 알림이나 이메일 주소가 보이는 구간을 찾아 표로 먼저 보여 주고, 내가 확인한 뒤 흐리게 가리기
+- 결과 파일 이름: 정보_코딩_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 가린 구간 표의 시각에 실제로 가림이 들어갔는지
+- 코드 글자가 읽히는 크기로 남았는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">악기 시범 녹화</span><span class="gist">셈여림은 살리고 전체 음량만 조정</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 악기 시범 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(음악_시범연주.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 연주의 셈여림이 납작해지지 않게, 구간마다 음량을 맞추지 말고 전체 음량만 한 번 조정
+- 연주 시작 전 조율·준비 구간만 자르기
+- 결과 파일 이름: 음악_시범_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 여린 부분과 센 부분의 음량 차이가 원본과 비슷한지 (구간별 음량 비교표)
+- 소리가 찢어지는 곳이 없는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">그리기 과정 녹화</span><span class="gist">20분을 1분 타임랩스로, 중요 단계는 보통 빠르기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 그리기 과정 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(미술_그리기과정.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 손과 화면만 나오는 20분 영상을 1분 안팎으로 빠르게 (소리는 빼기)
+- 중요한 단계 4곳(교사가 적은 시각)은 보통 빠르기로 3초씩 남기고 단계 자막
+- 결과 파일 이름: 미술_과정_타임랩스.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 전체 길이가 1분 안팎인지
+- 중요 단계 4곳이 보통 빠르기로 남았는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">시범 동작 녹화</span><span class="gist">동작마다 보통 빠르기 한 번 + 느린 화면 한 번</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 시범 동작 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(체육_시범동작.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 교사 혼자 찍은 시범 동작에서 동작 구간(시각.txt)마다 보통 빠르기 한 번, 0.5배 느린 화면 한 번
+- 동작 이름 자막 (시각.txt 기준)
+- 결과 파일 이름: 체육_시범_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 느린 화면이 동작 구간과 정확히 겹치는지
+- 동작 이름이 맞는 장면에 나오는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">초청 강연 녹화</span><span class="gist">강사 동의 확인, 학생 질문 목소리는 자막으로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 초청 강연 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(진로_초청강연.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 강사의 녹화·공유 동의를 받은 영상만 씀
+- 학생이 질문하는 목소리가 나오는 구간은 자르고, 그 자리에 질문 내용 자막만 (질문목록.txt 기준)
+- 결과 파일 이름: 진로_강연_편집본.mp4
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 학생 목소리가 남은 곳이 없는지 (받아쓰기 결과로 확인)
+- 강사 이름·소속 자막이 맞는지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임</span><span class="topic">학부모 안내 영상 녹화</span><span class="gist">3분 이내, 자막 입힌 판 따로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임 · 학부모 안내 영상 녹화</span><button type="button">복사</button></div><pre>이 폴더의 녹화 영상(담임_학부모안내.mp4)을 편집하려고 합니다. 먼저 편집 기준표와 작업 계획만 세워 주세요. 아직 아무 파일도 만들거나 고치지 마세요.
+
+편집 기준
+- 3분 이내로 줄이기 (같은 설명을 되풀이한 곳, 말 실수 구간 자르기)
+- 소리 없이 보는 학부모를 위해 자막 SRT 를 만들고, 자막을 영상에 입힌 판도 하나 더
+- 결과 파일 이름: 담임_안내_편집본.mp4, 담임_안내_자막판.mp4, 담임_안내.srt
+- 원본 영상은 지우거나 덮어쓰지 않기
+- 프리미어 같은 유료 프로그램은 쓰지 않고 FFmpeg 로 MP4 완성까지만
+
+다 만든 뒤 확인할 것
+- 전체 길이가 3분 이내인지
+- 날짜·시간·준비물 같은 숫자 자막이 실제 말과 같은지
+
+계획에는 쓸 도구가 내 컴퓨터에 있는지 확인하는 방법과, 없을 때 설치 방법을 함께 적어 주세요.</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  영상 편집을 맡길 때는 «알아서 잘»이 아니라 <b>편집 기준표</b>를 줍니다. 무엇을 남기고 무엇을 자를지, 쉼은 몇 초부터 자를지, 음량은 몇으로 맞출지, 결과 파일 이름은 무엇인지 숫자와 이름으로 정하면 결과를 <b>클립 목록으로 검수</b>할 수 있습니다. 원본은 그대로 두고 새 파일로 만들면 언제든 다시 편집할 수 있습니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>FFmpeg 를 찾을 수 없다고 한다</b> — 클로드가 알려 주는 운영체제별 설치 방법을 따르고, 설치 뒤 앱을 다시 시작합니다. 학교 PC에서 막히면 정보 담당 선생님께 부탁합니다.<br>
+  · <b>쉬는 구간이 너무 많이(또는 적게) 잘린다</b> — 조용함의 기준을 바꿉니다. «-40 dB 대신 -35 dB 로», «1초 대신 1.5초로»처럼 숫자로 요청합니다. 교실 소음이 크면 기준을 높여야 합니다.<br>
+  · <b>받아쓰기가 너무 느리다</b> — «더 작은 모델로 먼저 해 보고, 틀린 글자는 대본으로 고쳐 주세요»라고 요청합니다. 긴 영상은 시간이 꽤 걸립니다.<br>
+  · <b>받아쓰기 모델 내려받기가 막힌다</b> — 학교망에서 막힐 수 있습니다. 집이나 다른 망에서 한 번 받아 두면 다음부터는 인터넷 없이 씁니다.<br>
+  · <b>프리미어에서 더 다듬고 싶다</b> — 더 보기 영상처럼 프리미어용 XML 을 만드는 방법도 있지만, 이 연수에서는 무료로 MP4 완성까지만 합니다.<br>
+  · <b>결과가 마음에 들지 않는다</b> — 원본이 그대로 있으니 기준표의 숫자만 바꿔 다시 실행합니다.
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=59_3B2UCtG4" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/59_3B2UCtG4/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">13:13</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">명령만 하면 영상 편집 끝? 클로드 코드로 컷편집부터 프리미어까지 (기초 튜토리얼)</span><span class="ch">AZTechnology · 유튜브</span><span class="why">폴더에 영상을 넣고 클로드 코드로 컷편집부터 MP4 완성본까지 만드는 기초 튜토리얼입니다. 프리미어용 XML 은 선택이며, 이 차시는 MP4 완성까지만 씁니다.</span></span>
+  </a>
+</div>
+
+<p><small>출처: Claude Code 문서 <a href="https://code.claude.com/docs/en/desktop" target="_blank" rel="noopener">Use Claude Code Desktop</a> — 권한 모드(Plan · Manual), 앱 안 창에서 파일 열기 · PyPI 패키지 정보 <code>openai-whisper</code>(MIT)·<code>faster-whisper</code>(MIT) (2026-11-11 확인). 결과 예시는 FFmpeg 6.1 로 실행했습니다.</small></p>
+
+<div class="pager">
+  <a href="l15.html"><span class="k">← 이전</span>15차시 · 발표자료를 영상으로 바꾸기</a>
+  <a class="next" href="l17.html"><span class="k">다음 →</span>17차시 · 내레이션과 배경음악 넣기</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

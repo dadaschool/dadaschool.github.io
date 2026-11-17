@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>조선 전기의 문화 복습 퀴즈</title>
+<!-- 클로드 중급과정 7차시 «결과 예시». 한 파일 · 인터넷 없이 열린다.
+     문제·보기·정답·해설은 같은 폴더의 questions.csv(교사가 만든 10문항)를 그대로 옮겨 이 파일 안에 넣었다. -->
+<style>
+  :root{ --bg:#14213D; --panel:#1D2D50; --line:#2F4672; --ink:#F5F7FB; --muted:#B7C3DA; --gold:#FFC857; --ok:#3DDC97; --okbg:#123D33; --no:#FF7A7A; --nobg:#4A1E2A; --btn:#FFFFFF; --btnink:#14213D; }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+       font-size:20px; line-height:1.55; word-break:keep-all}
+  .wrap{max-width:1180px; margin:0 auto; padding:22px 18px 30px; min-height:100%; display:flex; flex-direction:column}
+  button{font:inherit; cursor:pointer}
+  button:focus-visible, input:focus-visible + span{outline:4px solid var(--gold); outline-offset:3px}
+  .screen[hidden]{display:none !important}
+  .tag{display:inline-block; font-size:15px; font-weight:800; color:var(--gold); border:1.5px solid var(--gold); border-radius:999px; padding:2px 12px}
+  h1{font-size:clamp(34px,6vw,64px); line-height:1.2; margin:14px 0 8px; letter-spacing:-.02em}
+  .lead{color:var(--muted); font-size:clamp(18px,2.4vw,24px); margin:0 0 26px}
+  .big{font-size:clamp(20px,2.6vw,28px); font-weight:900; color:#14213D; background:var(--gold); border:0; border-radius:16px; padding:14px 34px}
+  .ghost{font-size:clamp(18px,2.2vw,24px); font-weight:800; color:var(--ink); background:transparent; border:2px solid var(--line); border-radius:14px; padding:12px 24px}
+  .ghost:hover{border-color:var(--muted)}
+
+  /* 시작 화면 */
+  #start{flex:1; display:flex; flex-direction:column; justify-content:center}
+  fieldset{border:2px solid var(--line); border-radius:18px; padding:16px 20px 20px; margin:0 0 28px; max-width:720px}
+  legend{font-weight:900; font-size:clamp(20px,2.4vw,26px); padding:0 8px}
+  .choices{display:flex; flex-wrap:wrap; gap:12px}
+  .choices label{position:relative}
+  .choices input{position:absolute; opacity:0; inset:0; cursor:pointer}
+  .choices span{display:block; font-size:clamp(20px,2.4vw,26px); font-weight:800; padding:10px 22px; border-radius:14px; border:2px solid var(--line); background:var(--panel)}
+  .choices input:checked + span{background:var(--gold); color:#14213D; border-color:var(--gold)}
+  .howto{color:var(--muted); font-size:18px; margin:18px 0 0}
+  kbd{font-family:inherit; font-weight:800; border:1.5px solid var(--muted); border-bottom-width:3px; border-radius:6px; padding:0 7px; font-size:.9em}
+
+  /* 문제 화면 */
+  .topbar{display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; font-weight:800; font-size:clamp(18px,2.2vw,26px)}
+  .topbar .mode{color:var(--gold)}
+  .topbar .score{margin-left:auto}
+  .timer{height:14px; border-radius:999px; background:var(--panel); overflow:hidden; margin:14px 0 4px; border:1px solid var(--line)}
+  .timer i{display:block; height:100%; width:100%; background:var(--gold); transform-origin:left center}
+  .timer.low i{background:var(--no)}
+  .timeleft{font-size:16px; color:var(--muted); min-height:24px}
+  .q{font-size:clamp(28px,4.4vw,52px); font-weight:900; line-height:1.35; margin:14px 0 22px; letter-spacing:-.01em}
+  .opts{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  @media (max-width:700px){ .opts{grid-template-columns:1fr} }
+  .opt{display:flex; align-items:center; gap:14px; text-align:left; width:100%; color:var(--btnink); background:var(--btn); border:4px solid transparent; border-radius:18px;
+       padding:14px 18px; font-size:clamp(22px,3.2vw,38px); font-weight:800; min-height:84px}
+  .opt .n{flex:none; width:1.6em; height:1.6em; border-radius:50%; background:var(--bg); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:.75em}
+  .opt .mark{margin-left:auto; flex:none; font-size:.7em; font-weight:900}
+  .opt:hover:not(:disabled){border-color:var(--gold)}
+  .opt:disabled{cursor:default}
+  .opt.right{background:#D9FBEA; border-color:var(--ok); color:#0D3B2A}
+  .opt.wrong{background:#FFE1E1; border-color:var(--no); color:#5A1020}
+  .opt.dim{opacity:.55}
+  .feedback{margin-top:18px; border-radius:18px; padding:16px 20px; font-size:clamp(19px,2.3vw,26px)}
+  .feedback.ok{background:var(--okbg); border:2px solid var(--ok)}
+  .feedback.no{background:var(--nobg); border:2px solid var(--no)}
+  .feedback .head{font-weight:900; font-size:1.15em; margin-bottom:4px}
+  .feedback.ok .head{color:var(--ok)}
+  .feedback.no .head{color:var(--no)}
+  .next{margin-top:16px; text-align:right}
+
+  /* 결과 화면 */
+  .result-card{background:var(--panel); border:2px solid var(--line); border-radius:22px; padding:22px 24px; margin:10px 0 20px}
+  .points{font-size:clamp(64px,12vw,128px); font-weight:900; line-height:1; color:var(--gold)}
+  .summary{font-size:clamp(20px,2.6vw,30px); font-weight:800; margin:8px 0 0}
+  h2{font-size:clamp(22px,2.8vw,32px); margin:4px 0 10px}
+  ol.wrong-list{margin:0; padding-left:1.4em; font-size:clamp(18px,2.2vw,24px)}
+  ol.wrong-list li{margin:8px 0}
+  ol.wrong-list b{color:var(--ok)}
+  .allright{font-size:clamp(20px,2.4vw,28px); color:var(--ok); font-weight:900}
+  .actions{display:flex; flex-wrap:wrap; gap:12px}
+  footer{margin-top:auto; padding-top:22px; color:var(--muted); font-size:14px}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="start" class="screen" aria-labelledby="t-start">
+  <div><span class="tag">중학교 역사 · 복습 퀴즈</span></div>
+  <h1 id="t-start">조선 전기의 문화</h1>
+  <p class="lead"><span id="qcount"></span>문제 · 4지선다 · 문제 순서는 매번 섞입니다</p>
+  <fieldset>
+    <legend>시간 제한</legend>
+    <div class="choices" role="radiogroup">
+      <label><input type="radio" name="limit" value="0" checked><span>없음</span></label>
+      <label><input type="radio" name="limit" value="20"><span>20초</span></label>
+      <label><input type="radio" name="limit" value="30"><span>30초</span></label>
+    </div>
+  </fieldset>
+  <div><button type="button" class="big" id="btnStart">시작하기</button></div>
+  <p class="howto">키보드 <kbd>1</kbd>~<kbd>4</kbd> 로 답을 고르고 <kbd>Enter</kbd> 로 다음 문제로 넘어갑니다.</p>
+</section>
+
+<section id="play" class="screen" hidden aria-labelledby="qtext">
+  <div class="topbar"><span class="mode" id="mode">본 게임</span><span id="progress">문제 1 / 10</span><span class="score" id="score">점수 0점</span></div>
+  <div class="timer" id="timer" hidden><i id="bar"></i></div>
+  <div class="timeleft" id="timeleft" aria-live="off"></div>
+  <p class="q" id="qtext" tabindex="-1"></p>
+  <div class="opts" id="opts"></div>
+  <div id="fb" aria-live="polite"></div>
+  <div class="next" id="nextWrap" hidden><button type="button" class="big" id="btnNext">다음 문제 →</button></div>
+</section>
+
+<section id="result" class="screen" hidden aria-labelledby="t-result">
+  <h1 id="t-result">결과</h1>
+  <div class="result-card">
+    <div class="points" id="points">0점</div>
+    <p class="summary" id="summary"></p>
+  </div>
+  <div class="result-card">
+    <h2 id="wrongTitle">틀린 문제</h2>
+    <div id="wrongBox"></div>
+  </div>
+  <div class="actions">
+    <button type="button" class="big" id="btnRetry">틀린 문제 다시 풀기</button>
+    <button type="button" class="ghost" id="btnHome">처음부터</button>
+  </div>
+</section>
+
+<footer>연수 예시 · 문제는 교사가 만든 <b>questions.csv</b>(10문항)를 그대로 옮겨 이 파일 안에 넣었습니다. 인터넷 없이 열립니다.</footer>
+</div>
+
+<script>
+/* questions.csv 에서 옮긴 문제 — 번호, 문제, 보기 4개, 정답(1~4), 해설 */
+var QUESTIONS = [
+ {
+  "no": 1,
+  "q": "세종 때 학자들이 모여 학문을 연구하고 여러 책을 펴내는 일을 맡은 기관은?",
+  "opts": [
+   "성균관",
+   "집현전",
+   "규장각",
+   "향교"
+  ],
+  "a": 2,
+  "exp": "세종은 집현전을 키워 학자들이 학문을 연구하고 책을 펴내게 했다. 성균관은 최고 교육 기관, 향교는 지방 교육 기관이고, 규장각은 정조 때 세운 기관이다."
+ },
+ {
+  "no": 2,
+  "q": "세종이 훈민정음을 반포한 해는?",
+  "opts": [
+   "1392년",
+   "1418년",
+   "1443년",
+   "1446년"
+  ],
+  "a": 4,
+  "exp": "훈민정음은 1443년에 만들고 1446년에 반포했다. 1392년은 조선이 세워진 해, 1418년은 세종이 왕위에 오른 해이다."
+ },
+ {
+  "no": 3,
+  "q": "세종 때 만들어 서울과 지방에서 비의 양을 재는 데 쓴 기구는?",
+  "opts": [
+   "앙부일구",
+   "자격루",
+   "측우기",
+   "혼천의"
+  ],
+  "a": 3,
+  "exp": "측우기는 비의 양을 재는 기구로, 같은 방법으로 여러 곳의 강우량을 잴 수 있었다. 앙부일구는 해시계, 자격루는 물시계, 혼천의는 천체를 관측하는 기구이다."
+ },
+ {
+  "no": 4,
+  "q": "장영실 등이 만든, 정해진 시각이 되면 저절로 소리를 내어 시각을 알린 물시계는?",
+  "opts": [
+   "자격루",
+   "앙부일구",
+   "측우기",
+   "간의"
+  ],
+  "a": 1,
+  "exp": "자격루는 물의 흐름을 이용해 정해진 시각에 종·북·징이 저절로 울리게 만든 물시계이다. 앙부일구는 그림자로 시각을 알려 주는 해시계이다."
+ },
+ {
+  "no": 5,
+  "q": "세종 때 여러 지방 농민들의 경험을 모아 우리 풍토에 맞는 농사법을 정리한 책은?",
+  "opts": [
+   "향약집성방",
+   "농사직설",
+   "칠정산",
+   "삼강행실도"
+  ],
+  "a": 2,
+  "exp": "농사직설은 우리 풍토에 맞는 농사법을 정리한 농서이다. 향약집성방은 의학서, 칠정산은 역법서, 삼강행실도는 윤리서이다."
+ },
+ {
+  "no": 6,
+  "q": "우리 땅에서 나는 약재와 이를 이용한 치료법을 모아 세종 때 펴낸 의학서는?",
+  "opts": [
+   "동의보감",
+   "향약집성방",
+   "농사직설",
+   "경국대전"
+  ],
+  "a": 2,
+  "exp": "향약집성방은 우리 땅에서 나는 약재(향약)로 병을 고치는 방법을 정리한 의학서이다. 동의보감은 광해군 때 허준이 완성한 의학서이다."
+ },
+ {
+  "no": 7,
+  "q": "충신·효자·열녀의 이야기를 그림과 글로 엮어 유교 윤리를 널리 알리려고 세종 때 펴낸 책은?",
+  "opts": [
+   "삼강행실도",
+   "국조오례의",
+   "경국대전",
+   "동국여지승람"
+  ],
+  "a": 1,
+  "exp": "삼강행실도는 그림을 곁들여 글을 모르는 백성도 내용을 알 수 있게 했다. 국조오례의는 나라의 의례, 동국여지승람은 지리를 정리한 책이다."
+ },
+ {
+  "no": 8,
+  "q": "세조 때 만들기 시작해 성종 때 완성한, 조선을 다스리는 기본 법전은?",
+  "opts": [
+   "조선경국전",
+   "경국대전",
+   "고려사",
+   "동국통감"
+  ],
+  "a": 2,
+  "exp": "경국대전은 세조 때 편찬을 시작해 성종 때 완성·반포한 조선의 기본 법전이다. 조선경국전은 정도전이 태조에게 올린 책이다."
+ },
+ {
+  "no": 9,
+  "q": "고려 말에 나타나 15세기 조선에서 널리 쓰인, 회청색 그릇에 흰 흙을 발라 꾸민 도자기는?",
+  "opts": [
+   "상감 청자",
+   "빗살무늬 토기",
+   "분청사기",
+   "청화 백자"
+  ],
+  "a": 3,
+  "exp": "분청사기는 회청색 바탕에 흰 흙을 발라 꾸민 자기로 15세기에 널리 쓰였고, 16세기 무렵부터는 백자가 더 널리 쓰였다. 상감 청자는 고려, 빗살무늬 토기는 신석기 시대의 그릇이다."
+ },
+ {
+  "no": 10,
+  "q": "안평대군이 꿈에서 본 복숭아꽃 마을 이야기를 듣고 안견이 그린 그림은?",
+  "opts": [
+   "몽유도원도",
+   "금강전도",
+   "씨름",
+   "세한도"
+  ],
+  "a": 1,
+  "exp": "몽유도원도는 1447년에 안견이 그린 그림이다. 금강전도(정선), 씨름(김홍도), 세한도(김정희)는 모두 조선 후기의 그림이다."
+ }
+];
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var NUM = ['①', '②', '③', '④'];
+  var state = { list: [], i: 0, correct: 0, wrong: [], limit: 0, retry: false, answered: false, timerId: null, endAt: 0 };
+
+  $('qcount').textContent = QUESTIONS.length;
+
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function show(id) {
+    ['start', 'play', 'result'].forEach(function (s) { $(s).hidden = (s !== id); });
+  }
+  function selectedLimit() {
+    var r = document.querySelector('input[name=limit]:checked');
+    return r ? Number(r.value) : 0;
+  }
+
+  function begin(list, retry) {
+    state.list = shuffle(list); state.i = 0; state.correct = 0; state.wrong = []; state.retry = retry;
+    state.limit = selectedLimit();
+    $('mode').textContent = retry ? '틀린 문제 다시 풀기' : '본 게임';
+    show('play'); render();
+  }
+
+  function render() {
+    var q = state.list[state.i];
+    state.answered = false;
+    $('progress').textContent = '문제 ' + (state.i + 1) + ' / ' + state.list.length;
+    scoreText();
+    $('qtext').textContent = q.q;
+    $('fb').innerHTML = ''; $('nextWrap').hidden = true;
+    var box = $('opts'); box.innerHTML = '';
+    q.opts.forEach(function (text, k) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt'; b.dataset.k = k + 1;
+      b.innerHTML = '<span class="n" aria-hidden="true">' + (k + 1) + '</span><span class="t"></span><span class="mark"></span>';
+      b.querySelector('.t').textContent = text;
+      b.setAttribute('aria-label', (k + 1) + '번 ' + text);
+      b.addEventListener('click', function () { answer(k + 1); });
+      box.appendChild(b);
+    });
+    $('qtext').focus({ preventScroll: true });
+    startTimer();
+  }
+
+  function scoreText() {
+    $('score').textContent = state.retry ? '맞힌 문제 ' + state.correct + '개' : '점수 ' + state.correct * 10 + '점';
+  }
+
+  function startTimer() {
+    stopTimer();
+    var t = $('timer');
+    if (!state.limit) { t.hidden = true; $('timeleft').textContent = ''; return; }
+    t.hidden = false; t.classList.remove('low');
+    state.endAt = Date.now() + state.limit * 1000;
+    tick();
+    state.timerId = setInterval(tick, 100);
+  }
+  function tick() {
+    var left = Math.max(0, state.endAt - Date.now());
+    $('bar').style.transform = 'scaleX(' + (left / (state.limit * 1000)) + ')';
+    $('timer').classList.toggle('low', left <= 5000);
+    $('timeleft').textContent = '남은 시간 ' + Math.ceil(left / 1000) + '초';
+    if (left <= 0) { stopTimer(); answer(0); }
+  }
+  function stopTimer() { if (state.timerId) { clearInterval(state.timerId); state.timerId = null; } }
+
+  function answer(k) {
+    if (state.answered) return;
+    state.answered = true; stopTimer();
+    var q = state.list[state.i], ok = (k === q.a);
+    if (ok) state.correct++; else state.wrong.push(q);
+    scoreText();
+    Array.prototype.forEach.call($('opts').children, function (b) {
+      var n = Number(b.dataset.k); b.disabled = true;
+      if (n === q.a) { b.classList.add('right'); b.querySelector('.mark').textContent = '○ 정답'; }
+      else if (n === k) { b.classList.add('wrong'); b.querySelector('.mark').textContent = '× 오답'; }
+      else b.classList.add('dim');
+    });
+    var head = ok ? '○ 정답입니다!' : (k === 0 ? '⏰ 시간이 다 됐어요.' : '× 아쉬워요.');
+    var fb = document.createElement('div');
+    fb.className = 'feedback ' + (ok ? 'ok' : 'no');
+    fb.innerHTML = '<div class="head"></div><div class="ans"></div><div class="exp"></div>';
+    fb.querySelector('.head').textContent = head;
+    fb.querySelector('.ans').textContent = ok ? '' : '정답은 ' + NUM[q.a - 1] + ' ' + q.opts[q.a - 1] + '입니다.';
+    fb.querySelector('.exp').textContent = '해설 · ' + q.exp;
+    $('fb').appendChild(fb);
+    $('btnNext').textContent = (state.i + 1 < state.list.length) ? '다음 문제 →' : '결과 보기 →';
+    $('nextWrap').hidden = false; $('btnNext').focus({ preventScroll: true });
+  }
+
+  function next() {
+    if (!state.answered) return;
+    if (state.i + 1 < state.list.length) { state.i++; render(); } else finish();
+  }
+
+  function finish() {
+    stopTimer(); show('result');
+    var n = state.list.length;
+    $('t-result').textContent = state.retry ? '다시 풀기 결과' : '결과';
+    $('points').textContent = state.retry ? state.correct + ' / ' + n : state.correct * 10 + '점';
+    $('summary').textContent = n + '문제 중 ' + state.correct + '문제를 맞혔습니다.' + (state.retry ? '' : ' (한 문제 10점)');
+    var box = $('wrongBox'); box.innerHTML = '';
+    if (!state.wrong.length) {
+      $('wrongTitle').textContent = '틀린 문제';
+      box.innerHTML = '<p class="allright">○ 모두 맞혔습니다!</p>';
+      $('btnRetry').hidden = true; $('btnHome').focus(); return;
+    }
+    $('wrongTitle').textContent = '틀린 문제 ' + state.wrong.length + '개';
+    var ol = document.createElement('ol'); ol.className = 'wrong-list';
+    state.wrong.slice().sort(function (a, b) { return a.no - b.no; }).forEach(function (q) {
+      var li = document.createElement('li');
+      li.appendChild(document.createTextNode(q.q + ' → 정답 '));
+      var b = document.createElement('b'); b.textContent = NUM[q.a - 1] + ' ' + q.opts[q.a - 1]; li.appendChild(b);
+      ol.appendChild(li);
+    });
+    box.appendChild(ol);
+    $('btnRetry').hidden = false;
+    $('btnRetry').textContent = '틀린 문제 다시 풀기 (' + state.wrong.length + '문제)';
+    $('btnRetry').focus();
+  }
+
+  $('btnStart').addEventListener('click', function () { begin(QUESTIONS, false); });
+  $('btnNext').addEventListener('click', next);
+  $('btnRetry').addEventListener('click', function () { begin(state.wrong, true); });
+  $('btnHome').addEventListener('click', function () { stopTimer(); show('start'); $('btnStart').focus(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (!$('start').hidden && e.key === 'Enter' && (!document.activeElement || document.activeElement.tagName !== 'BUTTON')) { e.preventDefault(); begin(QUESTIONS, false); return; }
+    if (!$('play').hidden) {
+      if (!state.answered && /^[1-4]$/.test(e.key)) { e.preventDefault(); answer(Number(e.key)); }
+      else if (state.answered && e.key === 'Enter' && document.activeElement !== $('btnNext')) { e.preventDefault(); next(); }
+    }
+  });
+
+  show('start');
+})();
+</script>
+</body>
+</html>
