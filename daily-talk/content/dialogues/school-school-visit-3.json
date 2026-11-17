@@ -1,0 +1,137 @@
+{
+  "id": "school-school-visit-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "school-visit",
+  "level": 3,
+  "title": {
+    "ko": "해외 학교 방문 · 연수",
+    "en": "Visiting a School Abroad"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "해외 학교 연수 마지막 날 교장과 두 나라의 평가 방식을 비교하고, 한국 학생들의 시험 부담에 대한 어려운 질문에 솔직하게 답한 뒤 궁금한 점을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "교장",
+      "en": "Principal",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, after a week with us, what differences have you noticed?",
+      "ko": "저희 학교에서 일주일 지내 보시니 어떤 차이가 느껴지셨어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "The biggest difference is assessment. Your students do a lot of projects, but in Korea, midterm and final exams are still very important.",
+      "ko": "가장 큰 차이는 평가 방식이에요. 여기 학생들은 프로젝트를 많이 하는데, 한국에서는 아직 중간고사와 기말고사가 아주 중요해요.",
+      "alt": [
+        "Assessment is the biggest difference. Here, students do many projects, but in Korea, midterms and finals still matter a lot."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "I've read that Korean students are under a lot of pressure. Is that really true?",
+      "ko": "한국 학생들이 압박을 많이 받는다는 글을 읽었는데요. 정말 그런가요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Honestly, it can be. Many students study late at private academies. But things are changing. In the first year of middle school, we have a free semester with no exams.",
+      "ko": "솔직히 그럴 때가 있어요. 많은 학생이 학원에서 늦게까지 공부해요. 하지만 바뀌고 있어요. 중학교 1학년 때는 시험 없는 자유학기가 있어요.",
+      "alt": [
+        "To be honest, sometimes it is. Lots of students study late at private academies. But it's changing. First-year middle school students have a free semester without exams."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "A free semester? What do students do instead?",
+      "ko": "자유학기요? 그 대신 학생들은 뭘 하나요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "They explore careers, do hands-on projects, and join more club activities. It's a bit like what I saw in your classes this week.",
+      "ko": "진로를 탐색하고, 직접 해 보는 프로젝트를 하고, 동아리 활동도 더 많이 해요. 이번 주에 여기 수업에서 본 것과 조금 비슷해요.",
+      "alt": [
+        "They try out different careers, do hands-on projects, and have more club time. It's similar to what I saw here this week."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "That's fascinating. Is there anything you'd like to ask me before you leave?",
+      "ko": "정말 흥미롭네요. 가시기 전에 저한테 묻고 싶은 게 있나요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Yes, actually. How do you grade group projects fairly when some students do more work than others?",
+      "ko": "네, 사실 있어요. 어떤 학생은 다른 학생보다 일을 더 많이 하는데, 모둠 프로젝트는 어떻게 공정하게 평가하세요?",
+      "alt": [
+        "Yes. When some students work harder than others, how do you grade group projects fairly?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Good question. Students write a short reflection and rate each other's contributions. Then the teacher makes the final decision.",
+      "ko": "좋은 질문이에요. 학생들이 짧은 성찰 글을 쓰고, 서로 얼마나 기여했는지 평가해요. 최종 결정은 교사가 하고요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "That's really helpful. I'd love to try something like that at my school. Thank you for such a valuable week.",
+      "ko": "정말 도움이 돼요. 저희 학교에서도 그런 걸 해 보고 싶어요. 뜻깊은 일주일을 보내게 해 주셔서 감사합니다.",
+      "alt": [
+        "That's very useful. I want to try that at my school. Thank you for a wonderful week."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "The biggest difference is ___.",
+      "ko": "가장 큰 차이는 ___예요.",
+      "note": "두 제도를 비교할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Honestly, it can be.",
+      "ko": "솔직히 그럴 때가 있어요.",
+      "note": "어려운 질문에 솔직하면서 부드럽게 답할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "But things are changing.",
+      "ko": "하지만 바뀌고 있어요.",
+      "note": "균형 있게 덧붙일 때",
+      "fromLine": 4
+    },
+    {
+      "en": "It's a bit like ___.",
+      "ko": "___와 조금 비슷해요.",
+      "note": "상대에게 익숙한 것과 비교할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "How do you ___ fairly?",
+      "ko": "___를 어떻게 공정하게 하세요?",
+      "note": "제도에 대해 질문할 때",
+      "fromLine": 8
+    }
+  ]
+}

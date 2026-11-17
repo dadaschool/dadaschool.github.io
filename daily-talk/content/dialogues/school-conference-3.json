@@ -1,0 +1,138 @@
+{
+  "id": "school-conference-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "conference",
+  "level": 3,
+  "title": {
+    "ko": "교육 연수 · 학회",
+    "en": "Teacher Training and Conferences"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "학회에서 협력 수업 사례를 발표한 뒤 청중의 날카로운 질문에 차분히 답하고, 질문한 사람과 명함을 주고받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학회 참석자",
+      "en": "Attendee",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Thank you for your presentation. I have a question, if that's okay.",
+      "ko": "발표 감사합니다. 괜찮으시면 질문이 하나 있어요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Of course. Please go ahead.",
+      "ko": "물론이죠. 말씀하세요.",
+      "alt": [
+        "Sure, go ahead.",
+        "Of course. What's your question?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Your results look great, but you only studied one class. How do you know the co-teaching made the difference, and not something else?",
+      "ko": "결과가 아주 좋아 보이는데, 한 반만 연구하셨잖아요. 다른 이유가 아니라 협력 수업 때문에 달라졌다는 걸 어떻게 아시나요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "That's a fair point, and thank you for raising it. You're right that one class is a small sample.",
+      "ko": "타당한 지적이에요. 짚어 주셔서 감사합니다. 한 반은 표본이 작다는 말씀이 맞아요.",
+      "alt": [
+        "That's a good point. Thanks for bringing it up. One class is a small sample, you're right."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "So do you think the results would be the same in other schools?",
+      "ko": "그럼 다른 학교에서도 결과가 같을 거라고 보세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I can't say for sure yet. That's why we're expanding the study to three more schools next year. I'd be happy to share the results when they're ready.",
+      "ko": "아직 확실히 말씀드리긴 어려워요. 그래서 내년에 학교 세 곳으로 연구를 넓히려고 해요. 결과가 나오면 기꺼이 공유해 드릴게요.",
+      "alt": [
+        "I'm not sure yet. That's why we're doing the study at three more schools next year. I'll gladly share the results."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "I'd love that. Actually, my school might be interested in joining.",
+      "ko": "그럼 좋겠어요. 사실 저희 학교도 참여하고 싶어 할 수도 있어요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "That would be wonderful. Here's my card. Please feel free to email me anytime.",
+      "ko": "그러면 정말 좋겠어요. 제 명함이에요. 언제든 편하게 메일 주세요.",
+      "alt": [
+        "That would be great. This is my business card. Email me anytime."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Thanks. Here's mine. I'm Dr. Martin from Greenfield Academy in Canada.",
+      "ko": "고마워요. 이건 제 명함이에요. 저는 캐나다 그린필드 아카데미의 마틴 박사예요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Nice to meet you, Dr. Martin. I'll send you an email next week so we can keep in touch.",
+      "ko": "반갑습니다, 마틴 박사님. 계속 연락할 수 있게 다음 주에 메일 드릴게요.",
+      "alt": [
+        "It's nice to meet you, Dr. Martin. I'll email you next week so we can stay in touch."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "That's a fair point.",
+      "ko": "타당한 지적이에요.",
+      "note": "날카로운 질문을 인정하며 받을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Thank you for raising it.",
+      "ko": "짚어 주셔서 감사합니다.",
+      "note": "raise = (문제를) 제기하다",
+      "fromLine": 4
+    },
+    {
+      "en": "I can't say for sure yet.",
+      "ko": "아직 확실히 말씀드리긴 어려워요.",
+      "note": "모르는 것을 솔직하게 말할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Here's my card.",
+      "ko": "제 명함이에요.",
+      "note": "business card = 명함",
+      "fromLine": 8
+    },
+    {
+      "en": "keep in touch",
+      "ko": "계속 연락하다",
+      "note": "stay in touch 라고도 함",
+      "fromLine": 10
+    }
+  ]
+}

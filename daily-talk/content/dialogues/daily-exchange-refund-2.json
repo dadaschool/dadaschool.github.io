@@ -1,0 +1,132 @@
+{
+  "id": "daily-exchange-refund-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "exchange-refund",
+  "level": 2,
+  "title": {
+    "ko": "교환 · 환불",
+    "en": "Exchanges and Refunds"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "물이 새는 커피 메이커를 영수증과 함께 가져가 환불을 고르고, 환불이 언제 들어오는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "고객 서비스 직원",
+      "en": "Customer service associate",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi there. How can I help you today?",
+      "ko": "안녕하세요. 무엇을 도와드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi. I bought this coffee maker last week, but it leaks every time I use it.",
+      "ko": "안녕하세요. 지난주에 이 커피 메이커를 샀는데, 쓸 때마다 물이 새요.",
+      "alt": [
+        "Hi. I got this coffee maker last week, and it leaks whenever I use it.",
+        "Hello. This coffee maker I bought last week keeps leaking."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "I'm sorry about that. Do you have your receipt?",
+      "ko": "불편을 드려 죄송합니다. 영수증 있으세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, here it is. I still have the box, too.",
+      "ko": "네, 여기 있어요. 상자도 아직 있어요.",
+      "alt": [
+        "Yes, here you go. I kept the box as well.",
+        "Here's the receipt. I have the original box, too."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Great. Would you like to exchange it for a new one, or get a refund?",
+      "ko": "좋습니다. 새 제품으로 교환하시겠어요, 아니면 환불받으시겠어요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I'd prefer a refund, if that's okay. I think I'll try a different model.",
+      "ko": "괜찮으시다면 환불받고 싶어요. 다른 모델을 써 보려고요.",
+      "alt": [
+        "I'd rather get a refund, please. I want to try another model.",
+        "A refund would be better, I think. I'll look for a different model."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "No problem. I'll put it back on the card you used.",
+      "ko": "알겠습니다. 결제하신 카드로 환불해 드릴게요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Thanks. How long does it take for the refund to go through?",
+      "ko": "고마워요. 환불이 처리되기까지 얼마나 걸려요?",
+      "alt": [
+        "Thank you. When will I get the money back?",
+        "Thanks. How long will the refund take?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Usually three to five business days. Here's your return receipt.",
+      "ko": "보통 영업일로 3~5일 걸려요. 여기 반품 영수증입니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___ leaks.",
+      "ko": "___에서 물이 새요.",
+      "note": "leak = (물 · 공기가) 새다",
+      "fromLine": 2
+    },
+    {
+      "en": "exchange it for ___",
+      "ko": "___로 교환하다",
+      "note": "exchange A for B = A 를 B 로 바꾸다",
+      "fromLine": 5
+    },
+    {
+      "en": "I'd prefer ___, if that's okay.",
+      "ko": "괜찮으시다면 ___가 좋겠어요.",
+      "note": "원하는 것을 부드럽게 말할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "How long does it take for ___?",
+      "ko": "___까지 얼마나 걸려요?",
+      "note": "처리 기간을 물을 때",
+      "fromLine": 8
+    },
+    {
+      "en": "business days",
+      "ko": "영업일",
+      "note": "주말 · 공휴일을 빼고 세는 날",
+      "fromLine": 9
+    }
+  ]
+}

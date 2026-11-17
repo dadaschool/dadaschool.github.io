@@ -1,0 +1,120 @@
+{
+  "id": "daily-pharmacy-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "pharmacy",
+  "level": 2,
+  "title": {
+    "ko": "약국",
+    "en": "At the Pharmacy"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "콧물과 기침에 먹을 감기약을 추천받고, 졸리지 않은지와 먹는 횟수, 빈속에 먹어도 되는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "약사",
+      "en": "Pharmacist",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me. Could you recommend something for a cold? I have a runny nose and a cough.",
+      "ko": "실례합니다. 감기약 좀 추천해 주시겠어요? 콧물이 나고 기침을 해요.",
+      "alt": [
+        "Hi. What do you have for a cold? I've got a runny nose and a cough.",
+        "Excuse me. I have a runny nose and a cough. What should I take?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "This one is good for both. It comes in a day version and a night version.",
+      "ko": "이게 둘 다에 잘 들어요. 낮에 먹는 것과 밤에 먹는 것이 따로 있어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Will it make me sleepy? I have to drive to work.",
+      "ko": "먹으면 졸려요? 차를 몰고 출근해야 하거든요.",
+      "alt": [
+        "Does it make you drowsy? I need to drive to work.",
+        "Will I get sleepy? I drive to work."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "The daytime one is non-drowsy, so you'll be fine. The nighttime one will help you sleep.",
+      "ko": "낮에 먹는 건 졸리지 않아서 괜찮아요. 밤에 먹는 건 잠을 잘 자게 도와줘요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Great. How often should I take the daytime one?",
+      "ko": "좋네요. 낮에 먹는 건 얼마나 자주 먹어야 해요?",
+      "alt": [
+        "Good. How many times a day do I take the day one?",
+        "Okay. How often do I take it during the day?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Every four to six hours, but no more than four doses a day.",
+      "ko": "4~6시간마다 드시되, 하루에 네 번을 넘지 마세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Got it. Is it okay to take it on an empty stomach?",
+      "ko": "알겠어요. 빈속에 먹어도 괜찮아요?",
+      "alt": [
+        "Okay. Can I take it without eating?",
+        "I see. Do I have to eat first?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, that's fine. If your symptoms last more than a week, you should see a doctor.",
+      "ko": "네, 괜찮아요. 증상이 일주일 넘게 가면 병원에 가 보세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Could you recommend something for ___?",
+      "ko": "___에 먹을 약 좀 추천해 주시겠어요?",
+      "note": "약국에서 가장 쓸모 있는 질문",
+      "fromLine": 1
+    },
+    {
+      "en": "a runny nose",
+      "ko": "콧물",
+      "note": "코가 막히면 a stuffy nose",
+      "fromLine": 1
+    },
+    {
+      "en": "Will it make me sleepy?",
+      "ko": "먹으면 졸려요?",
+      "note": "drowsy = 졸린 · non-drowsy = 졸리지 않은",
+      "fromLine": 3
+    },
+    {
+      "en": "on an empty stomach",
+      "ko": "빈속에",
+      "note": "식후에는 after a meal",
+      "fromLine": 7
+    }
+  ]
+}

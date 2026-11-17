@@ -1,0 +1,104 @@
+{
+  "id": "work-time-off-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "time-off",
+  "level": 1,
+  "title": {
+    "ko": "휴가 · 퇴근 이야기",
+    "en": "Vacation and Leaving Work"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "퇴근하면서 동료와 다음 주 휴가 계획을 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "동료",
+      "en": "Coworker",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Are you heading home, Minsu?",
+      "ko": "민수 씨, 퇴근해요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes. I'm done for today.",
+      "ko": "네. 오늘은 끝났어요.",
+      "alt": [
+        "Yes, I'm finished for the day.",
+        "Yeah. I'm leaving now."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Any plans for your vacation next week?",
+      "ko": "다음 주 휴가 때 계획 있어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I'm going to Jeju with my family.",
+      "ko": "가족이랑 제주도에 가요.",
+      "alt": [
+        "I'm taking my family to Jeju.",
+        "My family and I are going to Jeju."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Nice! How long will you be away?",
+      "ko": "좋네요! 얼마 동안 가요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Five days. I'll be back on Monday.",
+      "ko": "5일이요. 월요일에 돌아와요.",
+      "alt": [
+        "For five days. I'm back on Monday.",
+        "Five days. I'll return on Monday."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Have a great trip. See you then!",
+      "ko": "즐거운 여행 하세요. 그때 봐요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm done for today.",
+      "ko": "오늘은 끝났어요.",
+      "note": "퇴근할 때 하는 말",
+      "fromLine": 2
+    },
+    {
+      "en": "I'm going to ___ with ___.",
+      "ko": "___와 ___에 가요.",
+      "note": "휴가 계획을 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "I'll be back on ___.",
+      "ko": "___에 돌아와요.",
+      "note": "복귀하는 날을 알릴 때",
+      "fromLine": 6
+    }
+  ]
+}

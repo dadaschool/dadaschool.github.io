@@ -1,0 +1,108 @@
+{
+  "id": "social-apologies-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "apologies",
+  "level": 1,
+  "title": {
+    "ko": "사과하기",
+    "en": "Apologizing"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "친구와의 약속에 늦어서 미안하다고 말하고, 커피를 사 준 친구에게 다음엔 내가 사겠다고 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "친구",
+      "en": "Friend",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "친구(나)",
+      "en": "Friend",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Sorry I'm late! The bus was so slow.",
+      "ko": "늦어서 미안해! 버스가 너무 느렸어.",
+      "alt": [
+        "I'm so sorry I'm late!",
+        "Sorry! The bus took forever."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "No worries. I ordered you a coffee.",
+      "ko": "괜찮아. 네 커피도 시켜 놨어."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Oh, thank you! How much was it?",
+      "ko": "와, 고마워! 얼마였어?",
+      "alt": [
+        "Thanks! How much do I owe you?",
+        "You're the best! How much was it?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Don't worry about it.",
+      "ko": "됐어, 신경 쓰지 마."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Then the next coffee is on me.",
+      "ko": "그럼 다음 커피는 내가 살게.",
+      "alt": [
+        "I'll get the next one.",
+        "Okay, the next one's on me."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Deal! So, how was your week?",
+      "ko": "좋아! 그래서 이번 주는 어땠어?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Busy, but good. I'll tell you everything.",
+      "ko": "바빴는데 괜찮았어. 다 얘기해 줄게.",
+      "alt": [
+        "Pretty busy! Let me tell you about it.",
+        "Crazy busy. I have so much to tell you."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Sorry I'm late!",
+      "ko": "늦어서 미안해!",
+      "note": "늦었을 때 가장 먼저 하는 말",
+      "fromLine": 1
+    },
+    {
+      "en": "No worries.",
+      "ko": "괜찮아.",
+      "note": "사과에 답할 때 · It's okay 와 같음",
+      "fromLine": 2
+    },
+    {
+      "en": "___ is on me.",
+      "ko": "___는 내가 살게.",
+      "note": "내가 낼게 = It's on me",
+      "fromLine": 5
+    }
+  ]
+}

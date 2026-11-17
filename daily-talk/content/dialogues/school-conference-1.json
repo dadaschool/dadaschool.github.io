@@ -1,0 +1,104 @@
+{
+  "id": "school-conference-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "conference",
+  "level": 1,
+  "title": {
+    "ko": "교육 연수 · 학회",
+    "en": "Teacher Training and Conferences"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "교육 학회 등록대에서 이름을 말하고 명찰을 받은 뒤, 발표장 위치와 자리를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학회 직원",
+      "en": "Conference staff",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good morning. Are you here to register?",
+      "ko": "안녕하세요. 등록하러 오셨어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes. My name is Lee Jiwon.",
+      "ko": "네. 제 이름은 이지원이에요.",
+      "alt": [
+        "Yes. I'm Lee Jiwon.",
+        "Yes. I registered online as Lee Jiwon."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Here's your name tag and program.",
+      "ko": "여기 명찰과 프로그램입니다."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Thanks. Where is the main hall?",
+      "ko": "고마워요. 대강당은 어디예요?",
+      "alt": [
+        "Thank you. Where's the main hall?",
+        "Thanks. How do I get to the main hall?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "It's on the second floor, on your right.",
+      "ko": "2층 오른쪽에 있어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Can I sit anywhere?",
+      "ko": "아무 데나 앉아도 돼요?",
+      "alt": [
+        "Are the seats assigned?",
+        "Can I take any seat?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yes, except the front row.",
+      "ko": "네, 맨 앞줄만 빼고요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "name tag",
+      "ko": "명찰",
+      "note": "학회 · 연수에서 받는 이름표",
+      "fromLine": 3
+    },
+    {
+      "en": "Where is the main hall?",
+      "ko": "대강당은 어디예요?",
+      "note": "main hall = 대강당 · 큰 발표장",
+      "fromLine": 4
+    },
+    {
+      "en": "Can I sit anywhere?",
+      "ko": "아무 데나 앉아도 돼요?",
+      "note": "자리가 정해져 있는지 물을 때",
+      "fromLine": 6
+    }
+  ]
+}

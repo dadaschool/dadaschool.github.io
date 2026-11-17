@@ -1,0 +1,139 @@
+{
+  "id": "social-small-talk-3",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "small-talk",
+  "level": 3,
+  "title": {
+    "ko": "날씨 · 가벼운 인사",
+    "en": "Weather and Small Talk"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "주말 아침 집 앞에서 이웃과 날씨 이야기로 시작해 정원 이야기로 대화를 이어 가다가, 약속 때문에 자연스럽게 마무리한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "이웃",
+      "en": "Neighbor",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "이웃(나)",
+      "en": "Neighbor",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Isn't this weather gorgeous? Finally, a sunny weekend!",
+      "ko": "날씨 정말 좋지 않아요? 드디어 맑은 주말이네요!"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I know! After all that rain, it feels like a gift.",
+      "ko": "그러니까요! 비가 그렇게 오더니, 선물 같아요.",
+      "alt": [
+        "Right? After all that rain, it feels amazing.",
+        "It's beautiful! It feels great after all the rain."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Doing anything fun today?",
+      "ko": "오늘 뭐 재밌는 거 해요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I'm meeting a friend for a picnic by the river. How about you, Diane? I noticed you've been working on your garden.",
+      "ko": "친구랑 강가에서 피크닉하기로 했어요. 다이앤 씨는요? 요즘 정원 가꾸시는 거 봤어요.",
+      "alt": [
+        "I'm having a picnic with a friend by the river. What about you? I saw you working in your garden."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Oh, yes! The tomatoes are finally coming in. Last year, the squirrels got every single one, so this year I put up a little fence, and then...",
+      "ko": "아, 맞아요! 토마토가 드디어 열리기 시작했어요. 작년엔 다람쥐들이 하나도 안 남기고 다 먹어서, 올해는 작은 울타리를 쳤는데, 그랬더니..."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Ha, smart move. They look great. You've clearly put a lot of work into it.",
+      "ko": "하하, 잘하셨네요. 정말 잘 자랐어요. 공을 많이 들이신 게 보여요.",
+      "alt": [
+        "Good thinking! They look amazing. You must have worked really hard on it."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Thank you! You know, I could give you some when they're ripe. Do you cook much?",
+      "ko": "고마워요! 있잖아요, 익으면 좀 드릴게요. 요리 자주 하세요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I'd love that! I do, actually. I'm sorry to cut this short, but I promised my friend I'd be there by noon.",
+      "ko": "그럼 너무 좋죠! 사실 자주 해요. 말씀 중에 죄송한데, 친구한테 12시까지 가기로 해서요.",
+      "alt": [
+        "That would be great! Yes, I cook a lot. I hate to cut this short, but I told my friend I'd be there at noon."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Oh, of course! Don't let me keep you.",
+      "ko": "어머, 그럼요! 어서 가 보세요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "It was great chatting with you. Good luck with the tomatoes!",
+      "ko": "이야기 나눠서 즐거웠어요. 토마토 잘 키우세요!",
+      "alt": [
+        "Nice talking with you! Good luck with the tomatoes.",
+        "Great catching up! I hope the tomatoes do well."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I noticed you've been ___ing.",
+      "ko": "요즘 ___하시는 거 봤어요.",
+      "note": "상대에게 관심을 보여 대화를 이어 갈 때",
+      "fromLine": 4
+    },
+    {
+      "en": "You've put a lot of work into ___.",
+      "ko": "___에 공을 많이 들이셨네요.",
+      "note": "노력을 알아봐 주는 칭찬",
+      "fromLine": 6
+    },
+    {
+      "en": "I'm sorry to cut this short, but ___.",
+      "ko": "말씀 중에 죄송한데, ___.",
+      "note": "대화를 정중하게 끝낼 때 · I hate to cut this short 도 같음",
+      "fromLine": 8
+    },
+    {
+      "en": "Don't let me keep you.",
+      "ko": "어서 가 보세요.",
+      "note": "바쁜 상대를 붙잡지 않고 보내 줄 때",
+      "fromLine": 9
+    },
+    {
+      "en": "It was great chatting with you.",
+      "ko": "이야기 나눠서 즐거웠어요.",
+      "note": "대화를 따뜻하게 마무리할 때",
+      "fromLine": 10
+    }
+  ]
+}

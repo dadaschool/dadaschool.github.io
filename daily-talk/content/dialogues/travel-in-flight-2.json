@@ -1,0 +1,118 @@
+{
+  "id": "travel-in-flight-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "in-flight",
+  "level": 2,
+  "title": {
+    "ko": "기내에서 부탁하기",
+    "en": "On the Plane"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "기내식을 고르고, 헤드폰이 안 되는 문제를 말하고, 입국 신고서를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "승무원",
+      "en": "Flight attendant",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "For dinner, we have chicken or beef. Which would you like?",
+      "ko": "저녁 식사로 닭고기와 소고기가 있습니다. 어느 것으로 하시겠어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I'll have the chicken, please. Could I also get some orange juice?",
+      "ko": "닭고기로 할게요. 오렌지 주스도 받을 수 있을까요?",
+      "alt": [
+        "Chicken, please. And can I have some orange juice?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Of course. Here you are.",
+      "ko": "물론이죠. 여기 있습니다."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Excuse me, my headphones aren't working. I can't hear anything.",
+      "ko": "저기요, 헤드폰이 안 돼요. 아무것도 안 들려요.",
+      "alt": [
+        "Excuse me, my headphones don't work. There's no sound.",
+        "Sorry, these headphones aren't working."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Let me take a look. Try this new pair.",
+      "ko": "제가 볼게요. 이 새것으로 써 보세요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "That works. Thanks. Do I need to fill out an arrival card?",
+      "ko": "이제 돼요. 고마워요. 입국 신고서를 써야 하나요?",
+      "alt": [
+        "It works now, thanks. Do I have to fill out an arrival card?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yes. I'll hand them out after the meal. Do you need a pen?",
+      "ko": "네. 식사 뒤에 나눠 드릴게요. 펜 필요하세요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Yes, please. That would be helpful.",
+      "ko": "네, 주세요. 그러면 도움이 되겠어요.",
+      "alt": [
+        "Yes, please. That would help.",
+        "Yes, thank you."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'll have ___.",
+      "ko": "___로 할게요.",
+      "note": "주문할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "___ isn't working.",
+      "ko": "___가 안 돼요.",
+      "note": "기계가 고장 났을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Do I need to ___?",
+      "ko": "제가 ___해야 하나요?",
+      "note": "해야 할 일을 물을 때",
+      "fromLine": 6
+    },
+    {
+      "en": "That would be helpful.",
+      "ko": "그러면 도움이 되겠어요.",
+      "note": "제안을 고맙게 받을 때",
+      "fromLine": 8
+    }
+  ]
+}

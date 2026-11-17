@@ -1,0 +1,137 @@
+{
+  "id": "work-video-call-issues-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "video-call-issues",
+  "level": 3,
+  "title": {
+    "ko": "화상회의 연결 문제",
+    "en": "Video Call Problems"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "중요한 화상회의에서 연결이 계속 끊기자 해결을 시도하고, 남은 안건은 다음 날로 다시 잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "협력사 매니저",
+      "en": "Partner manager",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Sorry about that, Daniel. I got disconnected again. Did you catch the last part about the budget?",
+      "ko": "죄송해요, 대니얼 씨. 또 연결이 끊겼어요. 예산에 대한 마지막 부분 들으셨어요?",
+      "alt": [
+        "Sorry, Daniel, I lost my connection again. Did you hear what I said about the budget?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Only the beginning. You froze right after you mentioned the second quarter.",
+      "ko": "앞부분만요. 2분기 얘기를 꺼내신 직후에 화면이 멈췄어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I apologize. Our office network has been unstable all day. Let me turn off my camera and see if that helps.",
+      "ko": "죄송합니다. 오늘 하루 종일 사무실 네트워크가 불안정하네요. 카메라를 끄고 좀 나아지는지 볼게요.",
+      "alt": [
+        "I'm so sorry. Our internet has been bad all day. I'll turn off my video and see if it helps."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Good idea... Hmm, your voice is still cutting in and out.",
+      "ko": "좋은 생각이에요... 음, 그래도 목소리가 계속 끊겼다 들렸다 해요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Then how about I call in by phone instead? The dial-in number is in the invitation, right?",
+      "ko": "그럼 대신 전화로 접속하면 어떨까요? 전화 접속 번호가 초대장에 있죠?",
+      "alt": [
+        "Okay, then maybe I should join by phone. The number is in the meeting invite, isn't it?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Yes, it is. But we only have ten minutes left, and we still need to make a decision on the budget.",
+      "ko": "네, 있어요. 그런데 10분밖에 안 남았는데, 아직 예산 결정을 해야 해요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That's true, but I don't think we should rush such an important decision. Would you be open to discussing the budget tomorrow instead?",
+      "ko": "맞아요. 하지만 그렇게 중요한 결정을 서둘러 내리면 안 될 것 같아요. 예산 논의는 대신 내일 하는 게 어떠세요?",
+      "alt": [
+        "You're right, but it's too important to rush. Could we move the budget discussion to tomorrow?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "That's fine with me. I'm free tomorrow at 9 a.m. my time.",
+      "ko": "저는 좋아요. 내일 제 쪽 시간으로 오전 9시에 시간이 돼요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That works for me. This time, I'll book a room with a wired connection, and I'll send you my slides in advance, just in case.",
+      "ko": "저도 좋아요. 이번에는 유선 인터넷이 되는 회의실을 잡고, 혹시 모르니 슬라이드도 미리 보내 드릴게요.",
+      "alt": [
+        "Great, that works. I'll use a meeting room with wired internet, and I'll email you the slides beforehand, just in case."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Sounds like a plan. Let's use the last few minutes to go over the other items.",
+      "ko": "좋아요, 그렇게 하죠. 남은 몇 분 동안 다른 안건을 살펴봐요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I got disconnected.",
+      "ko": "연결이 끊겼어요.",
+      "note": "disconnect = 연결이 끊기다",
+      "fromLine": 1
+    },
+    {
+      "en": "Did you catch ___?",
+      "ko": "___ 들으셨어요?",
+      "note": "catch = (말을) 알아듣다",
+      "fromLine": 1
+    },
+    {
+      "en": "cutting in and out",
+      "ko": "끊겼다 들렸다 하는",
+      "note": "소리가 계속 끊길 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Would you be open to ___ing?",
+      "ko": "___하는 건 어떠세요?",
+      "note": "상대 생각을 존중하며 제안할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "just in case",
+      "ko": "혹시 모르니",
+      "note": "만일을 대비할 때",
+      "fromLine": 9
+    }
+  ]
+}

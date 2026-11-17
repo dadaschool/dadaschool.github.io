@@ -1,0 +1,117 @@
+{
+  "id": "social-invitations-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "invitations",
+  "level": 2,
+  "title": {
+    "ko": "초대하기 · 거절하기",
+    "en": "Inviting and Declining"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "동료가 집들이에 초대하자, 조금 늦을 수 있다고 미리 말하고 가져갈 것과 주소를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "회사 동료",
+      "en": "Coworker",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hey, we're having a housewarming party next Friday. Would you like to come?",
+      "ko": "저희 다음 주 금요일에 집들이하는데, 오실래요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Oh, congratulations on the new place! I'd love to. What time?",
+      "ko": "와, 이사 축하해요! 좋아요. 몇 시예요?",
+      "alt": [
+        "Congrats on your new place! I'd be happy to come. What time does it start?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Around seven. It's pretty casual, just some food and games.",
+      "ko": "7시쯤이요. 그냥 편한 자리예요. 음식 먹고 게임하고요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Sounds fun. I have a class until seven, though, so I might be a little late. Is that okay?",
+      "ko": "재밌겠네요. 그런데 7시까지 수업이 있어서 조금 늦을 수도 있어요. 괜찮아요?",
+      "alt": [
+        "That sounds great. But I have a class until seven, so I may be a bit late. Is that all right?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "No problem at all. Come whenever you can.",
+      "ko": "전혀 문제없어요. 편할 때 와요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Thanks. Can I bring anything? Maybe some drinks or dessert?",
+      "ko": "고마워요. 뭐 가져갈까요? 음료나 디저트 같은 거요?",
+      "alt": [
+        "Great. Should I bring something, like drinks or dessert?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Dessert would be great. My wife loves anything chocolate.",
+      "ko": "디저트면 좋죠. 아내가 초콜릿 들어간 건 다 좋아하거든요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Perfect. Could you text me your new address?",
+      "ko": "좋아요. 새 주소 문자로 보내 줄 수 있어요?",
+      "alt": [
+        "Got it. Can you send me the address?",
+        "Great. Please text me the address."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Congratulations on ___!",
+      "ko": "___ 축하해요!",
+      "note": "on + 축하할 일 · 줄여서 Congrats on ___!",
+      "fromLine": 2
+    },
+    {
+      "en": "I might be a little late.",
+      "ko": "조금 늦을 수도 있어요.",
+      "note": "미리 양해를 구할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Come whenever you can.",
+      "ko": "편할 때 와요.",
+      "note": "늦어도 괜찮다고 할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Could you text me ___?",
+      "ko": "___ 문자로 보내 줄 수 있어요?",
+      "note": "text = 문자를 보내다 · 동사로도 씀",
+      "fromLine": 8
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "id": "culture-cinema-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "cinema",
+  "level": 2,
+  "title": {
+    "ko": "영화관",
+    "en": "At the Movies"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "온라인으로 산 표의 좌석이 화면에 너무 가까워서 매표소에서 뒤쪽 자리로 바꾸고, 예고편 시간을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "매표소 직원",
+      "en": "Box office staff",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "관객(나)",
+      "en": "Moviegoer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I bought two tickets online, but I'd like to change our seats.",
+      "ko": "안녕하세요. 온라인으로 표 두 장을 샀는데요, 자리를 바꾸고 싶어요.",
+      "alt": [
+        "Hi. I booked two tickets online. Can I change our seats?",
+        "Hello. I'd like to change the seats on my online tickets."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Can I see your booking number?",
+      "ko": "네. 예매 번호 좀 보여 주시겠어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Here it is. We're in the second row, and that's too close to the screen.",
+      "ko": "여기 있어요. 둘째 줄인데 화면에 너무 가까워서요.",
+      "alt": [
+        "Here you go. We're in row two, and it's too close to the screen."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I see. There are two seats together in row J. Would that work?",
+      "ko": "그렇군요. J열에 나란히 붙은 자리가 두 개 있어요. 괜찮으시겠어요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That sounds perfect. Is there an extra charge?",
+      "ko": "딱 좋네요. 추가 요금이 있나요?",
+      "alt": [
+        "Perfect. Do I need to pay extra?",
+        "That's great. Does it cost more?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "No, it's the same price. Here are your new tickets.",
+      "ko": "아니요, 가격은 같아요. 새 표 여기 있습니다."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Thanks. By the way, how long are the previews before the movie?",
+      "ko": "고마워요. 그런데 영화 전에 예고편은 얼마나 해요?",
+      "alt": [
+        "Thank you. How long are the trailers before it starts?",
+        "Thanks. How many minutes of previews are there?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "About fifteen minutes, so you have time to grab some snacks.",
+      "ko": "15분쯤이요. 그러니 간식 사실 시간은 충분해요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to change our seats.",
+      "ko": "자리를 바꾸고 싶어요.",
+      "note": "예매한 좌석을 바꿀 때",
+      "fromLine": 1
+    },
+    {
+      "en": "too close to the screen",
+      "ko": "화면에 너무 가까운",
+      "note": "too + 형용사 = 너무 ~한",
+      "fromLine": 3
+    },
+    {
+      "en": "Is there an extra charge?",
+      "ko": "추가 요금이 있나요?",
+      "note": "Do I need to pay extra? 와 같은 뜻",
+      "fromLine": 5
+    },
+    {
+      "en": "By the way, ___?",
+      "ko": "그런데 ___?",
+      "note": "화제를 살짝 바꿀 때",
+      "fromLine": 7
+    }
+  ]
+}

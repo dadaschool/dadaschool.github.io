@@ -1,0 +1,119 @@
+{
+  "id": "culture-one-day-class-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "one-day-class",
+  "level": 2,
+  "title": {
+    "ko": "원데이 클래스 (요리 · 공예 등)",
+    "en": "One-Day Classes"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "요리 원데이 클래스가 시작될 때 강사의 안내를 듣고, 초보라고 말하며 수업 방식과 만든 음식을 가져갈 수 있는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "요리 강사",
+      "en": "Cooking instructor",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "수강생(나)",
+      "en": "Student",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Welcome! Please put on an apron and wash your hands at the sink.",
+      "ko": "어서 오세요! 앞치마를 두르고 싱크대에서 손을 씻어 주세요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Sure. Where can I put my bag?",
+      "ko": "네. 가방은 어디에 두면 돼요?",
+      "alt": [
+        "Okay. Where should I leave my bag?",
+        "Sure. Is there a place for my bag?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "There are shelves by the door. Today we're making fresh pasta from scratch.",
+      "ko": "문 옆에 선반이 있어요. 오늘은 생파스타를 처음부터 직접 만들 거예요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Sounds great, but I should tell you I'm a total beginner.",
+      "ko": "좋네요. 그런데 미리 말씀드리면 저는 완전 초보예요.",
+      "alt": [
+        "Sounds fun, but I'm a complete beginner.",
+        "Great, but just so you know, I've never done this before."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Don't worry. Most people here are beginners, and you'll be working with a partner.",
+      "ko": "걱정 마세요. 여기 계신 분들 대부분 초보시고, 짝이랑 같이 하실 거예요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Good. Will we eat the pasta here, or take it home?",
+      "ko": "다행이에요. 파스타는 여기서 먹나요, 아니면 집에 가져가나요?",
+      "alt": [
+        "Great. Do we eat it here, or can we take it home?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Both! We'll eat together at the end, and you can take any extra pasta home.",
+      "ko": "둘 다요! 마지막에 다 같이 먹고, 남은 파스타는 집에 가져가셔도 돼요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Perfect. I'm already getting hungry.",
+      "ko": "좋아요. 벌써 배가 고파지네요.",
+      "alt": [
+        "Great. I'm hungry already.",
+        "Perfect. I'm getting hungry just thinking about it."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Where can I put ___?",
+      "ko": "___는 어디에 두면 돼요?",
+      "note": "물건 둘 곳을 물을 때",
+      "fromLine": 2
+    },
+    {
+      "en": "from scratch",
+      "ko": "처음부터 직접",
+      "note": "재료부터 손수 만들 때",
+      "fromLine": 3
+    },
+    {
+      "en": "I should tell you I'm a total beginner.",
+      "ko": "미리 말씀드리면 저는 완전 초보예요.",
+      "note": "내 수준을 미리 알릴 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Will we ___, or ___?",
+      "ko": "___하나요, 아니면 ___하나요?",
+      "note": "두 가지 중 어느 쪽인지 물을 때",
+      "fromLine": 6
+    }
+  ]
+}

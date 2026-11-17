@@ -1,0 +1,142 @@
+{
+  "id": "daily-clothes-shop-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "clothes-shop",
+  "level": 3,
+  "title": {
+    "ko": "옷 가게에서 고르기",
+    "en": "Shopping for Clothes"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "코트 두 벌을 입어 보고 비교하다가, 마음에 든 코트에 작은 흠이 있는 것을 보고 할인을 정중히 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "점원",
+      "en": "Sales associate",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, which one do you like better, the camel coat or the gray one?",
+      "ko": "그래서, 낙타색 코트랑 회색 코트 중에 어느 게 더 마음에 드세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I like the camel one better. The gray one feels a bit heavy.",
+      "ko": "낙타색이 더 좋아요. 회색은 좀 무거운 느낌이에요.",
+      "alt": [
+        "The camel one, I think. The gray one is a little heavy.",
+        "I prefer the camel coat. The gray one feels heavy."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Good choice. That one's pure wool, so it's really warm. It's $180.",
+      "ko": "잘 고르셨어요. 순모라서 정말 따뜻해요. 180달러예요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Hmm, that's a little more than I wanted to spend. Is it part of the sale?",
+      "ko": "음, 생각했던 것보다 좀 비싸네요. 이것도 세일 상품인가요?",
+      "alt": [
+        "That's a bit over my budget. Is it on sale?",
+        "Hmm, it's more than I planned to spend. Is there a discount on it?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "I'm afraid not. It's a new arrival, so the sale doesn't apply.",
+      "ko": "죄송하지만 아니에요. 신상품이라 세일 대상이 아니에요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I see. Oh, wait. It looks like one of the buttons is loose, and there's a small mark on the sleeve.",
+      "ko": "그렇군요. 어, 잠깐만요. 단추 하나가 덜렁거리고 소매에 작은 얼룩이 있는 것 같아요.",
+      "alt": [
+        "Okay. Oh, one of the buttons is loose, and there's a little mark on the sleeve.",
+        "I see. Wait, this button is loose, and the sleeve has a small stain."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Oh, you're right. Unfortunately, that's the last one in your size.",
+      "ko": "아, 그렇네요. 안타깝게도 손님 사이즈로는 그게 마지막이에요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I still really like it. Would you be able to give me a discount because of the damage?",
+      "ko": "그래도 정말 마음에 들어요. 흠이 있으니 좀 할인해 주실 수 있을까요?",
+      "alt": [
+        "I still love it. Could you give me a discount since it's damaged?",
+        "I'd still like it. Could you take something off because of the damage?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Let me check with my manager... Okay, we can take 25% off, and we'll sew the button back on for free.",
+      "ko": "매니저에게 확인해 볼게요... 네, 25% 할인해 드리고 단추도 무료로 다시 달아 드릴게요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "That's more than fair. I'll take it. Thank you for checking.",
+      "ko": "그 정도면 충분해요. 이걸로 살게요. 확인해 주셔서 고마워요.",
+      "alt": [
+        "That's very fair. I'll take it. Thanks for asking your manager.",
+        "Sounds great. I'll take it. Thank you for checking."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I like ___ better.",
+      "ko": "___가 더 좋아요.",
+      "note": "둘을 비교할 때 · prefer 와 같은 뜻",
+      "fromLine": 2
+    },
+    {
+      "en": "That's a little more than I wanted to spend.",
+      "ko": "생각했던 것보다 좀 비싸네요.",
+      "note": "비싸다고 부드럽게 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "___ is loose.",
+      "ko": "___가 덜렁거려요.",
+      "note": "단추가 떨어질 듯할 때 · 나사가 헐거울 때도 씀",
+      "fromLine": 6
+    },
+    {
+      "en": "Would you be able to ___?",
+      "ko": "___해 주실 수 있을까요?",
+      "note": "Can you ~ 보다 공손한 부탁",
+      "fromLine": 8
+    },
+    {
+      "en": "That's more than fair.",
+      "ko": "그 정도면 충분해요.",
+      "note": "제안이 기대보다 좋을 때",
+      "fromLine": 10
+    }
+  ]
+}

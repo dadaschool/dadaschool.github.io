@@ -1,0 +1,104 @@
+{
+  "id": "social-introductions-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "introductions",
+  "level": 1,
+  "title": {
+    "ko": "자기소개",
+    "en": "Introducing Yourself"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "친구 집들이에서 처음 만난 사람과 이름과 하는 일을 주고받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "처음 만난 사람",
+      "en": "New acquaintance",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "집들이 손님(나)",
+      "en": "Party guest",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi, I'm Emma. Nice to meet you.",
+      "ko": "안녕하세요, 저는 엠마예요. 만나서 반가워요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi, Emma. I'm Jiwon. Nice to meet you, too.",
+      "ko": "안녕하세요, 엠마 씨. 저는 지원이에요. 저도 반가워요.",
+      "alt": [
+        "Hi, I'm Jiwon. Nice to meet you.",
+        "Hello, Emma. My name is Jiwon."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "So, what do you do, Jiwon?",
+      "ko": "그럼 지원 씨는 무슨 일 하세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I'm a nurse. I work at a hospital.",
+      "ko": "저는 간호사예요. 병원에서 일해요.",
+      "alt": [
+        "I work at a hospital. I'm a nurse.",
+        "I'm a nurse at a hospital."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Oh, wow. That must be a tough job.",
+      "ko": "와, 힘든 일이겠네요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "It is, but I like it. What about you?",
+      "ko": "맞아요, 그래도 좋아요. 엠마 씨는요?",
+      "alt": [
+        "Yes, but I love it. And you?",
+        "It is busy, but I like it. How about you?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "I'm a graphic designer. I work from home.",
+      "ko": "저는 그래픽 디자이너예요. 재택근무해요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm a ___.",
+      "ko": "저는 ___예요.",
+      "note": "직업 앞에 a · an 을 붙임",
+      "fromLine": 4
+    },
+    {
+      "en": "I work at ___.",
+      "ko": "___에서 일해요.",
+      "note": "일하는 곳을 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "What about you?",
+      "ko": "그쪽은요?",
+      "note": "같은 질문을 되돌려 물을 때 · How about you? 도 같음",
+      "fromLine": 6
+    }
+  ]
+}

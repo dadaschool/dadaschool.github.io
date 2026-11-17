@@ -1,0 +1,104 @@
+{
+  "id": "school-observation-feedback-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "observation-feedback",
+  "level": 1,
+  "title": {
+    "ko": "수업 참관 · 피드백",
+    "en": "Lesson Observation and Feedback"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "원어민 교사의 수업을 참관한 뒤 좋았던 점을 짧게 말해 준다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Thanks for watching my class today.",
+      "ko": "오늘 제 수업 봐 주셔서 고마워요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "It was a great lesson!",
+      "ko": "정말 좋은 수업이었어요!",
+      "alt": [
+        "Your lesson was great!",
+        "I really enjoyed your lesson."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Really? What did you like?",
+      "ko": "정말요? 어떤 점이 좋았어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "The game was really fun.",
+      "ko": "게임이 정말 재미있었어요.",
+      "alt": [
+        "I loved the game.",
+        "The game was so much fun."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "The students seemed to enjoy it.",
+      "ko": "학생들도 좋아하는 것 같았어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes. Everyone was speaking English.",
+      "ko": "맞아요. 다들 영어로 말하고 있었어요.",
+      "alt": [
+        "They did. All the students spoke English.",
+        "Yes, and everyone used English."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "That's good to hear. Thank you!",
+      "ko": "그 말 들으니 좋네요. 고마워요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "It was a great ___!",
+      "ko": "정말 좋은 ___였어요!",
+      "note": "칭찬으로 시작할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "___ was really fun.",
+      "ko": "___가 정말 재미있었어요.",
+      "note": "좋았던 점을 구체적으로 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Everyone was ___ing.",
+      "ko": "다들 ___하고 있었어요.",
+      "note": "학생들 모습을 칭찬할 때",
+      "fromLine": 6
+    }
+  ]
+}

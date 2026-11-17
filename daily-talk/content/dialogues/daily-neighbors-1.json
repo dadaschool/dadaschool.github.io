@@ -1,0 +1,104 @@
+{
+  "id": "daily-neighbors-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "neighbors",
+  "level": 1,
+  "title": {
+    "ko": "이웃과 인사 · 부탁",
+    "en": "Neighbors"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "새로 이사 온 아파트 복도에서 옆집 이웃과 인사하고 자기소개를 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "옆집 이웃",
+      "en": "Neighbor",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "새 이웃(나)",
+      "en": "New neighbor",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi there. Did you just move in?",
+      "ko": "안녕하세요. 이번에 이사 오셨어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes, I moved in last week.",
+      "ko": "네, 지난주에 이사 왔어요.",
+      "alt": [
+        "Yes, last week.",
+        "Yes, I just moved in."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Welcome! I'm Linda. I live in 3A.",
+      "ko": "환영해요! 저는 린다예요. 3A호에 살아요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Nice to meet you. I'm Junho.",
+      "ko": "만나서 반가워요. 저는 준호예요.",
+      "alt": [
+        "Hi, I'm Junho. Nice to meet you.",
+        "Nice to meet you, Linda. I'm Junho."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Where are you from, Junho?",
+      "ko": "준호 씨는 어디에서 왔어요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I'm from Korea. I'm in 3B.",
+      "ko": "한국에서 왔어요. 저는 3B호예요.",
+      "alt": [
+        "From Korea. I live in 3B.",
+        "I'm from Korea. I'm right next door."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Great. Let me know if you need anything.",
+      "ko": "잘됐네요. 필요한 거 있으면 말해요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I moved in last week.",
+      "ko": "지난주에 이사 왔어요.",
+      "note": "move in = 이사 들어오다 · move out = 이사 나가다",
+      "fromLine": 2
+    },
+    {
+      "en": "I'm from ___.",
+      "ko": "___에서 왔어요.",
+      "note": "출신을 말할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Let me know if you need anything.",
+      "ko": "필요한 거 있으면 말해요.",
+      "note": "이웃 · 동료가 자주 하는 친절한 말",
+      "fromLine": 7
+    }
+  ]
+}

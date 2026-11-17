@@ -1,0 +1,131 @@
+{
+  "id": "work-hosting-visitors-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "hosting-visitors",
+  "level": 2,
+  "title": {
+    "ko": "손님 맞이 · 안내",
+    "en": "Welcoming Visitors"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "해외에서 온 손님에게 사무실을 간단히 보여 주며 층별 부서와 편의 시설을 안내한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "해외 손님",
+      "en": "Visitor",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Host",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Welcome to Dasol Tech, Mr. Grant. How was your flight?",
+      "ko": "다솔테크에 오신 걸 환영합니다, 그랜트 씨. 비행은 어떠셨어요?",
+      "alt": [
+        "Welcome to Dasol Tech, Mr. Grant. Did you have a good flight?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Long, but fine. I slept most of the way.",
+      "ko": "길었지만 괜찮았어요. 거의 내내 잤어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Glad to hear it. Before the meeting, would you like a quick tour of the office?",
+      "ko": "다행이네요. 회의 전에 사무실을 간단히 둘러보시겠어요?",
+      "alt": [
+        "Good to hear. Would you like a short tour of the office before the meeting?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I'd love that.",
+      "ko": "좋죠."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "This is where our design team works. Our engineers are one floor up.",
+      "ko": "여기는 디자인팀이 일하는 곳이에요. 엔지니어들은 한 층 위에 있어요.",
+      "alt": [
+        "Our design team is on this floor, and the engineers are upstairs."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "It's a very open space. How many people work here?",
+      "ko": "아주 탁 트인 공간이네요. 여기서 몇 명이나 일해요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "About a hundred and twenty in this office. The restrooms are down the hall, and there's a café on the first floor.",
+      "ko": "이 사무실에서는 120명쯤 일해요. 화장실은 복도 끝에 있고, 1층에 카페가 있어요.",
+      "alt": [
+        "Around 120 people. The restrooms are at the end of the hall, and the café is on the first floor."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Good to know. Thank you.",
+      "ko": "알아 두면 좋겠네요. 감사합니다."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "And here's our meeting room. My manager will join us in a few minutes.",
+      "ko": "그리고 여기가 회의실이에요. 팀장님이 몇 분 뒤에 오실 거예요.",
+      "alt": [
+        "This is the meeting room. My manager will be here in a few minutes."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How was your flight?",
+      "ko": "비행은 어떠셨어요?",
+      "note": "멀리서 온 손님에게 하는 첫 질문",
+      "fromLine": 1
+    },
+    {
+      "en": "Would you like a quick tour of ___?",
+      "ko": "___를 간단히 둘러보시겠어요?",
+      "note": "tour = 둘러보기, 견학",
+      "fromLine": 3
+    },
+    {
+      "en": "one floor up",
+      "ko": "한 층 위에",
+      "note": "한 층 아래는 one floor down",
+      "fromLine": 5
+    },
+    {
+      "en": "down the hall",
+      "ko": "복도 끝에 · 복도를 따라가면",
+      "note": "위치를 안내할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "___ will join us in a few minutes.",
+      "ko": "___가 몇 분 뒤에 오실 거예요.",
+      "note": "join = 함께하다, 합류하다",
+      "fromLine": 9
+    }
+  ]
+}

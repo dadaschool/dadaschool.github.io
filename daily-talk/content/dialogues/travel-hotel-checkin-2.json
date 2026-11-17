@@ -1,0 +1,124 @@
+{
+  "id": "travel-hotel-checkin-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "hotel-checkin",
+  "level": 2,
+  "title": {
+    "ko": "호텔 체크인",
+    "en": "Hotel Check-in"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "체크인하며 요금에 아침 식사가 포함됐는지, 와이파이 연결 방법, 늦은 체크아웃을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "프런트 직원",
+      "en": "Receptionist",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Guest",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good evening. Checking in?",
+      "ko": "안녕하세요. 체크인하시나요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes, I booked a double room for three nights. The name is Park.",
+      "ko": "네, 더블룸을 3박 예약했어요. 이름은 박이에요.",
+      "alt": [
+        "Yes, I have a double room for three nights under Park."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Thank you, Ms. Park. Could I have a credit card for incidentals?",
+      "ko": "감사합니다, 박 고객님. 부대 비용(미니바 등)을 위해 신용카드를 받을 수 있을까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Sure. Is breakfast included in the rate?",
+      "ko": "네. 요금에 아침 식사가 포함돼 있나요?",
+      "alt": [
+        "Sure. Does the price include breakfast?",
+        "Okay. Is breakfast included?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes, it's served in the restaurant on the first floor from 6:30.",
+      "ko": "네, 1층 식당에서 6시 30분부터 드실 수 있어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Great. And how do I connect to the Wi-Fi?",
+      "ko": "좋아요. 그리고 와이파이는 어떻게 연결하나요?",
+      "alt": [
+        "Great. What's the Wi-Fi password?",
+        "Good. How can I use the Wi-Fi?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "The password is on the back of your key card.",
+      "ko": "비밀번호는 카드 키 뒷면에 있어요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Perfect. Would it be possible to check out a little late on Friday?",
+      "ko": "좋네요. 금요일에 조금 늦게 체크아웃할 수 있을까요?",
+      "alt": [
+        "Perfect. Can I check out a bit late on Friday?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "We can do 1 p.m. at no charge. Enjoy your stay.",
+      "ko": "오후 1시까지는 무료로 해 드릴 수 있어요. 즐거운 시간 보내세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I booked ___ for three nights.",
+      "ko": "___를 3박 예약했어요.",
+      "note": "숙박 기간은 nights 로",
+      "fromLine": 2
+    },
+    {
+      "en": "Is ___ included?",
+      "ko": "___가 포함돼 있나요?",
+      "note": "요금에 무엇이 들었는지 물을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Would it be possible to ___?",
+      "ko": "___할 수 있을까요?",
+      "note": "가능한지 공손하게 물을 때",
+      "fromLine": 8
+    },
+    {
+      "en": "at no charge",
+      "ko": "무료로",
+      "note": "free of charge 와 같은 뜻",
+      "fromLine": 9
+    }
+  ]
+}

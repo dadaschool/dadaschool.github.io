@@ -1,0 +1,139 @@
+{
+  "id": "culture-theme-park-zoo-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "theme-park-zoo",
+  "level": 3,
+  "title": {
+    "ko": "놀이공원 · 동물원",
+    "en": "Theme Parks and Zoos"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "동물원에서 아이를 잃어버려 직원에게 아이의 생김새를 설명하고, 아이를 찾을 때까지 침착하게 도움을 받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "동물원 직원",
+      "en": "Zoo staff",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "부모(나)",
+      "en": "Parent",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, I need help. I can't find my son. He was right next to me at the penguin house a minute ago.",
+      "ko": "실례합니다, 도와주세요. 아들을 못 찾겠어요. 조금 전까지 펭귄관에서 바로 옆에 있었는데요.",
+      "alt": [
+        "Excuse me, please help me. My son is missing. He was with me at the penguin house a minute ago."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Okay, try to stay calm. We'll find him. How old is he, and what is he wearing?",
+      "ko": "네, 진정하세요. 저희가 찾아 드릴게요. 아이가 몇 살이고 어떤 옷을 입고 있나요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "He's six. He's wearing a yellow raincoat and blue rain boots, and he has a stuffed tiger with him.",
+      "ko": "여섯 살이에요. 노란 우비에 파란 장화를 신었고, 호랑이 인형을 들고 있어요.",
+      "alt": [
+        "He's six years old. He has on a yellow raincoat and blue boots, and he's holding a toy tiger."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Thank you. What's his name? I'll let all the staff know on the radio right away.",
+      "ko": "감사합니다. 이름이 뭐예요? 바로 무전으로 모든 직원에게 알릴게요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "His name is Jun. He doesn't speak much English, so he might be too scared to ask anyone for help.",
+      "ko": "이름은 준이에요. 영어를 잘 못하니까 겁먹어서 아무한테도 도와 달라고 못 할 수도 있어요.",
+      "alt": [
+        "It's Jun. His English isn't very good, so he may be too scared to ask for help."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That's helpful to know. Is there anywhere he really wanted to go? Kids often head to their favorite animal.",
+      "ko": "알아 두면 도움이 되겠네요. 아이가 꼭 가고 싶어 한 곳이 있나요? 아이들은 좋아하는 동물한테 가는 경우가 많거든요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Now that you mention it, he kept asking about the tigers all morning.",
+      "ko": "그러고 보니 아침 내내 호랑이 얘기를 계속했어요.",
+      "alt": [
+        "Come to think of it, he talked about the tigers all morning.",
+        "Actually, he kept asking about the tigers this morning."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Good news! A staff member just found a boy in a yellow raincoat at the tiger exhibit. He's safe, and he's still holding his tiger.",
+      "ko": "좋은 소식이에요! 방금 직원이 호랑이 전시장에서 노란 우비를 입은 남자아이를 찾았대요. 아이는 무사하고, 호랑이 인형도 그대로 들고 있대요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Oh, what a relief! Could you take me there? I don't want him waiting alone.",
+      "ko": "아, 정말 다행이에요! 거기로 데려다주실 수 있어요? 아이 혼자 기다리게 하고 싶지 않아요.",
+      "alt": [
+        "Thank goodness! Can you take me to him? I don't want him to be alone.",
+        "Oh, I'm so relieved! Could you show me the way?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Of course. Follow me. By the way, many parents write their phone number on their child's arm, just in case.",
+      "ko": "물론이죠. 따라오세요. 참고로, 혹시 몰라서 아이 팔에 전화번호를 적어 두는 부모님들이 많아요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I can't find my ___.",
+      "ko": "___를 못 찾겠어요.",
+      "note": "사람 · 물건을 잃어버렸을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "He's wearing ___.",
+      "ko": "___를 입고 있어요.",
+      "note": "옷차림을 설명할 때 (현재진행형)",
+      "fromLine": 3
+    },
+    {
+      "en": "He might be too scared to ___.",
+      "ko": "무서워서 ___ 못 할 수도 있어요.",
+      "note": "too + 형용사 + to 동사 = 너무 ~해서 못 하다",
+      "fromLine": 5
+    },
+    {
+      "en": "Now that you mention it, ___.",
+      "ko": "그러고 보니 ___.",
+      "note": "상대 말을 듣고 무언가 떠올랐을 때",
+      "fromLine": 7
+    },
+    {
+      "en": "What a relief!",
+      "ko": "정말 다행이에요!",
+      "note": "Thank goodness! 와 같은 뜻",
+      "fromLine": 9
+    }
+  ]
+}

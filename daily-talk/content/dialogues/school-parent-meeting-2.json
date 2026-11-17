@@ -1,0 +1,122 @@
+{
+  "id": "school-parent-meeting-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "parent-meeting",
+  "level": 2,
+  "title": {
+    "ko": "외국인 학부모 상담",
+    "en": "Meeting with Parents"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "학부모 상담 주간에 외국인 학부모를 만나 아이의 수업 태도와 급식, 동아리 활동을 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학부모",
+      "en": "Parent",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Thank you for meeting with me. I know you're busy.",
+      "ko": "만나 주셔서 감사해요. 바쁘신 거 알아요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Not at all. Thank you for coming in. Please have a seat.",
+      "ko": "아니에요. 와 주셔서 감사합니다. 앉으세요.",
+      "alt": [
+        "It's my pleasure. Thanks for coming. Please sit down."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "How is Sophie doing in class? She doesn't tell me much at home.",
+      "ko": "소피는 수업 시간에 어떤가요? 집에서는 별로 얘기를 안 해서요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "She's doing really well. She listens carefully, and she always finishes her homework on time.",
+      "ko": "아주 잘하고 있어요. 수업을 잘 듣고, 숙제도 늘 제때 해 와요.",
+      "alt": [
+        "She's doing great. She pays attention in class and always turns in her homework on time."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "That's good. Is she okay with the school lunches? She's a picky eater.",
+      "ko": "다행이네요. 급식은 잘 먹나요? 편식을 좀 하거든요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "She's getting used to them. She doesn't eat spicy food yet, but she loves the soup and rice.",
+      "ko": "점점 적응하고 있어요. 매운 음식은 아직 못 먹지만, 국이랑 밥은 아주 잘 먹어요.",
+      "alt": [
+        "She's getting better. Spicy food is still hard for her, but she really likes the soup and rice."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Ha, that sounds like her. Is there anything I can do at home?",
+      "ko": "하하, 딱 소피답네요. 집에서 제가 도와줄 수 있는 게 있을까요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Maybe you could encourage her to join a club. The art club would be a great way to make friends.",
+      "ko": "동아리에 들어가 보라고 권해 주시면 좋겠어요. 미술 동아리에 들어가면 친구를 사귀기 좋을 거예요.",
+      "alt": [
+        "It might help if she joined a club. The art club is a nice place to make friends."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "She loves drawing. I'll talk to her about it tonight.",
+      "ko": "그림 그리는 걸 정말 좋아해요. 오늘 밤에 얘기해 볼게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Thank you for coming in.",
+      "ko": "와 주셔서 감사합니다.",
+      "note": "상담하러 온 학부모에게",
+      "fromLine": 2
+    },
+    {
+      "en": "finish ___ on time",
+      "ko": "___를 제때 끝내다",
+      "note": "on time = 제때 · 정시에",
+      "fromLine": 4
+    },
+    {
+      "en": "She's getting used to ___.",
+      "ko": "___에 점점 적응하고 있어요.",
+      "note": "get used to = ~에 익숙해지다",
+      "fromLine": 6
+    },
+    {
+      "en": "Maybe you could encourage her to ___.",
+      "ko": "___해 보라고 권해 주시면 좋겠어요.",
+      "note": "학부모에게 부드럽게 부탁할 때",
+      "fromLine": 8
+    }
+  ]
+}

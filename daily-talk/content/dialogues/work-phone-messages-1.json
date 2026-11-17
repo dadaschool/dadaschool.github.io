@@ -1,0 +1,108 @@
+{
+  "id": "work-phone-messages-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "phone-messages",
+  "level": 1,
+  "title": {
+    "ko": "전화 받기 · 메시지 남기기",
+    "en": "Answering the Phone and Taking Messages"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "회사로 걸려 온 전화를 받고, 회의 중인 동료 대신 메시지를 받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "전화한 사람",
+      "en": "Caller",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Good morning, Dasol Tech. Minji speaking.",
+      "ko": "안녕하세요, 다솔테크 민지입니다.",
+      "alt": [
+        "Hello, Dasol Tech. This is Minji.",
+        "Dasol Tech, Minji speaking."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Hi. Could I speak to David Wilson, please?",
+      "ko": "안녕하세요. 데이비드 윌슨 씨와 통화할 수 있을까요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I'm sorry, he's in a meeting right now.",
+      "ko": "죄송하지만 지금 회의 중이세요.",
+      "alt": [
+        "Sorry, he's in a meeting now.",
+        "I'm afraid he's in a meeting."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Okay. Can I leave a message?",
+      "ko": "그렇군요. 메시지를 남겨도 될까요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Sure. May I have your name?",
+      "ko": "네. 성함이 어떻게 되세요?",
+      "alt": [
+        "Of course. Who's calling, please?",
+        "Sure. What's your name, please?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "It's Tom Baker. Please ask him to call me.",
+      "ko": "톰 베이커예요. 저한테 전화 좀 달라고 전해 주세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Okay, Mr. Baker. I'll tell him.",
+      "ko": "알겠습니다, 베이커 씨. 전해 드릴게요.",
+      "alt": [
+        "Got it. I'll let him know.",
+        "Sure. I'll give him your message."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___ speaking.",
+      "ko": "___입니다.",
+      "note": "전화를 받으며 이름을 밝힐 때",
+      "fromLine": 1
+    },
+    {
+      "en": "He's in a meeting right now.",
+      "ko": "지금 회의 중이세요.",
+      "note": "자리에 없을 때는 He's not at his desk.",
+      "fromLine": 3
+    },
+    {
+      "en": "May I have your name?",
+      "ko": "성함이 어떻게 되세요?",
+      "note": "Who's calling, please? 도 많이 씀",
+      "fromLine": 5
+    }
+  ]
+}

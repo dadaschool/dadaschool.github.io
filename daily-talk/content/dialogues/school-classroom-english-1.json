@@ -1,0 +1,108 @@
+{
+  "id": "school-classroom-english-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "classroom-english",
+  "level": 1,
+  "title": {
+    "ko": "교실 영어",
+    "en": "Classroom English"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "영어 수업을 시작하며 출석을 확인하고, 책을 펴게 한 뒤 짝과 대화문을 읽게 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학생",
+      "en": "Student",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Good morning, everyone. Let's check attendance.",
+      "ko": "좋은 아침이에요, 여러분. 출석 확인할게요.",
+      "alt": [
+        "Good morning, class. Let me take attendance.",
+        "Hello, everyone. Time for attendance."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Good morning! Minho is absent today.",
+      "ko": "안녕하세요! 오늘 민호 결석했어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Thanks. Open your books to page 12.",
+      "ko": "그래, 고마워. 다들 책 12쪽 펴세요.",
+      "alt": [
+        "Thank you. Please open your books to page 12.",
+        "Okay, thanks. Turn to page 12."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Sorry, I forgot my book.",
+      "ko": "죄송해요, 책을 안 가져왔어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That's okay. Share with your partner.",
+      "ko": "괜찮아. 짝이랑 같이 봐.",
+      "alt": [
+        "No problem. Look on with your partner.",
+        "It's okay. Share a book with your partner."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Okay. What do we do now?",
+      "ko": "네. 이제 뭐 해요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Read the dialogue with your partner, please.",
+      "ko": "짝이랑 대화문을 읽어 보세요.",
+      "alt": [
+        "Please read the dialogue in pairs.",
+        "Practice the dialogue with your partner."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Open your books to page ___.",
+      "ko": "책 ___쪽 펴세요.",
+      "note": "Turn to page ___ 라고도 함",
+      "fromLine": 3
+    },
+    {
+      "en": "Share with your partner.",
+      "ko": "짝이랑 같이 봐.",
+      "note": "partner = 짝",
+      "fromLine": 5
+    },
+    {
+      "en": "___ with your partner, please.",
+      "ko": "짝이랑 ___하세요.",
+      "note": "짝 활동을 시킬 때 · in pairs 라고도 함",
+      "fromLine": 7
+    }
+  ]
+}

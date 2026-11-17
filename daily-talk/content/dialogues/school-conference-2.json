@@ -1,0 +1,117 @@
+{
+  "id": "school-conference-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "conference",
+  "level": 2,
+  "title": {
+    "ko": "교육 연수 · 학회",
+    "en": "Teacher Training and Conferences"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "학회 워크숍 자리에서 옆에 앉은 외국인 교사와 인사하고, 아침 기조연설에 대한 생각을 나눈다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학회 참석자",
+      "en": "Attendee",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, is this seat taken?",
+      "ko": "실례합니다, 이 자리 비어 있나요?",
+      "alt": [
+        "Excuse me, is anyone sitting here?",
+        "Sorry, is this seat free?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "No, go ahead. Are you here for the workshop on classroom games?",
+      "ko": "아니요, 앉으세요. 교실 게임 워크숍 들으러 오셨어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Yes. I teach English at a middle school in Korea, so I'm always looking for new game ideas.",
+      "ko": "네. 한국 중학교에서 영어를 가르쳐서, 새로운 게임 아이디어를 늘 찾고 있어요.",
+      "alt": [
+        "Yes. I'm a middle school English teacher in Korea, and I always need new game ideas."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Oh, nice! I'm Hannah. I teach at an international school in Singapore.",
+      "ko": "와, 좋네요! 저는 해나예요. 싱가포르의 국제학교에서 가르쳐요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Nice to meet you. I'm Jiwon. Did you go to the keynote this morning?",
+      "ko": "반가워요. 저는 지원이에요. 오늘 아침 기조연설 들으셨어요?",
+      "alt": [
+        "Good to meet you, I'm Jiwon. Were you at the keynote this morning?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "I did. I loved the part about giving students more choices.",
+      "ko": "들었어요. 학생들에게 선택권을 더 주라는 부분이 정말 좋았어요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Me too. I'm thinking of trying it in my class next semester.",
+      "ko": "저도요. 다음 학기에 제 수업에서 해 볼까 생각 중이에요.",
+      "alt": [
+        "Same here. I want to try it in my class next semester."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Let me know how it goes. Oh, the workshop is starting.",
+      "ko": "어떻게 됐는지 알려 주세요. 아, 워크숍 시작하네요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Is this seat taken?",
+      "ko": "이 자리 비어 있나요?",
+      "note": "빈자리인지 물을 때 (taken = 누가 앉은)",
+      "fromLine": 1
+    },
+    {
+      "en": "I'm always looking for ___.",
+      "ko": "늘 ___를 찾고 있어요.",
+      "note": "관심사를 말할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Did you go to ___?",
+      "ko": "___ 들으셨어요?",
+      "note": "keynote = 기조연설",
+      "fromLine": 5
+    },
+    {
+      "en": "I'm thinking of ___ing.",
+      "ko": "___할까 생각 중이에요.",
+      "note": "계획을 부드럽게 말할 때",
+      "fromLine": 7
+    }
+  ]
+}

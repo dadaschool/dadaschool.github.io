@@ -1,0 +1,139 @@
+{
+  "id": "culture-performance-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "performance",
+  "level": 3,
+  "title": {
+    "ko": "공연장 (뮤지컬 · 연극 · 콘서트)",
+    "en": "At a Show or Concert"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "뮤지컬 공연장에서 내 자리에 앉은 옆 사람과 좌석 번호를 정중하게 확인해 해결하고, 공연이 끝난 뒤 그 사람과 감상을 나눈다."
+  },
+  "roles": {
+    "A": {
+      "ko": "옆자리 관객",
+      "en": "Fellow audience member",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "관객(나)",
+      "en": "Audience member",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, I'm sorry, but I think you might be in my seat. I have H-14.",
+      "ko": "실례합니다, 죄송한데 제 자리에 앉으신 것 같아요. 제가 H열 14번이거든요.",
+      "alt": [
+        "Excuse me, sorry, but I think this is my seat. I'm in H-14.",
+        "Sorry to bother you, but I think you're in my seat. Mine is H-14."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, really? Let me check... Oh no, I'm in H-15. I'm so sorry!",
+      "ko": "아, 그래요? 확인해 볼게요... 어머, 저는 H열 15번이네요. 정말 죄송해요!"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "No worries at all. It's easy to mix up, especially in the dark.",
+      "ko": "전혀 괜찮아요. 헷갈리기 쉽죠, 특히 어두울 때는요.",
+      "alt": [
+        "Don't worry about it. It's easy to mix up in the dark.",
+        "It's totally fine. It happens a lot in the dark."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Thanks for being so nice about it. Is this your first time seeing Winter Harbor?",
+      "ko": "좋게 넘어가 주셔서 고마워요. «겨울 항구»는 처음 보세요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Yes, it is. I've heard the second act is really moving.",
+      "ko": "네, 처음이에요. 2막이 정말 감동적이라고 들었어요.",
+      "alt": [
+        "Yes, it's my first time. People say the second act is very moving."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Well, that was amazing! What did you think of the ending?",
+      "ko": "와, 정말 대단했어요! 결말은 어떠셨어요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "It was incredible. I got goosebumps during the final song. I didn't see that ending coming.",
+      "ko": "정말 굉장했어요. 마지막 노래에서 소름이 돋았어요. 그런 결말일 줄은 몰랐어요.",
+      "alt": [
+        "Amazing. The last song gave me goosebumps. I didn't expect that ending at all."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Me neither! Some people say the old sailor was a ghost the whole time. Do you think so?",
+      "ko": "저도요! 늙은 선원이 처음부터 유령이었다고 하는 사람들도 있더라고요. 그렇게 생각하세요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Hmm, I'm not so sure. To me, he felt more like a memory than a ghost. Maybe that's why the stage went so quiet whenever he appeared.",
+      "ko": "음, 글쎄요. 저한테는 유령보다는 기억처럼 느껴졌어요. 그래서 그가 나올 때마다 무대가 그렇게 조용해졌나 봐요.",
+      "alt": [
+        "I'm not sure. He felt more like a memory to me. That might be why the stage got so quiet."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Oh, I love that idea. Now I want to see it again just to watch for that!",
+      "ko": "아, 그 생각 정말 좋네요. 그것만 보러 다시 보고 싶어지네요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I think you might be in my seat.",
+      "ko": "제 자리에 앉으신 것 같아요.",
+      "note": "자리 문제를 부드럽게 꺼낼 때",
+      "fromLine": 1
+    },
+    {
+      "en": "It's easy to mix up.",
+      "ko": "헷갈리기 쉽죠.",
+      "note": "mix up = 혼동하다 · 상대를 편하게 해 줄 때",
+      "fromLine": 3
+    },
+    {
+      "en": "I've heard ___.",
+      "ko": "___라고 들었어요.",
+      "note": "들은 이야기를 전할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I got goosebumps.",
+      "ko": "소름이 돋았어요.",
+      "note": "감동 · 전율을 느꼈을 때",
+      "fromLine": 7
+    },
+    {
+      "en": "___ felt more like ___ than ___.",
+      "ko": "___는 ___보다는 ___처럼 느껴졌어요.",
+      "note": "내 해석을 부드럽게 말할 때",
+      "fromLine": 9
+    }
+  ]
+}

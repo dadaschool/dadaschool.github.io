@@ -1,0 +1,127 @@
+{
+  "id": "school-meet-native-teacher-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "meet-native-teacher",
+  "level": 2,
+  "title": {
+    "ko": "원어민 교사와 첫 만남",
+    "en": "Meeting the Native English Teacher"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "원어민 교사의 첫 주에 학교를 구경시켜 주며 영어실과 급식실 위치, 이번 주 일정을 알려 준다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Good morning, Jessica. How are you settling in?",
+      "ko": "좋은 아침이에요, 제시카 선생님. 지내시는 건 좀 어떠세요?",
+      "alt": [
+        "Morning, Jessica. Are you settling in okay?",
+        "Good morning, Jessica. How's everything so far?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Pretty well, thanks. The apartment is nice, but I'm still a little jet-lagged.",
+      "ko": "꽤 잘 지내요, 고마워요. 아파트도 좋은데, 아직 시차 때문에 좀 힘들어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "That's normal for the first week. Let me show you around the school before classes start.",
+      "ko": "첫 주에는 다들 그래요. 수업 시작하기 전에 학교를 구경시켜 드릴게요.",
+      "alt": [
+        "That's normal at first. I'll give you a quick tour before classes start.",
+        "It takes a few days. Let me show you around before class."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "That would be great. Where's the English room?",
+      "ko": "그럼 좋죠. 영어실은 어디예요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "It's on the third floor, next to the library. You'll teach most of your classes there.",
+      "ko": "3층 도서관 옆에 있어요. 수업은 대부분 거기서 하실 거예요.",
+      "alt": [
+        "It's next to the library on the third floor. Most of your classes will be there."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Got it. And where do teachers usually eat lunch?",
+      "ko": "알겠어요. 그리고 선생님들은 보통 어디서 점심을 드세요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "We eat in the cafeteria with the students at 12:30. I'll take you there today.",
+      "ko": "12시 30분에 학생들이랑 같이 급식실에서 먹어요. 오늘은 제가 같이 가 드릴게요.",
+      "alt": [
+        "In the cafeteria with the students, at 12:30. I'll go with you today."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Thanks. Is there anything else I should know about this week?",
+      "ko": "고마워요. 이번 주에 또 알아 둬야 할 게 있을까요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "There's a staff meeting on Wednesday after school. I'll send you the schedule by message.",
+      "ko": "수요일 방과 후에 교직원 회의가 있어요. 일정은 메시지로 보내 드릴게요.",
+      "alt": [
+        "We have a teachers' meeting on Wednesday after school. I'll text you the schedule."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How are you settling in?",
+      "ko": "지내시는 건 좀 어떠세요?",
+      "note": "새로 온 사람에게 적응을 물을 때 · settle in = 자리 잡다",
+      "fromLine": 1
+    },
+    {
+      "en": "Let me show you around ___.",
+      "ko": "___를 구경시켜 드릴게요.",
+      "note": "show around = 여기저기 안내하다",
+      "fromLine": 3
+    },
+    {
+      "en": "It's on the ___ floor, next to ___.",
+      "ko": "___층 ___ 옆에 있어요.",
+      "note": "위치를 설명할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I'll send you ___ by message.",
+      "ko": "___를 메시지로 보내 드릴게요.",
+      "note": "text you = 문자로 보내다",
+      "fromLine": 9
+    }
+  ]
+}

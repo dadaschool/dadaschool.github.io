@@ -1,0 +1,124 @@
+{
+  "id": "work-meetings-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "meetings",
+  "level": 2,
+  "title": {
+    "ko": "회의에서 의견 말하기",
+    "en": "Giving Opinions in Meetings"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "주간 회의 시간을 옮기자는 제안에 일부는 찬성하고, 걱정되는 점을 말해 절충안을 찾는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "팀장",
+      "en": "Manager",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "팀원(나)",
+      "en": "Team member",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Next item. I'd like to move our weekly meeting from Monday morning to Friday afternoon. Any thoughts?",
+      "ko": "다음 안건이요. 주간 회의를 월요일 아침에서 금요일 오후로 옮기고 싶은데요. 의견 있어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I think it's a good idea. Monday mornings are always really busy.",
+      "ko": "좋은 생각 같아요. 월요일 아침은 늘 정말 바쁘거든요.",
+      "alt": [
+        "Sounds good to me. Mondays are always so busy.",
+        "I like that idea. Monday mornings are really hectic."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Exactly. And on Fridays, we could look back on the whole week.",
+      "ko": "그렇죠. 그리고 금요일에는 한 주 전체를 돌아볼 수도 있고요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I agree with that. But what about people who work from home on Fridays?",
+      "ko": "그 말에는 동의해요. 그런데 금요일에 재택근무하는 사람들은 어떻게 하죠?",
+      "alt": [
+        "That makes sense. But some people work from home on Fridays, right?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "They can join online. Would that be a problem?",
+      "ko": "온라인으로 들어오면 되죠. 그게 문제가 될까요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Not really, but in my opinion, a weekly meeting works better in person.",
+      "ko": "큰 문제는 아니지만, 제 생각에는 주간 회의는 직접 만나서 하는 게 더 좋은 것 같아요.",
+      "alt": [
+        "Not a big problem. But personally, I think face-to-face meetings work better."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "That's a fair point. What if we meet in person every other week?",
+      "ko": "일리 있는 말이에요. 격주로 직접 만나서 하면 어때요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "That sounds like a good compromise. Let's try it for a month and see how it goes.",
+      "ko": "좋은 절충안 같아요. 한 달 해 보고 어떤지 봐요.",
+      "alt": [
+        "That's a good middle ground. Let's try it for a month.",
+        "Good idea. We could try it for a month and see."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Any thoughts?",
+      "ko": "의견 있어요?",
+      "note": "회의에서 의견을 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I agree with that, but ___",
+      "ko": "그 말에는 동의하지만 ___",
+      "note": "일부만 찬성할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "In my opinion, ___",
+      "ko": "제 생각에는 ___",
+      "note": "Personally, ___ 도 같은 뜻",
+      "fromLine": 6
+    },
+    {
+      "en": "That sounds like a good compromise.",
+      "ko": "좋은 절충안 같아요.",
+      "note": "compromise = 서로 양보한 안",
+      "fromLine": 8
+    },
+    {
+      "en": "see how it goes",
+      "ko": "어떻게 되는지 보다",
+      "note": "일단 해 보자고 할 때",
+      "fromLine": 8
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "work-time-off-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "time-off",
+  "level": 2,
+  "title": {
+    "ko": "휴가 · 퇴근 이야기",
+    "en": "Vacation and Leaving Work"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "휴가를 떠나기 전에 동료에게 맡길 일과 자료 위치를 알려 준다."
+  },
+  "roles": {
+    "A": {
+      "ko": "동료",
+      "en": "Coworker",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Kevin. As you know, I'll be on vacation from Wednesday to next Tuesday. Could I go over a few things with you before I leave?",
+      "ko": "케빈 씨, 아시다시피 제가 수요일부터 다음 주 화요일까지 휴가잖아요. 가기 전에 몇 가지 같이 봐도 될까요?",
+      "alt": [
+        "Hi, Kevin. I'm off from Wednesday to next Tuesday. Can I go over a few things with you before I go?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Of course. What do I need to cover?",
+      "ko": "물론이죠. 제가 뭘 맡으면 돼요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Mainly the weekly report and any emails from Halden Supply.",
+      "ko": "주로 주간 보고서랑 할든 서플라이에서 오는 이메일이요.",
+      "alt": [
+        "Just the weekly report, and emails from Halden Supply."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Okay. Is there anything urgent coming up?",
+      "ko": "알겠어요. 곧 급하게 처리해야 할 일 있어요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "They might send a new price list on Thursday. If they do, please forward it to our manager.",
+      "ko": "목요일에 새 가격표를 보낼 수도 있어요. 보내오면 팀장님께 전달해 주세요.",
+      "alt": [
+        "They may send a new price list on Thursday. If so, could you send it to our manager?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Got it. Where can I find the report files?",
+      "ko": "알겠어요. 보고서 파일은 어디서 찾을 수 있어요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "They're all in the shared folder. I'll send you the link and a short checklist this afternoon.",
+      "ko": "전부 공유 폴더에 있어요. 오늘 오후에 링크랑 간단한 체크리스트를 보내 드릴게요.",
+      "alt": [
+        "Everything is in the shared folder. I'll email you the link and a checklist today."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Perfect. Should I contact you if something comes up?",
+      "ko": "좋아요. 무슨 일 생기면 연락해도 돼요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Only if it's really urgent. I'll set up an out-of-office reply with your name and email in it.",
+      "ko": "정말 급할 때만요. 부재중 자동 답장에 케빈 씨 이름이랑 이메일을 넣어 둘게요.",
+      "alt": [
+        "Only for emergencies, please. My out-of-office message will tell people to contact you."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'll be on vacation from ___ to ___.",
+      "ko": "___부터 ___까지 휴가예요.",
+      "note": "휴가 기간을 알릴 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Could I go over ___ with you?",
+      "ko": "___를 같이 봐도 될까요?",
+      "note": "go over = 검토하다, 훑어보다",
+      "fromLine": 1
+    },
+    {
+      "en": "forward it to ___",
+      "ko": "___에게 전달하다",
+      "note": "이메일을 넘겨줄 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Only if it's really urgent.",
+      "ko": "정말 급할 때만요.",
+      "note": "연락을 꼭 필요할 때로 줄일 때",
+      "fromLine": 9
+    },
+    {
+      "en": "out-of-office reply",
+      "ko": "부재중 자동 답장",
+      "note": "휴가 · 출장 때 설정하는 자동 회신",
+      "fromLine": 9
+    }
+  ]
+}

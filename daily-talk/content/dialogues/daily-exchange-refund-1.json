@@ -1,0 +1,114 @@
+{
+  "id": "daily-exchange-refund-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "exchange-refund",
+  "level": 1,
+  "title": {
+    "ko": "교환 · 환불",
+    "en": "Exchanges and Refunds"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "작은 셔츠를 영수증과 함께 가져가 환불받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "직원",
+      "en": "Store clerk",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'd like to return this shirt.",
+      "ko": "안녕하세요. 이 셔츠 반품하고 싶어요.",
+      "alt": [
+        "Hi. I want to return this shirt.",
+        "Hi. Can I return this shirt?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Do you have the receipt?",
+      "ko": "네. 영수증 있으세요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Yes. Here it is.",
+      "ko": "네. 여기 있어요.",
+      "alt": [
+        "Yes, here you go.",
+        "Here's my receipt."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Thanks. Is something wrong with it?",
+      "ko": "감사합니다. 뭐가 문제인가요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "It's too small for me.",
+      "ko": "저한테 너무 작아요.",
+      "alt": [
+        "It's too small.",
+        "It doesn't fit me."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Would you like a refund or an exchange?",
+      "ko": "환불해 드릴까요, 교환해 드릴까요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "A refund, please.",
+      "ko": "환불해 주세요.",
+      "alt": [
+        "I'd like a refund.",
+        "Refund, please."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Okay. The money will go back on your card.",
+      "ko": "알겠습니다. 결제하신 카드로 환불해 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to return ___.",
+      "ko": "___ 반품하고 싶어요.",
+      "note": "return = 반품하다 · 돌려주다",
+      "fromLine": 1
+    },
+    {
+      "en": "It's too small for me.",
+      "ko": "저한테 너무 작아요.",
+      "note": "too big 너무 크다 · too long 너무 길다",
+      "fromLine": 5
+    },
+    {
+      "en": "a refund or an exchange",
+      "ko": "환불 또는 교환",
+      "note": "refund = 환불 · exchange = 교환",
+      "fromLine": 6
+    }
+  ]
+}

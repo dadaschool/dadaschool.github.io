@@ -1,0 +1,137 @@
+{
+  "id": "school-exchange-video-class-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "exchange-video-class",
+  "level": 3,
+  "title": {
+    "ko": "국제 교류 화상 수업",
+    "en": "International Video Exchange Class"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "화상 교류 수업에서 학생 발표를 진행하다가 화면 공유가 멈추는 문제를 해결하고, 질문을 받은 뒤 수업을 마무리한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "해외 협력 학교 교사",
+      "en": "Partner school teacher",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Next, Seoyeon's group will present about traditional Korean games. Seoyeon, go ahead.",
+      "ko": "다음은 서연이네 모둠이 한국 전통 놀이에 대해 발표할 거예요. 서연아, 시작해.",
+      "alt": [
+        "Now Seoyeon's group is going to talk about traditional Korean games. Go ahead, Seoyeon."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sorry to interrupt, but your slides have frozen on the first page.",
+      "ko": "끼어들어서 죄송한데요, 슬라이드가 첫 페이지에서 멈췄어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Oh, thanks for letting us know. Let me stop sharing and try again... Can you see it now?",
+      "ko": "아, 알려 주셔서 고마워요. 화면 공유를 멈췄다가 다시 해 볼게요... 이제 보이세요?",
+      "alt": [
+        "Thanks for telling us. I'll stop sharing and share it again. Is it showing now?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Still nothing, I'm afraid. It might be our internet.",
+      "ko": "죄송하지만 아직 안 보여요. 저희 쪽 인터넷 문제일 수도 있어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "No worries. I'll email you the file right now, so you can open it on your side. In the meantime, Seoyeon can explain the game without slides.",
+      "ko": "괜찮아요. 지금 바로 파일을 메일로 보내 드릴 테니 그쪽에서 열어 주세요. 그동안 서연이가 슬라이드 없이 놀이를 설명하면 돼요.",
+      "alt": [
+        "That's okay. I'll send you the file by email so you can open it there. Meanwhile, Seoyeon can start without the slides."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Great idea. Got it — it's on our screen now. Sorry, Seoyeon, please go on!",
+      "ko": "좋은 생각이에요. 받았어요, 이제 저희 화면에 떴어요. 서연 학생, 미안해요. 계속해 주세요!"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Thank you all for being patient. We have about five minutes left, so let's take two questions from your students.",
+      "ko": "다들 기다려 주셔서 고마워요. 5분쯤 남았으니까 그쪽 학생들 질문을 두 개만 받을게요.",
+      "alt": [
+        "Thanks for waiting, everyone. We only have five minutes left, so let's hear two questions from your class."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Olivia wants to know if Korean students play these games at school.",
+      "ko": "올리비아가 한국 학생들이 학교에서도 이 놀이를 하는지 궁금하대요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Good question! We often play them at school events around Chuseok, Korean Thanksgiving. That's all the time we have for today. Thank you so much for joining us!",
+      "ko": "좋은 질문이에요! 추석 무렵 학교 행사 때 자주 해요. 오늘은 여기까지예요. 함께해 주셔서 정말 고마워요!",
+      "alt": [
+        "Great question! We play them at school events around Chuseok, our Thanksgiving holiday. That's all for today. Thanks for joining us!"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Thank you! Let's email each other to plan the next session.",
+      "ko": "고마워요! 다음 수업 일정은 메일로 정해요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___, go ahead.",
+      "ko": "___, 시작해.",
+      "note": "발표 · 말할 차례를 넘길 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Sorry to interrupt, but ___.",
+      "ko": "끼어들어서 죄송한데요, ___.",
+      "note": "말을 끊어야 할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Let me stop sharing and try again.",
+      "ko": "화면 공유를 멈췄다가 다시 해 볼게요.",
+      "note": "share my screen = 화면을 공유하다",
+      "fromLine": 3
+    },
+    {
+      "en": "Thank you all for being patient.",
+      "ko": "다들 기다려 주셔서 고마워요.",
+      "note": "문제가 생긴 뒤 감사할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "That's all the time we have for today.",
+      "ko": "오늘은 여기까지예요.",
+      "note": "수업 · 회의를 마무리할 때",
+      "fromLine": 9
+    }
+  ]
+}

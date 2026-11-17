@@ -1,0 +1,136 @@
+{
+  "id": "daily-neighbors-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "neighbors",
+  "level": 2,
+  "title": {
+    "ko": "이웃과 인사 · 부탁",
+    "en": "Neighbors"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "출장으로 일주일 집을 비우게 되어 옆집 이웃에게 택배를 맡아 달라고 부탁하고 연락처를 주고받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "옆집 이웃",
+      "en": "Neighbor",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "이웃(나)",
+      "en": "Neighbor",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Mark. Sorry to bother you. Do you have a minute?",
+      "ko": "안녕하세요, 마크 씨. 귀찮게 해서 미안한데요. 잠깐 시간 있어요?",
+      "alt": [
+        "Hi, Mark. Have you got a minute?",
+        "Hi, Mark. Sorry to bother you. Are you busy right now?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. What's up?",
+      "ko": "그럼요. 무슨 일이에요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I'm going on a business trip next week, and I'm expecting a package. Could you hold on to it for me?",
+      "ko": "다음 주에 출장을 가는데 택배가 하나 올 거예요. 대신 좀 맡아 주실 수 있을까요?",
+      "alt": [
+        "I'll be away on a work trip next week, and a package is coming. Could you keep it for me?",
+        "I'm away next week for work, and I'm getting a delivery. Would you mind holding it for me?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "No problem. When's it coming?",
+      "ko": "그럼요. 언제 와요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Probably on Tuesday. I'll ask the delivery driver to leave it at your door.",
+      "ko": "아마 화요일일 거예요. 택배 기사님께 마크 씨네 문 앞에 두라고 할게요.",
+      "alt": [
+        "Maybe Tuesday. I'll have them leave it at your door.",
+        "Tuesday, I think. I'll tell the driver to leave it by your door."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Sounds good. Do you want my number, just in case?",
+      "ko": "좋아요. 혹시 모르니까 제 번호 드릴까요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Yes, that would be great. I'll text you so you have mine, too.",
+      "ko": "네, 좋아요. 제가 문자 보낼 테니 제 번호도 저장해 두세요.",
+      "alt": [
+        "Yes, please. I'll send you a text so you have my number.",
+        "That would be great. Let me text you, so you have mine, too."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Got it. Have a safe trip!",
+      "ko": "받았어요. 출장 잘 다녀와요!"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Thanks so much. I owe you one.",
+      "ko": "정말 고마워요. 신세 한번 지네요.",
+      "alt": [
+        "Thank you so much. I owe you.",
+        "Thanks a lot. I really appreciate it."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Sorry to bother you. Do you have a minute?",
+      "ko": "귀찮게 해서 미안한데요. 잠깐 시간 있어요?",
+      "note": "부탁하기 전에 말을 거는 표현",
+      "fromLine": 1
+    },
+    {
+      "en": "I'm expecting ___.",
+      "ko": "___가 올 거예요.",
+      "note": "expect = (오기로 된 것을) 기다리다",
+      "fromLine": 3
+    },
+    {
+      "en": "Could you hold on to ___ for me?",
+      "ko": "___ 좀 맡아 주실 수 있을까요?",
+      "note": "hold on to = 잠시 맡아 두다",
+      "fromLine": 3
+    },
+    {
+      "en": "just in case",
+      "ko": "혹시 모르니까",
+      "note": "만약을 위해",
+      "fromLine": 6
+    },
+    {
+      "en": "I owe you one.",
+      "ko": "신세 한번 지네요.",
+      "note": "다음에 갚겠다는 친근한 감사",
+      "fromLine": 9
+    }
+  ]
+}

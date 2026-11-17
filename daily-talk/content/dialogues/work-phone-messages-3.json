@@ -1,0 +1,139 @@
+{
+  "id": "work-phone-messages-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "phone-messages",
+  "level": 3,
+  "title": {
+    "ko": "전화 받기 · 메시지 남기기",
+    "en": "Answering the Phone and Taking Messages"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "출장 중이라 연락이 안 되는 동료를 급하게 찾는 거래처 전화를 받아, 내용을 정확히 받아 적고 해결 방법을 제안한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "물류 회사 담당자",
+      "en": "Logistics manager",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "영업팀 직원(나)",
+      "en": "Sales staff",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Good morning, Dasol Tech sales team. Yuna speaking.",
+      "ko": "안녕하세요, 다솔테크 영업팀 유나입니다.",
+      "alt": [
+        "Good morning, Dasol Tech sales. This is Yuna.",
+        "Dasol Tech sales team, this is Yuna. How may I help you?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Hi, this is Greg Novak from Tallis Logistics. I've been trying to reach Eric Shin all morning, and it's pretty urgent.",
+      "ko": "안녕하세요, 탤리스 로지스틱스의 그레그 노박입니다. 아침 내내 에릭 신 씨와 연락하려고 했는데요, 꽤 급한 일이에요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I'm sorry about that. Eric is on a flight to Singapore right now, but I can take a detailed message for him.",
+      "ko": "죄송합니다. 에릭 씨가 지금 싱가포르로 가는 비행기 안에 계신데요, 제가 메시지를 자세히 받아 둘게요.",
+      "alt": [
+        "Sorry about that. Eric is flying to Singapore at the moment, but I can take a message for him."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Okay. One of our trucks broke down, so tomorrow's shipment won't arrive until Thursday. He needs to approve a new delivery plan today.",
+      "ko": "알겠어요. 저희 트럭 한 대가 고장 나서, 내일 도착할 화물이 목요일에야 도착할 거예요. 에릭 씨가 오늘 안에 새 배송 계획을 승인해 주셔야 하고요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I see. Just to make sure I get everything right, could you spell your last name for me?",
+      "ko": "그렇군요. 정확하게 적어 두려고 하는데요, 성 철자를 불러 주시겠어요?",
+      "alt": [
+        "Understood. Could you spell your last name, please?",
+        "Got it. How do you spell your last name?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Sure. It's N-O-V-A-K.",
+      "ko": "네. N-O-V-A-K입니다."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Thank you. So the shipment is delayed until Thursday, and Eric needs to approve a new plan by the end of today. Is that correct?",
+      "ko": "감사합니다. 그러니까 화물이 목요일로 늦어지고, 에릭 씨가 오늘 업무 끝나기 전까지 새 계획을 승인해야 한다는 거죠. 맞나요?",
+      "alt": [
+        "Thanks. So the shipment won't come until Thursday, and he has to approve a new plan today. Is that right?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Exactly. But if he's on a plane, he won't see this in time, will he?",
+      "ko": "맞아요. 그런데 비행기 안에 계시면 제때 못 보시겠네요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "He lands at three, so I'll text him right away. In the meantime, would you like me to put you through to his manager, Ms. Kang?",
+      "ko": "3시에 도착하시니까 바로 문자 드릴게요. 그동안 에릭 씨 팀장님이신 강 팀장님께 연결해 드릴까요?",
+      "alt": [
+        "His flight lands at three, so I'll send him a text now. Would you like to speak to his manager, Ms. Kang, in the meantime?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Yes, that would be great. Thanks for handling this so quickly.",
+      "ko": "네, 그러면 좋겠어요. 이렇게 빨리 처리해 주셔서 고마워요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I can take a detailed message for ___.",
+      "ko": "___께 전할 메시지를 자세히 받아 둘게요.",
+      "note": "take a message = 메시지를 받아 두다",
+      "fromLine": 3
+    },
+    {
+      "en": "Could you spell your last name for me?",
+      "ko": "성 철자를 불러 주시겠어요?",
+      "note": "last name = 성 · first name = 이름",
+      "fromLine": 5
+    },
+    {
+      "en": "So ___. Is that correct?",
+      "ko": "그러니까 ___라는 거죠. 맞나요?",
+      "note": "받아 적은 내용을 정리해 확인할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "in the meantime",
+      "ko": "그동안",
+      "note": "기다리는 사이에 할 일을 말할 때",
+      "fromLine": 9
+    },
+    {
+      "en": "Would you like me to put you through to ___?",
+      "ko": "___께 연결해 드릴까요?",
+      "note": "put through = 전화를 연결하다",
+      "fromLine": 9
+    }
+  ]
+}

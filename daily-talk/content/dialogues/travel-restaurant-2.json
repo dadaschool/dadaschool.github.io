@@ -1,0 +1,123 @@
+{
+  "id": "travel-restaurant-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "restaurant",
+  "level": 2,
+  "title": {
+    "ko": "식당 주문",
+    "en": "Ordering at a Restaurant"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "음식을 추천받고 스테이크 굽기와 곁들이 음식을 고른 뒤, 남은 음식 포장과 계산을 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "종업원",
+      "en": "Server",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi, I'm Jake. I'll be your server tonight. Can I start you off with something to drink?",
+      "ko": "안녕하세요, 저는 제이크예요. 오늘 저녁 담당입니다. 먼저 음료부터 드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "A lemonade, please. What do you recommend for the main course?",
+      "ko": "레모네이드 주세요. 메인 요리로는 뭘 추천하세요?",
+      "alt": [
+        "Lemonade, please. What's good here for the main course?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Our steak is very popular. How would you like it cooked?",
+      "ko": "저희 스테이크가 인기가 많아요. 굽기는 어떻게 해 드릴까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Medium, please. Does it come with a side?",
+      "ko": "미디엄으로요. 곁들이는 음식도 나오나요?",
+      "alt": [
+        "Medium, please. Is there a side dish with it?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes. You can choose fries, salad, or mashed potatoes.",
+      "ko": "네. 감자튀김, 샐러드, 으깬 감자 중에서 고르실 수 있어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I'll go with the salad, please.",
+      "ko": "샐러드로 할게요.",
+      "alt": [
+        "Salad, please.",
+        "I'll have the salad."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Can I get you anything else? Dessert, maybe?",
+      "ko": "더 필요하신 거 있으세요? 디저트는요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "No, thanks. I'm full. Could I get a box for the rest and the check, please?",
+      "ko": "아니요, 괜찮아요. 배불러요. 남은 건 포장해 주시고 계산서도 주시겠어요?",
+      "alt": [
+        "No, thank you. I'm full. Can I take the rest home, and can I have the check?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Sure. I'll bring those right over.",
+      "ko": "네. 바로 가져다 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What do you recommend?",
+      "ko": "뭘 추천하세요?",
+      "note": "메뉴를 고를 때 가장 쓸모 있는 질문",
+      "fromLine": 2
+    },
+    {
+      "en": "Does it come with ___?",
+      "ko": "___도 같이 나오나요?",
+      "note": "곁들이는 것을 물을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "I'll go with ___.",
+      "ko": "___로 할게요.",
+      "note": "여러 개 중 하나를 고를 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Could I get a box for the rest?",
+      "ko": "남은 음식 포장해 주시겠어요?",
+      "note": "box = 포장 용기",
+      "fromLine": 8
+    }
+  ]
+}

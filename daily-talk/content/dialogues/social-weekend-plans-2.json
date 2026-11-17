@@ -1,0 +1,124 @@
+{
+  "id": "social-weekend-plans-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "weekend-plans",
+  "level": 2,
+  "title": {
+    "ko": "주말 계획",
+    "en": "Weekend Plans"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "언어 교환 친구와 이번 주말에 각자 무엇을 할지, 아직 정하지 못한 계획까지 자세히 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "언어 교환 친구",
+      "en": "Language partner",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "언어 교환 친구(나)",
+      "en": "Language partner",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, what are you up to this weekend?",
+      "ko": "그래서 이번 주말엔 뭐 해요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I haven't decided yet. If the weather's nice, I might go cycling along the Han River.",
+      "ko": "아직 못 정했어요. 날씨 좋으면 한강에서 자전거 탈까 해요.",
+      "alt": [
+        "I'm not sure yet. I might ride my bike by the Han River if it's sunny."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh, that sounds lovely. Do you have your own bike?",
+      "ko": "와, 좋겠네요. 자전거 있어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "No, I usually rent one. It's pretty cheap, and you can return it at any station.",
+      "ko": "아니요, 보통 빌려요. 꽤 싸고, 아무 대여소에나 반납하면 돼요.",
+      "alt": [
+        "No, I just rent one. It doesn't cost much, and you can drop it off at any station."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Good to know. I've been meaning to try that.",
+      "ko": "좋은 정보네요. 저도 전부터 한번 해 보려고 했거든요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "What about you, Olivia? Anything planned?",
+      "ko": "올리비아 씨는요? 계획 있어요?",
+      "alt": [
+        "And you? Do you have any plans?",
+        "How about you? What are you doing this weekend?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "My sister's visiting on Saturday, so I'll show her around. Sunday's still open, though.",
+      "ko": "토요일에 동생이 와서 구경시켜 주려고요. 일요일은 아직 비어 있지만요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Nice. If you need ideas for where to take her, just let me know.",
+      "ko": "좋네요. 어디 데려갈지 아이디어 필요하면 말만 해요.",
+      "alt": [
+        "Sounds fun. Let me know if you want some ideas for places to go.",
+        "That's great. I can recommend some places if you want."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What are you up to this weekend?",
+      "ko": "이번 주말엔 뭐 해요?",
+      "note": "be up to = (무엇을) 하다 · 편한 사이에 자주 씀",
+      "fromLine": 1
+    },
+    {
+      "en": "I haven't decided yet.",
+      "ko": "아직 못 정했어요.",
+      "note": "계획이 정해지지 않았을 때",
+      "fromLine": 2
+    },
+    {
+      "en": "If ___, I might ___.",
+      "ko": "___하면 ___할까 해요.",
+      "note": "아직 확실하지 않은 계획",
+      "fromLine": 2
+    },
+    {
+      "en": "I've been meaning to ___.",
+      "ko": "전부터 ___하려고 했어요.",
+      "note": "마음먹고 있었지만 아직 못 한 일",
+      "fromLine": 5
+    },
+    {
+      "en": "Just let me know.",
+      "ko": "말만 해요.",
+      "note": "도움을 제안할 때 끝에 붙이는 말",
+      "fromLine": 8
+    }
+  ]
+}

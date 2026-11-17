@@ -1,0 +1,104 @@
+{
+  "id": "work-video-call-issues-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "video-call-issues",
+  "level": 1,
+  "title": {
+    "ko": "화상회의 연결 문제",
+    "en": "Video Call Problems"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "화상회의에서 상대의 목소리가 안 들리고 화면 공유가 안 되는 문제를 알린다."
+  },
+  "roles": {
+    "A": {
+      "ko": "해외 동료",
+      "en": "Colleague",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi, Yuna. Can you hear me?",
+      "ko": "안녕하세요, 유나 씨. 제 목소리 들려요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Sorry, I can't hear you.",
+      "ko": "죄송해요, 안 들려요.",
+      "alt": [
+        "Sorry, I can't hear anything.",
+        "I'm sorry, there's no sound."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh, I was on mute. How about now?",
+      "ko": "아, 음소거였네요. 지금은요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, I can hear you now.",
+      "ko": "네, 이제 들려요.",
+      "alt": [
+        "Yes, that's much better.",
+        "Now I can hear you."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Great. Can you see my screen?",
+      "ko": "좋아요. 제 화면 보여요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "No, I can only see your face.",
+      "ko": "아니요, 얼굴만 보여요.",
+      "alt": [
+        "No, I just see your face.",
+        "Not yet. I only see your face."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Okay. Let me share it again.",
+      "ko": "알겠어요. 다시 공유해 볼게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I can't hear you.",
+      "ko": "안 들려요.",
+      "note": "화상회의 · 전화에서 가장 많이 쓰는 말",
+      "fromLine": 2
+    },
+    {
+      "en": "on mute",
+      "ko": "음소거 상태",
+      "note": "You're on mute. = 음소거 되어 있어요.",
+      "fromLine": 3
+    },
+    {
+      "en": "I can only see ___.",
+      "ko": "___만 보여요.",
+      "note": "화면 공유가 안 될 때",
+      "fromLine": 6
+    }
+  ]
+}

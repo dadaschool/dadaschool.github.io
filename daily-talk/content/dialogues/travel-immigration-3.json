@@ -1,0 +1,132 @@
+{
+  "id": "travel-immigration-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "immigration",
+  "level": 3,
+  "title": {
+    "ko": "입국 심사",
+    "en": "Immigration"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "3주 머무는 이유를 묻는 심사관에게 돌아갈 표, 숙소, 연수 서류를 보여 주며 차분히 설명한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "입국 심사관",
+      "en": "Immigration officer",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "You said you'll be here for three weeks. Do you have a return ticket?",
+      "ko": "3주 머무신다고 하셨는데요. 돌아가는 표가 있으신가요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes, I do. I can show it to you on my phone.",
+      "ko": "네, 있어요. 휴대폰으로 보여 드릴게요.",
+      "alt": [
+        "Yes. I have it on my phone.",
+        "Yes, I can show you on my phone."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Thank you. Your hotel booking only covers the first week. Where will you stay after that?",
+      "ko": "감사합니다. 호텔 예약이 첫 주만 되어 있네요. 그다음에는 어디에서 지내실 건가요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "After that, I'm taking a training course at a university, and they've arranged a dormitory for me.",
+      "ko": "그 뒤에는 대학교에서 연수를 받는데, 학교에서 기숙사를 마련해 줬어요.",
+      "alt": [
+        "Then I'll attend a training course at a university, and I'll stay in their dormitory."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "A training course? Will you be paid while you're here?",
+      "ko": "연수요? 여기 있는 동안 돈을 받으시나요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "No, I won't. It's a short teacher training program, and my school in Korea is covering the cost.",
+      "ko": "아니요. 짧은 교사 연수 프로그램이고, 비용은 한국에 있는 제 학교가 내요.",
+      "alt": [
+        "No. It's a short program for teachers, and my school in Korea is paying for it."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Do you have any documents for that?",
+      "ko": "그것에 대한 서류가 있나요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Yes, here's the invitation letter from the university. It includes the program dates.",
+      "ko": "네, 대학교에서 받은 초청장이 여기 있어요. 프로그램 날짜도 나와 있어요.",
+      "alt": [
+        "Yes, this is the invitation letter from the university. The dates are on it."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "That's fine. One more thing — are you bringing any food into the country?",
+      "ko": "됐습니다. 하나 더요, 음식을 가지고 들어오시나요?"
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Just some packaged snacks. I declared them on the form.",
+      "ko": "포장된 과자 몇 개뿐이에요. 신고서에 적었어요.",
+      "alt": [
+        "Only some packaged snacks. I wrote them on the declaration form."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I can show it to you on my phone.",
+      "ko": "휴대폰으로 보여 드릴게요.",
+      "note": "on my phone = 휴대폰에 있는 것을",
+      "fromLine": 2
+    },
+    {
+      "en": "They've arranged ___ for me.",
+      "ko": "___를 마련해 줬어요.",
+      "note": "arrange = 준비해 두다",
+      "fromLine": 4
+    },
+    {
+      "en": "___ is covering the cost.",
+      "ko": "___가 비용을 내요.",
+      "note": "cover = 비용을 대다",
+      "fromLine": 6
+    },
+    {
+      "en": "I declared them on the form.",
+      "ko": "신고서에 적었어요.",
+      "note": "declare = (세관에) 신고하다",
+      "fromLine": 10
+    }
+  ]
+}

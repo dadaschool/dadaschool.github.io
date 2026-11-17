@@ -1,0 +1,119 @@
+{
+  "id": "culture-museum-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "museum",
+  "level": 2,
+  "title": {
+    "ko": "박물관",
+    "en": "At a Museum"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "박물관 전시실에서 해설사의 짧은 설명을 듣고, 오래된 그릇이 언제 어떻게 쓰였는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "전시 해설사",
+      "en": "Gallery guide",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "관람객(나)",
+      "en": "Visitor",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "This bowl is one of the oldest pieces in our collection.",
+      "ko": "이 그릇은 저희 소장품 가운데 가장 오래된 것 중 하나예요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Really? How old is it?",
+      "ko": "정말요? 얼마나 오래됐어요?",
+      "alt": [
+        "Wow. How old is it?",
+        "Really? When was it made?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "It's about three thousand years old. It was found near a river in the south.",
+      "ko": "3천 년쯤 됐어요. 남쪽의 한 강 근처에서 발견됐어요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "That's amazing. What was it used for?",
+      "ko": "놀랍네요. 무엇에 쓰던 거예요?",
+      "alt": [
+        "Amazing. What did people use it for?",
+        "Wow. What was it for?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "People stored grain in it. You can see their finger marks on the side.",
+      "ko": "사람들이 곡식을 담아 두었어요. 옆면에 손가락 자국이 보이실 거예요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Oh, I can see them now. Did people back then make everything by hand?",
+      "ko": "아, 이제 보여요. 그때 사람들은 뭐든지 손으로 만들었나요?",
+      "alt": [
+        "Oh, I see them. Was everything made by hand back then?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yes. The potter's wheel came much later. There's a display about it in the next room.",
+      "ko": "네. 물레는 훨씬 나중에 나왔어요. 다음 전시실에 물레에 관한 전시가 있어요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Thanks for explaining. I'll go check it out.",
+      "ko": "설명해 주셔서 고마워요. 가서 볼게요.",
+      "alt": [
+        "Thank you for the explanation. I'll take a look.",
+        "Thanks. I'll go see it."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How old is it?",
+      "ko": "얼마나 오래됐어요?",
+      "note": "나이 · 연대를 물을 때",
+      "fromLine": 2
+    },
+    {
+      "en": "What was it used for?",
+      "ko": "무엇에 쓰던 거예요?",
+      "note": "be used for = ~에 쓰이다",
+      "fromLine": 4
+    },
+    {
+      "en": "by hand",
+      "ko": "손으로",
+      "note": "기계로 = by machine",
+      "fromLine": 6
+    },
+    {
+      "en": "I'll go check it out.",
+      "ko": "가서 볼게요.",
+      "note": "check out = 구경하다 · 확인하다",
+      "fromLine": 8
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "id": "social-small-talk-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "small-talk",
+  "level": 2,
+  "title": {
+    "ko": "날씨 · 가벼운 인사",
+    "en": "Weather and Small Talk"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "무더운 아침 회사 탕비실에서 외국인 동료와 날씨 이야기를 하다가 고향 이야기로 대화를 이어 간다."
+  },
+  "roles": {
+    "A": {
+      "ko": "회사 동료",
+      "en": "Coworker",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Wow, it's so humid today. I'm already sweating.",
+      "ko": "와, 오늘 진짜 습하네요. 벌써 땀나요.",
+      "alt": [
+        "It's really humid today, isn't it? I'm sweating already.",
+        "This humidity is crazy. I'm already sweating."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Tell me about it. And it's only June!",
+      "ko": "내 말이요. 아직 6월인데요!"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I know. Is it this hot in summer where you're from?",
+      "ko": "그러니까요. 고향도 여름에 이렇게 더워요?",
+      "alt": [
+        "Right? Are summers this hot back home?",
+        "I know! Does it get this hot where you're from?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Not really. In Seattle, summers are mild, but it rains a lot the rest of the year.",
+      "ko": "별로요. 시애틀은 여름이 선선한데, 나머지 계절엔 비가 많이 와요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Oh, I've always wanted to visit Seattle. Do you miss it?",
+      "ko": "아, 시애틀 꼭 한번 가 보고 싶었어요. 그리워요?",
+      "alt": [
+        "I've always wanted to go to Seattle! Do you miss home?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Sometimes, especially the coffee. But I'm slowly getting used to this heat.",
+      "ko": "가끔요, 특히 커피가요. 그래도 이 더위엔 조금씩 익숙해지고 있어요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Well, there's a great iced coffee place near the station. I'll show you sometime.",
+      "ko": "그럼 역 근처에 아이스커피 맛있는 데가 있어요. 언제 한번 데려갈게요.",
+      "alt": [
+        "You know, there's a really good iced coffee place by the station. I can take you there sometime."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Deal! I'll hold you to that.",
+      "ko": "좋아요! 그 말 꼭 지켜요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Tell me about it.",
+      "ko": "내 말이요.",
+      "note": "상대 말에 크게 맞장구칠 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Is it this ___ where you're from?",
+      "ko": "고향도 이렇게 ___해요?",
+      "note": "날씨 이야기를 상대 이야기로 넓힐 때",
+      "fromLine": 3
+    },
+    {
+      "en": "I've always wanted to ___.",
+      "ko": "늘 ___해 보고 싶었어요.",
+      "note": "관심을 보여 대화를 이어 갈 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I'm getting used to ___.",
+      "ko": "___에 익숙해지고 있어요.",
+      "note": "get used to + 명사 · -ing",
+      "fromLine": 6
+    }
+  ]
+}

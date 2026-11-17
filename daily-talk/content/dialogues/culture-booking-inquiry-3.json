@@ -1,0 +1,138 @@
+{
+  "id": "culture-booking-inquiry-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "booking-inquiry",
+  "level": 3,
+  "title": {
+    "ko": "공연 · 전시 예매 문의",
+    "en": "Booking Shows and Exhibitions"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "갑자기 일이 생겨 공연 환불을 물었다가 안 된다는 말을 듣고, 매진된 날 대신 대기자 명단과 다른 날 좌석으로 해결한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "예매처 직원",
+      "en": "Box office staff",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I have two tickets for Moonlight Bakery this Friday, but something came up at work. Can I get a refund?",
+      "ko": "안녕하세요. 이번 주 금요일 «달빛 빵집» 표가 두 장 있는데요, 회사에 일이 생겼어요. 환불받을 수 있을까요?",
+      "alt": [
+        "Hi. I booked two tickets for Moonlight Bakery on Friday, but I can't go because of work. Is a refund possible?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry, but we can't offer refunds within 48 hours of the show. We can exchange them for another date, though.",
+      "ko": "죄송하지만 공연 48시간 전부터는 환불이 안 됩니다. 대신 다른 날짜로 바꿔 드릴 수는 있어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "That's fine. Do you have anything on Saturday evening?",
+      "ko": "괜찮아요. 토요일 저녁에 자리 있나요?",
+      "alt": [
+        "Okay. Is there anything on Saturday evening?",
+        "That works. Are there seats on Saturday night?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I'm afraid Saturday is completely sold out. Sunday afternoon has a few seats left, but they're in the balcony.",
+      "ko": "죄송하지만 토요일은 완전히 매진이에요. 일요일 오후에 몇 자리 남았는데 발코니석이에요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Hmm, I was hoping to stay on the main floor. Is there a waiting list for Saturday?",
+      "ko": "음, 1층에서 보고 싶었는데요. 토요일 대기자 명단이 있나요?",
+      "alt": [
+        "I'd really like to keep main-floor seats. Can I get on a waiting list for Saturday?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "There is. People sometimes return tickets, but I can't promise anything.",
+      "ko": "있어요. 가끔 표를 반납하는 분들이 있지만 장담은 못 드려요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "I understand. Could you put me on the list and hold the Sunday seats just in case?",
+      "ko": "알겠어요. 명단에 올려 주시고, 혹시 모르니 일요일 자리도 잡아 주실 수 있나요?",
+      "alt": [
+        "I see. Can you add me to the list and keep the Sunday seats for me just in case?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "I can hold the Sunday seats until 5 p.m. tomorrow. And since they're cheaper, you'd get 20 dollars back.",
+      "ko": "일요일 자리는 내일 오후 5시까지 잡아 둘 수 있어요. 그리고 더 싼 자리라서 20달러를 돌려받으실 거예요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Oh, that's a nice bonus. So if nothing opens up on Saturday, I'll just take the Sunday seats.",
+      "ko": "아, 그건 좋은 덤이네요. 그러니까 토요일에 자리가 안 나면 그냥 일요일 자리로 할게요.",
+      "alt": [
+        "That's a nice surprise. If Saturday doesn't open up, I'll go with Sunday."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Perfect. I'll call you if a Saturday seat becomes available.",
+      "ko": "좋습니다. 토요일 자리가 나면 전화드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Something came up at work.",
+      "ko": "회사에 일이 생겼어요.",
+      "note": "갑자기 일정이 생겼을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I was hoping to ___.",
+      "ko": "___하고 싶었는데요.",
+      "note": "바라던 것을 부드럽게 말할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Is there a waiting list?",
+      "ko": "대기자 명단이 있나요?",
+      "note": "매진일 때 꼭 묻는 말",
+      "fromLine": 5
+    },
+    {
+      "en": "just in case",
+      "ko": "혹시 모르니",
+      "note": "만일을 대비할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "if nothing opens up",
+      "ko": "자리가 안 나면",
+      "note": "open up = (자리 · 기회가) 생기다",
+      "fromLine": 9
+    }
+  ]
+}

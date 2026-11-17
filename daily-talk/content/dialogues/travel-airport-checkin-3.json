@@ -1,0 +1,134 @@
+{
+  "id": "travel-airport-checkin-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "airport-checkin",
+  "level": 3,
+  "title": {
+    "ko": "공항 체크인",
+    "en": "Airport Check-in"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "부칠 가방이 무게를 넘어 짐을 다시 싸고, 비행기 지연으로 환승편이 걱정되는 상황을 해결한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "항공사 직원",
+      "en": "Airline agent",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Next, please. Could you put your bag on the scale?",
+      "ko": "다음 분이요. 가방을 저울에 올려 주시겠어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Sure. I'm on the flight to Sydney.",
+      "ko": "네. 시드니행 비행기를 타요.",
+      "alt": [
+        "Of course. I'm flying to Sydney.",
+        "Sure. My flight is to Sydney."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "I'm afraid your bag is four kilos over the limit. There's an excess baggage fee of 60 dollars.",
+      "ko": "죄송하지만 가방이 제한보다 4킬로그램 무겁습니다. 초과 수하물 요금이 60달러예요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Oh, I didn't realize. Would it be okay if I moved a few things to my carry-on?",
+      "ko": "아, 몰랐어요. 몇 가지를 기내 가방으로 옮겨도 될까요?",
+      "alt": [
+        "Oh, I didn't know that. Can I move some things to my carry-on?",
+        "Sorry, I didn't realize. May I put some items in my carry-on?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Of course. You can step aside and repack here.",
+      "ko": "물론이죠. 옆으로 비켜서 여기서 다시 싸셔도 됩니다."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I've taken out my shoes and a jacket. Could you weigh it again?",
+      "ko": "신발이랑 재킷을 뺐어요. 다시 무게를 재 주시겠어요?",
+      "alt": [
+        "I took out my shoes and a jacket. Can you weigh it again?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Perfect, it's under the limit now. However, I should let you know that your flight has been delayed by about two hours.",
+      "ko": "좋아요, 이제 제한 안이에요. 그런데 알려 드릴 게 있는데요, 비행기가 두 시간쯤 지연됐습니다."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Two hours? I have a connecting flight in Sydney. Will I still make it?",
+      "ko": "두 시간이요? 시드니에서 갈아탈 비행기가 있는데요. 그래도 탈 수 있을까요?",
+      "alt": [
+        "Two hours? I have a connection in Sydney. Will I be able to make it?",
+        "Really? I need to catch a connecting flight in Sydney. Is that still possible?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Let me check... Your connection is too tight, so I've rebooked you on a later one at no extra cost. Here's a meal voucher for the wait.",
+      "ko": "확인해 볼게요... 환승 시간이 너무 빠듯해서 추가 요금 없이 더 늦은 비행기로 다시 예약해 드렸어요. 기다리시는 동안 쓰실 식사 쿠폰도 드릴게요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "I really appreciate your help. Is there anything else I need to do?",
+      "ko": "도와주셔서 정말 감사해요. 제가 더 해야 할 게 있나요?",
+      "alt": [
+        "Thank you so much for your help. Do I need to do anything else?"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm afraid ___.",
+      "ko": "죄송하지만 ___.",
+      "note": "나쁜 소식을 공손하게 전할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Would it be okay if I ___?",
+      "ko": "제가 ___해도 될까요?",
+      "note": "허락을 공손하게 구할 때 (동사는 과거형)",
+      "fromLine": 4
+    },
+    {
+      "en": "Will I still make it?",
+      "ko": "그래도 시간 안에 갈 수 있을까요?",
+      "note": "make it = 제시간에 도착하다",
+      "fromLine": 8
+    },
+    {
+      "en": "I really appreciate your help.",
+      "ko": "도와주셔서 정말 감사해요.",
+      "note": "Thank you 보다 정중한 감사",
+      "fromLine": 10
+    }
+  ]
+}

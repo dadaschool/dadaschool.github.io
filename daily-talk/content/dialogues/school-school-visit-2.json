@@ -1,0 +1,122 @@
+{
+  "id": "school-school-visit-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "school-visit",
+  "level": 2,
+  "title": {
+    "ko": "해외 학교 방문 · 연수",
+    "en": "Visiting a School Abroad"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "해외 학교 교장에게 우리 학교의 하루 일과와 급식, 방과후 활동을 소개한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "교장",
+      "en": "Principal",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, tell me about your school in Korea. What's a typical day like?",
+      "ko": "한국에 있는 선생님 학교 이야기를 좀 들려주세요. 보통 하루가 어떻게 흘러가나요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Students arrive at about 8:30 and have homeroom first. Then they have six or seven classes.",
+      "ko": "학생들은 8시 30분쯤 와서 먼저 조회를 해요. 그다음에 수업을 여섯 시간이나 일곱 시간 들어요.",
+      "alt": [
+        "Students come to school around 8:30 and start with homeroom. After that, they have six or seven periods."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "How long is each class?",
+      "ko": "수업 한 시간은 얼마나 되나요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Forty-five minutes, with a ten-minute break in between.",
+      "ko": "45분이고, 중간에 쉬는 시간이 10분 있어요.",
+      "alt": [
+        "Each class is forty-five minutes, and there's a ten-minute break between classes."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Do students bring their own lunch?",
+      "ko": "학생들은 도시락을 싸 오나요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "No, we have school lunch. Everyone eats a hot meal in the cafeteria, and it's free for students.",
+      "ko": "아니요, 급식이 있어요. 모두 급식실에서 따뜻한 밥을 먹는데, 학생들은 무료예요.",
+      "alt": [
+        "No. Students eat school lunch in the cafeteria. It's a hot meal, and it's free."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Wow, that's impressive. What do students do after school?",
+      "ko": "와, 대단하네요. 방과 후에는 학생들이 뭘 하나요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Some join after-school programs like coding or basketball, but many go to private academies.",
+      "ko": "코딩이나 농구 같은 방과후 수업을 듣는 학생도 있지만, 많은 학생이 학원에 가요.",
+      "alt": [
+        "Some take after-school classes like coding or basketball. A lot of them go to private academies, too."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Interesting. I'd love to hear more about that over lunch.",
+      "ko": "흥미롭네요. 점심 먹으면서 더 듣고 싶어요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What's a typical day like?",
+      "ko": "보통 하루가 어떤가요?",
+      "note": "일과를 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "with a ___ break in between",
+      "ko": "중간에 ___ 쉬는 시간이 있는",
+      "note": "break = 쉬는 시간",
+      "fromLine": 4
+    },
+    {
+      "en": "It's free for students.",
+      "ko": "학생들은 무료예요.",
+      "note": "free = 무료인",
+      "fromLine": 6
+    },
+    {
+      "en": "Some ___, but many ___.",
+      "ko": "___하는 학생도 있지만, 많은 학생이 ___해요.",
+      "note": "여러 경우를 나누어 설명할 때",
+      "fromLine": 8
+    }
+  ]
+}

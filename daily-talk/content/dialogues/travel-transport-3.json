@@ -1,0 +1,125 @@
+{
+  "id": "travel-transport-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "transport",
+  "level": 3,
+  "title": {
+    "ko": "택시 · 대중교통",
+    "en": "Taxis and Public Transportation"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "공항 가는 택시가 다른 길로 가는 것 같아 정중하게 확인하고, 요금 · 내릴 곳 · 영수증을 정리한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "택시 기사",
+      "en": "Taxi driver",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, I don't mean to be rude, but isn't the airport the other way?",
+      "ko": "실례지만, 기분 나쁘게 듣지 않으셨으면 하는데요, 공항은 반대쪽 아닌가요?",
+      "alt": [
+        "Sorry, but I think the airport is in the other direction. Is that right?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Ah, there's an accident on the highway, so I'm taking a detour.",
+      "ko": "아, 고속도로에 사고가 나서 돌아가는 중이에요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I see. How much longer will it take this way? My flight leaves at 3.",
+      "ko": "그렇군요. 이 길로 가면 얼마나 더 걸려요? 비행기가 3시에 떠나요.",
+      "alt": [
+        "Oh, I see. How long will it take this way? My flight is at 3."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Maybe twenty-five minutes. We should get there by 1:30.",
+      "ko": "25분쯤이요. 1시 30분까지는 도착할 거예요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That should be okay. Will the fare be much higher because of the detour?",
+      "ko": "그럼 괜찮겠네요. 돌아가서 요금이 많이 더 나오나요?",
+      "alt": [
+        "Okay. Will it cost a lot more because of the detour?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "A little, but I'll only charge you the normal fare.",
+      "ko": "조금요. 하지만 평소 요금만 받을게요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That's very fair of you. Could you drop me off at Terminal 2, near Door 5?",
+      "ko": "정말 공정하시네요. 2터미널 5번 문 근처에 내려 주실 수 있나요?",
+      "alt": [
+        "That's very kind. Can you drop me off at Terminal 2, Door 5?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "No problem. Do you need a receipt?",
+      "ko": "문제없어요. 영수증 필요하세요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Yes, please. I need it for my expense report.",
+      "ko": "네, 주세요. 경비 보고서에 필요해요.",
+      "alt": [
+        "Yes, please. I need it for work."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I don't mean to be rude, but ___",
+      "ko": "실례지만 ___",
+      "note": "상대를 탓하는 것처럼 들리지 않게 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "take a detour",
+      "ko": "돌아가다",
+      "note": "detour = 우회로",
+      "fromLine": 2
+    },
+    {
+      "en": "drop me off at ___",
+      "ko": "___에 내려 주다",
+      "note": "태우다 = pick up",
+      "fromLine": 7
+    },
+    {
+      "en": "expense report",
+      "ko": "경비 보고서",
+      "note": "출장비를 청구할 때 쓰는 서류",
+      "fromLine": 9
+    }
+  ]
+}

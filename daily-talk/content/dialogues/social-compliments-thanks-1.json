@@ -1,0 +1,104 @@
+{
+  "id": "social-compliments-thanks-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "compliments-thanks",
+  "level": 1,
+  "title": {
+    "ko": "칭찬 · 감사",
+    "en": "Compliments and Thanks"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "아침에 회사 동료가 커피를 건네며 재킷을 칭찬하자, 고맙다고 말한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "회사 동료",
+      "en": "Coworker",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Here, I got you a coffee.",
+      "ko": "여기요, 커피 사 왔어요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Oh, thank you! That's so nice.",
+      "ko": "와, 고마워요! 정말 센스 있네요.",
+      "alt": [
+        "Thanks so much! That's really sweet.",
+        "Oh, thanks! You're so kind."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "No problem. Hey, I like your jacket.",
+      "ko": "별거 아니에요. 그런데 재킷 예쁘네요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Thanks! I just got it.",
+      "ko": "고마워요! 얼마 전에 샀어요.",
+      "alt": [
+        "Thank you! It's new.",
+        "Oh, thanks! I got it last week."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "The color looks great on you.",
+      "ko": "색깔이 정말 잘 어울려요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Aw, thanks. You made my day!",
+      "ko": "어머, 고마워요. 덕분에 기분 좋아졌어요!",
+      "alt": [
+        "Thank you. That's so sweet.",
+        "Aw, you're so kind. Thanks!"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Anytime! Have a good one.",
+      "ko": "언제든지요! 좋은 하루 보내요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I like your ___.",
+      "ko": "___ 예쁘네요.",
+      "note": "가볍게 칭찬할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "I just got it.",
+      "ko": "얼마 전에 샀어요.",
+      "note": "칭찬받은 물건에 대해 답할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "You made my day!",
+      "ko": "덕분에 기분 좋아졌어요!",
+      "note": "작은 친절 · 칭찬이 기쁠 때",
+      "fromLine": 6
+    }
+  ]
+}

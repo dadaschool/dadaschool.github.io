@@ -1,0 +1,119 @@
+{
+  "id": "social-keep-in-touch-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "keep-in-touch",
+  "level": 2,
+  "title": {
+    "ko": "연락처 교환 · 다시 만날 약속",
+    "en": "Exchanging Contacts and Making Plans"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "독서 모임에서 만난 사람에게 전화해서 전에 말한 커피 약속의 날짜와 장소를 정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "독서 모임에서 만난 사람",
+      "en": "Book club member",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "독서 모임 회원(나)",
+      "en": "Book club member",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Chloe? It's Minho, from the book club.",
+      "ko": "안녕하세요, 클로이 씨? 독서 모임에서 만난 민호예요.",
+      "alt": [
+        "Hi, is this Chloe? This is Minho from the book club.",
+        "Hey, Chloe. It's Minho. We met at the book club."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, hi, Minho! Good to hear from you.",
+      "ko": "아, 안녕하세요, 민호 씨! 연락 줘서 반가워요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I was wondering if you'd like to get that coffee we talked about.",
+      "ko": "지난번에 얘기했던 커피, 같이 마시면 어떨까 해서요.",
+      "alt": [
+        "I wanted to see if you're still up for that coffee.",
+        "Would you still like to get coffee sometime this week?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I'd love to! When are you free?",
+      "ko": "좋아요! 언제 시간 돼요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "How about Wednesday after work? Around seven?",
+      "ko": "수요일 퇴근 후 어때요? 7시쯤이요?",
+      "alt": [
+        "Does Wednesday evening work for you? Maybe around seven?",
+        "Are you free on Wednesday at seven?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Wednesday works. Where should we meet?",
+      "ko": "수요일 좋아요. 어디서 만날까요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "There's a nice café near Hapjeong Station. I'll send you the location.",
+      "ko": "합정역 근처에 괜찮은 카페가 있어요. 위치 보내 드릴게요.",
+      "alt": [
+        "I know a nice café by Hapjeong Station. I'll text you the address."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Perfect. See you Wednesday!",
+      "ko": "좋아요. 수요일에 봐요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "It's ___, from ___.",
+      "ko": "___에서 만난 ___예요.",
+      "note": "전화로 나를 소개할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I was wondering if you'd like to ___.",
+      "ko": "___하면 어떨까 해서요.",
+      "note": "부드럽게 제안할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "How about ___?",
+      "ko": "___ 어때요?",
+      "note": "날짜 · 시간을 제안할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "___ works.",
+      "ko": "___ 좋아요.",
+      "note": "제안한 시간이 괜찮을 때 · 물을 땐 Does ___ work for you?",
+      "fromLine": 6
+    }
+  ]
+}

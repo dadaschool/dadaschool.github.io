@@ -1,0 +1,126 @@
+{
+  "id": "social-introductions-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "introductions",
+  "level": 2,
+  "title": {
+    "ko": "자기소개",
+    "en": "Introducing Yourself"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "언어 교환 모임에 처음 나가서 만난 사람과 이름, 하는 일, 전에 했던 일을 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "모임 참가자",
+      "en": "Meetup member",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "처음 온 참가자(나)",
+      "en": "First-time member",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi there. Is this your first time at the meetup?",
+      "ko": "안녕하세요. 이 모임엔 처음 오셨어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes, it is. I'm Soyeon. A coworker told me about it.",
+      "ko": "네, 처음이에요. 저는 소연이에요. 회사 동료가 알려 줬어요.",
+      "alt": [
+        "Yeah, it's my first time. I'm Soyeon. A friend from work told me about it.",
+        "Yes. My name is Soyeon. I heard about it from a coworker."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Nice to meet you, Soyeon. I'm Ryan. So, what do you do?",
+      "ko": "반가워요, 소연 씨. 저는 라이언이에요. 무슨 일 하세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I work in marketing for a cosmetics company.",
+      "ko": "화장품 회사에서 마케팅 일을 해요.",
+      "alt": [
+        "I'm in marketing at a cosmetics company.",
+        "I do marketing for a cosmetics company."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Oh, cool. How long have you been doing that?",
+      "ko": "오, 멋지네요. 그 일은 얼마나 하셨어요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "About five years now. Before that, I worked at a bank.",
+      "ko": "이제 5년쯤 됐어요. 그전엔 은행에서 일했어요.",
+      "alt": [
+        "For about five years. I worked at a bank before that.",
+        "Almost five years. I used to work at a bank."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "That's quite a change! Do you like it better?",
+      "ko": "꽤 큰 변화네요! 지금 일이 더 좋아요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Definitely. It's more creative, and my team is great. What about you, Ryan?",
+      "ko": "그럼요. 더 창의적이고 팀도 좋아요. 라이언 씨는요?",
+      "alt": [
+        "Yes, much better. It's more creative, and I like my team. And you?",
+        "I do. The work is more creative, and my coworkers are great. How about you?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "I teach English at a high school near here.",
+      "ko": "저는 이 근처 고등학교에서 영어를 가르쳐요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___ told me about it.",
+      "ko": "___가 알려 줬어요.",
+      "note": "어떻게 알게 됐는지 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "I work in ___.",
+      "ko": "___ 분야에서 일해요.",
+      "note": "분야를 말할 때 · in marketing, in sales, in IT",
+      "fromLine": 4
+    },
+    {
+      "en": "How long have you been ___ing?",
+      "ko": "___한 지 얼마나 됐어요?",
+      "note": "지금까지 이어진 기간을 물을 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Before that, I ___.",
+      "ko": "그전엔 ___했어요.",
+      "note": "예전 경력을 덧붙일 때",
+      "fromLine": 6
+    }
+  ]
+}

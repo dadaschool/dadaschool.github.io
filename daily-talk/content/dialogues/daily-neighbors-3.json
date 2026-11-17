@@ -1,0 +1,142 @@
+{
+  "id": "daily-neighbors-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "neighbors",
+  "level": 3,
+  "title": {
+    "ko": "이웃과 인사 · 부탁",
+    "en": "Neighbors"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "위층 이웃에게 밤늦은 소음을 정중히 이야기했다가 우리 집 TV 소리도 크다는 말을 듣고, 서로 지킬 방법을 정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "위층 이웃",
+      "en": "Upstairs neighbor",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "아래층 이웃(나)",
+      "en": "Downstairs neighbor",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, I'm Sora from downstairs, in 2C. Is now a good time to talk?",
+      "ko": "안녕하세요, 아래층 2C호에 사는 소라예요. 지금 잠깐 이야기 나눌 수 있을까요?",
+      "alt": [
+        "Hi, I live right below you in 2C. Do you have a minute?",
+        "Hello, I'm Sora from 2C downstairs. Can we talk for a minute?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, hi. Sure. Is everything okay?",
+      "ko": "아, 안녕하세요. 그럼요. 무슨 일 있으세요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I hope you don't mind me bringing this up, but I've been hearing loud footsteps and music after midnight.",
+      "ko": "이런 얘기 꺼내도 괜찮을지 모르겠는데요, 자정이 넘어서 쿵쿵거리는 발소리랑 음악 소리가 들려서요.",
+      "alt": [
+        "I'm sorry to bring this up, but there's been loud music and footsteps after midnight.",
+        "I don't want to cause any trouble, but I've been hearing music and footsteps late at night."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Oh, I'm sorry. I work late, so I usually get home around midnight. I didn't realize it was that loud.",
+      "ko": "아, 죄송해요. 제가 늦게까지 일해서 보통 자정쯤 집에 와요. 그렇게 시끄러운 줄 몰랐어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I understand. I start work early, though, so it's been hard to get enough sleep.",
+      "ko": "이해해요. 그런데 저는 아침 일찍 출근해서 잠을 충분히 자기가 힘들었어요.",
+      "alt": [
+        "I see. I have to get up early for work, though, so I haven't been sleeping well.",
+        "That makes sense. But I start early, so I've had trouble sleeping."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That's fair. Actually, since we're talking, your TV gets pretty loud in the evenings, too.",
+      "ko": "그럴 만하네요. 그런데 말 나온 김에 말하자면, 저녁에는 그쪽 TV 소리도 꽤 커요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Oh, really? I had no idea. I'm sorry about that.",
+      "ko": "아, 정말요? 전혀 몰랐어요. 미안해요.",
+      "alt": [
+        "Oh, I didn't know that. Sorry.",
+        "Really? I didn't realize. I apologize."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "No worries. How about this? I'll put down a rug and keep the music low after ten, and maybe you could turn your TV down a little?",
+      "ko": "괜찮아요. 이렇게 하면 어때요? 저는 러그를 깔고 열 시 이후에는 음악을 작게 틀게요. 그쪽은 TV 소리를 조금만 줄여 주시고요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That sounds like a good plan. I'll keep the volume down, and please let me know if it's ever too loud again.",
+      "ko": "좋은 생각이에요. 저도 소리를 줄일게요. 혹시 또 시끄러우면 꼭 말씀해 주세요.",
+      "alt": [
+        "That sounds fair. I'll turn it down, and just tell me if it's ever too loud.",
+        "Deal. I'll keep the TV quieter. Please tell me if it bothers you again."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Deal. And thanks for coming to talk to me in person.",
+      "ko": "좋아요. 그리고 직접 와서 얘기해 줘서 고마워요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Is now a good time to talk?",
+      "ko": "지금 잠깐 이야기 나눌 수 있을까요?",
+      "note": "말을 꺼내기 전에 상대의 상황을 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I hope you don't mind me bringing this up, but ___.",
+      "ko": "이런 얘기 꺼내도 괜찮을지 모르겠는데요, ___.",
+      "note": "bring up = (이야기를) 꺼내다",
+      "fromLine": 3
+    },
+    {
+      "en": "It's been hard to ___.",
+      "ko": "___하기가 힘들었어요.",
+      "note": "요즘 계속 힘든 점을 말할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I had no idea.",
+      "ko": "전혀 몰랐어요.",
+      "note": "I didn't know 보다 강한 말",
+      "fromLine": 7
+    },
+    {
+      "en": "keep the volume down",
+      "ko": "소리를 작게 하다",
+      "note": "turn down = 소리를 줄이다",
+      "fromLine": 9
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "id": "school-co-planning-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "co-planning",
+  "level": 1,
+  "title": {
+    "ko": "원어민 교사와 수업 협의",
+    "en": "Planning Lessons Together"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "원어민 교사와 다음 주 수업 주제를 정하고, 활동지를 누가 만들지 정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "What's our topic for next week?",
+      "ko": "다음 주 주제가 뭐예요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "How about food? It's Unit 3.",
+      "ko": "음식 어때요? 3단원이에요.",
+      "alt": [
+        "Let's do food. It's Unit 3.",
+        "The topic is food, Unit 3."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Good idea. Should we use the textbook?",
+      "ko": "좋아요. 교과서를 쓸까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, and let's make a worksheet too.",
+      "ko": "네, 그리고 활동지도 만들어요.",
+      "alt": [
+        "Yes. Let's add a worksheet too.",
+        "Sure, and we can make a worksheet."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "I can make it. Is Friday okay?",
+      "ko": "제가 만들게요. 금요일까지 해도 될까요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Friday is fine. Thanks a lot.",
+      "ko": "금요일 좋아요. 정말 고마워요.",
+      "alt": [
+        "That works. Thank you so much.",
+        "Sure, Friday is good. Thanks."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "No problem. Let's talk again on Monday.",
+      "ko": "별말씀을요. 월요일에 다시 얘기해요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How about ___?",
+      "ko": "___ 어때요?",
+      "note": "의견을 제안할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Let's make ___ too.",
+      "ko": "___도 만들어요.",
+      "note": "같이 할 일을 제안할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "___ is fine.",
+      "ko": "___ 좋아요.",
+      "note": "날짜 · 시간에 동의할 때",
+      "fromLine": 6
+    }
+  ]
+}

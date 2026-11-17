@@ -1,0 +1,104 @@
+{
+  "id": "work-meetings-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "meetings",
+  "level": 1,
+  "title": {
+    "ko": "회의에서 의견 말하기",
+    "en": "Giving Opinions in Meetings"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "팀 회의에서 새 디자인에 찬성하고, 너무 이른 적용 날짜에는 반대한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "팀장",
+      "en": "Team leader",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "팀원(나)",
+      "en": "Team member",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "What do you think of the new design?",
+      "ko": "새 디자인 어떻게 생각해요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I like it. It looks clean.",
+      "ko": "좋아요. 깔끔해 보여요.",
+      "alt": [
+        "I really like it. It's very clean.",
+        "It looks great. It's nice and clean."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Should we use it on our website?",
+      "ko": "우리 웹사이트에 쓸까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, I agree. It's a good idea.",
+      "ko": "네, 찬성이에요. 좋은 생각이에요.",
+      "alt": [
+        "I agree. Let's use it.",
+        "Yes, I think that's a good idea."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Great. Let's launch it next Monday.",
+      "ko": "좋아요. 다음 주 월요일에 바로 적용합시다."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Hmm, I'm not sure. We need time to test it.",
+      "ko": "음, 글쎄요. 테스트할 시간이 필요해요.",
+      "alt": [
+        "I'm not sure about Monday. We need more tests.",
+        "Hmm, Monday is too soon for testing."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Good point. Let's make it the week after, then.",
+      "ko": "좋은 지적이에요. 그럼 그다음 주로 해요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What do you think of ___?",
+      "ko": "___ 어떻게 생각해요?",
+      "note": "의견을 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I agree.",
+      "ko": "찬성이에요. / 동의해요.",
+      "note": "강하게 찬성할 때는 I totally agree.",
+      "fromLine": 4
+    },
+    {
+      "en": "I'm not sure.",
+      "ko": "글쎄요. (잘 모르겠어요.)",
+      "note": "No 대신 부드럽게 반대할 때",
+      "fromLine": 6
+    }
+  ]
+}

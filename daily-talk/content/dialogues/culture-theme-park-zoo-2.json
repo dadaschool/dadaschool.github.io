@@ -1,0 +1,134 @@
+{
+  "id": "culture-theme-park-zoo-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "theme-park-zoo",
+  "level": 2,
+  "title": {
+    "ko": "놀이공원 · 동물원",
+    "en": "Theme Parks and Zoos"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "놀이기구 앞에서 기다리는 시간과 키 제한을 묻고, 딸이 탈 수 있는 기구와 줄을 두 번 서지 않는 방법을 안내받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "놀이기구 직원",
+      "en": "Ride attendant",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "방문객(나)",
+      "en": "Visitor",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, how long is the wait for Thunder Falls?",
+      "ko": "실례합니다, 썬더 폴스는 얼마나 기다려야 해요?",
+      "alt": [
+        "Excuse me, what's the wait time for Thunder Falls?",
+        "Sorry, how long is the line for Thunder Falls?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "About forty minutes right now. The line gets shorter once the parade starts.",
+      "ko": "지금은 40분쯤이에요. 퍼레이드가 시작되면 줄이 짧아져요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Okay. Is there a height limit? My daughter is pretty small.",
+      "ko": "그렇군요. 키 제한이 있나요? 딸이 꽤 작아서요.",
+      "alt": [
+        "I see. Is there a height requirement? My daughter is quite short.",
+        "Okay. How tall do you have to be? My daughter is small."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Riders have to be at least 110 centimeters tall. She can stand next to the sign over there.",
+      "ko": "키가 최소 110센티미터는 돼야 해요. 저기 있는 표지판 옆에 서 보면 돼요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Oh no, she's just a little too short. Is there a ride for younger kids nearby?",
+      "ko": "아이고, 딸이 키가 조금 모자라네요. 근처에 더 어린 아이들이 탈 수 있는 기구가 있나요?",
+      "alt": [
+        "Oh, she's a bit too short. Are there rides for small kids around here?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Yes, the Teacup Spin is right around the corner. The wait there is only ten minutes.",
+      "ko": "네, 모퉁이만 돌면 티컵 스핀이 있어요. 거기는 10분만 기다리면 돼요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Perfect. My husband and I both want to ride Thunder Falls, though. Do we have to wait in line twice?",
+      "ko": "좋아요. 그런데 남편이랑 저 둘 다 썬더 폴스를 타고 싶어요. 줄을 두 번 서야 하나요?",
+      "alt": [
+        "Great. But my husband and I both want to ride Thunder Falls. Do we need to line up twice?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "No. Ask for a rider switch pass. One of you rides while the other stays with your daughter, and then you switch without waiting again.",
+      "ko": "아니요. «교대 탑승권»을 달라고 하세요. 한 분이 타는 동안 다른 분은 따님과 기다리시고, 다시 줄 서지 않고 바로 교대하시면 돼요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That's so convenient. Thanks for the tip!",
+      "ko": "정말 편하네요. 알려 주셔서 고마워요!",
+      "alt": [
+        "That's really helpful. Thank you!",
+        "That's great. Thanks for telling me!"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How long is the wait for ___?",
+      "ko": "___는 얼마나 기다려야 해요?",
+      "note": "wait = 기다리는 시간",
+      "fromLine": 1
+    },
+    {
+      "en": "Is there a height limit?",
+      "ko": "키 제한이 있나요?",
+      "note": "height = 키 · 높이",
+      "fromLine": 3
+    },
+    {
+      "en": "___ is just a little too short.",
+      "ko": "___가 키가 조금 모자라요.",
+      "note": "too short = (기준보다) 너무 작은",
+      "fromLine": 5
+    },
+    {
+      "en": "Do we have to wait in line twice?",
+      "ko": "줄을 두 번 서야 하나요?",
+      "note": "wait in line = 줄 서다",
+      "fromLine": 7
+    },
+    {
+      "en": "Thanks for the tip!",
+      "ko": "알려 주셔서 고마워요!",
+      "note": "tip = 쓸모 있는 정보",
+      "fromLine": 9
+    }
+  ]
+}

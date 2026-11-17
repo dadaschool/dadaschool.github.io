@@ -1,0 +1,131 @@
+{
+  "id": "school-classroom-english-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "classroom-english",
+  "level": 2,
+  "title": {
+    "ko": "교실 영어",
+    "en": "Classroom English"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "활동지를 나눠 주고 짝 인터뷰 활동을 설명한 뒤, 학생들의 질문에 답한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학생",
+      "en": "Student",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Okay, everyone. I'm going to hand out a worksheet. Take one and pass the rest back.",
+      "ko": "자, 여러분. 활동지 나눠 줄게요. 한 장씩 갖고 나머지는 뒤로 넘기세요.",
+      "alt": [
+        "All right, class. Here are the worksheets. Take one and pass them back."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Ms. Kim, I didn't get one.",
+      "ko": "선생님, 저 못 받았어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Here you go. Now, find a partner and interview each other with these five questions.",
+      "ko": "자, 여기 있어. 이제 다들 짝이랑 이 다섯 가지 질문으로 서로 인터뷰해 보세요.",
+      "alt": [
+        "Here's one for you. Now, work in pairs and ask each other these five questions."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Do we write the answers in English?",
+      "ko": "답은 영어로 써요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Yes, but short answers are fine. You have ten minutes.",
+      "ko": "네, 그런데 짧게 써도 돼요. 시간은 10분이에요.",
+      "alt": [
+        "Yes, but you can keep your answers short. You've got ten minutes."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "How do you say 'hagwon' in English?",
+      "ko": "'학원'은 영어로 뭐라고 해요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "You can say 'academy' or 'cram school.' Good question!",
+      "ko": "'academy'나 'cram school'이라고 하면 돼요. 좋은 질문이에요!",
+      "alt": [
+        "We usually say 'academy' or 'cram school.' Great question!"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Can we use a dictionary?",
+      "ko": "사전 써도 돼요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Sure, but try asking your partner first. Okay, let's get started!",
+      "ko": "그럼요, 그런데 먼저 짝한테 물어보세요. 자, 시작해요!",
+      "alt": [
+        "Yes, but ask your partner first. All right, let's begin!"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Take one and pass the rest back.",
+      "ko": "한 장씩 갖고 나머지는 뒤로 넘기세요.",
+      "note": "유인물을 나눠 줄 때",
+      "fromLine": 1
+    },
+    {
+      "en": "interview each other",
+      "ko": "서로 인터뷰하다",
+      "note": "each other = 서로",
+      "fromLine": 3
+    },
+    {
+      "en": "You have ___ minutes.",
+      "ko": "시간은 ___분이에요.",
+      "note": "활동 시간을 알려 줄 때",
+      "fromLine": 5
+    },
+    {
+      "en": "How do you say ___ in English?",
+      "ko": "___는 영어로 뭐라고 해요?",
+      "note": "학생에게도 가르쳐 주면 좋은 질문",
+      "fromLine": 6
+    },
+    {
+      "en": "try asking ___ first",
+      "ko": "먼저 ___에게 물어보다",
+      "note": "try + ~ing = 시험 삼아 ~해 보다",
+      "fromLine": 9
+    }
+  ]
+}

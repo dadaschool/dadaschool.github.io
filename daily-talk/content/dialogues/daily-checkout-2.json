@@ -1,0 +1,126 @@
+{
+  "id": "daily-checkout-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "checkout",
+  "level": 2,
+  "title": {
+    "ko": "마트 계산대",
+    "en": "At the Checkout"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "마트 계산대에서 적립 회원으로 가입해 할인받고, 가져온 장바구니를 쓰고 휴대폰으로 결제한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "계산원",
+      "en": "Cashier",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi there. Do you have a rewards card with us?",
+      "ko": "안녕하세요. 저희 적립 카드 있으세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "No, I don't. Is it free to sign up?",
+      "ko": "아니요, 없어요. 가입은 무료인가요?",
+      "alt": [
+        "No. Does it cost anything to join?",
+        "I don't. Is it free to join?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Yes, you just need a phone number. You'd save $4.50 on your groceries today.",
+      "ko": "네, 전화번호만 있으면 돼요. 오늘 사시는 것에서 4달러 50센트가 할인돼요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Oh, then I'll sign up. Do I just type my number in here?",
+      "ko": "아, 그럼 가입할게요. 여기에 번호만 입력하면 되나요?",
+      "alt": [
+        "Then sure, let's do it. Should I enter my number here?",
+        "Great, I'll sign up. Do I put my number in on this screen?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes, right there... Okay, you're all set. Do you need any bags? They're 10 cents each.",
+      "ko": "네, 거기요... 자, 다 됐습니다. 봉투 필요하세요? 하나에 10센트예요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "No, thanks. I brought my own bags.",
+      "ko": "아니요, 괜찮아요. 장바구니 가져왔어요.",
+      "alt": [
+        "No, I'm fine. I have my own bags.",
+        "No thanks, I brought some bags."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Perfect. Your total is $36.80. How would you like to pay?",
+      "ko": "좋아요. 모두 36달러 80센트입니다. 어떻게 결제하시겠어요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Can I pay with my phone? And could I get the receipt by email?",
+      "ko": "휴대폰으로 결제해도 되나요? 그리고 영수증은 이메일로 받을 수 있을까요?",
+      "alt": [
+        "Is it okay to pay with my phone? And can you email me the receipt?",
+        "I'll pay with my phone. Could you send the receipt by email?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Sure. Just hold your phone near the reader. Then you can type your email on the screen.",
+      "ko": "그럼요. 휴대폰을 단말기 가까이에 대 주세요. 그다음 화면에 이메일을 입력하시면 돼요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Is it free to sign up?",
+      "ko": "가입은 무료인가요?",
+      "note": "sign up = 가입하다",
+      "fromLine": 2
+    },
+    {
+      "en": "you're all set",
+      "ko": "다 됐습니다",
+      "note": "준비 · 처리가 끝났을 때 직원이 하는 말",
+      "fromLine": 5
+    },
+    {
+      "en": "I brought my own bags.",
+      "ko": "장바구니 가져왔어요.",
+      "note": "봉투 값을 아낄 때 · own = 내 것",
+      "fromLine": 6
+    },
+    {
+      "en": "Can I pay with ___?",
+      "ko": "___로 결제해도 되나요?",
+      "note": "with my phone · with a card · 현금은 in cash",
+      "fromLine": 8
+    }
+  ]
+}

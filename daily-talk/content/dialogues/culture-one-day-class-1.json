@@ -1,0 +1,108 @@
+{
+  "id": "culture-one-day-class-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "one-day-class",
+  "level": 1,
+  "title": {
+    "ko": "원데이 클래스 (요리 · 공예 등)",
+    "en": "One-Day Classes"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "도자기 공방에서 원데이 클래스를 신청하고 준비물을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "공방 직원",
+      "en": "Studio staff",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "수강생(나)",
+      "en": "Student",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'd like to join the pottery class.",
+      "ko": "안녕하세요. 도자기 수업을 듣고 싶어요.",
+      "alt": [
+        "Hi. Can I sign up for pottery?",
+        "Hello. I'd like to take the pottery class."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Which day works for you?",
+      "ko": "네. 어느 날이 좋으세요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "This Saturday, please.",
+      "ko": "이번 주 토요일이요.",
+      "alt": [
+        "Saturday, please.",
+        "This Saturday works for me."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Great. It's 45 dollars.",
+      "ko": "좋아요. 45달러예요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Do I need to bring anything?",
+      "ko": "뭐 가져가야 할 게 있나요?",
+      "alt": [
+        "Should I bring anything?",
+        "What do I need to bring?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "No, but wear clothes that can get dirty.",
+      "ko": "아니요, 그런데 더러워져도 되는 옷을 입고 오세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Okay. See you on Saturday!",
+      "ko": "알겠어요. 토요일에 봬요!",
+      "alt": [
+        "Got it. See you Saturday!",
+        "Okay, see you then!"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to join ___.",
+      "ko": "___에 참여하고 싶어요.",
+      "note": "수업 · 모임에 들어갈 때 (수업은 take a class 도 씀)",
+      "fromLine": 1
+    },
+    {
+      "en": "Do I need to bring anything?",
+      "ko": "뭐 가져가야 할 게 있나요?",
+      "note": "준비물을 물을 때",
+      "fromLine": 5
+    },
+    {
+      "en": "See you on ___!",
+      "ko": "___에 봬요!",
+      "note": "요일 앞에는 on",
+      "fromLine": 7
+    }
+  ]
+}

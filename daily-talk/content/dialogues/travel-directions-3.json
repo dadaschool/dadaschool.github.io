@@ -1,0 +1,131 @@
+{
+  "id": "travel-directions-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "directions",
+  "level": 3,
+  "title": {
+    "ko": "길 묻기",
+    "en": "Asking for Directions"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "갈아타야 하는 복잡한 길 설명을 듣고, 천천히 말해 달라고 하거나 다시 확인하며 끝까지 알아듣는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "현지인",
+      "en": "Local",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, I'm trying to get to Harbor Market. My map app says I need to change trains, but I'm a bit confused.",
+      "ko": "안녕하세요, 하버 마켓에 가려고 하는데요. 지도 앱에서 갈아타야 한다는데 좀 헷갈려요.",
+      "alt": [
+        "Hi, I want to go to Harbor Market. The map says I have to change trains, but I'm confused."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Take the red line two stops to Union Square, then switch to the blue line heading east.",
+      "ko": "네. 빨간 노선을 타고 두 정거장 가서 유니언 스퀘어에서 동쪽으로 가는 파란 노선으로 갈아타세요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Sorry, could you slow down a little? So I get off at Union Square and then take the blue line?",
+      "ko": "죄송한데 조금만 천천히 말씀해 주시겠어요? 그러니까 유니언 스퀘어에서 내려서 파란 노선을 타면 되는 거죠?",
+      "alt": [
+        "Sorry, could you say that more slowly? I get off at Union Square and take the blue line, right?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Exactly. But make sure it's going toward Ocean Beach, not the airport.",
+      "ko": "맞아요. 그런데 공항 쪽이 아니라 오션 비치 방향인지 꼭 확인하세요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Got it. How will I know which platform to go to?",
+      "ko": "알겠어요. 어느 승강장으로 가야 하는지 어떻게 알 수 있죠?",
+      "alt": [
+        "Okay. How do I find the right platform?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Follow the blue signs. The eastbound platform is downstairs.",
+      "ko": "파란 표지판을 따라가세요. 동쪽 방향 승강장은 아래층에 있어요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "And where should I get off after that?",
+      "ko": "그리고 그다음에는 어디서 내려야 하나요?",
+      "alt": [
+        "And which stop do I get off at after that?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Get off at the third stop, Pier 9. When you come out, the market will be on your right.",
+      "ko": "세 번째 정거장인 9번 부두에서 내리세요. 나오시면 시장이 오른쪽에 있을 거예요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Let me make sure I've got it: red line, change at Union Square, blue line toward Ocean Beach, then Pier 9.",
+      "ko": "제가 맞게 이해했는지 볼게요. 빨간 노선, 유니언 스퀘어에서 환승, 오션 비치 방향 파란 노선, 그리고 9번 부두요.",
+      "alt": [
+        "Let me check: red line, change at Union Square, blue line to Ocean Beach, get off at Pier 9."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "That's it. You've got it!",
+      "ko": "바로 그거예요. 잘 이해하셨어요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm a bit confused.",
+      "ko": "좀 헷갈려요.",
+      "note": "도움을 청하며 시작할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Could you slow down a little?",
+      "ko": "조금만 천천히 말씀해 주시겠어요?",
+      "note": "못 알아들었을 때 가장 쓸모 있는 말",
+      "fromLine": 3
+    },
+    {
+      "en": "So I ___, and then ___?",
+      "ko": "그러니까 ___하고 ___하면 되죠?",
+      "note": "들은 내용을 확인할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Let me make sure I've got it.",
+      "ko": "제가 맞게 이해했는지 볼게요.",
+      "note": "다시 말해 보며 확인할 때",
+      "fromLine": 9
+    }
+  ]
+}

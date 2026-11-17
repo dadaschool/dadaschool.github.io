@@ -1,0 +1,108 @@
+{
+  "id": "work-scheduling-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "scheduling",
+  "level": 1,
+  "title": {
+    "ko": "일정 잡기",
+    "en": "Scheduling"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "동료에게 이번 주에 시간이 되는지 묻고 회의 날짜를 정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "동료",
+      "en": "Coworker",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Emma. Do you have time this week?",
+      "ko": "에마 씨, 이번 주에 시간 있어요?",
+      "alt": [
+        "Hi, Emma. Are you free this week?",
+        "Emma, do you have some time this week?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. What's it about?",
+      "ko": "그럼요. 무슨 일인데요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I need to talk about the budget.",
+      "ko": "예산 얘기를 좀 해야 해서요.",
+      "alt": [
+        "It's about the budget.",
+        "I want to talk about the budget."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "How about Wednesday afternoon?",
+      "ko": "수요일 오후 어때요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Wednesday doesn't work for me. How about Thursday?",
+      "ko": "수요일은 제가 안 돼요. 목요일은 어때요?",
+      "alt": [
+        "Sorry, I'm busy on Wednesday. Is Thursday okay?",
+        "I can't do Wednesday. What about Thursday?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Thursday at ten works for me.",
+      "ko": "목요일 10시면 괜찮아요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Great. I'll send you an invite.",
+      "ko": "좋아요. 회의 초대 보낼게요.",
+      "alt": [
+        "Perfect. I'll send you an invite.",
+        "Great. I'll send a calendar invite."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Do you have time ___?",
+      "ko": "___ 시간 있어요?",
+      "note": "this week · tomorrow · today",
+      "fromLine": 1
+    },
+    {
+      "en": "___ doesn't work for me.",
+      "ko": "___는 제가 안 돼요.",
+      "note": "될 때는 ___ works for me.",
+      "fromLine": 5
+    },
+    {
+      "en": "I'll send you an invite.",
+      "ko": "회의 초대 보낼게요.",
+      "note": "invite = 캘린더 일정 초대",
+      "fromLine": 7
+    }
+  ]
+}

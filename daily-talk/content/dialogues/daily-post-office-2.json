@@ -1,0 +1,126 @@
+{
+  "id": "daily-post-office-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "post-office",
+  "level": 2,
+  "title": {
+    "ko": "택배 · 우체국",
+    "en": "Packages and the Post Office"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "친구 생일 선물을 다른 도시로 보내며 빠른 배송과 일반 배송을 비교하고, 배송 조회 · 취급 주의 · 보험을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "우체국 직원",
+      "en": "Postal clerk",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Next, please. Where's this going today?",
+      "ko": "다음 분이요. 어디로 보내세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "To Denver. It's a birthday present for a friend, so I'd like it to get there by Friday.",
+      "ko": "덴버요. 친구 생일 선물이라 금요일까지는 도착했으면 해요.",
+      "alt": [
+        "It's going to Denver. It's a birthday gift, so it needs to get there by Friday.",
+        "Denver. It's a present for my friend, and I hope it arrives by Friday."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Express will get it there in two days for $14. Standard is $7, but it takes about five days.",
+      "ko": "빠른 배송은 14달러이고 이틀이면 도착해요. 일반 배송은 7달러인데 5일쯤 걸려요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Express, then. Does that include tracking?",
+      "ko": "그럼 빠른 배송으로 할게요. 배송 조회도 되나요?",
+      "alt": [
+        "I'll go with express. Can I track it?",
+        "Express, please. Is tracking included?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes, the tracking number is on your receipt. Is there anything fragile inside?",
+      "ko": "네, 운송장 번호는 영수증에 있어요. 안에 깨지기 쉬운 물건이 있나요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes, there's a glass mug. Could you mark it as fragile?",
+      "ko": "네, 유리 머그잔이 있어요. 취급 주의 표시를 해 주시겠어요?",
+      "alt": [
+        "Yes, a glass mug. Can you put a fragile sticker on it?",
+        "There's a glass mug inside, so please mark it fragile."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Sure. Would you like to add insurance? It's $3 for up to $100.",
+      "ko": "네. 보험도 추가하시겠어요? 3달러에 100달러까지 보장돼요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Yes, please. Better safe than sorry.",
+      "ko": "네, 해 주세요. 조심해서 나쁠 건 없으니까요.",
+      "alt": [
+        "Sure, I'll add it, just to be safe.",
+        "Yes, please. I'd rather be safe."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "All right. That comes to $17.",
+      "ko": "알겠습니다. 모두 17달러입니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like it to get there by ___.",
+      "ko": "___까지는 도착했으면 해요.",
+      "note": "by + 날짜 = ~까지",
+      "fromLine": 2
+    },
+    {
+      "en": "Does that include tracking?",
+      "ko": "배송 조회도 되나요?",
+      "note": "tracking number = 운송장 번호",
+      "fromLine": 4
+    },
+    {
+      "en": "Could you mark it as fragile?",
+      "ko": "취급 주의 표시를 해 주시겠어요?",
+      "note": "fragile = 깨지기 쉬운",
+      "fromLine": 6
+    },
+    {
+      "en": "Better safe than sorry.",
+      "ko": "조심해서 나쁠 건 없죠.",
+      "note": "만일에 대비할 때 쓰는 말",
+      "fromLine": 8
+    }
+  ]
+}

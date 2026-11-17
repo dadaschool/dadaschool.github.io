@@ -1,0 +1,125 @@
+{
+  "id": "culture-performance-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "performance",
+  "level": 2,
+  "title": {
+    "ko": "공연장 (뮤지컬 · 연극 · 콘서트)",
+    "en": "At a Show or Concert"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "공연장 안내원에게 좌석 위치를 안내받고, 중간 휴식 시간 · 음료 반입 · 공연 안내 책자를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "안내원",
+      "en": "Usher",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "관객(나)",
+      "en": "Audience member",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good evening. May I see your ticket?",
+      "ko": "안녕하세요. 표 좀 보여 주시겠어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Sure. I think I'm in the balcony, but I'm not sure how to get there.",
+      "ko": "네. 발코니석 같은데 어떻게 가는지 모르겠어요.",
+      "alt": [
+        "Here it is. I'm in the balcony, but I don't know how to get there."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Actually, you're on the main floor. Row K is just down this aisle on the right.",
+      "ko": "사실 1층 좌석이세요. K열은 이 통로로 내려가시면 오른쪽에 있어요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Oh, good. Is there an intermission?",
+      "ko": "아, 잘됐네요. 중간 휴식 시간이 있나요?",
+      "alt": [
+        "Oh, great. Will there be an intermission?",
+        "Good. Is there a break in the middle?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes, a twenty-minute intermission after the first act.",
+      "ko": "네, 1막이 끝나고 20분 쉬어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Can I bring my drink inside?",
+      "ko": "음료를 안에 가지고 들어가도 돼요?",
+      "alt": [
+        "Am I allowed to take this drink in?",
+        "Is it okay to bring a drink inside?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Only if it has a lid. And please turn off your phone before the show starts.",
+      "ko": "뚜껑이 있는 것만 돼요. 그리고 공연 시작 전에 휴대폰은 꺼 주세요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Will do. Where can I buy a program?",
+      "ko": "그럴게요. 공연 안내 책자는 어디서 사요?",
+      "alt": [
+        "Sure. Where do they sell programs?",
+        "Okay. Where can I get a program?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "There's a stand in the lobby, next to the bar.",
+      "ko": "로비에 있는 바 옆에 판매대가 있어요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm not sure how to get there.",
+      "ko": "어떻게 가는지 모르겠어요.",
+      "note": "길 · 자리를 모를 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Is there an intermission?",
+      "ko": "중간 휴식 시간이 있나요?",
+      "note": "intermission = 공연 중간 휴식",
+      "fromLine": 4
+    },
+    {
+      "en": "Can I bring ___ inside?",
+      "ko": "___를 안에 가지고 들어가도 돼요?",
+      "note": "반입 규칙을 물을 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Will do.",
+      "ko": "그럴게요.",
+      "note": "부탁 · 지시에 짧게 답할 때",
+      "fromLine": 8
+    }
+  ]
+}

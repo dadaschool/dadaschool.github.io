@@ -1,0 +1,138 @@
+{
+  "id": "school-classroom-english-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "classroom-english",
+  "level": 3,
+  "title": {
+    "ko": "교실 영어",
+    "en": "Classroom English"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "모둠별 여행 안내서 만들기 활동과 역할을 설명하다가, 모둠 활동이 싫다는 학생의 마음을 듣고 다시 해 보도록 격려한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학생",
+      "en": "Student",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Today, each group is going to make a travel brochure for a city in an English-speaking country.",
+      "ko": "오늘은 모둠마다 영어권 나라의 도시 하나를 골라 여행 안내서를 만들 거예요.",
+      "alt": [
+        "Today, every group will create a travel brochure about a city in an English-speaking country."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Can we choose any city we want?",
+      "ko": "아무 도시나 골라도 돼요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Yes, as long as your group agrees. Each person will have a role: leader, writer, designer, or presenter.",
+      "ko": "네, 모둠 친구들이 다 동의하면요. 한 사람씩 역할을 맡는데, 모둠장, 글쓰기, 꾸미기, 발표 중 하나예요.",
+      "alt": [
+        "Sure, if everyone in your group agrees. Everyone gets one role: leader, writer, designer, or presenter."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Mr. Kim, can I just work alone? I don't really like group work.",
+      "ko": "선생님, 저 그냥 혼자 하면 안 돼요? 모둠 활동이 별로라서요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I see. Can you tell me why you feel that way?",
+      "ko": "그렇구나. 왜 그렇게 생각하는지 말해 줄래?",
+      "alt": [
+        "Okay. Can you tell me why?",
+        "I understand. What makes you feel that way?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Last time, I ended up doing everything by myself.",
+      "ko": "지난번에 결국 저 혼자 다 했거든요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That sounds really frustrating. This time, everyone has their own role, and I'll check each person's part. Could you give it one more try?",
+      "ko": "그거 정말 속상했겠다. 이번에는 다들 자기 역할이 있고, 선생님이 한 사람씩 맡은 부분을 확인할 거야. 한 번만 더 해 볼래?",
+      "alt": [
+        "I'm sorry that happened. This time, each person has a role, and I'll check everyone's work. Can you try one more time?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Okay, I'll try. Can we use our phones to find pictures?",
+      "ko": "네, 해 볼게요. 사진 찾을 때 휴대폰 써도 돼요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Yes, but only for this activity. When we're done, phones go back in the basket.",
+      "ko": "응, 그런데 이 활동 할 때만이야. 끝나면 휴대폰은 다시 바구니에 넣어야 해.",
+      "alt": [
+        "Sure, but just for this activity. Put your phone back in the basket when we're done."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Got it. Thanks, Mr. Kim.",
+      "ko": "알겠어요. 감사합니다, 선생님."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Each group is going to ___.",
+      "ko": "모둠마다 ___할 거예요.",
+      "note": "모둠 활동을 안내하며 시작할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "as long as ___",
+      "ko": "___하기만 하면",
+      "note": "조건을 붙여 허락할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Can you tell me why you feel that way?",
+      "ko": "왜 그렇게 생각하는지 말해 줄래?",
+      "note": "학생의 마음을 먼저 들어 볼 때",
+      "fromLine": 5
+    },
+    {
+      "en": "That sounds really frustrating.",
+      "ko": "그거 정말 속상했겠다.",
+      "note": "학생의 감정을 인정해 줄 때",
+      "fromLine": 7
+    },
+    {
+      "en": "Could you give it one more try?",
+      "ko": "한 번만 더 해 볼래?",
+      "note": "give it a try = 한번 해 보다",
+      "fromLine": 7
+    }
+  ]
+}

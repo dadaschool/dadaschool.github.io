@@ -1,0 +1,139 @@
+{
+  "id": "culture-one-day-class-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "one-day-class",
+  "level": 3,
+  "title": {
+    "ko": "원데이 클래스 (요리 · 공예 등)",
+    "en": "One-Day Classes"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "파스타 반죽이 손에 달라붙어 강사에게 도움을 청하고, 반죽을 쉬게 하는 이유와 기계 쓰는 법을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "요리 강사",
+      "en": "Cooking instructor",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "수강생(나)",
+      "en": "Student",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, could you come take a look when you have a second? My dough keeps sticking to my hands.",
+      "ko": "저기요, 잠깐 시간 되실 때 좀 봐 주실 수 있어요? 반죽이 자꾸 손에 달라붙어요.",
+      "alt": [
+        "Sorry, could you check my dough when you're free? It keeps sticking to my hands.",
+        "Excuse me, can you help me for a second? The dough is too sticky."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Hmm, it's a little too wet. Did you add all the water at once?",
+      "ko": "그럼요. 음, 반죽이 좀 질네요. 물을 한 번에 다 넣으셨어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I think so. I must have missed the part where you said to add it slowly.",
+      "ko": "그런 것 같아요. 천천히 넣으라고 하신 부분을 놓쳤나 봐요.",
+      "alt": [
+        "Yes, I think so. I probably missed the part about adding it little by little."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "That's an easy fix. Just add a spoonful of flour at a time and keep kneading.",
+      "ko": "쉽게 고칠 수 있어요. 밀가루를 한 숟가락씩 넣으면서 계속 치대세요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Like this? How will I know when it's ready?",
+      "ko": "이렇게요? 다 됐는지는 어떻게 알아요?",
+      "alt": [
+        "Is this right? How can I tell when it's done?",
+        "Like this? How do I know it's ready?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Just like that. When it feels smooth and springs back after you press it, it's ready.",
+      "ko": "네, 그렇게요. 매끈하고 눌렀다 뗐을 때 다시 올라오면 다 된 거예요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Oh, I see. And why do we have to let it rest before rolling it out? Does it really make a difference?",
+      "ko": "아, 그렇군요. 그런데 밀기 전에 왜 반죽을 쉬게 해야 해요? 정말 차이가 있어요?",
+      "alt": [
+        "I see. Why do we need to rest the dough before rolling it? Does it really matter?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Good question. Resting relaxes the dough, so it doesn't shrink back when you roll it thin.",
+      "ko": "좋은 질문이에요. 쉬게 두면 반죽이 느슨해져서 얇게 밀어도 다시 줄어들지 않아요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That makes sense. One more thing: the pasta machine feels a bit stiff. Could you show me how to use it?",
+      "ko": "이해가 돼요. 하나만 더요, 파스타 기계가 좀 뻑뻑한데 쓰는 법을 보여 주실 수 있어요?",
+      "alt": [
+        "Got it. Also, the pasta machine is hard to turn. Can you show me how it works?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Of course. Hold it steady with one hand and turn the handle slowly with the other. There you go! You're a natural.",
+      "ko": "물론이죠. 한 손으로 단단히 잡고 다른 손으로 손잡이를 천천히 돌리세요. 그렇죠! 타고나셨네요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Could you come take a look when you have a second?",
+      "ko": "잠깐 시간 되실 때 좀 봐 주실 수 있어요?",
+      "note": "바쁜 강사를 부를 때",
+      "fromLine": 1
+    },
+    {
+      "en": "___ keeps ___ing.",
+      "ko": "___가 자꾸 ~해요.",
+      "note": "keep + -ing = 자꾸 ~하다",
+      "fromLine": 1
+    },
+    {
+      "en": "How will I know when it's ready?",
+      "ko": "다 됐는지 어떻게 알아요?",
+      "note": "완성 기준을 물을 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Does it really make a difference?",
+      "ko": "정말 차이가 있어요?",
+      "note": "make a difference = 차이가 나다 · 효과가 있다",
+      "fromLine": 7
+    },
+    {
+      "en": "Could you show me how to ___?",
+      "ko": "___하는 법을 보여 주실 수 있어요?",
+      "note": "직접 시범을 부탁할 때",
+      "fromLine": 9
+    }
+  ]
+}

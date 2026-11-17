@@ -1,0 +1,108 @@
+{
+  "id": "culture-performance-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "performance",
+  "level": 1,
+  "title": {
+    "ko": "공연장 (뮤지컬 · 연극 · 콘서트)",
+    "en": "At a Show or Concert"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "공연장 매표소에서 예매한 표를 찾고 좌석과 들어갈 문을 안내받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "매표소 직원",
+      "en": "Box office staff",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "관객(나)",
+      "en": "Audience member",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'm here to pick up my ticket.",
+      "ko": "안녕하세요. 표 찾으러 왔어요.",
+      "alt": [
+        "Hi. I'd like to pick up my ticket.",
+        "Hello. I have a ticket to pick up."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Can I see your ID?",
+      "ko": "네. 신분증 좀 보여 주시겠어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Here it is. The name is Jiwon Lee.",
+      "ko": "여기 있어요. 이름은 이지원이에요.",
+      "alt": [
+        "Here you go. It's under Jiwon Lee.",
+        "Sure. My name is Jiwon Lee."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Thanks. You're in row F, seat 12.",
+      "ko": "감사합니다. F열 12번이에요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Which door should I use?",
+      "ko": "어느 문으로 들어가야 해요?",
+      "alt": [
+        "Which door do I use?",
+        "Where do I go in?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "The left one. The show starts in ten minutes.",
+      "ko": "왼쪽 문이요. 공연은 10분 뒤에 시작해요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Great. Thank you so much.",
+      "ko": "좋아요. 정말 고마워요.",
+      "alt": [
+        "Great, thanks a lot.",
+        "Perfect. Thank you."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm here to pick up ___.",
+      "ko": "___ 찾으러 왔어요.",
+      "note": "예매한 표를 받을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "row F, seat 12",
+      "ko": "F열 12번",
+      "note": "row = 열 · seat = 좌석 번호",
+      "fromLine": 4
+    },
+    {
+      "en": "Which door should I use?",
+      "ko": "어느 문으로 들어가야 해요?",
+      "note": "공연장 · 경기장 입구를 물을 때",
+      "fromLine": 5
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "school-student-counseling-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "student-counseling",
+  "level": 3,
+  "title": {
+    "ko": "외국인 학생 상담",
+    "en": "Talking with an International Student"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "단짝 친구와 다투고 점심을 혼자 먹는 외국인 학생의 고민을 듣고, 학생이 원하는 방식으로 도울 방법을 함께 찾는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "외국인 학생",
+      "en": "International student",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Leo, I noticed you've been eating lunch by yourself lately. Do you want to talk about it?",
+      "ko": "레오, 요즘 점심을 혼자 먹는 것 같더라. 그 얘기 좀 해 볼래?",
+      "alt": [
+        "Leo, I've seen you eating lunch alone recently. Would you like to talk about it?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Not really... Well, Jaemin and I had a fight.",
+      "ko": "별로요... 사실 재민이랑 싸웠어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I'm sorry to hear that. You two were always together. What happened, if you don't mind me asking?",
+      "ko": "그랬구나. 너희 둘은 늘 붙어 다녔잖아. 괜찮으면 무슨 일이 있었는지 말해 줄래?",
+      "alt": [
+        "Oh, I'm sorry. You two were best friends. Can you tell me what happened, if that's okay?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "He made a joke about my Korean in front of everyone. Everyone laughed, and I just walked away.",
+      "ko": "애들 다 있는 데서 제 한국어 가지고 농담을 했어요. 다들 웃었고, 저는 그냥 나와 버렸어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That must have been really embarrassing. It makes sense that you felt hurt.",
+      "ko": "정말 창피했겠다. 상처받은 게 당연해.",
+      "alt": [
+        "That sounds really embarrassing. Of course you felt hurt."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Now he won't talk to me. Maybe he thinks I'm angry, but I don't know what to say.",
+      "ko": "그 뒤로 재민이가 저랑 말을 안 해요. 제가 화났다고 생각하는 것 같은데, 뭐라고 말해야 할지 모르겠어요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "It sounds like you really miss him. Do you want to make up with him?",
+      "ko": "재민이가 많이 보고 싶은가 보구나. 화해하고 싶어?",
+      "alt": [
+        "Sounds like you miss your friend. Would you like to be friends again?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, but please don't tell him I said anything. I don't want things to get weird.",
+      "ko": "네, 그런데 제가 말했다고는 하지 말아 주세요. 어색해지는 건 싫어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "I won't, I promise. How about I put you two in the same group for the science project? That might give you a chance to talk naturally.",
+      "ko": "안 그럴게, 약속해. 과학 프로젝트 때 너희 둘을 같은 모둠에 넣어 주면 어떨까? 자연스럽게 이야기할 기회가 생길 수도 있잖아.",
+      "alt": [
+        "I promise I won't. What if I put you both in the same group for the science project? You could talk more naturally that way."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "That's a good idea. Thanks for listening, Ms. Park.",
+      "ko": "좋은 생각이에요. 얘기 들어 주셔서 감사해요, 선생님."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I noticed you've been ___ lately.",
+      "ko": "요즘 ___하는 것 같더라.",
+      "note": "학생의 변화를 조심스럽게 꺼낼 때",
+      "fromLine": 1
+    },
+    {
+      "en": "if you don't mind me asking",
+      "ko": "물어봐도 괜찮다면",
+      "note": "조심스럽게 물을 때 붙이는 말",
+      "fromLine": 3
+    },
+    {
+      "en": "That must have been really ___.",
+      "ko": "정말 ___했겠다.",
+      "note": "상대의 감정을 짐작해 공감할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "make up with ___",
+      "ko": "___와 화해하다",
+      "note": "make up = 화해하다",
+      "fromLine": 7
+    },
+    {
+      "en": "How about I ___?",
+      "ko": "내가 ___하면 어떨까?",
+      "note": "도울 방법을 제안할 때",
+      "fromLine": 9
+    }
+  ]
+}

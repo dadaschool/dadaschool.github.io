@@ -1,0 +1,108 @@
+{
+  "id": "work-hosting-visitors-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "hosting-visitors",
+  "level": 1,
+  "title": {
+    "ko": "손님 맞이 · 안내",
+    "en": "Welcoming Visitors"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "회사를 찾아온 손님을 맞아 인사하고 회의실로 안내한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "방문객",
+      "en": "Visitor",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Host",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hello. You must be Ms. Taylor.",
+      "ko": "안녕하세요. 테일러 씨 맞으시죠?",
+      "alt": [
+        "Hi. Are you Ms. Taylor?",
+        "Good morning. You must be Ms. Taylor."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Yes, that's right. Nice to meet you.",
+      "ko": "네, 맞아요. 만나서 반가워요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Nice to meet you, too. I'm Junho Lee.",
+      "ko": "저도 반갑습니다. 이준호입니다.",
+      "alt": [
+        "Nice to meet you. My name is Junho.",
+        "Good to meet you. I'm Junho."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Thank you for having me today.",
+      "ko": "오늘 초대해 주셔서 감사해요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Please come this way. Would you like some coffee?",
+      "ko": "이쪽으로 오세요. 커피 드릴까요?",
+      "alt": [
+        "This way, please. Can I get you some coffee?",
+        "Please follow me. Would you like a coffee?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Just water, please.",
+      "ko": "물만 주세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Sure. Please have a seat here.",
+      "ko": "네. 여기 앉으세요.",
+      "alt": [
+        "Of course. Please sit here.",
+        "No problem. Have a seat, please."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "You must be ___.",
+      "ko": "___ 씨 맞으시죠?",
+      "note": "처음 보는 손님을 맞을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Please come this way.",
+      "ko": "이쪽으로 오세요.",
+      "note": "안내할 때 · Follow me. 보다 공손함",
+      "fromLine": 5
+    },
+    {
+      "en": "Please have a seat.",
+      "ko": "앉으세요.",
+      "note": "자리를 권할 때",
+      "fromLine": 7
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "id": "culture-sports-game-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "sports-game",
+  "level": 3,
+  "title": {
+    "ko": "스포츠 경기 관람",
+    "en": "Watching a Sports Game"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "9회 말 긴장된 순간에 옆자리 팬과 함께 응원하고, 날아온 파울볼을 잡은 뒤 역전승을 함께 기뻐한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "옆자리 팬",
+      "en": "Fan in the next seat",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "관중(나)",
+      "en": "Fan",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Bottom of the ninth, a runner on second, and we're down by one. I can't watch!",
+      "ko": "9회 말, 주자 2루에 1점 지고 있어요. 못 보겠어요!"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Don't give up yet! Marco Bell is up next, right? He hit a home run in the third inning.",
+      "ko": "아직 포기하지 마세요! 다음 타자가 마르코 벨이죠? 3회에 홈런 쳤잖아요.",
+      "alt": [
+        "It's not over yet! Isn't Marco Bell next? He hit a homer in the third.",
+        "Don't give up! Bell is up next, right? He homered earlier."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "You're right. Wow, you've really gotten into this game!",
+      "ko": "맞아요. 와, 경기에 완전히 빠지셨네요!"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I know! I didn't expect to enjoy it this much. Wait, was that a strike? It looked way outside to me.",
+      "ko": "그러게요! 이렇게 재미있을 줄 몰랐어요. 잠깐, 저게 스트라이크예요? 제가 보기엔 한참 바깥쪽이었는데요.",
+      "alt": [
+        "I know! I didn't think I'd like it this much. Wait, that was a strike? It looked outside to me."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Come on, ump! That was way outside. Okay, two strikes now. Here comes the pitch...",
+      "ko": "아, 심판! 완전히 빠졌잖아요. 좋아요, 이제 투 스트라이크. 공 들어갑니다..."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Whoa, he hit it high! Look out, it's coming this way!",
+      "ko": "와, 높이 쳤어요! 조심하세요, 이쪽으로 와요!",
+      "alt": [
+        "Wow, it's way up! Watch out, it's coming at us!",
+        "Whoa! Heads up, the ball is coming over here!"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Nice catch! A foul ball on your very first visit? That almost never happens!",
+      "ko": "잘 잡았어요! 처음 오셨는데 파울볼을 잡다니요? 그런 일은 거의 없는데!"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I can't believe it. My hands are still shaking. Do people usually get to keep them?",
+      "ko": "믿기지가 않아요. 아직도 손이 떨려요. 보통 가져가도 되는 거예요?",
+      "alt": [
+        "I can't believe I caught it. My hands are shaking. Do people get to keep them?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Of course, it's yours! Oh, look, Bell's swinging again... That's a long one... It's gone! We win!",
+      "ko": "당연하죠, 이제 그쪽 거예요! 어, 보세요, 벨이 또 휘둘러요... 멀리 가요... 넘어갔어요! 우리가 이겼어요!"
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "What a game! Thanks for keeping me company tonight. I think I'm officially a Sharks fan now.",
+      "ko": "대단한 경기네요! 오늘 밤 같이 응원해 주셔서 고마워요. 이제 정식으로 샤크스 팬이 된 것 같아요.",
+      "alt": [
+        "What a game! Thanks for cheering with me tonight. I'm definitely a Sharks fan now.",
+        "Amazing game! Thank you for keeping me company. I'm a real Sharks fan now."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Don't give up yet!",
+      "ko": "아직 포기하지 마세요!",
+      "note": "응원할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "I didn't expect to ___ this much.",
+      "ko": "이렇게 ___할 줄 몰랐어요.",
+      "note": "예상보다 좋을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "It looked ___ to me.",
+      "ko": "제가 보기엔 ___였어요.",
+      "note": "판정 · 장면에 내 의견을 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Look out!",
+      "ko": "조심하세요!",
+      "note": "Watch out! · Heads up! 도 같은 뜻",
+      "fromLine": 6
+    },
+    {
+      "en": "What a ___!",
+      "ko": "정말 대단한 ___네요!",
+      "note": "What a + 명사! = 감탄할 때",
+      "fromLine": 10
+    }
+  ]
+}

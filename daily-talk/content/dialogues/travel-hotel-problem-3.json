@@ -1,0 +1,131 @@
+{
+  "id": "travel-hotel-problem-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "hotel-problem",
+  "level": 3,
+  "title": {
+    "ko": "호텔 방 문제 해결",
+    "en": "Hotel Room Problems"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "공사 소음과 담배 냄새 때문에 방을 바꿔 달라고 정중하지만 분명하게 요청하고, 해결 방법을 함께 정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "호텔 매니저",
+      "en": "Hotel manager",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Guest",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'm in room 618, and I'm afraid I need to change rooms.",
+      "ko": "안녕하세요. 618호인데요, 죄송하지만 방을 바꿔야 할 것 같아요.",
+      "alt": [
+        "Hello. This is room 618. I'm sorry, but I'd like to change rooms."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry to hear that. May I ask what the problem is?",
+      "ko": "그렇다니 죄송합니다. 무슨 문제인지 여쭤봐도 될까요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "There's construction noise next door from early morning, and the room smells like smoke even though it's non-smoking.",
+      "ko": "아침 일찍부터 옆에서 공사 소음이 나고, 금연실인데도 방에서 담배 냄새가 나요.",
+      "alt": [
+        "It's very noisy from the construction next door in the morning, and the non-smoking room smells of smoke."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I apologize for the inconvenience. Unfortunately, we're fully booked tonight.",
+      "ko": "불편을 드려 죄송합니다. 안타깝게도 오늘 밤은 방이 다 찼습니다."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I understand, but I booked a quiet non-smoking room, and this isn't what I paid for.",
+      "ko": "이해는 하지만, 저는 조용한 금연실을 예약했고 이건 제가 돈을 낸 방이 아니에요.",
+      "alt": [
+        "I see, but I paid for a quiet non-smoking room, and this isn't it."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "You're absolutely right. A guest is checking out at noon tomorrow. Would you be willing to stay one more night in your current room?",
+      "ko": "맞는 말씀입니다. 내일 정오에 체크아웃하는 손님이 있는데요. 지금 방에서 하룻밤만 더 지내 주실 수 있을까요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "If that's the only option, I can manage. But I'd appreciate it if you could do something about the smell tonight.",
+      "ko": "그게 유일한 방법이라면 견딜 수 있어요. 하지만 오늘 밤 냄새는 좀 어떻게 해 주시면 고맙겠어요.",
+      "alt": [
+        "If there's no other choice, that's okay. But please do something about the smell tonight."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Of course. We'll bring an air purifier right away, and tonight's stay will be on us.",
+      "ko": "물론입니다. 바로 공기청정기를 가져다 드리고, 오늘 숙박비는 저희가 부담하겠습니다."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That's very generous. Could you also make sure the new room is on a higher floor, away from the construction?",
+      "ko": "정말 넉넉하게 해 주시네요. 새 방은 공사장에서 먼 높은 층으로 해 주실 수 있나요?",
+      "alt": [
+        "That's very kind. Could the new room be on a higher floor, away from the construction?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Certainly. I'll make a note of that and call you tomorrow morning.",
+      "ko": "물론입니다. 적어 두었다가 내일 아침에 전화드리겠습니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm afraid I need to ___.",
+      "ko": "죄송하지만 ___해야 할 것 같아요.",
+      "note": "불편한 부탁을 시작할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "This isn't what I paid for.",
+      "ko": "이건 제가 돈을 낸 것이 아니에요.",
+      "note": "정중하지만 분명하게 항의할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I'd appreciate it if you could ___.",
+      "ko": "___해 주시면 고맙겠어요.",
+      "note": "아주 공손한 부탁",
+      "fromLine": 7
+    },
+    {
+      "en": "___ will be on us.",
+      "ko": "___는 저희가 내겠습니다.",
+      "note": "on us = 우리가 부담하는",
+      "fromLine": 8
+    }
+  ]
+}

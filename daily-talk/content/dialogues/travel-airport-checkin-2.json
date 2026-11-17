@@ -1,0 +1,125 @@
+{
+  "id": "travel-airport-checkin-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "airport-checkin",
+  "level": 2,
+  "title": {
+    "ko": "공항 체크인",
+    "en": "Airport Check-in"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "항공사 카운터에서 짐을 부치며 보조배터리 규정을 듣고, 앞쪽 자리와 보안 검색대 위치를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "항공사 직원",
+      "en": "Airline agent",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hello. Where are you flying to today?",
+      "ko": "안녕하세요. 오늘 어디로 가시나요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I'm going to Vancouver. Here's my passport.",
+      "ko": "밴쿠버에 가요. 여기 제 여권이요.",
+      "alt": [
+        "I'm flying to Vancouver. Here's my passport.",
+        "To Vancouver. Here is my passport."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Thank you. Are you checking any bags?",
+      "ko": "감사합니다. 부치실 짐 있으세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, this suitcase. I also have a power bank in my backpack.",
+      "ko": "네, 이 여행 가방이요. 배낭에 보조배터리도 있어요.",
+      "alt": [
+        "Yes, this suitcase. There's also a power bank in my backpack."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "That's fine, but it has to stay in your carry-on.",
+      "ko": "괜찮습니다. 하지만 기내 가방에 넣어 두셔야 해요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Got it. Could I get a seat near the front?",
+      "ko": "알겠습니다. 앞쪽 자리로 받을 수 있을까요?",
+      "alt": [
+        "Okay. Can I have a seat near the front?",
+        "I see. Is there a seat near the front?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Sure. Row 8, aisle seat. Boarding starts at 10:20.",
+      "ko": "네. 8열 통로 자리입니다. 탑승은 10시 20분에 시작해요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Great, thank you. Which way is the security check?",
+      "ko": "좋아요, 고마워요. 보안 검색대는 어느 쪽이에요?",
+      "alt": [
+        "Thanks. Where is the security check?",
+        "Great. How do I get to security?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "It's on your left, past the café. Have a nice flight!",
+      "ko": "카페를 지나서 왼쪽에 있어요. 즐거운 비행 되세요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm going to ___.",
+      "ko": "___에 가요.",
+      "note": "목적지를 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "carry-on",
+      "ko": "기내 가방",
+      "note": "부치는 짐은 checked bag",
+      "fromLine": 5
+    },
+    {
+      "en": "Could I get ___?",
+      "ko": "___ 받을 수 있을까요?",
+      "note": "공손하게 부탁할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Which way is ___?",
+      "ko": "___는 어느 쪽이에요?",
+      "note": "방향을 물을 때",
+      "fromLine": 8
+    }
+  ]
+}

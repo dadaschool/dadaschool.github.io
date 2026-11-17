@@ -1,0 +1,137 @@
+{
+  "id": "work-hosting-visitors-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "hosting-visitors",
+  "level": 3,
+  "title": {
+    "ko": "손님 맞이 · 안내",
+    "en": "Welcoming Visitors"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "협력사 손님에게 회사와 하루 일정을 소개하고, 손님의 비행기 시간이 바뀌자 일정을 다시 짠다."
+  },
+  "roles": {
+    "A": {
+      "ko": "협력사 임원",
+      "en": "Partner executive",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "담당 직원(나)",
+      "en": "Host",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Good morning, Ms. Rivera. Before we begin, let me give you a quick overview of our company and today's schedule.",
+      "ko": "안녕하세요, 리베라 씨. 시작하기 전에 저희 회사와 오늘 일정을 간단히 소개해 드릴게요.",
+      "alt": [
+        "Good morning, Ms. Rivera. First, I'd like to briefly introduce our company and go over today's schedule."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "That would be great, thank you.",
+      "ko": "좋아요, 감사합니다."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "We were founded in 2009, and today we make sensors for about forty companies in eight countries.",
+      "ko": "저희는 2009년에 설립됐고, 지금은 8개국 40여 개 회사에 센서를 만들어 공급하고 있어요.",
+      "alt": [
+        "We started in 2009, and now we supply sensors to around forty companies in eight countries."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Impressive. And what's the plan for today?",
+      "ko": "대단하네요. 오늘 일정은 어떻게 되나요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "This morning, you'll meet our engineering team. After lunch, we'll visit the factory, and we'll finish with dinner at six.",
+      "ko": "오전에는 엔지니어링 팀을 만나시고요. 점심 후에는 공장을 방문하고, 6시 저녁 식사로 마무리합니다.",
+      "alt": [
+        "In the morning, you'll meet our engineers. After lunch, we'll tour the factory, and dinner is at six."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Actually, I'm sorry, but my flight was moved up, and I need to leave for the airport by four.",
+      "ko": "실은, 죄송하지만 비행기 시간이 앞당겨져서 4시까지는 공항으로 출발해야 해요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That's not a problem at all. In that case, would you prefer to see the factory right after the engineering meeting, before lunch?",
+      "ko": "전혀 문제없어요. 그렇다면 엔지니어 미팅 바로 다음, 점심 전에 공장을 보시겠어요?",
+      "alt": [
+        "No problem. Would you like to visit the factory before lunch, right after you meet the engineers?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "That would help a lot. But I don't want to cause any trouble for your team.",
+      "ko": "그러면 정말 도움이 되겠어요. 그런데 팀에 폐를 끼치고 싶지는 않아요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "It's no trouble at all. The factory is only fifteen minutes away. And instead of dinner, we could have a working lunch, so we still have time to discuss the contract.",
+      "ko": "전혀요. 공장은 15분 거리밖에 안 돼요. 그리고 저녁 대신 점심을 먹으면서 회의하면 계약 이야기를 할 시간도 있어요.",
+      "alt": [
+        "Not at all. The factory is just fifteen minutes from here. We could also have a working lunch instead of dinner, so we can still talk about the contract."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Perfect. Thank you for being so accommodating.",
+      "ko": "완벽해요. 이렇게 맞춰 주셔서 감사합니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Let me give you a quick overview of ___.",
+      "ko": "___를 간단히 소개해 드릴게요.",
+      "note": "overview = 개요, 전체적인 소개",
+      "fromLine": 1
+    },
+    {
+      "en": "We were founded in ___.",
+      "ko": "저희는 ___년에 설립됐어요.",
+      "note": "회사를 소개할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "In that case, would you prefer to ___?",
+      "ko": "그렇다면 ___하시겠어요?",
+      "note": "바뀐 상황에 맞춰 선택지를 줄 때",
+      "fromLine": 7
+    },
+    {
+      "en": "It's no trouble at all.",
+      "ko": "전혀 번거롭지 않아요.",
+      "note": "상대가 미안해할 때 안심시키는 말",
+      "fromLine": 9
+    },
+    {
+      "en": "working lunch",
+      "ko": "점심을 먹으며 하는 회의",
+      "note": "점심시간에 업무 이야기를 함께 할 때",
+      "fromLine": 9
+    }
+  ]
+}

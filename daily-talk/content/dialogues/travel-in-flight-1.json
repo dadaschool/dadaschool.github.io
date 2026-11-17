@@ -1,0 +1,92 @@
+{
+  "id": "travel-in-flight-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "in-flight",
+  "level": 1,
+  "title": {
+    "ko": "기내에서 부탁하기",
+    "en": "On the Plane"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "비행기 안에서 승무원에게 물과 담요를 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "승무원",
+      "en": "Flight attendant",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Would you like something to drink?",
+      "ko": "마실 것 드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Water, please.",
+      "ko": "물 주세요.",
+      "alt": [
+        "Some water, please.",
+        "Can I have some water?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Here you go. Anything else?",
+      "ko": "여기 있습니다. 더 필요하신 건요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Can I have a blanket?",
+      "ko": "담요 하나 주실 수 있어요?",
+      "alt": [
+        "A blanket, please.",
+        "Could I get a blanket?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Sure. I'll bring one now.",
+      "ko": "네. 지금 가져다 드릴게요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Thank you so much.",
+      "ko": "정말 고마워요.",
+      "alt": [
+        "Thanks a lot.",
+        "Thank you."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___, please.",
+      "ko": "___ 주세요.",
+      "note": "가장 짧은 부탁 표현",
+      "fromLine": 2
+    },
+    {
+      "en": "Can I have ___?",
+      "ko": "___ 주실 수 있어요?",
+      "note": "물건을 부탁할 때",
+      "fromLine": 4
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "work-time-off-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "time-off",
+  "level": 3,
+  "title": {
+    "ko": "휴가 · 퇴근 이야기",
+    "en": "Vacation and Leaving Work"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "제품 출시 직전에 휴가를 신청하며 팀장의 걱정을 듣고, 업무 인수인계 계획과 절충안을 제시한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "팀장",
+      "en": "Manager",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Jennifer. Do you have a few minutes? I wanted to ask about taking some time off next month.",
+      "ko": "제니퍼 팀장님, 잠깐 시간 괜찮으세요? 다음 달에 휴가를 내는 것 때문에 여쭤보고 싶어서요.",
+      "alt": [
+        "Hi, Jennifer. Have you got a minute? I'd like to talk about taking a few days off next month."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. What dates are you thinking of?",
+      "ko": "그래요. 언제로 생각하고 있어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I'd like to take the 14th through the 22nd off. My sister is getting married in Canada.",
+      "ko": "14일부터 22일까지 쉬고 싶어요. 여동생이 캐나다에서 결혼하거든요.",
+      "alt": [
+        "I'm thinking of the 14th to the 22nd. My sister's wedding is in Canada."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Oh, congratulations! The only thing is, that's right before the product launch on the 25th. I'm a little worried about the timing.",
+      "ko": "어머, 축하해요! 다만 25일 제품 출시 바로 전이라서요. 시기가 좀 걱정되네요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I completely understand. I've thought about that, and I plan to finish the user guide and the training slides before I leave.",
+      "ko": "충분히 이해합니다. 저도 그 부분을 생각해 봤는데, 떠나기 전에 사용자 설명서랑 교육 자료는 끝내 놓을 계획이에요.",
+      "alt": [
+        "I understand. I've already thought about it, and I'll have the user guide and training slides done before I go."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That helps. But who would handle customer questions while you're away?",
+      "ko": "그건 도움이 되네요. 그런데 자리 비운 동안 고객 문의는 누가 처리하죠?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "I've already talked to Hana, and she's agreed to cover for me. I'll walk her through everything next week.",
+      "ko": "이미 하나 씨와 이야기했는데, 제 일을 대신 맡아 주기로 했어요. 다음 주에 하나 씨에게 전부 차근차근 알려 줄 거예요.",
+      "alt": [
+        "Hana said she can cover for me. I'll go over everything with her next week."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "You've really thought this through. Would you be able to come back a day early, on the 22nd, just to be safe?",
+      "ko": "정말 꼼꼼하게 준비했네요. 혹시 모르니 하루 일찍, 22일에 돌아올 수 있을까요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "My flight gets in late on the 21st, so coming into the office the next morning would be tough. But I could work from home on the 22nd instead. Would that work for you?",
+      "ko": "21일 밤늦게 비행기가 도착해서, 다음 날 아침에 출근하기는 좀 힘들 것 같아요. 대신 22일에 재택근무를 할 수는 있는데, 괜찮으실까요?",
+      "alt": [
+        "My flight arrives late on the 21st, so coming in on the 22nd would be hard. How about if I worked from home that day instead?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "That's a fair compromise. Go ahead and submit the request in the system, and I'll approve it today.",
+      "ko": "합리적인 절충안이네요. 시스템에 휴가 신청 올려 줘요. 오늘 승인할게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "take some time off",
+      "ko": "휴가를 내다 · 좀 쉬다",
+      "note": "하루 휴가는 take a day off",
+      "fromLine": 1
+    },
+    {
+      "en": "I completely understand.",
+      "ko": "충분히 이해합니다.",
+      "note": "상대의 걱정을 먼저 받아 줄 때",
+      "fromLine": 5
+    },
+    {
+      "en": "cover for ___",
+      "ko": "___의 일을 대신 맡다",
+      "note": "휴가 · 병가 때 업무를 맡길 때",
+      "fromLine": 7
+    },
+    {
+      "en": "walk ___ through ___",
+      "ko": "___에게 ___를 차근차근 알려 주다",
+      "note": "업무를 넘길 때 유용한 표현",
+      "fromLine": 7
+    },
+    {
+      "en": "I could ___ instead. Would that work for you?",
+      "ko": "대신 ___할 수 있는데, 괜찮으실까요?",
+      "note": "요청을 다 들어주기 어려울 때 대안을 낼 때",
+      "fromLine": 9
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "id": "work-asking-favors-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "asking-favors",
+  "level": 2,
+  "title": {
+    "ko": "동료에게 부탁하기",
+    "en": "Asking Coworkers for Help"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "동료에게 새 고객에게 보낼 영어 이메일을 봐 달라고 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "동료",
+      "en": "Coworker",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Olivia. Do you have a minute? I could use your help with something.",
+      "ko": "올리비아 씨, 잠깐 시간 돼요? 좀 도와줬으면 하는 게 있어서요.",
+      "alt": [
+        "Hi, Olivia. Are you busy? I was hoping you could help me with something."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure, I've got a few minutes. What's up?",
+      "ko": "그럼요, 몇 분 정도는 괜찮아요. 무슨 일이에요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I wrote an email to a new client, and I'm not sure if it sounds polite enough. Could you take a quick look at it?",
+      "ko": "새 고객사에 보낼 이메일을 썼는데, 충분히 공손하게 들리는지 잘 모르겠어요. 잠깐 한번 봐 줄 수 있어요?",
+      "alt": [
+        "I'm writing to a new client, and I'm worried it doesn't sound polite. Would you mind checking it?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Of course. Send it over, and I'll read it after my one o'clock meeting.",
+      "ko": "물론이죠. 보내 주면 1시 회의 끝나고 읽어 볼게요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Thanks. I just sent it. I'd like to send it to the client by three, if possible.",
+      "ko": "고마워요. 방금 보냈어요. 가능하면 3시까지는 고객사에 보내고 싶어요.",
+      "alt": [
+        "Thank you. It's in your inbox now. I'm hoping to send it out by three."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "No problem. I'll get back to you before two.",
+      "ko": "문제없어요. 2시 전에 답 줄게요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That would be great. Please let me know if anything sounds unnatural.",
+      "ko": "그러면 정말 좋겠어요. 어색한 부분이 있으면 알려 주세요.",
+      "alt": [
+        "Perfect. Tell me if anything sounds strange.",
+        "Great. Let me know if any part sounds awkward."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Will do. Oh, and maybe you could check the Korean on my slides sometime?",
+      "ko": "그럴게요. 아, 그리고 언제 제 슬라이드에 있는 한국어 좀 봐 줄래요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Of course! Just let me know when. I owe you one.",
+      "ko": "물론이죠! 언제든 말만 해요. 신세 졌어요.",
+      "alt": [
+        "Sure, anytime. I owe you one.",
+        "Absolutely. Just tell me when."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I could use your help with ___.",
+      "ko": "___ 좀 도와주면 좋겠어요.",
+      "note": "부탁을 부드럽게 꺼낼 때 · could use = ~이 있으면 좋겠다",
+      "fromLine": 1
+    },
+    {
+      "en": "I'm not sure if ___.",
+      "ko": "___인지 잘 모르겠어요.",
+      "note": "걱정되는 점을 말할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Could you take a quick look at ___?",
+      "ko": "___ 잠깐 봐 줄 수 있어요?",
+      "note": "take a look = 한번 보다, 검토하다",
+      "fromLine": 3
+    },
+    {
+      "en": "Let me know if ___.",
+      "ko": "___하면 알려 주세요.",
+      "note": "가장 쓸모 있는 부탁 표현",
+      "fromLine": 7
+    },
+    {
+      "en": "I owe you one.",
+      "ko": "신세 졌어요.",
+      "note": "도움을 받고 고마움을 표현할 때",
+      "fromLine": 9
+    }
+  ]
+}

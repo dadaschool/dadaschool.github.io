@@ -1,0 +1,104 @@
+{
+  "id": "daily-doctor-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "doctor",
+  "level": 1,
+  "title": {
+    "ko": "병원 진료",
+    "en": "Seeing a Doctor"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "병원 진료실에서 목이 아프고 열이 조금 난다고 증상을 말한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "의사",
+      "en": "Doctor",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "환자(나)",
+      "en": "Patient",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi. What brings you in today?",
+      "ko": "안녕하세요. 오늘 어디가 불편해서 오셨어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I have a sore throat.",
+      "ko": "목이 아파요.",
+      "alt": [
+        "My throat hurts.",
+        "I've got a sore throat."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "When did it start?",
+      "ko": "언제부터 그랬어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Two days ago.",
+      "ko": "이틀 전부터요.",
+      "alt": [
+        "It started two days ago.",
+        "About two days ago."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Do you have a fever?",
+      "ko": "열은 있나요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes, a little. I also have a cough.",
+      "ko": "네, 조금요. 기침도 나요.",
+      "alt": [
+        "A little fever. And I'm coughing.",
+        "Yes, a bit. I'm coughing, too."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Okay. Let me take a look. Say 'ah.'",
+      "ko": "알겠어요. 한번 볼게요. «아» 해 보세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I have a sore throat.",
+      "ko": "목이 아파요.",
+      "note": "a headache 두통 · a stomachache 복통",
+      "fromLine": 2
+    },
+    {
+      "en": "___ days ago.",
+      "ko": "___일 전부터요.",
+      "note": "증상이 시작된 때를 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "I also have ___.",
+      "ko": "___도 있어요.",
+      "note": "증상을 하나 더 말할 때 · a cough 기침",
+      "fromLine": 6
+    }
+  ]
+}

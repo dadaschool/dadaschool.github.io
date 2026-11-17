@@ -1,0 +1,132 @@
+{
+  "id": "school-student-counseling-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "student-counseling",
+  "level": 2,
+  "title": {
+    "ko": "외국인 학생 상담",
+    "en": "Talking with an International Student"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "요즘 조용해 보이는 외국인 학생과 이야기하며 고향이 그리운 마음과 수업에서 어려운 점을 듣는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "외국인 학생",
+      "en": "International student",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Mia, you've seemed a little quiet this week. Is everything okay?",
+      "ko": "미아, 이번 주에 좀 조용해 보이더라. 별일 없어?",
+      "alt": [
+        "Mia, you look a bit down this week. Are you okay?",
+        "You've been quiet lately, Mia. Is something wrong?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm fine. I just miss my friends back home.",
+      "ko": "괜찮아요. 그냥 고향 친구들이 보고 싶어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "That's completely natural. It's only been a month since you moved here.",
+      "ko": "그건 당연한 거야. 여기 온 지 이제 한 달밖에 안 됐잖아.",
+      "alt": [
+        "That's totally normal. You moved here just a month ago."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "And in class, everyone talks so fast. I only understand about half of it.",
+      "ko": "그리고 수업 시간에 다들 말이 너무 빨라요. 절반 정도밖에 못 알아들어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Understanding half is actually really good after one month. Which class is the hardest?",
+      "ko": "한 달 만에 절반이나 알아듣는 건 사실 정말 잘하는 거야. 어느 수업이 제일 힘들어?",
+      "alt": [
+        "Half is great after just a month. Which subject is the most difficult?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Social studies. There are so many new words.",
+      "ko": "사회요. 새로운 단어가 너무 많아요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "I'll ask your social studies teacher for a word list in advance. Would that help?",
+      "ko": "사회 선생님께 단어 목록을 미리 달라고 부탁해 볼게. 그러면 도움이 될까?",
+      "alt": [
+        "I can ask your social studies teacher to give you the key words first. Would that be helpful?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, that would help a lot. Thank you.",
+      "ko": "네, 정말 도움이 될 것 같아요. 감사합니다."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Anytime. And if you feel homesick, you can always come and talk to me.",
+      "ko": "언제든지. 그리고 집 생각이 나면 언제든 와서 이야기해.",
+      "alt": [
+        "You're welcome. If you miss home, come and talk to me anytime."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "You've seemed a little quiet ___.",
+      "ko": "___ 좀 조용해 보이더라.",
+      "note": "학생의 변화를 조심스럽게 말할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Is everything okay?",
+      "ko": "별일 없어?",
+      "note": "걱정되는 마음으로 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "That's completely natural.",
+      "ko": "그건 당연한 거야.",
+      "note": "학생의 감정을 인정해 줄 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Would that help?",
+      "ko": "그러면 도움이 될까?",
+      "note": "도움을 제안하고 확인할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "feel homesick",
+      "ko": "집이 그립다",
+      "note": "homesick = 고향 · 집을 그리워하는",
+      "fromLine": 9
+    }
+  ]
+}

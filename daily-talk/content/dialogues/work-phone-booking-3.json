@@ -1,0 +1,137 @@
+{
+  "id": "work-phone-booking-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "phone-booking",
+  "level": 3,
+  "title": {
+    "ko": "전화로 예약 · 변경",
+    "en": "Booking and Changing by Phone"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "고객사 사정으로 워크숍 날짜를 옮기며, 점심 변경 수수료를 정중하게 협의해 해결한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "행사장 예약 담당자",
+      "en": "Events coordinator",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "행사 담당자(나)",
+      "en": "Event planner",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good morning, Lakeside Conference Center. Linda speaking.",
+      "ko": "안녕하세요, 레이크사이드 콘퍼런스 센터의 린다입니다."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi, Linda. This is Seojun Lee from Dasol Tech. I'm calling about our workshop booking for this Friday.",
+      "ko": "안녕하세요, 린다 씨. 다솔테크 이서준입니다. 이번 주 금요일 워크숍 예약 건으로 전화드렸어요.",
+      "alt": [
+        "Hi, Linda. It's Seojun Lee from Dasol Tech. I'm calling about our workshop on Friday."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Yes, I have it right here. Room B for thirty people, with lunch.",
+      "ko": "네, 여기 있네요. B룸, 서른 분, 점심 포함이요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "That's right. Unfortunately, our client has asked to postpone, so we'd like to move it to next Tuesday.",
+      "ko": "맞아요. 안타깝게도 고객사에서 연기를 요청해서, 다음 주 화요일로 옮기고 싶어요.",
+      "alt": [
+        "Yes. Our client wants to postpone, so we'd like to change it to next Tuesday."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Let me check... Room B is booked on Tuesday, but Room D is free. It only holds twenty people, though.",
+      "ko": "확인해 볼게요... 화요일에 B룸은 예약이 찼는데, D룸은 비어 있어요. 다만 스무 분까지만 들어가요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "That should be fine. Only about twenty people can come now anyway. Can we move the lunch order, too?",
+      "ko": "그거면 될 것 같아요. 어차피 이제 스무 명 정도만 올 수 있거든요. 점심 주문도 옮길 수 있나요?",
+      "alt": [
+        "That works. Only around twenty people can make it now. Can the lunch be moved too?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "I'm afraid catering changes need 72 hours' notice, so we'd have to charge 50 percent for Friday's lunch.",
+      "ko": "죄송하지만 케이터링 변경은 72시간 전에 알려 주셔야 해서, 금요일 점심 비용의 50퍼센트를 청구해야 합니다."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I understand the policy, but we're not canceling, just changing the date. Would it be possible to move the lunch to Tuesday instead, for twenty people?",
+      "ko": "규정은 이해하지만, 취소하는 게 아니라 날짜만 바꾸는 거라서요. 대신 점심을 화요일로, 스무 명분으로 옮겨 주실 수는 없을까요?",
+      "alt": [
+        "I see, but we're only changing the date, not canceling. Could you move the lunch to Tuesday instead, for twenty people?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "That's a fair point. Let me check with the kitchen... Okay, we can move it at no charge, but the menu might be slightly different.",
+      "ko": "일리 있는 말씀이네요. 주방에 확인해 볼게요... 네, 무료로 옮겨 드릴 수 있어요. 다만 메뉴가 조금 달라질 수 있습니다."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "That's no problem at all. Thank you for being so flexible. Could you email me the updated booking?",
+      "ko": "전혀 문제없어요. 융통성 있게 해 주셔서 감사합니다. 바뀐 예약 내용을 이메일로 보내 주시겠어요?",
+      "alt": [
+        "That's fine. Thanks for being flexible. Please email me the new booking details."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm calling about ___.",
+      "ko": "___ 건으로 전화드렸어요.",
+      "note": "용건을 먼저 밝힐 때",
+      "fromLine": 2
+    },
+    {
+      "en": "ask to postpone",
+      "ko": "연기를 요청하다",
+      "note": "postpone = 미루다",
+      "fromLine": 4
+    },
+    {
+      "en": "I understand the policy, but ___.",
+      "ko": "규정은 이해하지만 ___.",
+      "note": "규칙을 인정하면서 예외를 부탁할 때",
+      "fromLine": 8
+    },
+    {
+      "en": "Would it be possible to ___ instead?",
+      "ko": "대신 ___할 수 있을까요?",
+      "note": "다른 방법을 공손하게 제안할 때",
+      "fromLine": 8
+    },
+    {
+      "en": "Thank you for being so flexible.",
+      "ko": "융통성 있게 해 주셔서 감사합니다.",
+      "note": "flexible = 유연한, 융통성 있는",
+      "fromLine": 10
+    }
+  ]
+}

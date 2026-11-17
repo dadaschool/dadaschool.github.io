@@ -1,0 +1,108 @@
+{
+  "id": "school-meet-native-teacher-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "meet-native-teacher",
+  "level": 1,
+  "title": {
+    "ko": "원어민 교사와 첫 만남",
+    "en": "Meeting the Native English Teacher"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "교무실에서 새로 온 원어민 교사와 처음 인사하고 서로 소개한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, you must be Ryan. Welcome!",
+      "ko": "안녕하세요, 라이언 선생님이시죠? 환영해요!",
+      "alt": [
+        "Hello, are you Ryan? Welcome!",
+        "Welcome! You must be Ryan."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Yes, that's me. Nice to meet you.",
+      "ko": "네, 맞아요. 만나서 반가워요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Nice to meet you too. I'm Kim Sora.",
+      "ko": "저도 반가워요. 저는 김소라예요.",
+      "alt": [
+        "Nice to meet you. My name is Kim Sora.",
+        "Good to meet you too. I'm Kim Sora."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "What subject do you teach?",
+      "ko": "무슨 과목을 가르치세요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I teach English. We'll work together.",
+      "ko": "저는 영어를 가르쳐요. 우리 같이 일하게 될 거예요.",
+      "alt": [
+        "I'm an English teacher. We'll teach together.",
+        "English. We'll be working together."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Great! I'm happy to work with you.",
+      "ko": "잘됐네요! 함께 일하게 돼서 기뻐요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Me too. This is your desk.",
+      "ko": "저도요. 여기가 선생님 자리예요.",
+      "alt": [
+        "Same here. Your desk is right here.",
+        "Me too. Here's your desk."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "You must be ___.",
+      "ko": "___ 선생님이시죠?",
+      "note": "처음 만난 사람이 누구인지 짐작하며 인사할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I teach ___.",
+      "ko": "저는 ___를 가르쳐요.",
+      "note": "과목을 넣어 자기소개할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "This is your ___.",
+      "ko": "여기가 ___예요.",
+      "note": "자리 · 물건을 안내할 때",
+      "fromLine": 7
+    }
+  ]
+}

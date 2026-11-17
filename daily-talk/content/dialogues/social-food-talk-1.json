@@ -1,0 +1,104 @@
+{
+  "id": "social-food-talk-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "food-talk",
+  "level": 1,
+  "title": {
+    "ko": "음식 · 맛집 이야기",
+    "en": "Talking About Food"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "언어 교환 친구와 제일 좋아하는 한국 음식을 묻고 답한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "언어 교환 친구",
+      "en": "Language partner",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "언어 교환 친구(나)",
+      "en": "Language partner",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "What's your favorite Korean food?",
+      "ko": "제일 좋아하는 한국 음식이 뭐예요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I love kimchi stew. It's spicy and hearty.",
+      "ko": "김치찌개를 정말 좋아해요. 맵고 든든해요.",
+      "alt": [
+        "Kimchi stew, for sure.",
+        "I really like kimchi stew."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh, me too! Is it hard to make?",
+      "ko": "아, 저도요! 만들기 어려워요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Not really. You just need kimchi, pork, and tofu.",
+      "ko": "별로요. 김치, 돼지고기, 두부만 있으면 돼요.",
+      "alt": [
+        "No, it's easy. Just kimchi, pork, and tofu.",
+        "Not at all. It's pretty simple."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "That's it? Can you teach me sometime?",
+      "ko": "그게 다예요? 언제 한번 알려 줄래요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Sure! Let's make it together this weekend.",
+      "ko": "그럼요! 이번 주말에 같이 만들어요.",
+      "alt": [
+        "Of course! We can cook it together.",
+        "Sure. Come over this weekend!"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Great! I'll bring dessert.",
+      "ko": "좋아요! 디저트는 제가 가져갈게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What's your favorite ___?",
+      "ko": "제일 좋아하는 ___가 뭐예요?",
+      "note": "좋아하는 것을 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I love ___.",
+      "ko": "___ 정말 좋아해요.",
+      "note": "like 보다 강한 말",
+      "fromLine": 2
+    },
+    {
+      "en": "You just need ___.",
+      "ko": "___만 있으면 돼요.",
+      "note": "간단하다고 말할 때",
+      "fromLine": 4
+    }
+  ]
+}

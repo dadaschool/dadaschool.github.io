@@ -1,0 +1,125 @@
+{
+  "id": "culture-science-museum-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "science-museum",
+  "level": 2,
+  "title": {
+    "ko": "과학관",
+    "en": "At a Science Museum"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "물 로켓 체험 수업이 시작될 때 강사의 안전 안내를 듣고, 부모가 도와줘도 되는지와 만든 것을 가져갈 수 있는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "체험 강사",
+      "en": "Program instructor",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "부모(나)",
+      "en": "Parent",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Welcome to the Water Rocket Lab! Is this your first time here?",
+      "ko": "물 로켓 실험실에 오신 걸 환영해요! 여기는 처음이세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes, it is. My daughter has been looking forward to this all week.",
+      "ko": "네, 처음이에요. 딸이 일주일 내내 이걸 손꼽아 기다렸어요.",
+      "alt": [
+        "Yes. My daughter has been excited about this all week.",
+        "Yes, it's our first time. She's been waiting for this all week."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "That's great to hear. First, everyone needs to put on safety goggles.",
+      "ko": "그렇다니 좋네요. 먼저 모두 보안경을 써야 해요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Do parents need to wear them too?",
+      "ko": "부모도 써야 하나요?",
+      "alt": [
+        "Should parents wear them as well?",
+        "Do I need a pair too?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes, if you're standing near the table. And please don't touch the pump until I say so.",
+      "ko": "네, 테이블 가까이에 계시면요. 그리고 제가 말하기 전까지 펌프는 만지지 마세요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Got it. Can I help her build the rocket, or should she do it alone?",
+      "ko": "알겠어요. 로켓 만드는 걸 제가 도와줘도 돼요, 아니면 아이 혼자 해야 하나요?",
+      "alt": [
+        "Okay. Am I allowed to help her, or should she do it by herself?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "You can help with the cutting, but let her do the rest. Kids learn more that way.",
+      "ko": "자르는 건 도와주셔도 되지만 나머지는 아이가 하게 해 주세요. 그래야 아이들이 더 많이 배워요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Makes sense. And can we take the rocket home afterward?",
+      "ko": "그렇겠네요. 그리고 끝나고 로켓을 집에 가져가도 돼요?",
+      "alt": [
+        "That makes sense. Can we take the rocket home after?",
+        "Okay. Can she keep the rocket after the class?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Of course. Everyone gets a bag to carry it in.",
+      "ko": "물론이죠. 모두 담아 갈 가방을 하나씩 받아요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___ has been looking forward to this.",
+      "ko": "___가 이걸 손꼽아 기다렸어요.",
+      "note": "look forward to = 기대하다",
+      "fromLine": 2
+    },
+    {
+      "en": "Do parents need to ___ too?",
+      "ko": "부모도 ___해야 하나요?",
+      "note": "나에게도 해당되는지 물을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "until I say so",
+      "ko": "제가 말할 때까지",
+      "note": "지시를 기다리라는 말",
+      "fromLine": 5
+    },
+    {
+      "en": "Can we take ___ home?",
+      "ko": "___를 집에 가져가도 돼요?",
+      "note": "만든 것을 가져가는지 물을 때",
+      "fromLine": 8
+    }
+  ]
+}

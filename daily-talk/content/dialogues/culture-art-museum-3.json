@@ -1,0 +1,141 @@
+{
+  "id": "culture-art-museum-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "art-museum",
+  "level": 3,
+  "title": {
+    "ko": "미술관",
+    "en": "At an Art Museum"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "도슨트 해설 중에 그림 속 인물에 대해 질문하고, 내 해석을 나누며 작품에 얽힌 이야기를 듣는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "도슨트",
+      "en": "Docent",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "관람객(나)",
+      "en": "Visitor",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "This is The Quiet Window, painted by Margaret Lowe in 1921. Does anyone have any questions?",
+      "ko": "이 작품은 마거릿 로가 1921년에 그린 «고요한 창»입니다. 질문 있으신 분 계신가요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes, I do. Why is the woman facing away from us? We can't see her face at all.",
+      "ko": "네, 있어요. 여자는 왜 우리를 등지고 있나요? 얼굴이 전혀 안 보여요.",
+      "alt": [
+        "I have a question. Why is the woman turned away? We can't see her face.",
+        "Yes. Why can't we see the woman's face?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Good question. What do you think? There's no right or wrong answer.",
+      "ko": "좋은 질문이에요. 어떻게 생각하세요? 정답은 없어요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Hmm, maybe she's waiting for someone. To me, it feels a little lonely.",
+      "ko": "음, 누군가를 기다리는 것 같아요. 저한테는 좀 쓸쓸하게 느껴져요.",
+      "alt": [
+        "Maybe she's waiting for someone. It feels a bit lonely to me.",
+        "I guess she's waiting for someone. It feels kind of lonely."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "That's a lovely way to see it. In fact, Lowe painted this the year her husband went overseas for work.",
+      "ko": "멋진 해석이에요. 실제로 로는 남편이 일 때문에 해외로 떠난 해에 이 그림을 그렸어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "That explains a lot. Is that why the room is so dark, while the street outside is so bright?",
+      "ko": "그러니 이해가 되네요. 그래서 바깥 거리는 그렇게 밝은데 방 안은 이렇게 어두운 건가요?",
+      "alt": [
+        "That makes sense. Is that why the room is dark but the street is bright?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Exactly. The contrast shows how far she feels from the busy world outside.",
+      "ko": "맞아요. 그 대비가 그녀와 바쁜 바깥세상 사이의 거리감을 보여 주죠."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I would have walked right past it without knowing that. Did she paint any others like this?",
+      "ko": "그걸 몰랐으면 그냥 지나쳤을 거예요. 이런 작품을 또 그렸나요?",
+      "alt": [
+        "I'd have walked right by it without knowing that. Are there other paintings like this by her?",
+        "I never would have noticed that on my own. Did she paint others like this?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "She did. Two of them are in the next room, and you'll notice the same window in both.",
+      "ko": "네. 그중 두 점이 다음 전시실에 있는데, 두 작품 모두에 같은 창문이 나와요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "I'll definitely take a closer look. Thank you for such a thoughtful explanation.",
+      "ko": "꼭 자세히 볼게요. 이렇게 깊이 있게 설명해 주셔서 감사해요.",
+      "alt": [
+        "I'll make sure to look closely. Thank you for the great explanation.",
+        "I'll go see them. Thanks for explaining it so well."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "It feels a little ___.",
+      "ko": "좀 ___하게 느껴져요.",
+      "note": "작품의 느낌을 말할 때 (lonely · calm · warm)",
+      "fromLine": 4
+    },
+    {
+      "en": "That explains a lot.",
+      "ko": "그러니 이해가 되네요.",
+      "note": "설명을 듣고 납득했을 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Is that why ___?",
+      "ko": "그래서 ___인 건가요?",
+      "note": "이유를 짐작해서 확인할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "I would have walked right past it.",
+      "ko": "그냥 지나쳤을 거예요.",
+      "note": "would have + 과거분사 = (안 그랬으면) ~했을 것",
+      "fromLine": 8
+    },
+    {
+      "en": "Thank you for such a thoughtful explanation.",
+      "ko": "깊이 있게 설명해 주셔서 감사해요.",
+      "note": "thoughtful = 깊이 생각한 · 사려 깊은",
+      "fromLine": 10
+    }
+  ]
+}

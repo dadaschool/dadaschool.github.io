@@ -1,0 +1,129 @@
+{
+  "id": "culture-festival-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "festival",
+  "level": 2,
+  "title": {
+    "ko": "축제 · 거리 공연",
+    "en": "Festivals and Street Performances"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "축제 거리에서 공연을 보던 현지인에게 거리 공연과 팁 문화, 불꽃놀이 보기 좋은 곳을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "현지인",
+      "en": "Local",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "방문객(나)",
+      "en": "Visitor",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, is this street show part of the festival?",
+      "ko": "실례합니다, 이 거리 공연도 축제의 일부인가요?",
+      "alt": [
+        "Excuse me, is this performance part of the festival?",
+        "Sorry, is this show part of the festival?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Yes, it is. There are performers all along this street until 9 tonight.",
+      "ko": "네, 맞아요. 오늘 밤 9시까지 이 거리 곳곳에서 공연을 해요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Do people usually give them money?",
+      "ko": "보통 사람들이 돈을 주나요?",
+      "alt": [
+        "Are people supposed to tip them?",
+        "Do people usually tip the performers?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "If you enjoy the show, yes. A dollar or two in the hat is fine.",
+      "ko": "공연이 마음에 들면요. 모자에 1~2달러 넣으면 돼요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Good to know. I heard there are fireworks later. Where's the best place to watch them?",
+      "ko": "좋은 정보네요. 이따 불꽃놀이가 있다고 들었는데요. 어디서 보는 게 제일 좋아요?",
+      "alt": [
+        "Thanks for telling me. Where's a good spot to see the fireworks later?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Try the bridge near the old clock tower. But get there early, because it gets crowded.",
+      "ko": "옛 시계탑 근처 다리에 가 보세요. 그런데 사람이 많아지니까 일찍 가세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "What time should I get there?",
+      "ko": "몇 시쯤 가야 해요?",
+      "alt": [
+        "How early should I go?",
+        "When should I get there?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "The fireworks start at 9:30, so I'd go around 8:30.",
+      "ko": "불꽃놀이가 9시 30분에 시작하니까 저라면 8시 30분쯤 갈 거예요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Thanks so much. You've been really helpful.",
+      "ko": "정말 고마워요. 덕분에 큰 도움이 됐어요.",
+      "alt": [
+        "Thank you. That was really helpful.",
+        "Thanks a lot. You're a big help."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Is this ___ part of the festival?",
+      "ko": "이 ___도 축제의 일부인가요?",
+      "note": "part of = ~의 일부",
+      "fromLine": 1
+    },
+    {
+      "en": "Do people usually ___?",
+      "ko": "보통 사람들이 ___하나요?",
+      "note": "현지 관습을 물을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Good to know.",
+      "ko": "좋은 정보네요.",
+      "note": "새로 알게 된 것에 짧게 답할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Where's the best place to ___?",
+      "ko": "___하기 제일 좋은 곳이 어디예요?",
+      "note": "추천 장소를 물을 때",
+      "fromLine": 5
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "social-apologies-3",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "apologies",
+  "level": 3,
+  "title": {
+    "ko": "사과하기",
+    "en": "Apologizing"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "친구에게 빌린 카메라의 렌즈에 흠집을 냈다. 무슨 일이 있었는지 솔직히 설명하고 수리를 책임지겠다고 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "친구",
+      "en": "Friend",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "친구(나)",
+      "en": "Friend",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hey, Lauren. Thanks again for lending me your camera. Um, before I give it back, I need to tell you something.",
+      "ko": "로렌, 카메라 빌려줘서 다시 한번 고마워. 음, 돌려주기 전에 말할 게 있어.",
+      "alt": [
+        "Lauren, thanks for letting me borrow your camera. But first, there's something I have to tell you."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Uh-oh. That doesn't sound good. What happened?",
+      "ko": "어, 왠지 불안한데. 무슨 일이야?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "On the last day of the trip, I was changing lenses on a windy beach, and I dropped the lens on a rock. There's a scratch on it now.",
+      "ko": "여행 마지막 날 바람 부는 바닷가에서 렌즈를 바꾸다가 바위에 떨어뜨렸어. 그래서 렌즈에 흠집이 났어.",
+      "alt": [
+        "I dropped the lens on a rock when I was switching lenses at the beach on the last day. Now it has a scratch."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Oh no. That lens was a gift from my dad.",
+      "ko": "아, 안 돼. 그 렌즈 아빠가 선물해 주신 건데."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I know, and I feel terrible. It was totally my fault. I should've changed it in the car, not out in the wind.",
+      "ko": "알아, 그래서 너무 미안해. 완전히 내 잘못이야. 바람 부는 밖에서 말고 차 안에서 바꿨어야 했는데.",
+      "alt": [
+        "I know, and I'm so sorry. It's completely my fault. I shouldn't have changed it outside in the wind."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Well... at least you told me right away. Does it still work?",
+      "ko": "음... 그래도 바로 말해 줘서 다행이다. 작동은 돼?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "It still works, and the photos look okay, but the scratch is pretty visible. I already called a repair shop, and they can replace the front glass. I'll pay for it, of course.",
+      "ko": "작동은 되고 사진도 괜찮은데, 흠집이 꽤 눈에 띄어. 벌써 수리점에 전화해 봤는데 앞 유리를 갈 수 있대. 비용은 당연히 내가 낼게.",
+      "alt": [
+        "It works fine, but you can really see the scratch. I've already talked to a repair shop. They can replace the front glass, and I'll cover the cost."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "You didn't have to do all that. But thanks. That actually makes me feel a lot better.",
+      "ko": "그렇게까지 안 해도 되는데. 그래도 고마워. 그 말 들으니까 마음이 훨씬 놓인다."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "It's the least I can do. I'll drop it off tomorrow and bring it back as soon as it's ready.",
+      "ko": "그 정도는 당연히 해야지. 내일 맡기고, 다 되면 바로 갖다줄게.",
+      "alt": [
+        "That's the least I can do. I'll take it to the shop tomorrow and return it as soon as it's fixed."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Okay. And hey, I still want to see your trip photos!",
+      "ko": "알았어. 그리고 있잖아, 여행 사진은 꼭 보여 줘!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I need to tell you something.",
+      "ko": "말할 게 있어.",
+      "note": "안 좋은 소식을 꺼내기 전에",
+      "fromLine": 1
+    },
+    {
+      "en": "I feel terrible.",
+      "ko": "너무 미안해.",
+      "note": "미안한 마음을 강하게 표현할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "It was totally my fault.",
+      "ko": "완전히 내 잘못이야.",
+      "note": "변명하지 않고 책임질 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I'll pay for it, of course.",
+      "ko": "비용은 당연히 내가 낼게.",
+      "note": "cover the cost 도 같은 뜻",
+      "fromLine": 7
+    },
+    {
+      "en": "It's the least I can do.",
+      "ko": "그 정도는 당연히 해야지.",
+      "note": "만회하겠다고 할 때 겸손하게",
+      "fromLine": 9
+    }
+  ]
+}

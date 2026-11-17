@@ -1,0 +1,142 @@
+{
+  "id": "daily-cafe-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "cafe",
+  "level": 3,
+  "title": {
+    "ko": "카페 주문",
+    "en": "At a Café"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "귀리 우유 디카페인 라테를 맞춤 주문하는데 귀리 우유가 떨어져 다른 우유로 바꾸고, 잘못 나온 음료를 정중히 바로잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "바리스타",
+      "en": "Barista",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I was wondering if you could make me a decaf latte with oat milk.",
+      "ko": "안녕하세요. 귀리 우유로 디카페인 라테를 만들어 주실 수 있을까 해서요.",
+      "alt": [
+        "Hi. Could I get a decaf oat milk latte?",
+        "Hi. Can you make a decaf latte with oat milk?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm afraid we just ran out of oat milk. We do have almond and soy, though.",
+      "ko": "죄송하지만 귀리 우유가 방금 떨어졌어요. 아몬드 우유랑 두유는 있어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Oh, that's too bad. Is the almond milk sweetened?",
+      "ko": "아, 아쉽네요. 아몬드 우유는 단맛이 들어간 건가요?",
+      "alt": [
+        "Oh, okay. Does the almond milk have sugar in it?",
+        "Oh, I see. Is there sugar in the almond milk?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "No, it's unsweetened, but it's a little thinner than oat milk.",
+      "ko": "아니요, 무가당이에요. 다만 귀리 우유보다 조금 묽어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "In that case, I'll go with almond milk. Would you mind adding an extra decaf shot so it's not too weak?",
+      "ko": "그럼 아몬드 우유로 할게요. 너무 연하지 않게 디카페인 샷을 하나 추가해 주시겠어요?",
+      "alt": [
+        "Then almond milk, please. Could you add an extra decaf shot so it's not too weak?",
+        "Okay, almond milk is fine. Can I get an extra decaf shot, too?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Not at all. Just so you know, the almond milk and the extra shot are 80 cents each.",
+      "ko": "그럼요. 참고로 아몬드 우유와 샷 추가는 각각 80센트씩 더 받아요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That's fine. Could you also make it extra hot?",
+      "ko": "괜찮아요. 아주 뜨겁게 해 주실 수 있어요?",
+      "alt": [
+        "No problem. And could I get it extra hot?",
+        "That's okay. Please make it extra hot."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Sure thing... Here's a decaf almond latte for Jun!",
+      "ko": "그럼요... 준 님, 디카페인 아몬드 라테 나왔습니다!"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Thanks. Sorry, but the sticker on the cup says whole milk. Could you double-check?",
+      "ko": "고마워요. 죄송한데 컵 스티커에 일반 우유라고 적혀 있네요. 한번 확인해 주시겠어요?",
+      "alt": [
+        "Thank you. Sorry, the label says whole milk. Can you check?",
+        "Thanks. Um, the sticker says whole milk. Could you take a look?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Oh, you're right. I'm so sorry! I'll remake it with almond milk right away.",
+      "ko": "어머, 맞네요. 정말 죄송합니다! 바로 아몬드 우유로 다시 만들어 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I was wondering if you could ___.",
+      "ko": "___해 주실 수 있을까 해서요.",
+      "note": "부탁을 아주 부드럽게 꺼낼 때",
+      "fromLine": 1
+    },
+    {
+      "en": "We just ran out of ___.",
+      "ko": "___가 방금 떨어졌어요.",
+      "note": "run out of = 다 떨어지다",
+      "fromLine": 2
+    },
+    {
+      "en": "In that case, ___.",
+      "ko": "그럼 ___.",
+      "note": "상대의 말을 듣고 선택을 바꿀 때",
+      "fromLine": 5
+    },
+    {
+      "en": "an extra shot",
+      "ko": "샷 추가",
+      "note": "decaf = 디카페인 · extra hot = 아주 뜨겁게",
+      "fromLine": 5
+    },
+    {
+      "en": "Could you double-check?",
+      "ko": "한번 확인해 주시겠어요?",
+      "note": "실수를 부드럽게 알릴 때",
+      "fromLine": 9
+    }
+  ]
+}

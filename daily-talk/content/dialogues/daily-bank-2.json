@@ -1,0 +1,126 @@
+{
+  "id": "daily-bank-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "bank",
+  "level": 2,
+  "title": {
+    "ko": "은행 · 환전",
+    "en": "Banking and Currency Exchange"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "은행에서 입출금 계좌를 만들며 필요한 서류, 매달 내는 수수료, 체크카드 받는 날을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "은행 직원",
+      "en": "Bank associate",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good morning. What can I do for you today?",
+      "ko": "안녕하세요. 오늘 무엇을 도와드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I'd like to open a checking account. I just moved here for work.",
+      "ko": "입출금 계좌를 만들고 싶어요. 일 때문에 얼마 전에 이사 왔어요.",
+      "alt": [
+        "I want to open a checking account. I recently moved here for my job.",
+        "I'm here to open a checking account. I just moved here for work."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Welcome! I'll need a photo ID and proof of address, like a lease or a utility bill.",
+      "ko": "환영합니다! 사진이 있는 신분증과 임대 계약서나 공과금 고지서 같은 주소 증명 서류가 필요해요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Here's my passport and my lease. Is there a monthly fee?",
+      "ko": "여기 여권이랑 임대 계약서요. 매달 내는 수수료가 있나요?",
+      "alt": [
+        "Here are my passport and lease. Are there any monthly fees?",
+        "This is my passport, and this is my lease. Do I have to pay a monthly fee?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "It's $8 a month, but we waive it if you set up direct deposit.",
+      "ko": "한 달에 8달러인데, 급여 자동 입금을 신청하시면 면제해 드려요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Great. My company pays by direct deposit, so I'll set that up. When will I get my debit card?",
+      "ko": "잘됐네요. 회사에서 월급을 자동 입금으로 주니까 그렇게 할게요. 체크카드는 언제 받을 수 있어요?",
+      "alt": [
+        "Good. I get paid by direct deposit, so that works. When does the debit card come?",
+        "Perfect. I'll set up direct deposit. How long until I get my debit card?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "It'll arrive by mail in seven to ten days. You can use the mobile app right away, though.",
+      "ko": "7일에서 10일 안에 우편으로 도착해요. 그래도 모바일 앱은 바로 쓰실 수 있어요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "That's good to know. Thanks for your help.",
+      "ko": "알아 두면 좋겠네요. 도와주셔서 고마워요.",
+      "alt": [
+        "Good to know. Thank you for your help.",
+        "Okay, great. Thanks for helping me."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to open ___.",
+      "ko": "___를 만들고 싶어요.",
+      "note": "open an account = 계좌를 만들다",
+      "fromLine": 2
+    },
+    {
+      "en": "proof of address",
+      "ko": "주소 증명 서류",
+      "note": "공과금 고지서 · 임대 계약서 등",
+      "fromLine": 3
+    },
+    {
+      "en": "Is there a monthly fee?",
+      "ko": "매달 내는 수수료가 있나요?",
+      "note": "fee = 수수료",
+      "fromLine": 4
+    },
+    {
+      "en": "direct deposit",
+      "ko": "급여 자동 입금",
+      "note": "월급이 계좌로 바로 들어오는 것",
+      "fromLine": 5
+    },
+    {
+      "en": "When will I get ___?",
+      "ko": "___는 언제 받을 수 있어요?",
+      "note": "받는 날짜를 물을 때",
+      "fromLine": 6
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "id": "daily-library-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "library",
+  "level": 3,
+  "title": {
+    "ko": "도서관",
+    "en": "At the Library"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "연체료를 확인하러 갔다가 이미 반납한 책이 미반납으로 나와 있는 것을 함께 해결하고, 사서에게 찾는 자료를 도와 달라고 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "사서",
+      "en": "Librarian",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "이용자(나)",
+      "en": "Library patron",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I got an email about a late fee. Could you tell me what it's for?",
+      "ko": "안녕하세요. 연체료가 있다는 이메일을 받았는데요. 무엇 때문인지 알려 주시겠어요?",
+      "alt": [
+        "Hi. I got an email about a late fee. What is it for?",
+        "Hello. The library emailed me about a late fee. Can you tell me why?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Let me see. You returned a cookbook three days late, so that's $1.50. And there's a travel guide that's two weeks overdue.",
+      "ko": "볼게요. 요리책을 사흘 늦게 반납하셔서 1달러 50센트예요. 그리고 여행 안내서가 2주째 연체 중이에요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "That's strange. I'm sure I returned them together in the drop box. Would you mind checking again?",
+      "ko": "이상하네요. 분명히 두 권을 같이 반납함에 넣었거든요. 다시 한번 확인해 주시겠어요?",
+      "alt": [
+        "That's odd. I put both books in the drop box together. Could you check again?",
+        "Really? I returned them both at the same time in the drop box. Can you take another look?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Of course. Let me check the shelves... You're right, it's here. It just wasn't checked in properly. I'm sorry about that.",
+      "ko": "물론이죠. 서가를 확인해 볼게요... 맞네요, 여기 있어요. 반납 처리가 제대로 안 됐나 봐요. 죄송합니다."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "No problem. I'm glad it turned up. I'll pay the $1.50 for the cookbook.",
+      "ko": "괜찮아요. 찾아서 다행이에요. 요리책 연체료 1달러 50센트는 낼게요.",
+      "alt": [
+        "That's okay. Good thing you found it. I'll pay the late fee for the cookbook.",
+        "No worries. I'm glad you found it. Let me pay the $1.50."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Actually, since the mix-up was our fault, I'll clear the whole fee for you.",
+      "ko": "사실 이번 일은 저희 실수였으니 연체료를 전부 없애 드릴게요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Oh, thank you. While I'm here, could you help me find some materials? I'd like to learn more about the history of this town.",
+      "ko": "아, 감사합니다. 온 김에 자료 찾는 것 좀 도와주실 수 있을까요? 이 동네 역사에 대해 더 알아보고 싶어서요.",
+      "alt": [
+        "Thank you so much. Also, could you help me find something? I want to learn about the town's history.",
+        "That's really kind. By the way, I'm looking for materials on the history of this town. Could you help me?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Sure. We have a local history section on the second floor, and you can also search old newspapers on our website.",
+      "ko": "그럼요. 2층에 지역 역사 코너가 있고, 저희 웹사이트에서 옛날 신문도 검색하실 수 있어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That sounds perfect. Is there any way to borrow books from other libraries if you don't have what I need?",
+      "ko": "딱 좋네요. 여기 없는 책은 다른 도서관에서 빌릴 방법이 있을까요?",
+      "alt": [
+        "Great. If you don't have a book, can I borrow it from another library?",
+        "Perfect. Can I get books from other libraries if they're not here?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Yes, through interlibrary loan. Just fill out a request online, and it usually takes about a week.",
+      "ko": "네, 상호대차로 가능해요. 온라인으로 신청서를 작성하시면 보통 일주일쯤 걸려요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "overdue",
+      "ko": "연체된",
+      "note": "late fee = 연체료",
+      "fromLine": 2
+    },
+    {
+      "en": "I'm sure I ___.",
+      "ko": "분명히 ___했어요.",
+      "note": "기억에 자신이 있을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "I'm glad it turned up.",
+      "ko": "찾아서 다행이에요.",
+      "note": "turn up = (잃어버린 것이) 나타나다",
+      "fromLine": 5
+    },
+    {
+      "en": "While I'm here, ___?",
+      "ko": "온 김에 ___?",
+      "note": "용건을 하나 더 꺼낼 때",
+      "fromLine": 7
+    },
+    {
+      "en": "interlibrary loan",
+      "ko": "상호대차",
+      "note": "다른 도서관의 책을 빌려 오는 서비스",
+      "fromLine": 10
+    }
+  ]
+}

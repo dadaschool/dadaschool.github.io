@@ -1,0 +1,126 @@
+{
+  "id": "daily-hair-salon-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "hair-salon",
+  "level": 2,
+  "title": {
+    "ko": "미용실",
+    "en": "At the Hair Salon"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "사진을 보여 주며 어깨 길이에 층을 내고 숱을 쳐 달라고 원하는 스타일을 설명하고, 집에서 손질하는 법을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "미용사",
+      "en": "Hairstylist",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, what are we doing today?",
+      "ko": "자, 오늘은 어떻게 해 드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I'd like something like this. Here's a picture.",
+      "ko": "이런 느낌으로 하고 싶어요. 여기 사진이요.",
+      "alt": [
+        "I want something like this picture.",
+        "Something like this, please. I have a photo."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Nice. So, shoulder length with some layers?",
+      "ko": "예쁘네요. 그러니까 어깨 길이에 층을 좀 내는 거죠?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes. And could you thin it out a little? My hair is really thick.",
+      "ko": "네. 그리고 숱 좀 쳐 주실 수 있어요? 머리숱이 정말 많아서요.",
+      "alt": [
+        "Yes. Can you also thin it out a bit? I have very thick hair.",
+        "That's right. My hair is thick, so could you thin it a little?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Sure. Do you want bangs like in the picture?",
+      "ko": "네. 사진처럼 앞머리도 내 드릴까요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Maybe just some light side bangs. I don't want them too short.",
+      "ko": "옆으로 넘기는 가벼운 앞머리 정도요. 너무 짧은 건 싫어요.",
+      "alt": [
+        "Just some light side bangs, please. Not too short.",
+        "Side bangs would be nice, but not too short."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Got it... All done. What do you think?",
+      "ko": "알겠어요... 다 됐어요. 어떠세요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I love it. How should I style it at home?",
+      "ko": "정말 마음에 들어요. 집에서는 어떻게 손질하면 돼요?",
+      "alt": [
+        "It looks great. How do I style it at home?",
+        "I really like it. Any tips for styling it at home?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Just blow-dry it with a round brush, and put a little hair oil on the ends.",
+      "ko": "둥근 빗으로 드라이하고 끝에 헤어 오일을 조금 바르시면 돼요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like something like this.",
+      "ko": "이런 느낌으로 하고 싶어요.",
+      "note": "사진을 보여 주며 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Could you thin it out?",
+      "ko": "숱 좀 쳐 주실 수 있어요?",
+      "note": "thin out = 숱을 치다",
+      "fromLine": 4
+    },
+    {
+      "en": "side bangs",
+      "ko": "옆으로 넘기는 앞머리",
+      "note": "bangs = 앞머리 (영국은 fringe)",
+      "fromLine": 6
+    },
+    {
+      "en": "How should I style it at home?",
+      "ko": "집에서는 어떻게 손질하면 돼요?",
+      "note": "style = 머리를 손질하다",
+      "fromLine": 8
+    }
+  ]
+}

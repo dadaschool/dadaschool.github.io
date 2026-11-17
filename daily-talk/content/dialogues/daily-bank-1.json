@@ -1,0 +1,108 @@
+{
+  "id": "daily-bank-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "bank",
+  "level": 1,
+  "title": {
+    "ko": "은행 · 환전",
+    "en": "Banking and Currency Exchange"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "은행 창구에서 한국에 가기 전에 달러를 원화로 바꾼다."
+  },
+  "roles": {
+    "A": {
+      "ko": "은행 직원",
+      "en": "Bank teller",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'd like to exchange some money.",
+      "ko": "안녕하세요. 환전하고 싶어요.",
+      "alt": [
+        "Hi. I want to exchange some money.",
+        "Hello. Can I exchange money here?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Which currency do you need?",
+      "ko": "네. 어느 나라 돈이 필요하세요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Korean won, please. I'm visiting Korea next week.",
+      "ko": "한국 원화로 주세요. 다음 주에 한국에 가요.",
+      "alt": [
+        "Korean won. I'm going to Korea next week.",
+        "Won, please. I'm going home next week."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "How much would you like to exchange?",
+      "ko": "얼마나 바꾸시겠어요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Three hundred dollars, please.",
+      "ko": "300달러요.",
+      "alt": [
+        "$300, please.",
+        "I'd like to exchange $300."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Okay. Can I see your ID, please?",
+      "ko": "네. 신분증 좀 보여 주시겠어요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Sure. Here's my passport.",
+      "ko": "네. 여기 여권이요.",
+      "alt": [
+        "Sure, here it is.",
+        "Here you are."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to exchange some money.",
+      "ko": "환전하고 싶어요.",
+      "note": "exchange = 바꾸다 · 환전하다",
+      "fromLine": 1
+    },
+    {
+      "en": "Korean won, please.",
+      "ko": "한국 원화로 주세요.",
+      "note": "dollars 달러 · euros 유로 · yen 엔",
+      "fromLine": 3
+    },
+    {
+      "en": "Here's my ___.",
+      "ko": "여기 제 ___요.",
+      "note": "신분증 · 서류를 건넬 때",
+      "fromLine": 7
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "id": "work-phone-booking-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "phone-booking",
+  "level": 1,
+  "title": {
+    "ko": "전화로 예약 · 변경",
+    "en": "Booking and Changing by Phone"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "식당에 전화해 회사 사람들과 함께할 금요일 저녁 자리를 예약한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "식당 직원",
+      "en": "Restaurant host",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "회사원(나)",
+      "en": "Office worker",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good afternoon, Maple Table. How can I help you?",
+      "ko": "안녕하세요, 메이플 테이블입니다. 무엇을 도와드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi. I'd like to book a table for Friday.",
+      "ko": "안녕하세요. 금요일에 자리를 예약하고 싶어요.",
+      "alt": [
+        "Hi. Can I book a table for Friday?",
+        "I'd like a reservation for Friday, please."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Sure. What time, and for how many?",
+      "ko": "네. 몇 시에, 몇 분이세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Seven o'clock, for eight people.",
+      "ko": "7시, 여덟 명이요.",
+      "alt": [
+        "At seven, for eight people.",
+        "At seven. There are eight of us."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "No problem. Can I have your name, please?",
+      "ko": "가능합니다. 성함이 어떻게 되세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "It's Kim, from Dasol Tech.",
+      "ko": "다솔테크 김입니다.",
+      "alt": [
+        "Kim, from Dasol Tech.",
+        "The name is Kim, from Dasol Tech."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Great. We'll see you Friday at seven.",
+      "ko": "좋습니다. 금요일 7시에 뵙겠습니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to book a table for ___.",
+      "ko": "___에 자리를 예약하고 싶어요.",
+      "note": "book = 예약하다 (make a reservation)",
+      "fromLine": 2
+    },
+    {
+      "en": "for ___ people",
+      "ko": "___명이요",
+      "note": "There are ___ of us. 라고도 함",
+      "fromLine": 4
+    },
+    {
+      "en": "It's ___, from ___.",
+      "ko": "___(회사) ___(이름)입니다.",
+      "note": "이름과 회사를 함께 밝힐 때",
+      "fromLine": 6
+    }
+  ]
+}

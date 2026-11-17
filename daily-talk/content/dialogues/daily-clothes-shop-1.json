@@ -1,0 +1,104 @@
+{
+  "id": "daily-clothes-shop-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "clothes-shop",
+  "level": 1,
+  "title": {
+    "ko": "옷 가게에서 고르기",
+    "en": "Shopping for Clothes"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "옷 가게에서 티셔츠의 크기와 색이 있는지 묻고 입어 봐도 되는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "점원",
+      "en": "Sales clerk",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi. Can I help you find anything?",
+      "ko": "안녕하세요. 찾으시는 거 있으세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes. Do you have this in a medium?",
+      "ko": "네. 이거 미디엄 사이즈 있어요?",
+      "alt": [
+        "Yes. Is there a medium in this?",
+        "Do you have a medium in this?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Let me see... Yes, here's a medium.",
+      "ko": "볼게요... 네, 여기 미디엄이요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Thanks. Do you have it in black?",
+      "ko": "고마워요. 검은색도 있어요?",
+      "alt": [
+        "Thanks. Is there a black one?",
+        "Does it come in black?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes, we do. Here's a black one.",
+      "ko": "네, 있어요. 여기 검은색이요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Great. Can I try it on?",
+      "ko": "좋아요. 입어 봐도 돼요?",
+      "alt": [
+        "Can I try this on?",
+        "Is it okay to try it on?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Of course. The fitting room is over there.",
+      "ko": "그럼요. 탈의실은 저쪽이에요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Do you have this in ___?",
+      "ko": "이거 ___ 있어요?",
+      "note": "크기 · 색을 물을 때 모두 쓸 수 있음",
+      "fromLine": 2
+    },
+    {
+      "en": "Can I try it on?",
+      "ko": "입어 봐도 돼요?",
+      "note": "try on = 입어 보다 · 신어 보다",
+      "fromLine": 6
+    },
+    {
+      "en": "fitting room",
+      "ko": "탈의실",
+      "note": "dressing room 이라고도 함",
+      "fromLine": 7
+    }
+  ]
+}

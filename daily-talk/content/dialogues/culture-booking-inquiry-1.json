@@ -1,0 +1,104 @@
+{
+  "id": "culture-booking-inquiry-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "booking-inquiry",
+  "level": 1,
+  "title": {
+    "ko": "공연 · 전시 예매 문의",
+    "en": "Booking Shows and Exhibitions"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "극장 매표소에 전화해 토요일 공연 시간과 좌석별 가격을 묻고 표를 예매한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "매표소 직원",
+      "en": "Box office staff",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Lakeside Theater box office. How can I help?",
+      "ko": "레이크사이드 극장 매표소입니다. 무엇을 도와드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi. Are there tickets for Saturday?",
+      "ko": "안녕하세요. 토요일 표 있어요?",
+      "alt": [
+        "Hi. Do you have tickets for Saturday?",
+        "Hello. Any tickets left for Saturday?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Yes. The 2 o'clock or the 7 o'clock show?",
+      "ko": "네. 2시 공연이요, 7시 공연이요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "The 7 o'clock show, please. How much are tickets?",
+      "ko": "7시 공연이요. 표는 얼마예요?",
+      "alt": [
+        "Seven o'clock, please. How much is a ticket?",
+        "The evening show. What's the price?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Front seats are 60 dollars. Back seats are 35.",
+      "ko": "앞쪽 자리는 60달러, 뒤쪽 자리는 35달러예요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Two back seats, please.",
+      "ko": "뒤쪽 자리로 두 장 주세요.",
+      "alt": [
+        "I'll take two back seats.",
+        "Two seats in the back, please."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Sure. Can I have your name, please?",
+      "ko": "네. 성함을 알려 주시겠어요?"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Are there tickets for ___?",
+      "ko": "___ 표 있어요?",
+      "note": "날짜 · 요일을 넣어 물을 때",
+      "fromLine": 2
+    },
+    {
+      "en": "How much are tickets?",
+      "ko": "표는 얼마예요?",
+      "note": "한 장 값은 How much is a ticket?",
+      "fromLine": 4
+    },
+    {
+      "en": "Two ___ seats, please.",
+      "ko": "___ 자리로 두 장 주세요.",
+      "note": "front · back · aisle 등",
+      "fromLine": 6
+    }
+  ]
+}

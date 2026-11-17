@@ -1,0 +1,120 @@
+{
+  "id": "culture-art-museum-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "art-museum",
+  "level": 2,
+  "title": {
+    "ko": "미술관",
+    "en": "At an Art Museum"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "미술관 안내 데스크에서 특별전 요금, 도슨트 해설 시간, 보고 싶은 그림이 있는 곳을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "안내 데스크 직원",
+      "en": "Information desk staff",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "관람객(나)",
+      "en": "Visitor",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. Is the special exhibition included in this ticket?",
+      "ko": "안녕하세요. 이 표에 특별전도 포함돼 있나요?",
+      "alt": [
+        "Hi. Does this ticket include the special exhibition?",
+        "Hello. Can I see the special exhibition with this ticket?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry, it's 8 dollars extra. It's on the third floor.",
+      "ko": "죄송하지만 특별전은 8달러 추가예요. 3층에 있어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I see. Do you have any guided tours today?",
+      "ko": "그렇군요. 오늘 도슨트 해설이 있나요?",
+      "alt": [
+        "Okay. Are there any guided tours today?",
+        "I see. Is there a docent tour today?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Yes, there's a free tour at 2 o'clock. It meets in the main lobby.",
+      "ko": "네, 2시에 무료 해설이 있어요. 중앙 로비에서 모여요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Great. How long does it last?",
+      "ko": "좋아요. 얼마나 걸려요?",
+      "alt": [
+        "Great. How long is the tour?",
+        "Perfect. How long does it take?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "About forty-five minutes. It covers the highlights of our permanent collection.",
+      "ko": "45분쯤이요. 상설 전시의 대표 작품들을 둘러봐요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "One more thing. Where can I find Morning at Willow Lake?",
+      "ko": "하나만 더요. «윌로 호수의 아침»은 어디서 볼 수 있어요?",
+      "alt": [
+        "Also, where is Morning at Willow Lake?",
+        "One more question. Which room has Morning at Willow Lake?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "It's in Room 12, at the end of this hall.",
+      "ko": "12번 전시실에 있어요. 이 복도 끝이에요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Is ___ included in this ticket?",
+      "ko": "이 표에 ___도 포함돼 있나요?",
+      "note": "included = 포함된",
+      "fromLine": 1
+    },
+    {
+      "en": "Do you have any guided tours?",
+      "ko": "해설 투어가 있나요?",
+      "note": "docent tour 라고도 함",
+      "fromLine": 3
+    },
+    {
+      "en": "How long does it last?",
+      "ko": "얼마나 걸려요?",
+      "note": "last = (시간이) 이어지다",
+      "fromLine": 5
+    },
+    {
+      "en": "Where can I find ___?",
+      "ko": "___는 어디서 볼 수 있어요?",
+      "note": "작품 · 물건이 있는 곳을 물을 때",
+      "fromLine": 7
+    }
+  ]
+}

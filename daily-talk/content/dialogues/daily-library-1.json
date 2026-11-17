@@ -1,0 +1,114 @@
+{
+  "id": "daily-library-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "library",
+  "level": 1,
+  "title": {
+    "ko": "도서관",
+    "en": "At the Library"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "동네 공공 도서관에서 회원증을 만들고, 책을 빌리며 반납 날짜와 반납 장소를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "사서",
+      "en": "Librarian",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "이용자(나)",
+      "en": "Library patron",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'd like to get a library card.",
+      "ko": "안녕하세요. 도서관 회원증을 만들고 싶어요.",
+      "alt": [
+        "Hi. Can I get a library card?",
+        "Hello. I want a library card."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. I just need your ID and this form.",
+      "ko": "네. 신분증이랑 이 신청서만 있으면 돼요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Here you go. How many books can I borrow?",
+      "ko": "여기 있어요. 책은 몇 권까지 빌릴 수 있어요?",
+      "alt": [
+        "Here it is. How many books can I take?",
+        "Here you are. What's the book limit?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Up to ten, for three weeks. Here's your card.",
+      "ko": "열 권까지, 3주 동안 빌릴 수 있어요. 회원증 여기 있습니다."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Thanks. Can I check out these two now?",
+      "ko": "고마워요. 지금 이 두 권 빌릴 수 있어요?",
+      "alt": [
+        "Thanks. Can I borrow these two today?",
+        "Great. I'd like to check out these two."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Sure. They're due back on November 25th.",
+      "ko": "네. 11월 25일까지 반납하시면 돼요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Got it. Where do I return them?",
+      "ko": "알겠어요. 반납은 어디에 해요?",
+      "alt": [
+        "Okay. Where can I return them?",
+        "Thanks. Where do I bring them back?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Here, or in the drop box outside.",
+      "ko": "여기나 밖에 있는 반납함에 넣으시면 돼요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to get a library card.",
+      "ko": "도서관 회원증을 만들고 싶어요.",
+      "note": "library card = 도서관 회원증",
+      "fromLine": 1
+    },
+    {
+      "en": "check out",
+      "ko": "(책을) 빌리다",
+      "note": "도서관에서는 borrow 대신 자주 씀",
+      "fromLine": 5
+    },
+    {
+      "en": "They're due back on ___.",
+      "ko": "___까지 반납이에요.",
+      "note": "due = (기한이) ~까지인",
+      "fromLine": 6
+    }
+  ]
+}

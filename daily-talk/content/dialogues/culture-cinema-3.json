@@ -1,0 +1,142 @@
+{
+  "id": "culture-cinema-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "cinema",
+  "level": 3,
+  "title": {
+    "ko": "영화관",
+    "en": "At the Movies"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "영화가 끝난 뒤 로비에서 직장 동료와 서로 다른 감상을 나누다가, 놓친 쿠키 영상 이야기를 듣는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "직장 동료",
+      "en": "Coworker",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "관객(나)",
+      "en": "Moviegoer",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, what did you think? I'm curious.",
+      "ko": "그래서 어땠어요? 궁금하네요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Honestly, I loved it. The visuals were stunning, and the soundtrack really pulled me in.",
+      "ko": "솔직히 너무 좋았어요. 영상미가 굉장했고, 음악에 완전히 빠져들었어요.",
+      "alt": [
+        "To be honest, I loved it. It looked amazing, and the music really drew me in.",
+        "I really loved it. The visuals were beautiful, and the music was great."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Really? I thought the story dragged a bit in the middle. I almost fell asleep!",
+      "ko": "그래요? 저는 중간에 이야기가 좀 늘어지는 것 같았어요. 거의 잠들 뻔했어요!"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I can see why you'd say that. But for me, the slow part made the ending hit even harder.",
+      "ko": "무슨 말인지 알 것 같아요. 그래도 저는 느린 부분 덕분에 결말이 더 크게 와닿았어요.",
+      "alt": [
+        "I get what you mean. But I think the slow part made the ending more powerful.",
+        "I understand. Still, the slow part made the ending stronger for me."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Fair point. But did you get the ending? Was the captain alive or not?",
+      "ko": "일리 있네요. 그런데 결말 이해했어요? 선장이 살아 있는 거예요, 아닌 거예요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I think they left it open on purpose. The director wants us to decide for ourselves.",
+      "ko": "일부러 열린 결말로 둔 것 같아요. 감독이 관객 스스로 판단하길 바란 거죠.",
+      "alt": [
+        "I think the ending is open on purpose, so we can decide ourselves.",
+        "I think they did that on purpose. We're supposed to decide."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Maybe. Wait, did you stay for the scene after the credits?",
+      "ko": "그럴지도요. 잠깐, 크레디트 끝나고 나온 장면 봤어요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "No way, there was one? I went to the restroom as soon as the credits started. What happened?",
+      "ko": "진짜요? 그런 게 있었어요? 크레디트 올라가자마자 화장실에 갔거든요. 무슨 장면이었어요?",
+      "alt": [
+        "Really? There was a scene after the credits? I left for the restroom. What was it?",
+        "Seriously? I missed it. I was in the restroom. What happened?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "I won't spoil it. Let's just say it answers my question about the captain.",
+      "ko": "스포일러는 안 할게요. 선장에 대한 제 질문에 답이 나온다고만 해 둘게요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Now I have to see it again! Do you want to go this weekend? Popcorn's on me.",
+      "ko": "이제 다시 봐야겠네요! 이번 주말에 같이 갈래요? 팝콘은 제가 살게요.",
+      "alt": [
+        "Now I need to watch it again! Want to come this weekend? I'll buy the popcorn.",
+        "I have to go back now! Shall we go this weekend? Popcorn is on me."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Honestly, I loved it.",
+      "ko": "솔직히 너무 좋았어요.",
+      "note": "감상을 솔직하게 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "I can see why you'd say that.",
+      "ko": "무슨 말인지 알 것 같아요.",
+      "note": "다른 의견을 부드럽게 받을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "They left it open on purpose.",
+      "ko": "일부러 열린 결말로 뒀어요.",
+      "note": "on purpose = 일부러",
+      "fromLine": 6
+    },
+    {
+      "en": "I won't spoil it.",
+      "ko": "스포일러는 안 할게요.",
+      "note": "spoil = 내용을 미리 말해 버리다",
+      "fromLine": 9
+    },
+    {
+      "en": "___ is on me.",
+      "ko": "___는 제가 살게요.",
+      "note": "on me = 내가 낸다",
+      "fromLine": 10
+    }
+  ]
+}

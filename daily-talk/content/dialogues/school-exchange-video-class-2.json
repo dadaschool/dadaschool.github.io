@@ -1,0 +1,128 @@
+{
+  "id": "school-exchange-video-class-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "exchange-video-class",
+  "level": 2,
+  "title": {
+    "ko": "국제 교류 화상 수업",
+    "en": "International Video Exchange Class"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "화상 교류 수업을 시작하며 진행 순서를 정하고, 소리가 울리는 문제를 해결한 뒤 학생 자기소개를 시작한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "해외 협력 학교 교사",
+      "en": "Partner school teacher",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good morning from Australia! It's great to see you all again.",
+      "ko": "호주에서 인사드려요! 다들 다시 보니 정말 반가워요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Good morning, Ms. Carter! We're excited to be here. Shall we go over today's plan first?",
+      "ko": "안녕하세요, 카터 선생님! 저희도 정말 기대돼요. 먼저 오늘 진행 순서를 확인할까요?",
+      "alt": [
+        "Hi, Ms. Carter! Our students are excited. Can we check today's plan first?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Sure. I thought each student could introduce themselves and share their favorite food.",
+      "ko": "그럼요. 학생마다 자기소개를 하고 좋아하는 음식을 말하면 어떨까 해요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Sounds good. Why don't your students go first, and then ours will take turns?",
+      "ko": "좋아요. 선생님 반 학생들이 먼저 하고, 그다음에 저희 학생들이 돌아가면서 하면 어떨까요?",
+      "alt": [
+        "Great. Your students can start, and then our students will go one by one."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Perfect. Sorry, I think there's an echo. Can you hear yourself?",
+      "ko": "좋아요. 죄송한데 소리가 울리는 것 같아요. 본인 목소리가 다시 들리세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes, a little. I think it's our other laptop. Let me mute it... How's that?",
+      "ko": "네, 조금요. 저희 다른 노트북 때문인 것 같아요. 음소거해 볼게요... 이제 어때요?",
+      "alt": [
+        "Yes, I can. It might be our second laptop. I'll mute it. Is that better?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Much better. Thank you!",
+      "ko": "훨씬 나아요. 고마워요!"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Okay, everyone, please listen carefully. Raise your hand if you want to ask a question after each introduction.",
+      "ko": "자, 여러분, 잘 들으세요. 자기소개가 끝날 때마다 질문하고 싶은 사람은 손을 드세요.",
+      "alt": [
+        "All right, class, listen carefully. If you have a question after each introduction, raise your hand."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Okay, Jack, you can start. Come a little closer to the camera.",
+      "ko": "자, 잭부터 시작하자. 카메라 앞으로 조금 더 가까이 와."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Shall we go over ___ first?",
+      "ko": "먼저 ___를 확인할까요?",
+      "note": "go over = 훑어보다 · 검토하다",
+      "fromLine": 2
+    },
+    {
+      "en": "Why don't ___ go first?",
+      "ko": "___가 먼저 하면 어떨까요?",
+      "note": "순서를 정할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "take turns",
+      "ko": "돌아가면서 하다",
+      "note": "학생들에게도 자주 쓰는 말",
+      "fromLine": 4
+    },
+    {
+      "en": "Let me mute ___.",
+      "ko": "___를 음소거할게요.",
+      "note": "mute = 소리를 끄다 · unmute = 켜다",
+      "fromLine": 6
+    },
+    {
+      "en": "Raise your hand if ___.",
+      "ko": "___하는 사람은 손을 드세요.",
+      "note": "학생들에게 질문 기회를 줄 때",
+      "fromLine": 8
+    }
+  ]
+}

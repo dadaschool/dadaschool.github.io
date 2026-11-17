@@ -1,0 +1,135 @@
+{
+  "id": "school-co-planning-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "co-planning",
+  "level": 2,
+  "title": {
+    "ko": "원어민 교사와 수업 협의",
+    "en": "Planning Lessons Together"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "원어민 교사와 목요일 수업의 짝 활동을 정하고, 누가 어떤 자료를 준비할지 나눈다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Do you have a few minutes to plan Thursday's lesson?",
+      "ko": "목요일 수업 계획할 시간 좀 있으세요?",
+      "alt": [
+        "Can we plan Thursday's lesson now?",
+        "Do you have time to talk about Thursday's class?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. We're on Unit 4, giving directions, right?",
+      "ko": "그럼요. 4단원 길 안내하기 할 차례 맞죠?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Right. I was thinking we could do a map activity in pairs.",
+      "ko": "맞아요. 짝끼리 지도 활동을 하면 어떨까 생각했어요.",
+      "alt": [
+        "Yes. How about a pair activity with a map?",
+        "That's right. I'd like to try a map activity in pairs."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I love that. I can make a simple town map with a few buildings.",
+      "ko": "좋아요. 건물 몇 개 있는 간단한 마을 지도는 제가 만들 수 있어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Great. Then I'll prepare the vocabulary cards for the warm-up.",
+      "ko": "좋아요. 그럼 저는 도입 활동에 쓸 단어 카드를 준비할게요.",
+      "alt": [
+        "Perfect. I'll make the word cards for the warm-up, then.",
+        "Great. Then I'll take care of the vocabulary cards."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "How long should the map activity be?",
+      "ko": "지도 활동은 얼마나 하면 될까요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "About fifteen minutes. Some students need extra time, so let's keep it simple.",
+      "ko": "15분 정도요. 시간이 더 필요한 학생들도 있으니까 간단하게 해요.",
+      "alt": [
+        "Around fifteen minutes. Some kids need more time, so let's keep it easy."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Sounds good. Could you check the map before I print it?",
+      "ko": "좋아요. 출력하기 전에 지도 한번 봐 주실래요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Sure. Just send it to me by Wednesday.",
+      "ko": "그럼요. 수요일까지만 보내 주세요.",
+      "alt": [
+        "Of course. Please send it to me by Wednesday.",
+        "No problem. Email it to me by Wednesday."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Do you have a few minutes to ___?",
+      "ko": "___할 시간 좀 있으세요?",
+      "note": "동료에게 이야기를 청할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I was thinking we could ___.",
+      "ko": "___하면 어떨까 생각했어요.",
+      "note": "아이디어를 부드럽게 낼 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Then I'll ___.",
+      "ko": "그럼 저는 ___할게요.",
+      "note": "역할을 나눌 때",
+      "fromLine": 5
+    },
+    {
+      "en": "let's keep it simple",
+      "ko": "간단하게 해요",
+      "note": "keep it + 형용사 = ~하게 하다",
+      "fromLine": 7
+    },
+    {
+      "en": "by Wednesday",
+      "ko": "수요일까지",
+      "note": "by = ~까지 (마감)",
+      "fromLine": 9
+    }
+  ]
+}

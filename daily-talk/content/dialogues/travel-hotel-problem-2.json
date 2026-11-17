@@ -1,0 +1,116 @@
+{
+  "id": "travel-hotel-problem-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "hotel-problem",
+  "level": 2,
+  "title": {
+    "ko": "호텔 방 문제 해결",
+    "en": "Hotel Room Problems"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "에어컨에서 이상한 소리가 나고 방이 더워서 프런트에 알리고, 다음 날 청소 시간도 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "프런트 직원",
+      "en": "Receptionist",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Guest",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hello, I'm calling from room 1024. The air conditioner is making a strange noise.",
+      "ko": "여보세요, 1024호인데요. 에어컨에서 이상한 소리가 나요.",
+      "alt": [
+        "Hi, this is room 1024. The air conditioner is making a weird noise."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry about that. Is it still cooling the room?",
+      "ko": "죄송합니다. 방은 시원해지고 있나요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Not really. It's quite warm in here, and I can't sleep.",
+      "ko": "별로요. 방이 꽤 덥고 잠을 못 자겠어요.",
+      "alt": [
+        "Not really. The room is hot, and I can't sleep."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I'll send a technician up in about ten minutes.",
+      "ko": "10분쯤 뒤에 기술자를 올려 보낼게요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Thanks. Also, could housekeeping come a bit later tomorrow? I'd like to sleep in.",
+      "ko": "고마워요. 그리고 내일 청소는 좀 늦게 와 주실 수 있나요? 늦잠을 자고 싶어서요.",
+      "alt": [
+        "Thank you. Could the cleaning come later tomorrow? I want to sleep in."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "No problem. Just hang the 'Do Not Disturb' sign on your door.",
+      "ko": "문제없어요. 문에 «방해하지 마세요» 표지를 걸어 두세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Okay. What should I do if the technician can't fix it tonight?",
+      "ko": "알겠어요. 오늘 밤 기술자가 못 고치면 어떻게 해야 하나요?",
+      "alt": [
+        "Okay. What if the technician can't fix it tonight?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Then we'll bring you a fan, or you can change rooms.",
+      "ko": "그러면 선풍기를 가져다 드리거나 방을 바꿔 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm calling from room ___.",
+      "ko": "___호에서 전화드려요.",
+      "note": "전화로 방 번호를 말할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "___ is making a strange noise.",
+      "ko": "___에서 이상한 소리가 나요.",
+      "note": "기계 소리 문제",
+      "fromLine": 1
+    },
+    {
+      "en": "I'd like to sleep in.",
+      "ko": "늦잠을 자고 싶어요.",
+      "note": "sleep in = 일부러 늦게까지 자다",
+      "fromLine": 5
+    },
+    {
+      "en": "What should I do if ___?",
+      "ko": "___하면 어떻게 해야 하나요?",
+      "note": "만약을 물을 때",
+      "fromLine": 7
+    }
+  ]
+}

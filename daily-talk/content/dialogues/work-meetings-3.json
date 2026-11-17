@@ -1,0 +1,137 @@
+{
+  "id": "work-meetings-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "meetings",
+  "level": 3,
+  "title": {
+    "ko": "회의에서 의견 말하기",
+    "en": "Giving Opinions in Meetings"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "테스트를 건너뛰고 출시를 앞당기자는 부장의 제안에 근거를 들어 부드럽게 반대하고 대안을 낸다."
+  },
+  "roles": {
+    "A": {
+      "ko": "마케팅 부장",
+      "en": "Marketing director",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "프로젝트 매니저(나)",
+      "en": "Project manager",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Our main competitor is launching next month, so I'd like to move our launch up by three weeks. I think we can skip the second round of testing.",
+      "ko": "주요 경쟁사가 다음 달에 출시하니까, 우리 출시를 3주 앞당기고 싶어요. 2차 테스트는 건너뛰어도 될 것 같고요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I see your point, and being first to market really matters. But I'm a little concerned about skipping the testing.",
+      "ko": "무슨 말씀인지 알겠어요. 시장에 먼저 나가는 게 정말 중요하죠. 그런데 테스트를 건너뛰는 건 좀 걱정돼요.",
+      "alt": [
+        "I understand why that matters. Still, I'm a bit worried about skipping the second round of tests."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Why is that? The first round went pretty well, didn't it?",
+      "ko": "왜요? 1차 테스트는 꽤 잘됐잖아요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "It did, but we found about thirty bugs, and we haven't fixed all of them yet. If customers run into them, it could hurt our reputation.",
+      "ko": "그렇긴 한데, 버그를 서른 개쯤 찾았고 아직 다 고치지 못했어요. 고객들이 그 버그를 겪으면 회사 평판에 안 좋을 수 있어요.",
+      "alt": [
+        "Yes, but we found around thirty bugs, and some still aren't fixed. That could damage our reputation."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Hmm. But if we wait, we might lose customers to them.",
+      "ko": "음. 하지만 기다리다가 고객을 경쟁사에 뺏길 수도 있어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "That's true. Would it be possible to launch a smaller version first, with only the features we've already tested?",
+      "ko": "맞는 말씀이에요. 이미 테스트를 마친 기능만 넣은 작은 버전을 먼저 출시하면 어떨까요?",
+      "alt": [
+        "That's a fair point. What if we launched a lighter version first, with just the tested features?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Interesting. How soon could we do that?",
+      "ko": "흥미롭네요. 그러면 얼마나 빨리 할 수 있어요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I'd need to check with the developers, but I think two weeks would be realistic.",
+      "ko": "개발자들에게 확인해 봐야겠지만, 2주 정도면 현실적일 것 같아요.",
+      "alt": [
+        "I'll have to confirm with the developers, but about two weeks seems realistic."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "All right. Can you put together a plan by Thursday?",
+      "ko": "좋아요. 목요일까지 계획을 정리해 줄 수 있어요?"
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Sure. I'll send you a draft on Wednesday so we have time to discuss it.",
+      "ko": "물론이죠. 함께 논의할 시간이 있도록 수요일에 초안을 보내 드릴게요.",
+      "alt": [
+        "Of course. I'll send you a draft by Wednesday so we can talk it over."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I see your point.",
+      "ko": "무슨 말씀인지 알겠어요.",
+      "note": "반대하기 전에 먼저 상대 의견을 인정하는 말",
+      "fromLine": 2
+    },
+    {
+      "en": "I'm a little concerned about ___.",
+      "ko": "___가 좀 걱정돼요.",
+      "note": "직접 반대하는 대신 걱정을 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "It could hurt our reputation.",
+      "ko": "회사 평판에 안 좋을 수 있어요.",
+      "note": "hurt = 해치다 · reputation = 평판",
+      "fromLine": 4
+    },
+    {
+      "en": "Would it be possible to ___?",
+      "ko": "___하면 어떨까요? / ___할 수 있을까요?",
+      "note": "대안을 부드럽게 제안할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "I'd need to check with ___, but ___",
+      "ko": "___에게 확인해 봐야겠지만 ___",
+      "note": "확실하지 않을 때 조심스럽게 답하기",
+      "fromLine": 8
+    }
+  ]
+}

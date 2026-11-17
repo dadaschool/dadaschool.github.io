@@ -1,0 +1,108 @@
+{
+  "id": "culture-science-museum-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "science-museum",
+  "level": 1,
+  "title": {
+    "ko": "과학관",
+    "en": "At a Science Museum"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "과학관 안내 데스크에서 아이가 참여할 수 있는 체험 프로그램을 묻고 신청한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "안내 데스크 직원",
+      "en": "Information desk staff",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "관람객(나)",
+      "en": "Visitor",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. Are there any hands-on programs today?",
+      "ko": "안녕하세요. 오늘 체험 프로그램 있어요?",
+      "alt": [
+        "Hi. Do you have any hands-on programs?",
+        "Hello. Is there a hands-on program today?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Yes. There's a robot class at 11.",
+      "ko": "네. 11시에 로봇 수업이 있어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Can my son join? He's eight.",
+      "ko": "아들도 참여할 수 있어요? 여덟 살이에요.",
+      "alt": [
+        "Can my son take part? He's eight.",
+        "Is it okay for my son? He's eight."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Sure. It's for ages 7 to 12.",
+      "ko": "그럼요. 7세부터 12세까지 대상이에요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Great. How much is it?",
+      "ko": "좋아요. 얼마예요?",
+      "alt": [
+        "Great. How much does it cost?",
+        "Good. What's the price?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "It's free, but you need a reservation.",
+      "ko": "무료인데 예약은 하셔야 해요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Okay. Please sign him up.",
+      "ko": "알겠어요. 신청해 주세요.",
+      "alt": [
+        "Okay. I'd like to sign him up.",
+        "Then please sign him up."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Are there any ___ today?",
+      "ko": "오늘 ___ 있어요?",
+      "note": "hands-on = 직접 해 보는 · 체험",
+      "fromLine": 1
+    },
+    {
+      "en": "Can my son join?",
+      "ko": "아들도 참여할 수 있어요?",
+      "note": "딸이면 my daughter",
+      "fromLine": 3
+    },
+    {
+      "en": "sign ___ up",
+      "ko": "___를 신청하다 · 등록하다",
+      "note": "sign up for + 프로그램",
+      "fromLine": 7
+    }
+  ]
+}

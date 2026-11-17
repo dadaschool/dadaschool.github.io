@@ -1,0 +1,92 @@
+{
+  "id": "travel-tour-tickets-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "tour-tickets",
+  "level": 1,
+  "title": {
+    "ko": "관광지 표 · 투어",
+    "en": "Tickets and Tours"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "투어 매표소에서 시티 투어 표를 사고 시작 시간과 걸리는 시간을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "매표소 직원",
+      "en": "Ticket agent",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. Two tickets for the city tour, please.",
+      "ko": "안녕하세요. 시티 투어 표 두 장 주세요.",
+      "alt": [
+        "Two tickets for the city tour.",
+        "Can I have two city tour tickets?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. That's 50 dollars.",
+      "ko": "네. 50달러입니다."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "What time does the tour start?",
+      "ko": "투어는 몇 시에 시작해요?",
+      "alt": [
+        "When does the tour start?",
+        "What time is the tour?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "The next one starts at 2.",
+      "ko": "다음 투어는 2시에 시작해요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "How long is the tour?",
+      "ko": "투어는 얼마나 걸려요?",
+      "alt": [
+        "How long does it take?",
+        "How long does the tour last?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "About three hours. Meet here at 1:50.",
+      "ko": "3시간쯤이요. 1시 50분까지 여기로 오세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Two tickets for ___, please.",
+      "ko": "___ 표 두 장 주세요.",
+      "note": "표를 살 때",
+      "fromLine": 1
+    },
+    {
+      "en": "What time does ___ start?",
+      "ko": "___는 몇 시에 시작해요?",
+      "note": "끝나는 시간은 finish 나 end",
+      "fromLine": 3
+    }
+  ]
+}

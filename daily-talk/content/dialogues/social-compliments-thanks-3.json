@@ -1,0 +1,139 @@
+{
+  "id": "social-compliments-thanks-3",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "compliments-thanks",
+  "level": 3,
+  "title": {
+    "ko": "칭찬 · 감사",
+    "en": "Compliments and Thanks"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "회사 마지막 날, 처음 들어왔을 때 많이 도와준 선배 동료에게 진심을 담아 자세히 고마움을 전한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "선배 동료",
+      "en": "Senior coworker",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "떠나는 동료(나)",
+      "en": "Departing coworker",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Paul, do you have a minute? Before I go, there's something I want to say.",
+      "ko": "폴 씨, 잠깐 시간 돼요? 가기 전에 꼭 하고 싶은 말이 있어서요.",
+      "alt": [
+        "Paul, got a second? I wanted to tell you something before I leave."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Of course. Wow, I still can't believe it's your last day.",
+      "ko": "그럼요. 와, 오늘이 마지막 날이라니 아직도 안 믿겨요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Me neither. I just wanted to thank you properly. When I first started, I was completely lost, and you never made me feel stupid for asking questions.",
+      "ko": "저도요. 제대로 고맙다는 말을 하고 싶었어요. 처음 들어왔을 때 저 정말 아무것도 몰랐는데, 뭘 물어봐도 한 번도 바보 취급 안 하셨잖아요.",
+      "alt": [
+        "Me neither. I wanted to say a proper thank-you. I was so lost at the beginning, but you always answered my questions so patiently."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Oh, come on. Everyone's lost at first. You picked things up fast.",
+      "ko": "에이, 왜 그래요. 처음엔 누구나 헤매요. 금방 배웠잖아요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Maybe, but only because you took the time to explain things. I don't think I would've lasted three months without you.",
+      "ko": "그럴 수도 있지만, 그것도 폴 씨가 시간 내서 설명해 주신 덕분이에요. 폴 씨 없었으면 석 달도 못 버텼을 거예요.",
+      "alt": [
+        "Maybe, but that's because you always took the time to explain. Honestly, I wouldn't have made it past three months without you."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That's really kind of you to say. But honestly, I learned a lot from you, too.",
+      "ko": "그렇게 말해 주니 정말 고마워요. 그런데 솔직히 저도 많이 배웠어요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Really? Like what?",
+      "ko": "정말요? 어떤 거요?",
+      "alt": [
+        "Oh, really? What do you mean?",
+        "You did? Like what?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Like how to stay calm when a client is yelling. You're a natural with people.",
+      "ko": "고객이 소리 지를 때 침착하게 있는 법 같은 거요. 사람 대하는 데는 타고났어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Wow, I didn't expect that. Coming from you, that means a lot.",
+      "ko": "와, 그런 말은 생각도 못 했어요. 폴 씨가 그렇게 말해 주니까 정말 힘이 돼요.",
+      "alt": [
+        "I never knew that. Hearing that from you means so much.",
+        "Wow, thank you. That really means a lot, coming from you."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "I mean it. Keep in touch, okay? And let me know how the new job goes.",
+      "ko": "진심이에요. 연락하고 지내요, 알았죠? 새 직장은 어떤지도 알려 주고요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Do you have a minute?",
+      "ko": "잠깐 시간 돼요?",
+      "note": "진지한 이야기를 꺼내기 전에",
+      "fromLine": 1
+    },
+    {
+      "en": "I just wanted to thank you properly.",
+      "ko": "제대로 고맙다는 말을 하고 싶었어요.",
+      "note": "properly = 제대로, 정식으로",
+      "fromLine": 3
+    },
+    {
+      "en": "You never made me feel ___.",
+      "ko": "한 번도 ___한 기분이 들게 한 적이 없어요.",
+      "note": "make + 사람 + feel ___ = ~한 기분이 들게 하다",
+      "fromLine": 3
+    },
+    {
+      "en": "I don't think I would've ___ without you.",
+      "ko": "도와주시지 않았으면 ___ 못 했을 거예요.",
+      "note": "깊은 감사를 표현하는 가정법",
+      "fromLine": 5
+    },
+    {
+      "en": "Coming from you, that means a lot.",
+      "ko": "그렇게 말해 주시니 정말 힘이 돼요.",
+      "note": "존경하는 사람에게 칭찬받았을 때 · coming from you = 다른 사람도 아닌 당신이 말하니",
+      "fromLine": 9
+    }
+  ]
+}

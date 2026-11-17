@@ -1,0 +1,130 @@
+{
+  "id": "culture-sports-game-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "sports-game",
+  "level": 2,
+  "title": {
+    "ko": "스포츠 경기 관람",
+    "en": "Watching a Sports Game"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "야구장에서 옆자리 팬과 인사하고, 인기 선수와 응원 방법을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "옆자리 팬",
+      "en": "Fan in the next seat",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "관중(나)",
+      "en": "Fan",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, is this seat 14? I think I'm right next to you.",
+      "ko": "실례합니다, 여기 14번 자리 맞아요? 제가 바로 옆자리인 것 같아서요.",
+      "alt": [
+        "Sorry, is this seat 14? I'm next to you, I think.",
+        "Excuse me, is this number 14?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Yep, that's 14. Have a seat! Are you a Sharks fan?",
+      "ko": "네, 14번 맞아요. 앉으세요! 샤크스 팬이세요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Not yet, but I'm getting there. It's my first game here.",
+      "ko": "아직은 아니지만 점점 팬이 되어 가는 중이에요. 여기서 경기 보는 건 처음이에요.",
+      "alt": [
+        "Not yet, but maybe after today. This is my first game here.",
+        "Not yet. It's my first time at a game here."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Welcome! You picked a good one. The Rockets are our biggest rivals.",
+      "ko": "환영해요! 경기 잘 고르셨네요. 로켓츠가 저희 최대 라이벌이거든요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Oh, really? Who's the player everyone keeps cheering for?",
+      "ko": "아, 그래요? 다들 계속 응원하는 저 선수는 누구예요?",
+      "alt": [
+        "Really? Who's the player everyone is cheering for?",
+        "Oh, I see. Who is that player the crowd loves?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That's Marco Bell, number 23. He's hit thirty home runs this season.",
+      "ko": "마르코 벨이에요, 23번. 이번 시즌에 홈런을 30개나 쳤어요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Wow, no wonder. Is there a special cheer I should learn?",
+      "ko": "와, 그럴 만하네요. 제가 배워야 할 응원이 따로 있어요?",
+      "alt": [
+        "Wow, that explains it. Is there a cheer I should know?",
+        "No wonder. Do fans have a special chant?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "When he comes up to bat, everyone shouts 'Bell! Bell! Bell!' Just follow along.",
+      "ko": "그 선수가 타석에 들어서면 다들 «벨! 벨! 벨!» 하고 외쳐요. 그냥 따라 하시면 돼요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Sounds fun. I'll give it a try!",
+      "ko": "재미있겠네요. 저도 해 볼게요!",
+      "alt": [
+        "That sounds fun. I'll try it!",
+        "Fun! I'll join in."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm getting there.",
+      "ko": "점점 되어 가는 중이에요.",
+      "note": "아직 다는 아니지만 가까워지고 있을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "No wonder.",
+      "ko": "그럴 만하네요.",
+      "note": "이유를 듣고 납득할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "Is there ___ I should learn?",
+      "ko": "제가 배워야 할 ___가 있어요?",
+      "note": "현지 문화에 끼고 싶을 때",
+      "fromLine": 7
+    },
+    {
+      "en": "I'll give it a try!",
+      "ko": "저도 해 볼게요!",
+      "note": "give it a try = 한번 해 보다",
+      "fromLine": 9
+    }
+  ]
+}

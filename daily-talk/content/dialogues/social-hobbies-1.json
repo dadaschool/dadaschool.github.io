@@ -1,0 +1,104 @@
+{
+  "id": "social-hobbies-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "hobbies",
+  "level": 1,
+  "title": {
+    "ko": "취미 이야기",
+    "en": "Talking About Hobbies"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "점심시간에 외국인 동료와 쉬는 날 무엇을 하는지 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "회사 동료",
+      "en": "Coworker",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "What do you do in your free time?",
+      "ko": "시간 날 때 뭐 해요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I like hiking. I go most weekends.",
+      "ko": "등산을 좋아해요. 주말마다 거의 가요.",
+      "alt": [
+        "I love hiking. I go almost every weekend.",
+        "I usually go hiking on weekends."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh, nice! Where do you usually go?",
+      "ko": "오, 좋네요! 주로 어디로 가요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Bukhansan, mostly. It's close to my place.",
+      "ko": "주로 북한산이요. 집에서 가깝거든요.",
+      "alt": [
+        "Mostly Bukhansan. It's near my house.",
+        "Usually Bukhansan. It's not far from home."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Cool. I've never been hiking here.",
+      "ko": "멋지네요. 저는 한국에서 등산을 한 번도 안 해 봤어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Really? You should come with me sometime!",
+      "ko": "정말요? 언제 한번 같이 가요!",
+      "alt": [
+        "Really? Come with me sometime!",
+        "Oh, really? Let's go together sometime."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "I'd love that. Thanks!",
+      "ko": "그럼 좋죠. 고마워요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What do you do in your free time?",
+      "ko": "시간 날 때 뭐 해요?",
+      "note": "취미를 묻는 가장 흔한 질문",
+      "fromLine": 1
+    },
+    {
+      "en": "I like ___ing.",
+      "ko": "___하는 걸 좋아해요.",
+      "note": "hiking · reading · cooking 처럼 -ing",
+      "fromLine": 2
+    },
+    {
+      "en": "You should come with me sometime!",
+      "ko": "언제 한번 같이 가요!",
+      "note": "가볍게 같이 하자고 할 때",
+      "fromLine": 6
+    }
+  ]
+}

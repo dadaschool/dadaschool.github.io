@@ -1,0 +1,104 @@
+{
+  "id": "school-school-visit-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "school-visit",
+  "level": 1,
+  "title": {
+    "ko": "해외 학교 방문 · 연수",
+    "en": "Visiting a School Abroad"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "연수로 방문한 해외 학교에서 담당 교사에게 인사하고, 자신과 우리 학교를 짧게 소개한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "해외 학교 교사",
+      "en": "Host teacher",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Welcome to Westwood Middle School!",
+      "ko": "웨스트우드 중학교에 오신 걸 환영합니다!"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Thank you for having me.",
+      "ko": "초대해 주셔서 감사합니다.",
+      "alt": [
+        "Thanks for having me.",
+        "Thank you for inviting me."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Where do you teach in Korea?",
+      "ko": "한국에서는 어느 학교에서 가르치세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I teach English at Saebit Middle School.",
+      "ko": "새빛중학교에서 영어를 가르쳐요.",
+      "alt": [
+        "I'm an English teacher at Saebit Middle School.",
+        "At Saebit Middle School. I teach English."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "How many students does your school have?",
+      "ko": "학교에 학생이 몇 명이에요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "About five hundred students.",
+      "ko": "500명쯤이에요.",
+      "alt": [
+        "We have about 500 students.",
+        "Around five hundred."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Great. Let me show you our classrooms.",
+      "ko": "그렇군요. 저희 교실들을 보여 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Thank you for having me.",
+      "ko": "초대해 주셔서 감사합니다.",
+      "note": "손님으로 방문했을 때 첫인사",
+      "fromLine": 2
+    },
+    {
+      "en": "I teach ___ at ___.",
+      "ko": "___에서 ___를 가르쳐요.",
+      "note": "과목과 학교를 함께 소개할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "About ___ students.",
+      "ko": "학생이 ___명쯤이에요.",
+      "note": "about = 약 · 쯤",
+      "fromLine": 6
+    }
+  ]
+}

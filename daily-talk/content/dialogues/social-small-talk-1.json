@@ -1,0 +1,104 @@
+{
+  "id": "social-small-talk-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "small-talk",
+  "level": 1,
+  "title": {
+    "ko": "날씨 · 가벼운 인사",
+    "en": "Weather and Small Talk"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "아침 버스 정류장에서 만난 이웃과 날씨 이야기로 가볍게 인사한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "이웃",
+      "en": "Neighbor",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "이웃(나)",
+      "en": "Neighbor",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Morning! Cold today, isn't it?",
+      "ko": "안녕하세요! 오늘 춥죠?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Morning! Yeah, it's freezing out there.",
+      "ko": "안녕하세요! 네, 밖에 엄청 추워요.",
+      "alt": [
+        "Good morning! Yes, it's really cold.",
+        "Morning! It's so cold today."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "I heard it might snow this weekend.",
+      "ko": "이번 주말에 눈 올 수도 있대요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Oh, nice! I love snow.",
+      "ko": "오, 좋네요! 저는 눈 정말 좋아해요.",
+      "alt": [
+        "Really? I hope it does!",
+        "Oh, I love snow!"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Me too, but not for driving!",
+      "ko": "저도요, 운전할 때만 빼고요!"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Oh, here's my bus. Have a good day!",
+      "ko": "아, 제 버스 왔네요. 좋은 하루 보내세요!",
+      "alt": [
+        "That's my bus. Have a nice day!",
+        "Oh, my bus is here. See you!"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "You too. Stay warm!",
+      "ko": "네, 따뜻하게 다니세요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Cold today, isn't it?",
+      "ko": "오늘 춥죠?",
+      "note": "날씨로 말을 걸 때 · Nice day, isn't it?",
+      "fromLine": 1
+    },
+    {
+      "en": "It's freezing out there.",
+      "ko": "밖에 엄청 추워요.",
+      "note": "freezing = 꽁꽁 얼 만큼 추운",
+      "fromLine": 2
+    },
+    {
+      "en": "Have a good day!",
+      "ko": "좋은 하루 보내세요!",
+      "note": "헤어질 때 · Have a good one! 도 같음",
+      "fromLine": 6
+    }
+  ]
+}

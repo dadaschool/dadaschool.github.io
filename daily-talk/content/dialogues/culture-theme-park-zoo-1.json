@@ -1,0 +1,104 @@
+{
+  "id": "culture-theme-park-zoo-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "theme-park-zoo",
+  "level": 1,
+  "title": {
+    "ko": "놀이공원 · 동물원",
+    "en": "Theme Parks and Zoos"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "놀이공원 매표소에서 가족 표를 사고 문 닫는 시간과 다시 들어올 수 있는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "매표소 직원",
+      "en": "Ticket staff",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "방문객(나)",
+      "en": "Visitor",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi. How many tickets do you need?",
+      "ko": "안녕하세요. 표 몇 장 필요하세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Two adults and one child, please.",
+      "ko": "어른 두 장, 어린이 한 장 주세요.",
+      "alt": [
+        "Two adults and a child, please.",
+        "Three tickets. Two adults and one child."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "That'll be 120 dollars.",
+      "ko": "120달러입니다."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "What time do you close today?",
+      "ko": "오늘 몇 시에 문 닫아요?",
+      "alt": [
+        "When do you close today?",
+        "How late are you open today?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "We close at 9 tonight.",
+      "ko": "오늘 밤 9시에 닫아요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Can we leave and come back later?",
+      "ko": "나갔다가 나중에 다시 들어와도 돼요?",
+      "alt": [
+        "Can we come back in later?",
+        "Is it okay to come back later?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yes. Just get a hand stamp at the exit.",
+      "ko": "네. 나가실 때 손등에 도장만 받으세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Two adults and one child, please.",
+      "ko": "어른 두 장, 어린이 한 장 주세요.",
+      "note": "adult = 어른 · child = 어린이",
+      "fromLine": 2
+    },
+    {
+      "en": "What time do you close today?",
+      "ko": "오늘 몇 시에 문 닫아요?",
+      "note": "여는 시간은 open",
+      "fromLine": 4
+    },
+    {
+      "en": "Can we leave and come back later?",
+      "ko": "나갔다가 다시 들어와도 돼요?",
+      "note": "come back = 돌아오다",
+      "fromLine": 6
+    }
+  ]
+}

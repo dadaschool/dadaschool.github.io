@@ -1,0 +1,136 @@
+{
+  "id": "daily-checkout-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "checkout",
+  "level": 3,
+  "title": {
+    "ko": "마트 계산대",
+    "en": "At the Checkout"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "세일 가격이던 시리얼이 정가로 찍히고 우유가 두 번 계산된 것을 보고, 뒤에 선 줄을 신경 쓰며 정중히 바로잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "계산원",
+      "en": "Cashier",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, sorry to hold up the line, but I think the cereal rang up wrong.",
+      "ko": "실례합니다, 줄을 세워 둬서 죄송한데요, 시리얼 가격이 잘못 찍힌 것 같아요.",
+      "alt": [
+        "Sorry to hold everyone up, but I think the cereal was scanned wrong.",
+        "Excuse me, I think the price for the cereal is wrong."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, let me see. It came up as $5.49. What price did you see?",
+      "ko": "아, 볼게요. 5달러 49센트로 찍혔네요. 얼마로 보셨어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "The sign on the shelf said it was on sale for $3.99.",
+      "ko": "선반 표지판에는 3달러 99센트로 세일한다고 적혀 있었어요.",
+      "alt": [
+        "The shelf tag said $3.99. It was on sale.",
+        "It said $3.99 on the shelf. I thought it was on sale."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Let me have someone check... My coworker says the sale ended yesterday. They must have forgotten to take the sign down.",
+      "ko": "확인을 부탁해 볼게요... 동료 말로는 세일이 어제 끝났대요. 표지판 치우는 걸 깜빡했나 봐요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I see. Would you still be able to honor the sale price, since the sign was still up?",
+      "ko": "그렇군요. 표지판이 아직 붙어 있었으니까 그래도 세일 가격으로 해 주실 수 있을까요?",
+      "alt": [
+        "Okay. Since the sign was still there, could I still get the sale price?",
+        "I understand. But the sign was up, so could you give me the sale price?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Yes, that's our store policy. I'll change it to $3.99.",
+      "ko": "네, 저희 매장 규정상 그렇게 해 드려요. 3달러 99센트로 바꿔 드릴게요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Thank you. Oh, and it looks like I was charged twice for the milk. I only have one.",
+      "ko": "고마워요. 아, 그리고 우유가 두 번 계산된 것 같아요. 저는 하나만 샀거든요.",
+      "alt": [
+        "Thanks. Also, I think the milk was scanned twice. I only have one carton.",
+        "Thank you. And the milk is on here twice, but I only got one."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "You're right, I'm so sorry. I'll take that off, too. Your new total is $41.15.",
+      "ko": "맞네요, 정말 죄송합니다. 그것도 빼 드릴게요. 새 합계는 41달러 15센트입니다."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "No worries. Thanks for fixing it so quickly.",
+      "ko": "괜찮아요. 빨리 고쳐 주셔서 고마워요.",
+      "alt": [
+        "No problem. Thanks for taking care of it so fast.",
+        "That's okay. Thank you for sorting it out quickly."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Sorry to hold up the line.",
+      "ko": "줄을 세워 둬서 죄송해요.",
+      "note": "계산대에서 시간이 걸릴 때",
+      "fromLine": 1
+    },
+    {
+      "en": "___ rang up wrong.",
+      "ko": "___ 가격이 잘못 찍혔어요.",
+      "note": "ring up = 계산대에서 찍다",
+      "fromLine": 1
+    },
+    {
+      "en": "Would you still be able to honor ___?",
+      "ko": "그래도 ___로 해 주실 수 있을까요?",
+      "note": "honor a price = 표시된 가격대로 해 주다",
+      "fromLine": 5
+    },
+    {
+      "en": "I was charged twice for ___.",
+      "ko": "___가 두 번 계산됐어요.",
+      "note": "charge = 요금을 매기다",
+      "fromLine": 7
+    },
+    {
+      "en": "Thanks for fixing it so quickly.",
+      "ko": "빨리 고쳐 주셔서 고마워요.",
+      "note": "문제가 해결된 뒤 하는 감사 인사",
+      "fromLine": 9
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "school-meet-native-teacher-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "meet-native-teacher",
+  "level": 3,
+  "title": {
+    "ko": "원어민 교사와 첫 만남",
+    "en": "Meeting the Native English Teacher"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "원어민 교사에게 실내화와 근무 시간 규칙을 알려 주다가, 학생 사진을 SNS에 올렸다는 말에 동의 규칙을 부드럽게 설명한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Jiyoung, do you have a minute? I still have a few questions about the school rules.",
+      "ko": "지영 선생님, 잠깐 시간 괜찮으세요? 학교 규칙에 대해 아직 궁금한 게 몇 가지 있어서요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Of course. Actually, I wanted to mention one thing first. In Korean schools, we change into indoor shoes at the entrance.",
+      "ko": "물론이죠. 사실 저도 먼저 말씀드리고 싶은 게 하나 있었어요. 한국 학교에서는 현관에서 실내화로 갈아 신어요.",
+      "alt": [
+        "Sure. Actually, there's one thing I wanted to tell you first. We wear indoor shoes inside the school building."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh no, I've been wearing my sneakers all week. Nobody said anything!",
+      "ko": "아이고, 일주일 내내 운동화를 신고 다녔어요. 아무도 말을 안 해 줬어요!"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Don't worry. People were probably just too polite to say anything. A lot of new teachers miss it.",
+      "ko": "걱정 마세요. 다들 말하기가 조심스러웠을 거예요. 새로 오신 선생님들이 많이들 놓치세요.",
+      "alt": [
+        "It's okay. I think people were just being polite. Many new teachers don't know at first."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Good to know. What about working hours? Do I have to stay until a certain time?",
+      "ko": "알게 돼서 다행이에요. 근무 시간은요? 정해진 시간까지 있어야 하나요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Teachers start at 8:20 and usually leave at 4:40. If you're sick, please call me or the vice principal before 8.",
+      "ko": "교사는 8시 20분에 출근해서 보통 4시 40분에 퇴근해요. 아프시면 8시 전에 저나 교감 선생님께 전화해 주세요.",
+      "alt": [
+        "We start at 8:20 and finish around 4:40. If you're sick, call me or the vice principal before 8."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Okay. Oh, and I posted a photo of my first class on social media yesterday. The kids looked so cute!",
+      "ko": "알겠어요. 아, 그리고 어제 첫 수업 사진을 SNS에 올렸어요. 아이들이 정말 귀여웠거든요!"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I can tell you really like them. But I'm afraid we need parents' permission before we share students' photos online. Could you take it down for now?",
+      "ko": "아이들을 정말 좋아하시는 게 느껴져요. 그런데 죄송하지만 학생 사진을 온라인에 올리려면 학부모 동의를 먼저 받아야 해요. 일단 내려 주실 수 있을까요?",
+      "alt": [
+        "It's clear you love the kids. But we need parents' consent before posting students' photos online. Could you delete it for now?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Oh, I had no idea. I'll delete it right away. Thanks for telling me.",
+      "ko": "아, 전혀 몰랐어요. 바로 지울게요. 알려 주셔서 고마워요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Thanks for understanding. If you want to share class photos later, I can help you with the consent forms.",
+      "ko": "이해해 주셔서 고마워요. 나중에 수업 사진을 올리고 싶으시면 동의서 받는 걸 도와드릴게요.",
+      "alt": [
+        "I appreciate it. If you'd like to share photos later, I'll help you get the consent forms."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Actually, I wanted to mention ___.",
+      "ko": "사실 ___를 말씀드리고 싶었어요.",
+      "note": "말하기 조심스러운 이야기를 부드럽게 꺼낼 때",
+      "fromLine": 2
+    },
+    {
+      "en": "change into indoor shoes",
+      "ko": "실내화로 갈아 신다",
+      "note": "change into = (옷 · 신발을) 갈아입다 · 갈아 신다",
+      "fromLine": 2
+    },
+    {
+      "en": "I'm afraid we need ___ before ___.",
+      "ko": "죄송하지만 ___하기 전에 ___가 필요해요.",
+      "note": "규칙을 공손하게 알릴 때",
+      "fromLine": 8
+    },
+    {
+      "en": "Could you take it down?",
+      "ko": "내려 주실 수 있을까요?",
+      "note": "take down = (게시물을) 내리다",
+      "fromLine": 8
+    },
+    {
+      "en": "Thanks for understanding.",
+      "ko": "이해해 주셔서 고마워요.",
+      "note": "부탁을 받아 준 사람에게 하는 말",
+      "fromLine": 10
+    }
+  ]
+}

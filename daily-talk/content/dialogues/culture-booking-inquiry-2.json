@@ -1,0 +1,128 @@
+{
+  "id": "culture-booking-inquiry-2",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "booking-inquiry",
+  "level": 2,
+  "title": {
+    "ko": "공연 · 전시 예매 문의",
+    "en": "Booking Shows and Exhibitions"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "전시 예매처에 전화해 학생 할인과 독서 모임 단체 요금, 결제 방법을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "예매처 직원",
+      "en": "Ticket office staff",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'd like to ask about tickets for the Light and Shadow exhibition.",
+      "ko": "안녕하세요. «빛과 그림자» 전시 표에 대해 여쭤보고 싶어요.",
+      "alt": [
+        "Hi. I have a question about tickets for the Light and Shadow exhibition.",
+        "Hello. Can I ask about tickets for Light and Shadow?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Of course. General admission is 22 dollars, and it runs until the end of March.",
+      "ko": "물론이죠. 일반 입장권은 22달러이고, 전시는 3월 말까지 해요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Do you offer a student discount? I'm a graduate student.",
+      "ko": "학생 할인이 되나요? 저는 대학원생이에요.",
+      "alt": [
+        "Is there a discount for students? I'm in graduate school.",
+        "Do you have student prices? I'm a grad student."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Yes, students pay 15 dollars. Just bring your student ID on the day.",
+      "ko": "네, 학생은 15달러예요. 당일에 학생증만 가져오세요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Great. Some people from my book club might come too. Is there a group rate?",
+      "ko": "좋아요. 제 독서 모임 사람들도 올 수 있는데요. 단체 요금이 있나요?",
+      "alt": [
+        "Great. My book club may come too. Do you have group prices?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "For groups of ten or more, it's 18 dollars each. You'll need to book at least three days ahead.",
+      "ko": "열 명 이상 단체는 1인당 18달러예요. 최소 사흘 전에는 예약하셔야 해요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Got it. Can I pay for everyone at once, or does each person pay separately?",
+      "ko": "알겠어요. 한 번에 다 같이 결제할 수 있나요, 아니면 각자 따로 내야 하나요?",
+      "alt": [
+        "Okay. Can I pay for the whole group at once, or do we pay separately?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Either is fine. If you pay together, I can send all the tickets to your email.",
+      "ko": "둘 다 괜찮아요. 한꺼번에 결제하시면 표를 전부 이메일로 보내 드릴 수 있어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That would be easier. I'll check with them and call you back.",
+      "ko": "그게 더 편하겠네요. 모임 사람들한테 물어보고 다시 전화드릴게요.",
+      "alt": [
+        "That's easier. I'll ask them and call back.",
+        "That works. Let me check with them and call you again."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to ask about ___.",
+      "ko": "___에 대해 여쭤보고 싶어요.",
+      "note": "문의를 시작할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Do you offer a student discount?",
+      "ko": "학생 할인이 되나요?",
+      "note": "offer = 제공하다",
+      "fromLine": 3
+    },
+    {
+      "en": "Is there a group rate?",
+      "ko": "단체 요금이 있나요?",
+      "note": "rate = 요금",
+      "fromLine": 5
+    },
+    {
+      "en": "I'll call you back.",
+      "ko": "다시 전화드릴게요.",
+      "note": "call back = 다시 전화하다",
+      "fromLine": 9
+    }
+  ]
+}

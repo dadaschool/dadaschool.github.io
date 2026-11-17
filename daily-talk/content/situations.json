@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "confirmed": "2026-11-04",
+  "levels": {
+    "1": { "ko": "초급", "en": "Beginner" },
+    "2": { "ko": "중급", "en": "Intermediate" },
+    "3": { "ko": "고급", "en": "Advanced" }
+  },
+  "domains": [
+    {
+      "id": "travel", "emoji": "✈️", "ko": "여행", "en": "Travel", "code": "여행",
+      "situations": [
+        { "id": "airport-checkin", "ko": "공항 체크인", "en": "Airport Check-in", "path": "짐 부치기 · 좌석 고르기 → 짐 무게 초과 · 비행기 지연" },
+        { "id": "immigration", "ko": "입국 심사", "en": "Immigration", "path": "방문 목적 · 머무는 기간 → 숙소 · 돌아갈 표 질문" },
+        { "id": "in-flight", "ko": "기내에서 부탁하기", "en": "On the Plane", "path": "물 · 담요 부탁 → 자리 바꾸기 · 몸이 안 좋을 때" },
+        { "id": "hotel-checkin", "ko": "호텔 체크인", "en": "Hotel Check-in", "path": "예약 확인 · 열쇠 받기 → 예약이 없다고 할 때" },
+        { "id": "hotel-problem", "ko": "호텔 방 문제 해결", "en": "Hotel Room Problems", "path": "수건 · 와이파이 → 방 바꿔 달라고 하기" },
+        { "id": "restaurant", "ko": "식당 주문", "en": "Ordering at a Restaurant", "path": "메뉴 고르기 · 계산 → 알레르기 · 음식이 잘못 나왔을 때" },
+        { "id": "transport", "ko": "택시 · 대중교통", "en": "Taxis and Public Transportation", "path": "표 사기 · 목적지 말하기 → 길을 잘못 들었을 때" },
+        { "id": "directions", "ko": "길 묻기", "en": "Asking for Directions", "path": "가까운 역 묻기 → 갈아타는 방법 알아듣기" },
+        { "id": "tour-tickets", "ko": "관광지 표 · 투어", "en": "Tickets and Tours", "path": "표 사기 · 운영 시간 → 투어 예약 · 변경" },
+        { "id": "lost-help", "ko": "분실 · 도움 요청", "en": "Lost Items and Getting Help", "path": "짐 분실 신고 → 여권 분실 · 경찰서" }
+      ]
+    },
+    {
+      "id": "daily", "emoji": "🏠", "ko": "일상 생활", "en": "Daily Life", "code": "일상",
+      "situations": [
+        { "id": "cafe", "ko": "카페 주문", "en": "At a Café", "path": "음료 · 크기 → 우유 바꾸기 같은 맞춤 주문" },
+        { "id": "clothes-shop", "ko": "옷 가게에서 고르기", "en": "Shopping for Clothes", "path": "크기 · 색 묻기 → 입어 보고 비교 · 할인" },
+        { "id": "exchange-refund", "ko": "교환 · 환불", "en": "Exchanges and Refunds", "path": "영수증 보여 주기 → 영수증 없을 때 협상" },
+        { "id": "checkout", "ko": "마트 계산대", "en": "At the Checkout", "path": "봉투 · 결제 → 가격이 다르게 찍혔을 때" },
+        { "id": "doctor", "ko": "병원 진료", "en": "Seeing a Doctor", "path": "증상 말하기 → 예약 · 보험 · 처방 설명 알아듣기" },
+        { "id": "pharmacy", "ko": "약국", "en": "At the Pharmacy", "path": "약 사기 · 먹는 법 → 부작용 · 다른 약과 같이 먹어도 되는지" },
+        { "id": "bank", "ko": "은행 · 환전", "en": "Banking and Currency Exchange", "path": "환전하기 → 카드 분실 · 송금" },
+        { "id": "hair-salon", "ko": "미용실", "en": "At the Hair Salon", "path": "원하는 길이 말하기 → 스타일을 자세히 설명 · 불만 말하기" },
+        { "id": "post-office", "ko": "택배 · 우체국", "en": "Packages and the Post Office", "path": "보내기 · 요금 → 배송 지연 · 분실 문의" },
+        { "id": "neighbors", "ko": "이웃과 인사 · 부탁", "en": "Neighbors", "path": "인사 · 자기소개 → 소음 문제를 정중히 말하기" },
+        { "id": "library", "ko": "도서관", "en": "At the Library", "path": "회원증 만들기 · 책 빌리기 · 반납 → 대출 연장 · 예약 · 연체료 · 찾는 자료 도움 받기" }
+      ]
+    },
+    {
+      "id": "social", "emoji": "☕", "ko": "사교 · 스몰톡", "en": "Socializing and Small Talk", "code": "사교",
+      "situations": [
+        { "id": "introductions", "ko": "자기소개", "en": "Introducing Yourself", "path": "이름 · 하는 일 → 내 일을 자세히 설명하기" },
+        { "id": "hobbies", "ko": "취미 이야기", "en": "Talking About Hobbies", "path": "좋아하는 것 → 이유 · 경험 나누기" },
+        { "id": "small-talk", "ko": "날씨 · 가벼운 인사", "en": "Weather and Small Talk", "path": "날씨 인사 → 대화를 이어 가다 자연스럽게 끝내기" },
+        { "id": "weekend-plans", "ko": "주말 계획", "en": "Weekend Plans", "path": "계획 묻고 답하기 → 같이 하자고 제안하기" },
+        { "id": "invitations", "ko": "초대하기 · 거절하기", "en": "Inviting and Declining", "path": "초대 받기 → 정중히 거절하고 다른 날 제안하기" },
+        { "id": "compliments-thanks", "ko": "칭찬 · 감사", "en": "Compliments and Thanks", "path": "«고마워요» → 마음을 담아 자세히 말하기" },
+        { "id": "apologies", "ko": "사과하기", "en": "Apologizing", "path": "늦어서 미안해요 → 실수를 설명하고 만회 제안하기" },
+        { "id": "feelings", "ko": "감정 나누기 · 위로", "en": "Sharing Feelings and Comforting", "path": "기분 말하기 → 힘든 이야기에 공감 · 위로하기" },
+        { "id": "food-talk", "ko": "음식 · 맛집 이야기", "en": "Talking About Food", "path": "좋아하는 음식 → 맛 표현 · 추천하기" },
+        { "id": "keep-in-touch", "ko": "연락처 교환 · 다시 만날 약속", "en": "Exchanging Contacts and Making Plans", "path": "연락처 묻기 → 약속 정하고 바꾸기" }
+      ]
+    },
+    {
+      "id": "work", "emoji": "💼", "ko": "직장 · 전화", "en": "Work and Phone Calls", "code": "직장",
+      "situations": [
+        { "id": "phone-messages", "ko": "전화 받기 · 메시지 남기기", "en": "Answering the Phone and Taking Messages", "path": "전화 받기 → 메시지를 받아 적고 전하기" },
+        { "id": "phone-booking", "ko": "전화로 예약 · 변경", "en": "Booking and Changing by Phone", "path": "예약하기 → 날짜 바꾸기 · 취소하기" },
+        { "id": "meetings", "ko": "회의에서 의견 말하기", "en": "Giving Opinions in Meetings", "path": "찬성 · 반대 → 반대 의견을 부드럽게 말하기" },
+        { "id": "scheduling", "ko": "일정 잡기", "en": "Scheduling", "path": "가능한 시간 묻기 → 여러 사람 일정 맞추기" },
+        { "id": "asking-favors", "ko": "동료에게 부탁하기", "en": "Asking Coworkers for Help", "path": "간단한 부탁 → 마감이 급할 때 부탁하기" },
+        { "id": "progress-check", "ko": "업무 진행 묻기", "en": "Checking on Progress", "path": "어디까지 했는지 → 늦어지는 이유 묻고 조정하기" },
+        { "id": "reporting-problems", "ko": "문제 보고하기", "en": "Reporting Problems", "path": "문제 알리기 → 원인과 해결 방법 설명하기" },
+        { "id": "hosting-visitors", "ko": "손님 맞이 · 안내", "en": "Welcoming Visitors", "path": "인사 · 자리 안내 → 회사와 일정 소개하기" },
+        { "id": "video-call-issues", "ko": "화상회의 연결 문제", "en": "Video Call Problems", "path": "소리가 안 들려요 → 회의 중 문제 해결 · 다시 잡기" },
+        { "id": "time-off", "ko": "휴가 · 퇴근 이야기", "en": "Vacation and Leaving Work", "path": "휴가 계획 → 업무 넘기기 · 휴가 신청하기" }
+      ]
+    },
+    {
+      "id": "school", "emoji": "🏫", "ko": "학교 · 교육", "en": "School and Education", "code": "학교",
+      "situations": [
+        { "id": "meet-native-teacher", "ko": "원어민 교사와 첫 만남", "en": "Meeting the Native English Teacher", "path": "인사 · 자기소개 → 학교 생활 · 규칙 안내하기" },
+        { "id": "co-planning", "ko": "원어민 교사와 수업 협의", "en": "Planning Lessons Together", "path": "주제 · 자료 정하기 → 역할 나누기 · 수업 뒤 돌아보기" },
+        { "id": "classroom-english", "ko": "교실 영어", "en": "Classroom English", "path": "출석 · 활동 지시 → 모둠 활동 설명 · 학생 질문 받고 답하기" },
+        { "id": "observation-feedback", "ko": "수업 참관 · 피드백", "en": "Lesson Observation and Feedback", "path": "좋았던 점 말하기 → 고칠 점을 부드럽게 말하기" },
+        { "id": "parent-meeting", "ko": "외국인 학부모 상담", "en": "Meeting with Parents", "path": "인사 · 아이 학교생활 → 성적 · 생활 문제를 조심스럽게 전하기" },
+        { "id": "welcome-student", "ko": "외국인 학생 맞이", "en": "Welcoming an International Student", "path": "학교 소개 · 교실 안내 → 시간표 · 급식 · 규칙 설명하기" },
+        { "id": "student-counseling", "ko": "외국인 학생 상담", "en": "Talking with an International Student", "path": "기분 · 어려운 점 묻기 → 친구 문제 고민 듣고 도와주기" },
+        { "id": "exchange-video-class", "ko": "국제 교류 화상 수업", "en": "International Video Exchange Class", "path": "인사 · 연결 확인 → 학생 발표 진행 · 마무리하기" },
+        { "id": "school-visit", "ko": "해외 학교 방문 · 연수", "en": "Visiting a School Abroad", "path": "자기소개 · 우리 학교 소개 → 교육 제도 비교 · 질문하기" },
+        { "id": "conference", "ko": "교육 연수 · 학회", "en": "Teacher Training and Conferences", "path": "등록 · 자리 찾기 → 발표 뒤 질문 · 명함 교환하기" }
+      ]
+    },
+    {
+      "id": "culture", "emoji": "🎭", "ko": "문화생활", "en": "Culture and Leisure", "code": "문화",
+      "situations": [
+        { "id": "art-museum", "ko": "미술관", "en": "At an Art Museum", "path": "표 사기 · 관람 안내 → 작품 감상 나누기 · 도슨트에게 질문하기" },
+        { "id": "museum", "ko": "박물관", "en": "At a Museum", "path": "오디오 가이드 빌리기 · 지도 받기 → 전시 해설 알아듣고 질문하기 · 사진 촬영 규칙 묻기" },
+        { "id": "science-museum", "ko": "과학관", "en": "At a Science Museum", "path": "체험 프로그램 안내 · 예약 → 체험 설명 알아듣기 · 아이와 함께 질문하기" },
+        { "id": "performance", "ko": "공연장 (뮤지컬 · 연극 · 콘서트)", "en": "At a Show or Concert", "path": "표 찾기 · 좌석 안내 → 공연 뒤 감상 나누기 · 좌석 문제 해결하기" },
+        { "id": "cinema", "ko": "영화관", "en": "At the Movies", "path": "표 · 간식 사기 → 좌석 바꾸기 · 영화 감상 이야기하기" },
+        { "id": "booking-inquiry", "ko": "공연 · 전시 예매 문의", "en": "Booking Shows and Exhibitions", "path": "날짜 · 좌석 · 값 묻기 → 할인(학생 · 단체) · 매진일 때 · 환불" },
+        { "id": "festival", "ko": "축제 · 거리 공연", "en": "Festivals and Street Performances", "path": "행사 정보 묻기 → 현지 사람과 축제 이야기 나누기" },
+        { "id": "sports-game", "ko": "스포츠 경기 관람", "en": "Watching a Sports Game", "path": "표 · 자리 찾기 → 옆자리 사람과 응원 · 경기 이야기" },
+        { "id": "theme-park-zoo", "ko": "놀이공원 · 동물원", "en": "Theme Parks and Zoos", "path": "표 · 운영 시간 → 줄 서기 · 키 제한 · 일행을 잃어버렸을 때" },
+        { "id": "one-day-class", "ko": "원데이 클래스 (요리 · 공예 등)", "en": "One-Day Classes", "path": "등록 · 준비물 묻기 → 수업 중 질문 · 도움 요청하기" }
+      ]
+    }
+  ]
+}

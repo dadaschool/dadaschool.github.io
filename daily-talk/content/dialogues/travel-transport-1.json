@@ -1,0 +1,104 @@
+{
+  "id": "travel-transport-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "transport",
+  "level": 1,
+  "title": {
+    "ko": "택시 · 대중교통",
+    "en": "Taxis and Public Transportation"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "택시를 타고 목적지를 말하고, 걸리는 시간과 카드 결제를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "택시 기사",
+      "en": "Taxi driver",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi. Where to?",
+      "ko": "안녕하세요. 어디로 가세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "To the Grand Hotel, please.",
+      "ko": "그랜드 호텔로 가 주세요.",
+      "alt": [
+        "The Grand Hotel, please.",
+        "Can you take me to the Grand Hotel?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Sure. Please fasten your seatbelt.",
+      "ko": "네. 안전벨트 매 주세요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "How long does it take?",
+      "ko": "얼마나 걸려요?",
+      "alt": [
+        "How long will it take?",
+        "How long is the ride?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "About twenty minutes.",
+      "ko": "20분쯤이요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Can I pay by card?",
+      "ko": "카드로 내도 돼요?",
+      "alt": [
+        "Do you take cards?",
+        "Can I use a credit card?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yes, of course.",
+      "ko": "네, 그럼요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "To ___, please.",
+      "ko": "___로 가 주세요.",
+      "note": "택시에서 목적지를 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "How long does it take?",
+      "ko": "얼마나 걸려요?",
+      "note": "걸리는 시간",
+      "fromLine": 4
+    },
+    {
+      "en": "Can I pay by card?",
+      "ko": "카드로 내도 돼요?",
+      "note": "현금은 pay in cash",
+      "fromLine": 6
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "id": "work-reporting-problems-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "reporting-problems",
+  "level": 1,
+  "title": {
+    "ko": "문제 보고하기",
+    "en": "Reporting Problems"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "IT 지원팀에 전화해 컴퓨터가 켜지지 않는다고 알린다."
+  },
+  "roles": {
+    "A": {
+      "ko": "IT 지원 담당자",
+      "en": "IT support",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "IT help desk. This is Sam.",
+      "ko": "IT 지원팀 샘입니다."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi. My computer won't turn on.",
+      "ko": "안녕하세요. 제 컴퓨터가 안 켜져요.",
+      "alt": [
+        "Hello. My computer doesn't turn on.",
+        "Hi. I can't turn on my computer."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Is the power cable plugged in?",
+      "ko": "전원 선은 꽂혀 있나요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, I checked. It's plugged in.",
+      "ko": "네, 확인했어요. 꽂혀 있어요.",
+      "alt": [
+        "Yes, it's plugged in.",
+        "Yes. I already checked that."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Okay. Where do you sit?",
+      "ko": "알겠습니다. 자리가 어디세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "I'm on the fourth floor, desk 12.",
+      "ko": "4층 12번 자리예요.",
+      "alt": [
+        "Fourth floor, desk 12.",
+        "Desk 12, on the fourth floor."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "I'll be there in ten minutes.",
+      "ko": "10분 안에 갈게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___ won't turn on.",
+      "ko": "___가 안 켜져요.",
+      "note": "won't = 아무리 해도 안 된다는 느낌",
+      "fromLine": 2
+    },
+    {
+      "en": "It's plugged in.",
+      "ko": "전원이 꽂혀 있어요.",
+      "note": "plug in = 플러그를 꽂다",
+      "fromLine": 4
+    },
+    {
+      "en": "I'm on the ___ floor.",
+      "ko": "___층에 있어요.",
+      "note": "층은 fourth · fifth 처럼 서수로",
+      "fromLine": 6
+    }
+  ]
+}

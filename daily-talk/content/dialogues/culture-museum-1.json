@@ -1,0 +1,108 @@
+{
+  "id": "culture-museum-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "museum",
+  "level": 1,
+  "title": {
+    "ko": "박물관",
+    "en": "At a Museum"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "박물관 안내 데스크에서 한국어 오디오 가이드를 빌리고 지도를 받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "안내 데스크 직원",
+      "en": "Information desk staff",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "관람객(나)",
+      "en": "Visitor",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. Can I rent an audio guide?",
+      "ko": "안녕하세요. 오디오 가이드 빌릴 수 있어요?",
+      "alt": [
+        "Hi. I'd like an audio guide.",
+        "Hello. Do you have audio guides?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. It's 5 dollars.",
+      "ko": "네. 5달러예요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Do you have one in Korean?",
+      "ko": "한국어로 된 것도 있어요?",
+      "alt": [
+        "Is there one in Korean?",
+        "Is it available in Korean?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Yes, we do. Here you go.",
+      "ko": "네, 있어요. 여기 있습니다."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Thanks. Can I have a map, too?",
+      "ko": "고마워요. 지도도 받을 수 있어요?",
+      "alt": [
+        "Thanks. Could I get a map too?",
+        "Thank you. Do you have a map?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Of course. Please return the guide here.",
+      "ko": "물론이죠. 가이드는 여기로 반납해 주세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Okay. I'll bring it back later.",
+      "ko": "알겠어요. 나중에 갖다드릴게요.",
+      "alt": [
+        "Sure. I'll return it later.",
+        "Got it. I'll bring it back."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Can I rent ___?",
+      "ko": "___ 빌릴 수 있어요?",
+      "note": "rent = 돈을 내고 빌리다",
+      "fromLine": 1
+    },
+    {
+      "en": "Do you have one in Korean?",
+      "ko": "한국어로 된 것도 있어요?",
+      "note": "one = 앞에서 말한 물건",
+      "fromLine": 3
+    },
+    {
+      "en": "Can I have ___, too?",
+      "ko": "___도 받을 수 있어요?",
+      "note": "too = ~도",
+      "fromLine": 5
+    }
+  ]
+}

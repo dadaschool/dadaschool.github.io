@@ -1,0 +1,137 @@
+{
+  "id": "school-parent-meeting-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "parent-meeting",
+  "level": 3,
+  "title": {
+    "ko": "외국인 학부모 상담",
+    "en": "Meeting with Parents"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "중간고사 성적이 떨어지고 수업 중에 휴대폰을 쓰는 아이에 대해 학부모에게 조심스럽게 이야기하고, 함께 도울 방법을 찾는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학부모",
+      "en": "Parent",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Thank you for coming, Mr. Garcia. I wanted to talk with you about how Daniel's been doing lately.",
+      "ko": "가르시아 씨, 와 주셔서 감사합니다. 요즘 대니얼이 어떻게 지내는지 말씀 나누고 싶었어요.",
+      "alt": [
+        "Thanks for coming in, Mr. Garcia. I'd like to talk about how Daniel has been doing recently."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Of course. Is something wrong?",
+      "ko": "네. 무슨 문제가 있나요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "First, I want you to know that Daniel is a kind boy, and his classmates really like him.",
+      "ko": "우선 대니얼이 착한 아이이고, 반 친구들도 대니얼을 정말 좋아한다는 걸 말씀드리고 싶어요.",
+      "alt": [
+        "Let me start by saying Daniel is a kind boy, and the other students really like him."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "That's nice to hear. But I have a feeling there's a 'but' coming.",
+      "ko": "그 말을 들으니 좋네요. 그런데 왠지 '하지만'이 나올 것 같은데요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Well, I'm a little concerned about his midterm results. His math and science scores dropped quite a bit.",
+      "ko": "네, 사실 중간고사 결과가 조금 걱정돼요. 수학이랑 과학 점수가 꽤 많이 떨어졌어요.",
+      "alt": [
+        "I'm a bit worried about his midterm exams. His math and science scores went down quite a lot."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "I didn't know that. He told me the tests went fine.",
+      "ko": "몰랐어요. 시험은 괜찮게 봤다고 하던데요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "I understand this might be hard to hear. I've also noticed that he's been using his phone in class, and he often looks tired in the morning.",
+      "ko": "듣기 힘드실 수 있다는 거 이해해요. 수업 시간에 휴대폰을 쓰는 모습도 보였고, 아침에 피곤해 보일 때가 많아요.",
+      "alt": [
+        "I know this isn't easy to hear. He's also been on his phone during class, and he often seems tired in the morning."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "He's been staying up late playing games. I've been working nights, so I haven't been able to check.",
+      "ko": "요즘 밤늦게까지 게임을 해요. 제가 야간 근무를 하고 있어서 챙겨 보지 못했어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Thank you for telling me. That really helps me understand. What if we work on this together? I can check in with him every week, and maybe you could set a time for phones off at home.",
+      "ko": "말씀해 주셔서 감사해요. 이해하는 데 정말 도움이 돼요. 우리 같이 노력해 보면 어떨까요? 저는 매주 대니얼이랑 따로 이야기해 볼게요. 댁에서는 휴대폰을 끄는 시간을 정해 주시면 좋겠어요.",
+      "alt": [
+        "Thanks for sharing that. It helps a lot. Why don't we work on this together? I'll talk with him every week, and maybe you could set a phone-free time at home."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "That sounds like a good plan. Thank you for caring about him so much.",
+      "ko": "좋은 방법이네요. 아이를 이렇게 신경 써 주셔서 감사합니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I wanted to talk with you about ___.",
+      "ko": "___에 대해 말씀 나누고 싶었어요.",
+      "note": "상담 주제를 꺼낼 때",
+      "fromLine": 1
+    },
+    {
+      "en": "First, I want you to know that ___.",
+      "ko": "우선 ___라는 걸 말씀드리고 싶어요.",
+      "note": "걱정되는 이야기 전에 좋은 점부터",
+      "fromLine": 3
+    },
+    {
+      "en": "I'm a little concerned about ___.",
+      "ko": "___가 조금 걱정돼요.",
+      "note": "문제를 부드럽게 꺼낼 때 · worried 보다 차분함",
+      "fromLine": 5
+    },
+    {
+      "en": "I understand this might be hard to hear.",
+      "ko": "듣기 힘드실 수 있다는 거 이해해요.",
+      "note": "어려운 소식을 전하며 공감할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "What if we work on this together?",
+      "ko": "우리 같이 노력해 보면 어떨까요?",
+      "note": "학부모에게 협력을 제안할 때",
+      "fromLine": 9
+    }
+  ]
+}

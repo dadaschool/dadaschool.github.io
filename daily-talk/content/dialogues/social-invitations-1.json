@@ -1,0 +1,104 @@
+{
+  "id": "social-invitations-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "invitations",
+  "level": 1,
+  "title": {
+    "ko": "초대하기 · 거절하기",
+    "en": "Inviting and Declining"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "친구가 생일 파티에 초대해서 기쁘게 가겠다고 하고, 시간과 가져갈 것을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "친구",
+      "en": "Friend",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "친구(나)",
+      "en": "Friend",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hey! I'm having a birthday party on Saturday.",
+      "ko": "있잖아! 나 토요일에 생일 파티 해."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Oh, nice! Happy early birthday!",
+      "ko": "오, 좋다! 미리 생일 축하해!",
+      "alt": [
+        "Cool! Happy early birthday!",
+        "Oh, fun! Happy birthday in advance!"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Thanks! Can you come?",
+      "ko": "고마워! 올 수 있어?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Of course! I'd love to come.",
+      "ko": "당연하지! 꼭 갈게.",
+      "alt": [
+        "Sure! I'll be there.",
+        "Yes! I wouldn't miss it."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Great! It starts at seven.",
+      "ko": "잘됐다! 7시에 시작해."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Should I bring anything?",
+      "ko": "뭐 가져갈까?",
+      "alt": [
+        "Can I bring something?",
+        "Do you need anything?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Just yourself! See you then.",
+      "ko": "몸만 와! 그때 봐."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Happy early birthday!",
+      "ko": "미리 생일 축하해!",
+      "note": "생일 전에 축하할 때 early 를 붙임",
+      "fromLine": 2
+    },
+    {
+      "en": "I'd love to come.",
+      "ko": "꼭 갈게.",
+      "note": "초대를 기쁘게 받을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Should I bring anything?",
+      "ko": "뭐 가져갈까?",
+      "note": "초대받았을 때 예의로 묻는 말",
+      "fromLine": 6
+    }
+  ]
+}

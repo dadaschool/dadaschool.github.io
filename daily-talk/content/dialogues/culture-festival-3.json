@@ -1,0 +1,140 @@
+{
+  "id": "culture-festival-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "festival",
+  "level": 3,
+  "title": {
+    "ko": "축제 · 거리 공연",
+    "en": "Festivals and Street Performances"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "등불 축제에서 말을 걸어 온 현지 주민과 축제의 유래와 한국의 비슷한 축제 이야기를 나누고, 함께 참여하자는 초대를 받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "현지 주민",
+      "en": "Local resident",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "방문객(나)",
+      "en": "Visitor",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Is this your first time at the Lantern Festival? You look a little lost!",
+      "ko": "등불 축제는 처음이세요? 좀 헤매시는 것 같아서요!"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Is it that obvious? I'm visiting from Korea, and I just happened to find out about it this morning.",
+      "ko": "그렇게 티가 나요? 한국에서 놀러 왔는데 오늘 아침에 우연히 알게 됐어요.",
+      "alt": [
+        "Is it that clear? I'm from Korea, and I only found out about it this morning.",
+        "Can you tell? I'm visiting from Korea, and I heard about it by chance this morning."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Lucky you! It only happens once a year, and the whole town spends months getting ready.",
+      "ko": "운이 좋으시네요! 1년에 한 번뿐이라 온 동네가 몇 달 동안 준비하거든요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I can tell. Everyone seems so excited. What's the story behind the festival?",
+      "ko": "그래 보여요. 다들 정말 들떠 보여요. 이 축제에는 어떤 유래가 있어요?",
+      "alt": [
+        "I can see that. Everyone looks so happy. How did the festival start?",
+        "It shows. Everyone is so excited. What's the history of the festival?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "It started over a hundred years ago. Fishermen's families lit lanterns to guide the boats home, and we've kept the tradition ever since.",
+      "ko": "100년도 더 전에 시작됐어요. 어부 가족들이 배가 집으로 돌아올 수 있게 등불을 밝혔는데, 그때부터 그 전통을 이어 오고 있어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "That's beautiful. We have something similar in Korea, a lantern festival in spring.",
+      "ko": "멋지네요. 한국에도 비슷한 게 있어요. 봄에 하는 연등 축제요.",
+      "alt": [
+        "That's lovely. Korea has something similar, a spring lantern festival."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Oh, really? I'd love to hear about it. When is it held?",
+      "ko": "아, 그래요? 이야기 듣고 싶어요. 언제 열려요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Usually in May. The streets fill up with colorful lanterns, a lot like tonight.",
+      "ko": "보통 5월에요. 오늘 밤처럼 거리가 알록달록한 등으로 가득 차요.",
+      "alt": [
+        "It's usually in May. The streets are full of colorful lanterns, just like tonight."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Sounds wonderful. Oh, they're about to float the lanterns on the river. Want to come and make one with me?",
+      "ko": "멋지네요. 아, 이제 곧 강에 등을 띄워요. 같이 가서 하나 만들어 볼래요?"
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "I'd love to! I wasn't sure if visitors could join in. Thanks for inviting me.",
+      "ko": "좋아요! 방문객도 참여할 수 있는지 몰랐어요. 초대해 주셔서 고마워요.",
+      "alt": [
+        "I'd love that! I didn't know visitors could join. Thank you for inviting me.",
+        "Sure, I'd love to! I didn't know tourists could take part. Thanks for asking me."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Is it that obvious?",
+      "ko": "그렇게 티가 나요?",
+      "note": "상대가 내 상황을 알아챘을 때 웃으며",
+      "fromLine": 2
+    },
+    {
+      "en": "I just happened to ___.",
+      "ko": "우연히 ___했어요.",
+      "note": "happen to = 우연히 ~하다",
+      "fromLine": 2
+    },
+    {
+      "en": "What's the story behind ___?",
+      "ko": "___에는 어떤 유래가 있어요?",
+      "note": "유래 · 배경을 물을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "We have something similar in Korea.",
+      "ko": "한국에도 비슷한 게 있어요.",
+      "note": "우리 문화를 소개하며 대화를 이어 갈 때",
+      "fromLine": 6
+    },
+    {
+      "en": "I'd love to!",
+      "ko": "좋아요! · 꼭 하고 싶어요!",
+      "note": "초대를 기쁘게 받을 때",
+      "fromLine": 10
+    }
+  ]
+}

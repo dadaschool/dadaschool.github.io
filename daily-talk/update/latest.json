@@ -1,0 +1,1195 @@
+{
+ "version": "1.0.0",
+ "date": "2026-11-17",
+ "zip": "dailytalk-1.0.0.zip",
+ "size": 536873,
+ "sha256": "c9e563df9353a1a9a8cb4de813ec950d912864cbd0ded9dd9597b5ba4d3430bc",
+ "notes": [
+  "Daily Talk 첫 정식 판이에요. 여섯 영역 61개 상황 · 대화 183개를 🎤 말하기 · 💬 채팅 · 🎧 듣기 세 모드로 연습해요.",
+  "카드 · 퀴즈 · 오답노트 · 오늘의 학습 · 연속 학습일 · 백업이 들어 있어요. 인터넷 없이도 되고 돈이 들지 않아요.",
+  "🤖 AI 자유대화와 📥 자료로 학습 만들기는 설정 → 🤖 AI 에 각자 키를 넣으면 쓸 수 있어요(요금은 키를 만든 회사에서 각자)."
+ ],
+ "dataVersion": 1,
+ "files": [
+  {
+   "path": "audio/manifest.json",
+   "size": 95178,
+   "sha256": "c97bfc54caa31ceb91c848ae7d87106689714b8d060affeb759c1b024aaece24"
+  },
+  {
+   "path": "audio/silence/0.5s.opus",
+   "size": 268,
+   "sha256": "dfeb2e1927e7a5315a0129e9f63147ea3221b4ff666dd1c185a29b60afa74d36"
+  },
+  {
+   "path": "audio/silence/1s.opus",
+   "size": 395,
+   "sha256": "224ef1db775ea52174b363ee6f57ba448a01e1335b53fb5a34ff1d56b43deb37"
+  },
+  {
+   "path": "audio/silence/2s.opus",
+   "size": 622,
+   "sha256": "c09474a24f5484d4b33a1fa08b6ed1bfdf3ad62605e5548dc25bbf984792bb13"
+  },
+  {
+   "path": "audio/silence/3s.opus",
+   "size": 849,
+   "sha256": "7f8e9a2d9caaba394d751af624e90127d2e92f6d1b4734e9fa7055ebe5acbe37"
+  },
+  {
+   "path": "content/dialogues/culture-art-museum-1.json",
+   "size": 2452,
+   "sha256": "2f5f83d2cfe310e6a2fc6a904e06eb8c89b51e8a9c8d69ea2c3223b9ff964a20"
+  },
+  {
+   "path": "content/dialogues/culture-art-museum-2.json",
+   "size": 3382,
+   "sha256": "aaa6bf3fd5a9133015b72f58d279e565ffb6583038675532948f760e0dd810af"
+  },
+  {
+   "path": "content/dialogues/culture-art-museum-3.json",
+   "size": 4949,
+   "sha256": "a4036c8763ea71e4dc2f20c9a0dfc5ce6e4aa108152fecde95361cc507b5aecf"
+  },
+  {
+   "path": "content/dialogues/culture-booking-inquiry-1.json",
+   "size": 2647,
+   "sha256": "e3a20c03adf6498d6fea980c14ba31a56543013b70128779daedaf12c81dcbab"
+  },
+  {
+   "path": "content/dialogues/culture-booking-inquiry-2.json",
+   "size": 4097,
+   "sha256": "e50a98cd17ccfcc13b394499994ba75ce05ff3f810abe78805587a4e8e27f7db"
+  },
+  {
+   "path": "content/dialogues/culture-booking-inquiry-3.json",
+   "size": 4831,
+   "sha256": "fc7fabbfde85e2cb598f34e7471a337f69a928b72a9dc3d848868a7fef8ff82e"
+  },
+  {
+   "path": "content/dialogues/culture-cinema-1.json",
+   "size": 2507,
+   "sha256": "81c2d65afa5d32f713b84878a86d229875012b836ea10f8bc8c922ed9481acae"
+  },
+  {
+   "path": "content/dialogues/culture-cinema-2.json",
+   "size": 3420,
+   "sha256": "2b14c224e4fbecf04dfeddcc46d82e6cafab4422d72840d75e8b50ac68e71e25"
+  },
+  {
+   "path": "content/dialogues/culture-cinema-3.json",
+   "size": 4868,
+   "sha256": "1257a3771357afbbc67812af5e997b43478ef5c30a86072fbc3ffd73dc8649b2"
+  },
+  {
+   "path": "content/dialogues/culture-festival-1.json",
+   "size": 2442,
+   "sha256": "dbedbba4f13e5cc452fff19304de85d83f46303d80e08fcd6ff15b08f09d6448"
+  },
+  {
+   "path": "content/dialogues/culture-festival-2.json",
+   "size": 3736,
+   "sha256": "ca8524723b53faa8fadfb16e2bd18995cbacb2ded4c64490be46131c5fb95d0d"
+  },
+  {
+   "path": "content/dialogues/culture-festival-3.json",
+   "size": 5004,
+   "sha256": "bac13497f6b13b234046d3c85c965551ff687168531b99a11dab123b5aaa8eb1"
+  },
+  {
+   "path": "content/dialogues/culture-museum-1.json",
+   "size": 2529,
+   "sha256": "d594a2b29e242d7c0898295e64577001eb5d92e752706664e753b5b8691b4c4a"
+  },
+  {
+   "path": "content/dialogues/culture-museum-2.json",
+   "size": 3257,
+   "sha256": "7c67f3a660b1eeb1a8ef5b6edc7702d1c706e9f034266bdc99f6314c41280137"
+  },
+  {
+   "path": "content/dialogues/culture-museum-3.json",
+   "size": 5012,
+   "sha256": "84a0baf3fea32f55e75183fe829f47c4106849f12105f15d05c7c658bb8aa91d"
+  },
+  {
+   "path": "content/dialogues/culture-one-day-class-1.json",
+   "size": 2556,
+   "sha256": "fb2a5c10b9cbff2edc3e560bf1ed8a29785f820fb1482ae7bce77d38b2ae1983"
+  },
+  {
+   "path": "content/dialogues/culture-one-day-class-2.json",
+   "size": 3568,
+   "sha256": "a7b8e3e7a8df2b4343ae5a5eb0f3ba0df13b57340d40fe54f3a5987aebb23932"
+  },
+  {
+   "path": "content/dialogues/culture-one-day-class-3.json",
+   "size": 4868,
+   "sha256": "a54be7e959aafb738658d01412a4cee6710d13deb062fe33fee47681d3c0f08e"
+  },
+  {
+   "path": "content/dialogues/culture-performance-1.json",
+   "size": 2588,
+   "sha256": "2afb1bbc15c565b06b81ed58a029ba4a51e8f0d52e78159fd2cc58c378696a3b"
+  },
+  {
+   "path": "content/dialogues/culture-performance-2.json",
+   "size": 3498,
+   "sha256": "4a8f75c2ea1d41e29131a5580ff9ad1c1eae5115b6660346a918c0edb22e6756"
+  },
+  {
+   "path": "content/dialogues/culture-performance-3.json",
+   "size": 4753,
+   "sha256": "ba833c0943f4bdf36adde7dc2d6ca7b9287a0e6a07bb3c50df6d04ac8d20644f"
+  },
+  {
+   "path": "content/dialogues/culture-science-museum-1.json",
+   "size": 2623,
+   "sha256": "079490e0d2f03d202a78fad0d97c121fe383508243fe04e7f1b375bde40cf9a1"
+  },
+  {
+   "path": "content/dialogues/culture-science-museum-2.json",
+   "size": 3878,
+   "sha256": "287cd91187fa24c0cae716cc2fe8422157d0e310dccd566008d359577b71f8ed"
+  },
+  {
+   "path": "content/dialogues/culture-science-museum-3.json",
+   "size": 5039,
+   "sha256": "bdbef10e10cb1fe345b24d4d66ad873524f10436e3acb51eb105362a5ee0fa2e"
+  },
+  {
+   "path": "content/dialogues/culture-sports-game-1.json",
+   "size": 2485,
+   "sha256": "e7d86bf8ac5c258f7f5480ca5cc22a9d324a96191a7f89ff25e9d0ad4ab24ad8"
+  },
+  {
+   "path": "content/dialogues/culture-sports-game-2.json",
+   "size": 3891,
+   "sha256": "77ba74bf288dc986ebd5f73cf4ce86d2898f2840b0f1a09ba8a560cdb6548fae"
+  },
+  {
+   "path": "content/dialogues/culture-sports-game-3.json",
+   "size": 4774,
+   "sha256": "092deb976d2f42101c82b3783e82e3185f8d815fcf80f2e1a30372fdc18bb2ff"
+  },
+  {
+   "path": "content/dialogues/culture-theme-park-zoo-1.json",
+   "size": 2542,
+   "sha256": "ea5f51fefd412cb6a173a889fba5d59f03e4f2a56b7960a125888934ecaace55"
+  },
+  {
+   "path": "content/dialogues/culture-theme-park-zoo-2.json",
+   "size": 4471,
+   "sha256": "68bc3e6ac8e67f2dd971a8877a024b7d912561300836cb4e5177f4ebd5665bd6"
+  },
+  {
+   "path": "content/dialogues/culture-theme-park-zoo-3.json",
+   "size": 5191,
+   "sha256": "8e7e4740085498d20686ae94a9be6f17967b48ab3e2972fe64fa934b6249006b"
+  },
+  {
+   "path": "content/dialogues/daily-bank-1.json",
+   "size": 2517,
+   "sha256": "bd4f02ae7a02b8b12d3f3d6bfe30d3fd886f3fb28d76dc8e98c9a2ff1c6937b1"
+  },
+  {
+   "path": "content/dialogues/daily-bank-2.json",
+   "size": 4012,
+   "sha256": "95f0269f882ae19b7e4cc8d94c2e77b49616d21f8ec1e3c41b37eed7d9107368"
+  },
+  {
+   "path": "content/dialogues/daily-bank-3.json",
+   "size": 5295,
+   "sha256": "c2a5c6c88b9e38347790f4dff8f2e1dd50c4e897eadf793abcbf196065dc3196"
+  },
+  {
+   "path": "content/dialogues/daily-cafe-1.json",
+   "size": 2287,
+   "sha256": "c15071d13c2b37d6fb5260b03b63bc5bf931772a7e0a315529c4750d1baeb4ae"
+  },
+  {
+   "path": "content/dialogues/daily-cafe-2.json",
+   "size": 3573,
+   "sha256": "aa4ca53470a1145afb468b85775a1d6caad3e2c30204085ac603265854bef4ab"
+  },
+  {
+   "path": "content/dialogues/daily-cafe-3.json",
+   "size": 4602,
+   "sha256": "1e58c0c18af4af1ba97837871cfe1468312db827d4200216232581dae4e72ac7"
+  },
+  {
+   "path": "content/dialogues/daily-checkout-1.json",
+   "size": 2371,
+   "sha256": "76a75e7b0a8f5be77d0d4f679a3be3e64075d72d190c260be449202900cea9a8"
+  },
+  {
+   "path": "content/dialogues/daily-checkout-2.json",
+   "size": 3802,
+   "sha256": "9750c9edec8e5d58ee4a34ea74457d48190ab64c8ad5addd9b3e4951c5943461"
+  },
+  {
+   "path": "content/dialogues/daily-checkout-3.json",
+   "size": 4599,
+   "sha256": "2af8bcdb8050a8dac1e5087792c940186fc17d2cb89e2e3e73f2ab0037917128"
+  },
+  {
+   "path": "content/dialogues/daily-clothes-shop-1.json",
+   "size": 2437,
+   "sha256": "bcca0add265df03b354e47a3338c75f5967b4e453d1fcf490e46093aa15eeeaa"
+  },
+  {
+   "path": "content/dialogues/daily-clothes-shop-2.json",
+   "size": 3521,
+   "sha256": "2eb226196ba88810965d175f7ef921bbb9a5ae907a8f4ae53a7b597e578a345d"
+  },
+  {
+   "path": "content/dialogues/daily-clothes-shop-3.json",
+   "size": 4787,
+   "sha256": "61d51d958eb2aed8422e74777686b25d79d3dd6c00f0d1833bc60e3d0cb14fe6"
+  },
+  {
+   "path": "content/dialogues/daily-doctor-1.json",
+   "size": 2279,
+   "sha256": "895acb12dc1136c79e935c576f45bc85a38e2a7bb16fa2669eb928e85a2a7b64"
+  },
+  {
+   "path": "content/dialogues/daily-doctor-2.json",
+   "size": 3781,
+   "sha256": "a40103a1fa2e6b11a2ad2d25e3841f9c7dd407496bd23cb9f62842d0d458c942"
+  },
+  {
+   "path": "content/dialogues/daily-doctor-3.json",
+   "size": 4910,
+   "sha256": "075c46c1fa0945d9adeb7be14b0beadae99215e1bcf7b15e3db80041bfb6ec54"
+  },
+  {
+   "path": "content/dialogues/daily-exchange-refund-1.json",
+   "size": 2597,
+   "sha256": "77964ece085c2cd3f2886a8f8b8917d8a9a40a197f5342dbe5dd0ed63dc9c2f7"
+  },
+  {
+   "path": "content/dialogues/daily-exchange-refund-2.json",
+   "size": 3932,
+   "sha256": "4550a5bf02bbaae31afdf0fa07bcc7fc2419f244072044bd5cbf3f3823672f2c"
+  },
+  {
+   "path": "content/dialogues/daily-exchange-refund-3.json",
+   "size": 4932,
+   "sha256": "8a3268aac5f32b2a986b99fe543b164036d77ec01e552e41a8cf49be715029de"
+  },
+  {
+   "path": "content/dialogues/daily-hair-salon-1.json",
+   "size": 2428,
+   "sha256": "2dc5048ac37f57c531c3d7b926eb6a2da0d16fddfdec22e94f6b82db0e6534ab"
+  },
+  {
+   "path": "content/dialogues/daily-hair-salon-2.json",
+   "size": 3637,
+   "sha256": "db78287ef769cc1123815ed308a6ce5106b4b11ca868263b4c96faa16d0ade1c"
+  },
+  {
+   "path": "content/dialogues/daily-hair-salon-3.json",
+   "size": 4792,
+   "sha256": "935ee9cfb11b6270b926f613aeb13d07f50cbacbfb121b010f9f7c2807adacba"
+  },
+  {
+   "path": "content/dialogues/daily-library-1.json",
+   "size": 2952,
+   "sha256": "b6a7ac8dd163368ce47f4f8d6ab37171ed9c05432c1903aa621d13656a78ca5e"
+  },
+  {
+   "path": "content/dialogues/daily-library-2.json",
+   "size": 3834,
+   "sha256": "d93875567f076a42c70bc4780f1c48c93ee8b7a55707091d1ad34355a58ebfba"
+  },
+  {
+   "path": "content/dialogues/daily-library-3.json",
+   "size": 5333,
+   "sha256": "a91410ea626fe0cd6d3357748acc31058de6c716403c8d8f544d35e98ed38897"
+  },
+  {
+   "path": "content/dialogues/daily-neighbors-1.json",
+   "size": 2506,
+   "sha256": "8fa3f9e68e3235945b63335d2a82f658f00fec27829b0d604a74d28683875b0f"
+  },
+  {
+   "path": "content/dialogues/daily-neighbors-2.json",
+   "size": 4009,
+   "sha256": "8eed4dace5260b758dd89065b2fd10e886105be43c75663092a9a3333f72eeb7"
+  },
+  {
+   "path": "content/dialogues/daily-neighbors-3.json",
+   "size": 5103,
+   "sha256": "c306404ad188be3c1a6d5af3dc0b7b58f68da089be65bf35e2230f4e24f1ae37"
+  },
+  {
+   "path": "content/dialogues/daily-pharmacy-1.json",
+   "size": 2406,
+   "sha256": "096ddf9753c8c7f19fc86076b977a30f67842be8433e10b3b6ef637ead9baf95"
+  },
+  {
+   "path": "content/dialogues/daily-pharmacy-2.json",
+   "size": 3582,
+   "sha256": "43d967d1bf90ea77b2cd2ab59977ada15f0bf6cf6e4b86c64dcad7c397984c1e"
+  },
+  {
+   "path": "content/dialogues/daily-pharmacy-3.json",
+   "size": 4859,
+   "sha256": "9e338d7f6a04a49a310757307499dbc35aeea8333427266d9e3905fe30163736"
+  },
+  {
+   "path": "content/dialogues/daily-post-office-1.json",
+   "size": 2423,
+   "sha256": "a7e05942a218794925da6d7b0df41ceab3eee7da4321f3f6167260af31fb2239"
+  },
+  {
+   "path": "content/dialogues/daily-post-office-2.json",
+   "size": 3834,
+   "sha256": "0c6fd9df34958e2255f57ca952f239ba44aa1a0f7c7a33355d4a76b4439a298f"
+  },
+  {
+   "path": "content/dialogues/daily-post-office-3.json",
+   "size": 4833,
+   "sha256": "7a24cc67e652cd7ce28322400262e8d1ec74d2b823a32747f8c51a314c7a1a2a"
+  },
+  {
+   "path": "content/dialogues/school-classroom-english-1.json",
+   "size": 2706,
+   "sha256": "575c1279fd84440be9cb61775f7d45d682d7cbe16530ce8c402a210c9637adfe"
+  },
+  {
+   "path": "content/dialogues/school-classroom-english-2.json",
+   "size": 3678,
+   "sha256": "9669838af808ac3eee615320fa721da2ae063ad045c155b5035814ff2e14115d"
+  },
+  {
+   "path": "content/dialogues/school-classroom-english-3.json",
+   "size": 4526,
+   "sha256": "63f795b01ec6ad08febfc27632cd131fea003a32f15990a2c7997e151cae015f"
+  },
+  {
+   "path": "content/dialogues/school-co-planning-1.json",
+   "size": 2479,
+   "sha256": "ce1459ad7f491c8f163862482a0f5a7fc06e980a55bf536c5afbb3c5f092e7ac"
+  },
+  {
+   "path": "content/dialogues/school-co-planning-2.json",
+   "size": 3919,
+   "sha256": "669a20127a64783fb2730c08bc1ff3688ccc57d5758f703cc8293a3c206e6ff6"
+  },
+  {
+   "path": "content/dialogues/school-co-planning-3.json",
+   "size": 4931,
+   "sha256": "ec983ecf7973dcd3e0c697afedd70128371f9ad131e813e768371eac829892b7"
+  },
+  {
+   "path": "content/dialogues/school-conference-1.json",
+   "size": 2467,
+   "sha256": "16a0dae82a93e75438bb44208b4f6a198788ff3d086719085eab33f49cc6de36"
+  },
+  {
+   "path": "content/dialogues/school-conference-2.json",
+   "size": 3486,
+   "sha256": "53627b48110b40c4e8a13df3ab7e6761b3f49b67d8decf60ce3bfb1e9ee6ef8f"
+  },
+  {
+   "path": "content/dialogues/school-conference-3.json",
+   "size": 4722,
+   "sha256": "f0c0ed3790f7383d8263ee3eb18ced90f85be16b46390e7450dd5a77e5024e22"
+  },
+  {
+   "path": "content/dialogues/school-exchange-video-class-1.json",
+   "size": 2767,
+   "sha256": "794301f21d9ea43d77106adc9a1614f36d5112f012bd64f1687891223dbb5f22"
+  },
+  {
+   "path": "content/dialogues/school-exchange-video-class-2.json",
+   "size": 4222,
+   "sha256": "e200a3caf8b0d995c1121c93b9866a6e18b5e7874474addaa016fa7783fad497"
+  },
+  {
+   "path": "content/dialogues/school-exchange-video-class-3.json",
+   "size": 5133,
+   "sha256": "525d5913640bdb8501f9fa0c2ea1b7669a177c42f8f9f6248cd6c372deebe006"
+  },
+  {
+   "path": "content/dialogues/school-meet-native-teacher-1.json",
+   "size": 2735,
+   "sha256": "ded2149763f014363b3436bd5bf097e71862a06654c081d1ed2b6a5d5080aa51"
+  },
+  {
+   "path": "content/dialogues/school-meet-native-teacher-2.json",
+   "size": 4178,
+   "sha256": "7e910ebf6c4f2076cf1b59511af3a814074fd3895f03aac6f14d2ff3ae8de9e8"
+  },
+  {
+   "path": "content/dialogues/school-meet-native-teacher-3.json",
+   "size": 5429,
+   "sha256": "8c4a5375006112d4594d0b5a0e172005cfe9c14cfbd519abfa893e9215244f35"
+  },
+  {
+   "path": "content/dialogues/school-observation-feedback-1.json",
+   "size": 2513,
+   "sha256": "9d149094dacb9e4bdf5b92fea14d48061efe50c29f63617d2adf944022c26f8d"
+  },
+  {
+   "path": "content/dialogues/school-observation-feedback-2.json",
+   "size": 3789,
+   "sha256": "5fbb79945b872f87ec04492ae36e3bdacaccab572306fc1b6c0ae7fa961daa54"
+  },
+  {
+   "path": "content/dialogues/school-observation-feedback-3.json",
+   "size": 5013,
+   "sha256": "20b1aff71aa43666489d375e1f0b3d5bba8e1dc9a7d7cab4c823391c3f419a8a"
+  },
+  {
+   "path": "content/dialogues/school-parent-meeting-1.json",
+   "size": 2679,
+   "sha256": "4787a10acc39b9f90e33c5274d96a1c0c8e6e5f8b57e776ebb186ae4a6a188c0"
+  },
+  {
+   "path": "content/dialogues/school-parent-meeting-2.json",
+   "size": 3921,
+   "sha256": "a9c7571b252005031016d1eb36bf08f6cd21f0deef5a57c23d906db1e5629ee7"
+  },
+  {
+   "path": "content/dialogues/school-parent-meeting-3.json",
+   "size": 5280,
+   "sha256": "a2bb3d65174e30a049253d6b35e8dd035daf569a651f78d3f026bb4974e403b3"
+  },
+  {
+   "path": "content/dialogues/school-school-visit-1.json",
+   "size": 2586,
+   "sha256": "f493ea78b6b0815ca0c0872c5a633e08852622e43a7bcc6188c28e48d6c3961d"
+  },
+  {
+   "path": "content/dialogues/school-school-visit-2.json",
+   "size": 3818,
+   "sha256": "3626f7b63eb3d4962baa60cf26b97fd842ac33dae3ca279a5855a37e8817d4f1"
+  },
+  {
+   "path": "content/dialogues/school-school-visit-3.json",
+   "size": 5483,
+   "sha256": "1cd8c1edd38c7bb8a71025d520b1c6675f2580ffb5584b02d3bd2ac9379cb99c"
+  },
+  {
+   "path": "content/dialogues/school-student-counseling-1.json",
+   "size": 2647,
+   "sha256": "4a89637daca64703a358b1bb5c8ed7e146b6310f20b0502e12d7e619d793f2c2"
+  },
+  {
+   "path": "content/dialogues/school-student-counseling-2.json",
+   "size": 4072,
+   "sha256": "5ef0201ed21fda7af67a3f9cf504fbe5930ee506b10b6e96e1c8b0b25607ed13"
+  },
+  {
+   "path": "content/dialogues/school-student-counseling-3.json",
+   "size": 4716,
+   "sha256": "652c555ce03e8d01e9010b1e4055e793a6509c89becd17efe8e528c012316e94"
+  },
+  {
+   "path": "content/dialogues/school-welcome-student-1.json",
+   "size": 2521,
+   "sha256": "763e6358e0ec4db0f4f2a6897634e94ca3f2d9919e29ac912bc4621588db6133"
+  },
+  {
+   "path": "content/dialogues/school-welcome-student-2.json",
+   "size": 3978,
+   "sha256": "3ed7e8f7f689bdacca928708e1079703115d83629090a7a2181d4c12ed2238b3"
+  },
+  {
+   "path": "content/dialogues/school-welcome-student-3.json",
+   "size": 4836,
+   "sha256": "e63e1ec46d59f6e9537de64f3c3491ebf2cb6b2165c2d3343a54c42805b09460"
+  },
+  {
+   "path": "content/dialogues/social-apologies-1.json",
+   "size": 2527,
+   "sha256": "7a96ee563575891d5457139e793a1db2e91e5093e838e0f250dc54fab9ca2d08"
+  },
+  {
+   "path": "content/dialogues/social-apologies-2.json",
+   "size": 3778,
+   "sha256": "b10ff52902f0f9f4497b5837230b42d5c7e2a4aab1db8f63ca68d06a22cfdcae"
+  },
+  {
+   "path": "content/dialogues/social-apologies-3.json",
+   "size": 4847,
+   "sha256": "50716de2051222814f8a7ac6b33104fecc5b5ce97eeccf745f6162b39bad9f45"
+  },
+  {
+   "path": "content/dialogues/social-compliments-thanks-1.json",
+   "size": 2438,
+   "sha256": "56b9231f0f63a23cc32bab024b580d532fa420aedb58ebb0f43f6940a5aeb44f"
+  },
+  {
+   "path": "content/dialogues/social-compliments-thanks-2.json",
+   "size": 3769,
+   "sha256": "6af5ce47ea179279dc51b3fd6a1bd4e031a842f207e1741dde47d7358314ee72"
+  },
+  {
+   "path": "content/dialogues/social-compliments-thanks-3.json",
+   "size": 4988,
+   "sha256": "b4e880a16451ca49ab7e33777cd34d49d15ea3feba1a027ceb16c056fd6867b0"
+  },
+  {
+   "path": "content/dialogues/social-feelings-1.json",
+   "size": 2400,
+   "sha256": "62fd85f14a2b2a2514bde49d910550975a36c59d202dc1e6c2ea6d8087e70ef5"
+  },
+  {
+   "path": "content/dialogues/social-feelings-2.json",
+   "size": 3786,
+   "sha256": "437b0408481106cfedbe7675f72b27f38795de0b5932e2a55608afd2e6bbd6a9"
+  },
+  {
+   "path": "content/dialogues/social-feelings-3.json",
+   "size": 4510,
+   "sha256": "2ebdec63ceff60c0ece4030304cce4dd7c541e50a759c59003995e1748a9874f"
+  },
+  {
+   "path": "content/dialogues/social-food-talk-1.json",
+   "size": 2580,
+   "sha256": "9a54831c05361aabb5fc82108e5614815dda27091f48924fd300e2603401d3d7"
+  },
+  {
+   "path": "content/dialogues/social-food-talk-2.json",
+   "size": 3573,
+   "sha256": "a6f3c5c48653644b0abacbbb557749db5ea7748b7b496b9cfcad046308d0cf7f"
+  },
+  {
+   "path": "content/dialogues/social-food-talk-3.json",
+   "size": 5078,
+   "sha256": "c80f41ddeea2f90fb086a2c02aa3a0900110692f45485864acd18bf176a39060"
+  },
+  {
+   "path": "content/dialogues/social-hobbies-1.json",
+   "size": 2567,
+   "sha256": "fe2505fe27c22cae129a3600d9d94f3b0a596e46ef5675ad6d3dc26804ef9dc2"
+  },
+  {
+   "path": "content/dialogues/social-hobbies-2.json",
+   "size": 3356,
+   "sha256": "7eb7e108d19ab49815e8a0d60b1d2374551aea669a6653d17fdf66d8cab3a730"
+  },
+  {
+   "path": "content/dialogues/social-hobbies-3.json",
+   "size": 4717,
+   "sha256": "df11c3c088a70c3fc9eb4174a640763b8c9520258be254aa824a4e6f11df9996"
+  },
+  {
+   "path": "content/dialogues/social-introductions-1.json",
+   "size": 2573,
+   "sha256": "cb8175355ed2f7a0366999352e5614ce06da45492b8e6064f752bebc7708cb98"
+  },
+  {
+   "path": "content/dialogues/social-introductions-2.json",
+   "size": 3687,
+   "sha256": "66db5ba34cb90e4f4e1fc0896de567edb7e08bc3660ab4a49a2f1800b67252eb"
+  },
+  {
+   "path": "content/dialogues/social-introductions-3.json",
+   "size": 4894,
+   "sha256": "23bf15ba793e7372242bcc2bc3b787ccbe0cba545902cc69a5c8156bae263ff7"
+  },
+  {
+   "path": "content/dialogues/social-invitations-1.json",
+   "size": 2345,
+   "sha256": "4ea8c4fb9ac3abc0331bc129850a5bf615c2b5bac2166d8a62f07c4c7d35f9d4"
+  },
+  {
+   "path": "content/dialogues/social-invitations-2.json",
+   "size": 3419,
+   "sha256": "97a633d03aae56cdf5bfb6959bc676ed4fe6ac5c9b00a396b0603533db3a156f"
+  },
+  {
+   "path": "content/dialogues/social-invitations-3.json",
+   "size": 4707,
+   "sha256": "58529ddfa142a5746ef175caebaab8242f856f76e29a8b7e5b6b38b4354dcc34"
+  },
+  {
+   "path": "content/dialogues/social-keep-in-touch-1.json",
+   "size": 2676,
+   "sha256": "20acae520c2670a628dd35d5651c3824683d33b6ee7e6a2f778c42a57a6395e9"
+  },
+  {
+   "path": "content/dialogues/social-keep-in-touch-2.json",
+   "size": 3332,
+   "sha256": "7430b37810699f12ee962978d48224b06faa6bdd10d4413ab1fff244372aa681"
+  },
+  {
+   "path": "content/dialogues/social-keep-in-touch-3.json",
+   "size": 4518,
+   "sha256": "8172deac8d012fe40f4783ecb9fedbbd2cb5ca97f5d5d77de01b11b9fa4df1b1"
+  },
+  {
+   "path": "content/dialogues/social-small-talk-1.json",
+   "size": 2455,
+   "sha256": "4eae9f4585d98a8ef9d770d153a8486250e4efad04eefb09d824714cd6359876"
+  },
+  {
+   "path": "content/dialogues/social-small-talk-2.json",
+   "size": 3451,
+   "sha256": "1bbabffcb9be67a2244b23c6f463bb9de46048ff9adf9dd13137d3b674aca9db"
+  },
+  {
+   "path": "content/dialogues/social-small-talk-3.json",
+   "size": 4697,
+   "sha256": "86d3bc066cd238407817a14e23c116af733c354a2c2b6325ac5c1126adf34f37"
+  },
+  {
+   "path": "content/dialogues/social-weekend-plans-1.json",
+   "size": 2482,
+   "sha256": "e25b5841d7295d4921bec34d2bc54304ed8e1935442c73846db45c55b125525b"
+  },
+  {
+   "path": "content/dialogues/social-weekend-plans-2.json",
+   "size": 3692,
+   "sha256": "855be2a1d962e73dda67faf009fcee9438bee80a0388dcd27069c82c5e4f74b5"
+  },
+  {
+   "path": "content/dialogues/social-weekend-plans-3.json",
+   "size": 4560,
+   "sha256": "d5ab144b67aad4a50dd72bde40c9e1c974a1eace10a0ed605dd476be27052e9f"
+  },
+  {
+   "path": "content/dialogues/travel-airport-checkin-1.json",
+   "size": 2344,
+   "sha256": "9bb431b590b33176669cf3298529b9d4db748d46b5d39db99f7c4db693f0f37c"
+  },
+  {
+   "path": "content/dialogues/travel-airport-checkin-2.json",
+   "size": 3346,
+   "sha256": "3dcba9b7cce4a5e5180a7159570be473096c02fbe695eb45d096711f61d973d9"
+  },
+  {
+   "path": "content/dialogues/travel-airport-checkin-3.json",
+   "size": 4491,
+   "sha256": "2adb41240165c236520afca2f2bb31997c06be744ae857bbb278699658cf53f7"
+  },
+  {
+   "path": "content/dialogues/travel-directions-1.json",
+   "size": 2052,
+   "sha256": "03b455b88562ba625b8e68af82ba7f4653eb6ca0b8bf74e9522fc37a76939102"
+  },
+  {
+   "path": "content/dialogues/travel-directions-2.json",
+   "size": 3061,
+   "sha256": "e19e0e55358bf1e2f700c15c985cf591774bea99ef38744cc4f8271f38dbed78"
+  },
+  {
+   "path": "content/dialogues/travel-directions-3.json",
+   "size": 4410,
+   "sha256": "efabc1daf7dd04ac704993578abc8d2943d3ddefedaf25cde9b991fef975a30e"
+  },
+  {
+   "path": "content/dialogues/travel-hotel-checkin-1.json",
+   "size": 2233,
+   "sha256": "93484bcea818f3107bd632fb0863ce93b387d0dcbcfb7e6d26c9ecc668456f94"
+  },
+  {
+   "path": "content/dialogues/travel-hotel-checkin-2.json",
+   "size": 3424,
+   "sha256": "430fea8d7d502a2ded43d218e50ad678485f97577766824313dab399465b1978"
+  },
+  {
+   "path": "content/dialogues/travel-hotel-checkin-3.json",
+   "size": 4441,
+   "sha256": "2975d5765589aa1a2b0191005c887f543b46269fcabbf6b21d70b5a67aa733a0"
+  },
+  {
+   "path": "content/dialogues/travel-hotel-problem-1.json",
+   "size": 2141,
+   "sha256": "0a6c2d24be600d9295f05440487303713c70c2a7a1e8964634e3b55f2a479ef3"
+  },
+  {
+   "path": "content/dialogues/travel-hotel-problem-2.json",
+   "size": 3384,
+   "sha256": "441b9dc4f61bb655450ce16efa58b8eb836b6c66f6a942582403eed4ae483f46"
+  },
+  {
+   "path": "content/dialogues/travel-hotel-problem-3.json",
+   "size": 4700,
+   "sha256": "c72d0fe72517f0c974f294370b753cd4dce9ee5373b19f2af047fb8486c6f2db"
+  },
+  {
+   "path": "content/dialogues/travel-immigration-1.json",
+   "size": 2001,
+   "sha256": "b5b09fa5a9aca49b0d05fc6abd8dfbaf66105c40d211cc417b500a21b3c702d7"
+  },
+  {
+   "path": "content/dialogues/travel-immigration-2.json",
+   "size": 3228,
+   "sha256": "f319e8b37b2d4262d0f1e46a0d07464ca6703f8187aacef6c49e621422ac7840"
+  },
+  {
+   "path": "content/dialogues/travel-immigration-3.json",
+   "size": 4115,
+   "sha256": "3ba6d4baa1d1163e81ffe9ce6ae74213a012c4d75b9ff10230d2aea871c25d93"
+  },
+  {
+   "path": "content/dialogues/travel-in-flight-1.json",
+   "size": 1891,
+   "sha256": "183634c332821030d6cb420eb326d7dc054633adefe81a3a752dddb94e304864"
+  },
+  {
+   "path": "content/dialogues/travel-in-flight-2.json",
+   "size": 3125,
+   "sha256": "cbc7ef71a578664bfaac38e6dae2de37f4a71c914413a1ecfde58ce37246d9e9"
+  },
+  {
+   "path": "content/dialogues/travel-in-flight-3.json",
+   "size": 4300,
+   "sha256": "8f173ccd8c8178d3176bde7c948ddc1701857dcc3e3f8f21c68c556364d86bfc"
+  },
+  {
+   "path": "content/dialogues/travel-lost-help-1.json",
+   "size": 2242,
+   "sha256": "6218e562840c51b00e9572c40e579986e5256095b3513dc2e3a1fcaf242e6127"
+  },
+  {
+   "path": "content/dialogues/travel-lost-help-2.json",
+   "size": 3166,
+   "sha256": "03a1d4278c3797f5a3ce249392837b16b215a2133b35ed40d7b97cba91cfbcf3"
+  },
+  {
+   "path": "content/dialogues/travel-lost-help-3.json",
+   "size": 4294,
+   "sha256": "c40d6aa9bac4c59074f8d348bddb7c2fecccb38056ae8da85dca9e08a4808da1"
+  },
+  {
+   "path": "content/dialogues/travel-restaurant-1.json",
+   "size": 2104,
+   "sha256": "a52e3d65c4459fdede6a17023776c74f93fd02224b32ca97bb0cea637deb5d41"
+  },
+  {
+   "path": "content/dialogues/travel-restaurant-2.json",
+   "size": 3433,
+   "sha256": "cb1770bfbb17f1edd37622798da200b7c0c786a2d44a174fe4aec016e39f885a"
+  },
+  {
+   "path": "content/dialogues/travel-restaurant-3.json",
+   "size": 3930,
+   "sha256": "8049112316e427ed9452f105c07428924e6c7bc31989e2ea6e2e04a1090f56b0"
+  },
+  {
+   "path": "content/dialogues/travel-tour-tickets-1.json",
+   "size": 2135,
+   "sha256": "8d13ba0fdfe5441f3fa427991c1fdad0992ffccc9deb050320bfe827bacdf7dc"
+  },
+  {
+   "path": "content/dialogues/travel-tour-tickets-2.json",
+   "size": 3394,
+   "sha256": "3a323a48edba8d379de01620bc2fb93090dde3fb1d7e6bf17c4e689cf62144d9"
+  },
+  {
+   "path": "content/dialogues/travel-tour-tickets-3.json",
+   "size": 4522,
+   "sha256": "d343bf53de1b44632f985c406137f7ca79c08bcdafd3462aaf54a3afbb10854b"
+  },
+  {
+   "path": "content/dialogues/travel-transport-1.json",
+   "size": 2220,
+   "sha256": "727049678643aa6e91bc2642176d464aaaa12ada32f4b964ace686c66c25efd4"
+  },
+  {
+   "path": "content/dialogues/travel-transport-2.json",
+   "size": 3004,
+   "sha256": "2ecc5433eaa15e21f3259612ce59f64dbe322c441f6656ec262f5f27c5e30457"
+  },
+  {
+   "path": "content/dialogues/travel-transport-3.json",
+   "size": 3566,
+   "sha256": "571a257e94f80d39a938f7a2a7a3d2388e1d0a4899387c90003b6dcc1cfb8699"
+  },
+  {
+   "path": "content/dialogues/work-asking-favors-1.json",
+   "size": 2577,
+   "sha256": "aeea9d78a82ce39607faac0661667054a6df54a023b9b99b68718f881a3c2471"
+  },
+  {
+   "path": "content/dialogues/work-asking-favors-2.json",
+   "size": 4115,
+   "sha256": "d5247c49d444dc73d293ed06f56d50eefc59507e4eba6bcb74a5f2c7a0010fb1"
+  },
+  {
+   "path": "content/dialogues/work-asking-favors-3.json",
+   "size": 4970,
+   "sha256": "e0cf02b3adea6fb2026cf9b780e455a5c21c1b99656b423e35715f16084b751d"
+  },
+  {
+   "path": "content/dialogues/work-hosting-visitors-1.json",
+   "size": 2538,
+   "sha256": "2327ccc71f34bd80c8b53ba1563fc71a76a2588cec43b805c9b8b41e8845ccd2"
+  },
+  {
+   "path": "content/dialogues/work-hosting-visitors-2.json",
+   "size": 3853,
+   "sha256": "7496cb57ce24273e5bd83cdabb646e3c88629e2b9788503e52aa783a6676650b"
+  },
+  {
+   "path": "content/dialogues/work-hosting-visitors-3.json",
+   "size": 4984,
+   "sha256": "082e29cf8abadc0fceb269b0303012cc831aabd7a31a84aed7b6fe8c05ba894e"
+  },
+  {
+   "path": "content/dialogues/work-meetings-1.json",
+   "size": 2559,
+   "sha256": "480df6b96d8f3b92904a333439e8e88a9730bbd258fca857fe3c9aea884f94de"
+  },
+  {
+   "path": "content/dialogues/work-meetings-2.json",
+   "size": 3815,
+   "sha256": "2ac5b13f7e80023182bed58d6258786443b059a2be5790729f957add79b9cfef"
+  },
+  {
+   "path": "content/dialogues/work-meetings-3.json",
+   "size": 4925,
+   "sha256": "169e2f6fb2fc43bcac9fecbf778ea4b4a793e8086ca77134a571d89a9baccf9e"
+  },
+  {
+   "path": "content/dialogues/work-phone-booking-1.json",
+   "size": 2601,
+   "sha256": "4024a86611d575e7661d498c7cab77897640d33884374af349b8f60fd490e2c5"
+  },
+  {
+   "path": "content/dialogues/work-phone-booking-2.json",
+   "size": 4116,
+   "sha256": "91d8990cc32bd023107184629e693277db051704244ad5f8f23d18ffea631d4e"
+  },
+  {
+   "path": "content/dialogues/work-phone-booking-3.json",
+   "size": 5232,
+   "sha256": "e77dceb49dd36a5484858d5c646c7986fc42fc45db8ef417d2795cf645accc16"
+  },
+  {
+   "path": "content/dialogues/work-phone-messages-1.json",
+   "size": 2738,
+   "sha256": "df3da011108943f71cb435d3bb2bbbaaa6a6056410f07938e29358c0ee469401"
+  },
+  {
+   "path": "content/dialogues/work-phone-messages-2.json",
+   "size": 4101,
+   "sha256": "a6ac444eea79152e465f29cccd8d8446659408f0b677202f40da77294d33ef86"
+  },
+  {
+   "path": "content/dialogues/work-phone-messages-3.json",
+   "size": 5218,
+   "sha256": "2d15e7ceeb2922ff0b89fb2fd9af24331fc8dd856e0902d8569f6b52db8f2986"
+  },
+  {
+   "path": "content/dialogues/work-progress-check-1.json",
+   "size": 2483,
+   "sha256": "5353b1fc25aa2de1d8d19d9fdd717913098e7bce3abac3edbcdc0a990334e781"
+  },
+  {
+   "path": "content/dialogues/work-progress-check-2.json",
+   "size": 3693,
+   "sha256": "239fb55255a3ad0623f4e08bc0ac84a10755a8ad4f3d08d18e679ef4adde91e9"
+  },
+  {
+   "path": "content/dialogues/work-progress-check-3.json",
+   "size": 5065,
+   "sha256": "b86eab3e91b66785cc2d404c9d3248f4c6ca05995670e394539bd629cf302e7c"
+  },
+  {
+   "path": "content/dialogues/work-reporting-problems-1.json",
+   "size": 2379,
+   "sha256": "65e19028dc793ee298140be2141b70b0f21589972fd6cd349cc94106056c3d90"
+  },
+  {
+   "path": "content/dialogues/work-reporting-problems-2.json",
+   "size": 3914,
+   "sha256": "b31202e74530124069d7134fcb3aedb2ba5dc4d7c6550fe4fc0f56da1df873d8"
+  },
+  {
+   "path": "content/dialogues/work-reporting-problems-3.json",
+   "size": 5263,
+   "sha256": "0ad709037c8035631644a601c0f39f3140d4821b350ad99ca8888c4e8151698d"
+  },
+  {
+   "path": "content/dialogues/work-scheduling-1.json",
+   "size": 2564,
+   "sha256": "776db895eeff6514ac1389ebd3a56193d54739bb37a33b5c2a80fcc4d6d2bed5"
+  },
+  {
+   "path": "content/dialogues/work-scheduling-2.json",
+   "size": 4107,
+   "sha256": "148af37d110151bfb34c27d3ae21b8b39c0ee09a74ce00aef868336c88f1aa07"
+  },
+  {
+   "path": "content/dialogues/work-scheduling-3.json",
+   "size": 4996,
+   "sha256": "f32ab5481eabe2baa6d0299a2832e459b1d0f9ad024ae77a03be301696571a45"
+  },
+  {
+   "path": "content/dialogues/work-time-off-1.json",
+   "size": 2369,
+   "sha256": "2d8f83d3e072c004f23fc89d9f458e669ae9403c15a18afb51d5e5eec680bf6b"
+  },
+  {
+   "path": "content/dialogues/work-time-off-2.json",
+   "size": 4125,
+   "sha256": "305148784ed0ae99acf72f3166c3ccb1989213708a2491902b97e4de54c3303f"
+  },
+  {
+   "path": "content/dialogues/work-time-off-3.json",
+   "size": 5166,
+   "sha256": "ab8d26908270e2556dbb981f4acaf072ef77b040dcf7c450b079abca31e5ef88"
+  },
+  {
+   "path": "content/dialogues/work-video-call-issues-1.json",
+   "size": 2382,
+   "sha256": "2d990fe570b1f740b6cfa2e5b2a8f2c73334e7949f2903f65e1b47ca73f85169"
+  },
+  {
+   "path": "content/dialogues/work-video-call-issues-2.json",
+   "size": 3358,
+   "sha256": "0f2f3a8ab11b5374c1b62e531f1127a695617ee1e6b48258b8e85ec58329ff0b"
+  },
+  {
+   "path": "content/dialogues/work-video-call-issues-3.json",
+   "size": 4840,
+   "sha256": "bcf267cf0be72dd3f9f38a69973715d461c34fd0af2819c4874e18609cfd263a"
+  },
+  {
+   "path": "content/situations.json",
+   "size": 11832,
+   "sha256": "57bafa517f8f665bd4701492c98e985c6e12a541c49d4aa60009f6e1e77fe9bc"
+  },
+  {
+   "path": "content/voices.json",
+   "size": 978,
+   "sha256": "6ad74df838676a23b4be21d092485e644af018ec72e9102032d18290e5d8f4e7"
+  },
+  {
+   "path": "css/app.css",
+   "size": 30705,
+   "sha256": "93eaa9a2acea230b45e0ad42e2d4e8822069452886a3f8fd0f97a5d66af4cc98"
+  },
+  {
+   "path": "guide.html",
+   "size": 9341,
+   "sha256": "2f78ea06d3aac2a80554ed3f0f933ed4b9cfc85977241a9f519304ebe8a474ad"
+  },
+  {
+   "path": "icons/icon-192.png",
+   "size": 10015,
+   "sha256": "326931770c15289e7ecef8b81899c8f71fc7d361ec9acec19a788f57fe79ee7d"
+  },
+  {
+   "path": "icons/icon-512.png",
+   "size": 26626,
+   "sha256": "ddc9709cd478d6854697eab18408390bbd888e3192976f777c19ae9f585921a6"
+  },
+  {
+   "path": "icons/icon-maskable-512.png",
+   "size": 16232,
+   "sha256": "ee5f72574f1d81c32431e89a04db21435f28158c2a8c71f95a5094736d01df24"
+  },
+  {
+   "path": "icons/icon.svg",
+   "size": 510,
+   "sha256": "aa2f661f632e740f05457d9f9d7839c0f0a7529855496e43a83341f555d023cf"
+  },
+  {
+   "path": "index.html",
+   "size": 1778,
+   "sha256": "04c4cff8f6c3c120635ad70dc02ed3c88c81c5185f3b12db469deba5f91dea7d"
+  },
+  {
+   "path": "js/ai/prompts.js",
+   "size": 13233,
+   "sha256": "3bb282ffeb88ed6200c1384e05ad9056e9f460424e4ca1262005ab0b9dcbe66d"
+  },
+  {
+   "path": "js/ai/providers.js",
+   "size": 8902,
+   "sha256": "c0ca4a62bdcd8eaa9a0a19e9444b684a9971d093e697e21c3e4614f53c6f9a07"
+  },
+  {
+   "path": "js/answer.js",
+   "size": 6286,
+   "sha256": "4c405bd3b00a548acd9db6aaed896308fa6ee9e64cf3a1abec154968358cba77"
+  },
+  {
+   "path": "js/app.js",
+   "size": 7539,
+   "sha256": "14f82f430ca69e4be1a88c483a6c1e72e3075b850b76dee50811d2d026a96c23"
+  },
+  {
+   "path": "js/audio.js",
+   "size": 1312,
+   "sha256": "8faeebb3eef759a3c68eb218d282c05ca14c8f83829a0cf8962b994325f7e680"
+  },
+  {
+   "path": "js/content.js",
+   "size": 2929,
+   "sha256": "e60dfd219a32d9e0a6f95ff963e4396018c5c01e34faf3d8307f14abdefaafce"
+  },
+  {
+   "path": "js/db.js",
+   "size": 3531,
+   "sha256": "62600ea9691a7846896fea73a65976bf2d1befe3f780eb06bcd51756356bb30d"
+  },
+  {
+   "path": "js/extract.js",
+   "size": 5727,
+   "sha256": "0a743a6571fdac2f99933c1ab63364a98d5a043f570a2c2e663d027faa24ab27"
+  },
+  {
+   "path": "js/modes.js",
+   "size": 376,
+   "sha256": "e9fd578cd5113cfcb8b69b29e64aa6da68bce3733a170b5371cc07208008850b"
+  },
+  {
+   "path": "js/player.js",
+   "size": 6926,
+   "sha256": "21b64e5e6c62ab45392319ab9415ad6758e07ee8a3a7916e2f1582581ab80882"
+  },
+  {
+   "path": "js/record.js",
+   "size": 3611,
+   "sha256": "541602630f6f8b7417af934508aeac22188646ab8006844a9cf2eb0ba5c92e55"
+  },
+  {
+   "path": "js/settings.js",
+   "size": 1526,
+   "sha256": "8eb3d8f38dbc02f4fe516b77687d7bebfcac027595b3b7a0df7d3b21a8212145"
+  },
+  {
+   "path": "js/share.js",
+   "size": 7505,
+   "sha256": "4e90c17b23d9977bf3d74dda77a9a308a5d5b55a931f3731adc840f8d05f59e6"
+  },
+  {
+   "path": "js/speech.js",
+   "size": 2829,
+   "sha256": "a5232ad405471e072a4ae43ea0bf198af57c10dc8353e5bad79a6f94a597b97d"
+  },
+  {
+   "path": "js/srs.js",
+   "size": 1297,
+   "sha256": "77ffa752f1eceac49d6eede70e51ec06051496249cfc6c415e18f5081f64e7b0"
+  },
+  {
+   "path": "js/storage.js",
+   "size": 2493,
+   "sha256": "e68f5bc371fda848e2837f21d7253484d8e0049a1875e300c93188747d1b7bf1"
+  },
+  {
+   "path": "js/textmatch.js",
+   "size": 7322,
+   "sha256": "e88233f0a03ccb8a86f98decf00e1ca9c932a6884efacc19216f4cc84218af9d"
+  },
+  {
+   "path": "js/today.js",
+   "size": 2534,
+   "sha256": "bf22c5681babc3c4c7d312cfa4081c3bbaa2b9889fcd897e20e995a2cf60e31c"
+  },
+  {
+   "path": "js/tts.js",
+   "size": 646,
+   "sha256": "e49af3b935738bc5a2f6d1809a8018764a2628eca70aa963c5cec5061ba0015a"
+  },
+  {
+   "path": "js/ui.js",
+   "size": 2990,
+   "sha256": "9a33dfe939a688d008b4e07b0ed8aaf151dc11bc4e7a0f93a84ff48f6b5324f1"
+  },
+  {
+   "path": "js/upgrade.js",
+   "size": 8676,
+   "sha256": "650f3aa0d8c714684ed0835c3d5eee13a2e02eca30f4ab9ca6e0c48cbbec7545"
+  },
+  {
+   "path": "js/vendor/fflate.min.js",
+   "size": 32775,
+   "sha256": "19fe19d63d09e2883aa168d136f54ff7a9c4ae32cbb64d4e583f252e7b8b5c99"
+  },
+  {
+   "path": "js/version.js",
+   "size": 127,
+   "sha256": "e21e87b8d825578816ab5609297a83b7f48a847ca0d8e524841d28b913fe10cb"
+  },
+  {
+   "path": "js/views/aitalk.js",
+   "size": 34295,
+   "sha256": "1db5fa6020ecc10c89cfed17734d4143cad05944a0c6366f07bbe56288c824c8"
+  },
+  {
+   "path": "js/views/cards.js",
+   "size": 8218,
+   "sha256": "0b21d08af5f1c3a711ab91bee36fd322920546fc59e2023b0acd7f974ed930a5"
+  },
+  {
+   "path": "js/views/dialogue.js",
+   "size": 4990,
+   "sha256": "c08b64611059313d418d50e1f0dcf400dfb9e12a91bfbcb74d77f8d7ff94490f"
+  },
+  {
+   "path": "js/views/home.js",
+   "size": 4356,
+   "sha256": "da7d0b8123e0eb4a562022434b9805fe127a6f0c8b547ace8d288b4760cad753"
+  },
+  {
+   "path": "js/views/import.js",
+   "size": 26644,
+   "sha256": "abf903c325bd937669641ee1181fb92b44909c956bf9dacbae1e40bc0d291cc6"
+  },
+  {
+   "path": "js/views/listen.js",
+   "size": 8002,
+   "sha256": "418be273d47ef07d35291e9da6d0b908dcf9476913c73ee22fbe48ce38cbe408"
+  },
+  {
+   "path": "js/views/mistakes.js",
+   "size": 3578,
+   "sha256": "cee4538dd02b0b30162e3f39158d9c3cd1fa0a2d487364c9158df122a9ef6a20"
+  },
+  {
+   "path": "js/views/onboarding.js",
+   "size": 6885,
+   "sha256": "fb6a2d4aa6ddb7d95d53714923abd5802f6efb82ca438f42a40a0b207775e516"
+  },
+  {
+   "path": "js/views/pquiz.js",
+   "size": 3576,
+   "sha256": "ad4feb2e852f9088c3ace6e1452652cf0797bf04b8c99503fe86d822216b36fa"
+  },
+  {
+   "path": "js/views/practice.js",
+   "size": 13008,
+   "sha256": "5c0b9844bf667288a4d70e2b56130e6e3fda76c29a9bca99b081bc3ee050cfaa"
+  },
+  {
+   "path": "js/views/quiz.js",
+   "size": 8538,
+   "sha256": "fd4e8eed813c56de982d00dd8b50d51881075a8286a4ec60146ba8d57b4905aa"
+  },
+  {
+   "path": "js/views/send.js",
+   "size": 10172,
+   "sha256": "77ce836a9afb3ccb5c22df72b3b8919332bd2de9e985fb5df734698f8318ceb0"
+  },
+  {
+   "path": "js/views/settings.js",
+   "size": 20088,
+   "sha256": "c0ca123ae030affc25e5625b3209da38cdc4b969116b03f404dd6ee8063f5760"
+  },
+  {
+   "path": "js/views/situations.js",
+   "size": 6086,
+   "sha256": "9f0ab6561fc7af34c6d9895bf0bc4c201927b004647a1f91323c30a867ac6cc5"
+  },
+  {
+   "path": "js/views/stats.js",
+   "size": 4770,
+   "sha256": "a9f99931e8901707d7d502bd9e5c861498d84713438b24eb596aa3858f0f9b79"
+  },
+  {
+   "path": "manifest.webmanifest",
+   "size": 1080,
+   "sha256": "0b8212cca366263ff35783b551f270e28ce96ca4f2eeafbd0956e20958f81a23"
+  }
+ ]
+}

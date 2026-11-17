@@ -1,0 +1,116 @@
+{
+  "id": "travel-lost-help-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "lost-help",
+  "level": 2,
+  "title": {
+    "ko": "분실 · 도움 요청",
+    "en": "Lost Items and Getting Help"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "카페에 지갑을 두고 나와서 분실물을 찾고, 못 찾으면 연락해 달라고 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "카페 직원",
+      "en": "Café staff",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, I think I left my wallet here about an hour ago.",
+      "ko": "실례합니다, 한 시간쯤 전에 여기에 지갑을 두고 간 것 같아요.",
+      "alt": [
+        "Excuse me, I may have left my wallet here an hour ago."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, where were you sitting?",
+      "ko": "아, 어디 앉아 계셨어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "At the table by the window. It's a brown leather wallet.",
+      "ko": "창가 테이블이요. 갈색 가죽 지갑이에요.",
+      "alt": [
+        "By the window. It's a brown wallet made of leather."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Let me check the lost and found... Is this it?",
+      "ko": "분실물 보관함을 확인해 볼게요... 이거예요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "No, mine is a bit smaller, and it has my ID card inside.",
+      "ko": "아니요, 제 건 조금 더 작고 안에 신분증이 있어요.",
+      "alt": [
+        "No, that's not it. Mine is smaller, with my ID card in it."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "I'm sorry, it's not here. Would you like to leave your phone number?",
+      "ko": "죄송하지만 여기 없네요. 전화번호를 남기시겠어요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Yes, please. If someone finds it, could you call me?",
+      "ko": "네, 그럴게요. 누가 찾으면 전화해 주시겠어요?",
+      "alt": [
+        "Yes. Please call me if someone finds it."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Of course. You might also want to check with the police station nearby.",
+      "ko": "물론이죠. 근처 경찰서에도 확인해 보시는 게 좋겠어요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I think I left ___ here.",
+      "ko": "여기에 ___를 두고 간 것 같아요.",
+      "note": "leave = 두고 가다 (과거형 left)",
+      "fromLine": 1
+    },
+    {
+      "en": "lost and found",
+      "ko": "분실물 보관소",
+      "note": "잃어버린 물건을 모아 두는 곳",
+      "fromLine": 4
+    },
+    {
+      "en": "Mine is ___.",
+      "ko": "제 건 ___예요.",
+      "note": "mine = 내 것",
+      "fromLine": 5
+    },
+    {
+      "en": "You might want to ___.",
+      "ko": "___해 보시는 게 좋겠어요.",
+      "note": "부드럽게 권할 때",
+      "fromLine": 8
+    }
+  ]
+}

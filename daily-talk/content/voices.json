@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "decided": "2026-11-06",
+  "note": "사용자가 샘플 페이지를 보고 바꿀 수 있음. 바꾸면 tools/음성_만들기.py 가 바뀐 목소리의 파일만 다시 만들고 대화의 audioRev 를 올린다.",
+  "bitrate_kbps": 24,
+  "en": {
+    "engine": "kokoro",
+    "map": {
+      "female-1": "af_heart",
+      "female-2": "af_bella",
+      "male-1": "am_michael",
+      "male-2": "am_fenrir"
+    }
+  },
+  "ko": { "engine": "supertonic-3", "voice": "F1" },
+  "engines": {
+    "kokoro": {
+      "name": "Kokoro-82M v1.0",
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/hexgrad/Kokoro-82M (ONNX: onnx-community/Kokoro-82M-v1.0-ONNX)"
+    },
+    "supertonic-3": {
+      "name": "Supertonic 3 (Supertone Inc.)",
+      "license": "BigScience OpenRAIL-M",
+      "source": "https://huggingface.co/Supertone/supertonic-3",
+      "notice": "OpenRAIL-M 의 사용 제한 조항을 안내 페이지에 함께 적는다."
+    }
+  }
+}

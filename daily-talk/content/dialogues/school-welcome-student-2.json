@@ -1,0 +1,132 @@
+{
+  "id": "school-welcome-student-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "welcome-student",
+  "level": 2,
+  "title": {
+    "ko": "외국인 학생 맞이",
+    "en": "Welcoming an International Student"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "1교시 전에 외국인 학생에게 학교를 구경시켜 주며 실내화와 신발장, 보건실, 교무실을 소개한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "외국인 학생",
+      "en": "International student",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Let me show you around the school before first period.",
+      "ko": "1교시 전에 학교 구경시켜 줄게.",
+      "alt": [
+        "Before first period, I'll give you a quick tour.",
+        "Let's look around the school before class starts."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Okay. Um, why is everyone wearing slippers?",
+      "ko": "네. 음, 그런데 왜 다들 슬리퍼를 신고 있어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Those are indoor shoes. In Korean schools, we change our shoes at the entrance. This is your shoe locker.",
+      "ko": "그건 실내화야. 한국 학교에서는 현관에서 신발을 갈아 신어. 여기가 네 신발장이야.",
+      "alt": [
+        "They're indoor shoes. In Korea, we change shoes when we come into the school. Here's your shoe locker."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Oh, I didn't bring any. Is that a problem?",
+      "ko": "아, 저 실내화 안 가져왔어요. 괜찮아요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "No problem. I have a spare pair you can borrow today.",
+      "ko": "괜찮아. 오늘은 선생님한테 있는 여분 실내화를 빌려줄게.",
+      "alt": [
+        "Don't worry. You can borrow my spare pair today."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Thank you. What's that room over there?",
+      "ko": "감사합니다. 저기 저 방은 뭐예요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That's the nurse's office. If you feel sick, you can go there anytime. Just tell your teacher first.",
+      "ko": "거긴 보건실이야. 몸이 안 좋으면 언제든 가도 돼. 수업 선생님한테 먼저 말만 하면 돼.",
+      "alt": [
+        "It's the nurse's office. If you don't feel well, go there. Just let your teacher know first."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Got it. And where's the teachers' room?",
+      "ko": "알겠어요. 그리고 교무실은 어디예요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "It's right next door. If you need anything, come find me.",
+      "ko": "바로 그 옆이야. 필요한 거 있으면 거기로 선생님 찾아와.",
+      "alt": [
+        "It's right next to it. Come and find me there if you need help."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "before first period",
+      "ko": "1교시 전에",
+      "note": "2교시 = second period",
+      "fromLine": 1
+    },
+    {
+      "en": "Those are indoor shoes.",
+      "ko": "그건 실내화야.",
+      "note": "실내화 = indoor shoes · 신발장 = shoe locker",
+      "fromLine": 3
+    },
+    {
+      "en": "I have a spare ___ you can borrow.",
+      "ko": "빌려줄 여분 ___가 있어.",
+      "note": "spare = 여분의 · borrow = 빌리다",
+      "fromLine": 5
+    },
+    {
+      "en": "nurse's office",
+      "ko": "보건실",
+      "note": "보건 선생님 = school nurse",
+      "fromLine": 7
+    },
+    {
+      "en": "If you need anything, come find me.",
+      "ko": "필요한 거 있으면 날 찾아와.",
+      "note": "학생을 안심시킬 때",
+      "fromLine": 9
+    }
+  ]
+}

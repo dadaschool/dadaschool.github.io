@@ -1,0 +1,132 @@
+{
+  "id": "travel-in-flight-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "in-flight",
+  "level": 3,
+  "title": {
+    "ko": "기내에서 부탁하기",
+    "en": "On the Plane"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "비행 중 멀미가 나서 승무원에게 도움을 청하고, 덜 흔들리는 자리로 옮겨 달라고 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "승무원",
+      "en": "Flight attendant",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me. I'm sorry to bother you, but I'm not feeling very well.",
+      "ko": "저기요. 귀찮게 해서 죄송한데요, 몸이 좀 안 좋아요.",
+      "alt": [
+        "Excuse me, sorry to bother you, but I feel sick.",
+        "Excuse me. Sorry, I'm not feeling well."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry to hear that. What seems to be the problem?",
+      "ko": "그러시군요. 어디가 불편하세요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I feel dizzy and a little sick to my stomach. I think it's the turbulence.",
+      "ko": "어지럽고 속이 좀 메스꺼워요. 기체가 흔들려서 그런 것 같아요.",
+      "alt": [
+        "I'm dizzy and I feel a bit sick. I think it's because of the turbulence."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Would you like some water and a sick bag? We also have medicine for motion sickness.",
+      "ko": "물과 위생 봉투를 드릴까요? 멀미약도 있습니다."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Some water would be great, thanks. I'd rather not take medicine unless I have to.",
+      "ko": "물 주시면 좋겠어요, 고마워요. 꼭 필요하지 않으면 약은 안 먹고 싶어요.",
+      "alt": [
+        "Water would be great, thank you. I don't want to take medicine if I don't have to."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That's understandable. Sitting near the middle of the plane might help. It moves less there.",
+      "ko": "이해합니다. 비행기 가운데 쪽에 앉으시면 도움이 될 수 있어요. 거기가 덜 흔들리거든요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Is there an empty seat I could move to? I'm stuck by the window at the back.",
+      "ko": "옮겨 앉을 수 있는 빈자리가 있나요? 뒤쪽 창가 자리에 끼어 있어서요.",
+      "alt": [
+        "Is there an empty seat I can move to? I'm in a window seat at the back."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Let me check... There's an aisle seat in row 21. I can move you once the seatbelt sign is off.",
+      "ko": "확인해 볼게요... 21열에 통로 자리가 있어요. 안전벨트 표시등이 꺼지면 옮겨 드릴게요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That would be perfect. I really appreciate you going out of your way.",
+      "ko": "그러면 정말 좋겠어요. 일부러 신경 써 주셔서 정말 감사해요.",
+      "alt": [
+        "That would be perfect. Thank you for going to so much trouble."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "No problem at all. Just press the call button if you feel worse.",
+      "ko": "별말씀을요. 더 안 좋아지시면 호출 버튼을 눌러 주세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm sorry to bother you, but ___.",
+      "ko": "귀찮게 해서 죄송한데요, ___.",
+      "note": "바쁜 사람에게 말을 걸 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I feel dizzy.",
+      "ko": "어지러워요.",
+      "note": "sick to my stomach = 속이 메스꺼운",
+      "fromLine": 3
+    },
+    {
+      "en": "I'd rather not ___.",
+      "ko": "___하지 않는 편이 좋겠어요.",
+      "note": "부드럽게 거절할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I really appreciate you going out of your way.",
+      "ko": "일부러 신경 써 주셔서 정말 감사해요.",
+      "note": "go out of your way = 일부러 애쓰다",
+      "fromLine": 9
+    }
+  ]
+}

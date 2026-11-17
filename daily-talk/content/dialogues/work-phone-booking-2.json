@@ -1,0 +1,130 @@
+{
+  "id": "work-phone-booking-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "phone-booking",
+  "level": 2,
+  "title": {
+    "ko": "전화로 예약 · 변경",
+    "en": "Booking and Changing by Phone"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "식당에 전화해 회식 날짜를 바꾸고, 늘어난 인원에 맞게 룸을 부탁한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "식당 직원",
+      "en": "Restaurant host",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "회사원(나)",
+      "en": "Office worker",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Thank you for calling Maple Table. This is Ryan.",
+      "ko": "메이플 테이블에 전화 주셔서 감사합니다. 라이언입니다."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi, Ryan. I have a reservation for this Friday under Kim, and I'd like to change the date.",
+      "ko": "안녕하세요, 라이언 씨. 이번 주 금요일에 김으로 예약했는데요, 날짜를 바꾸고 싶어서요.",
+      "alt": [
+        "Hi. I booked a table for this Friday under Kim. Could I change the date?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Sure, let me pull that up. A table for eight at seven, right? What day would you like instead?",
+      "ko": "네, 찾아볼게요. 7시에 여덟 분 맞으시죠? 어느 날로 바꿔 드릴까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Do you have anything next Tuesday at the same time? Our manager can't make it on Friday.",
+      "ko": "다음 주 화요일 같은 시간에 자리 있나요? 팀장님이 금요일에 못 오셔서요.",
+      "alt": [
+        "Is next Tuesday at seven available? Our manager can't come on Friday."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Tuesday at seven works. Will it still be eight people?",
+      "ko": "화요일 7시 가능합니다. 인원은 그대로 여덟 분이세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Actually, there will be ten of us now. Could we get a private room?",
+      "ko": "사실 이제 열 명이에요. 룸으로 받을 수 있을까요?",
+      "alt": [
+        "Actually, it's ten people now. Do you have a private room?",
+        "We'll be ten now. Is a private room available?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yes, our private room seats up to twelve. There's a minimum spend of 400 dollars, though.",
+      "ko": "네, 저희 룸은 열두 분까지 앉으실 수 있어요. 다만 최소 주문 금액이 400달러예요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "That's fine. Could you send me a confirmation by text?",
+      "ko": "괜찮아요. 확인 문자 보내 주실 수 있나요?",
+      "alt": [
+        "That's okay. Can you text me a confirmation?",
+        "No problem. Please send me a confirmation text."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Of course. You're all set for Tuesday at seven.",
+      "ko": "물론이죠. 화요일 7시로 다 됐습니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I have a reservation for ___ under ___.",
+      "ko": "___에 ___(이름)으로 예약했어요.",
+      "note": "under + 예약자 이름",
+      "fromLine": 2
+    },
+    {
+      "en": "I'd like to change the date.",
+      "ko": "날짜를 바꾸고 싶어요.",
+      "note": "시간은 time · 인원은 number of people",
+      "fromLine": 2
+    },
+    {
+      "en": "can't make it",
+      "ko": "못 오다 · 참석 못 하다",
+      "note": "make it = 약속 자리에 가다",
+      "fromLine": 4
+    },
+    {
+      "en": "Could we get ___?",
+      "ko": "___로 받을 수 있을까요?",
+      "note": "자리 · 방을 부탁할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Could you send me a confirmation by ___?",
+      "ko": "확인을 ___로 보내 주실 수 있나요?",
+      "note": "by text = 문자로 · by email = 이메일로",
+      "fromLine": 8
+    }
+  ]
+}

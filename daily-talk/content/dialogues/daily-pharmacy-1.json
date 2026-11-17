@@ -1,0 +1,108 @@
+{
+  "id": "daily-pharmacy-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "pharmacy",
+  "level": 1,
+  "title": {
+    "ko": "약국",
+    "en": "At the Pharmacy"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "약국에서 두통약을 사며 몇 알씩, 언제 먹는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "약사",
+      "en": "Pharmacist",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I need something for a headache.",
+      "ko": "안녕하세요. 두통약이 필요해요.",
+      "alt": [
+        "Do you have something for a headache?",
+        "I'm looking for headache medicine."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. This one works well.",
+      "ko": "네. 이게 잘 들어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "How many should I take?",
+      "ko": "몇 알 먹어야 해요?",
+      "alt": [
+        "How many do I take?",
+        "How many pills should I take?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Two tablets every six hours.",
+      "ko": "6시간마다 두 알씩 드세요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Should I take it with food?",
+      "ko": "식후에 먹어야 해요?",
+      "alt": [
+        "Do I take it after meals?",
+        "Do I need to eat first?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Yes. It's easier on your stomach.",
+      "ko": "네. 그래야 속이 덜 부담스러워요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Okay. I'll take this one.",
+      "ko": "알겠어요. 이걸로 살게요.",
+      "alt": [
+        "Okay. I'll get this.",
+        "Great. I'll take it."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I need something for ___.",
+      "ko": "___에 먹는 약이 필요해요.",
+      "note": "a cold 감기 · a stomachache 복통",
+      "fromLine": 1
+    },
+    {
+      "en": "How many should I take?",
+      "ko": "몇 알 먹어야 해요?",
+      "note": "약 먹는 양을 물을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "every six hours",
+      "ko": "6시간마다",
+      "note": "every + 시간 = ~마다",
+      "fromLine": 4
+    }
+  ]
+}

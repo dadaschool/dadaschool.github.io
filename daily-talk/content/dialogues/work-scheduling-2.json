@@ -1,0 +1,132 @@
+{
+  "id": "work-scheduling-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "scheduling",
+  "level": 2,
+  "title": {
+    "ko": "일정 잡기",
+    "en": "Scheduling"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "해외 거래처 담당자와 시차를 생각하며 계약 검토 통화 일정을 잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "거래처 담당자",
+      "en": "Client",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Mark. I was hoping to set up a call next week to go over the contract. When would be good for you?",
+      "ko": "안녕하세요, 마크 씨. 다음 주에 계약서를 같이 검토할 통화 일정을 잡고 싶은데요. 언제가 좋으세요?",
+      "alt": [
+        "Hi, Mark. I'd like to schedule a call next week to review the contract. When are you free?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Let me check my calendar. Tuesday and Thursday are pretty open.",
+      "ko": "일정 좀 볼게요. 화요일과 목요일은 꽤 비어 있어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Would Tuesday morning work? Maybe around nine, your time?",
+      "ko": "화요일 오전 괜찮으세요? 그쪽 시간으로 9시쯤이요?",
+      "alt": [
+        "How about Tuesday morning, around nine your time?",
+        "Is Tuesday at nine a.m. your time okay?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "That works for me, but isn't that 6 p.m. in Seoul? I don't want to keep you late.",
+      "ko": "저는 괜찮은데, 그러면 서울은 저녁 6시 아닌가요? 늦게까지 붙잡아 두고 싶지 않아서요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That's very kind of you, but it's no problem. I usually work until seven anyway.",
+      "ko": "신경 써 주셔서 감사하지만 괜찮아요. 어차피 보통 7시까지 일하거든요.",
+      "alt": [
+        "Thanks for thinking of that, but it's fine. I usually work until seven."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Great. How much time do you think we'll need?",
+      "ko": "좋아요. 시간은 얼마나 필요할 것 같아요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "About an hour should be enough. Should I invite your legal team as well?",
+      "ko": "한 시간이면 충분할 거예요. 그쪽 법무팀도 초대할까요?",
+      "alt": [
+        "An hour should be fine. Do you want me to invite your legal team too?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, please add Sarah from legal. I'll forward you her email address.",
+      "ko": "네, 법무팀 세라를 넣어 주세요. 이메일 주소는 제가 보내 드릴게요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Perfect. I'll send out the invitation with a video link this afternoon.",
+      "ko": "좋아요. 오늘 오후에 화상회의 링크를 넣어서 초대장을 보낼게요.",
+      "alt": [
+        "Great. I'll send the invite with a video call link this afternoon."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I was hoping to set up ___.",
+      "ko": "___ 일정을 잡고 싶었는데요.",
+      "note": "set up a call · set up a meeting",
+      "fromLine": 1
+    },
+    {
+      "en": "When would be good for you?",
+      "ko": "언제가 좋으세요?",
+      "note": "상대 일정을 먼저 묻는 공손한 말",
+      "fromLine": 1
+    },
+    {
+      "en": "Would ___ work?",
+      "ko": "___ 괜찮으세요?",
+      "note": "시간을 제안할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "your time",
+      "ko": "그쪽 시간으로",
+      "note": "시차가 있을 때 · 내 쪽은 my time",
+      "fromLine": 3
+    },
+    {
+      "en": "___ should be enough.",
+      "ko": "___면 충분할 거예요.",
+      "note": "필요한 시간을 어림할 때",
+      "fromLine": 7
+    }
+  ]
+}

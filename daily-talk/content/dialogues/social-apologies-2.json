@@ -1,0 +1,124 @@
+{
+  "id": "social-apologies-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "apologies",
+  "level": 2,
+  "title": {
+    "ko": "사과하기",
+    "en": "Apologizing"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "언어 교환 친구의 문자에 일주일 동안 답하지 못해서, 이유를 설명하고 사과한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "언어 교환 친구",
+      "en": "Language partner",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "언어 교환 친구(나)",
+      "en": "Language partner",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Jake, I'm really sorry I didn't answer your messages last week.",
+      "ko": "제이크 씨, 지난주에 문자에 답을 못 해서 정말 미안해요.",
+      "alt": [
+        "Jake, sorry for not replying to your texts last week.",
+        "I'm so sorry I never got back to you last week, Jake."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, that's okay. I was a little worried, though. Is everything all right?",
+      "ko": "아, 괜찮아요. 그래도 좀 걱정했어요. 별일 없죠?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Yeah, everything's fine. I was moving to a new apartment, and it was crazier than I expected.",
+      "ko": "네, 다 괜찮아요. 새 집으로 이사했는데, 생각보다 정신이 없었어요.",
+      "alt": [
+        "Yes, I'm fine. I moved to a new place, and it was way more hectic than I thought."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Oh, wow. Moving is the worst. Are you all settled in now?",
+      "ko": "와, 이사는 진짜 힘들죠. 이제 정리는 다 됐어요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Almost. There are still boxes everywhere, but at least I have Wi-Fi now.",
+      "ko": "거의요. 아직 여기저기 상자가 있지만, 그래도 와이파이는 돼요.",
+      "alt": [
+        "Mostly. I still have boxes all over the place, but at least the internet works."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Ha, that's the most important part!",
+      "ko": "하하, 그게 제일 중요하죠!"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Exactly. Anyway, I should have let you know. Are we still on for Thursday?",
+      "ko": "그러니까요. 아무튼 미리 말했어야 했는데. 목요일 약속은 그대로죠?",
+      "alt": [
+        "Right? Anyway, I should've told you. Is Thursday still okay?",
+        "I know! I should have texted you sooner. Are we still meeting on Thursday?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Definitely. Same café, same time.",
+      "ko": "그럼요. 같은 카페, 같은 시간에요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm really sorry I didn't ___.",
+      "ko": "___ 못 해서 정말 미안해요.",
+      "note": "하지 못한 일을 사과할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "It was ___ than I expected.",
+      "ko": "생각보다 ___했어요.",
+      "note": "비교급을 넣음 · crazier, harder, more hectic",
+      "fromLine": 3
+    },
+    {
+      "en": "Are you all settled in?",
+      "ko": "정리는 다 됐어요?",
+      "note": "settle in = 새 곳에 자리 잡다",
+      "fromLine": 4
+    },
+    {
+      "en": "I should have let you know.",
+      "ko": "미리 말했어야 했는데.",
+      "note": "should have + 과거분사 = ~했어야 했는데",
+      "fromLine": 7
+    },
+    {
+      "en": "Are we still on for ___?",
+      "ko": "___ 약속 그대로죠?",
+      "note": "정해 둔 약속을 다시 확인할 때",
+      "fromLine": 7
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "id": "travel-directions-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "directions",
+  "level": 2,
+  "title": {
+    "ko": "길 묻기",
+    "en": "Asking for Directions"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "시립 도서관 가는 길을 묻고, 건물을 기준으로 한 설명을 확인하며 따라간다."
+  },
+  "roles": {
+    "A": {
+      "ko": "지나가는 사람",
+      "en": "Passerby",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me, could you tell me how to get to the City Library?",
+      "ko": "실례합니다, 시립 도서관에 어떻게 가는지 알려 주실 수 있나요?",
+      "alt": [
+        "Excuse me, how do I get to the City Library?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. Walk down this street and turn left at the bank.",
+      "ko": "그럼요. 이 길로 쭉 가다가 은행에서 왼쪽으로 도세요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Turn left at the bank. Then what?",
+      "ko": "은행에서 왼쪽이요. 그다음에는요?",
+      "alt": [
+        "Left at the bank. And then?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Keep going until you see a big park. The library is across from the park.",
+      "ko": "큰 공원이 보일 때까지 계속 가세요. 도서관은 공원 건너편에 있어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Can I walk there, or should I take a bus?",
+      "ko": "걸어갈 수 있을까요, 아니면 버스를 타야 하나요?",
+      "alt": [
+        "Is it walking distance, or do I need a bus?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "You can walk. It's about ten minutes.",
+      "ko": "걸어갈 수 있어요. 10분쯤 걸려요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Great. Is there a café near the library?",
+      "ko": "좋아요. 도서관 근처에 카페가 있나요?",
+      "alt": [
+        "Thanks. Is there a café close to the library?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, there's one right next to it.",
+      "ko": "네, 바로 옆에 하나 있어요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Could you tell me how to get to ___?",
+      "ko": "___에 어떻게 가는지 알려 주실 수 있나요?",
+      "note": "길을 묻는 공손한 표현",
+      "fromLine": 1
+    },
+    {
+      "en": "turn left at ___",
+      "ko": "___에서 왼쪽으로 돌다",
+      "note": "오른쪽 = right",
+      "fromLine": 2
+    },
+    {
+      "en": "across from ___",
+      "ko": "___ 건너편에",
+      "note": "next to = 바로 옆에",
+      "fromLine": 4
+    },
+    {
+      "en": "Can I walk there?",
+      "ko": "걸어갈 수 있을까요?",
+      "note": "walking distance = 걸어갈 만한 거리",
+      "fromLine": 5
+    }
+  ]
+}

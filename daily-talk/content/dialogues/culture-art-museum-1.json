@@ -1,0 +1,104 @@
+{
+  "id": "culture-art-museum-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "art-museum",
+  "level": 1,
+  "title": {
+    "ko": "미술관",
+    "en": "At an Art Museum"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "미술관 매표소에서 표를 사고 사진 촬영이 되는지, 관람은 어디서 시작하는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "매표소 직원",
+      "en": "Ticket staff",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "관람객(나)",
+      "en": "Visitor",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi. How can I help you?",
+      "ko": "안녕하세요. 무엇을 도와드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "One adult ticket, please.",
+      "ko": "성인 표 한 장 주세요.",
+      "alt": [
+        "One ticket for an adult, please.",
+        "Can I have one adult ticket?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Sure. That's 18 dollars.",
+      "ko": "네. 18달러입니다."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Can I take photos inside?",
+      "ko": "안에서 사진 찍어도 돼요?",
+      "alt": [
+        "Are photos okay inside?",
+        "Can I take pictures in there?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes, but please don't use flash.",
+      "ko": "네, 하지만 플래시는 쓰지 말아 주세요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Okay. Where does the exhibition start?",
+      "ko": "알겠어요. 전시는 어디서 시작해요?",
+      "alt": [
+        "Okay. Where is the entrance?",
+        "Got it. Where do I start?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "On the second floor. Take the stairs.",
+      "ko": "2층에서요. 계단으로 올라가세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "One adult ticket, please.",
+      "ko": "성인 표 한 장 주세요.",
+      "note": "어린이 = child · 학생 = student",
+      "fromLine": 2
+    },
+    {
+      "en": "Can I take photos inside?",
+      "ko": "안에서 사진 찍어도 돼요?",
+      "note": "photos = pictures",
+      "fromLine": 4
+    },
+    {
+      "en": "Where does ___ start?",
+      "ko": "___는 어디서 시작해요?",
+      "note": "관람 순서를 물을 때",
+      "fromLine": 6
+    }
+  ]
+}

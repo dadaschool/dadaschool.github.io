@@ -1,0 +1,142 @@
+{
+  "id": "daily-bank-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "bank",
+  "level": 3,
+  "title": {
+    "ko": "은행 · 환전",
+    "en": "Banking and Currency Exchange"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "체크카드를 잃어버려 정지하다가 모르는 결제를 발견해 이의 신청을 하고, 새 카드를 기다리는 동안 한국으로 급히 송금하는 방법을 찾는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "은행 직원",
+      "en": "Bank associate",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I think I lost my debit card yesterday. I need to cancel it right away.",
+      "ko": "안녕하세요. 어제 체크카드를 잃어버린 것 같아요. 바로 정지해야 해요.",
+      "alt": [
+        "Hi. I lost my debit card yesterday. Can you cancel it now?",
+        "Hello. My debit card is missing, and I need to block it right away."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry to hear that. I've blocked the card for you. Before I order a new one, could you look over your recent transactions?",
+      "ko": "그러셨군요. 카드는 지금 정지해 드렸습니다. 새 카드를 주문하기 전에 최근 거래 내역을 한번 봐 주시겠어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Sure... Wait, I don't recognize this charge. It's from an online store this morning, for $89.99.",
+      "ko": "네... 잠깐만요, 이건 모르는 결제예요. 오늘 아침에 온라인 상점에서 89달러 99센트가 결제됐네요.",
+      "alt": [
+        "Okay... Hold on, I didn't make this payment. It's $89.99 from an online store.",
+        "Sure. Hmm, this $89.99 charge from this morning isn't mine."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "It looks like someone may have used your card. I'll file a dispute for you, and the money should be back in your account within ten days.",
+      "ko": "누군가 카드를 쓴 것 같네요. 제가 이의 신청을 해 드릴게요. 열흘 안에 계좌로 돈이 돌아올 거예요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Thank you, I'd appreciate that. How long will it take to get a new card?",
+      "ko": "감사합니다, 그렇게 해 주세요. 새 카드는 받는 데 얼마나 걸려요?",
+      "alt": [
+        "Thanks, please do. When will my new card arrive?",
+        "Yes, please. And how long until I get a new card?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "It usually takes five to seven business days.",
+      "ko": "보통 영업일로 5~7일 걸려요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That's a problem. I need to send money to my mother in Korea today. Is there any other way to do that?",
+      "ko": "그럼 곤란한데요. 오늘 한국에 계신 어머니께 돈을 보내 드려야 하거든요. 다른 방법이 있을까요?",
+      "alt": [
+        "Oh, that's a problem. I have to send money to my mom in Korea today. Can I do it another way?",
+        "Hmm, I need to send some money to Korea today. Is there any other way?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, I can send an international wire transfer for you right here. The fee is $35, and I'll need her bank's SWIFT code and account number.",
+      "ko": "네, 여기서 바로 해외 송금을 해 드릴 수 있어요. 수수료는 35달러이고, 어머님 은행의 SWIFT 코드와 계좌 번호가 필요해요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "I have her bank details on my phone. Could you check if this is everything you need?",
+      "ko": "어머니 은행 정보가 휴대폰에 있어요. 이거면 다 되는지 확인해 주시겠어요?",
+      "alt": [
+        "Her bank information is on my phone. Is this everything you need?",
+        "I've got her account details here. Can you see if anything is missing?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Sure. Yes, that's everything. The money should arrive in a day or two.",
+      "ko": "네. 이거면 다 됐어요. 돈은 하루이틀이면 도착할 거예요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I think I lost ___.",
+      "ko": "___를 잃어버린 것 같아요.",
+      "note": "확실하지 않을 때 I think 를 붙임",
+      "fromLine": 1
+    },
+    {
+      "en": "I don't recognize this charge.",
+      "ko": "이건 모르는 결제예요.",
+      "note": "recognize = 알아보다 · 내가 하지 않은 결제일 때",
+      "fromLine": 3
+    },
+    {
+      "en": "file a dispute",
+      "ko": "이의 신청을 하다",
+      "note": "잘못된 결제를 은행에 알릴 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Is there any other way to ___?",
+      "ko": "___할 다른 방법이 있을까요?",
+      "note": "계획이 막혔을 때 대안을 물을 때",
+      "fromLine": 7
+    },
+    {
+      "en": "international wire transfer",
+      "ko": "해외 송금",
+      "note": "wire transfer = 은행 송금",
+      "fromLine": 8
+    }
+  ]
+}

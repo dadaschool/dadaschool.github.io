@@ -1,0 +1,132 @@
+{
+  "id": "travel-hotel-checkin-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "hotel-checkin",
+  "level": 3,
+  "title": {
+    "ko": "호텔 체크인",
+    "en": "Hotel Check-in"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "예약이 없다는 말을 듣고 원인을 함께 찾은 뒤, 남은 방의 가격을 조정해 해결한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "프런트 직원",
+      "en": "Receptionist",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Guest",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "I'm sorry, but I can't find a reservation under that name.",
+      "ko": "죄송하지만, 그 이름으로 된 예약을 찾을 수 없습니다."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "That's strange. I booked it online two weeks ago. Here's the confirmation email.",
+      "ko": "이상하네요. 2주 전에 온라인으로 예약했어요. 여기 확인 메일이요.",
+      "alt": [
+        "That's odd. I made the booking online two weeks ago. This is the confirmation email."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Thank you. Hmm... it looks like this booking was made for next month, not tonight.",
+      "ko": "감사합니다. 음... 이 예약은 오늘 밤이 아니라 다음 달로 되어 있네요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Oh no, I must have picked the wrong date. Do you have any rooms available tonight?",
+      "ko": "아이고, 제가 날짜를 잘못 골랐나 봐요. 오늘 밤 빈방이 있나요?",
+      "alt": [
+        "Oh no, I think I chose the wrong date. Are there any rooms available tonight?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "We're almost fully booked. The only room left is a suite, which is 80 dollars more per night.",
+      "ko": "거의 다 찼습니다. 남은 방은 스위트룸 하나뿐인데, 1박에 80달러 더 비쌉니다."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "That's a bit over my budget. Is there anything you could do about the price?",
+      "ko": "제 예산보다 좀 많네요. 가격을 좀 어떻게 해 주실 수 있을까요?",
+      "alt": [
+        "That's more than I planned to spend. Could you do anything about the price?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Let me speak to my manager... We can offer it for 40 dollars more, with breakfast included.",
+      "ko": "매니저와 이야기해 볼게요... 40달러만 더 받고 아침 식사도 포함해 드릴 수 있어요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "That's very kind of you. I'll take it. And could you move my other booking to the correct date, or cancel it?",
+      "ko": "정말 친절하시네요. 그걸로 할게요. 그리고 다른 예약은 맞는 날짜로 옮기거나 취소해 주실 수 있나요?",
+      "alt": [
+        "Thank you, that's very kind. I'll take it. Could you also change or cancel my other booking?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Certainly. I'll cancel it free of charge, and you'll get an email shortly.",
+      "ko": "물론입니다. 무료로 취소해 드리고, 곧 메일을 받으실 거예요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Thank you for sorting this out so quickly.",
+      "ko": "이렇게 빨리 해결해 주셔서 고마워요.",
+      "alt": [
+        "Thanks for fixing this so quickly.",
+        "Thank you for solving this so fast."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I must have ___.",
+      "ko": "제가 ___했나 봐요.",
+      "note": "과거 일을 추측할 때 (must have + 과거분사)",
+      "fromLine": 4
+    },
+    {
+      "en": "Do you have any rooms available tonight?",
+      "ko": "오늘 밤 빈방이 있나요?",
+      "note": "available = 이용할 수 있는",
+      "fromLine": 4
+    },
+    {
+      "en": "Is there anything you could do about the price?",
+      "ko": "가격을 좀 어떻게 해 주실 수 있을까요?",
+      "note": "부드럽게 가격을 흥정할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Thank you for sorting this out.",
+      "ko": "해결해 주셔서 고마워요.",
+      "note": "sort out = 문제를 해결하다",
+      "fromLine": 10
+    }
+  ]
+}

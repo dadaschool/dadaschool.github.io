@@ -1,0 +1,141 @@
+{
+  "id": "daily-post-office-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "post-office",
+  "level": 3,
+  "title": {
+    "ko": "택배 · 우체국",
+    "en": "Packages and the Post Office"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "지난주에 왔어야 할 택배가 배달 완료로 나오는데 받지 못해 우체국에 문의하고, 주소 번호가 뒤바뀐 것을 찾아 해결한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "우체국 직원",
+      "en": "Postal clerk",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'm hoping you can help me with a package that never showed up.",
+      "ko": "안녕하세요. 오지 않은 택배 일로 도움을 좀 받을 수 있을까 해서요.",
+      "alt": [
+        "Hi. Could you help me with a package that never arrived?",
+        "Hello. A package I was waiting for never came. Can you help me?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I can try. Do you have the tracking number?",
+      "ko": "한번 볼게요. 운송장 번호 있으세요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Yes, here it is. It was supposed to arrive last Friday, but it got delayed. Now it says it was delivered yesterday.",
+      "ko": "네, 여기요. 지난 금요일에 오기로 했는데 늦어지더니, 이제는 어제 배달됐다고 나와요.",
+      "alt": [
+        "Yes, this is it. It was due last Friday, but it was delayed, and now it shows as delivered yesterday."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Let me look... Hmm, it was scanned as delivered at 1280 Maple Street at 2:15 yesterday.",
+      "ko": "확인해 볼게요... 음, 어제 2시 15분에 메이플 스트리트 1280번지에 배달 완료로 찍혔네요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That's not my address. I live at 1208 Maple Street. Could the numbers have been mixed up?",
+      "ko": "거긴 제 주소가 아니에요. 저는 메이플 스트리트 1208번지에 살아요. 번호가 뒤바뀐 걸까요?",
+      "alt": [
+        "But I live at 1208, not 1280. Maybe the numbers got mixed up?",
+        "That's the wrong address. Mine is 1208 Maple Street. Could someone have switched the numbers?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That's very possible. I'm sorry about that. I'll have the carrier go back and pick it up from that house this afternoon.",
+      "ko": "충분히 그럴 수 있겠네요. 죄송합니다. 오늘 오후에 집배원이 그 집에 다시 가서 찾아오도록 할게요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Thank you. What happens if it's not there anymore?",
+      "ko": "고마워요. 만약 거기 없으면 어떻게 되나요?",
+      "alt": [
+        "Thanks. And what if they can't find it?",
+        "Thank you. What if it's gone?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Then the sender can file a claim. But usually, people keep packages safe for their neighbors.",
+      "ko": "그러면 보낸 분이 보상 청구를 할 수 있어요. 하지만 보통은 이웃분들이 잘 보관해 두세요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "I hope so. Would you mind giving me a call once you have it?",
+      "ko": "그러면 좋겠네요. 찾으시면 전화 한 통 주시겠어요?",
+      "alt": [
+        "I hope so. Could you call me when you get it?",
+        "Fingers crossed. Can you let me know when it's picked up?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Not at all. I'll take down your number and call you by five.",
+      "ko": "그럼요. 번호를 적어 두고 5시까지 전화드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "___ never showed up.",
+      "ko": "___가 안 왔어요.",
+      "note": "show up = 나타나다 · 도착하다",
+      "fromLine": 1
+    },
+    {
+      "en": "It was supposed to arrive ___.",
+      "ko": "___에 오기로 되어 있었어요.",
+      "note": "be supposed to = ~하기로 되어 있다",
+      "fromLine": 3
+    },
+    {
+      "en": "Could ___ have been mixed up?",
+      "ko": "___가 뒤바뀐 걸까요?",
+      "note": "mix up = 헷갈리다 · 뒤섞다",
+      "fromLine": 5
+    },
+    {
+      "en": "file a claim",
+      "ko": "보상 청구를 하다",
+      "note": "분실 · 파손 때 보상을 요청하는 것",
+      "fromLine": 8
+    },
+    {
+      "en": "Would you mind giving me a call?",
+      "ko": "전화 한 통 주시겠어요?",
+      "note": "give ___ a call = ___에게 전화하다",
+      "fromLine": 9
+    }
+  ]
+}

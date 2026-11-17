@@ -1,0 +1,122 @@
+{
+  "id": "school-observation-feedback-2",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "observation-feedback",
+  "level": 2,
+  "title": {
+    "ko": "수업 참관 · 피드백",
+    "en": "Lesson Observation and Feedback"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "원어민 교사에게 수업에서 좋았던 점을 구체적으로 말하고, 작은 제안을 하나 덧붙인다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, what did you think of today's lesson? Please be honest.",
+      "ko": "그래서 오늘 수업 어떠셨어요? 솔직하게 말씀해 주세요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I thought it went really well. Your warm-up got the students' attention right away.",
+      "ko": "정말 잘된 것 같아요. 도입 활동으로 바로 학생들 관심을 끌었어요.",
+      "alt": [
+        "It went really well, I think. The warm-up caught the students' attention right away."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Thanks. I was worried it was too easy.",
+      "ko": "고마워요. 너무 쉬웠을까 봐 걱정했어요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Not at all. Even the shy students raised their hands.",
+      "ko": "전혀요. 수줍음 많은 학생들도 손을 들었어요.",
+      "alt": [
+        "No, it was just right. Even the quiet students raised their hands."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "That's great to hear. Was there anything I could improve?",
+      "ko": "그 말 들으니 좋네요. 고칠 만한 점은 없었나요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Just one small thing. You could write the key words on the board. Some students find it hard to follow just by listening.",
+      "ko": "작은 것 하나만요. 핵심 단어를 칠판에 써 주시면 좋겠어요. 듣기만 해서는 따라가기 힘들어하는 학생들이 있거든요.",
+      "alt": [
+        "Maybe one thing. It might help to write the key words on the board. Some students have trouble following by listening alone."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Good point. I'll try that next time.",
+      "ko": "좋은 지적이에요. 다음에 그렇게 해 볼게요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Overall, it was a great lesson. The students really like you.",
+      "ko": "전체적으로 정말 좋은 수업이었어요. 학생들이 선생님을 정말 좋아해요.",
+      "alt": [
+        "All in all, it was a great class. The kids really like you."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What did you think of ___?",
+      "ko": "___ 어떠셨어요?",
+      "note": "의견을 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "___ got the students' attention.",
+      "ko": "___로 학생들 관심을 끌었어요.",
+      "note": "get attention = 관심을 끌다",
+      "fromLine": 2
+    },
+    {
+      "en": "Even the shy students ___.",
+      "ko": "수줍음 많은 학생들도 ___.",
+      "note": "even = ~조차 · ~도",
+      "fromLine": 4
+    },
+    {
+      "en": "Just one small thing.",
+      "ko": "작은 것 하나만요.",
+      "note": "제안 앞에 붙이면 말이 부드러워짐",
+      "fromLine": 6
+    },
+    {
+      "en": "You could ___.",
+      "ko": "___하시면 좋겠어요.",
+      "note": "지시하지 않고 제안할 때",
+      "fromLine": 6
+    }
+  ]
+}

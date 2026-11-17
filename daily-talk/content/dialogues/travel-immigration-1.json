@@ -1,0 +1,98 @@
+{
+  "id": "travel-immigration-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "immigration",
+  "level": 1,
+  "title": {
+    "ko": "입국 심사",
+    "en": "Immigration"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "입국 심사대에서 여권을 내고 방문 목적과 머무는 기간을 말한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "입국 심사관",
+      "en": "Immigration officer",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hello. Passport, please.",
+      "ko": "안녕하세요. 여권 주세요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Here you are.",
+      "ko": "여기 있어요.",
+      "alt": [
+        "Here it is.",
+        "Here you go."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "What's the purpose of your visit?",
+      "ko": "방문 목적이 무엇인가요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I'm here on vacation.",
+      "ko": "휴가로 왔어요.",
+      "alt": [
+        "I'm here for sightseeing.",
+        "For vacation."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "How long will you stay?",
+      "ko": "얼마나 머무실 건가요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "For one week.",
+      "ko": "일주일이요.",
+      "alt": [
+        "One week.",
+        "I'll stay for a week."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Okay. Enjoy your stay.",
+      "ko": "네. 즐거운 시간 보내세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm here on vacation.",
+      "ko": "휴가로 왔어요.",
+      "note": "출장이면 I'm here on business.",
+      "fromLine": 4
+    },
+    {
+      "en": "For one week.",
+      "ko": "일주일이요.",
+      "note": "for + 기간",
+      "fromLine": 6
+    }
+  ]
+}

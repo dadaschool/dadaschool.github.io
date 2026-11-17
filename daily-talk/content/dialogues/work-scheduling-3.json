@@ -1,0 +1,137 @@
+{
+  "id": "work-scheduling-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "scheduling",
+  "level": 3,
+  "title": {
+    "ko": "일정 잡기",
+    "en": "Scheduling"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "뉴욕 · 싱가포르 · 서울에 있는 사람들의 일정을 맞춰 금요일 전에 킥오프 회의를 잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "팀장",
+      "en": "Team leader",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "회의 담당자(나)",
+      "en": "Meeting organizer",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Have you found a time for the kickoff meeting? We really need everyone together before Friday.",
+      "ko": "킥오프 회의 시간 찾았어요? 금요일 전에는 꼭 모두 모여야 해요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I'm working on it, but it's been a bit tricky. Ken is in New York and Priya is in Singapore, so the time difference is a challenge.",
+      "ko": "지금 맞추는 중인데 좀 까다롭네요. 켄은 뉴욕에, 프리야는 싱가포르에 있어서 시차가 문제예요.",
+      "alt": [
+        "I'm still working on it. With Ken in New York and Priya in Singapore, the time difference makes it hard."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Can't we just pick a time that works for us and ask them to adjust?",
+      "ko": "그냥 우리한테 맞는 시간으로 정하고 그쪽에 맞춰 달라고 하면 안 될까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I'd rather not. Ken has already had several late-night calls this month. I was thinking Wednesday at 8 a.m. our time, which is 6 p.m. Tuesday for him.",
+      "ko": "그건 좀 피하고 싶어요. 켄이 이번 달에 이미 늦은 밤 통화를 여러 번 했거든요. 우리 시간으로 수요일 아침 8시를 생각하고 있었는데, 켄한테는 화요일 저녁 6시예요.",
+      "alt": [
+        "I'd prefer not to. Ken has had a lot of late calls this month. How about Wednesday at 8 a.m. here? That's 6 p.m. Tuesday in New York."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "That makes sense. But wouldn't that be really early for Priya?",
+      "ko": "그렇네요. 그런데 프리야한테는 너무 이르지 않을까요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "It would be 7 a.m. for her. I already checked, and she said that's fine, as long as she can leave the call by eight her time.",
+      "ko": "프리야는 아침 7시예요. 이미 물어봤는데, 그쪽 시간으로 8시까지 통화에서 나갈 수 있으면 괜찮대요.",
+      "alt": [
+        "It'd be 7 a.m. there. I asked her, and she's okay with it if she can leave by eight."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Okay. The only problem is, I have a call with head office at 8:30 on Wednesday.",
+      "ko": "알겠어요. 문제는 제가 수요일 8시 반에 본사와 통화가 있다는 거예요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Then would it work if we covered your topics in the first half hour? I can send you notes on the rest afterward.",
+      "ko": "그럼 처음 30분 동안 팀장님 안건을 먼저 다루면 어떨까요? 나머지는 끝나고 정리해서 보내 드릴게요.",
+      "alt": [
+        "Then could we go over your part first, in the first thirty minutes? I'll send you notes on the rest later."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "That would be perfect. Let's go with that.",
+      "ko": "그러면 딱 좋겠네요. 그렇게 합시다."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Great. I'll send everyone an invitation with the start time for each city, so there's no confusion.",
+      "ko": "좋아요. 헷갈리지 않게 도시별 시작 시간을 적어서 모두에게 초대장을 보낼게요.",
+      "alt": [
+        "Great. I'll send out the invite with the time for each city so no one gets confused."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "It's been a bit tricky.",
+      "ko": "좀 까다롭네요.",
+      "note": "tricky = 까다로운, 쉽지 않은",
+      "fromLine": 2
+    },
+    {
+      "en": "I was thinking ___.",
+      "ko": "___를 생각하고 있었어요.",
+      "note": "제안을 부드럽게 꺼낼 때",
+      "fromLine": 4
+    },
+    {
+      "en": "as long as ___",
+      "ko": "___하기만 하면",
+      "note": "조건을 말할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "Would it work if we ___?",
+      "ko": "___하면 어떨까요?",
+      "note": "대안을 내며 상대 의견을 물을 때 (동사는 과거형)",
+      "fromLine": 8
+    },
+    {
+      "en": "so there's no confusion",
+      "ko": "헷갈리지 않게",
+      "note": "혼선을 막으려고 할 때",
+      "fromLine": 10
+    }
+  ]
+}

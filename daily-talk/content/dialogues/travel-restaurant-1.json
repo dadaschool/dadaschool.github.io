@@ -1,0 +1,98 @@
+{
+  "id": "travel-restaurant-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "restaurant",
+  "level": 1,
+  "title": {
+    "ko": "식당 주문",
+    "en": "Ordering at a Restaurant"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "식당에서 음식을 주문하고, 다 먹은 뒤 계산서를 달라고 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "종업원",
+      "en": "Server",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Are you ready to order?",
+      "ko": "주문하시겠어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yes. I'll have the pasta, please.",
+      "ko": "네. 파스타로 할게요.",
+      "alt": [
+        "Yes. The pasta, please.",
+        "Yes, I'd like the pasta."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Anything to drink?",
+      "ko": "음료는요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Just water, please.",
+      "ko": "물만 주세요.",
+      "alt": [
+        "Water, please.",
+        "Only water, please."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "How was everything?",
+      "ko": "음식은 괜찮으셨어요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "It was delicious. Can I have the check?",
+      "ko": "맛있었어요. 계산서 주시겠어요?",
+      "alt": [
+        "It was great. Check, please.",
+        "Very good. Could I get the bill?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Of course. I'll be right back.",
+      "ko": "물론이죠. 금방 올게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'll have the ___, please.",
+      "ko": "___로 할게요.",
+      "note": "가장 많이 쓰는 주문 표현",
+      "fromLine": 2
+    },
+    {
+      "en": "Can I have the check?",
+      "ko": "계산서 주시겠어요?",
+      "note": "미국은 check · 영국은 bill",
+      "fromLine": 6
+    }
+  ]
+}

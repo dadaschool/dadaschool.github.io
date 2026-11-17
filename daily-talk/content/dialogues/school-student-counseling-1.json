@@ -1,0 +1,108 @@
+{
+  "id": "school-student-counseling-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "student-counseling",
+  "level": 1,
+  "title": {
+    "ko": "외국인 학생 상담",
+    "en": "Talking with an International Student"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "쉬는 시간에 외국인 학생에게 기분이 어떤지, 학교생활에서 어려운 점은 없는지 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "외국인 학생",
+      "en": "International student",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Noah. How are you today?",
+      "ko": "안녕, 노아. 오늘 기분 어때?",
+      "alt": [
+        "Hey, Noah. How's it going?",
+        "Hi, Noah. How are you feeling today?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm okay. Just a little tired.",
+      "ko": "괜찮아요. 그냥 좀 피곤해요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Is school hard for you?",
+      "ko": "학교생활이 힘들어?",
+      "alt": [
+        "Is school difficult these days?",
+        "Is anything hard at school?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Korean class is really hard.",
+      "ko": "국어 시간이 정말 어려워요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I understand. You're doing your best.",
+      "ko": "그 마음 알아. 지금도 충분히 열심히 하고 있어.",
+      "alt": [
+        "I know. You're trying so hard.",
+        "That makes sense. You're doing great."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Thanks. Can I ask you for help?",
+      "ko": "감사합니다. 선생님한테 도와 달라고 해도 돼요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Of course. Come see me anytime.",
+      "ko": "물론이지. 언제든 찾아와.",
+      "alt": [
+        "Sure. You can come to me anytime.",
+        "Of course. Just come find me."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How are you today?",
+      "ko": "오늘 기분 어때?",
+      "note": "How's it going? 도 많이 씀",
+      "fromLine": 1
+    },
+    {
+      "en": "Is ___ hard for you?",
+      "ko": "___ 힘들어?",
+      "note": "어려운 점을 물을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Come see me anytime.",
+      "ko": "언제든 찾아와.",
+      "note": "학생에게 마음을 열어 줄 때",
+      "fromLine": 7
+    }
+  ]
+}

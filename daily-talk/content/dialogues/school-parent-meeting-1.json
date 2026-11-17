@@ -1,0 +1,108 @@
+{
+  "id": "school-parent-meeting-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "parent-meeting",
+  "level": 1,
+  "title": {
+    "ko": "외국인 학부모 상담",
+    "en": "Meeting with Parents"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "외국인 학부모와 처음 인사하고 아이가 학교에서 잘 지내는지 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "학부모",
+      "en": "Parent",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hello. I'm Ethan's homeroom teacher.",
+      "ko": "안녕하세요. 이선이 담임 교사입니다.",
+      "alt": [
+        "Hi. I'm Ethan's homeroom teacher, Ms. Kim.",
+        "Hello. I'm Ms. Kim, Ethan's homeroom teacher."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Nice to meet you. How is Ethan doing?",
+      "ko": "만나서 반갑습니다. 이선이는 잘 지내나요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "He's doing well. He's very friendly.",
+      "ko": "잘 지내고 있어요. 붙임성이 아주 좋아요.",
+      "alt": [
+        "He's doing great. He's very kind.",
+        "Very well. Everyone likes him."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Does he have friends in class?",
+      "ko": "반에 친구가 있나요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Yes, he eats lunch with Jiho every day.",
+      "ko": "네, 매일 지호랑 점심을 먹어요.",
+      "alt": [
+        "Yes. He has lunch with Jiho every day.",
+        "Yes, Jiho is his good friend."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "I'm so glad to hear that.",
+      "ko": "그 말을 들으니 정말 다행이에요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Please call me anytime.",
+      "ko": "언제든 전화 주세요.",
+      "alt": [
+        "Feel free to call me anytime.",
+        "You can call me anytime."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm ___'s homeroom teacher.",
+      "ko": "___의 담임이에요.",
+      "note": "homeroom teacher = 담임 교사",
+      "fromLine": 1
+    },
+    {
+      "en": "He's doing well.",
+      "ko": "잘 지내고 있어요.",
+      "note": "아이 근황을 말할 때 · She's doing well.",
+      "fromLine": 3
+    },
+    {
+      "en": "Please call me anytime.",
+      "ko": "언제든 전화 주세요.",
+      "note": "학부모에게 하는 마무리 인사",
+      "fromLine": 7
+    }
+  ]
+}

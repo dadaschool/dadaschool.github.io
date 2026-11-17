@@ -1,0 +1,98 @@
+{
+  "id": "travel-directions-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "directions",
+  "level": 1,
+  "title": {
+    "ko": "길 묻기",
+    "en": "Asking for Directions"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "길에서 지나가는 사람에게 가까운 역을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "지나가는 사람",
+      "en": "Passerby",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me. Where is the station?",
+      "ko": "실례합니다. 역이 어디예요?",
+      "alt": [
+        "Excuse me, where's the train station?",
+        "Excuse me. How do I get to the station?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Go straight for two blocks.",
+      "ko": "두 블록 곧장 가세요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Is it far from here?",
+      "ko": "여기서 멀어요?",
+      "alt": [
+        "Is it far?",
+        "How far is it?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "No, about five minutes on foot.",
+      "ko": "아니요, 걸어서 5분쯤이요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Thank you very much.",
+      "ko": "정말 감사합니다.",
+      "alt": [
+        "Thanks a lot.",
+        "Thank you so much."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "You're welcome. Have a nice day.",
+      "ko": "천만에요. 좋은 하루 보내세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Where is ___?",
+      "ko": "___가 어디예요?",
+      "note": "장소를 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Is it far from here?",
+      "ko": "여기서 멀어요?",
+      "note": "far = 먼",
+      "fromLine": 3
+    },
+    {
+      "en": "on foot",
+      "ko": "걸어서",
+      "note": "by bus = 버스로",
+      "fromLine": 4
+    }
+  ]
+}

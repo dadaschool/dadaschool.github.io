@@ -1,0 +1,138 @@
+{
+  "id": "school-co-planning-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "co-planning",
+  "level": 3,
+  "title": {
+    "ko": "원어민 교사와 수업 협의",
+    "en": "Planning Lessons Together"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "함께 한 수업이 끝난 뒤 잘된 점과 아쉬운 점을 돌아보고, 원어민 교사의 솔직한 의견을 들은 뒤 다음 수업 역할을 다시 나눈다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, how do you think the lesson went today?",
+      "ko": "그래서 오늘 수업 어땠던 것 같아요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Overall, I think it went well. The students really enjoyed the role-play at the end.",
+      "ko": "전체적으로 잘된 것 같아요. 학생들이 마지막 역할극을 정말 재미있어했어요.",
+      "alt": [
+        "I think it went well overall. The kids loved the role-play at the end."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "I agree. But the instructions for the main activity took too long. I think some kids got lost.",
+      "ko": "저도 그렇게 생각해요. 그런데 본 활동 설명이 너무 길었어요. 몇몇 아이들은 놓친 것 같아요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "You're right. Maybe next time we could show a quick example first instead of just explaining.",
+      "ko": "맞아요. 다음에는 설명만 하지 말고 먼저 짧게 시범을 보여 주면 어떨까요?",
+      "alt": [
+        "Good point. Next time, maybe we can model it first instead of explaining so much."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Good idea. Can I be honest about one more thing?",
+      "ko": "좋은 생각이에요. 하나 더 솔직하게 말씀드려도 될까요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Of course. I'd really like to hear your thoughts.",
+      "ko": "물론이죠. 선생님 생각을 꼭 듣고 싶어요.",
+      "alt": [
+        "Sure. Please tell me what you think.",
+        "Of course. I want to hear it."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "You translated a lot of my sentences into Korean. I know you want to help, but the students stopped listening to me.",
+      "ko": "제가 하는 말을 한국어로 많이 옮겨 주셨잖아요. 도와주시려는 건 아는데, 그러다 보니 학생들이 제 말은 안 듣게 되더라고요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Hmm, I hadn't noticed that. Thanks for telling me. How about I only translate when students look really confused?",
+      "ko": "음, 그건 미처 몰랐네요. 말씀해 주셔서 고마워요. 학생들이 정말 헷갈려할 때만 통역하면 어떨까요?",
+      "alt": [
+        "I didn't realize that. Thank you for being honest. What if I translate only when they're really lost?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "That sounds perfect. And maybe you could walk around and help the groups that are struggling.",
+      "ko": "그거 딱 좋네요. 그리고 돌아다니면서 어려워하는 모둠을 도와주시면 좋겠어요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Sure. So next time, you'll give the instructions, and I'll help the groups. Let's try it on Thursday.",
+      "ko": "좋아요. 그럼 다음에는 선생님이 설명을 맡고 저는 모둠을 도울게요. 목요일에 해 봐요.",
+      "alt": [
+        "Okay. Next time, you explain the activity and I'll support the groups. Let's try that on Thursday."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How do you think ___ went?",
+      "ko": "___ 어땠던 것 같아요?",
+      "note": "수업 · 행사를 돌아볼 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Overall, I think it went well.",
+      "ko": "전체적으로 잘된 것 같아요.",
+      "note": "돌아보기를 좋은 점부터 시작할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Maybe next time we could ___.",
+      "ko": "다음에는 ___하면 어떨까요?",
+      "note": "고칠 점을 부드럽게 제안할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "I hadn't noticed that. Thanks for telling me.",
+      "ko": "그건 미처 몰랐네요. 말씀해 주셔서 고마워요.",
+      "note": "지적을 고맙게 받아들일 때",
+      "fromLine": 8
+    },
+    {
+      "en": "You'll ___, and I'll ___.",
+      "ko": "선생님은 ___하고 저는 ___할게요.",
+      "note": "역할을 나눌 때",
+      "fromLine": 10
+    }
+  ]
+}

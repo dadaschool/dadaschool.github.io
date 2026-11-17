@@ -1,0 +1,131 @@
+{
+  "id": "work-reporting-problems-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "reporting-problems",
+  "level": 2,
+  "title": {
+    "ko": "문제 보고하기",
+    "en": "Reporting Problems"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "고객사에 보낸 상자가 파손돼 도착했다는 소식을 팀장에게 보고하고 대처 방법을 정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "팀장",
+      "en": "Manager",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Paul. Do you have a minute? There's a problem with the Corwell order.",
+      "ko": "폴 팀장님, 잠깐 시간 되세요? 코웰 주문 건에 문제가 생겼어요.",
+      "alt": [
+        "Paul, have you got a minute? We have an issue with the Corwell order."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. What happened?",
+      "ko": "그래요. 무슨 일이에요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "They just called. Ten of the boxes arrived damaged, and they need the products by Friday.",
+      "ko": "방금 전화가 왔는데요. 상자 열 개가 파손된 채로 도착했고, 금요일까지 제품이 꼭 필요하대요.",
+      "alt": [
+        "They called a few minutes ago. Ten boxes were damaged in delivery, and they need everything by Friday."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "That's not good. Do we know how it happened?",
+      "ko": "큰일이네요. 어쩌다 그렇게 됐는지 알아요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Not yet. They sent me some photos, and it looks like the boxes got wet.",
+      "ko": "아직이요. 사진을 보내 줬는데, 상자가 젖은 것 같아요.",
+      "alt": [
+        "Not yet. They sent photos, and it seems the boxes got wet."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Okay. Do we have enough stock to send replacements?",
+      "ko": "알겠어요. 교체품을 보낼 재고는 충분해요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Yes, I checked with the warehouse. Should I send them by express delivery?",
+      "ko": "네, 창고에 확인해 봤어요. 빠른 배송으로 보낼까요?",
+      "alt": [
+        "We do. I already checked with the warehouse. Shall I send them by express?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, please do. And contact the shipping company about the damage.",
+      "ko": "네, 그렇게 해 줘요. 그리고 파손 건은 운송 회사에 연락해 주고요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Will do. I'll let you know once the new boxes are on their way.",
+      "ko": "알겠습니다. 새 상자가 출발하면 바로 말씀드릴게요.",
+      "alt": [
+        "Sure. I'll update you as soon as the new boxes have shipped."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "There's a problem with ___.",
+      "ko": "___에 문제가 생겼어요.",
+      "note": "문제를 처음 알릴 때 · issue 도 많이 씀",
+      "fromLine": 1
+    },
+    {
+      "en": "arrived damaged",
+      "ko": "파손된 채로 도착했다",
+      "note": "damaged = 망가진, 파손된",
+      "fromLine": 3
+    },
+    {
+      "en": "It looks like ___.",
+      "ko": "___인 것 같아요.",
+      "note": "보이는 대로 추측할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "I checked with ___.",
+      "ko": "___에 확인해 봤어요.",
+      "note": "check with + 사람 · 부서",
+      "fromLine": 7
+    },
+    {
+      "en": "I'll let you know once ___.",
+      "ko": "___하면 바로 말씀드릴게요.",
+      "note": "once = ~하자마자, ~하면",
+      "fromLine": 9
+    }
+  ]
+}

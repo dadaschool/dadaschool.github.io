@@ -1,0 +1,137 @@
+{
+  "id": "work-reporting-problems-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "reporting-problems",
+  "level": 3,
+  "title": {
+    "ko": "문제 보고하기",
+    "en": "Reporting Problems"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "대금이 두 번 결제됐다는 고객의 전화에, 원인과 환불 · 재발 방지 방법을 차분히 설명한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "고객사 담당자",
+      "en": "Client",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "고객 담당 직원(나)",
+      "en": "Account manager",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi, this is Laura Bennett from Norvell Foods. We just noticed that we were charged twice for last month's order.",
+      "ko": "안녕하세요, 노벨 푸드의 로라 베넷입니다. 지난달 주문 대금이 두 번 결제된 걸 방금 알게 됐어요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I'm very sorry about that, Laura. We found the problem this morning, and I was actually about to call you.",
+      "ko": "정말 죄송합니다, 로라 씨. 저희도 오늘 아침에 문제를 발견해서, 마침 전화드리려던 참이었어요.",
+      "alt": [
+        "I'm so sorry, Laura. We found the problem this morning, and I was just going to call you."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "So what happened? This has never happened before.",
+      "ko": "그래서 어떻게 된 거예요? 이런 일은 처음인데요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "We updated our billing system over the weekend, and a bug caused some payments to be processed twice. About twenty clients were affected.",
+      "ko": "주말에 결제 시스템을 업데이트했는데, 오류 때문에 일부 결제가 두 번 처리됐습니다. 고객사 스무 곳 정도가 영향을 받았어요.",
+      "alt": [
+        "Our billing system was updated last weekend, and an error charged some clients twice. Around twenty clients had the same problem."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "I see. When will we get the money back? It's a fairly large amount.",
+      "ko": "그렇군요. 돈은 언제 돌려받을 수 있나요? 금액이 꽤 커서요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "We've already started the refund, so it should arrive within three to five business days. I'll email you a confirmation today.",
+      "ko": "이미 환불 절차를 시작해서, 영업일 기준 3~5일 안에 들어갈 거예요. 확인 메일은 오늘 보내 드릴게요.",
+      "alt": [
+        "The refund is already in progress. You should get it within three to five business days, and I'll send you a confirmation email today."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Three to five days is a bit long. We have some big payments to make this week.",
+      "ko": "3~5일은 좀 기네요. 이번 주에 나갈 큰돈이 있어서요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I understand. Let me see if our finance team can speed it up. Would it help if I called you back within an hour with an answer?",
+      "ko": "이해합니다. 재무팀이 더 빨리 처리할 수 있는지 알아볼게요. 한 시간 안에 다시 전화로 답을 드리면 괜찮을까요?",
+      "alt": [
+        "I understand. I'll ask our finance team to process it faster and call you back within an hour. Would that help?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Yes, thank you. And how can we be sure this won't happen again?",
+      "ko": "네, 고마워요. 그리고 이런 일이 다시 안 생긴다는 건 어떻게 믿을 수 있죠?"
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "That's a fair question. We've fixed the bug, and from now on, every payment will be checked by a person before it's processed.",
+      "ko": "당연히 물어보실 만해요. 오류는 이미 고쳤고, 앞으로는 모든 결제를 처리하기 전에 사람이 한 번 더 확인할 겁니다.",
+      "alt": [
+        "Good question. The bug has been fixed, and from now on someone will review every payment before it goes through."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I was actually about to ___.",
+      "ko": "마침 ___하려던 참이었어요.",
+      "note": "be about to = 막 ~하려던 참이다",
+      "fromLine": 2
+    },
+    {
+      "en": "A bug caused ___.",
+      "ko": "오류 때문에 ___가 생겼어요.",
+      "note": "원인을 설명할 때 · cause = 일으키다",
+      "fromLine": 4
+    },
+    {
+      "en": "It should arrive within ___ business days.",
+      "ko": "영업일 기준 ___일 안에 들어갈 거예요.",
+      "note": "business day = 영업일(주말 · 공휴일 제외)",
+      "fromLine": 6
+    },
+    {
+      "en": "Let me see if ___.",
+      "ko": "___인지 알아볼게요.",
+      "note": "확인해 보겠다고 할 때",
+      "fromLine": 8
+    },
+    {
+      "en": "from now on",
+      "ko": "앞으로는",
+      "note": "재발 방지책을 말할 때",
+      "fromLine": 10
+    }
+  ]
+}

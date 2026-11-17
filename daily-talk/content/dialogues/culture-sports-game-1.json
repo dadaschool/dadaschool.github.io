@@ -1,0 +1,104 @@
+{
+  "id": "culture-sports-game-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "sports-game",
+  "level": 1,
+  "title": {
+    "ko": "스포츠 경기 관람",
+    "en": "Watching a Sports Game"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "야구장 입구에서 표를 보여 주고 좌석 구역 위치와 경기 시작 시간을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "경기장 직원",
+      "en": "Stadium staff",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "관중(나)",
+      "en": "Fan",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi there. Can I see your ticket?",
+      "ko": "안녕하세요. 표 좀 보여 주시겠어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Sure. Where is section 108?",
+      "ko": "네. 108구역은 어디예요?",
+      "alt": [
+        "Here. How do I get to section 108?",
+        "Sure. Which way is section 108?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Go up those stairs and turn right.",
+      "ko": "저 계단으로 올라가서 오른쪽으로 가세요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Can I buy food up there?",
+      "ko": "거기서 음식 살 수 있어요?",
+      "alt": [
+        "Is there food up there?",
+        "Are there snacks up there?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Yes. There's a hot dog stand nearby.",
+      "ko": "네. 근처에 핫도그 파는 곳이 있어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Great. What time does the game start?",
+      "ko": "좋아요. 경기는 몇 시에 시작해요?",
+      "alt": [
+        "Great. When does the game start?",
+        "Okay. What time is the game?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "At 7. Enjoy the game!",
+      "ko": "7시요. 즐거운 관람 되세요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Where is section ___?",
+      "ko": "___구역은 어디예요?",
+      "note": "경기장 좌석 구역 = section",
+      "fromLine": 2
+    },
+    {
+      "en": "Go up those stairs.",
+      "ko": "저 계단으로 올라가세요.",
+      "note": "내려가다 = go down",
+      "fromLine": 3
+    },
+    {
+      "en": "Can I buy ___ up there?",
+      "ko": "거기서 ___ 살 수 있어요?",
+      "note": "up there = 저 위에서",
+      "fromLine": 4
+    }
+  ]
+}

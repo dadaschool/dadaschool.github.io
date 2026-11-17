@@ -1,0 +1,142 @@
+{
+  "id": "daily-doctor-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "doctor",
+  "level": 3,
+  "title": {
+    "ko": "병원 진료",
+    "en": "Seeing a Doctor"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "의사에게 항생제 먹는 법을 듣고 확인하다가, 그 약이 보험이 안 된다는 것을 알고 보험이 되는 약으로 바꾸고 다음 진료도 잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "의사",
+      "en": "Doctor",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "환자(나)",
+      "en": "Patient",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Your test results show a sinus infection, so I'm going to prescribe an antibiotic.",
+      "ko": "검사 결과 축농증이 있어서 항생제를 처방해 드릴게요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Okay. Could you tell me how I should take it?",
+      "ko": "네. 어떻게 먹어야 하는지 알려 주시겠어요?",
+      "alt": [
+        "Okay. How should I take it?",
+        "All right. Can you explain how to take it?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Take one pill twice a day, with food, for ten days. Make sure you finish all of it, even if you feel better.",
+      "ko": "하루 두 번 식사와 함께 한 알씩 열흘 동안 드세요. 나아진 것 같아도 꼭 끝까지 다 드셔야 해요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "So, one pill in the morning and one in the evening, until it's all gone?",
+      "ko": "그러니까 아침에 한 알, 저녁에 한 알, 다 먹을 때까지요?",
+      "alt": [
+        "So, one in the morning and one at night until I finish it?",
+        "Just to check: one pill every morning and evening until they're gone?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Exactly. Do you have any other questions?",
+      "ko": "맞아요. 다른 궁금한 점 있으세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes. Do you know if my insurance will cover it? I'm on a Greenleaf Health plan.",
+      "ko": "네. 제 보험으로 처리가 되는지 아세요? 그린리프 헬스 보험이에요.",
+      "alt": [
+        "Yes. Will my insurance pay for it? My plan is Greenleaf Health.",
+        "Just one. Is this covered by my insurance? I have Greenleaf Health."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Let me check... I'm afraid your plan doesn't cover this one. It could cost you around $90.",
+      "ko": "확인해 볼게요... 죄송하지만 이 약은 보험이 안 되네요. 90달러쯤 나올 수 있어요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "That's quite expensive. Is there a generic version or something similar that's covered?",
+      "ko": "꽤 비싸네요. 복제약이나 보험이 되는 비슷한 약이 있을까요?",
+      "alt": [
+        "That's a lot. Is there a cheaper generic that my insurance covers?",
+        "Hmm, that's expensive. Could you prescribe something similar that's covered?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Yes, there's a generic version that works just as well. With your insurance, it should only be about $10. I'd also like to see you again in two weeks.",
+      "ko": "네, 효과가 똑같은 복제약이 있어요. 보험을 적용하면 10달러 정도밖에 안 할 거예요. 그리고 2주 뒤에 한 번 더 뵐게요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "That's much better, thank you. I'll book a follow-up appointment at the front desk on my way out.",
+      "ko": "훨씬 낫네요, 감사합니다. 나가면서 접수처에서 다음 진료 예약을 할게요.",
+      "alt": [
+        "Great, thanks. I'll book the follow-up at the front desk.",
+        "Thank you, that helps a lot. I'll schedule my next visit at the front desk."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Could you tell me how I should ___?",
+      "ko": "어떻게 ___해야 하는지 알려 주시겠어요?",
+      "note": "방법을 공손하게 물을 때",
+      "fromLine": 2
+    },
+    {
+      "en": "twice a day, with food",
+      "ko": "하루 두 번, 식사와 함께",
+      "note": "once 한 번 · three times 세 번",
+      "fromLine": 3
+    },
+    {
+      "en": "Do you know if my insurance will cover ___?",
+      "ko": "제 보험으로 ___가 되는지 아세요?",
+      "note": "cover = (보험이) 비용을 대 주다",
+      "fromLine": 6
+    },
+    {
+      "en": "a generic version",
+      "ko": "복제약",
+      "note": "성분이 같고 값이 싼 약",
+      "fromLine": 8
+    },
+    {
+      "en": "follow-up appointment",
+      "ko": "다음 진료 예약",
+      "note": "follow-up = 후속 진료",
+      "fromLine": 10
+    }
+  ]
+}

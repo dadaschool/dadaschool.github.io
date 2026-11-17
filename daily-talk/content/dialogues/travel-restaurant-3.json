@@ -1,0 +1,125 @@
+{
+  "id": "travel-restaurant-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "restaurant",
+  "level": 3,
+  "title": {
+    "ko": "식당 주문",
+    "en": "Ordering at a Restaurant"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "땅콩 알레르기를 미리 알리고, 땅콩이 올라간 음식이 잘못 나오자 침착하게 바로잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "종업원",
+      "en": "Server",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Before I order, I should mention that I'm allergic to peanuts. Is the curry safe for me?",
+      "ko": "주문하기 전에 말씀드릴 게 있는데요, 제가 땅콩 알레르기가 있어요. 카레는 먹어도 괜찮을까요?",
+      "alt": [
+        "Before I order, I have a peanut allergy. Is the curry okay for me?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Let me check with the kitchen... The curry has peanut sauce, but the chef can make it without.",
+      "ko": "주방에 확인해 볼게요... 카레에 땅콩 소스가 들어가는데, 셰프가 빼고 만들 수 있대요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "That would be great. Could you also make sure it isn't cooked in the same pan?",
+      "ko": "그럼 좋겠어요. 같은 팬에서 요리하지 않도록 해 주실 수 있나요?",
+      "alt": [
+        "Great. And please make sure they don't use the same pan."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Absolutely. I'll let them know it's a serious allergy.",
+      "ko": "물론이죠. 심한 알레르기라고 전해 둘게요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Excuse me. I think there's been a mistake. This looks like it has peanuts on top.",
+      "ko": "저기요. 착오가 있는 것 같아요. 위에 땅콩이 올라가 있는 것 같은데요.",
+      "alt": [
+        "Excuse me. I think this is wrong. There are peanuts on top."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Oh, I'm so sorry! That must be another table's order. Please don't eat it.",
+      "ko": "어머, 정말 죄송합니다! 다른 테이블 주문인가 봐요. 드시지 마세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Don't worry, I haven't touched it. How long will the right one take?",
+      "ko": "걱정 마세요, 손 안 댔어요. 제 음식은 얼마나 걸릴까요?",
+      "alt": [
+        "It's okay, I didn't eat any. How long will mine take?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "About ten minutes. I'll make sure it comes out right this time, and your drinks are on the house.",
+      "ko": "10분쯤이요. 이번에는 꼭 제대로 나오게 할게요. 음료는 무료로 드리겠습니다."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Thanks for taking it seriously. I appreciate it.",
+      "ko": "심각하게 받아들여 주셔서 고마워요.",
+      "alt": [
+        "Thank you for being so careful. I appreciate it."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm allergic to ___.",
+      "ko": "___ 알레르기가 있어요.",
+      "note": "a peanut allergy 라고도 함",
+      "fromLine": 1
+    },
+    {
+      "en": "I think there's been a mistake.",
+      "ko": "착오가 있는 것 같아요.",
+      "note": "잘못을 부드럽게 알릴 때",
+      "fromLine": 5
+    },
+    {
+      "en": "How long will ___ take?",
+      "ko": "___는 얼마나 걸릴까요?",
+      "note": "기다리는 시간을 물을 때",
+      "fromLine": 7
+    },
+    {
+      "en": "on the house",
+      "ko": "가게에서 무료로",
+      "note": "식당 · 술집에서 서비스로 줄 때",
+      "fromLine": 8
+    }
+  ]
+}

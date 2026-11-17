@@ -1,0 +1,126 @@
+{
+  "id": "daily-library-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "library",
+  "level": 2,
+  "title": {
+    "ko": "도서관",
+    "en": "At the Library"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "빌린 책을 연장하려는데 한 권은 예약이 걸려 있어 연장이 안 되고, 대출 중인 다른 책을 예약 신청한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "사서",
+      "en": "Librarian",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "이용자(나)",
+      "en": "Library patron",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'd like to renew these two books, if possible.",
+      "ko": "안녕하세요. 가능하면 이 책 두 권을 연장하고 싶어요.",
+      "alt": [
+        "Hi. Can I renew these two books?",
+        "Hello. Could I renew these books, please?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Let me check. This one's fine, but I'm afraid the other one has a hold on it, so it can't be renewed.",
+      "ko": "확인해 볼게요. 이 책은 괜찮은데, 죄송하지만 다른 한 권은 예약이 걸려 있어서 연장이 안 돼요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Oh, okay. When do I need to return it?",
+      "ko": "아, 알겠어요. 그럼 언제까지 반납해야 해요?",
+      "alt": [
+        "I see. When is it due?",
+        "Oh, all right. What's the due date for that one?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "It's due this Saturday. The other one is now due on the 28th.",
+      "ko": "이번 토요일까지예요. 다른 한 권은 이제 28일까지예요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Got it. Also, I'm looking for a book called The Quiet Garden, but it's checked out. Can I put it on hold?",
+      "ko": "알겠어요. 그리고 «조용한 정원»이라는 책을 찾는데 대출 중이더라고요. 예약할 수 있을까요?",
+      "alt": [
+        "Okay. And can I put a hold on The Quiet Garden? It's checked out right now.",
+        "Thanks. The Quiet Garden is checked out. Could I reserve it?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Sure. You're third on the waiting list. We'll send you an email when it's ready to pick up.",
+      "ko": "네. 대기 순서 세 번째세요. 찾아가실 수 있게 되면 이메일을 보내 드릴게요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "How long will you hold it for me once it comes in?",
+      "ko": "책이 들어오면 얼마 동안 맡아 두세요?",
+      "alt": [
+        "Once it's in, how long will you keep it for me?",
+        "When it arrives, how many days do I have to pick it up?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "We'll keep it on the hold shelf for seven days.",
+      "ko": "예약 도서 서가에 7일 동안 둬요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to renew ___.",
+      "ko": "___를 연장하고 싶어요.",
+      "note": "renew = (대출 · 회원 기간을) 연장하다",
+      "fromLine": 1
+    },
+    {
+      "en": "has a hold on it",
+      "ko": "예약이 걸려 있다",
+      "note": "hold = 다른 사람이 예약해 둔 것",
+      "fromLine": 2
+    },
+    {
+      "en": "When do I need to return it?",
+      "ko": "언제까지 반납해야 해요?",
+      "note": "반납일은 due date",
+      "fromLine": 3
+    },
+    {
+      "en": "Can I put it on hold?",
+      "ko": "예약할 수 있을까요?",
+      "note": "put ___ on hold = ___를 예약해 두다",
+      "fromLine": 5
+    },
+    {
+      "en": "waiting list",
+      "ko": "대기 명단",
+      "note": "waitlist 라고도 함",
+      "fromLine": 6
+    }
+  ]
+}

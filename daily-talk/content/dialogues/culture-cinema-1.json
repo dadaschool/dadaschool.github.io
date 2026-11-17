@@ -1,0 +1,104 @@
+{
+  "id": "culture-cinema-1",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "cinema",
+  "level": 1,
+  "title": {
+    "ko": "영화관",
+    "en": "At the Movies"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "영화관 매표소에서 표를 사고 팝콘과 음료를 주문한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "영화관 직원",
+      "en": "Cinema staff",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "관객(나)",
+      "en": "Moviegoer",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi. Which movie would you like to see?",
+      "ko": "안녕하세요. 어떤 영화 보시겠어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Two tickets for The Paper Kite, please.",
+      "ko": "«종이 연» 표 두 장 주세요.",
+      "alt": [
+        "Two for The Paper Kite, please.",
+        "I'd like two tickets for The Paper Kite."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "For the 7:30 show?",
+      "ko": "7시 30분 상영이요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes. Two seats in the middle, please.",
+      "ko": "네. 가운데 자리 두 개요.",
+      "alt": [
+        "Yes. Middle seats, please.",
+        "Yes, two seats in the center."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Here you go. Would you like any snacks?",
+      "ko": "여기 있습니다. 간식도 드릴까요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "A large popcorn and two sodas, please.",
+      "ko": "팝콘 큰 거 하나랑 탄산음료 두 개 주세요.",
+      "alt": [
+        "Large popcorn and two sodas, please.",
+        "One large popcorn and two sodas."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "That's 34 dollars in total.",
+      "ko": "다 해서 34달러입니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Two tickets for ___, please.",
+      "ko": "___ 표 두 장 주세요.",
+      "note": "영화 제목을 넣어 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Two seats in the middle, please.",
+      "ko": "가운데 자리 두 개 주세요.",
+      "note": "앞쪽 = near the front · 뒤쪽 = in the back",
+      "fromLine": 4
+    },
+    {
+      "en": "A large ___, please.",
+      "ko": "___ 큰 거 하나 주세요.",
+      "note": "small · medium · large 로 크기를 말해요",
+      "fromLine": 6
+    }
+  ]
+}

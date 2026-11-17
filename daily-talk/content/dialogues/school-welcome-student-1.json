@@ -1,0 +1,108 @@
+{
+  "id": "school-welcome-student-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "welcome-student",
+  "level": 1,
+  "title": {
+    "ko": "외국인 학생 맞이",
+    "en": "Welcoming an International Student"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "전학 온 외국인 학생을 맞이하고 교실과 자리를 안내한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "외국인 학생",
+      "en": "International student",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "담임 교사(나)",
+      "en": "Homeroom teacher",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Lily. Welcome to our school!",
+      "ko": "안녕, 릴리. 우리 학교에 온 걸 환영해!",
+      "alt": [
+        "Welcome to our school, Lily!",
+        "Hi, Lily. Nice to meet you!"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Thank you. I'm a little nervous.",
+      "ko": "감사합니다. 조금 떨려요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "That's okay. I'm your homeroom teacher.",
+      "ko": "괜찮아. 선생님이 너희 반 담임이야.",
+      "alt": [
+        "Don't worry. I'm your homeroom teacher.",
+        "It's okay. I'll be your homeroom teacher."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Where is my classroom?",
+      "ko": "제 교실은 어디예요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "It's on the second floor. Follow me.",
+      "ko": "2층에 있어. 따라와.",
+      "alt": [
+        "It's upstairs. Come with me.",
+        "Second floor. Let's go together."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Where do I sit?",
+      "ko": "저는 어디 앉아요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "You can sit here, next to Yuna.",
+      "ko": "여기 유나 옆에 앉으면 돼.",
+      "alt": [
+        "Sit here, next to Yuna.",
+        "This is your seat, next to Yuna."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Welcome to ___!",
+      "ko": "___에 온 걸 환영해!",
+      "note": "새로 온 사람을 맞을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Follow me.",
+      "ko": "따라와.",
+      "note": "어른에게는 Please follow me.",
+      "fromLine": 5
+    },
+    {
+      "en": "You can sit ___.",
+      "ko": "___에 앉으면 돼.",
+      "note": "자리를 안내할 때",
+      "fromLine": 7
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "travel-lost-help-3",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "lost-help",
+  "level": 3,
+  "title": {
+    "ko": "분실 · 도움 요청",
+    "en": "Lost Items and Getting Help"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "기차에서 여권을 도난당해 경찰서에 신고하고, 대사관에서 할 일까지 차근차근 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "경찰관",
+      "en": "Police officer",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hello. I'd like to report a lost passport. I think it was stolen on the train this morning.",
+      "ko": "안녕하세요. 여권 분실 신고를 하고 싶어요. 오늘 아침 기차에서 도난당한 것 같아요.",
+      "alt": [
+        "Hi. I need to report my passport missing. I think someone stole it on the train this morning."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry to hear that. Can you tell me exactly what happened?",
+      "ko": "그러셨군요. 무슨 일이 있었는지 정확히 말씀해 주시겠어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "My bag was on the rack above my seat. When I got off, the front pocket was open and my passport was gone.",
+      "ko": "가방을 제 자리 위 선반에 뒀는데요. 내릴 때 보니 앞주머니가 열려 있고 여권이 없었어요.",
+      "alt": [
+        "I put my bag on the shelf above my seat. When I got off the train, the front pocket was open and my passport wasn't there."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Did you lose anything else, like cash or cards?",
+      "ko": "현금이나 카드처럼 다른 것도 잃어버리셨나요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Just some cash. Fortunately, I keep my cards in a different place.",
+      "ko": "현금 조금이요. 다행히 카드는 다른 곳에 넣어 둬요.",
+      "alt": [
+        "Only some cash. Luckily, my cards were somewhere else."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "All right. I'll fill out a police report. You'll need a copy for your embassy.",
+      "ko": "알겠습니다. 경찰 신고서를 작성할게요. 대사관에 사본이 필요하실 거예요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Thank you. Do you know where the Korean embassy is and whether I need an appointment?",
+      "ko": "감사합니다. 한국 대사관이 어디 있는지, 예약이 필요한지 아세요?",
+      "alt": [
+        "Thanks. Where is the Korean embassy, and do I need an appointment?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "It's downtown, about twenty minutes by taxi. I'd call them first. They can issue an emergency travel document.",
+      "ko": "시내에 있고 택시로 20분쯤이에요. 먼저 전화해 보세요. 긴급 여행 증명서를 발급해 줄 수 있어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That's really helpful. Would you mind writing down the report number for me?",
+      "ko": "정말 도움이 돼요. 신고 번호를 적어 주시겠어요?",
+      "alt": [
+        "That helps a lot. Could you write down the report number for me?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Not at all. Here it is. Keep this with you until you get home.",
+      "ko": "그럼요. 여기 있습니다. 집에 갈 때까지 가지고 계세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to report ___.",
+      "ko": "___를 신고하고 싶어요.",
+      "note": "report = 신고하다",
+      "fromLine": 1
+    },
+    {
+      "en": "___ was gone.",
+      "ko": "___가 없어졌어요.",
+      "note": "gone = 사라진",
+      "fromLine": 3
+    },
+    {
+      "en": "Fortunately, ___.",
+      "ko": "다행히 ___.",
+      "note": "Luckily 와 같은 뜻",
+      "fromLine": 5
+    },
+    {
+      "en": "Would you mind ___ing?",
+      "ko": "___해 주시겠어요?",
+      "note": "대답 «Not at all» = 기꺼이요 (싫지 않다는 뜻)",
+      "fromLine": 9
+    }
+  ]
+}

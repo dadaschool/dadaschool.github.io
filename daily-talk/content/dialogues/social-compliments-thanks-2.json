@@ -1,0 +1,126 @@
+{
+  "id": "social-compliments-thanks-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "compliments-thanks",
+  "level": 2,
+  "title": {
+    "ko": "칭찬 · 감사",
+    "en": "Compliments and Thanks"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "발표 자료를 도와준 동료에게 무엇이 도움이 됐는지 구체적으로 고마움을 전하고, 칭찬에 자연스럽게 답한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "회사 동료",
+      "en": "Coworker",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hey, Sarah. Thanks again for helping me with my slides yesterday.",
+      "ko": "세라 씨, 어제 발표 자료 도와줘서 다시 한번 고마워요.",
+      "alt": [
+        "Sarah, thank you for helping me with the slides yesterday.",
+        "Hey, thanks again for your help with my slides."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, it was nothing. How did the presentation go?",
+      "ko": "에이, 별것도 아닌데요. 발표는 어떻게 됐어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Really well, actually. Your tip about the charts made a big difference.",
+      "ko": "사실 정말 잘됐어요. 차트 팁이 큰 도움이 됐어요.",
+      "alt": [
+        "It went great. Your advice on the charts really helped.",
+        "Pretty well! The charts were so much clearer thanks to you."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "I'm glad to hear that. I heard the manager loved it.",
+      "ko": "다행이네요. 팀장님이 아주 좋아하셨다고 들었어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Yeah, she said it was really clear. I was so relieved.",
+      "ko": "네, 아주 명확했다고 하셨어요. 정말 안심됐어요.",
+      "alt": [
+        "She did! She said it was easy to follow. I was so relieved.",
+        "Yes, she said it was very clear. What a relief!"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Well, you did all the hard work. You should be proud.",
+      "ko": "그래도 힘든 건 다 직접 했잖아요. 뿌듯해해도 돼요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Thanks, I appreciate that. Let me buy you lunch this week.",
+      "ko": "그렇게 말해 주니 고마워요. 이번 주에 제가 점심 살게요.",
+      "alt": [
+        "Thank you, that's nice of you to say. Lunch is on me this week.",
+        "Thanks. I'd like to treat you to lunch this week."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "You don't have to, but I won't say no!",
+      "ko": "안 그래도 되는데, 거절은 안 할게요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Thanks again for ___ing.",
+      "ko": "___해 줘서 다시 한번 고마워요.",
+      "note": "지난번 도움에 다시 감사할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "___ made a big difference.",
+      "ko": "___가 큰 도움이 됐어요.",
+      "note": "무엇이 도움이 됐는지 구체적으로 말할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "I was so relieved.",
+      "ko": "정말 안심됐어요.",
+      "note": "relieved = 마음이 놓인",
+      "fromLine": 5
+    },
+    {
+      "en": "I appreciate that.",
+      "ko": "그렇게 말해 주니 고마워요.",
+      "note": "칭찬 · 격려를 고맙게 받을 때",
+      "fromLine": 7
+    },
+    {
+      "en": "Let me buy you ___.",
+      "ko": "제가 ___ 살게요.",
+      "note": "고마움을 밥 · 커피로 갚을 때",
+      "fromLine": 7
+    }
+  ]
+}

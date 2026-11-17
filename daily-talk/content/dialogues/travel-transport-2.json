@@ -1,0 +1,117 @@
+{
+  "id": "travel-transport-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "transport",
+  "level": 2,
+  "title": {
+    "ko": "택시 · 대중교통",
+    "en": "Taxis and Public Transportation"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "지하철역에서 1일 이용권을 사고, 박물관에 가는 노선과 갈아타야 하는지를 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "역무원",
+      "en": "Station staff",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me. How do I buy a ticket for the subway?",
+      "ko": "실례합니다. 지하철 표는 어떻게 사나요?",
+      "alt": [
+        "Excuse me. Where can I buy a subway ticket?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "You can use the machine over there, or buy a day pass here.",
+      "ko": "저기 있는 기계를 쓰셔도 되고, 여기서 1일 이용권을 사셔도 돼요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "How much is a day pass?",
+      "ko": "1일 이용권은 얼마예요?",
+      "alt": [
+        "How much does a day pass cost?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "It's 8 dollars, and you can ride buses and subways all day.",
+      "ko": "8달러이고, 하루 종일 버스와 지하철을 탈 수 있어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That sounds good. I'll take one. Which line goes to the museum?",
+      "ko": "좋네요. 하나 살게요. 박물관 가는 건 몇 호선이에요?",
+      "alt": [
+        "Sounds good. One, please. Which line do I take to the museum?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Take the green line and get off at Central Park.",
+      "ko": "초록색 노선을 타고 센트럴파크역에서 내리세요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Do I need to transfer?",
+      "ko": "갈아타야 하나요?",
+      "alt": [
+        "Is there a transfer?",
+        "Do I have to change trains?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "No, it's direct. It's the fourth stop.",
+      "ko": "아니요, 한 번에 가요. 네 번째 정거장이에요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How much is ___?",
+      "ko": "___는 얼마예요?",
+      "note": "값을 물을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "Which line goes to ___?",
+      "ko": "___ 가는 건 어느 노선이에요?",
+      "note": "line = 지하철 노선",
+      "fromLine": 5
+    },
+    {
+      "en": "get off at ___",
+      "ko": "___에서 내리다",
+      "note": "타다 = get on",
+      "fromLine": 6
+    },
+    {
+      "en": "Do I need to transfer?",
+      "ko": "갈아타야 하나요?",
+      "note": "transfer = 환승하다",
+      "fromLine": 7
+    }
+  ]
+}

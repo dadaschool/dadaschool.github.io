@@ -1,0 +1,141 @@
+{
+  "id": "culture-museum-3",
+  "kind": "dialogue",
+  "domain": "culture",
+  "situation": "museum",
+  "level": 3,
+  "title": {
+    "ko": "박물관",
+    "en": "At a Museum"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "난파선 유물 전시에서 해설을 알아듣고 더 깊이 질문한 뒤, 사진 촬영이 안 되는 구역에서 촬영 규칙을 확인한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "전시 해설사",
+      "en": "Exhibit guide",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "관람객(나)",
+      "en": "Visitor",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "These items are from the Silver Gull, a trading ship that sank about four hundred years ago.",
+      "ko": "이 유물들은 약 400년 전에 가라앉은 무역선 «실버 걸»호에서 나온 거예요."
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "How did they manage to bring all of this up from the bottom of the sea?",
+      "ko": "바다 밑바닥에서 이걸 다 어떻게 끌어올렸어요?",
+      "alt": [
+        "How were they able to get all this up from the seabed?",
+        "How did they bring all these things up from the sea floor?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Divers worked on it for almost ten years. Many items survived because they were buried in sand.",
+      "ko": "잠수부들이 거의 10년 동안 작업했어요. 모래에 묻혀 있어서 남아 있는 유물이 많아요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "That's incredible. Sorry, did you say the sand protected them? I thought salt water would ruin everything.",
+      "ko": "대단하네요. 죄송한데, 모래가 지켜 줬다고 하셨어요? 바닷물 때문에 다 망가졌을 줄 알았어요.",
+      "alt": [
+        "Amazing. Sorry, the sand protected them? I thought the salt water would destroy everything."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Good point. The sand kept the air out, so the wood and cloth didn't rot as quickly.",
+      "ko": "좋은 지적이에요. 모래가 공기를 막아서 나무와 천이 그렇게 빨리 썩지 않았어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "That makes sense. Would it be all right if I took a few pictures of these coins?",
+      "ko": "이해가 되네요. 이 동전들 사진을 몇 장 찍어도 괜찮을까요?",
+      "alt": [
+        "I see. Is it okay to take some pictures of these coins?",
+        "Got it. May I take a few photos of the coins?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "I'm afraid photography isn't allowed in this section. Some of these items are on loan from another museum.",
+      "ko": "죄송하지만 이 구역에서는 사진 촬영이 안 돼요. 일부 유물은 다른 박물관에서 빌려 온 거라서요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Oh, I didn't see a sign. Sorry about that. Is it okay in the rest of the museum?",
+      "ko": "아, 표지판을 못 봤어요. 죄송해요. 박물관 다른 곳에서는 괜찮나요?",
+      "alt": [
+        "Oh, sorry, I missed the sign. Can I take photos in other areas?",
+        "Sorry, I didn't notice. What about the rest of the museum?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Yes, as long as you don't use flash. You can also find high-quality images of these coins on our website.",
+      "ko": "네, 플래시만 안 쓰시면 돼요. 이 동전들의 고화질 사진은 저희 웹사이트에서도 보실 수 있어요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Perfect. I'll look them up later. Thanks for being so understanding.",
+      "ko": "잘됐네요. 나중에 찾아볼게요. 너그럽게 이해해 주셔서 고마워요.",
+      "alt": [
+        "Great. I'll check the website later. Thanks for understanding.",
+        "Okay, I'll look them up later. Thank you for being so patient."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How did they manage to ___?",
+      "ko": "어떻게 ___할 수 있었어요?",
+      "note": "manage to = 어렵게 해내다",
+      "fromLine": 2
+    },
+    {
+      "en": "Sorry, did you say ___?",
+      "ko": "죄송한데, ___라고 하셨어요?",
+      "note": "잘못 들었을까 봐 다시 확인할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Would it be all right if I ___?",
+      "ko": "제가 ___해도 괜찮을까요?",
+      "note": "허락을 공손하게 구할 때 (동사는 과거형)",
+      "fromLine": 6
+    },
+    {
+      "en": "as long as ___",
+      "ko": "___하기만 하면",
+      "note": "조건을 붙일 때",
+      "fromLine": 9
+    },
+    {
+      "en": "Thanks for being so understanding.",
+      "ko": "너그럽게 이해해 주셔서 고마워요.",
+      "note": "내 실수를 이해해 준 사람에게",
+      "fromLine": 10
+    }
+  ]
+}

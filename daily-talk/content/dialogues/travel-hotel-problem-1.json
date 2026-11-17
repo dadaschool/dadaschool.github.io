@@ -1,0 +1,98 @@
+{
+  "id": "travel-hotel-problem-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "hotel-problem",
+  "level": 1,
+  "title": {
+    "ko": "호텔 방 문제 해결",
+    "en": "Hotel Room Problems"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "프런트에 전화해 수건을 더 달라고 하고 와이파이가 안 된다고 말한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "프런트 직원",
+      "en": "Receptionist",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Guest",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Front desk. How can I help you?",
+      "ko": "프런트입니다. 무엇을 도와드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi. This is room 312.",
+      "ko": "안녕하세요. 312호예요.",
+      "alt": [
+        "Hello, I'm in room 312.",
+        "Hi, it's room 312."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Yes. What do you need?",
+      "ko": "네. 무엇이 필요하세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "We need more towels, please.",
+      "ko": "수건이 더 필요해요.",
+      "alt": [
+        "Can we have more towels?",
+        "Could you bring more towels?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Sure. Anything else?",
+      "ko": "네. 다른 건요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "The Wi-Fi isn't working.",
+      "ko": "와이파이가 안 돼요.",
+      "alt": [
+        "The Wi-Fi doesn't work.",
+        "I can't connect to the Wi-Fi."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "I'll send someone up right away.",
+      "ko": "바로 사람을 올려 보낼게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "This is room ___.",
+      "ko": "___호예요.",
+      "note": "호텔 전화에서 나를 밝힐 때",
+      "fromLine": 2
+    },
+    {
+      "en": "We need more ___.",
+      "ko": "___가 더 필요해요.",
+      "note": "more + 물건",
+      "fromLine": 4
+    }
+  ]
+}

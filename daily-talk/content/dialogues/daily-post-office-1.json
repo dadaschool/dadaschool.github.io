@@ -1,0 +1,108 @@
+{
+  "id": "daily-post-office-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "post-office",
+  "level": 1,
+  "title": {
+    "ko": "택배 · 우체국",
+    "en": "Packages and the Post Office"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "우체국에서 한국으로 소포를 보내며 요금과 걸리는 시간을 묻는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "우체국 직원",
+      "en": "Postal clerk",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi. I'd like to send this to Korea.",
+      "ko": "안녕하세요. 이걸 한국에 보내고 싶어요.",
+      "alt": [
+        "Hi. I want to mail this to Korea.",
+        "Hello. Can I send this to Korea?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. What's inside?",
+      "ko": "네. 안에 뭐가 들어 있어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Just some books and clothes.",
+      "ko": "책이랑 옷이요.",
+      "alt": [
+        "Books and clothes.",
+        "Some books and some clothes."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Okay. It's $42 by airmail.",
+      "ko": "네. 항공편으로 42달러예요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "How long will it take?",
+      "ko": "얼마나 걸려요?",
+      "alt": [
+        "When will it get there?",
+        "How long does it take?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "About seven to ten days.",
+      "ko": "7일에서 10일쯤이요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Okay. I'll send it by airmail.",
+      "ko": "네. 항공편으로 보낼게요.",
+      "alt": [
+        "Okay. Airmail, please.",
+        "That's fine. Airmail is good."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like to send this to ___.",
+      "ko": "이걸 ___에 보내고 싶어요.",
+      "note": "mail = 우편으로 보내다",
+      "fromLine": 1
+    },
+    {
+      "en": "How long will it take?",
+      "ko": "얼마나 걸려요?",
+      "note": "배송 기간을 물을 때",
+      "fromLine": 5
+    },
+    {
+      "en": "by airmail",
+      "ko": "항공편으로",
+      "note": "배편은 by sea",
+      "fromLine": 7
+    }
+  ]
+}

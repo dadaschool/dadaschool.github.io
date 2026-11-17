@@ -1,0 +1,104 @@
+{
+  "id": "daily-cafe-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "cafe",
+  "level": 1,
+  "title": {
+    "ko": "카페 주문",
+    "en": "At a Café"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "카페에서 따뜻한 라테를 주문하고 크기와 가져갈지를 말한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "바리스타",
+      "en": "Barista",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi there. What can I get you?",
+      "ko": "안녕하세요. 뭐 드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Can I get a hot latte, please?",
+      "ko": "따뜻한 라테 한 잔 주시겠어요?",
+      "alt": [
+        "A hot latte, please.",
+        "I'd like a hot latte."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Sure. What size would you like?",
+      "ko": "네. 어떤 크기로 드릴까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "A medium, please.",
+      "ko": "중간 크기로 주세요.",
+      "alt": [
+        "Medium, please.",
+        "I'll have a medium."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "For here or to go?",
+      "ko": "드시고 가세요, 가져가세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "To go, please.",
+      "ko": "가져갈게요.",
+      "alt": [
+        "To go.",
+        "I'll take it to go."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "That'll be $4.75. It'll be ready soon.",
+      "ko": "4달러 75센트입니다. 금방 준비해 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Can I get ___, please?",
+      "ko": "___ 주시겠어요?",
+      "note": "카페 · 식당에서 가장 흔한 주문 표현",
+      "fromLine": 2
+    },
+    {
+      "en": "A medium, please.",
+      "ko": "중간 크기로 주세요.",
+      "note": "small · medium · large",
+      "fromLine": 4
+    },
+    {
+      "en": "For here or to go?",
+      "ko": "드시고 가세요, 가져가세요?",
+      "note": "가져갈 때 to go · 먹고 갈 때 for here",
+      "fromLine": 5
+    }
+  ]
+}

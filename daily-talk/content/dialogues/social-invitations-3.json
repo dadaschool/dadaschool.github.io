@@ -1,0 +1,138 @@
+{
+  "id": "social-invitations-3",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "invitations",
+  "level": 3,
+  "title": {
+    "ko": "초대하기 · 거절하기",
+    "en": "Inviting and Declining"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "친한 이웃이 추수감사절 저녁에 초대했지만 출장 때문에 정중히 거절하고, 아쉬워하는 친구에게 다른 날을 제안한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "친한 이웃",
+      "en": "Neighbor and friend",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "친구(나)",
+      "en": "Friend",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, we're having a big Thanksgiving dinner next Thursday. My parents are flying in, and I'd love for you to come!",
+      "ko": "있잖아, 다음 주 목요일에 추수감사절 저녁을 크게 해. 부모님도 비행기 타고 오시는데, 너도 왔으면 좋겠어!"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Aw, thanks for thinking of me! Oh, wait, next Thursday? I'm so sorry, but I'll be in Singapore for work that week.",
+      "ko": "와, 생각해 줘서 고마워! 어, 잠깐, 다음 주 목요일? 정말 미안한데, 그 주에 싱가포르로 출장 가.",
+      "alt": [
+        "That's so nice of you! But next Thursday... I'm really sorry, I'll be on a business trip in Singapore."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh no, really? That's a shame. My mom was excited to meet you.",
+      "ko": "아, 진짜? 아쉽다. 우리 엄마가 너 만나는 거 엄청 기대했는데."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Oh, that makes me feel even worse! Please tell her I'm really sorry, and I hope I get another chance to meet her.",
+      "ko": "아, 그 말 들으니까 더 미안하다! 어머니께 정말 죄송하다고 전해 줘. 다음에 꼭 뵐 기회가 있으면 좋겠어.",
+      "alt": [
+        "Now I feel even worse! Please tell her I'm sorry. I'd really love to meet her another time."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "I will. They're staying until Sunday, though.",
+      "ko": "그럴게. 근데 부모님 일요일까지 계셔."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Wait, really? I get back Saturday night. Would it be okay if I stopped by on Sunday instead?",
+      "ko": "어, 진짜? 나 토요일 밤에 돌아오는데. 대신 일요일에 잠깐 들러도 될까?",
+      "alt": [
+        "Oh, really? I'm back on Saturday night. Could I come over on Sunday instead?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Of course! Honestly, we'll still be eating leftovers by then.",
+      "ko": "당연하지! 솔직히 그때까지도 남은 음식 먹고 있을 거야."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Ha, that sounds perfect to me. What time works best for your family?",
+      "ko": "하하, 나야 완전 좋지. 너희 가족은 몇 시가 제일 좋아?",
+      "alt": [
+        "That sounds great. What time would be good for your family?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Let's say around two. I'll tell my mom. She'll be thrilled.",
+      "ko": "2시쯤으로 하자. 엄마한테 말할게. 엄청 좋아하실 거야."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Great. And thanks again for including me. You're the best.",
+      "ko": "좋아. 그리고 불러 줘서 다시 한번 고마워. 역시 너밖에 없다.",
+      "alt": [
+        "Sounds good. Thanks again for inviting me. You're the best.",
+        "Perfect. And thank you for including me. It really means a lot."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Thanks for thinking of me!",
+      "ko": "생각해 줘서 고마워!",
+      "note": "거절하기 전에 먼저 고마움을 표할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "I'm so sorry, but ___.",
+      "ko": "정말 미안한데, ___.",
+      "note": "거절의 이유를 부드럽게 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Please tell ___ I'm really sorry.",
+      "ko": "___께 정말 죄송하다고 전해 줘.",
+      "note": "그 자리에 없는 사람에게 마음을 전할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "stop by",
+      "ko": "잠깐 들르다",
+      "note": "drop by 도 같은 뜻",
+      "fromLine": 6
+    },
+    {
+      "en": "Thanks for including me.",
+      "ko": "불러 줘서 고마워.",
+      "note": "include = 모임 · 계획에 끼워 주다",
+      "fromLine": 10
+    }
+  ]
+}

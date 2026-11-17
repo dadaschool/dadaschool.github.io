@@ -1,0 +1,124 @@
+{
+  "id": "social-feelings-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "feelings",
+  "level": 2,
+  "title": {
+    "ko": "감정 나누기 · 위로",
+    "en": "Sharing Feelings and Comforting"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "다음 주 면접 때문에 긴장된다고 친구에게 털어놓고 격려를 받는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "친구",
+      "en": "Friend",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "친구(나)",
+      "en": "Friend",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "You seem a little quiet today. Is something on your mind?",
+      "ko": "오늘 좀 조용하네요. 무슨 고민 있어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Yeah, I'm kind of stressed. I have a job interview on Monday.",
+      "ko": "네, 좀 스트레스받아요. 월요일에 면접이 있거든요.",
+      "alt": [
+        "I guess I'm a bit stressed. I've got a job interview on Monday.",
+        "Yeah. I'm nervous about a job interview on Monday."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh, that's exciting, though! Is it a job you really want?",
+      "ko": "와, 그래도 좋은 일이잖아요! 정말 가고 싶은 곳이에요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "It is. That's the problem. I keep worrying that I'll freeze up and forget everything.",
+      "ko": "네. 그래서 더 문제예요. 긴장해서 머리가 하얘지고 다 까먹을까 봐 계속 걱정돼요.",
+      "alt": [
+        "Yes, and that's why I'm so nervous. I'm afraid I'll freeze up and forget what to say."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "That's totally normal. Everyone feels that way before a big interview.",
+      "ko": "완전히 정상이에요. 중요한 면접 전엔 누구나 그래요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Really? But you always seem so confident.",
+      "ko": "정말요? 그래도 늘 자신감 있어 보이던데요.",
+      "alt": [
+        "You think so? You always look so confident, though.",
+        "Really? You never seem nervous."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Ha! Trust me, I'm a nervous wreck before interviews. Want to do a practice run this weekend?",
+      "ko": "하하! 진짜예요, 저도 면접 전엔 완전 떨어요. 이번 주말에 연습 한번 해 볼래요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "That would really help. Thanks for listening. I feel better already.",
+      "ko": "그러면 정말 도움이 되겠어요. 들어 줘서 고마워요. 벌써 마음이 좀 나아졌어요.",
+      "alt": [
+        "That would be great. Thanks for listening. I already feel a little better."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Is something on your mind?",
+      "ko": "무슨 고민 있어요?",
+      "note": "기분이 안 좋아 보이는 사람에게",
+      "fromLine": 1
+    },
+    {
+      "en": "I'm kind of stressed.",
+      "ko": "좀 스트레스받아요.",
+      "note": "kind of = 좀, 약간 · 감정을 부드럽게 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "I keep worrying that ___.",
+      "ko": "___할까 봐 계속 걱정돼요.",
+      "note": "keep + -ing = 계속 ~하다",
+      "fromLine": 4
+    },
+    {
+      "en": "freeze up",
+      "ko": "긴장해서 머리가 하얘지다",
+      "note": "말문이 막히거나 몸이 굳을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Thanks for listening.",
+      "ko": "들어 줘서 고마워요.",
+      "note": "고민을 털어놓은 뒤에",
+      "fromLine": 8
+    }
+  ]
+}

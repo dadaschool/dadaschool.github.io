@@ -1,0 +1,114 @@
+{
+  "id": "school-exchange-video-class-1",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "exchange-video-class",
+  "level": 1,
+  "title": {
+    "ko": "국제 교류 화상 수업",
+    "en": "International Video Exchange Class"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "해외 협력 학교 교사와 화상 수업을 시작하며 인사하고 소리와 화면을 확인한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "해외 협력 학교 교사",
+      "en": "Partner school teacher",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hello! Can you hear me?",
+      "ko": "안녕하세요! 제 목소리 들리세요?",
+      "alt": [
+        "Hi! Can you hear me okay?",
+        "Hello! Is my sound okay?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Yes, I can hear you clearly.",
+      "ko": "네, 잘 들려요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Great. Can you see our students?",
+      "ko": "좋아요. 저희 학생들 보이세요?",
+      "alt": [
+        "Good. Can you see our class?",
+        "Great. Are our students on your screen?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Yes! Hi, everyone in Korea!",
+      "ko": "네! 한국에 있는 여러분, 안녕하세요!"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Students, say hello to our friends!",
+      "ko": "여러분, 친구들한테 인사하세요!",
+      "alt": [
+        "Everyone, say hi to our friends!",
+        "Class, let's say hello!"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Your screen is a little dark.",
+      "ko": "그런데 화면이 조금 어두워요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Sorry. Is it better now?",
+      "ko": "죄송해요. 이제 좀 나아요?",
+      "alt": [
+        "Sorry about that. How about now?",
+        "Oh, sorry. Is that better?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, much better. Let's begin!",
+      "ko": "네, 훨씬 나아요. 시작해요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Can you hear me?",
+      "ko": "제 목소리 들리세요?",
+      "note": "화상 수업 · 회의를 시작할 때",
+      "fromLine": 1
+    },
+    {
+      "en": "Say hello to ___!",
+      "ko": "___한테 인사하세요!",
+      "note": "학생들에게 인사를 시킬 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Is it better now?",
+      "ko": "이제 좀 나아요?",
+      "note": "문제를 고친 뒤 확인할 때",
+      "fromLine": 7
+    }
+  ]
+}

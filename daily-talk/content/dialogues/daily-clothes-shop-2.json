@@ -1,0 +1,132 @@
+{
+  "id": "daily-clothes-shop-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "clothes-shop",
+  "level": 2,
+  "title": {
+    "ko": "옷 가게에서 고르기",
+    "en": "Shopping for Clothes"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "탈의실에서 입어 본 스웨터가 어깨가 끼어 한 치수 큰 것으로 입어 보고, 세탁 방법을 물은 뒤 사기로 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "점원",
+      "en": "Sales associate",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "How's everything fitting in there?",
+      "ko": "옷은 잘 맞으세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "The sweater is nice, but it's a little tight around the shoulders.",
+      "ko": "스웨터는 좋은데 어깨 쪽이 조금 껴요.",
+      "alt": [
+        "I like the sweater, but it's a bit tight in the shoulders.",
+        "It's nice, but the shoulders feel a little tight."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Would you like to try the next size up?",
+      "ko": "한 치수 큰 걸로 입어 보시겠어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, please. Do you have it in a large?",
+      "ko": "네, 그럴게요. 라지 사이즈 있어요?",
+      "alt": [
+        "Yes, please. Could I try a large?",
+        "Sure. Can I have a large?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Here's a large. Let me know how it fits.",
+      "ko": "여기 라지예요. 입어 보시고 어떤지 말씀해 주세요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "This one fits much better. Is it machine washable?",
+      "ko": "이게 훨씬 잘 맞아요. 세탁기에 빨아도 되나요?",
+      "alt": [
+        "This fits a lot better. Can I wash it in the machine?",
+        "Much better, thanks. Can it go in the washing machine?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yes, but use cold water and lay it flat to dry.",
+      "ko": "네, 하지만 찬물에 빨고 눕혀서 말리세요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Good to know. I'll take it, then.",
+      "ko": "알아 두면 좋겠네요. 그럼 이걸로 살게요.",
+      "alt": [
+        "Thanks for the tip. I'll take it.",
+        "Okay, good. I'll get this one."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Great. I can ring you up at the front.",
+      "ko": "좋아요. 앞쪽 계산대에서 계산해 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "It's a little tight around ___.",
+      "ko": "___ 쪽이 조금 껴요.",
+      "note": "헐렁할 때는 loose",
+      "fromLine": 2
+    },
+    {
+      "en": "the next size up",
+      "ko": "한 치수 큰 것",
+      "note": "한 치수 작은 것은 the next size down",
+      "fromLine": 3
+    },
+    {
+      "en": "This one fits much better.",
+      "ko": "이게 훨씬 잘 맞아요.",
+      "note": "fit = (크기가) 맞다",
+      "fromLine": 6
+    },
+    {
+      "en": "Is it machine washable?",
+      "ko": "세탁기에 빨아도 되나요?",
+      "note": "손빨래는 hand wash",
+      "fromLine": 6
+    },
+    {
+      "en": "I'll take it.",
+      "ko": "이걸로 살게요.",
+      "note": "사기로 정했을 때",
+      "fromLine": 8
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "id": "work-asking-favors-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "asking-favors",
+  "level": 3,
+  "title": {
+    "ko": "동료에게 부탁하기",
+    "en": "Asking Coworkers for Help"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "발표가 갑자기 내일 아침으로 당겨져, 바쁜 디자인팀 동료에게 차트 작업을 정중하게 부탁하고 범위를 조정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "디자인팀 동료",
+      "en": "Designer",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "마케팅팀 직원(나)",
+      "en": "Marketing staff",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Ben. I'm sorry to ask at such short notice, but I'm in a bit of a bind.",
+      "ko": "벤 씨, 이렇게 갑자기 부탁해서 죄송한데요, 제가 좀 곤란한 상황이에요.",
+      "alt": [
+        "Hi, Ben. Sorry for the short notice, but I'm in a tough spot."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Uh-oh. What's going on?",
+      "ko": "저런. 무슨 일이에요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "The client moved our presentation up to tomorrow morning, and the charts still need to be redesigned. I was wondering if you could help me with them today.",
+      "ko": "고객사가 발표를 내일 아침으로 당겼는데, 차트를 아직 새로 디자인해야 하거든요. 혹시 오늘 좀 도와주실 수 있을까 해서요.",
+      "alt": [
+        "The client wants our presentation tomorrow morning now, and the charts aren't ready. Could you possibly help me with them today?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Today? I'd like to help, but I'm already working on the website banner, and that's due at six.",
+      "ko": "오늘이요? 돕고는 싶은데, 지금 웹사이트 배너 작업 중이고 그게 6시 마감이에요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "I completely understand. What if you just did the three main charts? I could handle the simple ones myself.",
+      "ko": "충분히 이해해요. 핵심 차트 세 개만 해 주시면 어떨까요? 간단한 건 제가 직접 할게요.",
+      "alt": [
+        "I totally get it. Could you just do the three main charts? I can do the easy ones."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Three is doable, but probably not until after six. Would around eight tonight be okay?",
+      "ko": "세 개면 할 수 있어요. 그런데 아마 6시 넘어서야 될 거예요. 오늘 밤 8시쯤이면 괜찮아요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That would be perfect. The presentation is at nine tomorrow, so that still gives me time to put everything together.",
+      "ko": "그러면 딱 좋아요. 발표가 내일 9시라서, 그때 받아도 전부 합칠 시간이 있어요.",
+      "alt": [
+        "That works. The meeting is at nine tomorrow, so I'll still have time to finish the slides."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Okay. Send me the data and a rough sketch of what you have in mind.",
+      "ko": "알겠어요. 데이터랑, 생각하는 모양을 대충 그려서 보내 줘요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "I'll send them in the next ten minutes. I really appreciate it, and please let me know if I can ever return the favor.",
+      "ko": "10분 안에 보낼게요. 정말 고마워요. 제가 도울 일 있으면 언제든 말해 주세요.",
+      "alt": [
+        "I'll send everything within ten minutes. Thank you so much, and let me know if I can ever help you out."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Don't worry about it. Just buy me a coffee tomorrow.",
+      "ko": "신경 쓰지 마요. 내일 커피나 한잔 사 줘요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm sorry to ask at such short notice.",
+      "ko": "이렇게 갑자기 부탁해서 죄송해요.",
+      "note": "short notice = 촉박한 요청 · 통보",
+      "fromLine": 1
+    },
+    {
+      "en": "I'm in a bit of a bind.",
+      "ko": "제가 좀 곤란한 상황이에요.",
+      "note": "in a bind = 난처한 처지에 있는",
+      "fromLine": 1
+    },
+    {
+      "en": "I was wondering if you could ___.",
+      "ko": "혹시 ___해 주실 수 있을까 해서요.",
+      "note": "아주 공손한 부탁",
+      "fromLine": 3
+    },
+    {
+      "en": "What if you just ___?",
+      "ko": "___만 해 주시면 어떨까요?",
+      "note": "부탁의 양을 줄여 제안할 때 (동사는 과거형)",
+      "fromLine": 5
+    },
+    {
+      "en": "Let me know if I can return the favor.",
+      "ko": "제가 도울 일 있으면 말해 주세요.",
+      "note": "return the favor = 받은 도움을 갚다",
+      "fromLine": 9
+    }
+  ]
+}

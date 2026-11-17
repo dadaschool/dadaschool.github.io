@@ -1,0 +1,92 @@
+{
+  "id": "travel-lost-help-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "lost-help",
+  "level": 1,
+  "title": {
+    "ko": "분실 · 도움 요청",
+    "en": "Lost Items and Getting Help"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "공항에서 부친 가방이 나오지 않아 수하물 센터에 신고한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "수하물 센터 직원",
+      "en": "Baggage service agent",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Excuse me. My bag didn't come out.",
+      "ko": "실례합니다. 제 가방이 안 나왔어요.",
+      "alt": [
+        "My suitcase didn't come out.",
+        "I can't find my bag."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "I'm sorry. Which flight were you on?",
+      "ko": "죄송합니다. 어느 비행기 타셨어요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Flight KE 017 from Seoul.",
+      "ko": "서울에서 온 KE 017편이요.",
+      "alt": [
+        "KE 017, from Seoul.",
+        "I was on KE 017 from Seoul."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "What does your bag look like?",
+      "ko": "가방이 어떻게 생겼어요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "It's a black suitcase with a red tag.",
+      "ko": "빨간 꼬리표가 달린 검은 여행 가방이에요.",
+      "alt": [
+        "A black suitcase with a red tag.",
+        "It's black, and it has a red tag."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Please fill out this form. We'll call you.",
+      "ko": "이 서류를 작성해 주세요. 연락드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "My bag didn't come out.",
+      "ko": "제 가방이 안 나왔어요.",
+      "note": "수하물 찾는 곳 = baggage claim",
+      "fromLine": 1
+    },
+    {
+      "en": "It's a ___ suitcase with ___.",
+      "ko": "___가 달린 ___ 여행 가방이에요.",
+      "note": "색 · 모양으로 물건을 설명할 때",
+      "fromLine": 5
+    }
+  ]
+}

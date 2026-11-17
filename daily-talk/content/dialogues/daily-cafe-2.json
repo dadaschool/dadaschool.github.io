@@ -1,0 +1,126 @@
+{
+  "id": "daily-cafe-2",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "cafe",
+  "level": 2,
+  "title": {
+    "ko": "카페 주문",
+    "en": "At a Café"
+  },
+  "audioRev": 3,
+  "scene": {
+    "ko": "카페에서 계절 메뉴에 무엇이 들어가는지 묻고 덜 달게 주문한 뒤, 머핀을 데워 달라고 한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "바리스타",
+      "en": "Barista",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi, what can I get started for you?",
+      "ko": "안녕하세요, 뭐 준비해 드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Hi. What's in the honey cinnamon latte?",
+      "ko": "안녕하세요. 허니 시나몬 라테에는 뭐가 들어가요?",
+      "alt": [
+        "Hi. Could you tell me what's in the honey cinnamon latte?",
+        "Hi. What does the honey cinnamon latte have in it?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "It's espresso with steamed milk, honey, and a little cinnamon. It's our fall special.",
+      "ko": "에스프레소에 데운 우유, 꿀, 시나몬을 조금 넣은 거예요. 가을 한정 메뉴예요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Sounds good. Is it very sweet?",
+      "ko": "맛있겠네요. 많이 달아요?",
+      "alt": [
+        "That sounds nice. How sweet is it?",
+        "Sounds great. Is it too sweet?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "It's a little sweet, but I can put in less honey if you'd like.",
+      "ko": "조금 달긴 한데, 원하시면 꿀을 덜 넣어 드릴 수 있어요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes, please. I'll get a large iced one with less honey.",
+      "ko": "네, 그렇게 해 주세요. 아이스로 큰 사이즈, 꿀은 덜 넣어서요.",
+      "alt": [
+        "Yes, please. A large iced one with less honey.",
+        "That would be great. Make it a large, iced, with less honey."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "You got it. Anything else for you?",
+      "ko": "알겠습니다. 더 필요하신 건요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I'll also take a blueberry muffin. Could you warm it up, please?",
+      "ko": "블루베리 머핀도 하나 주세요. 데워 주실 수 있어요?",
+      "alt": [
+        "And a blueberry muffin, please. Can you heat it up?",
+        "Can I add a blueberry muffin? Warmed up, please."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "Sure. That's $9.20. You can tap your card or phone right here.",
+      "ko": "네. 9달러 20센트입니다. 카드나 휴대폰을 여기에 대 주세요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "What's in ___?",
+      "ko": "___에는 뭐가 들어가요?",
+      "note": "메뉴 재료를 물을 때",
+      "fromLine": 2
+    },
+    {
+      "en": "Is it very sweet?",
+      "ko": "많이 달아요?",
+      "note": "sweet 대신 spicy 맵다 · strong 진하다",
+      "fromLine": 4
+    },
+    {
+      "en": "with less ___",
+      "ko": "___를 덜 넣어서",
+      "note": "더 넣을 때는 with extra ___",
+      "fromLine": 6
+    },
+    {
+      "en": "Could you warm it up?",
+      "ko": "데워 주실 수 있어요?",
+      "note": "warm up = 데우다 · heat up 과 같은 뜻",
+      "fromLine": 8
+    }
+  ]
+}

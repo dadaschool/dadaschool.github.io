@@ -1,0 +1,125 @@
+{
+  "id": "social-food-talk-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "food-talk",
+  "level": 2,
+  "title": {
+    "ko": "음식 · 맛집 이야기",
+    "en": "Talking About Food"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "친구가 데려간 태국 음식점에서 서로 음식을 나눠 먹으며 맛을 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "친구",
+      "en": "Friend",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "친구(나)",
+      "en": "Friend",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, how's your curry? Is it too spicy?",
+      "ko": "그래서 카레 어때? 너무 매워?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "No, it's perfect. It's spicy, but a little sweet, too.",
+      "ko": "아니, 딱 좋아. 매운데 살짝 달기도 해.",
+      "alt": [
+        "Not at all. It's spicy and a bit sweet at the same time.",
+        "It's just right. Spicy, but also kind of sweet."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Right? That's the coconut milk. Here, try my soup.",
+      "ko": "그치? 그게 코코넛 밀크 맛이야. 자, 내 수프도 먹어 봐."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Wow, it's really sour, in a good way. It kind of reminds me of kimchi stew.",
+      "ko": "와, 엄청 새콤하다, 좋은 쪽으로. 약간 김치찌개 생각나.",
+      "alt": [
+        "Mmm, it's pretty sour, but I like it. It reminds me a little of kimchi stew."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Ha, I can see that. What about the noodles?",
+      "ko": "하하, 그럴 수도 있겠다. 국수는 어때?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "They're a bit too salty for me, but the peanuts are a nice touch.",
+      "ko": "나한테는 좀 짜긴 한데, 땅콩 들어간 건 좋다.",
+      "alt": [
+        "They're kind of salty for me, but I like the peanuts.",
+        "A little too salty, but the peanuts are great."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Yeah, I always ask for less sauce. Told you this place was good, though!",
+      "ko": "응, 난 항상 소스 적게 해 달라고 해. 그래도 여기 맛있다고 했잖아!"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "You were right. I'm definitely coming back here.",
+      "ko": "네 말이 맞았어. 여기 꼭 다시 올 거야.",
+      "alt": [
+        "You were totally right. I'll definitely come back.",
+        "Yeah, you were right. Let's come here again."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "It's ___, but a little ___, too.",
+      "ko": "___한데 살짝 ___하기도 해.",
+      "note": "맛을 두 가지로 설명할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "in a good way",
+      "ko": "좋은 쪽으로",
+      "note": "부정적으로 들릴 수 있는 말 뒤에 붙임",
+      "fromLine": 4
+    },
+    {
+      "en": "It reminds me of ___.",
+      "ko": "___가 생각나.",
+      "note": "비슷한 맛에 빗대어 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "a bit too ___ for me",
+      "ko": "나한테는 좀 너무 ___한",
+      "note": "입에 안 맞는 점을 부드럽게 말할 때",
+      "fromLine": 6
+    },
+    {
+      "en": "I'm definitely coming back here.",
+      "ko": "여기 꼭 다시 올 거야.",
+      "note": "맛집이 마음에 들었을 때",
+      "fromLine": 8
+    }
+  ]
+}

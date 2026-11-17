@@ -1,0 +1,104 @@
+{
+  "id": "social-feelings-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "feelings",
+  "level": 1,
+  "title": {
+    "ko": "감정 나누기 · 위로",
+    "en": "Sharing Feelings and Comforting"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "출근길에 회사 동료가 기분이 좋아 보인다고 하자, 좋은 소식과 지금 기분을 말한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "회사 동료",
+      "en": "Coworker",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "You look happy today!",
+      "ko": "오늘 기분 좋아 보이네요!"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I am! I got some good news.",
+      "ko": "맞아요! 좋은 소식이 있었어요.",
+      "alt": [
+        "I'm in a great mood today!",
+        "Yes! I heard some good news."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh, really? What happened?",
+      "ko": "오, 정말요? 무슨 일인데요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "My sister is having a baby!",
+      "ko": "언니가 아기를 가졌어요!",
+      "alt": [
+        "My sister is pregnant!",
+        "I'm going to be an aunt!"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "No way! Congratulations!",
+      "ko": "와, 진짜요? 축하해요!"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Thanks! I'm so excited.",
+      "ko": "고마워요! 너무 설레요.",
+      "alt": [
+        "Thank you! I can't wait.",
+        "Thanks! I'm really happy."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "That's wonderful. You'll be a great aunt.",
+      "ko": "정말 잘됐네요. 멋진 이모가 되겠어요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "You look ___ today!",
+      "ko": "오늘 ___해 보이네요!",
+      "note": "look + 형용사 = ~해 보이다",
+      "fromLine": 1
+    },
+    {
+      "en": "I got some good news.",
+      "ko": "좋은 소식이 있었어요.",
+      "note": "기분이 좋은 이유를 말할 때",
+      "fromLine": 2
+    },
+    {
+      "en": "I'm so excited.",
+      "ko": "너무 설레요.",
+      "note": "excited = 신나는, 설레는",
+      "fromLine": 6
+    }
+  ]
+}

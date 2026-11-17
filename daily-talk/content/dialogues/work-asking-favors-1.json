@@ -1,0 +1,108 @@
+{
+  "id": "work-asking-favors-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "asking-favors",
+  "level": 1,
+  "title": {
+    "ko": "동료에게 부탁하기",
+    "en": "Asking Coworkers for Help"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "옆자리 동료에게 노트북 충전기를 빌린다."
+  },
+  "roles": {
+    "A": {
+      "ko": "옆자리 동료",
+      "en": "Coworker",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Jake. Can I ask you a favor?",
+      "ko": "제이크 씨, 부탁 하나 해도 돼요?",
+      "alt": [
+        "Jake, can you do me a favor?",
+        "Hey, Jake. Could you help me out?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Sure. What do you need?",
+      "ko": "그럼요. 뭐가 필요해요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Can I borrow your laptop charger?",
+      "ko": "노트북 충전기 좀 빌려도 될까요?",
+      "alt": [
+        "Could I borrow your charger?",
+        "Can I use your laptop charger?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Of course. Here you go.",
+      "ko": "물론이죠. 여기요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Thanks. I'll give it back after lunch.",
+      "ko": "고마워요. 점심 먹고 돌려줄게요.",
+      "alt": [
+        "Thank you. I'll return it after lunch.",
+        "Thanks. You'll have it back after lunch."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "No rush. I don't need it today.",
+      "ko": "천천히 줘요. 오늘은 안 써요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "You're a lifesaver. Thanks so much.",
+      "ko": "덕분에 살았어요. 정말 고마워요.",
+      "alt": [
+        "You saved me. Thank you so much.",
+        "Thanks so much. I owe you one."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Can I ask you a favor?",
+      "ko": "부탁 하나 해도 돼요?",
+      "note": "Can you do me a favor? 도 같은 뜻",
+      "fromLine": 1
+    },
+    {
+      "en": "Can I borrow ___?",
+      "ko": "___ 좀 빌려도 될까요?",
+      "note": "borrow = 빌리다 · lend = 빌려주다",
+      "fromLine": 3
+    },
+    {
+      "en": "You're a lifesaver.",
+      "ko": "덕분에 살았어요.",
+      "note": "큰 도움을 받았을 때 하는 감사 표현",
+      "fromLine": 7
+    }
+  ]
+}

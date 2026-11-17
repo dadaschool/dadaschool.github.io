@@ -1,0 +1,137 @@
+{
+  "id": "school-observation-feedback-3",
+  "kind": "dialogue",
+  "domain": "school",
+  "situation": "observation-feedback",
+  "level": 3,
+  "title": {
+    "ko": "수업 참관 · 피드백",
+    "en": "Lesson Observation and Feedback"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "원어민 교사의 첫 공개 수업을 참관한 뒤 좋았던 점을 먼저 말하고, 대답하는 학생이 늘 같다는 점과 수업 속도를 부드럽게 짚어 준다."
+  },
+  "roles": {
+    "A": {
+      "ko": "원어민 교사",
+      "en": "Native English teacher",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "한국인 교사(나)",
+      "en": "Korean teacher",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Thanks for letting me observe your class, Emily. I really enjoyed it.",
+      "ko": "에밀리 선생님, 수업 참관하게 해 주셔서 고마워요. 정말 즐거웠어요.",
+      "alt": [
+        "Thank you for inviting me to your class, Emily. I enjoyed it a lot."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Thanks for coming. I'd love some feedback, since this was my first open class.",
+      "ko": "와 주셔서 고마워요. 제 첫 공개 수업이라 피드백을 꼭 받고 싶어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "First of all, your energy was amazing, and the video clip was a perfect way to start.",
+      "ko": "우선 선생님 에너지가 정말 대단했고, 동영상으로 시작한 게 아주 좋았어요.",
+      "alt": [
+        "To start with, you had amazing energy, and the video was a great opening."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Thank you. Was there anything that didn't work so well?",
+      "ko": "고마워요. 잘 안 된 부분도 있었나요?"
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "There's one thing you might want to think about. During the discussion, the same few students answered most of the questions.",
+      "ko": "한 가지 생각해 보시면 좋을 게 있어요. 토론할 때 질문 대부분을 늘 같은 몇몇 학생들이 대답했어요.",
+      "alt": [
+        "One thing to consider is that the same few students answered most of the questions during the discussion."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Oh... I didn't notice that. I guess I was just happy that someone was answering.",
+      "ko": "아... 그건 몰랐어요. 누가 대답해 주는 것만으로도 그냥 기뻤나 봐요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "That's completely understandable. It happens to all of us. One idea is to give students thirty seconds to talk with a partner before anyone answers.",
+      "ko": "충분히 그럴 수 있어요. 누구나 그래요. 대답하기 전에 짝과 30초 동안 이야기할 시간을 주는 것도 한 방법이에요.",
+      "alt": [
+        "That's totally normal. We've all done it. You could let them talk in pairs for thirty seconds before anyone answers."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "That's a good idea. The quieter kids might feel more confident that way.",
+      "ko": "좋은 생각이네요. 그러면 조용한 아이들이 좀 더 자신감을 가질 수 있겠어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Exactly. Also, the pace felt a little fast at the end. Maybe you could cut one activity so there's time to wrap up.",
+      "ko": "맞아요. 그리고 끝부분은 속도가 조금 빨랐던 것 같아요. 활동을 하나 줄이면 마무리할 시간이 생길 거예요.",
+      "alt": [
+        "Right. And the end felt a bit rushed. You could drop one activity to leave time for wrapping up."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "That makes sense. Thank you for being so honest and kind about it.",
+      "ko": "맞는 말씀이에요. 솔직하면서도 따뜻하게 말씀해 주셔서 고마워요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Thanks for letting me ___.",
+      "ko": "___하게 해 주셔서 고마워요.",
+      "note": "참관을 허락해 준 동료에게",
+      "fromLine": 1
+    },
+    {
+      "en": "First of all, ___.",
+      "ko": "우선 ___.",
+      "note": "좋은 점부터 말하며 시작할 때",
+      "fromLine": 3
+    },
+    {
+      "en": "There's one thing you might want to think about.",
+      "ko": "한 가지 생각해 보시면 좋을 게 있어요.",
+      "note": "고칠 점을 부드럽게 꺼낼 때",
+      "fromLine": 5
+    },
+    {
+      "en": "That's completely understandable.",
+      "ko": "충분히 그럴 수 있어요.",
+      "note": "상대가 무안하지 않게 할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "One idea is to ___.",
+      "ko": "___하는 것도 한 방법이에요.",
+      "note": "해결책을 제안할 때",
+      "fromLine": 7
+    }
+  ]
+}

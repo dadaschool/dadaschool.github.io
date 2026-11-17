@@ -1,0 +1,119 @@
+{
+  "id": "social-hobbies-2",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "hobbies",
+  "level": 2,
+  "title": {
+    "ko": "취미 이야기",
+    "en": "Talking About Hobbies"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "언어 교환 친구에게 요즘 빠진 빵 굽기 취미와 어떻게 시작했는지 이야기한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "언어 교환 친구",
+      "en": "Language partner",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "언어 교환 친구(나)",
+      "en": "Language partner",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "So, have you been up to anything fun lately?",
+      "ko": "요즘 재밌는 거 하는 거 있어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Actually, I've gotten really into baking bread.",
+      "ko": "사실 요즘 빵 굽기에 푹 빠졌어요.",
+      "alt": [
+        "Yeah, I've started baking bread, and I love it.",
+        "Actually, I'm really into baking bread these days."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Oh, fun! How did you get into that?",
+      "ko": "오, 재밌겠네요! 어떻게 시작하게 됐어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I watched some videos during a long holiday and wanted to give it a try.",
+      "ko": "긴 연휴에 영상을 몇 개 보다가 한번 해 보고 싶어졌어요.",
+      "alt": [
+        "During a long holiday, I watched some baking videos and decided to try it."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Is it hard? I always thought bread was tricky.",
+      "ko": "어려워요? 빵은 늘 까다롭다고 생각했거든요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "It was at first. My first few loaves were as hard as rocks!",
+      "ko": "처음엔 그랬어요. 처음 몇 개는 돌처럼 딱딱했어요!",
+      "alt": [
+        "At first, yes. My first loaves were hard as a rock!",
+        "Yeah, in the beginning. The first ones came out like rocks!"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Ha! But you've gotten better, right?",
+      "ko": "하하! 그래도 지금은 잘하죠?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Much better. I'll bring you some next time we meet.",
+      "ko": "훨씬 나아졌죠. 다음에 만날 때 좀 갖다줄게요.",
+      "alt": [
+        "A lot better. I'll bring you a loaf next time.",
+        "Way better. Next time, I'll bring you some to try."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I've gotten really into ___.",
+      "ko": "요즘 ___에 푹 빠졌어요.",
+      "note": "get into = ~에 빠지다 · 재미를 붙이다",
+      "fromLine": 2
+    },
+    {
+      "en": "How did you get into ___?",
+      "ko": "어떻게 ___를 시작하게 됐어요?",
+      "note": "취미를 시작한 계기를 물을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "give it a try",
+      "ko": "한번 해 보다",
+      "note": "try 만 쓰는 것보다 자연스러운 말",
+      "fromLine": 4
+    },
+    {
+      "en": "at first",
+      "ko": "처음에는",
+      "note": "지금은 달라졌다는 느낌 · It was hard at first.",
+      "fromLine": 6
+    }
+  ]
+}

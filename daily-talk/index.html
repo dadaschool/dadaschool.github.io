@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Daily Talk</title>
+<meta name="description" content="듣고, 따라 말하고, 글로도 연습하는 생활영어 트레이너">
+<meta name="theme-color" content="#f5f6f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f141b" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body data-mode="speak">
+<header class="top">
+  <div class="brand"><b>Daily Talk</b> <span id="ver" class="ver">…</span></div>
+  <a class="streak" id="streak" href="#/stats" hidden aria-label="연속 학습일"></a>
+  <div class="modes" role="group" aria-label="연습 모드"></div>
+  <a class="gear" href="#/settings" aria-label="설정"></a>
+</header>
+<main id="view" tabindex="-1"><p class="loading">여는 중…</p></main>
+<nav class="tabs" aria-label="메뉴">
+  <a href="#/home" data-tab="home" data-icon="home"><span class="i"></span><span>홈</span></a>
+  <a href="#/sit" data-tab="sit" data-icon="talk"><span class="i"></span><span>상황</span></a>
+  <a href="#/cards" data-tab="cards" data-icon="cards"><span class="i"></span><span>카드</span></a>
+  <a href="#/stats" data-tab="stats" data-icon="chart"><span class="i"></span><span>기록</span></a>
+</nav>
+<noscript><p class="loading">이 앱은 자바스크립트가 필요해요.</p></noscript>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

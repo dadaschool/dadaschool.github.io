@@ -1,0 +1,138 @@
+{
+  "id": "work-progress-check-3",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "progress-check",
+  "level": 3,
+  "title": {
+    "ko": "업무 진행 묻기",
+    "en": "Checking on Progress"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "협력사의 앱 업데이트가 늦어지는 이유를 묻고, 출시 일정에 맞게 작업 순서를 조정한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "협력사 매니저",
+      "en": "Vendor manager",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "프로젝트 매니저(나)",
+      "en": "Project manager",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hi, Rachel. Thanks for making time. I wanted to talk about the app update. We were expecting the test version on Monday.",
+      "ko": "안녕하세요, 레이철 씨. 시간 내 주셔서 감사해요. 앱 업데이트 얘기를 하고 싶었는데요. 월요일에 테스트 버전을 받기로 했었잖아요.",
+      "alt": [
+        "Hi, Rachel. Thanks for taking the time. We were supposed to get the test version of the app on Monday."
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Yes, I'm sorry about that. We're running about a week behind.",
+      "ko": "네, 죄송합니다. 일정이 일주일 정도 늦어지고 있어요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I see. Could you tell me what's causing the delay?",
+      "ko": "그렇군요. 왜 늦어지는지 말씀해 주시겠어요?",
+      "alt": [
+        "I understand. May I ask what's causing the delay?",
+        "Okay. What's the reason for the delay?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Two of our developers were out sick last week, and the payment feature turned out to be more complicated than we expected.",
+      "ko": "지난주에 개발자 두 명이 아파서 못 나왔고, 결제 기능이 예상보다 복잡했어요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "That's understandable. The problem is, we've already told our customers that the update is coming at the end of the month.",
+      "ko": "그럴 수 있죠. 문제는 저희가 이미 고객들에게 월말에 업데이트된다고 알렸다는 거예요.",
+      "alt": [
+        "I understand. But we've already announced to our customers that the update will be out at the end of the month."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "I see. We could add another developer, but that would increase the cost.",
+      "ko": "그렇군요. 개발자를 한 명 더 투입할 수는 있는데, 그러면 비용이 늘어나요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "I'd prefer to keep the budget the same, if possible. Would you be able to deliver everything except the payment feature first?",
+      "ko": "가능하면 예산은 그대로 두고 싶어요. 결제 기능만 빼고 나머지를 먼저 주실 수 있을까요?",
+      "alt": [
+        "We'd rather not increase the budget. Could you send us everything except the payment feature first?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Yes, that's possible. We could send that by Friday and finish the payment feature the following week.",
+      "ko": "네, 가능해요. 그건 금요일까지 보내 드리고, 결제 기능은 그다음 주에 끝낼 수 있어요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "That works for us. Could you also send me a short progress update every Tuesday and Friday until it's done?",
+      "ko": "저희는 그게 좋겠어요. 그리고 끝날 때까지 매주 화요일과 금요일에 간단한 진행 상황을 보내 주실 수 있을까요?",
+      "alt": [
+        "That's fine with us. Can you send me a quick update on Tuesdays and Fridays until it's finished?"
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Of course. I'll send you a revised schedule this afternoon.",
+      "ko": "물론이죠. 오늘 오후에 수정한 일정표를 보내 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "We were expecting ___ on ___.",
+      "ko": "___를 ___에 받기로 했었어요.",
+      "note": "약속된 일정을 부드럽게 상기시킬 때",
+      "fromLine": 1
+    },
+    {
+      "en": "running behind",
+      "ko": "(일정이) 늦어지는",
+      "note": "We're running a week behind. = 일주일 늦어지고 있어요",
+      "fromLine": 2
+    },
+    {
+      "en": "What's causing the delay?",
+      "ko": "왜 늦어지는 건가요?",
+      "note": "원인을 차분하게 물을 때",
+      "fromLine": 3
+    },
+    {
+      "en": "The problem is, ___.",
+      "ko": "문제는 ___라는 거예요.",
+      "note": "상대를 이해하면서 내 입장을 말할 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Would you be able to ___?",
+      "ko": "___해 주실 수 있을까요?",
+      "note": "Can you ___? 보다 공손함",
+      "fromLine": 7
+    }
+  ]
+}

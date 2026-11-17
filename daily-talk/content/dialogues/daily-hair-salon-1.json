@@ -1,0 +1,104 @@
+{
+  "id": "daily-hair-salon-1",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "hair-salon",
+  "level": 1,
+  "title": {
+    "ko": "미용실",
+    "en": "At the Hair Salon"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "미용실에서 머리를 자르며 원하는 길이를 말한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "미용사",
+      "en": "Hairstylist",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi. What can I do for you today?",
+      "ko": "안녕하세요. 오늘 어떻게 해 드릴까요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "I'd like a haircut, please.",
+      "ko": "머리 자르러 왔어요.",
+      "alt": [
+        "A haircut, please.",
+        "Just a haircut, please."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Sure. How short would you like it?",
+      "ko": "네. 얼마나 짧게 해 드릴까요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Not too short, please.",
+      "ko": "너무 짧지 않게 해 주세요.",
+      "alt": [
+        "Just a little shorter.",
+        "Please don't cut it too short."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Okay. What about the sides?",
+      "ko": "알겠어요. 옆머리는요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "A little shorter on the sides.",
+      "ko": "옆은 조금 더 짧게 해 주세요.",
+      "alt": [
+        "Shorter on the sides, please.",
+        "Please cut the sides a bit shorter."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Got it. Let's wash your hair first.",
+      "ko": "알겠습니다. 먼저 머리부터 감겨 드릴게요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'd like a haircut.",
+      "ko": "머리 자르러 왔어요.",
+      "note": "끝만 다듬을 때는 a trim",
+      "fromLine": 2
+    },
+    {
+      "en": "Not too short, please.",
+      "ko": "너무 짧지 않게 해 주세요.",
+      "note": "Not too ___ = 너무 ___하지 않게",
+      "fromLine": 4
+    },
+    {
+      "en": "A little shorter on ___.",
+      "ko": "___는 조금 더 짧게요.",
+      "note": "the sides 옆머리 · the back 뒷머리 · the top 윗머리",
+      "fromLine": 6
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "id": "travel-immigration-2",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "immigration",
+  "level": 2,
+  "title": {
+    "ko": "입국 심사",
+    "en": "Immigration"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "입국 심사에서 이번이 몇 번째 방문인지, 왜 왔는지, 어디에서 지내는지, 직업이 무엇인지 답한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "입국 심사관",
+      "en": "Immigration officer",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "여행자(나)",
+      "en": "Traveler",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good afternoon. Is this your first time in the United States?",
+      "ko": "안녕하세요. 미국은 처음이신가요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "No, it's my second time. I came here three years ago.",
+      "ko": "아니요, 두 번째예요. 3년 전에 왔었어요.",
+      "alt": [
+        "No, this is my second visit. I was here three years ago."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "What brings you here this time?",
+      "ko": "이번에는 무슨 일로 오셨어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I'm visiting my sister. She lives in Seattle.",
+      "ko": "여동생을 만나러 왔어요. 시애틀에 살아요.",
+      "alt": [
+        "I'm here to see my sister. She lives in Seattle."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Where will you be staying?",
+      "ko": "어디에서 지내실 건가요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "At my sister's house. Here's the address.",
+      "ko": "여동생 집에서요. 여기 주소가 있어요.",
+      "alt": [
+        "I'll stay at my sister's place. This is the address.",
+        "With my sister. Here's her address."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "And what do you do for a living?",
+      "ko": "그리고 직업이 무엇인가요?"
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "I'm a teacher at a middle school in Korea.",
+      "ko": "한국에서 중학교 교사예요.",
+      "alt": [
+        "I teach at a middle school in Korea.",
+        "I'm a middle school teacher in Korea."
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "All right. Please look at the camera. Welcome!",
+      "ko": "알겠습니다. 카메라를 봐 주세요. 환영합니다!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "It's my second time.",
+      "ko": "두 번째예요.",
+      "note": "first · second · third time",
+      "fromLine": 2
+    },
+    {
+      "en": "What brings you here?",
+      "ko": "무슨 일로 오셨어요?",
+      "note": "방문 이유를 묻는 자연스러운 질문",
+      "fromLine": 3
+    },
+    {
+      "en": "I'm visiting ___.",
+      "ko": "___를 만나러 왔어요.",
+      "note": "visit = 사람을 찾아가다",
+      "fromLine": 4
+    },
+    {
+      "en": "What do you do for a living?",
+      "ko": "직업이 무엇인가요?",
+      "note": "What's your job? 보다 자연스러움",
+      "fromLine": 7
+    }
+  ]
+}

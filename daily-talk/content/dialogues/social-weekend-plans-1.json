@@ -1,0 +1,104 @@
+{
+  "id": "social-weekend-plans-1",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "weekend-plans",
+  "level": 1,
+  "title": {
+    "ko": "주말 계획",
+    "en": "Weekend Plans"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "금요일 퇴근 전에 동료와 주말 계획을 묻고 답한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "회사 동료",
+      "en": "Coworker",
+      "voice": "male-2"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "female-2",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Any plans for the weekend?",
+      "ko": "주말에 계획 있어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Not really. I'm just going to relax. What about you, Mike?",
+      "ko": "별로요. 그냥 쉬려고요. 마이크 씨는요?",
+      "alt": [
+        "Nothing special. I'll just rest. And you?",
+        "Not much. Just relaxing at home. How about you?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "I'm going camping with my family.",
+      "ko": "가족이랑 캠핑 가요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Oh, fun! Where are you going?",
+      "ko": "와, 재밌겠네요! 어디로 가요?",
+      "alt": [
+        "That sounds fun! Where to?",
+        "Nice! Where are you going camping?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Near Gapyeong. It's only an hour away.",
+      "ko": "가평 근처요. 한 시간밖에 안 걸려요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Nice. I hope the weather is good!",
+      "ko": "좋네요. 날씨가 좋으면 좋겠어요!",
+      "alt": [
+        "Great. I hope it doesn't rain!",
+        "Nice. Enjoy the fresh air!"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Thanks! Have a good weekend.",
+      "ko": "고마워요! 주말 잘 보내요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Any plans for the weekend?",
+      "ko": "주말에 계획 있어요?",
+      "note": "Do you have any plans ___? 를 줄인 말",
+      "fromLine": 1
+    },
+    {
+      "en": "I'm just going to ___.",
+      "ko": "그냥 ___하려고요.",
+      "note": "be going to = 하려고 하는 계획",
+      "fromLine": 2
+    },
+    {
+      "en": "I hope ___!",
+      "ko": "___하면 좋겠어요!",
+      "note": "상대에게 좋은 일을 바랄 때",
+      "fromLine": 6
+    }
+  ]
+}

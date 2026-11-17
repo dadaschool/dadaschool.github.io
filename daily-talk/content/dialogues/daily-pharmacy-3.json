@@ -1,0 +1,142 @@
+{
+  "id": "daily-pharmacy-3",
+  "kind": "dialogue",
+  "domain": "daily",
+  "situation": "pharmacy",
+  "level": 3,
+  "title": {
+    "ko": "약국",
+    "en": "At the Pharmacy"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "허리 통증으로 처방받은 진통제를 받으며 부작용을 묻다가, 먹고 있는 감기약과 성분이 겹친다는 말을 듣고 대신 먹을 감기약을 고른다."
+  },
+  "roles": {
+    "A": {
+      "ko": "약사",
+      "en": "Pharmacist",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "손님(나)",
+      "en": "Customer",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Here's the pain reliever your doctor prescribed for your back. Have you taken it before?",
+      "ko": "의사 선생님이 허리 때문에 처방해 주신 진통제예요. 전에 드셔 보신 적 있으세요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "No, this is my first time. Are there any side effects I should be aware of?",
+      "ko": "아니요, 처음이에요. 제가 알아 둬야 할 부작용이 있나요?",
+      "alt": [
+        "No, it's my first time. What side effects should I watch out for?",
+        "No, never. Does it have any side effects I should know about?"
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Some people get an upset stomach, so take it with food. It can also make you a little dizzy.",
+      "ko": "속이 불편해지는 분들이 있어서 음식과 함께 드세요. 조금 어지러울 수도 있어요."
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I see. I'm also taking a cold medicine right now. Is it safe to take them together?",
+      "ko": "그렇군요. 지금 감기약도 먹고 있는데요. 같이 먹어도 안전한가요?",
+      "alt": [
+        "Okay. I'm taking cold medicine at the moment, too. Can I take both?",
+        "Got it. Is it okay to take this with the cold medicine I'm on?"
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Do you happen to have the box with you? I'd like to check the ingredients.",
+      "ko": "혹시 상자를 가지고 계세요? 성분을 확인해 보고 싶어서요."
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes, I have it right here in my bag.",
+      "ko": "네, 가방에 바로 있어요.",
+      "alt": [
+        "Yes, here it is.",
+        "Yes, it's right here."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Ah, this cold medicine already has ibuprofen in it. Taking it with your prescription could be too hard on your stomach.",
+      "ko": "아, 이 감기약에는 이미 이부프로펜이 들어 있네요. 처방약이랑 같이 드시면 위에 너무 무리가 갈 수 있어요."
+    },
+    {
+      "n": 8,
+      "role": "B",
+      "en": "Oh, I had no idea. What would you suggest I take for my cold instead?",
+      "ko": "아, 전혀 몰랐어요. 그럼 감기에는 대신 뭘 먹는 게 좋을까요?",
+      "alt": [
+        "Oh, I didn't know that. What should I take for my cold instead?",
+        "I had no idea. Is there a different cold medicine I can take?"
+      ]
+    },
+    {
+      "n": 9,
+      "role": "A",
+      "en": "This one has no pain relievers in it, so it's safe to take with your prescription. Just avoid alcohol while you're on these.",
+      "ko": "이건 진통 성분이 없어서 처방약이랑 같이 드셔도 괜찮아요. 다만 약 드시는 동안 술은 피하세요."
+    },
+    {
+      "n": 10,
+      "role": "B",
+      "en": "Thank you for catching that. I'm glad I asked.",
+      "ko": "놓치지 않고 알려 주셔서 고마워요. 물어보길 잘했네요.",
+      "alt": [
+        "Thanks for noticing that. Good thing I asked.",
+        "I'm glad I asked. Thank you for checking."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Are there any side effects I should be aware of?",
+      "ko": "제가 알아 둬야 할 부작용이 있나요?",
+      "note": "be aware of = 알고 있다",
+      "fromLine": 2
+    },
+    {
+      "en": "an upset stomach",
+      "ko": "불편한 속 · 배탈",
+      "note": "upset = (속이) 탈이 난",
+      "fromLine": 3
+    },
+    {
+      "en": "Is it safe to take ___ together?",
+      "ko": "___를 같이 먹어도 안전한가요?",
+      "note": "약을 함께 먹어도 되는지 물을 때",
+      "fromLine": 4
+    },
+    {
+      "en": "What would you suggest I ___?",
+      "ko": "제가 뭘 ___하는 게 좋을까요?",
+      "note": "전문가의 의견을 공손하게 물을 때",
+      "fromLine": 8
+    },
+    {
+      "en": "Thank you for catching that.",
+      "ko": "놓치지 않고 알려 주셔서 고마워요.",
+      "note": "catch = (실수 · 문제를) 알아채다",
+      "fromLine": 10
+    }
+  ]
+}

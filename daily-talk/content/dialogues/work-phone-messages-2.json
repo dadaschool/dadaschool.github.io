@@ -1,0 +1,136 @@
+{
+  "id": "work-phone-messages-2",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "phone-messages",
+  "level": 2,
+  "title": {
+    "ko": "전화 받기 · 메시지 남기기",
+    "en": "Answering the Phone and Taking Messages"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "거래처에서 걸려 온 전화를 받아 이름 · 용건 · 전화번호를 받아 적고 다시 불러 확인한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "거래처 직원",
+      "en": "Supplier",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Good afternoon, Dasol Tech. This is Jiho speaking.",
+      "ko": "안녕하세요, 다솔테크 지호입니다.",
+      "alt": [
+        "Hello, Dasol Tech. Jiho speaking.",
+        "Dasol Tech, Jiho speaking. How can I help you?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Hi, this is Karen Mills from Ferngate Supply. Is Sora Han available?",
+      "ko": "안녕하세요, 펀게이트 서플라이의 캐런 밀스입니다. 한소라 씨 통화 가능하실까요?"
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "I'm afraid she's out of the office today. Would you like to leave a message?",
+      "ko": "죄송하지만 오늘 사무실에 안 계세요. 메시지 남기시겠어요?",
+      "alt": [
+        "Sorry, she's not in the office today. Can I take a message?",
+        "She's out today, I'm afraid. May I take a message?"
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "Yes, please. It's about the delivery date for your next order.",
+      "ko": "네, 부탁드려요. 다음 주문 건 배송 날짜 때문에요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "All right. Could I have your phone number, please?",
+      "ko": "알겠습니다. 전화번호를 알려 주시겠어요?",
+      "alt": [
+        "Okay. What's the best number to reach you?",
+        "Sure. Can I get your phone number?"
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "Sure. It's 555-0142, extension 3.",
+      "ko": "네. 555-0142, 내선 3번이에요."
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Let me read that back to you. 555-0142, extension 3?",
+      "ko": "다시 불러 드릴게요. 555-0142, 내선 3번 맞으시죠?",
+      "alt": [
+        "Let me repeat that. 555-0142, extension 3, right?",
+        "Just to confirm, that's 555-0142, extension 3?"
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "That's right. She can call me anytime before five.",
+      "ko": "맞아요. 5시 전이면 언제든 전화 주셔도 돼요."
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Got it. I'll make sure she gets your message first thing tomorrow.",
+      "ko": "알겠습니다. 내일 아침에 출근하시면 바로 메시지 전해 드릴게요.",
+      "alt": [
+        "Okay. I'll pass your message on to her first thing tomorrow.",
+        "Understood. She'll get your message tomorrow morning."
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "en": "I'm afraid she's out of the office.",
+      "ko": "죄송하지만 사무실에 안 계세요.",
+      "note": "out of the office = 외근 · 출장 등으로 자리에 없는",
+      "fromLine": 3
+    },
+    {
+      "en": "Would you like to leave a message?",
+      "ko": "메시지 남기시겠어요?",
+      "note": "Can I take a message? 도 같은 뜻",
+      "fromLine": 3
+    },
+    {
+      "en": "It's about ___.",
+      "ko": "___ 때문에요.",
+      "note": "전화한 용건을 말할 때",
+      "fromLine": 4
+    },
+    {
+      "en": "Let me read that back to you.",
+      "ko": "다시 불러 드릴게요.",
+      "note": "받아 적은 번호 · 이름을 확인할 때",
+      "fromLine": 7
+    },
+    {
+      "en": "first thing tomorrow",
+      "ko": "내일 아침 일찍",
+      "note": "first thing = 하루를 시작하자마자",
+      "fromLine": 9
+    }
+  ]
+}

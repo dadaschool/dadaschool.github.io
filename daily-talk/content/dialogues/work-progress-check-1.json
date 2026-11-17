@@ -1,0 +1,104 @@
+{
+  "id": "work-progress-check-1",
+  "kind": "dialogue",
+  "domain": "work",
+  "situation": "progress-check",
+  "level": 1,
+  "title": {
+    "ko": "업무 진행 묻기",
+    "en": "Checking on Progress"
+  },
+  "audioRev": 1,
+  "scene": {
+    "ko": "팀장이 보고서 진행 상황을 묻고, 언제 끝나는지 답한다."
+  },
+  "roles": {
+    "A": {
+      "ko": "팀장",
+      "en": "Manager",
+      "voice": "female-2"
+    },
+    "B": {
+      "ko": "직원(나)",
+      "en": "Employee",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Hi, Minsu. How's the report going?",
+      "ko": "민수 씨, 보고서는 어떻게 돼 가요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "It's going well. I'm almost done.",
+      "ko": "잘 되고 있어요. 거의 다 했어요.",
+      "alt": [
+        "Pretty well. It's almost finished.",
+        "It's going fine. I'm nearly done."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Great. When can I see it?",
+      "ko": "좋아요. 언제 볼 수 있어요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "I can send it to you by Thursday.",
+      "ko": "목요일까지 보내 드릴 수 있어요.",
+      "alt": [
+        "You'll have it by Thursday.",
+        "I'll send it by Thursday."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Good. Do you need any help?",
+      "ko": "좋아요. 도움이 필요한 건 없어요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "Yes. Could you check the sales numbers?",
+      "ko": "있어요. 매출 숫자 좀 확인해 주시겠어요?",
+      "alt": [
+        "Yes, please. Can you check the numbers?",
+        "Actually, yes. Could you look at the numbers?"
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Sure. Send me what you have so far.",
+      "ko": "그래요. 지금까지 한 걸 보내 줘요."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "How's ___ going?",
+      "ko": "___ 어떻게 돼 가요?",
+      "note": "진행 상황을 물을 때",
+      "fromLine": 1
+    },
+    {
+      "en": "I'm almost done.",
+      "ko": "거의 다 했어요.",
+      "note": "nearly done 도 같은 뜻",
+      "fromLine": 2
+    },
+    {
+      "en": "I can send it to you by ___.",
+      "ko": "___까지 보내 드릴 수 있어요.",
+      "note": "by + 마감 시점",
+      "fromLine": 4
+    }
+  ]
+}

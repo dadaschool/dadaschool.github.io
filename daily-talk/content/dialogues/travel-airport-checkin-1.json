@@ -1,0 +1,104 @@
+{
+  "id": "travel-airport-checkin-1",
+  "kind": "dialogue",
+  "domain": "travel",
+  "situation": "airport-checkin",
+  "level": 1,
+  "title": {
+    "ko": "공항 체크인",
+    "en": "Airport Check-in"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "공항 항공사 카운터에서 여권을 보여 주고 짐을 부친 뒤 자리를 고른다."
+  },
+  "roles": {
+    "A": {
+      "ko": "항공사 직원",
+      "en": "Airline agent",
+      "voice": "female-1"
+    },
+    "B": {
+      "ko": "승객(나)",
+      "en": "Passenger",
+      "voice": "male-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "A",
+      "en": "Good morning. May I see your passport?",
+      "ko": "좋은 아침입니다. 여권 좀 보여 주시겠어요?"
+    },
+    {
+      "n": 2,
+      "role": "B",
+      "en": "Sure. Here you are.",
+      "ko": "네. 여기 있어요.",
+      "alt": [
+        "Here it is.",
+        "Sure, here you go."
+      ]
+    },
+    {
+      "n": 3,
+      "role": "A",
+      "en": "Do you have any bags to check?",
+      "ko": "부치실 짐 있으세요?"
+    },
+    {
+      "n": 4,
+      "role": "B",
+      "en": "Yes, just this one.",
+      "ko": "네, 이거 하나요.",
+      "alt": [
+        "Yes, only this one.",
+        "Yes, I have one bag."
+      ]
+    },
+    {
+      "n": 5,
+      "role": "A",
+      "en": "Would you prefer window or aisle?",
+      "ko": "창가 자리와 통로 자리 중 어디가 좋으세요?"
+    },
+    {
+      "n": 6,
+      "role": "B",
+      "en": "A window seat, please.",
+      "ko": "창가 자리로 주세요.",
+      "alt": [
+        "Window, please.",
+        "I'd like a window seat."
+      ]
+    },
+    {
+      "n": 7,
+      "role": "A",
+      "en": "Here's your boarding pass. Your gate is 12.",
+      "ko": "탑승권 여기 있습니다. 탑승구는 12번입니다."
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Here you are.",
+      "ko": "여기 있어요.",
+      "note": "물건을 건넬 때 쓰는 말",
+      "fromLine": 2
+    },
+    {
+      "en": "Just this one.",
+      "ko": "이거 하나요.",
+      "note": "just = 딱, 오직",
+      "fromLine": 4
+    },
+    {
+      "en": "A window seat, please.",
+      "ko": "창가 자리로 주세요.",
+      "note": "창가 = window seat · 통로 = aisle seat",
+      "fromLine": 6
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "id": "social-weekend-plans-3",
+  "kind": "dialogue",
+  "domain": "social",
+  "situation": "weekend-plans",
+  "level": 3,
+  "title": {
+    "ko": "주말 계획",
+    "en": "Weekend Plans"
+  },
+  "audioRev": 2,
+  "scene": {
+    "ko": "새로 친해진 동료에게 주말에 같이 등산 가자고 제안했다가, 상대가 망설이자 부담 없는 계획으로 바꿔 약속을 잡는다."
+  },
+  "roles": {
+    "A": {
+      "ko": "새로 친해진 동료",
+      "en": "Coworker",
+      "voice": "male-1"
+    },
+    "B": {
+      "ko": "동료(나)",
+      "en": "Coworker",
+      "voice": "female-1",
+      "learner": true
+    }
+  },
+  "lines": [
+    {
+      "n": 1,
+      "role": "B",
+      "en": "Hey, Ben, are you free this Saturday? A few of us are going hiking at Achasan. Want to join?",
+      "ko": "벤 씨, 이번 토요일에 시간 있어요? 몇 명이서 아차산에 등산 가는데, 같이 갈래요?",
+      "alt": [
+        "Ben, are you doing anything on Saturday? Some of us are hiking Achasan. Would you like to come?"
+      ]
+    },
+    {
+      "n": 2,
+      "role": "A",
+      "en": "Oh, thanks for asking! Honestly, though, I'm not much of a hiker. I'd probably slow everyone down.",
+      "ko": "오, 물어봐 줘서 고마워요! 그런데 솔직히 저는 등산을 잘 못해서요. 아마 다들 저 때문에 느려질 거예요."
+    },
+    {
+      "n": 3,
+      "role": "B",
+      "en": "Don't worry, it's a really easy trail. But no pressure at all if it's not your thing.",
+      "ko": "걱정 마요, 정말 쉬운 코스예요. 그래도 별로 안 끌리면 전혀 부담 갖지 마요.",
+      "alt": [
+        "It's an easy trail, so don't worry. But it's totally fine if hiking isn't your thing."
+      ]
+    },
+    {
+      "n": 4,
+      "role": "A",
+      "en": "It's not that I don't want to hang out. I just have a bad knee.",
+      "ko": "같이 놀기 싫어서 그런 건 아니에요. 그냥 무릎이 좀 안 좋아서요."
+    },
+    {
+      "n": 5,
+      "role": "B",
+      "en": "Oh, I'm sorry to hear that. In that case, how about meeting us for lunch afterward? We're going to a noodle place at the bottom of the trail.",
+      "ko": "아이고, 그랬군요. 그럼 끝나고 점심만 같이 먹는 건 어때요? 산 아래 국숫집에 갈 거예요.",
+      "alt": [
+        "Oh, sorry to hear that. Then why don't you just join us for lunch afterward? We're eating at a noodle place near the bottom."
+      ]
+    },
+    {
+      "n": 6,
+      "role": "A",
+      "en": "That sounds perfect, actually. What time would that be?",
+      "ko": "사실 그게 딱 좋겠네요. 몇 시쯤이에요?"
+    },
+    {
+      "n": 7,
+      "role": "B",
+      "en": "Probably around one. I'll text you when we're on our way down.",
+      "ko": "아마 1시쯤이요. 내려갈 때 문자할게요.",
+      "alt": [
+        "Around one, I think. I'll send you a message when we start heading down."
+      ]
+    },
+    {
+      "n": 8,
+      "role": "A",
+      "en": "Great. Should I bring anything?",
+      "ko": "좋아요. 뭐 가져갈 거 있어요?"
+    },
+    {
+      "n": 9,
+      "role": "B",
+      "en": "Just your appetite! The kalguksu there is amazing.",
+      "ko": "배만 비워 오세요! 거기 칼국수가 진짜 맛있거든요.",
+      "alt": [
+        "Just come hungry! Their kalguksu is so good.",
+        "Nothing, just bring your appetite. The kalguksu is great."
+      ]
+    },
+    {
+      "n": 10,
+      "role": "A",
+      "en": "Ha, that I can do. Thanks for the invite!",
+      "ko": "하하, 그건 자신 있어요. 불러 줘서 고마워요!"
+    }
+  ],
+  "expressions": [
+    {
+      "en": "Are you free ___?",
+      "ko": "___에 시간 있어요?",
+      "note": "약속을 제안하기 전에 먼저 묻는 말",
+      "fromLine": 1
+    },
+    {
+      "en": "Want to join?",
+      "ko": "같이 할래요?",
+      "note": "Do you want to join us? 를 줄인 말",
+      "fromLine": 1
+    },
+    {
+      "en": "No pressure at all if it's not your thing.",
+      "ko": "안 끌리면 전혀 부담 갖지 마요.",
+      "note": "not my thing = 내 취향이 아니다",
+      "fromLine": 3
+    },
+    {
+      "en": "In that case, how about ___ing?",
+      "ko": "그럼 ___하는 건 어때요?",
+      "note": "상대 사정에 맞춰 다른 안을 낼 때",
+      "fromLine": 5
+    },
+    {
+      "en": "Just your appetite!",
+      "ko": "배만 비워 오세요!",
+      "note": "Should I bring anything? 에 재치 있게 답할 때",
+      "fromLine": 9
+    }
+  ]
+}
