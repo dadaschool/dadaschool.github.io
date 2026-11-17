@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>2학년 3반 학급 안내</title>
+<!-- 클로드 중급과정 5차시 «결과 예시». 한 파일 · 인터넷 없이 열린다.
+     학교·학급·일정·시간표는 모두 연수용으로 지어낸 가상 정보다. 2026년 11월 16일은 월요일이다. -->
+<style>
+  :root{ --ink:#1F2430; --muted:#5B6372; --line:#D9DEE7; --bg:#F4F6FA; --card:#fff; --accent:#2B5FD9; --soft:#EAF0FD; --hot:#C2410C; --hotbg:#FFF1E8; }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+       font-size:18px; line-height:1.6; word-break:keep-all}
+  .wrap{max-width:1000px; margin:0 auto; padding:22px 16px 40px}
+  .virtual{display:inline-block; font-size:13px; font-weight:800; color:#7A4B00; background:#FFF4D6; border:1px solid #F0D89A; border-radius:999px; padding:2px 10px}
+  header{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:10px 16px; border-bottom:4px solid var(--accent); padding-bottom:14px; margin-bottom:18px}
+  .school{font-size:16px; color:var(--muted); font-weight:700; margin:8px 0 0}
+  h1{font-size:clamp(28px,5vw,40px); margin:2px 0 0; letter-spacing:-.02em}
+  .week{font-size:18px; font-weight:800; color:var(--accent)}
+  .printbtn{font:inherit; font-size:16px; font-weight:800; color:#fff; background:var(--accent); border:0; border-radius:10px; padding:9px 16px; cursor:pointer}
+  .printbtn:focus-visible{outline:3px solid #F2B705; outline-offset:2px}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  @media (max-width:760px){ .grid{grid-template-columns:1fr} }
+  section{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px}
+  h2{font-size:21px; margin:0 0 10px; display:flex; align-items:center; gap:8px}
+  h2 .ic{width:28px; height:28px; border-radius:8px; background:var(--soft); color:var(--accent); display:inline-flex; align-items:center; justify-content:center; font-size:16px}
+  ul.notice{list-style:none; margin:0; padding:0}
+  ul.notice li{display:flex; gap:12px; padding:9px 0; border-top:1px dashed var(--line)}
+  ul.notice li:first-child{border-top:0}
+  .date{flex:none; width:76px; font-weight:800; color:var(--accent)}
+  .imp{display:inline-block; font-size:13px; font-weight:900; color:var(--hot); background:var(--hotbg); border:1.5px solid var(--hot); border-radius:6px; padding:0 6px; margin-right:6px; vertical-align:2px}
+  dl.prep{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; margin:0}
+  dl.prep dt{font-weight:800}
+  dl.prep dd{margin:0}
+  .timetable{margin-top:16px}
+  .scroll{overflow-x:auto}
+  table{border-collapse:collapse; width:100%; min-width:560px; font-size:17px; text-align:center; table-layout:fixed}
+  thead th:first-child{width:22%}
+  th,td{border:1px solid var(--line); padding:9px 6px}
+  thead th{background:var(--accent); color:#fff; font-size:16px}
+  tbody th{background:var(--soft); font-size:15px; white-space:nowrap}
+  tbody th small{display:block; font-weight:600; color:var(--muted); font-size:13px}
+  tr.lunch td{background:#FAFAF7; color:var(--muted); font-size:15px}
+  td.none{color:#A0A7B4}
+  @media (max-width:520px){ table{min-width:0; font-size:15px} th,td{padding:7px 2px} thead th{font-size:14px} tbody th small{font-size:11px} thead th:first-child{width:27%} }
+  .contact{margin-top:16px; font-size:16px; color:var(--muted)}
+  footer{margin-top:18px; font-size:14px; color:var(--muted)}
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
+
+  /* 인쇄용 — A4 세로 한 장, 흑백으로도 읽히게 */
+  @page{ size:A4; margin:12mm }
+  @media print{
+    body{background:#fff; font-size:11pt; line-height:1.45}
+    h1{font-size:22pt}
+    .school{margin-top:4pt}
+    .wrap{max-width:none; padding:0}
+    .printbtn{display:none}
+    header{border-bottom:2.5pt solid #000; margin-bottom:10pt}
+    .week{color:#000}
+    section{border:1pt solid #000; border-radius:6pt; padding:8pt 10pt; break-inside:avoid}
+    .grid{grid-template-columns:1fr 1fr; gap:8pt}
+    h2{font-size:14pt}
+    h2 .ic{display:none}
+    .date{color:#000; width:62pt}
+    .imp{color:#000; background:#fff; border-color:#000}
+    table{min-width:0; font-size:11pt}
+    tbody th small{display:inline; margin-left:4pt; font-size:9pt}
+    ul.notice li{padding:5pt 0}
+    .contact{margin-top:6pt; font-size:10pt}
+    .timetable{margin-top:8pt}
+    footer{margin-top:6pt; font-size:9pt}
+    th,td{border:1pt solid #000; padding:4pt 3pt}
+    thead th{background:#fff; color:#000; border-bottom:2pt solid #000}
+    tbody th{background:#fff}
+    tr.lunch td{background:#fff}
+    .virtual{border-color:#000; background:#fff; color:#000}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <span class="virtual">연수용 가상 자료</span>
+    <p class="school">○○중학교</p>
+    <h1>2학년 3반 학급 안내</h1>
+    <div class="week">이번 주 · 11월 16일(월) ~ 11월 20일(금)</div>
+  </div>
+  <button type="button" class="printbtn" onclick="window.print()">인쇄하기</button>
+</header>
+
+<div class="grid">
+  <section aria-labelledby="h-notice">
+    <h2 id="h-notice"><span class="ic" aria-hidden="true">!</span>이번 주 공지</h2>
+    <ul class="notice">
+      <li><span class="date">11/17(화)</span><span>기술·가정 조리 실습 (3·4교시) — 앞치마와 두건을 꼭 챙겨 옵니다.</span></li>
+      <li><span class="date">11/18(수)</span><span>미술 수채화 (5·6교시) — 물감·붓·팔레트를 챙겨 옵니다.</span></li>
+      <li><span class="date">11/19(목)</span><span><span class="imp">중요</span>수학 단원평가 (5교시) — 범위: 일차함수와 그래프.</span></li>
+      <li><span class="date">11/20(금)</span><span><span class="imp">중요</span>현장체험학습 동의서 제출 마감. 6교시 뒤 대청소가 있습니다.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-prep">
+    <h2 id="h-prep"><span class="ic" aria-hidden="true">✓</span>요일별 준비물</h2>
+    <dl class="prep">
+      <dt>매일</dt><dd>실내화, 필기구, 개인 물병</dd>
+      <dt>월</dt><dd>체육복 (6교시 체육)</dd>
+      <dt>화</dt><dd>앞치마, 두건 (기술·가정 실습)</dd>
+      <dt>수</dt><dd>물감, 붓, 팔레트 (미술)</dd>
+      <dt>목</dt><dd>체육복 (4교시 체육)</dd>
+      <dt>금</dt><dd>체육복 (5교시 체육), 현장체험학습 동의서</dd>
+    </dl>
+  </section>
+</div>
+
+<section class="timetable" aria-labelledby="h-tt">
+  <h2 id="h-tt"><span class="ic" aria-hidden="true">⏰</span>주간 시간표</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th scope="col">교시</th><th scope="col">월</th><th scope="col">화</th><th scope="col">수</th><th scope="col">목</th><th scope="col">금</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">1교시<small>09:00~09:45</small></th><td>국어</td><td>수학</td><td>과학</td><td>영어</td><td>도덕</td></tr>
+        <tr><th scope="row">2교시<small>09:55~10:40</small></th><td>수학</td><td>영어</td><td>국어</td><td>역사</td><td>영어</td></tr>
+        <tr><th scope="row">3교시<small>10:50~11:35</small></th><td>영어</td><td>기술·가정</td><td>정보</td><td>과학</td><td>사회</td></tr>
+        <tr><th scope="row">4교시<small>11:45~12:30</small></th><td>과학</td><td>기술·가정</td><td>수학</td><td>체육</td><td>과학</td></tr>
+        <tr class="lunch"><th scope="row">점심<small>12:30~13:30</small></th><td colspan="5">점심시간</td></tr>
+        <tr><th scope="row">5교시<small>13:30~14:15</small></th><td>역사</td><td>국어</td><td>미술</td><td>수학</td><td>체육</td></tr>
+        <tr><th scope="row">6교시<small>14:25~15:10</small></th><td>체육</td><td>음악</td><td>미술</td><td>국어</td><td>국어</td></tr>
+        <tr><th scope="row">7교시<small>15:20~16:05</small></th><td>창체</td><td>도덕</td><td class="none">—</td><td>진로</td><td class="none">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="contact">결석·조퇴·지각은 미리 담임 선생님께 알려 주세요. 수요일과 금요일은 6교시까지입니다.</p>
+</section>
+
+<footer>이 페이지의 학교·학급·일정은 클로드 중급과정 5차시 연수를 위해 지어낸 가상 정보입니다.</footer>
+
+</div>
+</body>
+</html>

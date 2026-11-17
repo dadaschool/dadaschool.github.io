@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>1차시 수업 자료 폴더 정리하기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">1차시 · Ⅰ. 코워크</div>
+  <h1>수업 자료 폴더 정리하기</h1>
+  <p class="sub">한 학기 동안 쌓인 수업 자료를 단원·자료 종류별 폴더로 정리하고, 자료 목록표와 정리 기록을 만듭니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 코워크 (데스크톱 앱)</span>
+    <span class="badge learn">핵심 기법 · 계획 먼저 받기, 기준을 문장으로 쓰기</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>이름이 제각각인 수업 자료 19개를 <b>단원 → 자료 종류</b> 폴더로 정리하고 목록표를 만든다 (예시: 중학교 사회 — 기후·자연재해·인구 자료)</dd>
+    <dt>준비물</dt><dd>예시 파일 <a href="samples/l01-class-files.zip" download>l01-class-files.zip</a> 을 <code>클로드연수</code> 안에 푼 <code>1차시</code> 폴더 (모두 가상 자료)</dd>
+    <dt>결과물</dt><dd>① 정리된 폴더 ② <code>자료목록.xlsx</code> ③ <code>정리기록.md</code> ④ 다음에 다시 쓸 <code>정리규칙.md</code></dd>
+    <dt>주의</dt><dd><code>1차시</code> 폴더만 연결 · 어떤 파일도 지우지 않기 · 학생 명단 파일은 열지 않게 하기</dd>
+  </dl>
+</div>
+
+<p>폴더 정리는 코워크가 <b>내 파일을 직접 다루는</b> 가장 단순한 일이라 첫 차시로 골랐습니다. 채팅이라면 파일 목록을 붙여 넣고 정리 방법을 받아 내가 옮겨야 하지만, 코워크는 파일을 열어 보고 직접 옮깁니다. 그래서 핵심은 둘입니다. <b>실행 전에 계획을 받는 것</b>, 그리고 <b>정리 기준을 문장으로 분명히 쓰는 것</b>입니다.</p>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=v9izl8hN9mE" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/v9izl8hN9mE/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">23:55</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">클로드 코워크 왕초보 가이드 (클로드 설치, 폴더 정리, 문서 요약, 자동화, 캔바 연동 사용법) | claude cowork</span><span class="ch">디지털거북이 · 유튜브</span><span class="why">설치부터 폴더 정리·문서 요약까지 왕초보 순서로 다룹니다. 이 차시에서는 폴더 정리 부분을 먼저 보세요.</span></span>
+  </a>
+</div>
+<p class="vidnote">통합 전 화면으로 찍은 영상이라 <span class="layout new">새 화면</span> 에서는 메뉴 위치가 조금 다릅니다.</p>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><a href="prepare.html">연수 전 점검</a>에서 받은 <b>l01-class-files.zip</b> 을 <code>클로드연수</code> 안에 풉니다. <code>1차시</code> 폴더 안에 파일 19개가 보이면 됩니다.</li>
+  <li>실제 내 자료로 해 보고 싶다면 <b>원본이 아닌 복사본</b>을 <code>1차시</code> 폴더에 넣습니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다.</p>
+
+<ol class="steps">
+  <li>클로드 데스크톱 앱에서 새 대화를 엽니다.<br>
+      <span class="layout new">새 화면</span> 메시지 상자에 바로 요청합니다. <span class="layout old">예전 화면</span> 메시지 상자에서 <b>Cowork</b> 를 먼저 고릅니다.</li>
+
+  <li>메시지 상자에서 <b>내 컴퓨터 폴더를 연결하는 단추</b>를 눌러 <code>클로드연수/1차시</code> 폴더를 고릅니다. 단추 이름은 화면 문구를 따릅니다.
+    <div class="capture" id="cap-L01-1" data-cap="L01-1" data-caption="메시지 상자에서 폴더를 연결하는 단추와, 연결된 1차시 폴더.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L01-1</b><br>폴더를 연결하는 화면 (따라 하기 2번).
+        <ul><li>빨간 상자: 메시지 상자의 폴더 연결 단추</li><li>폴더 고르기 창에서 <code>클로드연수/1차시</code> 를 고른 모습</li><li>연결된 뒤 메시지 상자에 폴더 이름이 보이는 모습</li></ul></div>
+    </div>
+  </li>
+
+  <li>권한 설정을 <b>Manual</b>(수동)로 바꿉니다. 첫 실습은 클로드가 파일을 옮기기 전에 묻게 둡니다.</li>
+
+  <li><b>계획만 먼저</b> 받습니다. 아래 프롬프트를 복사해 붙여넣고 보내면, 클로드가 파일을 열어 보고 정리 계획을 표로 보여 줍니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · 계획만 먼저</span><button type="button">복사</button></div><pre>연결한 폴더(1차시)에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 단원별. 단원 이름은 파일 내용을 보고 정하고, 앞에 01_, 02_ 번호를 붙이기
+- 여러 단원에 두루 쓰는 자료는 00_공통
+- 2단계 폴더: 자료 종류 (수업PPT · 학습지 · 평가 · 참고자료 · 이미지)
+- 새 파일 이름: [단원번호]_[자료종류]_[내용].확장자
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+    </div>
+    <p class="why"><b>«아직 옮기지 마세요»</b>가 이 차시의 핵심 문장입니다. 계획 표의 <b>판단 근거</b> 열을 보면 클로드가 내용을 열어 보고 분류했는지, 이름만 보고 짐작했는지 드러납니다. <b>지우지 않기</b>와 <b>개인정보 파일은 열지 않기</b>를 기준에 함께 적어 두면, 권한 설정과 별개로 한 번 더 막아 줍니다.</p>
+    <div class="capture" id="cap-L01-2" data-cap="L01-2" data-caption="프롬프트 1에 대한 답 — 파일마다 옮길 폴더·새 이름·판단 근거를 적은 정리 계획 표.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L01-2</b><br>정리 계획 표 (따라 하기 4번).
+        <ul><li>프롬프트 1에 대한 답 — 정리 계획 표가 보이게</li></ul></div>
+    </div>
+  </li>
+
+  <li>계획을 읽고 고칠 점은 말로 고칩니다. 예: «인구피라미드 파일은 참고자료 말고 평가 자료로 옮겨 주세요»</li>
+
+  <li><b>실행</b>합니다. 아래 프롬프트를 보내고, 클로드가 허락을 구하면 내용을 보고 승인합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 2 · 실행하고 목록표·기록 남기기</span><button type="button">복사</button></div><pre>계획대로 정리해 주세요. 다 끝나면 아래 두 파일을 1차시 폴더에 만들어 주세요.
+
+1. 자료목록.xlsx
+   - 열: 단원 | 자료 종류 | 새 파일 이름 | 원래 파일 이름 | 한 줄 설명
+   - 첫 줄은 고정하고 필터를 켜기
+   - 한 줄 설명은 파일 내용을 보고 쓰기
+2. 정리기록.md
+   - 원래 이름과 옮긴 곳을 표로
+   - 맨 아래에 정리 전·후 파일 개수</pre>
+    </div>
+    <div class="capture" id="cap-L01-3" data-cap="L01-3" data-caption="Manual 설정에서 파일을 옮기기 전에 허락을 구하는 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L01-3</b><br>허락을 구하는 화면 (따라 하기 6번).
+        <ul><li>빨간 상자: 승인 단추</li></ul></div>
+    </div>
+  </li>
+
+  <li>파일 탐색기(맥은 Finder)에서 <code>1차시</code> 폴더를 열어 결과를 확인하고, <code>자료목록.xlsx</code> 를 엽니다.</li>
+
+  <li>마지막으로 <b>오늘의 정리 기준을 파일로 남깁니다.</b>
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 3 · 오늘의 기준을 파일로 남기기</span><button type="button">복사</button></div><pre>오늘 쓴 정리 기준을 «정리규칙.md» 파일로 1차시 폴더에 저장해 주세요.
+다음에 다른 폴더를 정리할 때 이 파일을 보여 주면 같은 기준으로 정리할 수 있게,
+규칙만 짧게 번호를 붙여 적어 주세요.</pre>
+    </div>
+    <p class="why"><b>정리규칙.md</b> 는 다음 학기에 다시 꺼내 쓸 수 있는 «작업 설명서»입니다. 이런 설명서를 클로드가 알아서 꺼내 쓰게 만든 것이 12차시에서 만드는 <b>스킬</b>입니다.</p>
+  </li>
+</ol>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l01-tree.webp" width="1600" height="1397" loading="lazy" alt="정리 전과 정리 후 폴더를 나란히 놓은 그림. 왼쪽 정리 전에는 기후_수업ppt_진짜최종.pptx, 기후학습지_최종(1).docx, 새 문서 (3).docx, 학생명단_2반.xlsx 등 19개 파일이 한 폴더에 섞여 있다. 오른쪽 정리 후에는 00_공통, 01_기후와생활, 02_자연재해, 03_인구이동 폴더 아래에 수업PPT·학습지·평가·참고자료·이미지 폴더가 있고, 파일 이름이 01_수업PPT_세계의기후.pptx 처럼 바뀌어 있다. 맨 아래에 _개인정보확인필요 폴더(학생명단_2반.xlsx), _중복확인 폴더(기후학습지_최종(1).docx), 자료목록.xlsx, 정리기록.md 가 있다.">
+  <figcaption><b>정리 전 → 정리 후.</b> 이름이 없던 <code>새 문서 (3).docx</code> 는 내용(지진 대피 요령)을 보고 <b>02_자연재해/학습지</b>로 갔고, 내용이 같은 <code>기후학습지_최종(1).docx</code> 는 지우지 않고 <b>_중복확인</b>으로, <code>학생명단_2반.xlsx</code> 는 열지 않고 <b>_개인정보확인필요</b>로 옮겼습니다.</figcaption>
+</figure>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l01-list.webp" width="1600" height="759" loading="lazy" alt="자료목록.xlsx 를 연 화면. 단원, 자료 종류, 새 파일 이름, 원래 파일 이름, 한 줄 설명 다섯 열에 17줄이 있다. 예를 들어 첫 줄은 01_기후와생활, 수업PPT, 01_수업PPT_세계의기후.pptx, 기후_수업ppt_진짜최종.pptx, 기후 구분과 열대 기후의 생활 (3장) 이다. 새 문서 (3).docx 줄의 설명은 «제목 없는 문서 — 열어 보니 지진 대피 요령 정리» 이다.">
+  <figcaption><b>자료목록.xlsx.</b> 원래 파일 이름 열이 있어서 예전 이름으로도 찾을 수 있습니다. <b>한 줄 설명</b>은 파일을 열어 본 내용이어야 합니다.</figcaption>
+</figure>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">같은 예시 파일 묶음에 프롬프트 1·2의 기준을 그대로 적용해 연수자료를 만들 때 정리한 모습입니다. 코워크의 실제 결과는 폴더 이름·분류·설명이 매번 조금씩 다릅니다.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 파일 개수</b> — 정리기록.md 맨 아래의 정리 전·후 개수가 같은지, 파일 탐색기에서 실제로 세어 맞는지 봅니다.<br>
+  <b>② 지운 파일</b> — 하나도 없어야 합니다. 중복 파일은 _중복확인에 남아 있어야 합니다.<br>
+  <b>③ 내용 기준 분류</b> — <code>새 문서 (3).docx</code> 처럼 이름으로는 알 수 없는 파일이 맞는 곳에 갔는지 봅니다. 엉뚱하면 이름만 보고 짐작한 것입니다.<br>
+  <b>④ 개인정보 파일</b> — 학생 명단을 <b>열지 않고</b> 옮겼는지 대화 기록에서 확인합니다. 열었다면 다음부터 그런 파일은 아예 실습 폴더에 넣지 않습니다.<br>
+  <b>⑤ 한 줄 설명</b> — 목록표에서 두세 개를 골라 파일을 직접 열고, 설명이 실제 내용과 맞는지 봅니다. 클로드는 파일을 제대로 읽지 못했을 때도 그럴듯한 설명을 지어낼 수 있습니다.<br>
+  <b>⑥ 원래 이름</b> — 목록표와 기록에 원래 이름이 남아 있어야 나중에 «그 파일 어디 갔지?»를 찾을 수 있습니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>4단계 프롬프트 대신</b> 아래 교과 프롬프트를 씁니다. 6단계(실행)와 8단계(정리 기준 남기기) 프롬프트는 그대로 씁니다. 자료목록에 열을 더하는 사례(사회·음악·진로)는 6단계 프롬프트의 «열:» 줄 끝에도 같은 열을 더합니다. 교과를 눌러 펼친 뒤 <b>복사</b>합니다.</p>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">작품별 자료</span><span class="gist">갈래 → 작품 폴더, 그 안에 해설·활동지·평가</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 작품별 자료</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 갈래별 (01_시, 02_소설, 03_수필, 04_극). 갈래는 파일 내용을 보고 정하기
+- 2단계 폴더: 작품 제목
+- 작품 폴더 안 파일 이름: [작품 제목]_[해설·활동지·평가 중 하나]_[내용].확장자
+- 특정 작품이 아닌 자료(문법·쓰기·말하기 등)는 00_공통
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">단원과 난이도</span><span class="gist">단원 폴더 + 파일 이름 끝에 난이도</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 단원과 난이도</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 단원별. 단원 이름은 파일 내용을 보고 정하고, 앞에 01_, 02_ 번호를 붙이기
+- 2단계 폴더: 자료 종류 (개념 · 문제 · 평가)
+- 문제 파일은 이름 끝에 난이도를 붙이기: _기본, _발전, _심화 (문제 수준을 보고 정하고, 판단이 어려우면 _난이도확인)
+- 정답·풀이 파일은 짝이 되는 문제 파일과 같은 이름 뒤에 _풀이
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">듣기 파일</span><span class="gist">Lesson 폴더에 mp3와 대본을 같은 이름으로 짝짓기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 듣기 파일</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: Lesson별 (Lesson01, Lesson02 …)
+- mp3와 대본(txt·docx)은 같은 이름으로 짝지어 같은 폴더에: L01_듣기_01.mp3 / L01_듣기_01_대본.txt
+- 짝이 없는 mp3나 대본은 _짝확인 폴더로
+- mp3 내용은 들을 수 없으면 파일 이름·대본·같은 폴더 자료로 Lesson을 판단하고, 그 근거를 적기
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">실험 자료</span><span class="gist">실험별 폴더에 사진·보고서 양식·안전 수칙</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 실험 자료</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 실험별 (01_실험 이름, 02_실험 이름 …)
+- 실험 폴더 안: 사진 · 보고서양식 · 안전수칙 · 결과자료
+- 사진은 찍은 날짜 순서로 [실험 이름]_사진_01, _02 … 로 이름 붙이기
+- 사진에 사람 얼굴이 보이면 옮기지 말고 _개인정보확인필요 폴더로
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">지도와 그래프</span><span class="gist">자료목록에 «출처» 열, 출처 없는 자료 표시</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 지도와 그래프</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 단원별, 2단계 폴더: 자료 종류 (지도 · 그래프통계 · 읽기자료 · 활동지 · 평가)
+- 통계 자료는 이름 끝에 기준 연도: [단원번호]_그래프통계_[내용]_[연도]
+- 파일 안이나 이름에서 출처(기관·연도)를 찾아 계획 표에 함께 적고, 없으면 «출처 확인 필요»
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+정리한 뒤 만들 자료목록.xlsx 에는 «출처» 열을 더할 예정이니, 계획 표에도 «출처» 열을 넣어 주세요.
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거 | 출처</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">시대순 정리</span><span class="gist">시대 순서 폴더, 사료 이미지는 «사료»로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 시대순 정리</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 시대 순서 (01_선사, 02_고조선과여러나라, 03_삼국과남북국, 04_고려, 05_조선, 06_근현대)
+- 2단계 폴더: 수업PPT · 사료 · 활동지 · 평가
+- 사료 이미지 이름: [시대번호]_사료_[사료 이름].확장자
+- 시대를 정하기 어려운 자료는 _시대확인 폴더로
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">토론 수업</span><span class="gist">주제 폴더 안 읽기 자료를 «찬성_», «반대_»로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 토론 수업</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 토론 주제별 (01_주제, 02_주제 …)
+- 주제 폴더 안 읽기 자료는 입장에 따라 찬성_[내용], 반대_[내용], 배경_[내용] 으로 이름 붙이기
+- 토론 활동지와 평가 기준은 주제 폴더 안 «활동» 폴더로
+- 입장을 판단한 근거로 자료의 결론 문장을 계획 표에 옮겨 적기
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">실습 자료</span><span class="gist">실습별 폴더 + 실습마다 재료 목록표</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 실습 자료</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 실습별 (01_실습 이름, 02_실습 이름 …)
+- 실습 폴더 안: 안내자료 · 재료 · 사진 · 평가
+- 실습마다 재료목록.xlsx 를 만들 계획도 세우기: 재료 | 수량 | 예상 비용 | 나온 파일 (파일에 나온 것만 적고, 없으면 빈칸)
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">수업 예제 코드</span><span class="gist">차시별 폴더에 «_예제», «_정답»으로 나누기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 수업 예제 코드</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 차시별 (01차시, 02차시 …). 순서는 코드의 주제와 난이도로 추정하고 근거 적기
+- 예제와 정답 파일을 나누어 이름 붙이기: [차시]_예제_[내용].py / [차시]_정답_[내용].py
+- 문법 오류 때문에 실행되지 않을 것 같은 파일은 계획 표에 «실행 확인 필요» 표시
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">악보와 음원</span><span class="gist">자료목록에 «이용 조건» 열, 출처 없는 음원은 따로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 악보와 음원</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 단원(또는 곡)별, 2단계 폴더: 악보 · 음원 · 활동지 · 평가
+- 파일 안이나 이름에 출처·저작권 표시가 있으면 계획 표에 함께 적기
+- 출처가 없는 음원은 _출처확인 폴더로
+- 음원 내용을 들을 수 없으면 파일 이름과 함께 있는 자료로 판단하고 근거 적기
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+정리한 뒤 만들 자료목록.xlsx 에는 «이용 조건» 열을 더할 예정이니, 계획 표에도 «이용 조건» 열을 넣어 주세요.
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거 | 이용 조건</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">작품 사진</span><span class="gist">주제별 폴더, 얼굴·학생 이름은 따로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 작품 사진</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 주제별 (01_주제, 02_주제 …)
+- 2단계 폴더: 참고작품 · 학생작품 · 활동지 · 평가
+- 사람 얼굴이 나온 사진, 파일 이름에 학생 이름이 들어간 파일은 옮기지 말고 _개인정보확인필요 폴더로
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">종목별 평가</span><span class="gist">종목별 폴더 + 평가 기준표를 한 엑셀로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 종목별 평가</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 종목별 (01_종목 이름, 02_종목 이름 …)
+- 2단계 폴더: 수업자료 · 영상링크 · 평가
+- 흩어진 평가 기준표는 평가기준_모음.xlsx 한 파일에 종목마다 한 시트로 모을 계획도 세우기 (원본은 그대로 두기)
+- 학생 기록(점수·측정값)이 든 파일은 열지 말고 _개인정보확인필요 폴더로
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">직업 탐색 자료</span><span class="gist">직업군별 폴더, 자료목록에 «대상 학년» 열</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 직업 탐색 자료</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 직업군별. 직업군 이름은 자료 내용을 보고 정하기
+- 2단계 폴더: 읽기자료 · 영상링크 · 활동지
+- 자료마다 내용과 난이도를 보고 알맞은 학년(1·2·3학년)을 계획 표에 함께 적고 근거 쓰기
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+정리한 뒤 만들 자료목록.xlsx 에는 «대상 학년» 열을 더할 예정이니, 계획 표에도 «대상 학년» 열을 넣어 주세요.
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거 | 대상 학년</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임</span><span class="topic">가정통신문</span><span class="gist">연·월 폴더, 이름은 «날짜_제목»</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임 · 가정통신문</span><button type="button">복사</button></div><pre>연결한 폴더에 있는 파일을 모두 열어 보고, 정리 계획만 먼저 보여 주세요.
+아직 파일을 옮기거나 이름을 바꾸지 마세요.
+
+정리 기준
+- 1단계 폴더: 연·월 (2026-03, 2026-04 …). 문서 안의 날짜를 기준으로 하고, 없으면 파일 수정 날짜를 쓰고 근거 적기
+- 파일 이름: [날짜]_[제목].확장자 (예: 2026-03-04_학부모총회안내)
+- 학생 이름이 들어간 개별 통지문은 열지 말고 _개인정보확인필요 폴더로
+- 파일 이름만 보지 말고 내용을 열어 확인해서 분류하기
+- 내용이 같은 파일은 지우지 말고 _중복확인 폴더로
+- 파일 이름에 명단·연락처·성적이 들어간 파일은 열지 말고 _개인정보확인필요 폴더로
+- 어떤 파일도 지우지 않기
+
+계획은 표로 보여 주세요: 원래 이름 | 옮길 폴더 | 새 이름 | 그렇게 판단한 근거</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  코워크는 파일을 <b>실제로</b> 옮깁니다. 그래서 <b>계획을 먼저 받고</b>(«아직 옮기지 마세요»), <b>기준을 문장으로</b> 분명히 쓰고, <b>기록을 남기게</b> 합니다. 기록이 있으면 되돌릴 수 있고, 기준을 파일로 남겨 두면 다음에 그대로 다시 쓸 수 있습니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>폴더 연결 단추가 없다</b> — 웹(claude.ai)이 아니라 데스크톱 앱인지 확인합니다. 내 컴퓨터 폴더는 데스크톱 앱에서만 연결합니다.<br>
+  · <b>작업이 중간에 멈췄다</b> — 내 컴퓨터의 파일을 다루는 동안에는 데스크톱 앱이 켜져 있어야 합니다. 노트북 덮개를 닫거나 앱을 끄지 않습니다.<br>
+  · <b>파일 이름의 한글이 깨졌다</b> — 압축을 반디집 같은 프로그램으로 다시 풉니다.<br>
+  · <b>한글(.hwp·.hwpx) 파일 내용을 못 읽는다고 한다</b> — 이번에는 «내용 확인 못 함»으로 표시하고 이름 기준으로 분류하게 합니다. 한글 파일은 4차시에서 다룹니다.<br>
+  · <b>결과가 마음에 들지 않는다</b> — «정리기록.md 를 보고 모든 파일을 원래 이름과 위치로 되돌려 주세요»라고 요청하거나, 처음 만든 복사본으로 바꿉니다.
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=xzLs8oiy8F0" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/xzLs8oiy8F0/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">10:50</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">(26년 7월 업데이트) 클로드 코워크 A to Z｜10분 만에 끝내기 + 신규 기능 3가지</span><span class="ch">이동훈의 루트AI · 유튜브</span><span class="why">코워크 전체 흐름을 10분에 훑습니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=W56emdXCRMA" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/W56emdXCRMA/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">15:11</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">(26년 6월 최신 업데이트) 클로드 코워크(Claude Cowork) 활용법ㅣ핵심 기능 5가지 실습</span><span class="ch">진한별의 AI 연구소 · 유튜브</span><span class="why">코워크 핵심 기능 5가지를 실습으로 보여 줍니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=AgLuARcXnbI" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/AgLuARcXnbI/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">1:23:31</span></span>
+    <span class="tx"><span class="tg">더 보기 · 교사 라이브</span><span class="tt">교사 업무, 클로드 코워크로 어디까지 가능할까? | 전정선 선생님</span><span class="ch">교육티타임 · 유튜브</span><span class="why">현직 교사가 통합된 화면에서 교사 업무를 코워크로 처리합니다. 긴 라이브라 필요한 부분만 골라 보세요.</span></span>
+  </a>
+</div>
+
+<div class="pager">
+  <a href="overview.html"><span class="k">← 이전</span>바뀐 클로드 한 장</a>
+  <a class="next" href="l02.html"><span class="k">다음 →</span>2차시 · 강의자료 PPT 만들기</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

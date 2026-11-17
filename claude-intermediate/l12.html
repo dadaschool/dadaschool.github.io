@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>12차시 나만의 학습지 스킬 만들기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">12차시 · Ⅲ. 스킬</div>
+  <h1>나만의 학습지 스킬 만들기</h1>
+  <p class="sub">«우리 학교 학습지 양식»을 스킬로 만들어, 학습지를 부탁할 때마다 양식을 설명하지 않아도 같은 모양의 Word 학습지가 나오게 합니다. 만든 스킬은 zip 하나로 동료와 나눕니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 코워크 (데스크톱 앱) + claude.ai 계정</span>
+    <span class="badge learn">핵심 기법 · 클로드가 묻게 하기(설계 인터뷰), 결과 말고 스킬을 고치기</span>
+  </div>
+</header>
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>학교에서 쓰는 학습지 양식을 스킬로 만들고, 양식을 한 줄도 말하지 않은 요청으로 학습지를 만들어 시험한다 (예시: 중학교 1학년 국어 — «우리 학교 학습지 양식» 스킬로 만든 «품사의 종류» 학습지)</dd>
+    <dt>준비물</dt><dd><code>클로드연수</code> 안에 만든 빈 <code>12차시</code> 폴더, (있으면) 학교에서 쓰는 학습지 한 장(개인정보 없는 것)</dd>
+    <dt>결과물</dt><dd>① <code>school-worksheet</code> 스킬 폴더 — <code>SKILL.md</code> 와 서식 견본 <code>template.docx</code> ② 나눠 줄 <code>school-worksheet.zip</code> ③ 스킬로 만든 학습지·정답지 docx</dd>
+    <dt>주의</dt><dd>견본 학습지에 학생 이름·사진이 없게 · 학교 이름을 넣은 스킬은 학교 밖으로 나눌 때 한 번 더 확인</dd>
+  </dl>
+</div>
+
+<p>1차시에서 정리 기준을 <code>정리규칙.md</code> 로 남겼고, 11차시에서 남이 만든 스킬을 설치해 썼습니다. 이번에는 <b>내가 자주 하는 일</b>을 스킬로 만듭니다. 학습지를 만들 때마다 «머리말에 학년·반·번호·이름 칸, 위에 학습 목표 상자, 끝에 오늘 배운 점…»을 설명하고 있다면 스킬로 만들 때입니다. 핵심은 둘입니다. <b>양식을 혼자 쓰지 말고 클로드가 묻게 하는 것</b>(설계 인터뷰), 그리고 <b>결과가 틀리면 학습지가 아니라 스킬을 고치는 것</b>입니다.</p>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=txa_8i-3cIs" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/txa_8i-3cIs/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">28:40</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">자동화 대세 클로드 스킬! 제작부터 배포까지 전부 알려드립니다</span><span class="ch">시민개발자 구씨 · 유튜브</span><span class="why">반복 업무를 스킬로 자동화하는 방법을 만들기부터 공유까지 처음부터 끝까지 다룹니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=UCV3lAo0fhQ" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/UCV3lAo0fhQ/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">19:55</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">[AI 팁] 스킬을 만드는 방법 대공개! 한글 영어 문제지를 클로드로!</span><span class="ch">편집자P · 유튜브</span><span class="why">스킬 구조를 복습하고, 기존 스킬을 참고해 한글(HWPX) 영어 문제지 스킬을 만드는 과정을 다룹니다. 학교 문서 양식을 스킬로 만드는 예입니다.</span></span>
+  </a>
+</div>
+<p class="vidnote">두 영상은 Code 탭에서 스킬을 만듭니다. 이 차시는 Word 학습지를 바로 받아 볼 수 있는 코워크로 만들고, 11차시 방법으로 설치합니다.</p>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><code>클로드연수</code> 안에 빈 폴더 <code>12차시</code> 를 만듭니다.</li>
+  <li>학교에서 쓰는 학습지가 있으면 학생 이름·답이 없는 빈 양식 한 장을 <code>12차시</code> 에 넣습니다. 없으면 따라 하기 2번의 «답할 때 참고»를 씁니다.</li>
+  <li>11차시 (나)처럼 설정 → <b>Capabilities</b> 에서 코드 실행 기능이 켜져 있는지 확인합니다. 스킬을 계정에 올릴 때 필요합니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다.</p>
+
+<ol class="steps">
+  <li>클로드 데스크톱 앱에서 새 대화를 엽니다. <span class="layout new">새 화면</span> 메시지 상자에 바로 요청합니다. <span class="layout old">예전 화면</span> 메시지 상자에서 <b>Cowork</b> 를 먼저 고릅니다. 1차시처럼 메시지 상자의 폴더 연결 단추로 <code>클로드연수/12차시</code> 를 연결하고, 권한 설정은 <b>Manual</b> 로 둡니다.</li>
+
+  <li><b>스킬 설계 인터뷰</b>를 합니다. 아래 프롬프트를 보내면 클로드가 양식을 정하는 질문을 세 개씩 합니다. 하나씩 답합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · 스킬 설계 인터뷰 (클로드가 묻게 하기)</span><button type="button">복사</button></div><pre>학습지를 만들 때마다 같은 양식을 설명하고 있어서, '우리 학교 학습지 양식'을 스킬로 만들려고 합니다.
+스킬 이름은 school-worksheet 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 머리말(학교 이름, 학년·반·번호·이름 칸), 학습 목표 상자, 문항 번호 형식, 글꼴과 크기, 쪽 여백, 마지막 '오늘 배운 점', 쪽 번호, 정답지를 따로 만들지, 하지 말아야 할 것
+- 연결한 폴더에 학습지 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 묻지 말고 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교 학습지에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+    </div>
+    <p class="why"><b>«바로 만들지 말고 먼저 질문해 주세요»</b>가 핵심입니다. 양식을 혼자 적으면 빠뜨리는 것이 생기는데(쪽 번호, 정답지 분리, 문항 번호를 이어 매길지), 클로드가 물으면 답만 하면 됩니다. 마지막 정리 표가 곧 스킬의 내용이 됩니다.</p>
+    <p class="why"><b>답할 때 참고 — 이 차시 예시 양식:</b> 머리말 첫 줄에 «○○중학교»와 «교과 · 학년», 제목 «[단원] 제목» 16pt 가운데, 그 아래 학년·반·번·이름 칸 / 학습 목표 상자(옅은 파랑, 12pt) / 묶음 «Ⅰ. Ⅱ.», 문항 «1. 2.»는 끝까지 이어서, 하위 문항 «(1)», 보기 «①~⑤» / 맑은 고딕 11pt, A4, 여백 위·아래 15mm·좌우 18mm / 끝에 «오늘 배운 점» 상자 3줄과 «스스로 평가 ☆☆☆☆☆» / 바닥글 «- 1 -» / 정답지는 따로 / 학생 개인정보·교과서 그림 넣지 않기</p>
+    <div class="capture" id="cap-L12-1" data-cap="L12-1" data-caption="코워크에서 클로드가 학습지 양식을 정하려고 질문을 세 개씩 하는 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L12-1</b><br>설계 인터뷰 (따라 하기 2번).
+        <ul><li>클로드의 첫 질문 세 개와 교사의 답이 보이게</li><li>빨간 상자: 인터뷰가 끝난 뒤의 정리 표</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>SKILL.md 와 서식 파일</b>을 만들게 합니다. 파일을 만들기 전에 허락을 구하면 승인합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 2 · SKILL.md 와 서식 파일 만들기</span><button type="button">복사</button></div><pre>정리한 양식으로 스킬을 만들어 주세요. 연결한 폴더(12차시)에 아래처럼 만들어 주세요.
+
+school-worksheet/
+  SKILL.md       ← 맨 위 YAML 에는 name: school-worksheet 와 description 두 항목만.
+                   description 은 200자 이내로, 무엇을 하고 언제 쓰는지 분명하게
+  template.docx  ← 양식 견본 (머리말, 학습 목표 상자, 문항 예시, 오늘 배운 점 상자, 바닥글 쪽 번호).
+                   내용 자리는 [ ] 로 비워 두기
+
+SKILL.md 본문에는 정한 규칙을 번호를 붙여 쓰고, '하지 말 것'과 '다 만든 뒤 확인할 것'을 넣어 주세요.
+template.docx 를 견본으로 쓰라고도 적어 주세요.
+다 만들면 school-worksheet 폴더를 school-worksheet.zip 으로 묶어 주세요.
+zip 을 열면 맨 위에 school-worksheet 폴더가 있어야 합니다.</pre>
+    </div>
+    <p class="why">파일 탐색기에서 <code>SKILL.md</code> 를 메모장(맥은 텍스트 편집기)으로 열어 읽고, <code>template.docx</code> 를 Word 로 열어 봅니다. zip 이 만들어지지 않았으면 <code>school-worksheet</code> 폴더를 마우스 오른쪽 단추로 눌러 압축(ZIP)합니다. 폴더 이름과 <code>name</code> 이 같아야 올릴 때 오류가 나지 않습니다.</p>
+    <div class="capture" id="cap-L12-2" data-cap="L12-2" data-caption="연결한 12차시 폴더에 만들어진 school-worksheet 폴더(SKILL.md, template.docx)와 school-worksheet.zip.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L12-2</b><br>만들어진 스킬 파일 (따라 하기 3번).
+        <ul><li>코워크의 답에 나온 파일 목록, 또는 파일 탐색기의 <code>12차시</code> 폴더</li><li>번호 표시: ① <code>SKILL.md</code> ② <code>template.docx</code> ③ <code>school-worksheet.zip</code></li></ul></div>
+    </div>
+  </li>
+
+  <li><b>설치</b>합니다(<a href="l11.html">11차시</a> 방법). <b>Customize</b> → <b>Skills</b> 에서 <b>+</b> → <b>+ Create skill</b> → <b>Upload a skill</b> 로 <code>school-worksheet.zip</code> 을 올리고, 목록에서 켜졌는지 봅니다. Code 탭에서도 쓰려면 <code>school-worksheet</code> 폴더를 개인 스킬 폴더(<code>~/.claude/skills/</code>)에 넣거나, 계정에 올린 스킬을 그대로 씁니다.</li>
+
+  <li><b>스킬로 학습지를 만들어 시험</b>합니다. <b>새 대화</b>를 열어 <code>12차시</code> 폴더를 연결하고, 양식은 말하지 않고 내용만 부탁합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 3 · 양식을 말하지 않고 학습지 부탁하기</span><button type="button">복사</button></div><pre>중학교 1학년 국어 '품사의 종류' 학습지를 Word 파일로 만들어 주세요.
+- 학습 목표: 9품사의 이름과 특징을 말할 수 있다. / 동사와 형용사를 구별할 수 있다.
+- 개념 확인 3문항, 문제 풀기 3문항
+- 정답지도 따로 만들어 주세요.</pre>
+    </div>
+    <p class="why">프롬프트에 머리말·상자·번호·글꼴 이야기가 하나도 없다는 점이 이 시험의 핵심입니다. 그런데도 양식대로 나오면 스킬이 쓰인 것입니다. 클로드가 스킬을 쓰지 않으면 «school-worksheet 스킬로»를 앞에 붙여 다시 부탁합니다.</p>
+    <div class="capture" id="cap-L12-3" data-cap="L12-3" data-caption="새 대화에서 양식을 말하지 않고 부탁했을 때 school-worksheet 스킬을 쓰며 학습지와 정답지를 만든 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L12-3</b><br>스킬로 만든 학습지 (따라 하기 5번).
+        <ul><li>빨간 상자: 스킬을 쓴다는 표시(화면 문구를 따름)</li><li>번호 표시: ① 학습지 docx ② 정답지 docx ③ «다 만든 뒤» 점검 목록</li></ul></div>
+    </div>
+  </li>
+
+  <li>만들어진 docx 를 Word 로 열어 <b>SKILL.md 의 규칙과 하나씩 대조</b>합니다. 결과 예시 그림의 ①~⑥ 자리를 보면 빠르게 확인할 수 있습니다.</li>
+
+  <li>다른 곳이 있으면 <b>학습지가 아니라 스킬을 고칩니다.</b> 아래 프롬프트의 첫 줄을 실제로 다른 점으로 바꿔 보냅니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 4 · 결과 말고 스킬 고치기</span><button type="button">복사</button></div><pre>방금 학습지에서 양식과 다른 곳을 찾았습니다: Ⅱ. 문제 풀기에서 문항 번호가 다시 1번부터 시작합니다.
+학습지만 고치지 말고, 다음에도 같은 일이 없도록 school-worksheet/SKILL.md 의 해당 규칙을 더 분명하게 고쳐 주세요.
+고친 줄을 «원래 → 고친» 으로 보여 주고, school-worksheet.zip 도 다시 묶어 주세요.</pre>
+    </div>
+    <p class="why">고친 zip 은 Customize → Skills 에서 예전 스킬의 <b>…</b> 메뉴 → <b>Delete</b> 로 지운 뒤 다시 올립니다. Code 탭의 개인 스킬 폴더에 둔 스킬은 <code>SKILL.md</code> 파일만 바꾸면 바로 반영됩니다. 고친 뒤 5단계를 다시 해 봅니다.</p>
+  </li>
+
+  <li><b>동료와 나눕니다.</b> <code>school-worksheet.zip</code> 파일 하나를 메신저·USB로 건네면, 받은 사람은 11차시 방법으로 <b>내용을 읽어 본 뒤</b> 설치합니다. 학교 이름을 바꿔 쓰려면 «SKILL.md 와 template.docx 의 ○○중학교를 △△중학교로 바꾸고 zip 을 다시 묶어 주세요»라고 부탁합니다. Team·Enterprise 플랜은 Customize → Skills 에서 스킬의 <b>…</b> 메뉴 → <b>Share</b> 로 동료에게 직접 나눌 수 있습니다(기관 설정에 따라 보이지 않을 수 있음).</li>
+</ol>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<p>위 흐름대로 정한 양식으로 만든 스킬 폴더와, 그 스킬의 규칙대로 만든 학습지입니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">스킬 폴더 구성 (school-worksheet.zip 을 풀면)</span><button type="button">복사</button></div><pre>school-worksheet/
+├── SKILL.md       ← 이름·설명 + 양식 규칙 0~6
+└── template.docx  ← 서식 견본 (내용 자리는 [ ])</pre>
+</div>
+
+<div class="code">
+  <div class="bar"><span class="label">school-worksheet/SKILL.md</span><button type="button">복사</button></div><pre>---
+name: school-worksheet
+description: 우리 학교 학습지 양식(머리말 칸, 학습 목표 상자, 문항 번호, 글꼴 크기, 오늘 배운 점)에 맞춰 Word(docx) 학습지를 만든다. 학습지·활동지를 docx 로 만들어 달라는 부탁을 받으면 쓴다.
+---
+
+# 우리 학교 학습지 양식
+
+학습지·활동지를 Word(docx)로 만들 때 이 양식을 따른다. 같은 폴더의 `template.docx` 가 견본이다. 견본을 열어 서식을 그대로 쓰고 내용만 채운다.
+
+## 만들기 전에
+
+- 교과, 학년, 단원(주제), 학습 목표, 문항 수를 확인한다. 빠진 것이 있으면 만들기 전에 묻는다.
+- 교과 내용은 교사가 준 자료를 먼저 쓴다. 사실과 계산은 다시 확인하고, 확실하지 않은 것은 교사에게 «확인 필요»로 알린다.
+- 파일 이름: `교과_학년_주제_학습지.docx` (예: `국어_1학년_품사_학습지.docx`)
+
+## 0. 쪽 설정
+
+- A4 세로, 여백 위·아래 15mm, 왼쪽·오른쪽 18mm
+- 글꼴: 맑은 고딕 (영어·숫자도 같은 글꼴), 줄 간격 1.3
+
+## 1. 머리말 (첫 쪽 맨 위)
+
+- 첫 줄: 왼쪽에 학교 이름 «○○중학교», 오른쪽에 «교과 · 학년» (10pt, 회색)
+- 제목: 16pt 굵게, 가운데. 형식 «[단원 이름] 제목»
+- 그 아래 1행 4칸 표: «   학년» | «   반» | «   번» | «이름:» — 이름 칸을 가장 넓게
+
+## 2. 학습 목표 상자
+
+- 머리말 아래에 테두리 있는 1칸 표, 옅은 파랑 바탕(#EEF4FB)
+- 첫머리에 굵게 «학습 목표», 목표는 «~할 수 있다.»로 끝나는 문장 1~2개, 12pt
+
+## 3. 문항
+
+- 묶음 제목: «Ⅰ. 개념 확인», «Ⅱ. 문제 풀기»처럼 로마 숫자, 13pt 굵게
+- 문항 번호: «1.», «2.» … **처음부터 끝까지 이어서** 매긴다. 묶음이 바뀌어도 1부터 다시 시작하지 않는다.
+- 하위 문항: «(1)», «(2)» / 보기: ①②③④⑤
+- 본문 11pt, 문항마다 답을 쓸 밑줄이나 빈칸을 둔다.
+
+## 4. 오늘 배운 점 (마지막)
+
+- 마지막 문항 다음에 테두리 있는 상자, 첫 줄 굵게 «오늘 배운 점»
+- 그 아래 쓸 줄 3줄
+- 상자 아래 오른쪽에 9pt로 «스스로 평가: ☆☆☆☆☆»
+
+## 5. 바닥글
+
+- 쪽 번호를 가운데에 «- 1 -» 형식으로
+
+## 6. 정답지
+
+- 정답과 풀이는 `…_학습지_정답.docx` 로 따로 만든다. 학생용 파일에는 정답을 넣지 않는다.
+
+## 하지 말 것
+
+- 학생 이름·사진 같은 개인정보를 넣지 않는다.
+- 교과서 지문·그림을 그대로 옮기지 않는다. 그림이 필요하면 단순한 그림을 직접 그리거나 «[그림 자리]»로 비워 둔다.
+
+## 다 만든 뒤
+
+- 위 0~6을 하나씩 점검한 목록을 교사에게 보여 준다. 지키지 못한 것이 있으면 까닭을 쓴다.</pre>
+</div>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l12-worksheet.webp" width="1600" height="1397" loading="lazy" alt="스킬로 만든 «[문법] 품사의 종류» 학습지 한 쪽과, 그 위에 빨간 번호 ①~⑥으로 SKILL.md 규칙이 적용된 곳을 표시한 그림. ① 맨 위 ○○중학교와 국어 · 1학년, 가운데 제목, 학년·반·번·이름 칸. ② 옅은 파랑 학습 목표 상자에 «9품사의 이름과 특징을 말할 수 있다.», «동사와 형용사를 구별할 수 있다.». 그 아래 Ⅰ. 개념 확인 문항 1~3(체언·관계언·용언·수식언·독립언 표의 빈칸 채우기, «아, 하늘이 정말 맑다.»의 품사 나누기, 밑줄 친 «하나»와 «한»의 품사). ③ Ⅱ. 문제 풀기가 4번부터 이어짐. ④ 보기 ① 먹다 ② 예쁘다 ③ 달리다 ④ 조용하다 ⑤ 읽다. 문항 5·6과 답 쓸 줄. ⑤ 맨 아래 «오늘 배운 점» 상자와 쓸 줄 3줄, «스스로 평가: ☆☆☆☆☆». ⑥ 바닥글 «- 1 -». 오른쪽에는 번호별 규칙 설명과 «요청한 프롬프트에는 양식을 한 줄도 쓰지 않았습니다»라는 상자가 있다.">
+  <figcaption><b>스킬의 규칙대로 만든 학습지.</b> 프롬프트 3처럼 내용만 말했을 때 나와야 하는 모습입니다. ①~⑥은 SKILL.md 의 규칙 1~5(머리말·학습 목표 상자·문항·오늘 배운 점·바닥글)가 들어간 곳입니다.</figcaption>
+</figure>
+
+<p><a href="samples/l12-school-worksheet.zip" download><b>스킬 zip 받기 →</b></a> · <a href="samples/l12-school-worksheet/school-worksheet/template.docx" download>서식 견본 template.docx</a> · <a href="samples/l12-school-worksheet/국어_1학년_품사_학습지.docx" download>학습지 docx</a> · <a href="samples/l12-school-worksheet/국어_1학년_품사_학습지_정답.docx" download>정답지 docx</a></p>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">SKILL.md·template.docx 는 프롬프트 1의 인터뷰에서 «답할 때 참고»처럼 답했다고 보고 연수자료를 만들면서 직접 작성했고, 학습지·정답지 docx 는 그 규칙대로 만든 뒤 화면에 띄워 찍었습니다(코워크 화면에서 받은 결과가 아닙니다). 학습지 내용(9품사의 기능별 분류, «하나»는 수사·«한»은 관형사, 형용사는 ②④, «-는다»로 동사·형용사 구별, «아주»는 «빨리»를·«빨리»는 «달린다»를 꾸밈)은 학교 문법 기준으로 확인했습니다. 실제 코워크 결과는 글꼴·간격·문항이 조금씩 다를 수 있으니 규칙과 대조해 보세요.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 양식 없이도 양식대로</b> — 프롬프트 3처럼 양식을 말하지 않은 요청에서 머리말·학습 목표 상자·오늘 배운 점이 모두 나왔는지 봅니다. 말해야만 나온다면 description 이나 규칙이 흐린 것입니다.<br>
+  <b>② 규칙 하나하나</b> — 문항 번호를 이어 매겼는지, 글꼴 크기·여백·쪽 번호가 맞는지 Word 에서 확인합니다(글자를 눌러 크기 확인, 레이아웃 → 여백).<br>
+  <b>③ 정답 분리</b> — 학생용 파일에 정답이 들어가지 않았는지, 정답지의 답이 맞는지 교사가 풀어 봅니다.<br>
+  <b>④ 교과 내용</b> — 스킬은 양식을 맞춰 줄 뿐 내용의 정확성은 보장하지 않습니다. 문항과 정답을 교사가 검토합니다(11차시 검수 스킬을 함께 써도 좋습니다).<br>
+  <b>⑤ SKILL.md 가 읽히는지</b> — 동료가 읽어도 무엇을 하는 스킬인지 알 수 있는지, 500줄을 넘지 않는지 봅니다. 길어지면 자세한 내용을 다른 파일로 나눕니다.<br>
+  <b>⑥ 나누기 전에</b> — zip 안에 학생 자료나 개인정보가 든 견본이 섞이지 않았는지, zip 을 열면 맨 위에 <code>school-worksheet</code> 폴더가 있는지 봅니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>2단계 프롬프트 대신</b> 아래 교과 프롬프트로 인터뷰를 시작합니다. 스킬 이름이 교과마다 다르므로 3단계는 아래 <b>공통 프롬프트</b>로 바꿔 쓰고, 4단계부터는 그대로 합니다. 5단계 시험 요청은 «(주제) (자료 이름)을 만들어 주세요»처럼 <b>양식은 빼고</b> 씁니다.</p>
+
+<div class="code">
+  <div class="bar"><span class="label">공통 · 3단계 대신 (스킬 파일 만들기)</span><button type="button">복사</button></div><pre>정리한 양식으로 스킬을 만들어 주세요. 연결한 폴더에, 인터뷰에서 정한 스킬 이름으로 폴더를 만들어 주세요.
+
+(스킬 이름)/
+  SKILL.md       ← 맨 위 YAML 에는 name(폴더 이름과 같게)과 description 두 항목만.
+                   description 은 200자 이내로, 무엇을 하고 언제 쓰는지 분명하게
+  template.docx  ← 양식 견본. 내용 자리는 [ ] 로 비워 두기 (문서 양식이 아니면 빼도 됨)
+
+SKILL.md 본문에는 정한 규칙을 번호를 붙여 쓰고, '하지 말 것'과 '다 만든 뒤 확인할 것'을 넣어 주세요.
+다 만들면 스킬 폴더를 같은 이름의 zip 으로 묶어 주세요. zip 을 열면 맨 위에 스킬 폴더가 있어야 합니다.</pre>
+</div>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">서술형 채점 기준표 <code>korean-rubric</code></span><span class="gist">서술형 문항마다 같은 틀의 채점 기준표와 예시 답안</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 서술형 채점 기준표</span><button type="button">복사</button></div><pre>반복해서 만드는 '서술형 평가 채점 기준표'를 스킬로 만들려고 합니다. 스킬 이름은 korean-rubric 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 채점 요소와 배점 나누는 방식, 부분 점수 기준(상·중·하 등), 예시 답안과 감점 사례를 넣을지, 맞춤법 감점 여부, 표의 열 구성과 글꼴 크기, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">형성평가 문제지 <code>math-quiz-sheet</code></span><span class="gist">단원별 문제지 + 따로 만드는 풀이지, 난이도 표시</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 형성평가 문제지</span><button type="button">복사</button></div><pre>반복해서 만드는 '단원별 형성평가 문제지'를 스킬로 만들려고 합니다. 스킬 이름은 math-quiz-sheet 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 문항 수와 난이도 표시 방법(기본·발전 등), 문항 번호와 배점 표시, 풀이 칸 크기, 정답·풀이지를 따로 만들지와 그 형식, 수식 표기(분수, 거듭제곱), 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">단어 시험지 <code>english-word-test</code></span><span class="gist">영→한·한→영·철자 쓰기 칸을 정해진 순서로</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 단어 시험지</span><button type="button">복사</button></div><pre>반복해서 만드는 '영어 단어 시험지'를 스킬로 만들려고 합니다. 스킬 이름은 english-word-test 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 문제 유형(영어→한국어, 한국어→영어, 빈칸 철자)과 순서, 한 장의 문항 수, 단어 목록을 어디서 받을지(교사가 준 파일만), 정답지 형식, 이름 칸과 점수 칸, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">실험 보고서 양식 <code>lab-report</code></span><span class="gist">가설·준비물·과정·결과 표·결론·안전 수칙 순서</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 실험 보고서 양식</span><button type="button">복사</button></div><pre>반복해서 만드는 '과학 실험 보고서 양식'을 스킬로 만들려고 합니다. 스킬 이름은 lab-report 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 보고서 항목과 순서(가설, 준비물, 과정, 결과, 결론 등), 결과 표와 그래프 칸, 안전 수칙 칸을 어디에 둘지, 모둠 정보 칸(이름은 학생이 직접 쓰게), 평가 기준표를 붙일지, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">자료 분석 활동지 <code>social-data-sheet</code></span><span class="gist">자료 → 출처·연도 → 읽기 → 해석 질문의 틀</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 자료 분석 활동지</span><button type="button">복사</button></div><pre>반복해서 만드는 '사회 자료 분석 활동지'를 스킬로 만들려고 합니다. 스킬 이름은 social-data-sheet 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 자료 칸과 출처·기준 연도 칸 형식, 질문 단계(읽기 → 해석 → 내 생각), 지도·그래프 자리 표시 방법, 통계는 교사가 준 자료만 쓰는 규칙, 모둠 활동 칸, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">사료 읽기 활동지 <code>history-source-sheet</code></span><span class="gist">사료 원문·현대어 풀이·질문을 나란히</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 사료 읽기 활동지</span><button type="button">복사</button></div><pre>반복해서 만드는 '역사 사료 읽기 활동지'를 스킬로 만들려고 합니다. 스킬 이름은 history-source-sheet 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 사료 원문과 현대어 풀이 배치, 사료 출처 표기 형식, 질문 단계(사실 확인 → 추론 → 평가), 연표 칸을 넣을지, 확인하지 못한 사실을 표시하는 방법, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">토론 활동지 <code>debate-sheet</code></span><span class="gist">논제·찬반 근거 표·반론·나의 생각 정리</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 토론 활동지</span><button type="button">복사</button></div><pre>반복해서 만드는 '도덕 토론 활동지'를 스킬로 만들려고 합니다. 스킬 이름은 debate-sheet 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 논제 쓰는 방식, 찬성·반대 근거 표의 칸 수, 반론과 재반론 칸, 토론 규칙 안내 문구, 마지막 «나의 생각» 칸, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">실습 계획서와 평가표 <code>practice-plan</code></span><span class="gist">재료·순서·안전·역할 나누기 + 평가표</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 실습 계획서와 평가표</span><button type="button">복사</button></div><pre>반복해서 만드는 '기술·가정 실습 계획서와 평가표'를 스킬로 만들려고 합니다. 스킬 이름은 practice-plan 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 계획서 항목(목표, 재료, 순서, 역할), 안전 수칙 칸과 위치, 알레르기 재료 확인 칸, 평가표 항목과 척도, 사진 자리(학생 얼굴은 넣지 않기), 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">코딩 과제 안내서 <code>coding-task</code></span><span class="gist">목표·조건·예시 입출력·채점 기준의 고정 틀</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 코딩 과제 안내서</span><button type="button">복사</button></div><pre>반복해서 만드는 '정보 코딩 과제 안내서'를 스킬로 만들려고 합니다. 스킬 이름은 coding-task 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 과제 목표와 조건 쓰는 방식, 예시 입력·출력 표, 코드 글꼴과 줄 번호, 채점 기준표, 힌트를 단계별로 숨겨 둘지, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">감상 활동지 <code>listening-sheet</code></span><span class="gist">곡 정보·음악 요소 찾기·느낌 쓰기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 감상 활동지</span><button type="button">복사</button></div><pre>반복해서 만드는 '음악 감상 활동지'를 스킬로 만들려고 합니다. 스킬 이름은 listening-sheet 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 곡 정보 칸(제목, 작곡가, 시대·갈래), 음악 요소 찾기 표(빠르기, 셈여림, 악기 등), 느낌 쓰기 칸 크기, 음원 출처를 적는 칸, 가사를 싣지 않는 규칙, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">작품 제작 계획서 <code>art-plan</code></span><span class="gist">주제·아이디어 스케치 칸·재료·제작 순서·자기 평가</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 작품 제작 계획서</span><button type="button">복사</button></div><pre>반복해서 만드는 '미술 작품 제작 계획서'를 스킬로 만들려고 합니다. 스킬 이름은 art-plan 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 주제와 의도 쓰는 칸, 아이디어 스케치 칸 크기와 개수, 재료·도구와 제작 순서, 참고 작품을 쓸 때 출처 칸, 자기 평가 척도, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">수행평가 기록지 <code>pe-record</code></span><span class="gist">종목·측정 항목·기준표, 학생 이름 칸은 비워 두기</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 수행평가 기록지</span><button type="button">복사</button></div><pre>반복해서 만드는 '체육 수행평가 기록지'를 스킬로 만들려고 합니다. 스킬 이름은 pe-record 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 종목과 측정 항목, 평가 기준표 형식과 출처 칸, 기록 칸(학생 이름은 비워 두고 출력 뒤 손으로 쓰는 규칙), 안전 수칙 문구, 한 장에 들어갈 인원, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">직업 탐색 보고서 <code>career-report</code></span><span class="gist">직업 정보·출처와 기준 연도·나와의 연결</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 직업 탐색 보고서</span><button type="button">복사</button></div><pre>반복해서 만드는 '진로 직업 탐색 보고서 양식'을 스킬로 만들려고 합니다. 스킬 이름은 career-report 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 조사 항목(하는 일, 필요한 능력, 준비 과정 등), 자료 출처와 기준 연도 칸, «나와의 연결» 질문, 고정관념 없이 쓰는 규칙, 발표용 요약 칸, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임</span><span class="topic">가정통신문 양식 <code>school-notice</code></span><span class="gist">학교 머리·제목·본문·회신서 절취선의 고정 틀</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임 · 가정통신문 양식</span><button type="button">복사</button></div><pre>반복해서 만드는 '가정통신문 양식'을 스킬로 만들려고 합니다. 스킬 이름은 school-notice 로 하겠습니다.
+바로 만들지 말고, 먼저 저에게 질문해서 양식을 정해 주세요.
+
+- 한 번에 질문 3개씩, 모두 합쳐 15개 이내로 물어봐 주세요.
+- 꼭 물어볼 것: 머리(학교 이름, 문서 번호 자리, 날짜)와 제목 형식, 본문 높임 표현과 문단 구성, 회신서 절취선과 회신 칸, 연락처는 학교 대표 번호만 쓰는 규칙, 날짜와 요일을 확인하는 규칙, 글꼴과 쪽 설정, 하지 말아야 할 것
+- 연결한 폴더에 견본이 있으면 먼저 열어 보고, 견본에서 알 수 있는 것은 확인만 해 주세요.
+- 제가 모르겠다고 하면 중학교에서 흔한 방식을 추천해 주세요.
+- 질문이 끝나면 정한 내용을 표로 정리해서 보여 주세요. 아직 파일은 만들지 마세요.</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  스킬은 <b>«매번 하던 설명»을 파일로 굳힌 것</b>입니다. 양식은 혼자 쓰지 말고 <b>클로드가 묻게 해서</b> 빠짐없이 정하고, 정리 표를 그대로 <code>SKILL.md</code> 로 만듭니다. 시험할 때는 <b>양식을 말하지 않고</b> 부탁해 스킬만으로 양식이 지켜지는지 보고, 틀리면 <b>결과물이 아니라 스킬을 고칩니다.</b> 그렇게 다듬은 스킬은 zip 하나로 동료와 나눌 수 있습니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>스킬을 쓰지 않고 평범한 학습지가 나온다</b> — Customize → Skills 에서 켜져 있는지 봅니다. description 에 «학습지», «활동지», «docx» 처럼 실제로 부탁할 때 쓰는 낱말이 들어 있는지 보고, 급하면 «school-worksheet 스킬로»를 붙입니다.<br>
+  · <b>zip 을 올리면 오류가 난다</b> — zip 맨 위에 <code>school-worksheet</code> 폴더가 있는지, 폴더 이름과 <code>name</code> 이 같은지, 맨 위 YAML 에 <code>name</code>·<code>description</code> 말고 다른 항목이 없는지, description 이 200자를 넘지 않는지 봅니다.<br>
+  · <b>template.docx 서식이 무시된다</b> — SKILL.md 에 «같은 폴더의 template.docx 를 열어 서식을 그대로 쓰고 내용만 채운다»는 문장이 있는지 봅니다.<br>
+  · <b>한글(HWPX) 학습지로 받고 싶다</b> — 한글 파일은 4차시 방법을 함께 씁니다. 이 차시의 스킬은 Word(docx) 기준입니다.<br>
+  · <b>스킬을 더 체계적으로 다듬고 싶다</b> — Code 탭에서는 Anthropic 공식 마켓플레이스의 <code>skill-creator</code> 플러그인으로 시험 문항을 만들어 스킬이 있을 때와 없을 때를 비교하며 다듬을 수 있습니다(11차시 (다) 플러그인 설치 방법).
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=yey_9vhLRmY" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/yey_9vhLRmY/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">19:51</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">클로드 코드로 PPT 만들기: 스킬 제작부터 마켓플레이스 배포까지</span><span class="ch">짐코딩 · 유튜브</span><span class="why">PPT 만드는 스킬을 만들어 플러그인으로 묶어 공유하는 과정을 다룹니다. 스킬을 여러 사람에게 나누는 다음 단계입니다.</span></span>
+  </a>
+</div>
+
+<p><small>출처: Claude 도움말 <a href="https://support.claude.com/en/articles/12512198-how-to-create-custom-skills" target="_blank" rel="noopener">How to create custom skills</a>(name·description, zip 구조, 폴더 이름과 스킬 이름 일치), <a href="https://support.claude.com/en/articles/12512180-use-skills-in-claude" target="_blank" rel="noopener">Use skills in Claude</a>(Upload a skill, Share, Delete) · Claude Code 문서 <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Extend Claude with skills</a>(SKILL.md 500줄 이하 권장, 보조 파일, 실행 중 SKILL.md 변경 반영, claude.ai 업로드 항목 제한, skill-creator 플러그인) (2026-11-11 확인)</small></p>
+
+<div class="pager">
+  <a href="l11.html"><span class="k">← 이전</span>11차시 · 스킬 설치해서 쓰기</a>
+  <a class="next" href="l13.html"><span class="k">다음 →</span>13차시 · 모션으로 개념 애니메이션</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

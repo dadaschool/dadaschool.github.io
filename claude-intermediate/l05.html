@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>5차시 클로드 코드 시작하기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">5차시 · Ⅱ. 클로드 코드</div>
+  <h1>클로드 코드 시작하기</h1>
+  <p class="sub">데스크톱 앱의 Code 탭을 처음 열어, 학급 안내 웹페이지 한 장을 내 폴더에 만듭니다. 따로 설치할 것은 없습니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · 클로드 코드 (데스크톱 앱 Code 탭)</span>
+    <span class="badge learn">핵심 기법 · Manual 모드로 하나씩 승인하기, 내용은 직접 주고 지어내지 않게</span>
+  </div>
+</header>
+
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>이번 주 공지·시간표·준비물을 담은 학급 안내 웹페이지 한 장을 만들고, 화면과 인쇄 모양을 확인한다 (예시: 중학교 담임 — 2학년 3반 학급 안내, 모든 정보는 가상)</dd>
+    <dt>준비물</dt><dd><code>클로드연수</code> 안에 만든 빈 <code>5차시</code> 폴더, 클로드 데스크톱 앱 (Code 탭은 따로 설치하지 않음)</dd>
+    <dt>결과물</dt><dd><code>index.html</code> 한 파일 — 인터넷 없이 열림, 휴대폰 화면과 A4 인쇄 모양까지</dd>
+    <dt>주의</dt><dd>실제 학생 이름·연락처는 넣지 않기 · 8차시에 인터넷에 올리면 누구나 봄</dd>
+  </dl>
+</div>
+
+<p>코워크가 문서·표·발표자료를 만들어 주었다면, 클로드 코드는 <b>내 폴더 안에서 파일을 만들고 고치고 실행하는</b> 도구입니다. 이 연수에서는 웹페이지·게임·발표자료를 만드는 데 씁니다. 이 차시의 목표는 결과물보다 <b>Code 탭의 화면 구성</b>과 <b>Manual 모드</b>(파일을 만들거나 고치기 전에 묻는 방식)에 익숙해지는 것입니다. 6~10차시의 시뮬레이터·게임·발표자료도 모두 같은 순서로 만듭니다: 폴더 고르기 → 요청 → 승인 → 브라우저 창에서 확인 → 하나씩 고치기.</p>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=-hV7B6QzFXw" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/-hV7B6QzFXw/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">25:31</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">클로드 코드 사용법 1강 : 설치 방법과 용어 정리, 비개발자용(2026년 11월 최신)</span><span class="ch">카일스쿨 · 유튜브</span><span class="why">윈도우·맥에서 클로드 코드를 설치하는 방법과 용어를 비개발자 눈높이로 정리합니다. 이 차시의 «선택 · 명령줄(터미널)에서도 쓰기»와 함께 보세요.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=9Fh1ov70tCc" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/9Fh1ov70tCc/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">12:17</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">[AI와 수업 준비 5] 클로드 코드, 윈도우에 처음부터 — 설치 · PATH · 인증</span><span class="ch">코드유니버스 · 유튜브</span><span class="why">교사 연재 «AI와 수업 준비» 5편. 아무것도 깔지 않은 윈도우에 설치하며 막히는 곳(PATH·인증)까지 보여 줍니다.</span></span>
+  </a>
+</div>
+<p class="vidnote">두 영상은 명령줄(터미널) 설치를 중심으로 다룹니다. 이 차시의 실습은 설치가 필요 없는 Code 탭으로 하고, 영상의 설치 과정은 아래 «선택 · 명령줄(터미널)에서도 쓰기»에서 따라 합니다.</p>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><code>클로드연수</code> 안에 빈 폴더 <code>5차시</code> 를 만듭니다.</li>
+  <li>데스크톱 앱을 설치하고 유료 플랜 계정으로 로그인했는지 확인합니다(<a href="prepare.html">연수 전 점검</a> 1·2번). Code 탭은 데스크톱 앱 안에 들어 있어 Node.js 나 명령줄 프로그램을 따로 깔지 않습니다.</li>
+  <li>학교 PC라면 연수 전 점검 4번의 «기관 계정 제한»도 확인합니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다.</p>
+
+<ol class="steps">
+  <li>데스크톱 앱 사이드바 맨 위의 <b>Code</b> 탭을 누릅니다. 탭이 아이콘으로만 보이면 마우스를 올려 이름을 확인합니다.
+    <div class="capture" id="cap-L05-1" data-cap="L05-1" data-caption="Code 탭을 처음 연 화면 — 사이드바의 Code 탭과, 프롬프트 상자 아래 줄의 ① 환경 ② 폴더 ③ 권한 모드 ④ 모델 단추.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L05-1</b><br>Code 탭을 처음 연 화면 (따라 하기 1~2번).
+        <ul><li>빨간 상자: 사이드바 맨 위의 Code 탭</li><li>번호 표시: 프롬프트 상자 아래 줄의 ① 환경 ② 폴더 ③ 권한 모드 ④ 모델</li></ul></div>
+    </div>
+  </li>
+
+  <li>프롬프트 상자 아래 줄을 봅니다. 왼쪽부터 <b>환경</b>(어디에서 실행할지) · <b>폴더</b>(어느 폴더에서 일할지) · <b>권한 모드</b>(얼마나 묻고 할지) · <b>모델</b> 입니다. 첫 단추(환경)를 눌러 <b>Local</b> 묶음의 맨 위 항목(내 컴퓨터)을 고릅니다.</li>
+
+  <li>그 옆 폴더 단추에서 <b>Open folder…</b> 를 눌러 <code>클로드연수/5차시</code> 를 고릅니다. 클로드는 이 폴더를 작업 폴더로 삼아 파일을 만듭니다.</li>
+
+  <li>권한 모드 단추를 눌러 <b>Manual</b> 로 바꿉니다. Manual 에서는 클로드가 파일을 만들거나 고치기 전, 명령을 실행하기 전에 바뀔 내용을 보여 주고 묻습니다.
+    <p class="why">권한 모드는 넷입니다. <b>Auto</b> — 묻지 않고 진행하되, 명령 실행 같은 동작은 요청과 맞는지 자동으로 점검합니다. <b>Manual</b> — 하나씩 묻습니다. <b>Accept edits</b> — 파일 고치기는 바로 하고 다른 명령은 묻습니다. <b>Plan</b> — 파일을 고치지 않고 계획만 세웁니다(6·7차시). 목록에 보이는 모드는 계정과 기관 설정에 따라 다를 수 있습니다. 앱은 폴더마다 마지막에 고른 모드를 기억하니, 첫 메시지를 보내기 전에 한 번 더 확인합니다.</p>
+  </li>
+
+  <li>아래 프롬프트를 보내 <b>만들기</b>를 맡깁니다. 클로드가 할 일을 짧게 말한 뒤, 파일을 만들기 전에 바뀔 내용과 승인·거절 단추를 보여 줍니다. 내용을 훑어보고 승인합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · 학급 안내 웹페이지 만들기</span><button type="button">복사</button></div><pre>2학년 3반 학급 안내 웹페이지를 한 장 만들어 주세요. 모든 내용은 연수용 가상 정보입니다.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 맨 위: ○○중학교, 2학년 3반 학급 안내, 이번 주 날짜, «연수용 가상 자료» 표시
+- 이번 주 공지 (날짜와 함께)
+- 주간 시간표 표: 월~금, 교시마다 시작·끝 시각
+- 요일별 준비물
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래 것만 쓰고, 없는 내용은 지어내지 마세요.
+
+이번 주: 11월 16일(월) ~ 11월 20일(금)
+
+공지
+- 11/17(화) 기술·가정 조리 실습 (3·4교시), 앞치마와 두건
+- 11/18(수) 미술 수채화 (5·6교시), 물감·붓·팔레트
+- 11/19(목) 수학 단원평가 (5교시), 범위: 일차함수와 그래프
+- 11/20(금) 현장체험학습 동의서 제출 마감, 6교시 뒤 대청소
+
+시간표 (월 / 화 / 수 / 목 / 금)
+1교시 09:00~09:45: 국어 / 수학 / 과학 / 영어 / 도덕
+2교시 09:55~10:40: 수학 / 영어 / 국어 / 역사 / 영어
+3교시 10:50~11:35: 영어 / 기술·가정 / 정보 / 과학 / 사회
+4교시 11:45~12:30: 과학 / 기술·가정 / 수학 / 체육 / 과학
+점심 12:30~13:30
+5교시 13:30~14:15: 역사 / 국어 / 미술 / 수학 / 체육
+6교시 14:25~15:10: 체육 / 음악 / 미술 / 국어 / 국어
+7교시 15:20~16:05: 창체 / 도덕 / 없음 / 진로 / 없음
+
+준비물: 매일 실내화·필기구·개인 물병, 체육이 있는 날 체육복, 화요일 앞치마·두건, 수요일 물감·붓·팔레트, 금요일 동의서</pre>
+    </div>
+    <p class="why"><b>시간표와 공지를 직접 주고 «지어내지 마세요»</b>를 붙이는 것이 핵심입니다. 주지 않은 행사나 날짜를 그럴듯하게 채우는 일을 막습니다. <b>«인터넷 없이»</b>를 적어 두면 학교망에서 막힐 수 있는 외부 글꼴·라이브러리를 쓰지 않습니다. <b>«인쇄하면 A4 한 장»</b>은 가정통신문처럼 종이로도 나눌 수 있게 합니다.</p>
+    <div class="capture" id="cap-L05-2" data-cap="L05-2" data-caption="Manual 모드에서 index.html 을 만들기 전에 바뀔 내용과 승인 단추가 나온 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L05-2</b><br>승인을 묻는 화면 (따라 하기 5번).
+        <ul><li>빨간 상자: 승인 단추</li><li>만들 파일 이름(<code>index.html</code>)과 바뀔 내용이 보이게</li></ul></div>
+    </div>
+  </li>
+
+  <li>다 만들면 대화창에 나온 <code>index.html</code> 경로를 누릅니다. 앱 안 브라우저 창에서 페이지가 열립니다. 창의 가장자리를 끌어 너비를 좁히면 휴대폰에서 보이는 모양도 볼 수 있습니다.
+    <div class="capture" id="cap-L05-3" data-cap="L05-3" data-caption="대화창의 index.html 경로를 눌러 앱 안 브라우저 창에 학급 안내 페이지가 열린 모습.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L05-3</b><br>앱 안 브라우저 창 (따라 하기 6번).
+        <ul><li>빨간 상자: 대화창의 <code>index.html</code> 경로와 브라우저 창</li></ul></div>
+    </div>
+  </li>
+
+  <li>고칠 점은 <b>한 번에 하나씩</b> 요청합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 2 · 하나씩 고치기</span><button type="button">복사</button></div><pre>이번 주 공지 중 시험과 제출 마감이 있는 줄 앞에 «중요» 표시를 붙이고 눈에 띄게 해 주세요.
+다른 곳은 바꾸지 마세요. 고친 뒤 브라우저 창에서 다시 확인해 주세요.</pre>
+    </div>
+    <p class="why">여러 가지를 한꺼번에 요청하면 무엇이 바뀌었는지 확인하기 어렵습니다. 하나 고치고 브라우저 창에서 본 뒤 다음을 요청합니다. 다른 예: «시간표에서 체육 칸은 연한 초록 바탕으로 해 주세요», «방금 바꾼 것을 되돌려 주세요». 클로드가 일하는 도중에도 중지 단추로 멈추거나, 입력해서 방향을 바꿀 수 있습니다.</p>
+  </li>
+
+  <li>파일 탐색기(맥은 Finder)에서 <code>5차시/index.html</code> 을 더블클릭하면 크롬·엣지에서 열립니다. <kbd>Ctrl</kbd>+<kbd>P</kbd>(맥은 <kbd>⌘</kbd>+<kbd>P</kbd>)로 인쇄 미리보기를 열어 A4 한 장에 들어가는지 봅니다.</li>
+</ol>
+
+<h3 id="cli">선택 · 명령줄(터미널)에서도 쓰기</h3>
+
+<p>Code 탭만으로 이 연수의 모든 차시를 할 수 있습니다. 명령줄의 클로드 코드는 영상이나 다른 자료에서 자주 보는 방식이라, 따라 해 보고 싶은 분만 합니다. 같은 유료 플랜 계정으로 로그인해 씁니다. 윈도우 10(1809 이상) 또는 macOS 13 이상이 필요하고, <b>관리자 권한은 필요 없습니다</b>. 학교 PC에서 설치가 막히면 정보 담당 선생님께 문의하거나 Code 탭만 씁니다.</p>
+
+<ol class="steps">
+  <li>터미널을 엽니다.<br>
+      <b>윈도우</b> — <kbd>Win</kbd>+<kbd>X</kbd> 를 눌러 <b>Windows PowerShell</b> 또는 <b>터미널</b>을 고릅니다(«관리자»가 붙지 않은 항목). 줄 앞에 <code>PS C:\Users\…&gt;</code> 가 보이면 PowerShell 입니다.<br>
+      <b>맥</b> — <kbd>⌘</kbd>+<kbd>Space</kbd> 로 Spotlight 를 열고 <code>Terminal</code> 을 입력해 <kbd>Enter</kbd>.</li>
+
+  <li>(윈도우, 선택) <b>Git for Windows</b> 는 깔지 않아도 됩니다. 없으면 클로드 코드가 PowerShell 로 명령을 실행합니다. 깔고 싶다면 git-scm.com/downloads/win 에서 받아 화면마다 기본 설정 그대로 Next 를 누릅니다.</li>
+
+  <li>내 컴퓨터에 맞는 설치 명령 <b>하나만</b> 복사해 터미널에 붙여 넣고 <kbd>Enter</kbd>. 내려받는 동안 진행 표시가 없으니 창을 닫지 말고 기다립니다. «Claude Code successfully installed!» 가 나오면 끝입니다.
+    <div class="code">
+      <div class="bar"><span class="label">윈도우 · PowerShell (줄 앞에 PS 가 있을 때)</span><button type="button">복사</button></div><pre>irm https://claude.ai/install.ps1 | iex</pre>
+    </div>
+    <div class="code">
+      <div class="bar"><span class="label">윈도우 · CMD (줄 앞에 PS 가 없을 때)</span><button type="button">복사</button></div><pre>curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</pre>
+    </div>
+    <div class="code">
+      <div class="bar"><span class="label">맥</span><button type="button">복사</button></div><pre>curl -fsSL https://claude.ai/install.sh | bash</pre>
+    </div>
+    <p class="why">다른 방법도 있습니다. 아래 두 방법은 자동으로 업데이트되지 않으니 가끔 <code>winget upgrade Anthropic.ClaudeCode</code> 또는 <code>brew upgrade claude-code</code> 를 실행합니다. 위의 기본 설치 명령으로 깔면 자동으로 업데이트됩니다.</p>
+    <div class="code">
+      <div class="bar"><span class="label">윈도우 · 다른 방법 (WinGet)</span><button type="button">복사</button></div><pre>winget install Anthropic.ClaudeCode</pre>
+    </div>
+    <div class="code">
+      <div class="bar"><span class="label">맥 · 다른 방법 (Homebrew)</span><button type="button">복사</button></div><pre>brew install --cask claude-code</pre>
+    </div>
+    <div class="capture" id="cap-L05-4" data-cap="L05-4" data-caption="(선택) PowerShell 에서 설치 명령을 실행해 «Claude Code successfully installed!» 가 나오고, 새 창에서 claude --version 으로 버전 번호가 나온 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L05-4</b><br>터미널 설치 화면 — 선택 과정 (명령줄 3~4번).
+        <ul><li>설치 명령과 «Claude Code successfully installed!» 문구가 보이게</li><li>새 창에서 <code>claude --version</code> 을 입력해 버전 번호가 나온 모습</li></ul></div>
+    </div>
+  </li>
+
+  <li>터미널 창을 닫고 <b>새 창</b>을 연 뒤 아래 명령을 입력합니다. <code>2.1.211 (Claude Code)</code> 처럼 버전 번호가 나오면 설치된 것입니다(숫자는 다를 수 있습니다).
+    <div class="code">
+      <div class="bar"><span class="label">설치 확인</span><button type="button">복사</button></div><pre>claude --version</pre>
+    </div>
+  </li>
+
+  <li>연습할 새 폴더(예: <code>클로드연수/5차시-터미널</code>)를 만들고 그 폴더로 이동합니다. <code>cd</code> 와 빈칸 하나를 입력한 뒤, 파일 탐색기(Finder)에서 그 폴더를 터미널 창으로 끌어다 놓으면 경로가 들어갑니다. <kbd>Enter</kbd>.</li>
+
+  <li>아래 명령으로 시작합니다. 처음에는 브라우저가 열려 클로드 계정으로 로그인합니다. 그다음에는 Code 탭처럼 요청하면 됩니다. 프롬프트 1을 붙여 넣어 보세요. 파일을 만들기 전에 물으면 <kbd>Enter</kbd> 로 승인(Yes)합니다. <kbd>Esc</kbd> 로 멈추고, <code>exit</code> 로 끝냅니다.
+    <div class="code">
+      <div class="bar"><span class="label">클로드 코드 시작</span><button type="button">복사</button></div><pre>claude</pre>
+    </div>
+  </li>
+</ol>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l05-class.webp" width="1600" height="2134" loading="lazy" alt="밝은 회청색 바탕의 학급 안내 웹페이지. 맨 위에 «연수용 가상 자료» 표시, ○○중학교, 큰 제목 «2학년 3반 학급 안내», 파란 글씨 «이번 주 · 11월 16일(월) ~ 11월 20일(금)», 오른쪽에 파란 «인쇄하기» 단추가 있다. 그 아래 왼쪽 «이번 주 공지» 상자에는 11/17(화) 기술·가정 조리 실습, 11/18(수) 미술 수채화, 11/19(목) «중요» 표시가 붙은 수학 단원평가, 11/20(금) «중요» 표시가 붙은 현장체험학습 동의서 제출 마감이 있고, 오른쪽 «요일별 준비물» 상자에는 매일과 월~금 준비물이 있다. 맨 아래 «주간 시간표»는 파란 머리줄의 표로, 1~7교시와 점심시간의 시각, 월~금 과목이 칸마다 적혀 있다.">
+  <figcaption><b>화면.</b> 공지 두 줄 앞의 «중요» 표시는 프롬프트 2로 더한 것입니다. 시간표와 공지는 프롬프트 1에 준 내용 그대로입니다.</figcaption>
+</figure>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l05-print.webp" width="1182" height="1638" loading="lazy" alt="같은 페이지의 A4 인쇄 미리보기. 흰 종이에 검은 글씨와 검은 테두리만 남았고, 인쇄하기 단추와 색 배경은 빠졌다. 공지와 준비물 상자가 위에 나란히, 시간표 표가 아래에 있으며 한 장 안에 모두 들어간다.">
+  <figcaption><b>인쇄 미리보기(A4).</b> 인쇄할 때는 단추와 색 배경이 빠지고 흑백으로도 읽히게 바뀝니다.</figcaption>
+</figure>
+
+<p><a href="samples/l05-class/index.html" target="_blank" rel="noopener"><b>예시 페이지 직접 열어 보기 →</b></a></p>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">프롬프트 1·2의 요구 사항대로 연수자료를 만들 때 만든 것입니다. 클로드 앱 화면이 아니라, 만든 파일을 브라우저로 열어 찍었습니다. 인쇄 그림은 크롬 계열 브라우저로 A4 PDF를 만들어 찍었고, 한 장에 들어가는 것을 확인했습니다. 시간표의 교시·시각·과목과 공지의 날짜·요일(2026년 11월 16일은 월요일)이 프롬프트와 같은지 대조했습니다. 클로드 코드의 실제 결과는 색과 배치가 매번 다릅니다.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 시간표 그대로</b> — 프롬프트에 준 시간표와 칸 하나하나를 대조합니다. 요일이나 교시가 한 칸씩 밀리지 않았는지 봅니다.<br>
+  <b>② 지어낸 내용</b> — 주지 않은 행사·이름·전화번호·주소가 들어가지 않았는지 봅니다.<br>
+  <b>③ 날짜와 요일</b> — 날짜 옆 요일이 달력과 맞는지 봅니다. 2026년 11월 16일은 월요일입니다.<br>
+  <b>④ 인쇄</b> — 인쇄 미리보기에서 A4 한 장에 들어가는지, 인쇄 단추가 숨겨지는지, 흑백으로도 읽히는지 봅니다.<br>
+  <b>⑤ 휴대폰 화면</b> — 브라우저 창을 좁혀 표가 화면 밖으로 넘치지 않는지 봅니다.<br>
+  <b>⑥ 인터넷 없이</b> — 와이파이를 끄고 파일을 열어도 모양이 그대로인지 봅니다.<br>
+  <b>⑦ 개인정보</b> — 실제로 쓸 때도 학생 이름·연락처·사진은 넣지 않습니다. 8차시에서 인터넷에 올리면 주소를 아는 누구나 볼 수 있습니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>5단계 프롬프트 1 대신</b> 아래 교과 프롬프트를 씁니다. 나머지 단계는 같습니다. 프롬프트 맨 아래 <b>[여기에 내용 붙여 넣기]</b> 자리에 교사가 확인한 내용(일정·목록·기준 등)을 붙여 넣습니다. 빈 곳은 클로드가 지어내지 않고 [채울 곳]으로 남기게 해 두었습니다. 교과를 눌러 펼친 뒤 <b>복사</b>합니다.</p>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">한 학기 한 권 읽기</span><span class="gist">책 고르는 기준, 읽기 일정표, 독서 기록 방법</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 한 학기 한 권 읽기</span><button type="button">복사</button></div><pre>중학교 국어 &#x27;한 학기 한 권 읽기&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 책 고르는 기준과 추천 목록 표 (제목 · 지은이 · 한 줄 소개)
+- 주차별 읽기 일정표
+- 독서 기록장 쓰는 방법과 평가 기준 표
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">일차함수 공식 한 장 정리</span><span class="gist">공식·예제·자주 하는 실수를 한 장에</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 일차함수 공식 한 장 정리</span><button type="button">복사</button></div><pre>중학교 수학 &#x27;일차함수 공식 한 장 정리&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 공식마다 뜻 한 줄과 예제 하나
+- «자주 하는 실수» 상자
+- 수식은 그림 없이 글자로 쓰기 (예: y = 2x − 1)
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+예제의 답은 다시 계산해서 맞는지 알려 주세요. 틀린 답은 고치지 말고 알려 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">이번 단원 단어장</span><span class="gist">단어·뜻·예문 표, 뜻 가리기 단추</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 이번 단원 단어장</span><button type="button">복사</button></div><pre>중학교 영어 &#x27;이번 단원 단어장&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 단어 표 (단어 · 뜻 · 예문)
+- «뜻 가리기 / 보이기» 단추로 외우기 연습
+- 인쇄할 때는 뜻이 모두 보이게
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">실험실 안전 수칙</span><span class="gist">안전 수칙, 사고가 났을 때 순서, 실험별 준비물</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 실험실 안전 수칙</span><button type="button">복사</button></div><pre>중학교 과학 &#x27;실험실 안전 수칙&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 실험실 안전 수칙 (번호를 붙여 짧게)
+- 사고가 났을 때 할 일 순서 (붙인 학교 지침만)
+- 이번 학기 실험별 준비물 표
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">현장체험학습 안내</span><span class="gist">일정표, 모이는 곳, 준비물, 주의 사항</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 현장체험학습 안내</span><button type="button">복사</button></div><pre>중학교 사회 &#x27;현장체험학습 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 일정표 (시간 · 장소 · 활동)
+- 모이는 곳과 시간, 준비물, 주의 사항
+- 학생 명단·연락처는 넣지 않기
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">박물관 탐방 활동</span><span class="gist">관람 순서, 전시실별 찾아볼 것, 활동 질문</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 박물관 탐방 활동</span><button type="button">복사</button></div><pre>중학교 역사 &#x27;박물관 탐방 활동&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 관람 순서와 전시실별 «찾아볼 것»
+- 전시실마다 활동 질문 2개 (답을 적을 빈칸)
+- 유물 설명은 붙인 자료에 있는 것만
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">학급 토론 안내</span><span class="gist">토론 규칙, 역할, 진행 순서, 평가 기준</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 학급 토론 안내</span><button type="button">복사</button></div><pre>중학교 도덕 &#x27;학급 토론 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 토론 규칙과 역할 (사회자 · 찬성 · 반대 · 판정)
+- 진행 순서와 시간 표
+- 평가 기준 표
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">조리 실습 안내</span><span class="gist">모둠별 준비물, 실습 순서, 위생·안전 수칙</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 조리 실습 안내</span><button type="button">복사</button></div><pre>중학교 기술·가정 &#x27;조리 실습 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 모둠별 준비물 표와 실습 순서
+- 위생·안전 수칙
+- 알레르기가 있으면 미리 알려 달라는 안내 (학생 개인 정보는 넣지 않기)
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">수행평가 안내</span><span class="gist">과제 설명, 일정, 채점 기준표, 제출 방법</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 수행평가 안내</span><button type="button">복사</button></div><pre>중학교 정보 &#x27;수행평가 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 과제 설명과 일정
+- 채점 기준표 (기준 · 점수)
+- 제출 방법과 자주 묻는 질문
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">학급 합창 대회 안내</span><span class="gist">곡, 연습 일정, 당일 순서</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 학급 합창 대회 안내</span><button type="button">복사</button></div><pre>중학교 음악 &#x27;학급 합창 대회 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 부를 곡과 연습 일정 표
+- 파트를 나누는 방법 (학생 명단은 넣지 않기)
+- 대회 당일 순서와 준비물
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">학년 작품 전시회 안내</span><span class="gist">전시 주제, 기간·장소, 관람 예절, 감상 질문</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 학년 작품 전시회 안내</span><button type="button">복사</button></div><pre>중학교 미술 &#x27;학년 작품 전시회 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 전시 주제, 기간, 장소
+- 관람 예절과 작품 감상 질문 3개
+- 학생 이름과 작품 사진은 넣지 않기
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">학교 스포츠클럽 안내</span><span class="gist">종목별 일정표, 규칙 요약, 준비물, 안전 수칙</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 학교 스포츠클럽 안내</span><button type="button">복사</button></div><pre>중학교 체육 &#x27;학교 스포츠클럽 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 종목별 일정표 (요일 · 시간 · 장소)
+- 종목마다 경기 규칙 요약
+- 준비물과 안전 수칙
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">진로 체험의 날 안내</span><span class="gist">프로그램 표, 신청 방법, 체험 기록 질문</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 진로 체험의 날 안내</span><button type="button">복사</button></div><pre>중학교 진로 &#x27;진로 체험의 날 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 프로그램 표 (시간 · 장소 · 내용)
+- 신청 방법과 마감
+- 체험 뒤 적을 기록 질문 3개
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임</span><span class="topic">학부모 상담 주간 안내</span><span class="gist">상담 기간·방법, 신청 방법, 미리 생각해 볼 질문</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임 · 학부모 상담 주간 안내</span><button type="button">복사</button></div><pre>중학교 담임 &#x27;학부모 상담 주간 안내&#x27; 안내 웹페이지를 한 장 만들어 주세요.
+
+요구 사항
+- index.html 한 파일. 외부 라이브러리·글꼴·인터넷 없이 열려야 함
+- 상담 기간과 방법 (대면 · 전화)
+- 신청 방법과 마감
+- 상담 전에 생각해 볼 질문 3개
+- 학생·학부모 개인 정보는 넣지 않기
+- 휴대폰에서도 보기 좋게, 글자는 크게
+- 인쇄하면 A4 한 장에 흑백으로도 잘 보이게 (인쇄 단추 포함, 인쇄할 때는 단추 숨기기)
+
+내용은 아래에 붙인 것만 쓰고, 없는 내용은 지어내지 말고 [채울 곳]으로 남겨 주세요.
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  Code 탭은 <b>폴더 고르기 → 요청 → 승인 → 확인 → 하나씩 고치기</b>의 순서로 일합니다. <b>Manual 모드</b>로 시작하면 클로드가 무엇을 바꾸는지 하나하나 보며 익힐 수 있습니다. 내용은 교사가 직접 주고 <b>«지어내지 마세요»</b>를 붙이며, 만든 페이지는 교사가 원본과 대조합니다. 한 파일짜리 웹페이지는 USB로 옮겨도, 인터넷에 올려도(8차시) 그대로 열립니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>Code 탭을 누르면 업그레이드 안내가 뜬다</b> — 유료 플랜이 아닌 계정입니다. <a href="prepare.html">연수 전 점검</a> 1번을 봅니다.<br>
+  · <b>온라인 로그인 안내가 뜬다</b> — 로그인을 마친 뒤 앱을 다시 시작합니다.<br>
+  · <b>403 오류가 뜬다</b> — 로그인 문제입니다. Claude Code 문서의 <a href="https://code.claude.com/docs/en/desktop#403-or-authentication-errors-in-the-code-tab" target="_blank" rel="noopener">인증 오류 해결</a>을 봅니다.<br>
+  · <b>환경 목록에서 내 컴퓨터가 회색이고 «Disabled by your organization» 이 뜬다</b> — 기관 관리자가 막은 것입니다. 관리자에게 문의합니다.<br>
+  · <b>프롬프트 상자 아래에 환경 단추가 없다</b> — 앱이 예전 배치입니다. 폴더를 고르는 단추에서 바로 <code>5차시</code> 를 고릅니다.<br>
+  · <b>묻지 않고 바로 만들었다</b> — 권한 모드가 Auto 나 Accept edits 입니다. 다음 요청 전에 Manual 로 바꿉니다.<br>
+  · <b>앱 안 브라우저 창이 열리지 않는다</b> — 파일 탐색기에서 <code>index.html</code> 을 더블클릭해 엽니다.<br>
+  · <b>(명령줄) <code>claude</code> 를 찾을 수 없다·인식되지 않는다</b> — 설치 폴더가 아직 PATH 에 없습니다. 터미널을 새로 열어 다시 해 보고, 그래도 안 되면 공식 문서의 <a href="https://code.claude.com/docs/en/troubleshoot-install" target="_blank" rel="noopener">설치 문제 해결</a>을 봅니다.<br>
+  · <b>(명령줄) <code>irm</code> 이 인식되지 않는다는 오류</b> — PowerShell 이 아니라 CMD 입니다. CMD 용 명령을 쓰거나 PowerShell 을 엽니다. 반대로 <code>The token '&amp;&amp;' is not a valid statement separator</code> 가 나오면 PowerShell 에 CMD 용 명령을 넣은 것입니다.
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=KzafF5oCN-I" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/KzafF5oCN-I/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">35:18</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">교수님들을 위한 클로드 코드 CLI 입문 총정리 영상 | 설치부터 중급 실습까지 36분 총정리 영상</span><span class="ch">필로소피 AI 교육 · 유튜브</span><span class="why">교육자를 위해 명령줄(CLI) 설치부터 중급 실습까지 36분에 정리합니다.</span></span>
+  </a>
+  <a class="vid" href="https://www.youtube.com/watch?v=_jOiNX0b-Ck" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/_jOiNX0b-Ck/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">20:14</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">클로드 코드 20분 완벽 입문 가이드 | 클로드 설치부터 실전 ppt 제작까지 [학습자료 제공] claude code</span><span class="ch">데키랩 · 유튜브</span><span class="why">설치부터 PPT 만들기 실습까지 20분에 다룹니다.</span></span>
+  </a>
+</div>
+
+<p><small>출처: Claude Code 문서 <a href="https://code.claude.com/docs/en/desktop-quickstart" target="_blank" rel="noopener">Get started with the desktop app</a> · <a href="https://code.claude.com/docs/en/desktop" target="_blank" rel="noopener">Use Claude Code Desktop</a> · <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">Advanced setup</a> · <a href="https://code.claude.com/docs/en/terminal-guide" target="_blank" rel="noopener">Terminal guide for new users</a> (2026-11-11 확인).</small></p>
+
+<div class="pager">
+  <a href="l04.html"><span class="k">← 이전</span>4차시 · 한글(HWPX) 학습지 만들기</a>
+  <a class="next" href="l06.html"><span class="k">다음 →</span>6차시 · 개념 시뮬레이터 만들기</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

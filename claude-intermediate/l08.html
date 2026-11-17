@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>8차시 인터넷에 올리고 QR로 나누기 · 클로드 중급과정</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="sitenav"><div class="inner"><a href="index.html">← 연수자료 목차</a></div></nav>
+<div class="wrap">
+
+<header>
+  <div class="kicker">8차시 · Ⅱ. 클로드 코드</div>
+  <h1>인터넷에 올리고 QR로 나누기</h1>
+  <p class="sub">6·7차시에 만든 한 파일 웹페이지를 GitHub Pages 로 인터넷에 올리고, 학생에게 나눌 QR 코드와 A4 안내지를 만듭니다.</p>
+  <div class="meta">
+    <span class="badge">도구 · GitHub (웹 화면) + 클로드 코드 (데스크톱 앱 Code 탭)</span>
+    <span class="badge learn">핵심 기법 · 공개해도 되는 것만 올리기, 주소를 QR·안내지로 건네기</span>
+  </div>
+</header>
+
+
+<div class="scene">
+  <div class="t">과업</div>
+  <dl class="spec">
+    <dt>목표</dt><dd>7차시 복습 퀴즈를 GitHub Pages 주소로 공개하고, 그 주소를 담은 QR 코드와 학생 안내지를 만든다 (예시: 중학교 역사 — 조선 전기의 문화 복습 퀴즈)</dd>
+    <dt>준비물</dt><dd>7차시(또는 6차시)에 만든 <code>index.html</code>, GitHub 가입에 쓸 이메일 주소, <code>클로드연수</code> 안에 만든 <code>8차시</code> 폴더</dd>
+    <dt>결과물</dt><dd>① 공개 주소 <code>https://아이디.github.io/저장소이름/</code> ② <code>qr.png</code> ③ <code>handout.html</code>(A4 안내지)</dd>
+    <dt>주의</dt><dd>공개 저장소는 누구나 봄 — 학생 정보·저작권 있는 자료는 올리지 않기 · noindex 는 검색만 막을 뿐</dd>
+  </dl>
+</div>
+
+<p>만든 파일을 USB로 옮기면 교실 PC에서만 열립니다. 인터넷에 올리면 학생이 집에서도 휴대폰으로 엽니다. 이 차시는 <b>GitHub Pages</b>를 씁니다. GitHub 의 무료 플랜(GitHub Free)에서도 <b>공개 저장소</b>라면 쓸 수 있습니다. 1~6번은 웹 브라우저의 GitHub 화면에서, 7번부터는 Code 탭에서 QR 코드와 안내지를 만듭니다. 기억할 것은 둘입니다. <b>올리는 순간 누구나 볼 수 있다</b>는 것, 그리고 <b>파일만 바꿔 올리면 주소와 QR은 그대로</b>라는 것.</p>
+
+<h3>먼저 볼 영상</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=ZLhyc1vo64s" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/ZLhyc1vo64s/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">21:29</span></span>
+    <span class="tx"><span class="tg">먼저 볼 영상</span><span class="tt">Claude로 만든 웹사이트, GitHub로 쉽게 배포하기! | 바이브코딩 초보자 가이드</span><span class="ch">방구석코딩 · 유튜브</span><span class="why">클로드로 만든 웹사이트를 GitHub 로 공개하는 과정을 초보자 눈높이로 다룹니다.</span></span>
+  </a>
+</div>
+
+<h2><span class="num">1</span> 준비</h2>
+
+<ol class="steps">
+  <li><code>클로드연수</code> 안에 빈 폴더 <code>8차시</code> 를 만들고, 7차시의 <code>index.html</code> 을 복사해 넣습니다(6차시 시뮬레이터도 됩니다). 파일 이름은 <b>index.html</b> 그대로 둡니다. 주소만 입력했을 때 처음 열리는 파일입니다.</li>
+  <li><b>올릴 파일을 점검합니다.</b> 학생 이름·사진·연락처·성적, 교과서 지문이나 남의 그림처럼 저작권 있는 자료가 없어야 합니다. 공개 저장소의 파일은 누구나 열어 보고 내려받을 수 있습니다. 페이지의 <code>noindex</code> 표시는 검색 결과에 나오지 않게 요청할 뿐, 주소를 아는 사람은 누구나 엽니다.</li>
+  <li>학교 PC라면 github.com 이 열리는지 먼저 확인합니다. 막혀 있으면 정보 담당 선생님께 문의하거나 개인 노트북으로 합니다.</li>
+</ol>
+
+<h2><span class="num">2</span> 따라 하기</h2>
+
+<p>번호 순서대로 진행합니다. 프롬프트가 필요한 단계에는 바로 아래에 <b>복사</b> 단추가 있습니다. <b>[GitHub]</b> 단계는 웹 브라우저에서 합니다. GitHub 화면은 영어로 나오고 자주 바뀌므로, 단추 이름이 다르면 화면 문구를 따릅니다.</p>
+
+<ol class="steps">
+  <li><b>[GitHub]</b> github.com 에서 <b>Sign up</b> 으로 가입합니다. 아이디(username)는 주소에 그대로 들어가므로(<code>https://아이디.github.io/…</code>) 수업에 써도 괜찮은 이름으로 정합니다. 화면 안내에 따라 <b>이메일 인증</b>까지 마칩니다. 인증하지 않으면 사이트가 게시되지 않을 수 있습니다.</li>
+
+  <li><b>[GitHub]</b> 오른쪽 위 <b>+</b> 를 눌러 <b>New repository</b> 를 고릅니다.<br>
+      · 저장소 이름: 영어 소문자·숫자·하이픈으로 짓습니다. 예: <code>history-quiz</code> — 주소 끝에 들어갑니다.<br>
+      · 공개 범위: <b>Public</b>. GitHub Free 에서는 공개 저장소만 Pages 를 쓸 수 있습니다.<br>
+      · <b>README 추가</b>를 켜 두면 저장소가 빈 채로 시작하지 않아 다음 단계가 쉽습니다.<br>
+      · 맨 아래 <b>Create repository</b> 를 누릅니다.
+    <div class="capture" id="cap-L08-1" data-cap="L08-1" data-caption="GitHub 새 저장소 만들기 화면 — ① 저장소 이름 ② Public ③ README 추가 ④ Create repository.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L08-1</b><br>GitHub 의 새 저장소 만들기 화면 (따라 하기 2번).
+        <ul><li>번호 표시: ① 저장소 이름 칸 ② Public ③ README 추가 ④ Create repository 단추</li><li>아이디·이메일 등 개인 정보는 가리기</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>[GitHub]</b> 저장소 화면에서 <b>Add file</b> → <b>Upload files</b> 를 누르고, <code>8차시/index.html</code> 을 화면에 끌어다 놓습니다. 아래쪽 단추로 저장(커밋)합니다. 단추 이름은 화면 문구를 따릅니다.
+    <p class="why">웹 화면으로 올리는 파일은 한 파일에 25MiB까지, 한 번에 100개까지입니다. 한 파일짜리 HTML은 보통 이보다 훨씬 작습니다.</p>
+    <div class="capture" id="cap-L08-2" data-cap="L08-2" data-caption="Add file → Upload files 화면에 index.html 을 끌어다 놓고 저장(커밋)하는 모습.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L08-2</b><br>파일 올리기 화면 (따라 하기 3번).
+        <ul><li>빨간 상자: Add file 메뉴의 Upload files</li><li>번호 표시: ① 끌어다 놓은 <code>index.html</code> ② 아래쪽 저장(커밋) 단추</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>[GitHub]</b> 저장소 위쪽의 <b>Settings</b> → 왼쪽 메뉴의 <b>Pages</b> 로 갑니다. <b>Build and deployment</b> 의 <b>Source</b> 에서 <b>Deploy from a branch</b> 를 고르고, 그 아래 Branch 에서 <b>main</b> 과 <b>/ (root)</b> 를 고른 뒤 <b>Save</b> 를 누릅니다.
+    <div class="capture" id="cap-L08-3" data-cap="L08-3" data-caption="Settings → Pages 에서 Source 를 Deploy from a branch, Branch 를 main 과 / (root) 로 고르고 Save 를 누르는 화면.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L08-3</b><br>Pages 설정 화면 (따라 하기 4번).
+        <ul><li>빨간 상자: 왼쪽 메뉴의 Pages</li><li>번호 표시: ① Source — Deploy from a branch ② Branch — main ③ 폴더 — / (root) ④ Save</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>[GitHub]</b> 몇 분 기다립니다. 공식 문서는 반영까지 최대 10분이 걸릴 수 있다고 안내합니다. Pages 화면을 새로 고치면 위쪽에 사이트 주소와 <b>Visit site</b> 단추가 나옵니다. 주소는 <code>https://아이디.github.io/저장소이름/</code> 꼴입니다.
+    <div class="capture" id="cap-L08-4" data-cap="L08-4" data-caption="Pages 화면 위쪽에 나온 사이트 주소와 Visit site 단추, 그 주소로 열린 퀴즈 게임.">
+      <span class="cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="what"><b class="k">캡처 넣을 곳 · L08-4</b><br>배포된 주소 (따라 하기 5~6번).
+        <ul><li>빨간 상자: 사이트 주소와 Visit site 단추</li><li>옆에 그 주소로 열린 게임 화면(휴대폰 화면이면 더 좋음)</li><li>아이디는 가려도 됨</li></ul></div>
+    </div>
+  </li>
+
+  <li><b>[GitHub]</b> 주소를 눌러 게임이 열리는지 보고, 휴대폰에서도 주소를 입력해 엽니다. 주소를 메모해 둡니다.</li>
+
+  <li><b>[Code 탭]</b> 클로드 앱의 Code 탭에서 환경 <b>Local</b>, 폴더 <code>클로드연수/8차시</code>, 권한 모드 <b>Manual</b> 을 고릅니다(<a href="l05.html">5차시</a> 2~4번과 같습니다).</li>
+
+  <li><b>[Code 탭]</b> 아래 프롬프트의 «주소» 줄을 내 주소로 바꿔 보냅니다. 파이썬이나 라이브러리를 설치하겠다고 물으면 무엇을 설치하는지 읽고 승인합니다.
+    <div class="code">
+      <div class="bar"><span class="label">프롬프트 1 · QR 코드와 안내지 만들기</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 복습 퀴즈 게임의 주소로 QR 코드와 학생 안내지를 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 파이썬이나 라이브러리를 설치해야 하면, 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. 안내지 handout.html (A4 세로 한 장, 인쇄용)
+- 제목: 조선 전기의 문화 복습 퀴즈 / 대상: 2학년
+- QR 코드를 크게, 그 아래에 주소를 글자로도
+- 하는 방법 3단계: QR 찍기 → 시간 제한 고르기 → 틀린 문제 다시 풀기
+- 기간과 결과 알리기 방법은 [채울 곳]으로 비워 두기
+- qr.png 를 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게 (인쇄 단추는 인쇄할 때 숨기기)
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+    </div>
+    <p class="why"><b>«설치하기 전에 먼저 알려 주기»</b>는 파이썬이 없는 컴퓨터를 위한 것입니다. <b>«QR을 다시 읽어 확인»</b>은 잘못된 주소가 인쇄되는 일을 막습니다. 수십 장을 다시 뽑지 않으려면 인쇄 전에 확인해야 합니다. <b>«qr.png 를 HTML 안에 넣어»</b>는 안내지 파일 하나만 옮겨도 그림이 빠지지 않게 합니다.</p>
+  </li>
+
+  <li><b>[Code 탭]</b> 대화창의 <code>handout.html</code> 경로를 눌러 앱 안 브라우저 창에서 봅니다. <b>휴대폰 카메라로 화면의 QR을 찍어</b> 내 주소가 열리는지 확인하고, 파일 탐색기에서 열어 <kbd>Ctrl</kbd>+<kbd>P</kbd> 인쇄 미리보기로 A4 한 장에 들어가는지 봅니다.</li>
+
+  <li>게임을 고쳤다면 <b>같은 이름(index.html)으로 Upload files 를 다시</b> 합니다. 파일이 바뀌고 <b>주소와 QR은 그대로</b>입니다. 몇 분 뒤 반영되며, 휴대폰에서 예전 화면이 보이면 새로 고침합니다.</li>
+</ol>
+
+<h2><span class="num">3</span> 결과 예시</h2>
+
+<figure class="shot result-shot">
+  <img src="assets/img/l08-handout.webp" width="1182" height="1638" loading="lazy" alt="A4 세로 안내지의 인쇄 미리보기. 맨 위에 «2학년 역사 · 가정 학습», «조선 전기의 문화»가 양쪽에 있고, 큰 제목 «조선 전기의 문화 복습 퀴즈»와 «휴대폰 카메라로 QR 코드를 찍으면 퀴즈가 열립니다. 10문제 · 4지선다»가 있다. 가운데에 큰 검은 QR 코드, 그 아래 주소 «https://pages.github.com/»와 «QR이 찍히지 않으면 위 주소를 인터넷 주소창에 직접 입력합니다»가 있다. 그 아래 테두리 상자 세 개에 1 QR 찍기, 2 시간 제한 고르기, 3 틀린 문제 다시 풀기 방법이 있고, 표에 기간과 결과 알리기가 [채울 곳]으로 비어 있다. 맨 아래 작은 글씨로 연수 예시라 QR이 GitHub Pages 소개 페이지로 연결된다는 안내가 있다.">
+  <figcaption><b>A4 안내지 (인쇄 미리보기).</b> 연수 예시라 QR에는 GitHub Pages 소개 페이지 주소(<code>https://pages.github.com/</code>)를 담았습니다. 휴대폰으로 찍으면 그 페이지가 열립니다. 실제로는 내 GitHub Pages 주소로 만듭니다.</figcaption>
+</figure>
+
+<p><a href="samples/l08-share/handout.html" target="_blank" rel="noopener"><b>예시 안내지 직접 열어 보기 →</b></a> · <a href="samples/l08-share/qr.png" target="_blank" rel="noopener">QR 그림 qr.png</a></p>
+
+<div class="result">
+  <div class="t">이 결과 예시에 대해</div>
+  <div class="body">프롬프트 1의 요구 사항대로 연수자료를 만들 때 만든 것입니다. QR 코드는 파이썬 qrcode 라이브러리로 만들었고, 만든 그림과 인쇄 미리보기 그림을 QR 읽기 프로그램(OpenCV)으로 다시 읽어 주소가 <code>https://pages.github.com/</code> 과 같은지 확인했습니다. 안내지는 클로드 앱 화면이 아니라 브라우저의 A4 인쇄 미리보기를 찍은 것입니다. GitHub 에 올리는 화면(따라 하기 2~5번)은 실제 계정으로 찍어야 해서 캡처 자리로 두었습니다. 클로드 코드의 실제 결과는 배치와 문구가 매번 다릅니다.</div>
+</div>
+
+<h2><span class="num">4</span> 검증 포인트</h2>
+
+<div class="warn">
+  <b>① 주소</b> — 학교 와이파이와 휴대폰 데이터에서 각각 열어 봅니다. 학교망에서 github.io 가 막혀 있을 수 있습니다.<br>
+  <b>② QR</b> — 인쇄한 종이를 휴대폰 두세 대로 찍어 봅니다. 너무 작게 인쇄하거나 흐리게 인쇄하면 찍히지 않습니다.<br>
+  <b>③ 공개 범위</b> — 저장소의 파일 목록을 다시 보고 학생 정보·저작권 자료·연습용 파일이 없는지 확인합니다. 파일 목록도 누구나 봅니다.<br>
+  <b>④ 안내지</b> — 주소 글자가 QR에 담긴 주소와 같은지, [채울 곳]을 모두 채웠는지 봅니다.<br>
+  <b>⑤ 고친 뒤</b> — 다시 올린 다음 몇 분 뒤 새로 고쳐 바뀐 내용이 보이는지 봅니다.<br>
+  <b>⑥ 입력 받기</b> — 올린 페이지가 학생에게 이름·연락처·비밀번호를 입력하게 하지 않는지 봅니다. GitHub 도 Pages 를 비밀번호 같은 민감한 정보를 주고받는 데 쓰지 말라고 안내합니다.
+</div>
+
+<h2 id="apply"><span class="num">5</span> 다른 교과에 적용하기</h2>
+
+<p>따라 하기 <b>8단계 프롬프트 1 대신</b> 아래 교과 프롬프트를 씁니다. GitHub 에 올리는 1~6단계는 같습니다. 프롬프트의 «주소» 줄을 내 GitHub Pages 주소로 바꾸고, 질문·순서처럼 필요한 내용은 프롬프트 아래에 붙여 넣습니다. 교과마다 <b>무엇을 올려 어떻게 나눌지</b>를 다르게 했습니다. 주소가 여러 개인 사례(체육·진로)는 페이지마다 저장소를 하나씩 만들거나, 한 저장소에 파일 이름을 달리해 올립니다(예: <code>…/저장소이름/soccer.html</code>).</p>
+
+<div class="applylist">
+<details class="apply">
+  <summary><span class="subj">과학</span><span class="topic">시뮬레이터 모둠 카드</span><span class="gist">6차시 시뮬레이터 → 모둠 책상에 붙일 작은 QR 카드 8장</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">과학 · 시뮬레이터 모둠 카드</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 달의 위상 변화 시뮬레이터(6차시)의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. qr_cards.html (A4 한 장에 카드 8장, 자르는 선 포함)
+- 카드마다 QR, 짧은 주소, 모둠 번호(1~8)
+- 카드마다 활동 질문 1개 (질문은 아래에 붙인 것만)
+- 카드 크기는 가로 약 9cm, 세로 약 6cm
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">역사</span><span class="topic">복습 주간 게시물</span><span class="gist">7차시 퀴즈 → 교실 게시판에 붙일 A4 가로 포스터</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">역사 · 복습 주간 게시물</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 조선 전기의 문화 복습 퀴즈(7차시)의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. poster.html (A4 가로 한 장, 교실 게시용)
+- 큰 제목과 큰 QR, 주소 글자
+- «쉬는 시간에 찍어 보세요» 같은 한 줄 안내
+- 복습 기간은 [채울 곳]
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">국어</span><span class="topic">학급 문고 책 띠지</span><span class="gist">독서 안내 페이지 → 책장에 붙일 QR 띠지</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">국어 · 학급 문고 책 띠지</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 한 학기 한 권 읽기 안내 페이지의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. labels.html (A4 한 장에 가로 띠지 여러 개)
+- 띠지마다 작은 QR과 «읽기 안내 보기» 글자
+- 띠지 크기는 가로 약 18cm, 세로 약 3cm
+- 자르는 선 포함
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">수학</span><span class="topic">학습지 귀퉁이 QR</span><span class="gist">공식 정리 페이지 → 학습지에 붙일 작은 QR 스티커</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">수학 · 학습지 귀퉁이 QR</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 일차함수 공식 정리 페이지의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. stickers.html (A4 한 장에 3열 8줄)
+- 칸마다 작은 QR과 «공식 정리» 글자
+- 칸 크기와 여백: [가진 라벨지의 칸 크기를 적기]
+- 휴대폰 카메라로 찍힐 만한 가장 작은 크기를 알려 주기
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">영어</span><span class="topic">가정 학습 안내지</span><span class="gist">단어장 페이지 → 집에서 외우기 안내지</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">영어 · 가정 학습 안내지</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 이번 단원 단어장 페이지의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. handout.html (A4 세로 한 장)
+- QR 코드를 크게, 아래에 주소 글자
+- 집에서 하는 방법 3단계 (뜻 가리고 외우기 → 소리 내어 읽기 → 짝과 확인)
+- 보호자께 드리는 한 줄 안내
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">사회</span><span class="topic">가정통신문에 붙일 QR 상자</span><span class="gist">현장체험학습 안내 → 한글 가정통신문에 붙여 넣을 그림</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">사회 · 가정통신문에 붙일 QR 상자</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 현장체험학습 안내 페이지의 주소로 QR 코드와 가정통신문에 붙일 그림을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. qr_box.png (가로 약 8cm 그림, 한글 문서에 붙여 넣기용)
+- QR 코드 옆에 «자세한 일정은 QR로» 글자와 주소
+- 흰 바탕, 검은 테두리
+- qr_box.png 를 보여 주는 확인용 qr_box.html 도 함께
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">도덕</span><span class="topic">모둠 활동지 머리띠</span><span class="gist">토론 자료 페이지 → 활동지 맨 위에 넣을 QR 띠</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">도덕 · 모둠 활동지 머리띠</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 학급 토론 자료 모음 페이지의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. strips.html (A4 한 장에 가로 띠 4개)
+- 띠마다 QR, 토론 주제, 모둠 이름 칸
+- 토론 주제는 아래에 붙인 것만
+- 자르는 선 포함
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">기술·가정</span><span class="topic">실습실 벽 포스터</span><span class="gist">안전 수칙 페이지 → 실습실 벽에 붙일 큰 QR 포스터</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">기술·가정 · 실습실 벽 포스터</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 조리 실습 안전 수칙 페이지의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. poster.html (A4 세로 한 장)
+- 아주 큰 QR, «실습 전에 꼭 읽어요» 제목
+- 가장 중요한 수칙 3개는 포스터에도 글자로 (아래에 붙인 수칙에서 고르기)
+- 멀리서도 읽히는 큰 글자
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">정보</span><span class="topic">수업 시작 화면</span><span class="gist">수행평가 안내 → 교실 TV에 띄울 큰 QR 화면</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">정보 · 수업 시작 화면</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 수행평가 안내 페이지의 주소로 QR 코드와 교실 TV 화면을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. screen.html (16:9 전체 화면, 교실 TV용)
+- 화면 가운데 아주 큰 QR, 아래에 짧은 주소
+- «휴대폰 카메라로 찍어 안내를 읽어요» 한 줄
+- F11 전체 화면에서 스크롤 없이 한 화면
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">음악</span><span class="topic">합창 대회 순서지</span><span class="gist">합창 대회 안내 → 관객에게 나눌 순서지</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">음악 · 합창 대회 순서지</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 학급 합창 대회 안내 페이지의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. program.html (A4 한 장에 A5 순서지 2장)
+- 순서지마다 대회 순서표와 QR
+- 순서와 곡명은 아래에 붙인 것만
+- 가운데 자르는 선
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">미술</span><span class="topic">온라인 전시 안내판</span><span class="gist">전시회 안내 → 전시장 입구 QR 안내판</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">미술 · 온라인 전시 안내판</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 학년 작품 전시회 안내 페이지의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. sign.html (A4 가로 한 장)
+- 큰 QR과 «온라인으로도 관람하세요» 제목
+- 관람 예절 3가지
+- 학생 이름이나 작품 사진은 넣지 않기
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">체육</span><span class="topic">종목별 규칙 QR 게시물</span><span class="gist">종목마다 다른 페이지 → QR 3개를 한 장에</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">체육 · 종목별 규칙 QR 게시물</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 종목별 경기 규칙 페이지 3개의 주소로 QR 코드와 게시물을 만들어 주세요.
+
+주소 목록: 아래에 «종목 | 주소» 줄로 붙입니다
+
+1. QR 코드
+- 주소마다 파이썬 qrcode 라이브러리로 QR 그림 만들기 (qr_1.png, qr_2.png …, 흰 여백 충분히)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 하나씩 다시 읽어 주소와 짝이 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. board.html (A4 세로 한 장에 QR 3개)
+- 종목마다 QR, 종목 이름, 주소 글자
+- 주소와 종목의 짝은 아래에 붙인 목록 그대로
+- QR끼리 충분히 떨어뜨리기 (옆 QR이 함께 찍히지 않게)
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">진로</span><span class="topic">체험 부스 안내판</span><span class="gist">부스별 페이지 → 부스마다 다른 QR 6개</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">진로 · 체험 부스 안내판</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 진로 체험의 날 부스별 안내 페이지 6개의 주소로 QR 코드와 안내판을 만들어 주세요.
+
+주소 목록: 아래에 «부스 이름 | 장소 | 주소» 줄로 붙입니다
+
+1. QR 코드
+- 주소마다 파이썬 qrcode 라이브러리로 QR 그림 만들기 (qr_1.png, qr_2.png …, 흰 여백 충분히)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 하나씩 다시 읽어 주소와 짝이 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. booths.html (A4 한 장에 부스 안내 6칸)
+- 칸마다 부스 이름, 장소, QR
+- 주소와 부스의 짝은 아래에 붙인 목록 그대로
+- 자르는 선 포함
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.
+
+[여기에 내용 붙여 넣기]</pre>
+  </div>
+</details>
+<details class="apply">
+  <summary><span class="subj">담임</span><span class="topic">학부모 총회 안내지</span><span class="gist">학급 안내 페이지(5차시) → 학부모께 드릴 안내지</span></summary>
+  <div class="code">
+    <div class="bar"><span class="label">담임 · 학부모 총회 안내지</span><button type="button">복사</button></div><pre>GitHub Pages 에 올린 학급 안내 페이지(5차시)의 주소로 QR 코드와 인쇄물을 만들어 주세요.
+
+주소: https://아이디.github.io/저장소이름/   ← 내 주소로 바꾸기
+
+1. QR 코드
+- 파이썬 qrcode 라이브러리로 qr.png 만들기 (흰 여백을 충분히, 인쇄해도 잘 찍히게)
+- 설치가 필요하면 설치하기 전에 무엇을 왜 설치하는지 먼저 알려 주기
+- 만든 QR을 다시 읽어 주소가 맞는지 확인할 수 있으면 확인하고, 못 하면 못 했다고 알려 주기
+
+2. parents.html (A4 세로 한 장)
+- QR과 주소, «매주 같은 주소에서 새 소식을 봅니다» 안내
+- 학급 안내 페이지에서 볼 수 있는 것 3가지
+- 학생·학부모 개인 정보는 넣지 않기
+- QR 그림을 HTML 안에 넣어 이 파일 하나만 옮겨도 그림이 보이게
+- 인터넷 없이 열리고, 인쇄할 때 흑백으로도 잘 보이게
+- 모르는 내용은 지어내지 말고 [채울 곳]으로 남기기
+
+다 만들면 앱 안 브라우저 창에서 열어 확인해 주세요.</pre>
+  </div>
+</details>
+</div>
+
+<div class="do">
+  <b>핵심 원리</b><br>
+  GitHub Pages 는 저장소의 파일을 그대로 웹 주소로 보여 줍니다. 그래서 <b>올리는 것이 곧 공개하는 것</b>입니다. 한 파일짜리 HTML은 그대로 올리면 되고, 고칠 때는 같은 이름으로 다시 올리면 <b>주소와 QR은 그대로</b>입니다. QR과 안내지는 주소를 학생에게 건네는 다리이므로, 인쇄하기 전에 반드시 직접 찍어 봅니다.
+</div>
+
+<div class="note">
+  <b>문제 해결</b><br>
+  · <b>주소를 열면 404 가 뜬다</b> — 몇 분 더 기다립니다. 파일 이름이 <code>index.html</code> 인지, 폴더 안이 아니라 저장소 맨 위에 있는지 확인합니다.<br>
+  · <b>Pages 를 켤 수 없다는 안내가 나온다</b> — 저장소가 비공개(Private)일 수 있습니다. GitHub Free 에서는 공개 저장소만 Pages 를 쓸 수 있습니다. 새 공개 저장소를 만들어 다시 올립니다.<br>
+  · <b>Add file 메뉴가 없다</b> — 빈 저장소 화면입니다. 화면 안의 파일 올리기 링크를 누릅니다(화면 문구를 따릅니다).<br>
+  · <b>고쳐 올렸는데 예전 화면이 보인다</b> — 몇 분 뒤 새로 고침합니다. 휴대폰은 브라우저를 닫았다 다시 엽니다.<br>
+  · <b>학교망에서 github.io 가 열리지 않는다</b> — 정보 담당 선생님께 문의합니다. 학생 안내지에 «학교 와이파이에서 안 열리면 데이터로»를 넣어 둡니다.<br>
+  · <b>파이썬이 없다고 한다</b> — 개인 노트북이면 클로드가 안내하는 대로 python.org 에서 설치한 뒤 다시 요청합니다. 학교 PC는 설치가 막힐 수 있으니 개인 노트북에서 QR과 안내지만 만들어 옮깁니다.<br>
+  · <b>사이트를 내리고 싶다</b> — Pages 설정에서 게시를 멈추거나 저장소를 지웁니다(단추 이름은 화면 문구를 따릅니다). 저장소를 지우면 되돌릴 수 없습니다.<br>
+  · <b>GitHub 말고 다른 방법</b> — Vercel 같은 배포 서비스도 있습니다. 아래 «더 보기» 영상이 Vercel 로 공개하는 과정을 다룹니다.
+</div>
+
+<h3>더 보기</h3>
+<div class="vids">
+  <a class="vid" href="https://www.youtube.com/watch?v=ObxjRToDAa0" target="_blank" rel="noopener">
+    <span class="th"><img src="https://i.ytimg.com/vi/ObxjRToDAa0/mqdefault.jpg" alt="" loading="lazy" width="320" height="180" onerror="this.remove()"><span class="len">26:14</span></span>
+    <span class="tx"><span class="tg">더 보기</span><span class="tt">코딩 몰라도 클로드 코드로 홈페이지 만들기 | 디자인부터 배포까지</span><span class="ch">VibeRick AI · 유튜브</span><span class="why">대화로 홈페이지를 만들고 고친 뒤 Vercel 로 공개하는 과정을 다룹니다. GitHub Pages 대신 쓸 수 있는 방법입니다.</span></span>
+  </a>
+</div>
+
+<p><small>출처: GitHub Docs <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages" target="_blank" rel="noopener">What is GitHub Pages?</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank" rel="noopener">Creating a GitHub Pages site</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener">Configuring a publishing source</a> · <a href="https://docs.github.com/en/pages/quickstart" target="_blank" rel="noopener">Quickstart for GitHub Pages</a> · <a href="https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository" target="_blank" rel="noopener">Adding a file to a repository</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits" target="_blank" rel="noopener">GitHub Pages limits</a> · <a href="https://docs.github.com/en/get-started/learning-about-github/githubs-plans" target="_blank" rel="noopener">GitHub’s plans</a> (2026-11-11 확인). Claude Code 문서 <a href="https://code.claude.com/docs/en/desktop" target="_blank" rel="noopener">Use Claude Code Desktop</a>.</small></p>
+
+<div class="pager">
+  <a href="l07.html"><span class="k">← 이전</span>7차시 · 복습 퀴즈 게임 만들기</a>
+  <a class="next" href="l09.html"><span class="k">다음 →</span>9차시 · HTML 발표자료 만들기</a>
+</div>
+
+</div>
+<script src="assets/copy.js"></script>
+<script src="assets/captures.js"></script>
+</body>
+</html>

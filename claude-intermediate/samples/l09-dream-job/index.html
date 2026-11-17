@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>My Dream Job — 중학교 2학년 영어 발표자료</title>
+<!-- 클로드 중급과정 9차시 «결과 예시». 한 파일 · 인터넷 없이 열린다. 연수용 가상 자료.
+     조작: ← → 스페이스 PageUp PageDown Home End 로 넘기기 · F 전체 화면 · N 발표자 노트
+     인쇄(Ctrl+P): 한 장에 슬라이드 하나 (16:9) — «PDF로 저장» 가능 -->
+<style>
+  :root{
+    --bg:#221E19; --paper:#FFF9EF; --ink:#22201C; --muted:#6B645A; --line:#E6DCCB;
+    --accent:#D2551E; --accent2:#1F6F8B; --soft:#FCEBD9; --soft2:#E3F1F5; --ok:#2E7D32;
+    --avail:100vh;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font-family:"Pretendard","Segoe UI","Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    word-break:keep-all; overflow:hidden}
+  body.notes-on{--avail:66vh}
+
+  /* 진행 막대 */
+  .progress{position:fixed; left:0; top:0; right:0; height:6px; background:rgba(255,255,255,.12); z-index:5}
+  .progress span{display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease}
+
+  /* 무대: 16:9 슬라이드를 화면에 꽉 맞춘다 */
+  #deck{position:fixed; left:0; right:0; top:0; height:var(--avail); display:grid; place-items:center}
+  .slide{display:none; position:relative; overflow:hidden; container-type:size;
+    width:min(100vw, calc(var(--avail) * 16 / 9)); height:min(calc(100vw * 9 / 16), var(--avail));
+    background:var(--paper); padding:7cqh 7cqw 9cqh; flex-direction:column; gap:3cqh}
+  .slide.active{display:flex; animation:fade .25s ease}
+  @keyframes fade{from{opacity:.4}to{opacity:1}}
+
+  .tag{font-size:4.2cqh; font-weight:800; letter-spacing:.06em; color:var(--accent); text-transform:uppercase}
+  h1{font-size:15cqh; line-height:1.05; margin:0; letter-spacing:-.02em}
+  h2{font-size:10.5cqh; line-height:1.1; margin:0; letter-spacing:-.01em}
+  p, li{font-size:6.4cqh; line-height:1.4; margin:0}
+  .ko{font-size:4.4cqh; color:var(--muted)}
+  .big li{font-size:6.8cqh}
+  ul.plain{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:3cqh}
+  ol.goals{margin:1cqh 0 0; padding-left:1.2em; display:flex; flex-direction:column; gap:3.4cqh}
+  ol.goals li{font-size:7cqh}
+  ol.goals li::marker{color:var(--accent); font-weight:900}
+  .foot{position:absolute; left:7cqw; bottom:3.4cqh; font-size:3.2cqh; color:var(--muted)}
+  mark{background:var(--soft); color:inherit; padding:0 .15em; border-radius:.2em}
+  b.a{color:var(--accent2)} b.an{color:var(--accent)}
+
+  /* 표지 */
+  .cover{justify-content:center; background:
+    radial-gradient(circle at 88% 18%, var(--soft) 0 18cqh, transparent 18.2cqh),
+    radial-gradient(circle at 96% 78%, var(--soft2) 0 26cqh, transparent 26.2cqh), var(--paper)}
+  .cover .lead{font-size:6.6cqh; color:var(--muted)}
+  .cover .keys{font-size:3.8cqh; color:var(--muted); margin-top:4cqh}
+  .cover .keys kbd{font:inherit; font-weight:800; border:.25cqh solid var(--line); border-bottom-width:.6cqh;
+    border-radius:.8cqh; padding:0 1cqh; background:#fff; color:var(--ink)}
+
+  /* 카드 격자 */
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:2.4cqh 2cqw; margin-top:1cqh}
+  .card{background:#fff; border:.3cqh solid var(--line); border-radius:2cqh; padding:3cqh 2cqw}
+  .card .en{font-size:6.8cqh; font-weight:800; line-height:1.15}
+  .card .ko{margin-top:.6cqh}
+  .riddles{display:grid; grid-template-columns:repeat(3,1fr); gap:2cqw; margin-top:2cqh}
+  .riddle{background:#fff; border:.3cqh solid var(--line); border-radius:2.4cqh; padding:4cqh 2.4cqw 5cqh}
+  .riddle .n{display:inline-grid; place-items:center; width:8.5cqh; height:8.5cqh; border-radius:50%;
+    background:var(--accent); color:#fff; font-weight:900; font-size:5cqh; margin-bottom:2.4cqh}
+  .riddle p{font-size:6.8cqh; font-weight:700; line-height:1.3}
+
+  /* 대화 */
+  .talk{display:flex; flex-direction:column; gap:3cqh; margin-top:1.4cqh}
+  .line{display:flex; gap:2cqw; align-items:baseline}
+  .who{flex:none; width:9cqh; height:9cqh; border-radius:50%; display:grid; place-items:center;
+    font-weight:900; font-size:5cqh; color:#fff; background:var(--accent2); transform:translateY(1.2cqh)}
+  .line.b .who{background:var(--accent)}
+  .line p{font-size:7.2cqh}
+
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:3cqw}
+  .box{background:#fff; border:.3cqh solid var(--line); border-radius:2.4cqh; padding:3.6cqh 2.6cqw}
+  .box h3{font-size:5.4cqh; margin:0 0 2cqh}
+  .box.a{border-color:#BFDCE6} .box.an{border-color:#F2C9B3}
+  .tip{background:var(--soft2); border-radius:2cqh; padding:2.2cqh 2.4cqw}
+  .tip p{font-size:5.4cqh}
+
+  .reading{background:#fff; border-left:1.4cqh solid var(--accent); border-radius:1.4cqh; padding:3cqh 3cqw}
+  .reading p{font-size:5.5cqh; line-height:1.45}
+  .qs{display:flex; gap:2cqw}
+  .qs p{font-size:4.6cqh; background:var(--soft); border-radius:1.6cqh; padding:1.4cqh 1.6cqw; flex:1}
+
+  .blank{display:inline-block; min-width:16cqw; border-bottom:.4cqh solid var(--ink); transform:translateY(-.6cqh)}
+  .write li{font-size:6.8cqh}
+  .example{font-size:4.8cqh; color:var(--muted); background:#fff; border:.3cqh dashed var(--line); border-radius:1.6cqh; padding:2cqh 2cqw}
+
+  /* 화면 아래 단추와 쪽 번호 */
+  .hud{position:fixed; right:12px; bottom:10px; display:flex; align-items:center; gap:8px; z-index:5;
+    color:#fff; font-size:15px; font-weight:700; background:rgba(34,30,25,.78); padding:5px 6px; border-radius:14px}
+  .hud #count{min-width:58px; text-align:center}
+  .hud button{font:inherit; font-size:20px; line-height:1; width:40px; height:40px; border-radius:10px; cursor:pointer;
+    border:1px solid rgba(255,255,255,.25); background:rgba(0,0,0,.35); color:#fff}
+  .hud button:focus-visible{outline:3px solid #FFC56B; outline-offset:2px}
+  body.notes-on .hud{bottom:calc(34vh + 12px)}
+
+  /* 발표자 노트 (N) */
+  #notesPanel{position:fixed; left:0; right:0; bottom:0; height:34vh; overflow:auto; z-index:4;
+    background:#141210; color:#F3EDE2; border-top:3px solid var(--accent); padding:14px 22px 18px; font-size:19px; line-height:1.6}
+  #notesPanel[hidden]{display:none}
+  #notesPanel .h{font-size:14px; font-weight:800; color:#FFC56B; letter-spacing:.06em; margin-bottom:4px}
+  aside.notes{display:none}
+
+  @media (prefers-reduced-motion:reduce){ .slide.active{animation:none} .progress span{transition:none} }
+
+  /* 인쇄 · PDF: 한 장에 슬라이드 하나 (16:9, 파워포인트와 같은 13.333 × 7.5 인치) */
+  @page{size:13.333in 7.5in; margin:0}
+  @media print{
+    html,body{height:auto; overflow:visible; background:#fff}
+    .progress, .hud, #notesPanel{display:none !important}
+    #deck{position:static; display:block; height:auto}
+    .slide{display:flex !important; width:13.333in; height:7.5in; animation:none;
+      break-after:page; page-break-after:always}
+    .slide:last-child{break-after:auto; page-break-after:auto}
+    *{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+<main id="deck" aria-label="My Dream Job 발표자료">
+
+<section class="slide cover" aria-label="1번 슬라이드">
+  <div class="tag">중학교 2학년 영어 · Lesson</div>
+  <h1>My Dream Job</h1>
+  <p class="lead">Talking about future jobs and reasons</p>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> 넘기기 · <kbd>F</kbd> 전체 화면 · <kbd>N</kbd> 발표자 노트</p>
+  <div class="foot">연수용 가상 자료 · 45분 수업</div>
+  <aside class="notes">인사 후 오늘 주제를 소개합니다. 칠판에 «What do you want to be?» 를 쓰고 시작합니다. (1분)</aside>
+</section>
+
+<section class="slide" aria-label="2번 슬라이드">
+  <div class="tag">Today's Goals</div>
+  <h2>By the end of this class…</h2>
+  <ol class="goals">
+    <li>I can talk about my dream job.</li>
+    <li>I can give a reason with <mark>because</mark>.</li>
+    <li>I can write three sentences about my dream job.</li>
+  </ol>
+  <aside class="notes">목표를 함께 소리 내어 읽습니다. 수업 끝에 세 문장 쓰기로 확인한다고 미리 알려 줍니다. (1분)</aside>
+</section>
+
+<section class="slide" aria-label="3번 슬라이드">
+  <div class="tag">Warm-up</div>
+  <h2>Guess the job!</h2>
+  <div class="riddles">
+    <div class="riddle"><span class="n">1</span><p>I help sick animals.</p></div>
+    <div class="riddle"><span class="n">2</span><p>I cook food in a restaurant.</p></div>
+    <div class="riddle"><span class="n">3</span><p>I put out fires.</p></div>
+  </div>
+  <p class="ko">Who am I? 손을 들고 영어로 말해 보세요.</p>
+  <aside class="notes">정답: 1. a vet 2. a chef 3. a firefighter. 맞힌 단어를 칠판에 씁니다. (3분)</aside>
+</section>
+
+<section class="slide" aria-label="4번 슬라이드">
+  <div class="tag">Job Words</div>
+  <h2>Let's read together.</h2>
+  <div class="grid">
+    <div class="card"><div class="en">doctor</div><div class="ko">의사</div></div>
+    <div class="card"><div class="en">vet</div><div class="ko">수의사</div></div>
+    <div class="card"><div class="en">chef</div><div class="ko">요리사</div></div>
+    <div class="card"><div class="en">firefighter</div><div class="ko">소방관</div></div>
+    <div class="card"><div class="en">scientist</div><div class="ko">과학자</div></div>
+    <div class="card"><div class="en">engineer</div><div class="ko">엔지니어</div></div>
+    <div class="card"><div class="en">artist</div><div class="ko">예술가</div></div>
+    <div class="card"><div class="en">game designer</div><div class="ko">게임 디자이너</div></div>
+  </div>
+  <aside class="notes">교사를 따라 두 번씩 읽습니다. engineer, artist 는 앞에 an 을 쓴다는 것을 6번 슬라이드에서 다룹니다. (4분)</aside>
+</section>
+
+<section class="slide" aria-label="5번 슬라이드">
+  <div class="tag">Key Expressions</div>
+  <h2>Ask and answer.</h2>
+  <div class="talk">
+    <div class="line"><span class="who">A</span><p>What do you want to be in the future?</p></div>
+    <div class="line b"><span class="who">B</span><p>I want to be <b class="a">a vet</b>.</p></div>
+    <div class="line"><span class="who">A</span><p>Why do you want to be a vet?</p></div>
+    <div class="line b"><span class="who">B</span><p><mark>Because</mark> I love animals.</p></div>
+  </div>
+  <aside class="notes">교사가 A, 학생 전체가 B를 맡아 읽고 역할을 바꿉니다. 말로 짧게 답할 때는 «Because ~.» 로 시작해도 되지만, 글로 쓸 때는 «I want to be a vet because I love animals.» 처럼 한 문장으로 잇는다고 짚습니다. (5분)</aside>
+</section>
+
+<section class="slide" aria-label="6번 슬라이드">
+  <div class="tag">Grammar Point</div>
+  <h2>a or an?</h2>
+  <div class="two">
+    <div class="box a"><h3><b class="a">a</b> + consonant sound</h3><p>a doctor · a vet<br>a chef · a game designer</p></div>
+    <div class="box an"><h3><b class="an">an</b> + vowel sound</h3><p>an engineer · an artist<br>an astronaut</p></div>
+  </div>
+  <div class="tip"><p>Listen to the <b>sound</b>, not the letter: <b class="a">a</b> uniform, <b class="an">an</b> hour</p></div>
+  <aside class="notes">모음 «소리» 앞에서는 an 을 씁니다. 철자가 아니라 소리가 기준이라는 점을 uniform(유-), hour(아워-)로 보여 줍니다. 예문: I want to be an engineer because I like making things. (4분)</aside>
+</section>
+
+<section class="slide" aria-label="7번 슬라이드">
+  <div class="tag">Reading</div>
+  <h2>Jiho's Dream Job</h2>
+  <div class="reading"><p>Hi, I'm Jiho. I want to be a game designer. I like playing games, and I love drawing characters. I want to make games that help students learn. To make my dream come true, I draw every day and I'm learning to code.</p></div>
+  <div class="qs">
+    <p>1. What does Jiho want to be?</p>
+    <p>2. Why does Jiho want to do this job?</p>
+    <p>3. What does Jiho do every day?</p>
+  </div>
+  <aside class="notes">1분 동안 조용히 읽고 질문에 답합니다. 정답: 1. a game designer 2. Jiho likes playing games and loves drawing characters. Jiho wants to make games that help students learn. 3. Jiho draws every day. (6분)</aside>
+</section>
+
+<section class="slide" aria-label="8번 슬라이드">
+  <div class="tag">Pair Talk</div>
+  <h2>Talk with your partner.</h2>
+  <div class="two">
+    <ul class="plain">
+      <li>① Ask: <i>What do you want to be in the future?</i></li>
+      <li>② Ask <i>Why?</i> and listen for <mark>because</mark>.</li>
+      <li>③ Switch roles.</li>
+    </ul>
+    <div class="box"><h3>Helpful sentences</h3>
+      <ul class="plain">
+        <li>I want to be a(n) ____.</li>
+        <li>I like ____. / I'm good at ____.</li>
+        <li>I'm not sure yet, but I'm interested in ____.</li>
+      </ul></div>
+  </div>
+  <aside class="notes">짝과 2분씩 묻고 답합니다. 돌아다니며 a/an 과 because 를 쓰는지 듣습니다. 꿈이 아직 없는 학생은 «I'm not sure yet, but I'm interested in ~.» 으로 말해도 된다고 알려 줍니다. (8분)</aside>
+</section>
+
+<section class="slide" aria-label="9번 슬라이드">
+  <div class="tag">Writing</div>
+  <h2>Write about your dream job.</h2>
+  <ol class="goals write">
+    <li>In the future, I want to be a(n) <span class="blank"></span>.</li>
+    <li>I want to do this job because <span class="blank"></span>.</li>
+    <li>To make my dream come true, I will <span class="blank"></span>.</li>
+  </ol>
+  <p class="example">Example: In the future, I want to be a vet. I want to do this job because I love animals. To make my dream come true, I will read books about animals.</p>
+  <aside class="notes">학습지나 공책에 세 문장을 씁니다. 다 쓴 학생은 짝과 바꿔 a/an, because, 마침표를 서로 확인합니다. (10분)</aside>
+</section>
+
+<section class="slide" aria-label="10번 슬라이드">
+  <div class="tag">Exit Ticket</div>
+  <h2>Before you go…</h2>
+  <ul class="plain big">
+    <li>① One new job word I learned: <span class="blank"></span></li>
+    <li>② a or an? <span class="blank" style="min-width:8cqw"></span> astronaut / <span class="blank" style="min-width:8cqw"></span> chef</li>
+    <li>③ Read your three sentences to the class.</li>
+  </ul>
+  <p class="ko">Great job today!</p>
+  <aside class="notes">정답: ② an astronaut, a chef. 두세 명이 세 문장을 발표하고 마칩니다. 다음 시간에는 꿈을 이루기 위한 계획을 이야기합니다. (3분)</aside>
+</section>
+
+</main>
+
+<div class="hud">
+  <button type="button" id="prev" aria-label="이전 슬라이드">‹</button>
+  <span id="count" aria-live="polite">1 / 10</span>
+  <button type="button" id="next" aria-label="다음 슬라이드">›</button>
+</div>
+<div id="notesPanel" hidden><div class="h">발표자 노트 · N 으로 닫기</div><div id="notesText"></div></div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var panel = document.getElementById('notesPanel'), notesText = document.getElementById('notesText');
+  var i = 0;
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('active', k === i); s.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    count.textContent = (i + 1) + ' / ' + slides.length;
+    var note = slides[i].querySelector('aside.notes');
+    notesText.textContent = note ? note.textContent : '(노트 없음)';
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+  }
+  function toggleFull(){
+    if (!document.fullscreenElement) { (document.documentElement.requestFullscreen || function(){}).call(document.documentElement); }
+    else if (document.exitFullscreen) { document.exitFullscreen(); }
+  }
+  function toggleNotes(){ panel.hidden = !panel.hidden; document.body.classList.toggle('notes-on', !panel.hidden); }
+  document.addEventListener('keydown', function(e){
+    if (e.ctrlKey || e.metaKey || e.altKey) return;           // Ctrl+P(인쇄) 같은 단축키는 그대로
+    var t = e.target && e.target.tagName;
+    if ((t === 'BUTTON') && (e.key === ' ' || e.key === 'Enter')) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': show(i + 1); break;
+      case ' ': show(e.shiftKey ? i - 1 : i + 1); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': show(i - 1); break;
+      case 'Home': show(0); break;
+      case 'End': show(slides.length - 1); break;
+      case 'f': case 'F': toggleFull(); break;
+      case 'n': case 'N': toggleNotes(); break;
+      default: return;
+    }
+    e.preventDefault();
+  });
+  document.getElementById('prev').addEventListener('click', function(){ show(i - 1); });
+  document.getElementById('next').addEventListener('click', function(){ show(i + 1); });
+  var x0 = null;
+  document.getElementById('deck').addEventListener('pointerdown', function(e){ x0 = e.clientX; });
+  document.getElementById('deck').addEventListener('pointerup', function(e){
+    if (x0 === null) return; var dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 60) show(dx < 0 ? i + 1 : i - 1);
+  });
+  window.addEventListener('hashchange', function(){ var h = parseInt(location.hash.slice(1), 10); if (!isNaN(h) && h - 1 !== i) show(h - 1); });
+  var start = parseInt((location.hash || '').slice(1), 10);
+  show(isNaN(start) ? 0 : start - 1);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>피타고라스 정리 — 넓이 옮기기 (연수용 예시)</title>
+<style>
+:root{--bg:#FBF8F1; --ink:#1E2430; --muted:#5B6270; --line:#DDD6C8; --a:#2563C9; --b:#E0701F; --c:#2E8B57; --tri:#FFE9A8}
+*{box-sizing:border-box}
+html,body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",sans-serif; word-break:keep-all; line-height:1.6}
+.wrap{max-width:1180px; margin:0 auto; padding:18px 20px 28px}
+header h1{font-size:clamp(24px,3.4vw,36px); margin:0; letter-spacing:-.02em}
+header p{margin:2px 0 0; color:var(--muted); font-size:15px}
+.main{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:22px; align-items:start; margin-top:14px}
+@media (max-width:820px){ .main{grid-template-columns:1fr} }
+.fig{background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:8px}
+.fig svg{display:block; width:100%; height:auto; max-height:72vh}
+.panel{background:#fff; border:1.5px solid var(--line); border-radius:16px; padding:18px 22px}
+.stepno{font-size:15px; font-weight:800; color:var(--muted)}
+.panel h2{font-size:clamp(22px,2.8vw,30px); margin:2px 0 8px; letter-spacing:-.01em}
+.panel .ex{font-size:clamp(18px,2.1vw,22px); min-height:5.2em; margin:0}
+.read{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:14px 0 4px}
+.read div{border-radius:12px; padding:8px 10px; font-size:15px; font-weight:700; background:#F4F1EA}
+.read b{display:block; font-size:clamp(22px,2.6vw,28px); font-variant-numeric:tabular-nums}
+.read .ra{color:var(--a)} .read .rb{color:var(--b)} .read .rc{color:var(--c)}
+.formula{margin-top:12px; font-size:clamp(24px,3vw,34px); font-weight:900; text-align:center; padding:8px; border-radius:12px; background:#EAF6EE; color:#1D5E3B; transition:opacity .4s}
+.formula.off{opacity:.18}
+.ctrl{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:16px}
+.ctrl button{font:inherit; font-size:17px; font-weight:800; border-radius:12px; border:1.5px solid var(--line); background:#fff; color:var(--ink); padding:10px 16px; cursor:pointer; min-height:46px}
+.ctrl button.pri{background:var(--ink); color:#fff; border-color:var(--ink); min-width:150px}
+.ctrl button:hover{border-color:var(--ink)}
+button:focus-visible{outline:3px solid #1A66D0; outline-offset:2px}
+.dots{display:flex; gap:6px; margin-left:auto}
+.dots button{width:34px; height:34px; min-height:0; padding:0; border-radius:50%; font-size:14px}
+.dots button[aria-current="step"]{background:var(--c); color:#fff; border-color:var(--c)}
+.note{margin-top:16px; font-size:14.5px; color:var(--muted); background:#fff; border:1px dashed var(--line); border-radius:12px; padding:10px 14px}
+.note b{color:var(--ink)}
+svg text{font-family:inherit}
+.kbd{font-size:13px; color:var(--muted); margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>피타고라스 정리 — 넓이를 옮겨 보기</h1>
+  <p>중학교 수학 · 연수용 예시 애니메이션 · 직각삼각형의 세 변 위 정사각형 넓이가 옮겨지며 a² + b² = c² 를 보여 줍니다.</p>
+</header>
+
+<div class="main">
+  <div class="fig"><svg id="svg" viewBox="0 0 456 560" role="img" aria-label="피타고라스 정리 애니메이션"></svg></div>
+  <div class="panel">
+    <div class="stepno" id="stepno">1 / 7 단계</div>
+    <h2 id="title">직각삼각형</h2>
+    <p class="ex" id="ex" aria-live="polite"></p>
+    <div class="read">
+      <div class="ra">파란 도형 넓이<b id="ra">9.0</b></div>
+      <div class="rb">주황 도형 넓이<b id="rb">16.0</b></div>
+      <div class="rc">c² 정사각형<b>25.0</b></div>
+    </div>
+    <div class="formula off" id="formula">9 + 16 = 25 &nbsp;→&nbsp; a² + b² = c²</div>
+    <div class="ctrl">
+      <button type="button" id="first" aria-label="처음으로">⏮ 처음</button>
+      <button type="button" id="prev" aria-label="이전 단계">◀ 이전</button>
+      <button type="button" class="pri" id="play">▶ 재생</button>
+      <button type="button" id="next" aria-label="다음 단계">다음 ▶</button>
+      <div class="dots" id="dots"></div>
+    </div>
+    <div class="kbd">키보드: <b>스페이스</b> 재생·일시정지 · <b>← →</b> 단계 넘기기 · <b>Home</b> 처음</div>
+  </div>
+</div>
+
+<div class="note"><b>수업 전에 확인할 점</b> — 도형의 넓이 숫자는 그림의 꼭짓점 좌표로 매 순간 다시 계산해 보여 줍니다. 3·4·5 직각삼각형으로 보였지만, 어떤 직각삼각형이라도 같은 두 번의 밀기로 a² 는 가로 a²/c, b² 는 가로 b²/c 인 직사각형이 되어 c² 정사각형을 채웁니다. <b>«밀기(층밀림)»</b>는 밑변과 높이가 그대로인 평행사변형으로 바꾸는 것이라 넓이가 변하지 않습니다. 연수용 가상 자료입니다.</div>
+</div>
+
+<script>
+// ---------- 좌표 (수학 좌표: y가 위로) ----------
+// 직각삼각형: A(0,0), B(5,0) 빗변 AB = c = 5, 직각 꼭짓점 C(3.2, 2.4).  AC = b = 4, BC = a = 3
+const S = 40, OX = 3.2 * S, OY = 8.2 * S;
+const X = x => OX + S * x, Y = y => OY - S * y;
+const A = [0, 0], B = [5, 0], C = [3.2, 2.4];
+// b² (AC 위, 바깥쪽) : A, C, C', A'
+const QB = [
+  [[0,0],[3.2,2.4],[0.8,5.6],[-2.4,3.2]],     // 정사각형
+  [[0,0],[3.2,2.4],[3.2,7.4],[0,5]],          // 밀기 ① : 변 AC는 그대로, 맞은편 변을 AC와 나란히 민다
+  [[0,-5],[3.2,-5],[3.2,0],[0,0]]             // 밀기 ② : 세로 방향으로 민다 → 3.2 × 5 직사각형
+];
+// a² (BC 위, 바깥쪽) : B, C, C'', B'
+const QA = [
+  [[5,0],[3.2,2.4],[5.6,4.2],[7.4,1.8]],
+  [[5,0],[3.2,2.4],[3.2,7.4],[5,5]],
+  [[5,-5],[3.2,-5],[3.2,0],[5,0]]             // 1.8 × 5 직사각형
+];
+const STEPS = [
+  { t:"직각삼각형", ex:"빗변의 길이가 c, 나머지 두 변의 길이가 a, b 인 직각삼각형입니다. 여기서는 a = 3, b = 4, c = 5 입니다.", qa:0, qb:0, sq:0, alt:0, fin:0 },
+  { t:"세 변 위의 정사각형", ex:"각 변을 한 변으로 하는 정사각형을 그립니다. 칸을 세어 보면 파랑 9칸, 주황 16칸, 초록 25칸입니다.", qa:0, qb:0, sq:1, alt:0, fin:0 },
+  { t:"밀기 ① — 주황 정사각형", ex:"변 b 는 그대로 두고 맞은편 변을 나란히 밉니다. 밑변 4와 높이 4가 그대로이므로 평행사변형의 넓이도 16 그대로입니다.", qa:0, qb:1, sq:1, alt:0, fin:0 },
+  { t:"밀기 ② — 큰 정사각형 안으로", ex:"이번에는 세로로 밉니다. 세로 변의 길이 5와 두 세로 변 사이의 거리 3.2가 그대로이므로 넓이는 3.2 × 5 = 16 입니다.", qa:0, qb:2, sq:1, alt:1, fin:0 },
+  { t:"밀기 ① — 파란 정사각형", ex:"파란 정사각형도 변 a 는 그대로 두고 맞은편 변을 나란히 밉니다. 넓이는 9 그대로입니다.", qa:1, qb:2, sq:1, alt:1, fin:0 },
+  { t:"밀기 ② — 파란 도형도 안으로", ex:"세로로 밀면 가로 1.8, 세로 5 인 직사각형이 됩니다. 1.8 × 5 = 9 입니다.", qa:2, qb:2, sq:1, alt:1, fin:0 },
+  { t:"결론 — a² + b² = c²", ex:"c² 정사각형이 넓이 16과 9인 두 직사각형으로 빈틈없이 채워졌습니다. 그래서 9 + 16 = 25, 곧 a² + b² = c² 입니다.", qa:2, qb:2, sq:1, alt:1, fin:1 }
+];
+
+// ---------- 그리기 ----------
+const NS = "http://www.w3.org/2000/svg", svg = document.getElementById("svg");
+function mk(tag, attrs, parent = svg, text){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; parent.appendChild(e); return e; }
+const pts = q => q.map(p => X(p[0]).toFixed(2) + "," + Y(p[1]).toFixed(2)).join(" ");
+// c² 정사각형 (초록 점선 + 5×5 칸)
+const gC = mk("g", {});
+mk("rect", {x:X(0), y:Y(0), width:5*S, height:5*S, fill:"#F1FAF4", stroke:"#2E8B57", "stroke-width":2.5, "stroke-dasharray":"8 6"}, gC);
+for (let i = 1; i < 5; i++){
+  mk("line", {x1:X(i), y1:Y(0), x2:X(i), y2:Y(-5), stroke:"#2E8B57", "stroke-opacity":.25}, gC);
+  mk("line", {x1:X(0), y1:Y(-i), x2:X(5), y2:Y(-i), stroke:"#2E8B57", "stroke-opacity":.25}, gC);
+}
+const cLabel = mk("text", {x:X(2.5), y:Y(-2.5)+10, "text-anchor":"middle", "font-size":30, "font-weight":800, fill:"#2E8B57"}, gC, "c² = 25");
+// 도형 (칸 포함)
+function shape(color, n){
+  const g = mk("g", {});
+  const poly = mk("polygon", {fill:color, "fill-opacity":.42, stroke:color, "stroke-width":2.5, "stroke-linejoin":"round"}, g);
+  const lines = []; for (let i = 0; i < 2*(n-1); i++) lines.push(mk("line", {stroke:color, "stroke-opacity":.55, "stroke-width":1.2}, g));
+  const lab = mk("text", {"text-anchor":"middle", "font-size":26, "font-weight":900, fill:color}, g);
+  return {g, poly, lines, lab, n};
+}
+const shB = shape("#E0701F", 4), shA = shape("#2563C9", 3);
+// 직각삼각형
+const tri = mk("polygon", {points:pts([A,B,C]), fill:"#FFE9A8", "fill-opacity":.86, stroke:"#1E2430", "stroke-width":2.5, "stroke-linejoin":"round"});
+const uCA = [(A[0]-C[0])/4, (A[1]-C[1])/4], uCB = [(B[0]-C[0])/3, (B[1]-C[1])/3], r = 0.32;
+mk("polyline", {points:pts([[C[0]+r*uCA[0], C[1]+r*uCA[1]], [C[0]+r*(uCA[0]+uCB[0]), C[1]+r*(uCA[1]+uCB[1])], [C[0]+r*uCB[0], C[1]+r*uCB[1]]]), fill:"none", stroke:"#1E2430", "stroke-width":2});
+const sideLab = mk("g", {"font-size":22, "font-style":"italic", "font-weight":700, "font-family":"Georgia,serif", fill:"#1E2430", "text-anchor":"middle"});
+mk("text", {x:X(3.62), y:Y(1.0)+8}, sideLab, "a");
+mk("text", {x:X(1.98), y:Y(1.0)+8}, sideLab, "b");
+mk("text", {x:X(2.5), y:Y(0.22)+8}, sideLab, "c");
+// 높이를 내린 선 (직사각형 경계)
+const alt = mk("line", {x1:X(3.2), y1:Y(2.4), x2:X(3.2), y2:Y(-5), stroke:"#1E2430", "stroke-width":1.8, "stroke-dasharray":"5 5"});
+const finLab = mk("text", {x:X(2.5), y:Y(-5.55)+8, "text-anchor":"middle", "font-size":24, "font-weight":900, fill:"#1D5E3B"}, svg, "16 + 9 = 25");
+svg.appendChild(tri); svg.appendChild(sideLab);  // 삼각형을 맨 위에
+
+const area = q => { let s = 0; for (let i = 0; i < 4; i++){ const p = q[i], n = q[(i+1)%4]; s += p[0]*n[1] - n[0]*p[1]; } return Math.abs(s) / 2; };
+function drawShape(sh, q, op){
+  sh.poly.setAttribute("points", pts(q));
+  const P = (u, v) => [q[0][0] + u*(q[1][0]-q[0][0]) + v*(q[3][0]-q[0][0]), q[0][1] + u*(q[1][1]-q[0][1]) + v*(q[3][1]-q[0][1])];
+  let k = 0;
+  for (let i = 1; i < sh.n; i++){
+    for (const [p1, p2] of [[P(i/sh.n,0), P(i/sh.n,1)], [P(0,i/sh.n), P(1,i/sh.n)]]){
+      const L = sh.lines[k++]; L.setAttribute("x1", X(p1[0])); L.setAttribute("y1", Y(p1[1])); L.setAttribute("x2", X(p2[0])); L.setAttribute("y2", Y(p2[1]));
+    }
+  }
+  const cx = (q[0][0]+q[1][0]+q[2][0]+q[3][0]) / 4, cy = (q[0][1]+q[1][1]+q[2][1]+q[3][1]) / 4;
+  sh.lab.setAttribute("x", X(cx)); sh.lab.setAttribute("y", Y(cy) + 9);
+  const a = area(q); sh.lab.textContent = a.toFixed(0);
+  sh.g.setAttribute("opacity", op);
+  return a;
+}
+const lerp = (a, b, t) => a + (b - a) * t;
+const lq = (q1, q2, t) => q1.map((p, i) => [lerp(p[0], q2[i][0], t), lerp(p[1], q2[i][1], t)]);
+function render(s1, s2, t){                  // s1 → s2 사이 t (0~1)
+  const A1 = STEPS[s1], A2 = STEPS[s2];
+  const sq = lerp(A1.sq, A2.sq, t), al = lerp(A1.alt, A2.alt, t), fi = lerp(A1.fin, A2.fin, t);
+  const qb = lq(QB[A1.qb], QB[A2.qb], t), qa = lq(QA[A1.qa], QA[A2.qa], t);
+  const ab = drawShape(shB, qb, sq), aa = drawShape(shA, qa, sq);
+  gC.setAttribute("opacity", sq);
+  cLabel.setAttribute("opacity", Math.max(0, 1 - lerp(A1.qb, A2.qb, t)));
+  alt.setAttribute("opacity", al); finLab.setAttribute("opacity", fi);
+  document.getElementById("ra").textContent = aa.toFixed(1);
+  document.getElementById("rb").textContent = ab.toFixed(1);
+}
+
+// ---------- 단계·재생 ----------
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const DUR = reduce ? 0 : 2400, HOLD = reduce ? 3000 : 1300;
+let cur = 0, anim = null, playing = false, frozen = false, holdT = 0, last = 0;
+const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+const dots = document.getElementById("dots");
+STEPS.forEach((s, i) => { const b = document.createElement("button"); b.type = "button"; b.textContent = i + 1; b.setAttribute("aria-label", (i+1) + "단계: " + s.t); b.onclick = () => go(i, true); dots.appendChild(b); });
+function ui(){
+  const s = STEPS[anim ? anim.to : cur];
+  document.getElementById("stepno").textContent = ((anim ? anim.to : cur) + 1) + " / " + STEPS.length + " 단계";
+  document.getElementById("title").textContent = s.t;
+  document.getElementById("ex").textContent = s.ex;
+  document.getElementById("formula").classList.toggle("off", !s.fin);
+  svg.setAttribute("aria-label", "피타고라스 정리 애니메이션, " + s.t + ". " + s.ex);
+  const on = anim ? anim.to : cur;
+  [...dots.children].forEach((b, i) => { if (i === on) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+  document.getElementById("play").textContent = playing ? "⏸ 일시정지" : "▶ 재생";
+}
+function go(target, jump){
+  if (anim){ cur = anim.to; anim = null; }
+  frozen = false; holdT = 0;
+  if (target < 0 || target >= STEPS.length || target === cur){ render(cur, cur, 0); ui(); return; }
+  if (jump && Math.abs(target - cur) > 1){ cur = target; render(cur, cur, 0); ui(); return; }
+  if (DUR === 0){ cur = target; render(cur, cur, 0); ui(); return; }
+  anim = {from:cur, to:target, t:0}; ui();
+}
+function tick(now){
+  const dt = Math.min(100, now - (last || now)); last = now;
+  if (anim && !frozen){
+    anim.t += dt / DUR;
+    if (anim.t >= 1){ cur = anim.to; anim = null; render(cur, cur, 0); ui(); }
+    else render(anim.from, anim.to, ease(anim.t));
+  } else if (!anim && playing){
+    holdT += dt;
+    if (holdT >= HOLD){ if (cur < STEPS.length - 1) go(cur + 1); else { playing = false; ui(); } }
+  }
+  requestAnimationFrame(tick);
+}
+document.getElementById("play").onclick = togglePlay;
+function togglePlay(){
+  if (playing){ playing = false; if (anim) frozen = true; }
+  else { playing = true; if (frozen) frozen = false; else if (!anim && cur === STEPS.length - 1){ cur = 0; render(0, 0, 0); holdT = HOLD * 0.6; } else holdT = HOLD; }
+  ui();
+}
+document.getElementById("next").onclick = () => go((anim ? anim.to : cur) + 1);
+document.getElementById("prev").onclick = () => go((anim ? anim.to : cur) - 1);
+document.getElementById("first").onclick = () => { playing = false; go(0, true); };
+addEventListener("keydown", e => {
+  if (e.target.closest && e.target.closest("button") && (e.key === " " || e.key === "Enter")) return;
+  if (e.key === " "){ e.preventDefault(); togglePlay(); }
+  else if (e.key === "ArrowRight"){ e.preventDefault(); go((anim ? anim.to : cur) + 1); }
+  else if (e.key === "ArrowLeft"){ e.preventDefault(); go((anim ? anim.to : cur) - 1); }
+  else if (e.key === "Home"){ e.preventDefault(); playing = false; go(0, true); }
+});
+// 주소 끝에 ?step=3 처럼 붙이면 그 단계 화면으로 바로 엽니다 (캡처용)
+const q = new URLSearchParams(location.search).get("step");
+if (q !== null){ cur = Math.max(0, Math.min(STEPS.length - 1, parseInt(q, 10) - 1 || 0)); }
+const mid = new URLSearchParams(location.search).get("mid");   // ?step=3&mid=0.5 : 2→3단계 사이 중간 모습
+if (mid !== null && cur > 0){ render(cur - 1, cur, ease(parseFloat(mid))); anim = null; ui(); frozen = true; anim = {from:cur-1, to:cur, t:parseFloat(mid)}; }
+else render(cur, cur, 0);
+ui();
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

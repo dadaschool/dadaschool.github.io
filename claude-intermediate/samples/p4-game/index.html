@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>상태 변화 복습 게임</title>
+<!-- 클로드 중급과정 P4 «결과 예시». 한 파일 · 인터넷 없이 열린다. 연수용 예시 자료.
+     문제는 교사가 만든 문제목록.csv 를 아래 <script id="csv"> 안에 그대로 옮겨 넣은 것이다.
+     파일을 바꾸고 싶으면 화면의 «선생님용 · 문제 파일 바꾸기»에서 새 CSV 를 고르면 된다(이 컴퓨터에서만, 저장되지 않음).
+     CSV 열: 번호,현상,정답,오답1,오답2,오답3,열,해설  (열 = 흡수 또는 방출) -->
+<style>
+  :root{ --bg:#F3F6F4; --panel:#FFFFFF; --line:#D5DDD8; --ink:#17201B; --muted:#55615A; --accent:#0F766E;
+         --hot:#C2410C; --hotbg:#FFF0E6; --cold:#1D5FBF; --coldbg:#E8F0FC; --ok:#1B7F3B; --okbg:#E6F4EA; --no:#B3261E; --nobg:#FCE8E6; }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+       font-size:19px; line-height:1.6; word-break:keep-all}
+  .wrap{max-width:980px; margin:0 auto; padding:20px 16px 48px}
+  header h1{font-size:clamp(26px,4.4vw,38px); margin:0; letter-spacing:-.02em}
+  header p{margin:2px 0 16px; color:var(--muted); font-size:16px}
+  .panel{background:var(--panel); border:1.5px solid var(--line); border-radius:18px; padding:20px 22px}
+  .modes{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  @media (max-width:680px){ .modes{grid-template-columns:1fr} }
+  button{font:inherit; cursor:pointer}
+  .mode{display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left; background:#fff; color:var(--ink);
+        border:2px solid var(--line); border-radius:18px; padding:20px 22px; min-height:150px}
+  .mode:hover{border-color:var(--accent)}
+  .mode b{font-size:24px} .mode span{color:var(--muted); font-size:16.5px}
+  .mode .n{font-size:14px; font-weight:900; color:#fff; background:var(--accent); border-radius:999px; padding:2px 10px}
+  .top{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap}
+  .pill{font-weight:800; font-size:16px; background:#fff; border:1.5px solid var(--line); border-radius:999px; padding:4px 14px}
+  .bar{height:10px; background:#E3E9E5; border-radius:999px; overflow:hidden; margin-bottom:16px}
+  .bar i{display:block; height:100%; background:var(--accent); width:0; transition:width .3s}
+  .ask{font-size:15px; font-weight:800; color:var(--accent); margin:0}
+  .phen{font-size:clamp(24px,4vw,34px); font-weight:900; line-height:1.4; margin:4px 0 18px; letter-spacing:-.01em}
+  .opts{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media (max-width:560px){ .opts{grid-template-columns:1fr} }
+  .opt{display:flex; align-items:center; gap:12px; text-align:left; background:#fff; color:var(--ink); border:2px solid var(--line);
+       border-radius:14px; padding:14px 16px; font-size:clamp(20px,3vw,24px); font-weight:800; min-height:68px}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt .k{flex:none; width:32px; height:32px; border-radius:50%; background:#EEF2EF; display:flex; align-items:center; justify-content:center; font-size:16px}
+  .opt.right{background:var(--okbg); border-color:var(--ok)} .opt.wrong{background:var(--nobg); border-color:var(--no)}
+  .opt:disabled{cursor:default}
+  .fb{margin-top:16px; padding:14px 16px; border-radius:14px; font-size:18px; display:none}
+  .fb.show{display:block} .fb.ok{background:var(--okbg); border:2px solid #9BCBA8} .fb.no{background:var(--nobg); border:2px solid #F0A9A3}
+  .fb b{font-size:20px}
+  .next{margin-top:14px; display:none; background:var(--ink); color:#fff; border:0; border-radius:14px; padding:12px 22px; font-size:20px; font-weight:800}
+  .next.show{display:inline-block}
+  .card{margin:6px auto 16px; max-width:620px; background:#FFFDF6; border:2px solid #E6D9A8; border-radius:18px; padding:22px 24px; text-align:center;
+        box-shadow:0 10px 24px -14px rgba(0,0,0,.35); font-size:clamp(22px,3.6vw,30px); font-weight:900; line-height:1.4}
+  .card small{display:block; font-size:15px; color:var(--muted); font-weight:700; margin-bottom:6px}
+  .bins{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .bin{display:flex; flex-direction:column; gap:8px; border-radius:18px; padding:14px 16px; border:2.5px solid; min-height:170px; text-align:left; color:var(--ink)}
+  .bin.hot{background:var(--hotbg); border-color:#F0A47A} .bin.cold{background:var(--coldbg); border-color:#97B6E8}
+  .bin .h{font-size:clamp(20px,3.2vw,26px); font-weight:900} .bin.hot .h{color:#8A2C06} .bin.cold .h{color:#123F86}
+  .bin .s{font-size:15px; color:var(--muted)}
+  .bin:disabled{cursor:default}
+  .chips{display:flex; flex-wrap:wrap; gap:6px}
+  .chip{font-size:14.5px; font-weight:700; background:#fff; border:1.5px solid var(--line); border-radius:10px; padding:3px 9px}
+  .chip.ok{border-color:var(--ok)} .chip.no{border-color:var(--no); text-decoration:line-through}
+  .res h2{font-size:30px; margin:0 0 6px}
+  .res ol{padding-left:22px} .res li{margin:8px 0}
+  .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+  .btn{background:var(--accent); color:#fff; border:0; border-radius:14px; padding:12px 22px; font-size:19px; font-weight:800}
+  .btn.ghost{background:#fff; color:var(--ink); border:2px solid var(--line)}
+  details.teacher{margin-top:18px; font-size:16px}
+  details.teacher summary{cursor:pointer; font-weight:800; color:var(--muted)}
+  details.teacher code{background:#EEF2EF; padding:1px 6px; border-radius:5px}
+  .msg{margin-top:8px; font-weight:700}
+  .msg.err{color:var(--no)} .msg.ok{color:var(--ok)}
+  .foot{color:var(--muted); font-size:14.5px; margin-top:16px}
+  button:focus-visible, input:focus-visible, summary:focus-visible{outline:3px solid #1A66D0; outline-offset:3px}
+  [hidden]{display:none !important}
+  @media (prefers-reduced-motion:reduce){ .bar i{transition:none} }
+</style>
+</head>
+<body>
+<div class="wrap" id="cap">
+  <header>
+    <h1>상태 변화 복습 게임</h1>
+    <p>중학교 과학 · 물질의 상태 변화 · <b>연수용 예시 자료</b></p>
+  </header>
+
+  <!-- 시작 화면 -->
+  <section id="home" class="panel" aria-labelledby="h-home">
+    <h2 id="h-home" style="margin:0 0 12px; font-size:22px">활동을 고르세요</h2>
+    <div class="modes">
+      <button type="button" class="mode" id="goQuiz"><span class="n">활동 1</span><b>이름 맞히기</b><span>현상을 읽고 상태 변화 이름을 4개 중에서 고릅니다. <span id="quizN">10</span>문제</span></button>
+      <button type="button" class="mode" id="goSort"><span class="n">활동 2</span><b>열 흡수·방출 분류</b><span>현상 카드를 «열을 흡수» 또는 «열을 방출» 칸에 넣습니다. <span id="sortN">8</span>장</span></button>
+    </div>
+    <details class="teacher">
+      <summary>선생님용 · 문제 파일 바꾸기</summary>
+      <p>지금 문제는 <b id="srcName">문제목록.csv (이 파일에 넣어 둔 것)</b> 에서 왔습니다. 문제 <b id="rowN">0</b>개.</p>
+      <p>엑셀에서 아래 열 순서로 만들어 <b>CSV UTF-8</b> 로 저장한 뒤 고르면 바로 바뀝니다. 이 컴퓨터의 이 창에서만 바뀌고 저장되지는 않습니다.<br>
+        <code>번호,현상,정답,오답1,오답2,오답3,열,해설</code> — «열» 칸에는 <code>흡수</code> 또는 <code>방출</code></p>
+      <input type="file" id="file" accept=".csv,text/csv" aria-label="문제 CSV 파일 고르기">
+      <div class="msg" id="fileMsg" role="status"></div>
+    </details>
+  </section>
+
+  <!-- 활동 1 -->
+  <section id="quiz" class="panel" hidden aria-labelledby="h-quiz">
+    <div class="top"><span class="pill" id="qProg">1 / 10</span><span class="pill" id="qScore">맞힌 문제 0</span></div>
+    <div class="bar" aria-hidden="true"><i id="qBar"></i></div>
+    <p class="ask" id="h-quiz">이 현상은 어떤 상태 변화일까요?</p>
+    <p class="phen" id="qText"></p>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="qFb" role="status" aria-live="polite"></div>
+    <button type="button" class="next" id="qNext">다음 문제 →</button>
+  </section>
+
+  <!-- 활동 2 -->
+  <section id="sort" class="panel" hidden aria-labelledby="h-sort">
+    <div class="top"><span class="pill" id="sProg">1 / 8</span><span class="pill" id="sScore">맞힌 카드 0</span></div>
+    <div class="bar" aria-hidden="true"><i id="sBar"></i></div>
+    <p class="ask" id="h-sort">이 현상에서 물질은 열을 흡수할까요, 방출할까요? 알맞은 칸을 누르세요.</p>
+    <div class="card" id="sCard"><small>현상 카드</small><span id="sText"></span></div>
+    <div class="bins">
+      <button type="button" class="bin hot" id="binHot"><span class="h">🔥 열을 흡수</span><span class="s">주변에서 열을 받아들인다</span><span class="chips" id="hotChips"></span></button>
+      <button type="button" class="bin cold" id="binCold"><span class="h">❄ 열을 방출</span><span class="s">주변으로 열을 내놓는다</span><span class="chips" id="coldChips"></span></button>
+    </div>
+    <div class="fb" id="sFb" role="status" aria-live="polite"></div>
+    <button type="button" class="next" id="sNext">다음 카드 →</button>
+  </section>
+
+  <!-- 결과 -->
+  <section id="result" class="panel res" hidden aria-labelledby="h-res">
+    <h2 id="h-res">결과</h2>
+    <p id="rText"></p>
+    <div id="rWrong"></div>
+    <div class="row">
+      <button type="button" class="btn" id="again">다시 하기</button>
+      <button type="button" class="btn ghost" id="toHome">활동 고르기로</button>
+    </div>
+  </section>
+
+  <p class="foot">키보드: 이름 맞히기는 <b>1~4</b>, 분류는 <b>←</b>(흡수)·<b>→</b>(방출), 다음은 <b>Enter</b>.</p>
+</div>
+
+<script type="text/plain" id="csv">번호,현상,정답,오답1,오답2,오답3,열,해설
+1,얼음이 녹아 물이 된다.,융해,응고,기화,승화(고체→기체),흡수,고체(얼음)가 액체(물)로 변하는 융해입니다. 열을 흡수합니다.
+2,추운 날 물웅덩이가 꽁꽁 언다.,응고,융해,액화,승화(기체→고체),방출,액체(물)가 고체(얼음)로 변하는 응고입니다. 열을 방출합니다.
+3,젖은 빨래가 마른다.,기화,액화,융해,승화(고체→기체),흡수,빨래의 물(액체)이 수증기(기체)로 변하는 기화(증발)입니다. 끓는점보다 낮은 온도에서도 표면에서 일어납니다.
+4,차가운 컵 바깥에 물방울이 맺힌다.,액화,기화,응고,융해,방출,컵 주위 공기 속 수증기(기체)가 차가운 컵에 닿아 물방울(액체)이 되는 액화입니다. 컵 속 물이 새어 나온 것이 아닙니다.
+5,드라이아이스의 크기가 점점 작아진다.,승화(고체→기체),기화,융해,승화(기체→고체),흡수,고체 이산화 탄소가 액체를 거치지 않고 바로 기체가 되는 승화입니다. 주변의 하얀 김은 공기 중 수증기가 차가워져 생긴 작은 물방울입니다.
+6,추운 겨울 아침 풀잎에 서리가 생긴다.,승화(기체→고체),응고,액화,승화(고체→기체),방출,공기 중 수증기(기체)가 액체를 거치지 않고 바로 얼음 알갱이(고체)가 되는 승화입니다.
+7,손에 쥐고 있던 초콜릿이 녹는다.,융해,기화,응고,액화,흡수,고체 초콜릿이 손의 열을 흡수해 액체가 되는 융해입니다.
+8,촛농이 흘러내리다가 굳는다.,응고,융해,액화,승화(기체→고체),방출,액체 촛농이 열을 방출하며 고체가 되는 응고입니다.
+9,물을 오래 끓이면 냄비 속 물의 양이 줄어든다.,기화,액화,융해,승화(고체→기체),흡수,액체 물이 수증기(기체)가 되어 날아가는 기화(끓음)입니다.
+10,추운 날 내쉰 입김이 하얗게 보인다.,액화,기화,승화(기체→고체),응고,방출,입김 속 수증기(기체)가 차가운 공기를 만나 작은 물방울(액체)이 되는 액화입니다. 수증기 자체는 눈에 보이지 않습니다.
+11,옷장 속 고체 좀약의 크기가 점점 작아진다.,승화(고체→기체),기화,융해,승화(기체→고체),흡수,고체 좀약이 액체를 거치지 않고 바로 기체가 되는 승화입니다. 그래서 옷장 안에 냄새가 퍼집니다.
+12,냉동실 벽에 성에가 생긴다.,승화(기체→고체),응고,액화,승화(고체→기체),방출,냉동실 안 수증기(기체)가 차가운 벽에서 바로 얼음 알갱이(고체)가 되는 승화입니다.
+13,운동 뒤 땀이 마르면서 몸이 시원해진다.,기화,액화,융해,응고,흡수,땀(액체)이 기화하면서 몸의 열을 흡수하므로 시원해집니다.
+14,여름날 이른 아침 풀잎에 이슬이 맺힌다.,액화,기화,응고,승화(기체→고체),방출,밤사이 차가워진 공기 속 수증기(기체)가 풀잎에서 물방울(액체)이 되는 액화입니다.
+15,아이스크림이 녹아 흘러내린다.,융해,응고,기화,액화,흡수,고체 아이스크림이 열을 흡수해 액체가 되는 융해입니다.
+16,겨울에 밖에 넌 빨래가 언 채로 마른다.,승화(고체→기체),기화,융해,승화(기체→고체),흡수,빨래 속 얼음(고체)이 녹지 않고 바로 수증기(기체)가 되는 승화입니다.
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var QUIZ_N = 10, SORT_N = 8;
+  var HEAD = ['번호', '현상', '정답', '오답1', '오답2', '오답3', '열', '해설'];
+  var $ = function (id) { return document.getElementById(id); };
+  var rows = [];
+
+  // ── CSV 읽기 (따옴표·쉼표·줄바꿈이 든 칸도 처리) ──
+  function parseCSV(text) {
+    text = text.replace(/^﻿/, '');
+    var out = [], row = [], cell = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; }
+        else cell += c;
+      } else if (c === '"') q = true;
+      else if (c === ',') { row.push(cell); cell = ''; }
+      else if (c === '\n' || c === '\r') {
+        if (c === '\r' && text[i + 1] === '\n') i++;
+        row.push(cell); cell = ''; if (row.join('').trim() !== '') out.push(row); row = [];
+      } else cell += c;
+    }
+    row.push(cell); if (row.join('').trim() !== '') out.push(row);
+    return out;
+  }
+  function load(text) {
+    var t = parseCSV(text), errs = [];
+    if (!t.length) return { errs: ['빈 파일입니다.'] };
+    var h = t[0].map(function (s) { return s.trim(); });
+    var idx = HEAD.map(function (k) { return h.indexOf(k); });
+    var miss = HEAD.filter(function (k, i) { return idx[i] < 0; });
+    if (miss.length) return { errs: ['첫 줄에 없는 열: ' + miss.join(', ')] };
+    var list = [];
+    t.slice(1).forEach(function (r, n) {
+      var o = {}; HEAD.forEach(function (k, i) { o[k] = (r[idx[i]] || '').trim(); });
+      var line = n + 2;
+      if (!o['현상'] || !o['정답']) { errs.push(line + '번째 줄: 현상 또는 정답이 비어 있습니다.'); return; }
+      var opts = [o['정답'], o['오답1'], o['오답2'], o['오답3']];
+      if (opts.some(function (x) { return !x; })) { errs.push(line + '번째 줄: 보기 4개(정답·오답1~3)를 모두 채워 주세요.'); return; }
+      if (new Set(opts).size !== 4) { errs.push(line + '번째 줄: 보기가 서로 겹칩니다.'); return; }
+      if (o['열'] !== '흡수' && o['열'] !== '방출') { errs.push(line + '번째 줄: «열» 칸은 흡수 또는 방출이어야 합니다.'); return; }
+      list.push(o);
+    });
+    if (list.length < 4) errs.push('문제가 4개 이상 있어야 합니다.');
+    return { rows: list, errs: errs };
+  }
+  function use(res, name) {
+    rows = res.rows;
+    $('rowN').textContent = rows.length; $('srcName').textContent = name;
+    $('quizN').textContent = Math.min(QUIZ_N, rows.length); $('sortN').textContent = Math.min(SORT_N, rows.length);
+  }
+  use(load($('csv').textContent), '문제목록.csv (이 파일에 넣어 둔 것)');
+
+  $('file').addEventListener('change', function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      var res = load(String(rd.result)), msg = $('fileMsg');
+      if (!res.rows || res.rows.length < 4) { msg.className = 'msg err'; msg.textContent = '바꾸지 못했습니다. ' + res.errs.join(' '); return; }
+      use(res, f.name);
+      msg.className = 'msg ok';
+      msg.textContent = '문제 ' + res.rows.length + '개로 바꿨습니다.' + (res.errs.length ? ' 건너뛴 줄: ' + res.errs.join(' ') : '');
+    };
+    rd.readAsText(f, 'utf-8');
+  });
+
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function show(id) { ['home', 'quiz', 'sort', 'result'].forEach(function (s) { $(s).hidden = s !== id; }); }
+
+  // ── 활동 1: 이름 맞히기 ──
+  var Q = { list: [], i: 0, score: 0, wrong: [], done: false };
+  function startQuiz() { Q.list = shuffle(rows).slice(0, QUIZ_N); Q.i = 0; Q.score = 0; Q.wrong = []; show('quiz'); askQ(); last = 'quiz'; }
+  function askQ() {
+    var r = Q.list[Q.i]; Q.done = false;
+    $('qProg').textContent = (Q.i + 1) + ' / ' + Q.list.length; $('qScore').textContent = '맞힌 문제 ' + Q.score;
+    $('qBar').style.width = (Q.i / Q.list.length * 100) + '%';
+    $('qText').textContent = r['현상'];
+    var box = $('opts'); box.innerHTML = '';
+    shuffle([r['정답'], r['오답1'], r['오답2'], r['오답3']]).forEach(function (o, k) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'opt';
+      b.innerHTML = '<span class="k">' + (k + 1) + '</span><span></span>'; b.lastChild.textContent = o; b.dataset.v = o;
+      b.addEventListener('click', function () { answerQ(b); }); box.appendChild(b);
+    });
+    $('qFb').className = 'fb'; $('qNext').className = 'next';
+    box.firstChild.focus({ preventScroll: true });
+  }
+  function answerQ(btn) {
+    if (Q.done) return; Q.done = true;
+    var r = Q.list[Q.i], ok = btn.dataset.v === r['정답'];
+    Array.prototype.forEach.call($('opts').children, function (b) { b.disabled = true; if (b.dataset.v === r['정답']) b.classList.add('right'); });
+    if (!ok) { btn.classList.add('wrong'); Q.wrong.push({ r: r, pick: btn.dataset.v }); } else Q.score++;
+    var fb = $('qFb'); fb.className = 'fb show ' + (ok ? 'ok' : 'no');
+    fb.innerHTML = '<b></b><br><span></span>';
+    fb.firstChild.textContent = (ok ? '⭕ 맞았어요! ' : '❌ 정답은 ') + r['정답'] + ' · 열을 ' + r['열'];
+    fb.lastChild.textContent = r['해설'];
+    $('qScore').textContent = '맞힌 문제 ' + Q.score;
+    var nx = $('qNext'); nx.textContent = Q.i + 1 < Q.list.length ? '다음 문제 →' : '결과 보기 →'; nx.className = 'next show'; nx.focus({ preventScroll: true });
+  }
+  $('qNext').addEventListener('click', function () { if (++Q.i < Q.list.length) askQ(); else finish('이름 맞히기', Q.score, Q.list.length, Q.wrong); });
+
+  // ── 활동 2: 열 흡수·방출 분류 ──
+  var D = { list: [], i: 0, score: 0, wrong: [], done: false };
+  function startSort() { D.list = shuffle(rows).slice(0, SORT_N); D.i = 0; D.score = 0; D.wrong = []; $('hotChips').innerHTML = ''; $('coldChips').innerHTML = ''; show('sort'); askS(); last = 'sort'; }
+  function askS() {
+    var r = D.list[D.i]; D.done = false;
+    $('sProg').textContent = (D.i + 1) + ' / ' + D.list.length; $('sScore').textContent = '맞힌 카드 ' + D.score;
+    $('sBar').style.width = (D.i / D.list.length * 100) + '%';
+    $('sText').textContent = r['현상']; $('sCard').hidden = false;
+    $('binHot').disabled = $('binCold').disabled = false;
+    $('sFb').className = 'fb'; $('sNext').className = 'next';
+  }
+  function answerS(pick) {
+    if (D.done) return; D.done = true;
+    var r = D.list[D.i], ok = pick === r['열'];
+    if (ok) D.score++; else D.wrong.push({ r: r, pick: '열을 ' + pick });
+    var chip = document.createElement('span'); chip.className = 'chip ' + (ok ? 'ok' : 'no'); chip.textContent = r['현상'].replace(/\.$/, '');
+    $(pick === '흡수' ? 'hotChips' : 'coldChips').appendChild(chip);
+    $('binHot').disabled = $('binCold').disabled = true;
+    var fb = $('sFb'); fb.className = 'fb show ' + (ok ? 'ok' : 'no');
+    fb.innerHTML = '<b></b><br><span></span>';
+    fb.firstChild.textContent = (ok ? '⭕ 맞았어요! ' : '❌ 아니에요. ') + r['정답'] + ' — 열을 ' + r['열'] + '합니다.';
+    fb.lastChild.textContent = r['해설'];
+    $('sScore').textContent = '맞힌 카드 ' + D.score;
+    var nx = $('sNext'); nx.textContent = D.i + 1 < D.list.length ? '다음 카드 →' : '결과 보기 →'; nx.className = 'next show'; nx.focus({ preventScroll: true });
+  }
+  $('binHot').addEventListener('click', function () { answerS('흡수'); });
+  $('binCold').addEventListener('click', function () { answerS('방출'); });
+  $('sNext').addEventListener('click', function () { if (++D.i < D.list.length) askS(); else finish('열 흡수·방출 분류', D.score, D.list.length, D.wrong); });
+
+  // ── 결과 ──
+  var last = 'quiz';
+  function finish(name, s, n, wrong) {
+    show('result');
+    $('h-res').textContent = name + ' 결과';
+    $('rText').textContent = n + '개 중 ' + s + '개를 맞혔습니다.' + (s === n ? ' 모두 맞혔어요! 👏' : ' 틀린 것을 다시 읽어 보세요.');
+    var w = $('rWrong'); w.innerHTML = '';
+    if (wrong.length) {
+      var ol = document.createElement('ol');
+      wrong.forEach(function (x) {
+        var li = document.createElement('li');
+        li.innerHTML = '<b></b><br><span></span>';
+        li.firstChild.textContent = x.r['현상'] + ' → 정답: ' + x.r['정답'] + ' (열을 ' + x.r['열'] + ') · 내 답: ' + x.pick;
+        li.lastChild.textContent = x.r['해설'];
+        ol.appendChild(li);
+      });
+      w.appendChild(ol);
+    }
+    $('again').focus({ preventScroll: true });
+  }
+  $('goQuiz').addEventListener('click', startQuiz);
+  $('goSort').addEventListener('click', startSort);
+  $('again').addEventListener('click', function () { last === 'sort' ? startSort() : startQuiz(); });
+  $('toHome').addEventListener('click', function () { show('home'); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (!$('quiz').hidden && !Q.done && /^[1-4]$/.test(e.key)) { var b = $('opts').children[+e.key - 1]; if (b) b.click(); }
+    if (!$('sort').hidden && !D.done) { if (e.key === 'ArrowLeft') answerS('흡수'); if (e.key === 'ArrowRight') answerS('방출'); }
+  });
+})();
+</script>
+</body>
+</html>

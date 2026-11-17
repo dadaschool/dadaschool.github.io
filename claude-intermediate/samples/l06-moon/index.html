@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>달의 위상 변화 시뮬레이터</title>
+<!-- 클로드 중급과정 6차시 «결과 예시». 한 파일 · 인터넷 없이 열린다.
+     모형: 태양은 오른쪽 아주 먼 곳, 달은 지구 둘레를 시계 반대 방향(북극 위에서 본 방향)으로 돈다.
+     음력 d일의 달 나이 ≈ d − 0.5일, 위상각 θ = 360° × 달 나이 / 29.53 (θ=0 삭, 90 상현, 180 보름, 270 하현). -->
+<style>
+  :root{ --bg:#0E1726; --panel:#16223A; --line:#2A3A5C; --ink:#F2F5FA; --muted:#A9B6CC; --sun:#FFC83D; --lit:#F4EFD9; --dark:#2B3242; --accent:#7CC4FF; }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+       font-size:18px; line-height:1.6; word-break:keep-all}
+  .wrap{max-width:1200px; margin:0 auto; padding:20px 16px 40px}
+  h1{font-size:clamp(24px,4vw,34px); margin:0 0 4px}
+  .sub{color:var(--muted); margin:0 0 16px; font-size:16px}
+  .panels{display:grid; grid-template-columns:1.2fr 1fr; gap:16px}
+  @media (max-width:820px){ .panels{grid-template-columns:1fr} }
+  .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 16px}
+  .panel h2{font-size:18px; margin:0 0 8px; color:var(--accent)}
+  canvas{display:block; width:100%; height:auto}
+  .readout{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 18px; margin-top:8px}
+  .day{font-size:clamp(28px,5vw,40px); font-weight:900}
+  .phase{font-size:clamp(26px,4.6vw,38px); font-weight:900; color:var(--sun)}
+  .meta{color:var(--muted); font-size:16px}
+  .controls{margin-top:16px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 16px}
+  .row{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+  input[type=range]{flex:1; min-width:220px; height:36px; accent-color:var(--sun)}
+  button{font:inherit; font-size:17px; font-weight:800; color:#10203A; background:var(--sun); border:0; border-radius:10px; padding:8px 16px; cursor:pointer}
+  button.ghost{background:transparent; color:var(--ink); border:1.5px solid var(--line)}
+  button:focus-visible, input:focus-visible{outline:3px solid var(--accent); outline-offset:3px}
+  .ticks{display:flex; justify-content:space-between; color:var(--muted); font-size:14px; margin:2px 4px 0}
+  .q{margin-top:16px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 18px}
+  .q h2{font-size:18px; margin:0 0 6px; color:var(--accent)}
+  .q ol{margin:0; padding-left:22px}
+  .note{color:var(--muted); font-size:14.5px; margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>달의 위상 변화 시뮬레이터</h1>
+  <p class="sub">음력 날짜를 바꾸면 «위에서 내려다본 태양·지구·달»과 «우리나라(북반구)에서 본 달 모양»이 함께 바뀝니다.</p>
+
+  <div class="panels">
+    <section class="panel" aria-labelledby="h-top">
+      <h2 id="h-top">위에서 내려다본 모습</h2>
+      <canvas id="top" width="720" height="560" role="img" aria-label="태양 빛이 오른쪽에서 오고, 지구 둘레를 달이 도는 그림"></canvas>
+    </section>
+    <section class="panel" aria-labelledby="h-view">
+      <h2 id="h-view">지구에서 본 달</h2>
+      <canvas id="view" width="560" height="560" role="img" aria-label="지구에서 본 달 모양"></canvas>
+      <div class="readout" aria-live="polite">
+        <span class="day" id="dayText">음력 1일</span>
+        <span class="phase" id="phaseText">삭</span>
+        <span class="meta" id="metaText"></span>
+      </div>
+    </section>
+  </div>
+
+  <div class="controls">
+    <div class="row">
+      <button type="button" class="ghost" id="prev">◀ 하루 전</button>
+      <input type="range" id="slider" min="1" max="30" step="1" value="1" aria-label="음력 날짜">
+      <button type="button" class="ghost" id="next">하루 뒤 ▶</button>
+      <button type="button" id="play">▶ 재생</button>
+    </div>
+    <div class="ticks" aria-hidden="true"><span>1일</span><span>8일</span><span>15일</span><span>23일</span><span>30일</span></div>
+  </div>
+
+  <div class="q">
+    <h2>생각해 보기</h2>
+    <ol>
+      <li>음력 7~8일에는 달의 어느 쪽이 밝게 보이나요? «위에서 내려다본 모습»에서 그 까닭을 찾아 설명해 보세요.</li>
+      <li>보름달이 보일 때 태양·지구·달은 어떤 순서로 놓여 있나요?</li>
+      <li>달이 날마다 조금씩 다른 모양으로 보이는 까닭을 한 문장으로 써 보세요.</li>
+    </ol>
+  </div>
+
+  <p class="note">단순화한 모형입니다. 태양·지구·달의 실제 크기와 거리 비율, 달 궤도의 기울기는 나타내지 않았습니다. 날짜와 모양의 관계는 평균값(한 바퀴 약 29.5일)으로 계산해서 실제 달력과 하루쯤 차이 날 수 있습니다.</p>
+</div>
+
+<script>
+(function () {
+  var MONTH = 29.53;
+  var slider = document.getElementById('slider');
+  var top = document.getElementById('top'), view = document.getElementById('view');
+  var tc = top.getContext('2d'), vc = view.getContext('2d');
+  var C = getComputedStyle(document.documentElement);
+  function col(n) { return C.getPropertyValue(n).trim(); }
+
+  function thetaOf(day) { return 2 * Math.PI * ((day - 0.5) / MONTH); }   // 0 = 삭
+
+  function phaseName(deg) {
+    if (deg < 12 || deg >= 348) return ['삭', '거의 보이지 않아요'];
+    if (deg < 67.5) return ['초승달', '오른쪽이 가늘게 밝아요'];
+    if (deg < 112.5) return ['상현달', '오른쪽 반이 밝아요'];
+    if (deg < 157.5) return ['보름달이 되어 가는 달', '오른쪽이 더 많이 밝아요'];
+    if (deg < 202.5) return ['보름달', '둥글게 다 밝아요'];
+    if (deg < 247.5) return ['하현달이 되어 가는 달', '왼쪽이 더 많이 밝아요'];
+    if (deg < 292.5) return ['하현달', '왼쪽 반이 밝아요'];
+    return ['그믐달', '왼쪽이 가늘게 밝아요'];
+  }
+
+  function drawTop(theta) {
+    var W = top.width, H = top.height, cx = W * 0.42, cy = H / 2, R = Math.min(W, H) * 0.34;
+    tc.clearRect(0, 0, W, H);
+    // 햇빛 화살표 (오른쪽에서 왼쪽으로)
+    tc.strokeStyle = col('--sun'); tc.fillStyle = col('--sun'); tc.lineWidth = 3; tc.globalAlpha = .55;
+    for (var i = -3; i <= 3; i++) {
+      var y = cy + i * 70, x1 = W - 20, x2 = W - 120;
+      tc.beginPath(); tc.moveTo(x1, y); tc.lineTo(x2, y); tc.stroke();
+      tc.beginPath(); tc.moveTo(x2, y); tc.lineTo(x2 + 14, y - 8); tc.lineTo(x2 + 14, y + 8); tc.closePath(); tc.fill();
+    }
+    tc.globalAlpha = 1;
+    tc.font = '700 20px Pretendard, sans-serif'; tc.textAlign = 'right'; tc.fillText('햇빛', W - 24, 30);
+    // 달 궤도
+    tc.strokeStyle = col('--line'); tc.lineWidth = 2; tc.setLineDash([6, 8]);
+    tc.beginPath(); tc.arc(cx, cy, R, 0, 2 * Math.PI); tc.stroke(); tc.setLineDash([]);
+    // 지구 (오른쪽 반이 낮)
+    var er = 34;
+    tc.fillStyle = '#1F4E8C'; tc.beginPath(); tc.arc(cx, cy, er, 0, 2 * Math.PI); tc.fill();
+    tc.fillStyle = '#5FA8E8'; tc.beginPath(); tc.arc(cx, cy, er, -Math.PI / 2, Math.PI / 2); tc.fill();
+    tc.fillStyle = col('--ink'); tc.textAlign = 'center'; tc.font = '700 18px Pretendard, sans-serif'; tc.fillText('지구', cx, cy + er + 24);
+    // 달 (항상 태양 쪽 = 오른쪽 반이 밝다)
+    var mx = cx + R * Math.cos(theta), my = cy - R * Math.sin(theta), mr = 22;
+    tc.strokeStyle = 'rgba(124,196,255,.55)'; tc.lineWidth = 2; tc.beginPath(); tc.moveTo(cx, cy); tc.lineTo(mx, my); tc.stroke();
+    tc.fillStyle = col('--dark'); tc.beginPath(); tc.arc(mx, my, mr, 0, 2 * Math.PI); tc.fill();
+    tc.fillStyle = col('--lit'); tc.beginPath(); tc.arc(mx, my, mr, -Math.PI / 2, Math.PI / 2); tc.fill();
+    tc.strokeStyle = '#8A93A6'; tc.lineWidth = 1.5; tc.beginPath(); tc.arc(mx, my, mr, 0, 2 * Math.PI); tc.stroke();
+    tc.fillStyle = col('--ink'); tc.fillText('달', mx, my - mr - 10);
+    // 공전 방향
+    tc.fillStyle = col('--muted'); tc.font = '600 16px Pretendard, sans-serif'; tc.fillText('달은 시계 반대 방향으로 돕니다', cx, H - 16);
+  }
+
+  function drawView(theta) {
+    var W = view.width, H = view.height, cx = W / 2, cy = H / 2 - 10, r = Math.min(W, H) * 0.36;
+    vc.clearRect(0, 0, W, H);
+    vc.fillStyle = col('--dark'); vc.beginPath(); vc.arc(cx, cy, r, 0, 2 * Math.PI); vc.fill();
+    var waxing = theta <= Math.PI, t = waxing ? theta : 2 * Math.PI - theta, rx = Math.abs(r * Math.cos(t));
+    vc.save();
+    if (!waxing) { vc.translate(2 * cx, 0); vc.scale(-1, 1); }   // 기우는 달은 좌우를 뒤집어 그린다
+    vc.fillStyle = col('--lit'); vc.beginPath();
+    vc.arc(cx, cy, r, -Math.PI / 2, Math.PI / 2, false);           // 오른쪽 반원 (위 → 아래)
+    if (Math.cos(t) > 0) vc.ellipse(cx, cy, rx, r, 0, Math.PI / 2, -Math.PI / 2, true);   // 초승: 경계가 오른쪽으로 볼록
+    else vc.ellipse(cx, cy, rx, r, 0, Math.PI / 2, 3 * Math.PI / 2, false);            // 차오름: 경계가 왼쪽으로 볼록
+    vc.closePath(); vc.fill(); vc.restore();
+    vc.strokeStyle = '#5B647A'; vc.lineWidth = 2; vc.beginPath(); vc.arc(cx, cy, r, 0, 2 * Math.PI); vc.stroke();
+  }
+
+  function render() {
+    var day = Number(slider.value), theta = thetaOf(day) % (2 * Math.PI);
+    var deg = theta * 180 / Math.PI, n = phaseName(deg), lit = Math.round((1 - Math.cos(theta)) / 2 * 100);
+    drawTop(theta); drawView(theta);
+    document.getElementById('dayText').textContent = '음력 ' + day + '일';
+    document.getElementById('phaseText').textContent = n[0];
+    document.getElementById('metaText').textContent = n[1] + ' · 밝은 부분 약 ' + lit + '%';
+    view.setAttribute('aria-label', '음력 ' + day + '일, ' + n[0] + '. ' + n[1]);
+  }
+
+  var timer = null, playBtn = document.getElementById('play');
+  function stop() { clearInterval(timer); timer = null; playBtn.textContent = '▶ 재생'; }
+  playBtn.addEventListener('click', function () {
+    if (timer) return stop();
+    playBtn.textContent = '❚❚ 멈춤';
+    timer = setInterval(function () { slider.value = Number(slider.value) % 30 + 1; render(); }, 700);
+  });
+  document.getElementById('prev').addEventListener('click', function () { stop(); slider.value = Math.max(1, Number(slider.value) - 1); render(); });
+  document.getElementById('next').addEventListener('click', function () { stop(); slider.value = Math.min(30, Number(slider.value) + 1); render(); });
+  slider.addEventListener('input', function () { stop(); render(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(render);
+  render();
+})();
+</script>
+</body>
+</html>
