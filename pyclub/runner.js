@@ -415,7 +415,7 @@ self.onmessage = async (ev) => {
     pyclub: {
       name: "동아리",
       topics: [
-        { key: "ds", name: "자료구조" }, { key: "al", name: "알고리즘" },
+        { key: "ds", name: "자료구조" }, { key: "al", name: "알고리즘" }, { key: "ss", name: "정렬·탐색" },
         { key: "koi", name: "정올대비" }, { key: "w1", name: "1교시준비" },
       ],
       levels: { 1: "기초", 2: "기본", 3: "중급", 4: "심화", 5: "고급" },
