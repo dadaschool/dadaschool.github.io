@@ -406,7 +406,7 @@ const ss = {
 };
 const T = { token: null, classes: [], problems: [], exams: [], deps: [], students: [], results: null, now: 0, offset: 0 };
 const CLUB_LEVELS = { 1: "기초", 2: "기본", 3: "중급", 4: "심화", 5: "고급" };
-const CLUB_TOPICS = { ds: "동아리·자료구조", al: "동아리·알고리즘", koi: "동아리·정올대비", w1: "동아리·1교시" };
+const CLUB_TOPICS = { ds: "동아리·자료구조", al: "동아리·알고리즘", ss: "동아리·정렬·탐색", koi: "동아리·정올대비", w1: "동아리·1교시" };
 const topicName = (k) => (PC.TOPICS.find((t) => t.key === k) || { name: CLUB_TOPICS[k] || k }).name;
 
 const runner = new PC.Runner((st, err) => {
@@ -974,7 +974,7 @@ let pickedIds = new Set();
 function renderPicker() {
   const club = $("exFilterBank").value === "club";
   const tSel = $("exFilterTopic");
-  const want = club ? ["ds", "al", "koi"] : PC.TOPICS.map((x) => x.key);
+  const want = club ? ["ds", "al", "ss", "koi"] : PC.TOPICS.map((x) => x.key);
   if (tSel.dataset.bank !== (club ? "club" : "pyc")) {
     tSel.dataset.bank = club ? "club" : "pyc";
     tSel.innerHTML = `<option value="">모든 주제</option>` + want.map((k) => `<option value="${k}">${esc(topicName(k))}</option>`).join("");
