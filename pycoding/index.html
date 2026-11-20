@@ -134,6 +134,13 @@ pre.io{margin:0;font-family:var(--mono);font-size:13.5px;white-space:pre-wrap;wo
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222a38;color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;z-index:50;max-width:90vw}
 dialog{border:1px solid var(--line);border-radius:14px;padding:22px;max-width:420px}
 dialog::backdrop{background:rgba(15,20,35,.45)}
+#fbDlg{max-width:min(720px,94vw);width:100%}
+.fb-exam{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
+.fb-exam h4{margin:0 0 4px;font-size:16px}
+.fb-p{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+.fb-p b{display:block}
+.fb-p p{margin:4px 0 0;white-space:pre-wrap}
+@media print{body>*:not(#fbDlg){display:none!important}#fbDlg{position:static;border:0;max-width:none;padding:0}#fbDlg>div:last-child{display:none}}
 dialog h3{margin:0 0 8px}
 dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 
@@ -159,9 +166,9 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 
     <div id="onlineLogin" class="hidden">
       <form id="pinForm" autocomplete="off">
-        <label class="field"><span>학번</span><input id="loginNo" inputmode="numeric" required placeholder="예: 10305"></label>
-        <label class="field"><span>PIN (선생님이 나눠 준 숫자)</span><input id="loginPin" type="password" inputmode="numeric" required></label>
-        <button class="btn primary" style="width:100%;justify-content:center" type="submit">학번으로 로그인</button>
+        <label class="field"><span id="loginNoLabel">학번</span><input id="loginNo" inputmode="numeric" required placeholder="예: 10305"></label>
+        <label class="field"><span id="loginPinLabel">PIN (선생님이 나눠 준 숫자)</span><input id="loginPin" type="password" inputmode="numeric" required></label>
+        <button class="btn primary" id="loginBtn" style="width:100%;justify-content:center" type="submit">학번으로 로그인</button>
       </form>
       <div id="googleArea" class="hidden">
         <div class="or">또는</div>
@@ -188,6 +195,7 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
     <span class="dot" id="engineDot2" title="파이썬 실행기 상태"></span>
     <span class="who" id="who"></span>
     <button class="btn small" id="examEnterBtn" type="button" hidden>평가 시작하기</button>
+    <button class="btn small" id="fbBtn" type="button" hidden>📝 내 평가 결과</button>
     <button class="btn small ghost" id="logoutBtn" type="button">나가기</button>
   </header>
   <div id="examBar" class="hidden" role="status">
@@ -225,6 +233,14 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
   </div>
 </section>
 
+<dialog id="fbDlg" aria-labelledby="fbDlgTitle">
+  <h3 id="fbDlgTitle" style="margin:0 0 6px">📝 내 평가 결과</h3>
+  <div id="fbDlgBody"></div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+    <button class="btn" id="fbDlgPrint" type="button">인쇄</button>
+    <button class="btn primary" id="fbDlgClose" type="button">닫기</button>
+  </div>
+</dialog>
 <dialog id="confirmDlg">
   <h3 id="confirmTitle"></h3>
   <div id="confirmBody"></div>
@@ -295,9 +311,26 @@ async function api(path, opt = {}) {
 /* ---------- 로그인 ---------- */
 function showLoginMsg(text, kind = "err") { $("loginMsg").innerHTML = text ? `<div class="msg ${kind}">${esc(text)}</div>` : ""; }
 
+// 로그인 방식: pin(학번+PIN) · name(학번+이름, 연습 전용) · school(교내 서버 — 에듀폼 아이디·비밀번호)
+let LOGIN_MODE = CFG.SCHOOL ? "school" : "pin";
+function applyLoginMode(mode) {
+  LOGIN_MODE = mode;
+  const no = $("loginNo"), pin = $("loginPin");
+  if (mode === "school") {
+    // 교내 서버: 에듀폼2 화면에서 로그인하고 돌아온다 (비밀번호는 이 화면에 넣지 않는다)
+    no.closest("label").classList.add("hidden"); pin.closest("label").classList.add("hidden");
+    no.required = false; pin.required = false;
+    $("loginBtn").textContent = "🏫 학교 계정(에듀폼)으로 로그인";
+  } else if (mode === "name") {
+    $("loginPinLabel").textContent = "이름";
+    pin.type = "text"; pin.removeAttribute("inputmode"); pin.placeholder = "예: 김민준";
+    $("loginBtn").textContent = "학번·이름으로 들어가기 (연습)";
+  }
+}
 async function initLogin() {
   if (!API) { $("guestNote").textContent = "채점 서버가 아직 연결되지 않아 기본 연습 문제만 풀 수 있습니다."; return; }
   $("onlineLogin").classList.remove("hidden");
+  applyLoginMode(LOGIN_MODE);
   const saved = store.get("pyc:token");
   if (saved) {
     S.token = saved;
@@ -306,6 +339,8 @@ async function initLogin() {
   }
   try {
     const cfg = await api("/api/config");
+    if (cfg.loginMode && cfg.loginMode !== LOGIN_MODE) applyLoginMode(cfg.loginMode);
+    if (cfg.loginMode === "name") showLoginMsg("이 서버는 연습 전용입니다. 수행평가는 학교 교내 서버에서 합니다.", "warn");
     if (cfg.google && cfg.googleClientId) setupGoogle(cfg.googleClientId);
   } catch (e) { showLoginMsg("채점 서버에 연결하지 못했습니다. 로그인 없이 연습할 수 있습니다. (" + e.message + ")", "warn"); }
 }
@@ -329,7 +364,10 @@ $("pinForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   showLoginMsg("");
   try {
-    const d = await api("/api/login/pin", { method: "POST", body: { studentNo: $("loginNo").value.trim(), pin: $("loginPin").value.trim() } });
+    const a = $("loginNo").value.trim(), b = $("loginPin").value.trim();
+    if (LOGIN_MODE === "school") { location.href = API + "/api/sso/start?as=student&return=" + encodeURIComponent(location.pathname); return; }
+    const d = LOGIN_MODE === "name" ? await api("/api/login/name", { method: "POST", body: { studentNo: a, name: b } })
+      : await api("/api/login/pin", { method: "POST", body: { studentNo: a, pin: b } });
     loginOk(d);
   } catch (err) { showLoginMsg(err.message); }
 });
@@ -350,11 +388,41 @@ $("guestBtn").onclick = () => {
   openApp();
 };
 
+// «1-3반 10305 김민준» · 교내판 «3학년 1반 01번 강도윤» (학번에 반 이름이 이미 들어 있으면 반을 다시 쓰지 않는다)
+function whoText(s) {
+  const cls = s.className || "";
+  const no = String(s.studentNo || "");
+  if (cls && no.startsWith(cls)) return `${no} ${s.name}`;
+  return `${cls}${cls && !/반$/.test(cls) ? "반" : ""} ${no} ${s.name}`.trim();
+}
+// 선생님이 승인 · 공개한 평가 피드백 (없으면 단추를 숨긴다)
+async function loadMyFeedback() {
+  try {
+    const d = await api("/api/feedback");
+    S.feedback = d.feedback || [];
+  } catch { S.feedback = []; }
+  $("fbBtn").hidden = !S.feedback.length;
+}
+function showMyFeedback() {
+  $("fbDlgBody").innerHTML = S.feedback.map((f) => {
+    const sm = f.summary || {};
+    const probs = (sm.problems || []).map((p, i) => `<div class="fb-p"><b>${i + 1}. ${esc(p.title)} <span class="pill ${p.sent && p.passed === p.total ? "ok" : ""}">${p.sent ? `테스트 ${p.passed}/${p.total} 통과 · ${p.points}/${p.max}점` : "제출 안 함"}</span></b>
+      <p>${esc(f.problems[p.id] || "")}</p></div>`).join("");
+    return `<div class="fb-exam"><h4>${esc(f.title)}</h4>${sm.max != null ? `<div>점수 <strong>${sm.score}</strong> / ${sm.max}점</div>` : ""}${probs}
+      <div class="fb-p"><b>선생님 한마디</b><p>${esc(f.overall || "")}</p></div></div>`;
+  }).join("") || "<p>아직 공개된 피드백이 없습니다.</p>";
+  $("fbDlg").showModal();
+}
+$("fbBtn").onclick = showMyFeedback;
+$("fbDlgClose").onclick = () => $("fbDlg").close();
+$("fbDlgPrint").onclick = () => print();
+
 async function enterOnline(student) {
   S.online = true;
   S.student = student;
-  $("who").textContent = `${student.className}반 ${student.studentNo} ${student.name}`;
+  $("who").textContent = whoText(student);
   openApp();
+  loadMyFeedback();
   await loadPractice();
   await checkExam(true);
   pollLoop();
@@ -364,7 +432,7 @@ async function enterOnline(student) {
 function pollLoop() {
   clearTimeout(S.pollId);
   const ms = S.warm || S.waiting ? 5000 : S.inExam ? 20000 : 30000;
-  S.pollId = setTimeout(async () => { await checkExam(false); pollLoop(); }, ms);
+  S.pollId = setTimeout(async () => { await checkExam(false); if (!S.inExam && !S.warm && !S.waiting) loadMyFeedback(); pollLoop(); }, ms);
 }
 
 async function loadPractice() {
@@ -655,7 +723,7 @@ function doGrade() {
       if (!S.online) store.set("pyc:guest:solved", JSON.stringify(S.solved));
     }
     if (S.online) {
-      try { await api("/api/submit", { method: "POST", body: { problemId: p.id, code, passed: g.passed, total: g.total } }); html += `<p class="tip">✔ 선생님께 저장되었습니다.</p>`; }
+      try { await api("/api/submit", { method: "POST", body: { problemId: p.id, code, passed: g.passed, total: g.total, detail: PC.detailOf(g) } }); html += `<p class="tip">✔ 선생님께 저장되었습니다.</p>`; }
       catch (e) { html += `<div class="msg warn">채점은 되었지만 저장하지 못했습니다: ${esc(e.message)}</div>`; }
     }
     $("result").innerHTML = html;
@@ -827,7 +895,7 @@ async function doSubmit() {
   if (!(await confirmBox("제출할까요?", `제출하면 남은 기회가 <strong>${left - 1}번</strong>이 됩니다. 마지막 제출이 점수가 됩니다.`, "제출"))) return;
   busy(async () => {
     const g = await PC.grade(runner, p, code);
-    const d = await api("/api/submit", { method: "POST", body: { problemId: p.id, examId: S.exam.id, code, passed: g.passed, total: g.total } });
+    const d = await api("/api/submit", { method: "POST", body: { problemId: p.id, examId: S.exam.id, code, passed: g.passed, total: g.total, detail: PC.detailOf(g) } });
     S.attempts[p.id] = (S.attempts[p.id] || 0) + 1;
     S.lastSubs[p.id] = { problem_id: p.id, code, client_passed: g.passed, client_total: g.total, id: d.id };
     $("result").innerHTML = gradeHtml(p, g, null, "제출 완료 — 채점 결과") +

@@ -189,9 +189,9 @@ dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
     <h1>🧩 컴퓨터 동아리 파이썬</h1>
     <p class="sub">자료구조 · 알고리즘 · 정올대비 · 1교시준비 — 정보올림피아드 대비</p>
     <form id="pinForm" autocomplete="off">
-      <label class="field"><span>학번</span><input id="loginNo" inputmode="numeric" required placeholder="예: 20305"></label>
-      <label class="field"><span>PIN (파이썬 코딩 연습장과 같은 숫자)</span><input id="loginPin" type="password" inputmode="numeric" required></label>
-      <button class="btn primary" style="width:100%;justify-content:center" type="submit">로그인</button>
+      <label class="field"><span id="loginNoLabel">학번</span><input id="loginNo" inputmode="numeric" required placeholder="예: 20305"></label>
+      <label class="field"><span id="loginPinLabel">PIN (파이썬 코딩 연습장과 같은 숫자)</span><input id="loginPin" type="password" inputmode="numeric" required></label>
+      <button class="btn primary" id="loginBtn" style="width:100%;justify-content:center" type="submit">로그인</button>
     </form>
     <div id="loginMsg"></div>
     <div class="engine" aria-live="polite">
@@ -339,21 +339,46 @@ async function api(path, opt = {}) {
 /* ---------- 로그인 ---------- */
 function showLoginMsg(text, kind = "err") { $("loginMsg").innerHTML = text ? `<div class="msg ${kind}">${esc(text)}</div>` : ""; }
 
+// 로그인 방식: pin(학번+PIN) · name(학번+이름, 연습 전용) · school(교내 서버 — 에듀폼 아이디·비밀번호)
+let LOGIN_MODE = CFG.SCHOOL ? "school" : "pin";
+function applyLoginMode(mode) {
+  LOGIN_MODE = mode;
+  const no = $("loginNo"), pin = $("loginPin");
+  if (mode === "school") {
+    // 교내 서버: 에듀폼2 화면에서 로그인하고 돌아온다 (비밀번호는 이 화면에 넣지 않는다)
+    no.closest("label").classList.add("hidden"); pin.closest("label").classList.add("hidden");
+    no.required = false; pin.required = false;
+    $("loginBtn").textContent = "🏫 학교 계정(에듀폼)으로 로그인";
+  } else if (mode === "name") {
+    $("loginPinLabel").textContent = "이름";
+    pin.type = "text"; pin.removeAttribute("inputmode"); pin.placeholder = "예: 김민준";
+    $("loginBtn").textContent = "학번·이름으로 들어가기 (연습)";
+  }
+}
 async function initLogin() {
   if (!API) { showLoginMsg("채점 서버 주소(config.js)가 비어 있습니다. 선생님께 알려 주세요.", "warn"); return; }
+  applyLoginMode(LOGIN_MODE);
   const saved = store.get("pcl:token");
   if (saved) {
     S.token = saved;
     try { const me = await api("/api/me", { noLogout: true }); return enter(me.student); }
     catch { S.token = null; store.del("pcl:token"); }
   }
+  try {
+    const cfg = await api("/api/config");
+    if (cfg.loginMode && cfg.loginMode !== LOGIN_MODE) applyLoginMode(cfg.loginMode);
+    if (cfg.loginMode === "name") showLoginMsg("이 서버는 연습 전용입니다. 평가는 학교 교내 서버에서 합니다.", "warn");
+  } catch {}
 }
 
 $("pinForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   showLoginMsg("");
   try {
-    const d = await api("/api/login/pin", { method: "POST", body: { studentNo: $("loginNo").value.trim(), pin: $("loginPin").value.trim() } });
+    const a = $("loginNo").value.trim(), b = $("loginPin").value.trim();
+    if (LOGIN_MODE === "school") { location.href = API + "/api/sso/start?as=student&return=" + encodeURIComponent(location.pathname); return; }
+    const d = LOGIN_MODE === "name" ? await api("/api/login/name", { method: "POST", body: { studentNo: a, name: b } })
+      : await api("/api/login/pin", { method: "POST", body: { studentNo: a, pin: b } });
     S.token = d.token;
     store.set("pcl:token", d.token);
     $("loginPin").value = "";

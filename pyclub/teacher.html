@@ -93,7 +93,11 @@ pre.ak-out{margin:0;font-family:var(--mono);font-size:12px;white-space:pre-wrap;
   <form class="card" id="loginForm">
     <h1 style="margin:0 0 4px;font-size:20px">🧩 동아리 파이썬 · 교사</h1>
     <p class="small">컴퓨터 동아리 파이썬 채점 시스템 교사 화면</p>
-    <label>비밀번호<input type="password" id="pass" required autocomplete="current-password"></label>
+    <div id="schoolFields" class="hidden">
+      <p class="small">«로그인» 을 누르면 에듀폼 화면에서 로그인한 뒤 돌아옵니다. 에듀폼 관리자와, 중학생 파이썬 교사 화면에서 승인한 선생님만 들어올 수 있습니다.</p>
+      <details id="emergency"><summary class="small">에듀폼이 꺼져 있을 때 — 비상용 비밀번호로 들어가기</summary></details>
+    </div>
+    <label id="passField">비밀번호<input type="password" id="pass" required autocomplete="current-password"></label>
     <button class="btn primary" style="width:100%;justify-content:center" type="submit">로그인</button>
     <div id="loginMsg"></div>
   </form>
@@ -350,7 +354,7 @@ pre.ak-out{margin:0;font-family:var(--mono);font-size:12px;white-space:pre-wrap;
 
 <script>
 "use strict";
-const NEED_SERVER = 2026111201;   // server/src/index.js 의 VERSION 과 같이 올린다
+const NEED_SERVER = 2026111501;   // server/src/index.js 의 VERSION 과 같이 올린다
 const CFG = window.PYCLUB_CONFIG || {};
 const API = (CFG.API_BASE || "").replace(/\/+$/, "");
 const PC = window.PyClub;
@@ -381,9 +385,20 @@ async function api(path, opt = {}) {
 const fmtTime = (t) => t ? new Date(t).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "";
 
 /* ---------- 로그인 ---------- */
+// 교내 서버판: 에듀폼 계정 (pycoding 교사 화면과 같은 규칙). 비상용 비밀번호는 접어 둔다
+let TEACHER_SCHOOL = false;
+function applyTeacherLogin(school) {
+  TEACHER_SCHOOL = school;
+  $("schoolFields").classList.toggle("hidden", !school);
+  if (school) { $("emergency").appendChild($("passField")); $("pass").required = false; }
+}
+applyTeacherLogin(!!CFG.SCHOOL);
+if (API) api("/api/config").then((c) => applyTeacherLogin(c.loginMode === "school")).catch(() => {});
+$("emergency").addEventListener("toggle", () => { $("pass").required = $("emergency").open; });
 $("loginForm").onsubmit = async (e) => {
   e.preventDefault();
   try {
+    if (TEACHER_SCHOOL && !$("emergency").open) { location.href = API + "/api/sso/start?as=teacher&return=" + encodeURIComponent(location.pathname); return; }
     const d = await api("/api/teacher/login", { method: "POST", body: { password: $("pass").value } });
     T.token = d.token; sessionStorage.setItem("pcl:teacher", d.token); start();
   } catch (err) { $("loginMsg").innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
